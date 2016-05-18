@@ -19,12 +19,12 @@ Grâce à MPAL, votre projet prend vie en quelques minutes:
 - par téléphone auprès de notre réseau d'opérateurs
 
 A partir de ce moment, vous êtes accompagnés:
-1) vous êtes orienté vers un interlocuteur compétent et proche de vous - dans votre département
-2) vous êtes conseillés dans votre projet selon votre situation et vos besoins
-3) vous recevez une évaluation personnalisée des aides auxquelles vous pouvez prétendre
-4) vous ne fournissez que les justificatifs strictement nécessaires: pas de paperasse inutile
-5) sans garantie de percevoir une subvention, vous pouvez démarrer vos travaux dès le dépôt du dossier confirmé
-6) vous êtes informé en permanence de l'avancement de votre projet et des délais prévisibles
+1. vous êtes orienté vers un interlocuteur compétent et proche de vous - dans votre département
+2. vous êtes conseillés dans votre projet selon votre situation et vos besoins
+3. vous recevez une évaluation personnalisée des aides auxquelles vous pouvez prétendre
+4. vous ne fournissez que les justificatifs strictement nécessaires: pas de paperasse inutile
+5. sans garantie de percevoir une subvention, vous pouvez démarrer vos travaux dès le dépôt du dossier confirmé
+6. vous êtes informé en permanence de l'avancement de votre projet et des délais prévisibles
 
 MPAL est la plateforme pour l'amélioration du logement qui réunit tous les acteurs et toutes les compétences,
 au service de votre projet.
