@@ -19,6 +19,7 @@ Grâce à MPAL, votre projet prend vie en quelques minutes:
 - par téléphone auprès de notre réseau d'opérateurs
 
 A partir de ce moment, vous êtes accompagnés:
+
 1. vous êtes orienté vers un interlocuteur compétent et proche de vous - dans votre département
 2. vous êtes conseillés dans votre projet selon votre situation et vos besoins
 3. vous recevez une évaluation personnalisée des aides auxquelles vous pouvez prétendre
