@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mpal</title>
+  <title>MPAL</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
+
+  <%= render "shared/head" %>
 </head>
 <body>
-
-<%= yield %>
+  <%= render "shared/menu" %>
+  <%= yield %>
 
 </body>
 </html>

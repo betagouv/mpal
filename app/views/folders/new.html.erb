@@ -1,0 +1,31 @@
+<div class="pusher">
+  <div class="ui vertical masthead center segment ">
+    <div class="ui container">
+      <div class="introduction">
+        <h1 class="ui header">Je crée mon dossier</h1>
+      </div>
+    </div>
+    <div class="main ui container grid">
+      <div class="eight wide column">
+      <%= form_for @folder, html: { class:'ui form' } do |f| %>
+        <div class="fields">
+          <div class="field">
+            <%= f.label :numero_fiscal %>
+            <%= f.text_field :numero_fiscal %>
+          </div>
+          <div class="field">
+            <%= f.label :reference_avis %>
+            <%= f.text_field :reference_avis %>
+          </div>
+          <div class="field">
+            <%= f.label :description %>
+            <%= f.text_field :description %>
+          </div>
+        </div>
+        <%= f.submit "J'envoie", class:'ui button' %>
+      <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
