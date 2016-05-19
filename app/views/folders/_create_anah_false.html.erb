@@ -1,6 +1,29 @@
-<h1>Projet de <%= @folder.owner %></h1>
-<address><%= @folder.address %></address>
-<p>
-Votre revenu de référence (<%= @folder.revenu_reference %>) ne vous permet pas de bénéficier des aides de l'anah.
-Nous vous invitons à contacter le PRIS le plus proche.
-</p>
+<div class="ui icon success message">
+  <i class="inbox icon"></i>
+  <div class="content">
+    <div class="header">
+      Projet de <%= @folder.owner %>
+    </div>
+    <p> 
+      Félicitations ! Votre projet démarre aujourd'hui. Le tableau de bord récapitule les acteurs à ce jour 
+    </p>
+  </div>
+</div>
+<div class="ui cards">
+<div class="ui card">
+  <div class="content">
+    <div class="header"><%= @folder.owner %></div>
+    <div class="meta"><%= @folder.address %></div>
+    <div class="description"><%= @folder.description %></div>
+  </div>
+</div>
+<div class="ui card">
+  <div class="content">
+    <div class="header">Operateur SOLIHA</div>
+    <div class="meta">Operateur Ile-de-France</div>
+    <div class="description">
+      Soliha va vous accompagner
+    </div>
+  </div>
+</div>
+</div>

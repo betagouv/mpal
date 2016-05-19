@@ -1,14 +1,9 @@
 <div class="pusher">
-  <div class="ui vertical masthead center segment ">
-    <div class="ui container">
-      <div class="introduction">
-        <h1 class="ui header"><%= t('projects.new') %></h1>
-      </div>
-    </div>
-    <div class="main ui container grid">
-      <div class="eight wide column">
+  <div class="full height"> 
+    <div class="main ui container ">
+      <h1 class="ui header"><%= t('projects.new') %></h1>
+      <p>Marche à suivre : munissez vous de votre avis d'impôt le plus récent. Cela nous permettra de pré-remplir les informations vous concernant, que vous pourrez modifier par la suite.
       <%= form_for @folder, html: { class:'ui form' } do |f| %>
-        <div class="fields">
           <div class="field">
             <%= f.label :numero_fiscal %>
             <%= f.text_field :numero_fiscal %>
@@ -21,10 +16,8 @@
             <%= f.label :description %>
             <%= f.text_area :description %>
           </div>
-        </div>
         <%= f.submit "J'envoie", class:'ui button' %>
       <% end %>
-      </div>
     </div>
   </div>
 </div>
