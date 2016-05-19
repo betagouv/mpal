@@ -1,6 +1,5 @@
 <div class="pusher">
-  <div class="full height"> 
-    <div class="main ui container ">
+    <div class="main ui container top">
       <h1 class="ui header"><%= t('projects.new') %></h1>
       <p>Marche à suivre : munissez vous de votre avis d'impôt le plus récent. Cela nous permettra de pré-remplir les informations vous concernant, que vous pourrez modifier par la suite.
       <%= form_for @folder, html: { class:'ui form' } do |f| %>
@@ -19,6 +18,4 @@
         <%= f.submit "J'envoie", class:'ui button' %>
       <% end %>
     </div>
-  </div>
 </div>
-
