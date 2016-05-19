@@ -15,6 +15,10 @@ class Folder
     self.revenu_reference < 14308
   end
 
+  def address
+    @address ||= api_particulier.address
+  end
+
   private
     def api_particulier
       @api_particulier ||= ApiParticulier.new(reference_avis, numero_fiscal)
