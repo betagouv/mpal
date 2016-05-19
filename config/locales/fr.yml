@@ -2,4 +2,6 @@ fr:
   welcome:
     promise: Je rénove mon habitat
     baseline: et mon projet prend vie en quelques minutes...
-    cta: Je crée mon dossier
+    cta: Je démarre mon projet
+  projects:
+    new: Je crée mon projet
