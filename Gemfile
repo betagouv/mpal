@@ -45,6 +45,8 @@ group :development do
   gem 'spring'
 end
 
+gem 'rails_12factor'
+
 gem 'httparty'
 
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
