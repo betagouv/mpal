@@ -46,3 +46,5 @@ group :development do
 end
 
 gem 'httparty'
+
+gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
