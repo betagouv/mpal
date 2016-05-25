@@ -2,7 +2,7 @@
   <i class="inbox icon"></i>
   <div class="content">
     <div class="header">
-      Projet de <%= @folder.owner %>
+      Projet de <%= @project.owner %>
     </div>
     <p> 
       Félicitations ! Votre projet démarre aujourd'hui. Le tableau de bord récapitule les acteurs à ce jour 
@@ -12,9 +12,9 @@
 <div class="ui cards">
 <div class="ui card">
   <div class="content">
-    <div class="header"><%= @folder.owner %></div>
-    <div class="meta"><%= @folder.address %></div>
-    <div class="description"><%= @folder.description %></div>
+    <div class="header"><%= @project.owner %></div>
+    <div class="meta"><%= @project.address %></div>
+    <div class="description"><%= @project.description %></div>
   </div>
 </div>
 <div class="ui card">

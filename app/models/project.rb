@@ -1,4 +1,4 @@
-class Folder
+class Project
   include ActiveModel::Model
   attr_accessor :numero_fiscal, :reference_avis, :description
   validates :numero_fiscal, :reference_avis, :revenu_reference, presence: true
