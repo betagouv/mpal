@@ -1,6 +1,4 @@
-class Projet
-  include ActiveModel::Model
-  attr_accessor :numero_fiscal, :reference_avis, :description
+class Projet < ActiveRecord::Base
   validates :numero_fiscal, :reference_avis, :revenu_reference, presence: true
 
   def owner
@@ -21,6 +19,6 @@ class Projet
 
   private
     def api_particulier
-      @api_particulier ||= ApiParticulier.new(reference_avis, numero_fiscal)
+      @api_particulier ||= ApiParticulier.new(self.reference_avis, self.numero_fiscal)
     end
 end

@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe "Projet", type: :feature do
-  let(:projet) { Projet.new }
+  let(:projet) { FactoryGirl.create(:projet) }
   scenario "initialisation du projet" do
     visit new_projet_path
     fill_in :projet_numero_fiscal, with: '12'

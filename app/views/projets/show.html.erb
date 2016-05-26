@@ -1,0 +1,41 @@
+<div class="ui icon success message">
+  <i class="inbox icon"></i>
+  <div class="content">
+    <div class="header">
+      Projet de <%= @projet.owner %>
+    </div>
+    <p> 
+      Félicitations ! Votre projet démarre aujourd'hui. Le tableau de bord récapitule les acteurs à ce jour 
+    </p>
+  </div>
+</div>
+<div class="ui cards">
+<div class="ui card">
+  <div class="content">
+    <div class="header"><%= @projet.owner %></div>
+    <div class="meta"><%= @projet.address %></div>
+    <div class="description"><%= @projet.description %></div>
+  </div>
+</div>
+<div class="ui card">
+  <div class="content">
+    <div class="header">Operateur URBANIS</div>
+    <div class="meta">Operateur Ile-de-France</div>
+    <div class="description">
+      URBANIS va vous accompagner
+    </div>
+  </div>
+</div>
+<div class="ui card">
+  <div class="content">
+    <div class="header">ANAH</div>
+    <div class="meta">Financeur</div>
+    <div class="description">L'agence nationale de l'Habitat (ANAH) va financer en partie votre projet. </div>
+  </div>
+</div>
+</div>
+
+<h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
+<div class="ui container eight wide column">
+<div id="mapid"></div>
+</div>

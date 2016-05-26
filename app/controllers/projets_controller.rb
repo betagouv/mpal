@@ -4,7 +4,15 @@ class ProjetsController < ApplicationController
   end
 
   def create
-    @projet = Projet.new(params[:projet])
-    @projet.valid? ? render(:create) : render(:new)
+    @projet = Projet.new(params.require(:projet).permit(:numero_fiscal, :reference_avis, :description))
+    if @projet.save
+      redirect_to projet_path(@projet)
+    else 
+      render :new
+    end
+  end
+
+  def show
+    @projet = Projet.find(params[:id])
   end
 end
