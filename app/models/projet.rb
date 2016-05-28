@@ -1,4 +1,5 @@
 class Projet < ActiveRecord::Base
+  has_and_belongs_to_many :contacts
   validates :numero_fiscal, :reference_avis, :revenu_reference, presence: true
 
   def owner

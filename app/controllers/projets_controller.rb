@@ -14,5 +14,6 @@ class ProjetsController < ApplicationController
 
   def show
     @projet = Projet.find(params[:id])
+    @contact = @projet.contacts.build
   end
 end

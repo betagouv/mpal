@@ -13,9 +13,9 @@ describe "Projet", type: :feature do
 
   scenario "ajout d'un acteur non référencé" do
     visit projet_path(projet)
-    fill_in :nouveau_contact_name, with: 'Syndic de la Mare'
-    fill_in :nouveau_contact_email, with: 'syndic@lamare.com'
-    choose 'operator'
+    fill_in :contact_nom, with: 'Syndic de la Mare'
+    fill_in :contact_email, with: 'syndic@lamare.com'
+    choose 'contact_role_operateur'
     fill_in :nouveau_contact_message, with: "J'attends de vous ..."
     click_button "J'invite ce nouveau contact"
     expect(page).to have_content('Syndic de la Mare')

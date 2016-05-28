@@ -5,4 +5,8 @@ describe Projet do
   
   let!(:projet) { FactoryGirl.create(:projet) }
   it { expect(Projet.count).to eq(1) }
+
+  describe 'associations' do
+    it { expect(projet.contacts.build).to be_a(Contact) }
+  end
 end

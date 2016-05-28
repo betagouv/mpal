@@ -14,37 +14,40 @@
     </div>
     <div class="description">
       <div class="ui header">Merci de nous en dire plus sur le contact à ajouter</div>
-      <form class="ui reply form">
+      <%= form_for([@projet, @contact], html: { class:'ui form' }) do |f| %>
         <div class="field">
-          <label>Nom du contact</label>
-          <input type="text" name="nouveau_contact_name" placeholder="Jean Marin">
+          <%= f.label :nom %>
+          <%= f.text_field :nom, placeholder: "Jean Marin" %>
         </div>
         <div class="inline fields">
           <label>Rôle</label>
           <div class="field">
             <div class="ui radio checkbox">
-              <input id="syndic" type="radio" name="nouveau_contact_role" value="syndic"><label>Syndic</label>
+              <%= f.radio_button :role, "syndic" %>
+              <%= f.label "Syndic" %>
             </div>
           </div>
           <div class="field">
             <div class="ui radio checkbox">
-              <input id="operateur" type="radio" name="nouveau_contact_role" value="operator"><label>Operateur</label>
+              <%= f.radio_button :role, "operateur" %>
+              <%= f.label "Operateur" %>
             </div>
           </div>
           <div class="field">
             <div class="ui radio checkbox">
-              <input id="financeur" type="radio" name="nouveau_contact_role" value="operator"><label>Financeur</label>
+              <%= f.radio_button :role, "financeur" %>
+              <%= f.label "Financeur" %>
             </div>
           </div>
         </div> 
         <div class="field">
-          <label>Email</label>
-          <input type="text" name="nouveau_contact_email" placeholder="jean@marin.com">
+          <%= f.label :email %>
+          <%= f.email_field :email, placeholder: "Jean@marin.com" %>
         </div>
         <div class="field">
           <textarea name="nouveau_contact_message" placeholder="J'attends de vous..."></textarea>
         </div>
-      </form> 
+      <% end %>
     </div>
   </div>
   <div class="actions">
