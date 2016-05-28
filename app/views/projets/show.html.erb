@@ -98,6 +98,15 @@
     <div class="description">L'agence nationale de l'Habitat (ANAH) va financer en partie votre projet. </div>
   </div>
 </div>
+<% @project.contacts.each do |contact| %>
+  <div class="content">
+    <div class="header"><%= contact.name %></div>
+    <div class="meta"><%= contact.role %></div>
+    <div class="description">
+      J'attends une réponse
+    </div>
+  </div>
+<% end %>
 </div>
 
 <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
