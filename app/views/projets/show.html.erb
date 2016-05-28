@@ -1,3 +1,57 @@
+<script>
+  function displayForm() {
+    $('#nouveau-contact-modal').modal('show');
+  }
+</script>
+<div id="nouveau-contact-modal" class="ui modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Ajout d'un contact
+  </div>
+  <div class="image content">
+    <div class="ui medium image">
+      <%= image_tag('avatar/large/kristy.png') %>
+    </div>
+    <div class="description">
+      <div class="ui header">Merci de nous en dire plus sur le contact à ajouter</div>
+      <form class="ui reply form">
+        <div class="field">
+          <label>Nom du contact</label>
+          <input type="text" name="nouveau_contact_name" placeholder="Jean Marin">
+        </div>
+        <div class="inline fields">
+          <label>Rôle</label>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input id="syndic" type="radio" name="nouveau_contact_role" value="syndic"><label>Syndic</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input id="operateur" type="radio" name="nouveau_contact_role" value="operator"><label>Operateur</label>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui radio checkbox">
+              <input id="financeur" type="radio" name="nouveau_contact_role" value="operator"><label>Financeur</label>
+            </div>
+          </div>
+        </div> 
+        <div class="field">
+          <label>Email</label>
+          <input type="text" name="nouveau_contact_email" placeholder="jean@marin.com">
+        </div>
+        <div class="field">
+          <textarea name="nouveau_contact_message" placeholder="J'attends de vous..."></textarea>
+        </div>
+      </form> 
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">Annuler</div>
+    <button class="ui positive right labeled icon button">J'invite ce nouveau contact<i class="add user icon"></i></button>
+  </div>
+</div>
 <div class="ui icon success message">
   <i class="inbox icon"></i>
   <div class="content">
@@ -19,7 +73,15 @@
 </div>
 <div class="ui card">
   <div class="content">
-    <div class="header">Operateur URBANIS</div>
+    <div class="header">Nouveau contact</div>
+    <div class="description">
+      <button class="ui primary button visible content" onclick="displayForm();"><i class="add circle icon"></i>J'ajoute un contact</button>
+    </div>
+  </div>
+</div>
+<div class="ui card">
+  <div class="content">
+    <div class="header">Operateur URBANOS</div>
     <div class="meta">Operateur Ile-de-France</div>
     <div class="description">
       URBANIS va vous accompagner
