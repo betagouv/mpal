@@ -32,7 +32,7 @@
           <div class="field">
             <div class="ui radio checkbox">
               <%= f.radio_button :role, "syndic" %>
-              <%= f.label 'role_syndic' %>
+              <%= f.label 'syndic' %>
             </div>
           </div>
           <div class="field">
@@ -108,11 +108,16 @@
 </div>
 <% @projet.contacts.select{|c| c.persisted? }.each do |contact| %>
   <div class="ui card">
-    <div class="content">
-      <div class="header"><%= contact.nom %></div>
-      <div class="meta"><%= contact.role %></div>
-      <div class="description">
+    <div class="extra content">
+      <span class="ui label ribbon teal">
         J'attends une réponse
+      </span>
+    </div>
+    <div class="content">
+      <div class="header">
+        <%= contact.nom %></div>
+      <div class="meta"><%= t(contact.role) %></div>
+      <div class="description">
       </div>
     </div>
   </div>
