@@ -4,7 +4,8 @@ class ProjetsController < ApplicationController
   end
 
   def create
-    @projet = Projet.new(params.require(:projet).permit(:numero_fiscal, :reference_avis, :description))
+    facade = ProjetFacade.new(params.require(:projet).permit(:numero_fiscal, :reference_avis, :description))
+    @projet = facade.projet
     if @projet.save
       redirect_to projet_path(@projet)
     else 

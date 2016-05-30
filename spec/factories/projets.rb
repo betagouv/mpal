@@ -3,5 +3,6 @@ FactoryGirl.define do
     numero_fiscal 12
     reference_avis 15
     description "Je veux changer ma chaudiere"
+    usager 'Pierre Martin'
   end
 end

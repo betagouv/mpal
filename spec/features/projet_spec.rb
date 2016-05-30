@@ -20,7 +20,7 @@ describe "Projet", type: :feature do
       fill_in :nouveau_contact_message, with: "J'attends de vous ..."
     click_button "J'invite ce nouveau contact"
     expect(page).to have_content('Syndic de la Mare')
-    expect(page).to have_content('syndic')
+    expect(page).to have_content('Syndic')
     expect(page).to have_content("J'attends une réponse")
   end
 end
