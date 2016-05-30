@@ -15,5 +15,6 @@ class ProjetsController < ApplicationController
   def show
     @projet = Projet.find(params[:id])
     @contact = @projet.contacts.build
+    @contact.role = 'syndic'
   end
 end
