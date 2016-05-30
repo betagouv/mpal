@@ -1,8 +1,9 @@
-class Contact < ApplicationController
+class ContactsController < ApplicationController
   def create
-    projet = Projet.find(params[:id])
-    contact = projet.build_contact(contact_params)
-    if contact.save
+    projet = Projet.find(params[:projet_id])
+    contact = projet.contacts.build(contact_params)
+    contact.role = "syndic"
+    if projet.save
       redirect_to projet
     end
   end

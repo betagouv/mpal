@@ -1,7 +1,15 @@
 <script>
   function displayForm() {
-    $('#nouveau-contact-modal').modal('show');
+    $('#nouveau-contact-modal')
+      .modal({
+        onApprove: function() {
+          $('#new_contact').submit();          
+          return false;
+        }
+      })
+      .modal('show');
   }
+
 </script>
 <div id="nouveau-contact-modal" class="ui modal">
   <i class="close icon"></i>
@@ -24,7 +32,7 @@
           <div class="field">
             <div class="ui radio checkbox">
               <%= f.radio_button :role, "syndic" %>
-              <%= f.label "Syndic" %>
+              <%= f.label 'role_syndic' %>
             </div>
           </div>
           <div class="field">
@@ -52,7 +60,7 @@
   </div>
   <div class="actions">
     <div class="ui black deny button">Annuler</div>
-    <button class="ui positive right labeled icon button">J'invite ce nouveau contact<i class="add user icon"></i></button>
+    <button class="ui positive right labeled icon approve button">J'invite ce nouveau contact<i class="add user icon"></i></button>
   </div>
 </div>
 <div class="ui icon success message">
@@ -98,16 +106,17 @@
     <div class="description">L'agence nationale de l'Habitat (ANAH) va financer en partie votre projet. </div>
   </div>
 </div>
-<% @project.contacts.each do |contact| %>
-  <div class="content">
-    <div class="header"><%= contact.name %></div>
-    <div class="meta"><%= contact.role %></div>
-    <div class="description">
-      J'attends une réponse
+<% @projet.contacts.select{|c| c.persisted? }.each do |contact| %>
+  <div class="ui card">
+    <div class="content">
+      <div class="header"><%= contact.nom %></div>
+      <div class="meta"><%= contact.role %></div>
+      <div class="description">
+        J'attends une réponse
+      </div>
     </div>
   </div>
 <% end %>
-</div>
 
 <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
 <div class="ui container eight wide column">

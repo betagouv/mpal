@@ -11,12 +11,13 @@ describe "Projet", type: :feature do
     expect(page).to have_content("Martin")
   end
 
-  scenario "ajout d'un acteur non référencé" do
+  scenario "ajout d'un acteur non référencé", js: true do
     visit projet_path(projet)
-    fill_in :contact_nom, with: 'Syndic de la Mare'
-    fill_in :contact_email, with: 'syndic@lamare.com'
-    choose 'contact_role_operateur'
-    fill_in :nouveau_contact_message, with: "J'attends de vous ..."
+    click_button "J'ajoute un contact"
+      fill_in :contact_nom, with: 'Syndic de la Mare'
+      fill_in :contact_email, with: 'syndic@lamare.com'
+#      page.choose 'contact_role_syndic'
+      fill_in :nouveau_contact_message, with: "J'attends de vous ..."
     click_button "J'invite ce nouveau contact"
     expect(page).to have_content('Syndic de la Mare')
     expect(page).to have_content('syndic')
