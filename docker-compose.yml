@@ -1,0 +1,19 @@
+version: '2'
+
+services:
+  postgres:
+    build:
+      context: .
+      dockerfile: Dockerfile-postgres
+    environment:
+      POSTGRES_DB: mpal
+      POSTGRES_USER: mpal
+      POSTGRES_PASSWORD: mpal
+  mpal:
+    build:
+      context: .
+      dockerfile: Dockerfile-mpal
+    ports:
+      - 5000:5000
+    volumes:
+      - .:/app/
