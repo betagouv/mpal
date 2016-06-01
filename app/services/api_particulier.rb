@@ -4,7 +4,7 @@ class ApiParticulier
 
   def retrouve_contribuable(numero_fiscal, reference_avis)
     response = HTTParty.get("#{BASE_URI}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}", headers: HEADERS)
-    Contribuable.new(JSON.parse(response.body))
+    response.code == 200 ? Contribuable.new(JSON.parse(response.body)) : nil
   end
 end
 
