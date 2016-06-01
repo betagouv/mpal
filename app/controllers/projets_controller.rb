@@ -8,6 +8,7 @@ class ProjetsController < ApplicationController
     projet_params = params[:projet]
     @projet = facade.initialise_projet(projet_params[:numero_fiscal], projet_params[:reference_avis], projet_params[:description])
     if @projet.save
+      session[:numero_fiscal] = projet_params[:numero_fiscal]
       redirect_to projet_path(@projet)
     else 
       render :new
@@ -16,7 +17,11 @@ class ProjetsController < ApplicationController
 
   def show
     @projet = Projet.find(params[:id])
-    @contact = @projet.contacts.build
-    @contact.role = 'syndic'
+    if session[:numero_fiscal] != @projet.numero_fiscal
+      redirect_to new_session_path, alert: t('sessions.access_forbidden')
+    else
+      @contact = @projet.contacts.build
+      @contact.role = 'syndic'
+    end
   end
 end

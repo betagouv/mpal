@@ -1,7 +1,10 @@
-<div class="ui large top fixed hidden menu">
+<div class="ui large top fixed menu">
   <div class="ui container">
     <a class="active item">Accueil</a>
     <div class="right menu">
+      <div class="item">
+        <%= link_to t('sessions.new.action'), new_session_path %>
+      </div>
       <div class="item">
         <%= link_to t('welcome.cta'), new_projet_path, class: "ui primary button" %>
       </div>
