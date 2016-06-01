@@ -1,40 +1,17 @@
 class ApiParticulier
-  def initialize(reference_avis, numero_fiscal)
-    @reference_avis = reference_avis
-    @numero_fiscal = numero_fiscal
+  HEADERS = { 'X-API-KEY' => 'test-token', 'accept' => "application/json" }
+  BASE_URI = 'https://apiparticulier-test.sgmap.fr'
+
+  def retrouve_contribuable(numero_fiscal, reference_avis)
+    response = HTTParty.get("#{BASE_URI}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}", headers: HEADERS)
+    Contribuable.new(JSON.parse(response.body))
   end
+end
 
-  def revenu_reference
-    get("revenuFiscalReference")
+class Contribuable
+  attr_reader :usager, :adresse
+  def initialize(params)
+    @usager = "#{params["declarant1"]['prenoms']} #{params["declarant1"]['nom']}"
+    @adresse = params["foyerFiscal"]["adresse"]
   end
-
-  def owner
-    "#{first_name} #{last_name}"
-  end
-
-  def address
-    get("foyerFiscal")["adresse"]
-  end
-  private
-    def get(attribute)
-      @response ||= HTTParty.get("#{base_uri}/api/impots/svair?numeroFiscal=#{@numero_fiscal}&referenceAvis=#{@reference_avis}",
-        headers: headers)
-      JSON.parse(@response.body)[attribute]
-    end
-
-    def headers
-      { 'X-API-KEY' => 'test-token', 'accept' => "application/json" }
-    end
-
-    def base_uri
-      'https://apiparticulier-test.sgmap.fr'
-    end
-
-    def first_name
-      get("declarant1")['prenoms']
-    end
-
-    def last_name
-      get("declarant1")['nom']
-    end
 end

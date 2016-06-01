@@ -1,15 +1,16 @@
 class ProjetFacade
-  def initialize(service_particulier=ApiParticulier, params)
-    particulier = service_particulier.new(params[:reference_avis], params[:numero_fiscal])
-    @projet = Projet.new
-    @projet.reference_avis = params[:reference_avis]
-    @projet.numero_fiscal = params[:numero_fiscal]
-    @projet.description = params[:description]
-    @projet.adresse = particulier.address
-    @projet.usager = particulier.owner
+  def initialize(service)
+    @service = service
   end
 
-  def projet
+  def initialise_projet(numero_fiscal, reference_avis, description)
+    @projet = Projet.new
+    contribuable = @service.retrouve_contribuable(numero_fiscal, reference_avis)
+    @projet.adresse = contribuable.adresse
+    @projet.usager = contribuable.usager
+    @projet.description = description
+    @projet.reference_avis = reference_avis
+    @projet.numero_fiscal = numero_fiscal
     @projet
   end
 end
