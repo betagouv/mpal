@@ -1,25 +1,9 @@
-<script>
-  function displayForm() {
-    $('#nouveau-contact-modal')
-      .modal({
-        onApprove: function() {
-          $('#new_contact').submit();          
-          return false;
-        }
-      })
-      .modal('show');
-  }
-
-</script>
 <div id="nouveau-contact-modal" class="ui modal">
   <i class="close icon"></i>
   <div class="header">
     Ajout d'un contact
   </div>
-  <div class="image content">
-    <div class="ui medium image">
-      <%= image_tag('avatar/large/kristy.png') %>
-    </div>
+  <div class="content">
     <div class="description">
       <div class="ui header">Merci de nous en dire plus sur le contact à ajouter</div>
       <%= form_for([@projet, @contact], html: { class:'ui form' }) do |f| %>
@@ -86,7 +70,7 @@
   <div class="content">
     <div class="header">Nouveau contact</div>
     <div class="description">
-      <button class="ui primary button visible content" onclick="displayForm();"><i class="add circle icon"></i>J'ajoute un contact</button>
+      <button class="ui primary button visible content" onclick="displayNewContactForm();"><i class="add circle icon"></i>J'ajoute un contact</button>
     </div>
   </div>
 </div>
