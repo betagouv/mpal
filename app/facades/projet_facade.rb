@@ -11,6 +11,10 @@ class ProjetFacade
     @projet.description = description
     @projet.reference_avis = reference_avis
     @projet.numero_fiscal = numero_fiscal
+    ban=ApiBan.new
+    coords = ban.geocode(contribuable.adresse)
+    @projet.latitude = coords.latitude
+    @projet.longitude = coords.longitude
     @projet
   end
 end
