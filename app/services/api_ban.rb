@@ -3,7 +3,7 @@ class ApiBan
 
   def geocode(adresse)
     response = HTTParty.get(uri(adresse))
-    response.code == 200 ? Coordonnees.new(JSON.parse(response.body)) : nil
+    response.code == 200 ? Adresse.new(JSON.parse(response.body)) : nil
   end
 
   def uri(adresse)
@@ -11,12 +11,13 @@ class ApiBan
   end
 end
 
-class Coordonnees
-  attr_reader :latitude, :longitude
+class Adresse
+  attr_reader :label, :latitude, :longitude
   def initialize(params)
     puts "PARAMS: #{params['features'][0]['geometry']}"
     coords = params['features'][0]['geometry']['coordinates']
     @longitude = coords[0]
     @latitude = coords[1]
+    @label = params['features'][0]['properties']['label']
   end
 end

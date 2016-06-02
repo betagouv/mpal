@@ -6,15 +6,15 @@ class ProjetFacade
   def initialise_projet(numero_fiscal, reference_avis, description)
     @projet = Projet.new
     contribuable = @service.retrouve_contribuable(numero_fiscal, reference_avis)
-    @projet.adresse = contribuable.adresse
     @projet.usager = contribuable.usager
     @projet.description = description
     @projet.reference_avis = reference_avis
     @projet.numero_fiscal = numero_fiscal
     ban=ApiBan.new
-    coords = ban.geocode(contribuable.adresse)
-    @projet.latitude = coords.latitude
-    @projet.longitude = coords.longitude
+    adresse = ban.geocode(contribuable.adresse)
+    @projet.latitude = adresse.latitude
+    @projet.longitude = adresse.longitude
+    @projet.adresse = adresse.label
     @projet
   end
 end
