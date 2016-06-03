@@ -1,0 +1,5 @@
+deployment:
+  production:
+    branch: dev
+    commands:
+      - git push git@scalingo.com:mpal.git $CIRCLE_SHA1:master
