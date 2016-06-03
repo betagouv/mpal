@@ -6,6 +6,10 @@ config: &config
   pool: 5
   host: postgres
 
+production:
+  database: mpal
+  <<: *config
+
 development:
   database: mpal
   <<: *config
