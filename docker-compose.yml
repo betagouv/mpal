@@ -10,10 +10,20 @@ services:
       POSTGRES_USER: mpal
       POSTGRES_PASSWORD: mpal
   mpal:
+    depends_on:
+      - postgres
     build:
       context: .
       dockerfile: Dockerfile-mpal
     ports:
       - 5000:5000
+    volumes:
+      - .:/app/
+  test:
+    depends_on:
+      - postgres
+    build:
+      context: .
+      dockerfile: Dockerfile-mpal-test
     volumes:
       - .:/app/
