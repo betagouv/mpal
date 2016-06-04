@@ -14,7 +14,7 @@ end
 
 describe ProjetFacade do
   it "renvoie un projet qui contient l'adresse, le proprietaire et la description" do
-    adresse = "12 rue de la Mare, 75010 Paris" 
+    adresse = "12 Rue des 2 Gares 75010 Paris"
     usager = "Jean Martin"
     description = "Je change ma chaudière"
     mon_service = MonService.new(adresse: adresse, usager: usager)
