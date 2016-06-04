@@ -14,7 +14,6 @@ end
 class Adresse
   attr_reader :label, :latitude, :longitude
   def initialize(params)
-    puts "PARAMS: #{params['features'][0]['geometry']}"
     coords = params['features'][0]['geometry']['coordinates']
     @longitude = coords[0]
     @latitude = coords[1]
