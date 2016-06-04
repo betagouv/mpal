@@ -7,9 +7,10 @@ class ApiParticulier
     response.code == 200 ? Contribuable.new(JSON.parse(response.body)) : nil
   end
 
-  private def uri(numero_fiscal, reference_avis)
-    "https://#{DOMAIN}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}"
-  end
+  private 
+    def uri(numero_fiscal, reference_avis)
+      "https://#{DOMAIN}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}"
+    end
 end
 
 class Contribuable
