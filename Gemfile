@@ -57,3 +57,4 @@ gem 'rails_12factor'
 gem 'httparty'
 
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
+gem 'gon'
