@@ -1,6 +1,6 @@
 <div class="main ui container top">
   <h1 class="ui header"><%= t('sessions.nouvelle.titre') %></h1>
-  <p>Marche à suivre : munissez vous de votre avis d'impôt le plus récent. Cela nous permettra de pré-remplir les informations vous concernant, que vous pourrez modifier par la suite.
+  <p><%= t('sessions.nouvelle.conseil') %>
   <%= form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do %>
       <div class="field">
         <%= label_tag :numero_fiscal %>
