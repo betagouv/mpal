@@ -6,7 +6,7 @@ fr:
   sessions:
     nouvelle:
       titre: Identification requise
-      conseil: "Marche à suivre : munissez vous de votre avis d'impôt le plus récent. Cela nous permettra de pré-remplir les informations vous concernant, que vous pourrez modifier par la suite."
+      conseil: "Marche à suivre : munissez vous de votre avis d'imposition le plus récent. Cela nous permettra de pré-remplir les informations vous concernant. Vous pourrez les modifier par la suite éventuellement."
       action: "J'accède à mon projet"
     invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
     access_forbidden: Vous n'avez pas accès à cette page
