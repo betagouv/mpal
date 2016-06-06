@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   root 'welcome#index'
-  scope(path_names: { new: 'nouveau' }) do
-    resources :projets, only: [:show], path: 'projets' do
+  scope(path_names: { new: 'nouveau', edit: 'edition' }) do
+    resources :projets, only: [:show, :edit, :update] do
       resources :contacts, only: [:create]
     end
   end
