@@ -1,11 +1,11 @@
 fr:
-  welcome:
-    promise: Je rénove mon habitat
+  accueil:
+    promesse: Je rénove mon habitat
     baseline: et mon projet prend vie en quelques minutes...
-    cta: Je démarre mon projet
+    action: Je démarre mon projet
   sessions:
-    new:
-      title: Identification requise
+    nouvelle:
+      titre: Identification requise
       action: "J'accède à mon projet"
     invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
     access_forbidden: Vous n'avez pas accès à cette page

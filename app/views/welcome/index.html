@@ -3,10 +3,7 @@
     <a class="active item">Accueil</a>
     <div class="right menu">
       <div class="item">
-        <%= link_to t('sessions.new.action'), new_session_path %>
-      </div>
-      <div class="item">
-        <%= link_to t('welcome.cta'), new_projet_path, class: "ui primary button" %>
+        <%= link_to t('accueil.menu.mon_projet'), new_session_path, class: "ui primary button" %>
       </div>
     </div>
   </div>
@@ -15,9 +12,9 @@
 <div class="pusher">
   <div class="ui inverted vertical masthead center aligned segment teal">
     <div class="ui text container">
-      <h1 class="ui inverted header"><%= t('welcome.promise') %></h1>
-      <h2><%= t('welcome.baseline') %></h2>
-      <%= link_to t('welcome.cta'), new_projet_path, class: "ui huge primary button" %>
+      <h1 class="ui inverted header"><%= t('accueil.promesse') %></h1>
+      <h2><%= t('accueil.baseline') %></h2>
+      <%= link_to t('accueil.action'), new_session_path, class: "ui huge primary button" %>
     </div>
 
   </div>

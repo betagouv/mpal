@@ -1,13 +1,22 @@
 require 'rails_helper'
 
 describe "Projet", type: :feature do
-  let(:projet) { FactoryGirl.create(:projet) }
-  scenario "je démarre mon projet" do
-    visit new_projet_path
-    fill_in :projet_numero_fiscal, with: '12'
-    fill_in :projet_reference_avis, with: '15'
-    fill_in :projet_description, with: "Je veux changer ma chaudière"
-    click_button "Démarrez votre projet"
+  let(:projet) {
+    facade = ProjetFacade.new(ApiParticulier.new)
+    projet = facade.initialise_projet(12,15)
+    projet.save
+    projet
+  }
+
+  before(:each) do
+    visit new_session_path 
+    fill_in :numero_fiscal, with: projet.numero_fiscal
+    fill_in :reference_avis, with: projet.reference_avis
+    click_button I18n.t('sessions.nouvelle.action')
+  end
+
+  scenario "affichage de mon projet" do
+    visit projet_path(projet)
     expect(page).to have_content("Martin")
   end
 
