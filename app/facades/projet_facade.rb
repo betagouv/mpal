@@ -3,11 +3,10 @@ class ProjetFacade
     @service = service
   end
 
-  def initialise_projet(numero_fiscal, reference_avis, description)
+  def initialise_projet(numero_fiscal, reference_avis)
     @projet = Projet.new
     contribuable = @service.retrouve_contribuable(numero_fiscal, reference_avis)
     @projet.usager = contribuable.usager
-    @projet.description = description
     @projet.reference_avis = reference_avis
     @projet.numero_fiscal = numero_fiscal
     ban=ApiBan.new

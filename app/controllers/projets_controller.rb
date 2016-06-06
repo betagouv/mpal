@@ -6,7 +6,7 @@ class ProjetsController < ApplicationController
   def create
     facade = ProjetFacade.new(ApiParticulier.new)
     projet_params = params[:projet]
-    @projet = facade.initialise_projet(projet_params[:numero_fiscal], projet_params[:reference_avis], projet_params[:description])
+    @projet = facade.initialise_projet(projet_params[:numero_fiscal], projet_params[:reference_avis])
     if @projet.save
       session[:numero_fiscal] = projet_params[:numero_fiscal]
       redirect_to projet_path(@projet)
