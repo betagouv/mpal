@@ -10,5 +10,3 @@ fr:
       action: "J'accède à mon projet"
     invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
     access_forbidden: Vous n'avez pas accès à cette page
-  projets:
-    new: Je décris mon projet
