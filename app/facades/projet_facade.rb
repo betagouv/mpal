@@ -14,6 +14,7 @@ class ProjetFacade
     projet.latitude = adresse.latitude
     projet.longitude = adresse.longitude
     projet.adresse = adresse.label
+    projet.departement = adresse.departement
     projet
   end
 

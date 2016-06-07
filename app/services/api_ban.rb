@@ -12,11 +12,13 @@ class ApiBan
 end
 
 class Adresse
-  attr_reader :label, :latitude, :longitude
+  attr_reader :label, :latitude, :longitude, :departement
   def initialize(params)
     coords = params['features'][0]['geometry']['coordinates']
     @longitude = coords[0]
     @latitude = coords[1]
     @label = params['features'][0]['properties']['label']
+    postcode = params['features'][0]['properties']['postcode']
+    @departement = postcode[0,2]
   end
 end

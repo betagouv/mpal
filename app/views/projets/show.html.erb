@@ -67,22 +67,20 @@
     <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
   </div>
 </div>
-<div class="ui card">
-  <div class="content">
-    <div class="header">Operateur URBANOS</div>
-    <div class="meta">Operateur Ile-de-France</div>
-    <div class="description">
-      URBANIS va vous accompagner
+<% @operateurs.each do |operateur| %>
+  <div class="ui card">
+    <div class="content">
+      <div class="header"><%= operateur.raison_sociale %></div>
+      <div class="meta"><%= operateur.type %></div>
+      <div class="description"><%= operateur.adresse_postale %></div>
+    </div>
+    <div class="extra content">
+      <% operateur.themes.each do |theme| %>
+        <div class="ui label"><%= theme %></div>
+      <% end %>
     </div>
   </div>
-</div>
-<div class="ui card">
-  <div class="content">
-    <div class="header">ANAH</div>
-    <div class="meta">Financeur</div>
-    <div class="description">L'agence nationale de l'Habitat (ANAH) va financer en partie votre projet. </div>
-  </div>
-</div>
+<% end %>
 <% @projet.contacts.select{|c| c.persisted? }.each do |contact| %>
   <div class="ui card">
     <div class="extra content">

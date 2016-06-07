@@ -22,6 +22,7 @@ class ProjetsController < ApplicationController
         latitude: @projet.latitude,
         longitude: @projet.longitude
       })
+      @operateurs = Operateur.pour_departement(@projet.departement)
       @contact = @projet.contacts.build
       @contact.role = 'syndic'
     end
