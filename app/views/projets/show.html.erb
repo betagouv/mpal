@@ -64,6 +64,7 @@
     <div class="header"><%= @projet.usager %></div>
     <div class="meta"><%= @projet.adresse %></div>
     <div class="description"><%= @projet.description %></div>
+    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
   </div>
 </div>
 <div class="ui card">
