@@ -14,7 +14,7 @@ describe "Projet", type: :feature do
     expect(page).to have_content("Martin")
   end
 
-  scenario "correction de mon adresse", focus: true do
+  scenario "correction de mon adresse" do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.lien_edition_projet')
     fill_in :projet_adresse, with: '12 rue de la mare, 75012 Paris'
