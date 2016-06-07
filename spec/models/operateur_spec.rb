@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Operateur, focus: true do
+describe Operateur do
   it { expect(FactoryGirl.build(:operateur)).to be_valid }
   it { expect(FactoryGirl.build(:operateur, raison_sociale: '  ')).not_to be_valid }
   
