@@ -3,8 +3,7 @@ require 'rails_helper'
 describe "Projet", type: :feature do
   let(:projet) {
     facade = ProjetFacade.new(ApiParticulier.new)
-    projet = facade.initialise_projet(12,15)
-    projet.save
+    projet = facade.cree_projet(12,15)
     projet
   }
 

@@ -8,13 +8,16 @@ class SessionsController < ApplicationController
     contribuable = service.retrouve_contribuable(params[:numero_fiscal], params[:reference_avis])
     if contribuable
       session[:numero_fiscal] = params[:numero_fiscal]
-      projet = Projet.where(numero_fiscal: params[:numero_fiscal]).first
+      projet = ProjetFacade.recupere_projet(params[:numero_fiscal])
       unless projet 
         facade = ProjetFacade.new(ApiParticulier.new)
-        projet = facade.initialise_projet(params[:numero_fiscal], params[:reference_avis])
-        projet.save
+        projet = facade.cree_projet(params[:numero_fiscal], params[:reference_avis])
       end
-      redirect_to projet
+      if projet
+        redirect_to projet
+      else
+        redirect_to new_session_path, alert: t('sessions.erreur_generique')
+      end
     else 
       redirect_to new_session_path, alert: t('sessions.invalid_credentials')
     end
