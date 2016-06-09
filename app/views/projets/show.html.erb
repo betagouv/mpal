@@ -30,6 +30,8 @@
       <% operateur.themes.each do |theme| %>
         <div class="ui label"><%= theme %></div>
       <% end if operateur.themes.present? %>
+    </div>
+    <div class="extra content">
       <%= link_to t('projets.visualisation.invitation_operateur'), new_invitation_path(@projet, operateur.id), class:"ui basic green button" %>
     </div>
   </div>

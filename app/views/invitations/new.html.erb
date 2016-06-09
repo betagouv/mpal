@@ -3,7 +3,7 @@
   <%= form_for @projet, url: {controller: 'invitations', action: 'create'}, method: 'post', html: { class:'ui form' } do |f| %>
       <div class="field">
         <%= f.label :description %>
-        <%= f.text_field :description %>
+        <%= f.text_area :description %>
       </div>
       <div class="field">
         <%= f.label :email %>
