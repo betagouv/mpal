@@ -6,6 +6,9 @@ describe "Projet", type: :feature do
     projet = facade.cree_projet(12,15)
     projet
   }
+  let!(:operateur) {
+    FactoryGirl.create(:operateur, departements: [projet.departement])
+  }
 
 
   scenario "affichage de mon projet" do
@@ -22,18 +25,15 @@ describe "Projet", type: :feature do
     expect(page).to have_content('rue de la mare')
   end
 
-  scenario "ajout d'un acteur non référencé", js: true do
-    pending "A voir plus tard"
-    visit projet_path(projet)
-    click_button "J'ajoute un contact"
-      fill_in :contact_nom, with: 'Syndic de la Mare'
-      fill_in :contact_email, with: 'syndic@lamare.com'
-#      page.choose 'contact_role_syndic'
-      fill_in :nouveau_contact_message, with: "J'attends de vous ..."
-    click_button "J'invite ce nouveau contact"
-    expect(page).to have_content('Syndic de la Mare')
-    expect(page).to have_content('Syndic')
-    expect(page).to have_content("J'attends une réponse")
+  scenario "prise de contact avec un opérateur", focus: true do
+    signin(projet.numero_fiscal, projet.reference_avis)
+    click_link I18n.t('projets.visualisation.invitation_operateur')
+    fill_in :projet_description, with: 'Je veux changer ma chaudière'
+    fill_in :projet_email, with: 'martin@gmel.com'
+    fill_in :projet_tel, with: '01 30 20 40 10'
+    click_button I18n.t('invitations.nouvelle.action', operateur: operateur.raison_sociale)
+    expect(page).to have_content(I18n.t('invitations.messages.succes', operateur: operateur.raison_sociale))
+    expect(page).to have_content('martin@gmel.com')
   end
 
   def signin(numero_fiscal, reference_avis)

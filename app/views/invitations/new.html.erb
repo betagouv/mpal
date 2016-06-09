@@ -1,0 +1,18 @@
+<div class="main ui container top">
+  <h1 class="ui header"><%= t('invitations.nouvelle.titre', operateur: @operateur.raison_sociale) %></h1>
+  <%= form_for @projet, url: {controller: 'invitations', action: 'create'}, method: 'post', html: { class:'ui form' } do |f| %>
+      <div class="field">
+        <%= f.label :description %>
+        <%= f.text_field :description %>
+      </div>
+      <div class="field">
+        <%= f.label :email %>
+        <%= f.text_field :email %>
+      </div>
+      <div class="field">
+        <%= f.label :tel %>
+        <%= f.text_field :tel %>
+      </div>
+    <%= f.submit I18n.t('invitations.nouvelle.action', operateur: @operateur.raison_sociale), class:'ui button' %>
+  <% end %>
+</div>

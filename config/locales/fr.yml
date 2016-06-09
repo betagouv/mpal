@@ -13,5 +13,12 @@ fr:
   projets:
     visualisation:
       lien_edition_projet: 'Je corrige mon adresse'
+      invitation_operateur: "Je demande de l'aide"
     edition:
       action: 'Je mets à jour mon projet'
+  invitations:
+    nouvelle:
+      titre: "Invitation de l'opérateur %{operateur}"
+      action: "J'invite %{operateur}"
+    messages:
+      succes: "Une invitation a été envoyé à %{operateur}"

@@ -1,52 +1,3 @@
-<div id="nouveau-contact-modal" class="ui modal">
-  <i class="close icon"></i>
-  <div class="header">
-    Ajout d'un contact
-  </div>
-  <div class="content">
-    <div class="description">
-      <div class="ui header">Merci de nous en dire plus sur le contact à ajouter</div>
-      <%= form_for([@projet, @contact], html: { class:'ui form' }) do |f| %>
-        <div class="field">
-          <%= f.label :nom %>
-          <%= f.text_field :nom, placeholder: "Jean Marin" %>
-        </div>
-        <div class="inline fields">
-          <label>Rôle</label>
-          <div class="field">
-            <div class="ui radio checkbox">
-              <%= f.radio_button :role, "syndic" %>
-              <%= f.label 'syndic' %>
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui radio checkbox">
-              <%= f.radio_button :role, "operateur" %>
-              <%= f.label "Operateur" %>
-            </div>
-          </div>
-          <div class="field">
-            <div class="ui radio checkbox">
-              <%= f.radio_button :role, "financeur" %>
-              <%= f.label "Financeur" %>
-            </div>
-          </div>
-        </div> 
-        <div class="field">
-          <%= f.label :email %>
-          <%= f.email_field :email, placeholder: "Jean@marin.com" %>
-        </div>
-        <div class="field">
-          <textarea name="nouveau_contact_message" placeholder="J'attends de vous..."></textarea>
-        </div>
-      <% end %>
-    </div>
-  </div>
-  <div class="actions">
-    <div class="ui black deny button">Annuler</div>
-    <button class="ui positive right labeled icon approve button">J'invite ce nouveau contact<i class="add user icon"></i></button>
-  </div>
-</div>
 <div class="ui icon success message">
   <i class="inbox icon"></i>
   <div class="content">
@@ -63,6 +14,7 @@
   <div class="content">
     <div class="header"><%= @projet.usager %></div>
     <div class="meta"><%= @projet.adresse %></div>
+    <div class="meta"><%= @projet.email %></div>
     <div class="description"><%= @projet.description %></div>
     <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
   </div>
@@ -77,23 +29,8 @@
     <div class="extra content">
       <% operateur.themes.each do |theme| %>
         <div class="ui label"><%= theme %></div>
-      <% end %>
-    </div>
-  </div>
-<% end %>
-<% @projet.contacts.select{|c| c.persisted? }.each do |contact| %>
-  <div class="ui card">
-    <div class="extra content">
-      <span class="ui label ribbon teal">
-        J'attends une réponse
-      </span>
-    </div>
-    <div class="content">
-      <div class="header">
-        <%= contact.nom %></div>
-      <div class="meta"><%= t(contact.role) %></div>
-      <div class="description">
-      </div>
+      <% end if operateur.themes.present? %>
+      <%= link_to t('projets.visualisation.invitation_operateur'), new_invitation_path(@projet, operateur.id), class:"ui basic green button" %>
     </div>
   </div>
 <% end %>
