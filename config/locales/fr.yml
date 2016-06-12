@@ -22,3 +22,12 @@ fr:
       action: "J'invite %{operateur}"
     messages:
       succes: "Une invitation a été envoyé à %{operateur}"
+      erreur: "L'invitation n'a pas pu être envoyée"
+    attributs:
+      email:
+        obligatoire: "L'email est obligatoire"
+      description:
+        obligatoire: "La description est obligatoire"
+      adresse:
+        obligatoire: "L'adresse est obligatoire"
+
