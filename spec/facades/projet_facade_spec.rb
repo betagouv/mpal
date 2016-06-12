@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/api_ban_helper'
 
 class MonService
   attr_reader :adresse, :usager
@@ -14,7 +15,7 @@ end
 
 describe ProjetFacade do
   it "renvoie un projet qui contient l'adresse" do
-    adresse = "12 Rue des 2 Gares 75010 Paris"
+    adresse = "12 rue de la Mare, 75010 Paris"
     usager = "Jean Martin"
     mon_service = MonService.new(adresse: adresse, usager: usager)
     facade = ProjetFacade.new(mon_service)

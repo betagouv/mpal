@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'support/api_particulier_helper'
 
 describe "identification", type: :feature do
   let(:projet) { FactoryGirl.create(:projet) }

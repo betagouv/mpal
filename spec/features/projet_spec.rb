@@ -1,4 +1,6 @@
 require 'rails_helper'
+require 'support/api_particulier_helper'
+require 'support/api_ban_helper'
 
 describe "Projet", type: :feature do
   let(:projet) {
