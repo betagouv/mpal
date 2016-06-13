@@ -45,6 +45,7 @@ describe "Projet", type: :feature do
     fill_in :projet_tel, with: '01 30 20 40 10'
     click_button I18n.t('invitations.nouvelle.action', operateur: operateur.raison_sociale)
     expect(page).to have_content(I18n.t('invitations.messages.erreur'))
+    expect(page).to have_content(I18n.t('invitations.messages.email.obligatoire'))
   end
 
   def signin(numero_fiscal, reference_avis)

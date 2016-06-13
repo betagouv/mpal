@@ -23,7 +23,6 @@ fr:
     messages:
       succes: "Une invitation a été envoyé à %{operateur}"
       erreur: "L'invitation n'a pas pu être envoyée"
-    attributs:
       email:
         obligatoire: "L'email est obligatoire"
       description:

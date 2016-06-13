@@ -20,9 +20,9 @@ class InvitationsController < ApplicationController
 
   private
   def valid?
-    @projet.errors[:adresse] = t('invitations.attributs.adresse.obligatoire') unless @projet.adresse.present?
-    @projet.errors[:description] = t('invitations.attributs.description.obligatoire') unless @projet.description.present?
-    @projet.errors[:email] = t('invitations.attributs.email.obligatoire') unless @projet.email.present?
+    @projet.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet.adresse.present?
+    @projet.errors[:description] = t('invitations.messages.description.obligatoire') unless @projet.description.present?
+    @projet.errors[:email] = t('invitations.messages.email.obligatoire') unless @projet.email.present?
     @projet.description.present? && @projet.email.present? && @projet.adresse.present?
   end
 end
