@@ -29,4 +29,7 @@ fr:
         obligatoire: "La description est obligatoire"
       adresse:
         obligatoire: "L'adresse est obligatoire"
-
+  mailers:
+    projet_mailer:
+      invitation_operateur:
+        sujet: "[MPAL] Invitation de %{usager} à consulter son projet"
