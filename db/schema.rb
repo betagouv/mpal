@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614131349) do
+ActiveRecord::Schema.define(version: 20160614145214) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -67,13 +67,10 @@ ActiveRecord::Schema.define(version: 20160614131349) do
     t.string   "email"
     t.string   "tel"
     t.string   "themes",         array: true
-    t.integer  "operateur_id"
   end
 
-  add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
   add_foreign_key "invitations", "operateurs"
   add_foreign_key "invitations", "projets"
-  add_foreign_key "projets", "operateurs"
 end
