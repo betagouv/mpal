@@ -1,3 +1,6 @@
+machine:
+  environment:
+    NO_REPLY_FROM: no-reply@mpal.beta.gouv.fr
 deployment:
   production:
     branch: dev
