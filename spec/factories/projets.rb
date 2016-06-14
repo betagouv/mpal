@@ -5,5 +5,6 @@ FactoryGirl.define do
     description "Je veux changer ma chaudiere"
     usager 'Pierre Martin'
     adresse '12 rue de la mare, 75010 Paris'
+    departement '75'
   end
 end
