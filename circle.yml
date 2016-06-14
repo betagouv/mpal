@@ -10,3 +10,4 @@ deployment:
     branch: dev
     commands:
       - git push git@scalingo.com:mpalprod.git $CIRCLE_SHA1:master
+      - scalingo run rake db:migrate -a mpalprod
