@@ -35,7 +35,7 @@
       <%= link_to t('projets.visualisation.invitation_operateur'), new_invitation_path(@projet, operateur.id), class:"ui basic green button" %>
     </div>
   </div>
-<% end %>
+<% end if @operateurs %>
 
 <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
 <div class="ui container eight wide column">

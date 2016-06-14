@@ -20,6 +20,12 @@ class InvitationsController < ApplicationController
     end
   end
 
+  def show
+    invitation = Invitation.find_by_token(params[:jeton_id])
+    @projet = invitation.projet
+    render 'projets/show'
+  end
+
   private
   def valid?
     @projet.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet.adresse.present?
