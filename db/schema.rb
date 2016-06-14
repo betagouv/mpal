@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160613154405) do
+ActiveRecord::Schema.define(version: 20160614131349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,6 +31,15 @@ ActiveRecord::Schema.define(version: 20160613154405) do
 
   add_index "contacts_projets", ["contact_id"], name: "index_contacts_projets_on_contact_id", using: :btree
   add_index "contacts_projets", ["projet_id"], name: "index_contacts_projets_on_projet_id", using: :btree
+
+  create_table "invitations", force: :cascade do |t|
+    t.integer "projet_id"
+    t.integer "operateur_id"
+    t.string  "token"
+  end
+
+  add_index "invitations", ["operateur_id"], name: "index_invitations_on_operateur_id", using: :btree
+  add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
 
   create_table "operateurs", force: :cascade do |t|
     t.string "raison_sociale"
@@ -64,5 +73,7 @@ ActiveRecord::Schema.define(version: 20160613154405) do
   add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
+  add_foreign_key "invitations", "operateurs"
+  add_foreign_key "invitations", "projets"
   add_foreign_key "projets", "operateurs"
 end

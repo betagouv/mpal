@@ -52,6 +52,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'fakeweb'
+  gem 'shoulda-matchers'
 end
 
 gem 'rails_12factor'
