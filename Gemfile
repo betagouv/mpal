@@ -62,3 +62,4 @@ gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 gem 'gon'
 
 gem 'mailjet'
+gem 'rest-client', '~>1.6.9'
