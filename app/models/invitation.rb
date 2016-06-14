@@ -3,8 +3,15 @@ class Invitation < ActiveRecord::Base
   belongs_to :operateur
   validates :projet, :operateur, presence: true
   validates_uniqueness_of :operateur, scope: :projet_id
-
   before_create :generate_token
+
+  delegate :usager, to: :projet
+  delegate :adresse, to: :projet
+  delegate :description, to: :projet
+
+  def operateur_email
+    self.operateur.email
+  end
 
   private
   def generate_token

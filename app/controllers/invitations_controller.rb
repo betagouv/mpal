@@ -13,7 +13,7 @@ class InvitationsController < ApplicationController
     @projet.tel = params[:projet][:tel]
     @invitation = Invitation.new(projet: @projet, operateur: @operateur)
     if valid? && @projet.save && @invitation.save
-      ProjetMailer.invitation_operateur(@projet, @operateur).deliver_now!
+      ProjetMailer.invitation_operateur(@invitation).deliver_now!
       redirect_to @projet, notice: t('invitations.messages.succes', operateur: @operateur.raison_sociale)
     else
       render :new

@@ -1,4 +1,4 @@
-describe Invitation, focus: true do
+describe Invitation do
   let(:invitation) { FactoryGirl.build(:invitation) }
   subject { invitation }
 
@@ -12,4 +12,8 @@ describe Invitation, focus: true do
   it "genere un jeton avant la création" do
     expect(FactoryGirl.create(:invitation).token).to be_present
   end
+
+  it { is_expected.to delegate_method(:usager).to(:projet) }
+  it { is_expected.to delegate_method(:adresse).to(:projet) }
+  it { is_expected.to delegate_method(:description).to(:projet) }
 end
