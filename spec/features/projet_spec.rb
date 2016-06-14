@@ -38,7 +38,7 @@ describe "Projet", type: :feature do
     expect(page).to have_content('martin@gmel.com')
   end
 
-  scenario "prise de contact avec un opérateur sans laisser d'email", focus: true do
+  scenario "prise de contact avec un opérateur sans laisser d'email" do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.invitation_operateur')
     fill_in :projet_description, with: 'Je veux changer ma chaudière'
