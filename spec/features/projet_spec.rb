@@ -17,6 +17,6 @@ feature "Projet" do
     click_link I18n.t('projets.visualisation.lien_edition_projet')
     fill_in :projet_adresse, with: '12 rue de la mare, 75012 Paris'
     click_button I18n.t('projets.edition.action')
-    expect(page).to have_content('rue de la mare')
+    expect(page).to have_content('12 rue de la Mare')
   end
 end
