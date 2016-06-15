@@ -3,4 +3,9 @@
 <p>
 Voici une description des travaux qu'il souhaite effectuer :
 <p>
+----
 <%= @invitation.description %>
+----
+<p>
+Pour visualiser le projet, cliquer sur ce lien :
+<%= invitation_url(jeton_id: @invitation.token) %>
