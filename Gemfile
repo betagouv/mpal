@@ -64,3 +64,5 @@ gem 'gon'
 
 gem 'mailjet'
 gem 'rest-client', '~>1.6.9'
+gem 'devise'
+gem 'devise_cas_authenticatable'

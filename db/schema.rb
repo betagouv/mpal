@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160614145214) do
+ActiveRecord::Schema.define(version: 20160615131638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "agents", force: :cascade do |t|
+    t.string   "username",                       null: false
+    t.integer  "sign_in_count",      default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+  end
+
+  add_index "agents", ["username"], name: "index_agents_on_username", unique: true, using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.string   "nom"
@@ -32,7 +45,7 @@ ActiveRecord::Schema.define(version: 20160614145214) do
   add_index "contacts_projets", ["contact_id"], name: "index_contacts_projets_on_contact_id", using: :btree
   add_index "contacts_projets", ["projet_id"], name: "index_contacts_projets_on_projet_id", using: :btree
 
-  create_table "invitations", force: :cascade do |t|
+  create_table "invitations", id: false, force: :cascade do |t|
     t.integer "projet_id"
     t.integer "operateur_id"
     t.string  "token"
@@ -40,6 +53,7 @@ ActiveRecord::Schema.define(version: 20160614145214) do
 
   add_index "invitations", ["operateur_id"], name: "index_invitations_on_operateur_id", using: :btree
   add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
+  add_index "invitations", ["token"], name: "index_invitations_on_token", using: :btree
 
   create_table "operateurs", force: :cascade do |t|
     t.string "raison_sociale"

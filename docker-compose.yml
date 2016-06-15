@@ -27,3 +27,9 @@ services:
       dockerfile: Dockerfile-mpal-test
     volumes:
       - .:/app/
+    environment:
+      API_PARTICULIER_KEY: test-token
+      API_PARTICULIER_DOMAIN: apiparticulier-test.sgmap.fr
+      API_BAN_DOMAIN: api-adresse.data.gouv.fr
+      NO_REPLY_FROM: no-reply@mpal.beta.gouv.fr
+      HOST: localhost
