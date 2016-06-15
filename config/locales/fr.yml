@@ -14,6 +14,7 @@ fr:
     visualisation:
       lien_edition_projet: 'Je corrige mon adresse'
       invitation_operateur: "Je demande de l'aide"
+      invitation_relance_operateur: "Je relance l'opérateur"
     edition:
       action: 'Je mets à jour mon projet'
   invitations:

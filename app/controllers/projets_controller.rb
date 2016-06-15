@@ -22,7 +22,7 @@ class ProjetsController < ApplicationController
         latitude: @projet.latitude,
         longitude: @projet.longitude
       })
-      @operateurs = Operateur.pour_departement(@projet.departement)
+      @operateurs_departement = Operateur.pour_departement(@projet.departement) - @projet.operateurs
     end
   end
 end

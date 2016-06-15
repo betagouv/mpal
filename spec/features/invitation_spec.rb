@@ -9,7 +9,7 @@ feature "Invitation" do
   let!(:operateur) { FactoryGirl.create(:operateur, departements: [projet.departement]) }
 
 
-  scenario "prise de contact avec un opérateur" do
+  scenario "prise de contact avec un opérateur", focus: true do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.invitation_operateur')
     fill_in :projet_description, with: 'Je veux changer ma chaudière'
@@ -18,6 +18,7 @@ feature "Invitation" do
     click_button I18n.t('invitations.nouvelle.action', operateur: operateur.raison_sociale)
     expect(page).to have_content(I18n.t('invitations.messages.succes', operateur: operateur.raison_sociale))
     expect(page).to have_content('martin@gmel.com')
+    expect(page).to have_css '.invites'
   end
 
   scenario "prise de contact avec un opérateur sans laisser d'email" do
@@ -30,7 +31,7 @@ feature "Invitation" do
     expect(page).to have_content(I18n.t('invitations.messages.email.obligatoire'))
   end
 
-  scenario "affichage d'un projet par un opérateur invité", focus:true do
+  scenario "affichage d'un projet par un opérateur invité" do
     visit invitation_path(jeton_id: invitation.token)
     expect(page).to have_content(invitation.usager)
     expect(page).to have_content(invitation.adresse)

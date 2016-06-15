@@ -9,7 +9,6 @@
     </p>
   </div>
 </div>
-<div class="ui cards">
 <div class="ui card">
   <div class="content">
     <div class="header"><%= @projet.usager %></div>
@@ -19,7 +18,31 @@
     <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
   </div>
 </div>
-<% @operateurs.each do |operateur| %>
+
+<% if @projet.operateurs %>
+<h4 class="ui horizontal divider header">Intervenants</h4>
+<div class="ui cards invites">
+  <% @projet.operateurs.each do |operateur| %>
+  <div class="card">
+    <div class="content">
+      <div class="header"><%= operateur.raison_sociale %></div>
+      <div class="meta"><%= operateur.type %></div>
+      <div class="description"><%= operateur.adresse_postale %></div>
+    </div>
+    <div class="extra content">
+      <% operateur.themes.each do |theme| %>
+        <div class="ui label"><%= theme %></div>
+      <% end if operateur.themes.present? %>
+    </div>
+  </div>
+  <% end %>
+</div>
+<% end %>
+
+<% if @operateurs_departement %>
+<h4 class="ui horizontal divider header">Intervenants disponibles</h4>
+<div class="ui cards disponibles">
+  <% @operateurs_departement.each do |operateur| %>
   <div class="ui card">
     <div class="content">
       <div class="header"><%= operateur.raison_sociale %></div>
@@ -35,7 +58,9 @@
       <%= link_to t('projets.visualisation.invitation_operateur'), new_invitation_path(@projet, operateur.id), class:"ui basic green button" %>
     </div>
   </div>
-<% end if @operateurs %>
+  <% end %>
+</div>
+<% end %>
 
 <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
 <div class="ui container eight wide column">

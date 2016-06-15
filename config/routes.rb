@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
     get '/projets/:projet_id/invitations/operateur/:operateur_id', to: 'invitations#new', as: 'new_invitation'
     post '/projets/:projet_id/invitations/operateur/:operateur_id', to: 'invitations#create'
+    get '/projets/:projet_id/invitations/edition/operateur/:operateur_id', to: 'invitations#edit', as: 'edit_invitation'
     get '/invitations/:jeton_id', to: 'invitations#show', as: 'invitation'
   end
   scope(path_names: { new: 'nouvelle' }) do
