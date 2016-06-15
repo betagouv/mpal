@@ -40,6 +40,7 @@ ActiveRecord::Schema.define(version: 20160614145214) do
 
   add_index "invitations", ["operateur_id"], name: "index_invitations_on_operateur_id", using: :btree
   add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
+  add_index "invitations", ["token"], name: "index_invitations_on_token", using: :btree
 
   create_table "operateurs", force: :cascade do |t|
     t.string "raison_sociale"
