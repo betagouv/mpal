@@ -14,6 +14,7 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new(projet: @projet, operateur: @operateur)
     if valid? && @projet.save && @invitation.save
       ProjetMailer.invitation_operateur(@invitation).deliver_now!
+      flash[:notice_titre] = t('invitations.messages.succes_titre')
       redirect_to @projet, notice: t('invitations.messages.succes', operateur: @operateur.raison_sociale)
     else
       render :new

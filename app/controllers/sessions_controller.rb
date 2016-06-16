@@ -12,9 +12,11 @@ class SessionsController < ApplicationController
       unless projet 
         facade = ProjetFacade.new(ApiParticulier.new)
         projet = facade.cree_projet(params[:numero_fiscal], params[:reference_avis])
+        notice = t('projets.messages.creation.corps')
+        flash[:notice_titre] = t('projets.messages.creation.titre', usager: projet.usager)
       end
       if projet
-        redirect_to projet
+        redirect_to projet, notice: notice
       else
         redirect_to new_session_path, alert: t('sessions.erreur_generique')
       end

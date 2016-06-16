@@ -11,6 +11,10 @@ fr:
     invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
     access_forbidden: Vous n'avez pas accès à cette page
   projets:
+    messages:
+      creation:
+        titre: 'Félicitations %{usager}'
+        corps: Votre projet démarre aujourd'hui.
     visualisation:
       lien_edition_projet: 'Je corrige mon adresse'
       invitation_operateur: "Je demande de l'aide"
@@ -22,7 +26,8 @@ fr:
       titre: "Invitation de l'opérateur %{operateur}"
       action: "J'invite %{operateur}"
     messages:
-      succes: "Une invitation a été envoyé à %{operateur}"
+      succes_titre: "Invitation envoyée"
+      succes: "Une invitation avec la description de votre projet a été envoyée à %{operateur}"
       erreur: "L'invitation n'a pas pu être envoyée"
       email:
         obligatoire: "L'email est obligatoire"
