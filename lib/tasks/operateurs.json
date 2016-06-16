@@ -1,0 +1,13 @@
+[
+  {
+    "raison_sociale": "Soliho",
+    "departements": "['95','75','77']",
+    "themes": ["autonomie","insalubrité"],
+    "email": "contact@soliho.com"
+  },
+  {
+    "raison_sociale": "Urbanos",
+    "departements": "['95','75','77']",
+    "themes": ["autonomie","insalubrité"]
+  }
+]
