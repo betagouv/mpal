@@ -16,7 +16,7 @@ fr:
         titre: 'Félicitations %{usager}'
         corps: Votre projet démarre aujourd'hui.
     visualisation:
-      lien_edition_projet: 'Je corrige mon adresse'
+      lien_edition_projet: 'Modifier le projet'
       invitation_operateur: "Je demande de l'aide"
       invitation_relance_operateur: "Je relance l'opérateur"
     edition:
