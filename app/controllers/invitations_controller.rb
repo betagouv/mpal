@@ -24,6 +24,10 @@ class InvitationsController < ApplicationController
   def show
     invitation = Invitation.find_by_token(params[:jeton_id])
     @projet = invitation.projet
+    gon.push({
+      latitude: @projet.latitude,
+      longitude: @projet.longitude
+    })
     @profil = invitation.operateur.raison_sociale
     render 'projets/show'
   end
