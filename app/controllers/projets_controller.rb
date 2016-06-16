@@ -22,6 +22,7 @@ class ProjetsController < ApplicationController
         latitude: @projet.latitude,
         longitude: @projet.longitude
       })
+      @profil = @projet.usager
       @operateurs_departement = Operateur.pour_departement(@projet.departement) - @projet.operateurs
     end
   end

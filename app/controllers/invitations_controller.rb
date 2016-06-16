@@ -24,6 +24,7 @@ class InvitationsController < ApplicationController
   def show
     invitation = Invitation.find_by_token(params[:jeton_id])
     @projet = invitation.projet
+    @profil = invitation.operateur.raison_sociale
     render 'projets/show'
   end
 
