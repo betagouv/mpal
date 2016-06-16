@@ -1,13 +1,50 @@
 [
   {
-    "raison_sociale": "Soliho",
-    "departements": ["95","75","77"],
-    "themes": ["autonomie","insalubrité"],
-    "email": "contact@soliho.com"
+    "raison_sociale": "Citemetrie",
+    "departements": ["95"],
+    "themes": ["autonomie","insalubrité", "énergie"],
+    "email": "christophe.robillard@beta.gouv.fr"
   },
   {
-    "raison_sociale": "Urbanos",
-    "departements": ["95","75","77"],
-    "themes": ["autonomie","insalubrité"]
+    "raison_sociale": "CACP",
+    "departements": ["95"],
+    "themes": ["autonomie","insalubrité", "énergie"],
+    "email": "christophe.robillard@beta.gouv.fr"
+  },
+  {
+    "raison_sociale": "Soliha 95",
+    "departements": ["95"],
+    "themes": ["autonomie","insalubrité", "énergie"],
+    "email": "christophe.robillard@beta.gouv.fr"
+  },
+  {
+    "raison_sociale": "CoProDiag",
+    "departements": ["95"],
+    "themes": ["autonomie","insalubrité", "énergie"],
+    "email": "christophe.robillard@beta.gouv.fr"
+  },
+  {
+    "raison_sociale": "Urbam Conseil",
+    "departements": ["88"],
+    "themes": ["autonomie","insalubrité", "énergie"],
+    "email": "christophe.robillard@beta.gouv.fr"
+  },
+  {
+    "raison_sociale": "CAL PACT 88",
+    "departements": ["88"],
+    "themes": ["autonomie","insalubrité", "énergie"],
+    "email": "christophe.robillard@beta.gouv.fr"
+  },
+  {
+    "raison_sociale": "Association CAMEL",
+    "departements": ["88"],
+    "themes": ["autonomie"],
+    "email": "christophe.robillard@beta.gouv.fr"
+  },
+  {
+    "raison_sociale": "BET EXERGIE",
+    "departements": ["88"],
+    "themes": ["énergie"],
+    "email": "christophe.robillard@beta.gouv.fr"
   }
 ]
