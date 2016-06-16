@@ -1,4 +1,8 @@
 .top {
   margin-top: 80px;
 }
+
+.ui.message {
+  margin-top: 80px !important;
+}
 #mapid { height: 280px; }
