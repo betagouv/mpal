@@ -13,12 +13,6 @@ class ProjetFacade
     projet
   end
 
-  def cree_projet(numero_fiscal, reference_avis)
-    projet = initialise_projet(numero_fiscal, reference_avis)
-    projet.save
-    projet
-  end
-
   def self.recupere_projet(numero_fiscal)
     projet = Projet.where(numero_fiscal: numero_fiscal).first
   end

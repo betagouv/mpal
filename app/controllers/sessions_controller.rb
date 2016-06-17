@@ -11,7 +11,8 @@ class SessionsController < ApplicationController
       projet = ProjetFacade.recupere_projet(params[:numero_fiscal])
       unless projet 
         facade = ProjetFacade.new(ApiParticulier.new)
-        projet = facade.cree_projet(params[:numero_fiscal], params[:reference_avis])
+        projet = facade.initialise_projet(params[:numero_fiscal], params[:reference_avis])
+        projet.save
         notice = t('projets.messages.creation.corps')
         flash[:notice_titre] = t('projets.messages.creation.titre', usager: projet.usager)
       end
