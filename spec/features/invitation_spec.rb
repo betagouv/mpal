@@ -19,6 +19,7 @@ feature "Invitation" do
     expect(page).to have_content(I18n.t('invitations.messages.succes', operateur: operateur.raison_sociale))
     expect(page).to have_content('martin@gmel.com')
     expect(page).to have_css '.invites'
+    expect(page).to have_content(I18n.t('evenements.invitation_operateur', operateur: operateur.raison_sociale))
   end
 
   scenario "prise de contact avec un opérateur sans laisser d'email" do

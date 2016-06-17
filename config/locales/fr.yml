@@ -42,3 +42,4 @@ fr:
 
   evenements:
     creation_projet: 'Création du projet'
+    invitation_operateur: "Invitation de l'opérateur %{operateur}"

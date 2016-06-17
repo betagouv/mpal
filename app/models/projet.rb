@@ -2,7 +2,7 @@ class Projet < ActiveRecord::Base
   validates :usager, :numero_fiscal, :reference_avis, :adresse, presence: true
   has_many :operateurs, through: :invitations
   has_many :invitations
-  has_many :evenements
+  has_many :evenements, -> { order('evenements.quand DESC') }
 
   before_create :construit_evenement
 

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617085119) do
+ActiveRecord::Schema.define(version: 20160617151638) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,8 +36,10 @@ ActiveRecord::Schema.define(version: 20160617085119) do
     t.integer  "projet_id"
     t.string   "label"
     t.datetime "quand"
+    t.integer  "operateur_id"
   end
 
+  add_index "evenements", ["operateur_id"], name: "index_evenements_on_operateur_id", using: :btree
   add_index "evenements", ["projet_id"], name: "index_evenements_on_projet_id", using: :btree
 
   create_table "invitations", force: :cascade do |t|
@@ -80,6 +82,7 @@ ActiveRecord::Schema.define(version: 20160617085119) do
 
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
+  add_foreign_key "evenements", "operateurs"
   add_foreign_key "evenements", "projets"
   add_foreign_key "invitations", "operateurs"
   add_foreign_key "invitations", "projets"
