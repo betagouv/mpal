@@ -9,12 +9,7 @@ class ProjetFacade
     projet.usager = contribuable.usager
     projet.reference_avis = reference_avis
     projet.numero_fiscal = numero_fiscal
-    ban=ApiBan.new
-    adresse = ban.geocode(contribuable.adresse)
-    projet.latitude = adresse.latitude
-    projet.longitude = adresse.longitude
-    projet.adresse = adresse.label
-    projet.departement = adresse.departement
+    projet.adresse = contribuable.adresse
     projet
   end
 
