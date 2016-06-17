@@ -1,3 +1,5 @@
+require 'rails_helper'
+
 describe Invitation do
   let(:invitation) { FactoryGirl.build(:invitation) }
   subject { invitation }
