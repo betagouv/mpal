@@ -19,6 +19,7 @@ module ApplicationHelper
   end
 
   def icone_evenement(label)
-    'suitcase'
+    liste_icone = {creation_projet: 'suitcase', invitation_operateur: 'plug' }
+    liste_icone[label.to_sym]
   end
 end
