@@ -39,3 +39,6 @@ fr:
     projet_mailer:
       invitation_operateur:
         sujet: "[MPAL] Invitation de %{usager} à consulter son projet"
+
+  evenements:
+    creation_projet: 'Création du projet'
