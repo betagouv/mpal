@@ -1,57 +1,81 @@
-<div class="ui card">
-  <div class="content">
-    <div class="header"><%= @projet.usager %></div>
-    <div class="meta"><%= @projet.adresse %></div>
-    <div class="meta"><%= @projet.email %></div>
-    <div class="description"><%= @projet.description %></div>
-    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
-  </div>
-</div>
-
-<% if @projet.operateurs.present? %>
-<h4 class="ui horizontal divider header">Intervenants</h4>
-<div class="ui cards invites">
-  <% @projet.operateurs.each do |operateur| %>
-  <div class="card">
-    <div class="content">
-      <div class="header"><%= operateur.raison_sociale %></div>
-      <div class="meta"><%= operateur.type %></div>
-      <div class="description"><%= operateur.adresse_postale %></div>
-    </div>
-    <div class="extra content">
-      <% operateur.themes.each do |theme| %>
-        <div class="ui label"><%= theme %></div>
-      <% end if operateur.themes.present? %>
-    </div>
-  </div>
-  <% end %>
-</div>
-<% end %>
-
-<% if @operateurs_departement.present? %>
-<h4 class="ui horizontal divider header">Intervenants disponibles</h4>
-<div class="ui cards disponibles">
-  <% @operateurs_departement.each do |operateur| %>
+<div class="ui grid">
+  <div class="twelve wide column">
   <div class="ui card">
     <div class="content">
-      <div class="header"><%= operateur.raison_sociale %></div>
-      <div class="meta"><%= operateur.type %></div>
-      <div class="description"><%= operateur.adresse_postale %></div>
-    </div>
-    <div class="extra content">
-      <% operateur.themes.each do |theme| %>
-        <div class="ui label"><%= theme %></div>
-      <% end if operateur.themes.present? %>
-    </div>
-    <div class="extra content">
-      <%= link_to t('projets.visualisation.invitation_operateur'), new_invitation_path(@projet, operateur.id), class:"ui basic green button" %>
+      <div class="header"><%= @projet.usager %></div>
+      <div class="meta"><%= @projet.adresse %></div>
+      <div class="meta"><%= @projet.email %></div>
+      <div class="description"><%= @projet.description %></div>
+      <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
     </div>
   </div>
-  <% end %>
-</div>
-<% end %>
 
-<h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
-<div class="ui container eight wide column">
-<div id="mapid"></div>
+  <% if @projet.operateurs.present? %>
+  <h4 class="ui horizontal divider header">Intervenants</h4>
+  <div class="ui cards invites">
+    <% @projet.operateurs.each do |operateur| %>
+    <div class="card">
+      <div class="content">
+        <div class="header"><%= operateur.raison_sociale %></div>
+        <div class="meta"><%= operateur.type %></div>
+        <div class="description"><%= operateur.adresse_postale %></div>
+      </div>
+      <div class="extra content">
+        <% operateur.themes.each do |theme| %>
+          <div class="ui label"><%= theme %></div>
+        <% end if operateur.themes.present? %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
+
+  <% if @operateurs_departement.present? %>
+  <h4 class="ui horizontal divider header">Intervenants disponibles</h4>
+  <div class="ui cards disponibles">
+    <% @operateurs_departement.each do |operateur| %>
+    <div class="ui card">
+      <div class="content">
+        <div class="header"><%= operateur.raison_sociale %></div>
+        <div class="meta"><%= operateur.type %></div>
+        <div class="description"><%= operateur.adresse_postale %></div>
+      </div>
+      <div class="extra content">
+        <% operateur.themes.each do |theme| %>
+          <div class="ui label"><%= theme %></div>
+        <% end if operateur.themes.present? %>
+      </div>
+      <div class="extra content">
+        <%= link_to t('projets.visualisation.invitation_operateur'), new_invitation_path(@projet, operateur.id), class:"ui basic green button" %>
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <% end %>
+
+  <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
+  <div class="ui container eight wide column">
+  <div id="mapid"></div>
+  </div>
+  </div>
+  <div class="four wide column">
+    <h2>Fil d'actualité</h1>
+      <div class="ui feed">
+        <% @projet.evenements.each do |evenement| %>
+        <div class="event">
+          <div class="label">
+            <i class="<%= icone_evenement(evenement.label) %> icon"></i>
+          </div>
+          <div class="content">
+            <div class="summary">
+              <%= t(evenement.label, scope: 'evenements') %>
+              <div class="date"><%= l(evenement.quand, format: :short) %></div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
 </div>
+
+

@@ -17,4 +17,8 @@ module ApplicationHelper
     HTML
     html.html_safe
   end
+
+  def icone_evenement(label)
+    'suitcase'
+  end
 end
