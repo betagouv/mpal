@@ -40,7 +40,7 @@ ActiveRecord::Schema.define(version: 20160617085119) do
 
   add_index "evenements", ["projet_id"], name: "index_evenements_on_projet_id", using: :btree
 
-  create_table "invitations", id: false, force: :cascade do |t|
+  create_table "invitations", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "operateur_id"
     t.string  "token"
