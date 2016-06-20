@@ -5,6 +5,7 @@ machine:
     API_PARTICULIER_DOMAIN: apiparticulier-test.sgmap.fr
     API_BAN_DOMAIN: api-adresse.data.gouv.fr
     HOST: localhost
+    SUBDOMAIN: localdomain
 
 deployment:
   production:
