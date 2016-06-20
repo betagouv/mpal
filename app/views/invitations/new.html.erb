@@ -1,6 +1,6 @@
 <div class="main ui container top">
   <%= display_errors @projet, t('invitations.messages.erreur') %>
-  <h1 class="ui header"><%= t('invitations.nouvelle.titre', operateur: @operateur.raison_sociale) %></h1>
+  <h1 class="ui header"><%= t('invitations.nouvelle.titre', intervenant: @intervenant.raison_sociale) %></h1>
   <%= form_for @projet, url: {controller: 'invitations', action: 'create'}, method: 'post', html: { class:'ui form' } do |f| %>
       <div class="field">
         <%= f.label :adresse %>
@@ -18,6 +18,6 @@
         <%= f.label :tel %>
         <%= f.text_field :tel %>
       </div>
-    <%= f.submit I18n.t('invitations.nouvelle.action', operateur: @operateur.raison_sociale), class:'ui button' %>
+    <%= f.submit I18n.t('invitations.nouvelle.action', intervenant: @intervenant.raison_sociale), class:'ui button' %>
   <% end %>
 </div>
