@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617151638) do
+ActiveRecord::Schema.define(version: 20160620161704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,23 +36,13 @@ ActiveRecord::Schema.define(version: 20160617151638) do
     t.integer  "projet_id"
     t.string   "label"
     t.datetime "quand"
-    t.integer  "operateur_id"
+    t.integer  "intervenant_id"
   end
 
-  add_index "evenements", ["operateur_id"], name: "index_evenements_on_operateur_id", using: :btree
+  add_index "evenements", ["intervenant_id"], name: "index_evenements_on_intervenant_id", using: :btree
   add_index "evenements", ["projet_id"], name: "index_evenements_on_projet_id", using: :btree
 
-  create_table "invitations", force: :cascade do |t|
-    t.integer "projet_id"
-    t.integer "operateur_id"
-    t.string  "token"
-  end
-
-  add_index "invitations", ["operateur_id"], name: "index_invitations_on_operateur_id", using: :btree
-  add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
-  add_index "invitations", ["token"], name: "index_invitations_on_token", using: :btree
-
-  create_table "operateurs", force: :cascade do |t|
+  create_table "intervenants", force: :cascade do |t|
     t.string "raison_sociale"
     t.string "adresse_postale"
     t.string "type"
@@ -61,8 +51,18 @@ ActiveRecord::Schema.define(version: 20160617151638) do
     t.string "email"
   end
 
-  add_index "operateurs", ["departements"], name: "index_operateurs_on_departements", using: :gin
-  add_index "operateurs", ["themes"], name: "index_operateurs_on_themes", using: :gin
+  add_index "intervenants", ["departements"], name: "index_intervenants_on_departements", using: :gin
+  add_index "intervenants", ["themes"], name: "index_intervenants_on_themes", using: :gin
+
+  create_table "invitations", force: :cascade do |t|
+    t.integer "projet_id"
+    t.integer "intervenant_id"
+    t.string  "token"
+  end
+
+  add_index "invitations", ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
+  add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
+  add_index "invitations", ["token"], name: "index_invitations_on_token", using: :btree
 
   create_table "projets", force: :cascade do |t|
     t.string   "numero_fiscal"
@@ -82,8 +82,8 @@ ActiveRecord::Schema.define(version: 20160617151638) do
 
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
-  add_foreign_key "evenements", "operateurs"
+  add_foreign_key "evenements", "intervenants"
   add_foreign_key "evenements", "projets"
-  add_foreign_key "invitations", "operateurs"
+  add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
 end

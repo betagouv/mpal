@@ -17,17 +17,17 @@ fr:
         corps: Votre projet démarre aujourd'hui.
     visualisation:
       lien_edition_projet: 'Modifier le projet'
-      invitation_operateur: "Je demande de l'aide"
-      invitation_relance_operateur: "Je relance l'opérateur"
+      invitation_intervenant: "Je demande de l'aide"
+      invitation_relance_intervenant: "Je relance l'intervenant"
     edition:
       action: 'Je mets à jour mon projet'
   invitations:
     nouvelle:
-      titre: "Invitation de l'opérateur %{operateur}"
-      action: "J'invite %{operateur}"
+      titre: "Invitation de l'intervenant %{intervenant}"
+      action: "J'invite %{intervenant}"
     messages:
       succes_titre: "Invitation envoyée"
-      succes: "Une invitation avec la description de votre projet a été envoyée à %{operateur}"
+      succes: "Une invitation avec la description de votre projet a été envoyée à %{intervenant}"
       erreur: "L'invitation n'a pas pu être envoyée"
       email:
         obligatoire: "L'email est obligatoire"
@@ -37,9 +37,9 @@ fr:
         obligatoire: "L'adresse est obligatoire"
   mailers:
     projet_mailer:
-      invitation_operateur:
+      invitation_intervenant:
         sujet: "[MPAL] Invitation de %{usager} à consulter son projet"
 
   evenements:
     creation_projet: 'Création du projet'
-    invitation_operateur: "Invitation de l'opérateur %{operateur}"
+    invitation_intervenant: "Invitation de l'intervenant %{intervenant}"

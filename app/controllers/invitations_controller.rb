@@ -1,21 +1,21 @@
 class InvitationsController < ApplicationController
   def new
     @projet = Projet.find(params[:projet_id])
-    @operateur = Operateur.find(params[:operateur_id])
+    @intervenant = Intervenant.find(params[:intervenant_id])
   end
 
   def create
     @projet = Projet.find(params[:projet_id])
-    @operateur = Operateur.find(params[:operateur_id])
+    @intervenant = Intervenant.find(params[:intervenant_id])
     @projet.adresse = params[:projet][:adresse]
     @projet.description = params[:projet][:description]
     @projet.email = params[:projet][:email]
     @projet.tel = params[:projet][:tel]
-    @invitation = Invitation.new(projet: @projet, operateur: @operateur)
+    @invitation = Invitation.new(projet: @projet, intervenant: @intervenant)
     if valid? && @projet.save && @invitation.save
-      ProjetMailer.invitation_operateur(@invitation).deliver_now!
+      ProjetMailer.invitation_intervenant(@invitation).deliver_now!
       flash[:notice_titre] = t('invitations.messages.succes_titre')
-      redirect_to @projet, notice: t('invitations.messages.succes', operateur: @operateur.raison_sociale)
+      redirect_to @projet, notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else
       render :new
     end
@@ -28,7 +28,7 @@ class InvitationsController < ApplicationController
       latitude: @projet.latitude,
       longitude: @projet.longitude
     })
-    @profil = invitation.operateur.raison_sociale
+    @profil = invitation.intervenant.raison_sociale
     render 'projets/show'
   end
 

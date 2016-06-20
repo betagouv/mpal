@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :operateur do
+  factory :intervenant do
     raison_sociale 'Urbanos'
     email 'contact@urbanos.com'
   end

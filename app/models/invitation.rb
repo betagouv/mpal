@@ -1,8 +1,8 @@
 class Invitation < ActiveRecord::Base
   belongs_to :projet
-  belongs_to :operateur
-  validates :projet, :operateur, presence: true
-  validates_uniqueness_of :operateur, scope: :projet_id
+  belongs_to :intervenant
+  validates :projet, :intervenant, presence: true
+  validates_uniqueness_of :intervenant, scope: :projet_id
   before_create :generate_token
   after_create :construit_evenement
 
@@ -10,8 +10,8 @@ class Invitation < ActiveRecord::Base
   delegate :adresse, to: :projet
   delegate :description, to: :projet
 
-  def operateur_email
-    self.operateur.email
+  def intervenant_email
+    self.intervenant.email
   end
 
   private
@@ -21,7 +21,7 @@ class Invitation < ActiveRecord::Base
   end
 
   def construit_evenement
-    evenement = Evenement.new(label: 'invitation_operateur', quand: Time.now, projet: projet, operateur: operateur)
+    evenement = Evenement.new(label: 'invitation_intervenant', quand: Time.now, projet: projet, intervenant: intervenant)
     evenement.save
   end
 end

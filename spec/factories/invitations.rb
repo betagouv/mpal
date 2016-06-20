@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory 'invitation' do
     projet
-    operateur
+    intervenant
   end
 end
