@@ -1,4 +1,11 @@
 fr:
+  helpers:
+    label:
+      projet:
+        email: 'Mon e-mail'
+        adresse: "L'adresse de mon logement à rénover"
+        description: 'Je présente mon projet en quelques phrases'
+        tel: 'Mon numéro de téléphone'
   accueil:
     promesse: Je rénove mon logement
     baseline: et le financement de mon projet prend vie en quelques minutes...
