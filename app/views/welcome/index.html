@@ -13,6 +13,10 @@
     <div class="ui text container">
       <h1 class="ui inverted header"><%= t('accueil.promesse') %></h1>
       <h2><%= t('accueil.baseline') %></h2>
+      <ul class="ui list">
+        <li><%= t('accueil.condition1') %></li>
+        <li><%= t('accueil.condition2') %></li>
+      </ul>
       <%= link_to t('accueil.action'), new_session_path, class: "ui huge primary button" %>
     </div>
 
@@ -22,19 +26,12 @@
     <div class="ui middle aligned stackable grid container">
       <div class="row">
         <div class="eight wide column">
-          <h3 class="ui header">MPAL rassemble autour de votre projet toutes les compétences pour le faire aboutir</h3>
-          <p>
-Vous reculez devant un projet d'amélioration de votre logement pourtant nécessaire
-à votre santé et votre confort, car la complexité des démarches pour obtenir une
-subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé
-sous des informations contradictoires, vous ne savez pas évaluer le coût restant
-de votre poche, vous ne savez pas combien de temps cela prendra.
-
-          </p>
+          <h3 class="ui header"><%= t('accueil.description_titre') %></h3>
+          <p><%= t('accueil.description') %></p>
         </div>
-        <div class="six wide right floated column">
-          <img src="assets/images/wireframe/white-image.png" class="ui large bordered rounded image">
-        </div>
+      <div class="six wide right floated column">
+        <%= image_tag('visite_chantier.jpg', class: "ui large bordered rounded image") %>
+      </div>
       </div>
       <div class="row">
         <div class="center aligned column">
