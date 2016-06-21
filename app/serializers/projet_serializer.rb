@@ -3,6 +3,6 @@ class ProjetSerializer < ActiveModel::Serializer
   has_many :evenements
   class EvenementSerializer < ActiveModel::Serializer
     attributes :label, :quand
-    attribute :operateur_id, if: -> { object.operateur }
+    attribute :intervenant_id, if: -> { object.intervenant }
   end
 end
