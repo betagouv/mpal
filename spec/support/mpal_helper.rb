@@ -4,3 +4,7 @@ def signin(numero_fiscal, reference_avis)
   fill_in :reference_avis, with: reference_avis
   click_button I18n.t('sessions.nouvelle.action')
 end
+
+def json(body)
+  JSON.parse(body, symbolize_names: true)
+end

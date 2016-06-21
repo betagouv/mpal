@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
   root 'welcome#index'
+  constraints subdomain: "api.#{ENV['SUBDOMAIN']}", format: 'json' do
+    namespace :api, path: '/v1/' do
+      resources :projets, only: :show
+    end
+  end
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :projets, only: [:show, :edit, :update]
 
