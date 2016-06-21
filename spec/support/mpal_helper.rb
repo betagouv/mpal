@@ -8,3 +8,7 @@ end
 def json(body)
   JSON.parse(body, symbolize_names: true)
 end
+
+def set_token_header(token)
+  request.env['HTTP_AUTHORIZATION'] = "Token token=#{token}"
+end
