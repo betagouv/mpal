@@ -5,7 +5,9 @@ class ProjetsController < ApplicationController
 
   def update
     @projet = Projet.find(params[:id])
-    @projet.adresse = params[:projet][:adresse]
+    service_adresse = ApiBan.new
+    adresse = service_adresse.precise(params[:projet][:adresse])
+    @projet.update_attributes(adresse)
     if @projet.save
       redirect_to @projet
     else

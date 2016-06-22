@@ -8,9 +8,9 @@ class SessionsController < ApplicationController
     contribuable = service.retrouve_contribuable(params[:numero_fiscal], params[:reference_avis])
     if contribuable
       session[:numero_fiscal] = params[:numero_fiscal]
-      projet = ProjetFacade.recupere_projet(params[:numero_fiscal])
+      projet = ProjetEntrepot.par_numero_fiscal(params[:numero_fiscal])
       unless projet 
-        facade = ProjetFacade.new(ApiParticulier.new)
+        facade = ProjetFacade.new(service, ApiBan.new)
         projet = facade.initialise_projet(params[:numero_fiscal], params[:reference_avis])
         projet.save
         notice = t('projets.messages.creation.corps')

@@ -13,12 +13,26 @@ class MonService
   end
 end
 
+class MonServiceAdresse
+  def initialize(params)
+    @latitude = params[:latitude]
+    @longitude = params[:longitude]
+    @departement = params[:departement]
+    @adresse = params[:adresse]
+  end
+
+  def precise(adresse)
+    { latitude: @latitude, longitude: @longitude, departement: @departement, adresse: @adresse }
+  end
+end
+
 describe ProjetFacade do
   it "renvoie un projet qui contient l'adresse" do
     adresse = "12 rue de la Mare, 75010 Paris"
     usager = "Jean Martin"
     mon_service = MonService.new(adresse: adresse, usager: usager)
-    facade = ProjetFacade.new(mon_service)
+    mon_service_adresse = MonServiceAdresse.new(adresse: adresse, latitude: '46', longitude: '6', departement: '92')
+    facade = ProjetFacade.new(mon_service, mon_service_adresse)
 
     projet = facade.initialise_projet(12, 15)
 
