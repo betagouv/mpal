@@ -28,7 +28,7 @@ fr:
         corps: Votre projet démarre aujourd'hui.
     visualisation:
       lien_edition_projet: 'Modifier le projet'
-      invitation_intervenant: "Je demande de l'aide"
+      invitation_intervenant: "Je souhaite contacter cet opérateur"
       invitation_relance_intervenant: "Je relance l'intervenant"
     edition:
       action: 'Je mets à jour mon projet'
