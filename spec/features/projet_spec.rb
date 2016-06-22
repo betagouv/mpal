@@ -19,4 +19,5 @@ feature "Projet" do
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content('12 rue de la Mare')
   end
+
 end

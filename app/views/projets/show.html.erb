@@ -7,6 +7,7 @@
       <div class="meta"><%= @projet.email %></div>
       <div class="description"><%= @projet.description %></div>
       <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
+      <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" unless Rails.env.production? %>
     </div>
   </div>
 

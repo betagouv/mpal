@@ -30,6 +30,7 @@ fr:
       lien_edition_projet: 'Modifier le projet'
       invitation_intervenant: "Je demande de l'aide"
       invitation_relance_intervenant: "Je relance l'intervenant"
+      lien_ajout_occupant: "J'ajoute un occupant"
     edition:
       action: 'Je mets à jour mon projet'
       titre: 'Modification du projet'
@@ -48,6 +49,9 @@ fr:
         obligatoire: "La description est obligatoire"
       adresse:
         obligatoire: "L'adresse est obligatoire"
+  occupants:
+    nouveau:
+      action: "J'ajoute cet occupant"
   mailers:
     projet_mailer:
       invitation_intervenant:

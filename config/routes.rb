@@ -6,7 +6,9 @@ Rails.application.routes.draw do
     end
   end
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
-    resources :projets, only: [:show, :edit, :update]
+    resources :projets, only: [:show, :edit, :update] do
+      resources :occupants, only: [:new, :create]
+    end
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create'
