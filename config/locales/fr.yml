@@ -32,6 +32,8 @@ fr:
       invitation_relance_intervenant: "Je relance l'intervenant"
     edition:
       action: 'Je mets à jour mon projet'
+      titre: 'Modification du projet'
+      description: 'Vous pouvez mettre à jour les informations concernant votre projet.'
   invitations:
     nouvelle:
       titre: "Invitation de l'intervenant %{intervenant}"
