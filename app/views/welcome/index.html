@@ -13,13 +13,18 @@
     <div class="ui text container">
       <h1 class="ui inverted header"><%= t('accueil.promesse') %></h1>
       <h2><%= t('accueil.baseline') %></h2>
-      <ul class="ui list">
-        <li><%= t('accueil.condition1') %></li>
-        <li><%= t('accueil.condition2') %></li>
-      </ul>
+      <div class="conditions">
+        <ul>
+          <li><%= t('accueil.condition1') %></h3></li>
+          <li><%= t('accueil.condition2') %></li>
+          <li><%= t('accueil.condition3') %></li>
+          <li><%= t('accueil.condition4') %></li>
+          <br />
+        </ul>
+       <span><input type="checkbox"> </input><%= t('accueil.condition_coche') %></span>
+      </div>
       <%= link_to t('accueil.action'), new_session_path, class: "ui huge primary button" %>
     </div>
-
   </div>
 
   <div class="ui vertical stripe segment">
@@ -32,11 +37,6 @@
       <div class="six wide right floated column">
         <%= image_tag('visite_chantier.jpg', class: "ui large bordered rounded image") %>
       </div>
-      </div>
-      <div class="row">
-        <div class="center aligned column">
-          <a class="ui huge button">Je démarre mon projet</a>
-        </div>
       </div>
     </div>
   </div>
