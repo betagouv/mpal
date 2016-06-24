@@ -1,21 +1,20 @@
 <div id="formulaire_connexion">
-  <div class="pusher">
-    <div class="ui inverted vertical masthead center aligned segment teal">
-      <div class="ui text container">
-
-        <h1 class="ui header"><%= t('sessions.nouvelle.titre') %></h1>
-        <p><%= t('sessions.nouvelle.conseil') %>
-          <%= form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do %>
-          <div class="field">
-            <%= label_tag :numero_fiscal %>
-            <%= text_field_tag :numero_fiscal %>
-          </div>
-          <div class="field">
-            <%= label_tag :reference_avis %>
-            <%= text_field_tag :reference_avis %>
-          </div>
-          <%= submit_tag t('sessions.nouvelle.action'), class:'ui huge primary button' %>
-          <% end %>
-        </div>
+  <div class="ui inverted vertical masthead center aligned segment teal">
+    <div class="ui text container">
+      <h1 class="ui header"><%= t('sessions.nouvelle.titre') %></h1>
+      <p><%= t('sessions.nouvelle.conseil') %>
+      <%= form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do %>
+      <div class="field">
+        <%= label_tag :numero_fiscal %>
+        <%= text_field_tag :numero_fiscal %>
       </div>
+      <div class="field">
+        <%= label_tag :reference_avis %>
+        <%= text_field_tag :reference_avis %>
+      </div>
+      <%= submit_tag t('sessions.nouvelle.action'), class:'ui huge primary button' %>
+      <% end %>
     </div>
+  </div>
+</div>
+
