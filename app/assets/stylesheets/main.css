@@ -9,8 +9,23 @@
 #mapid { height: 280px; }
 
 /* Page d'accueil */
+
+/*Div contenant le titre, la base line et les conditions*/
+
+.ui.text.container #texte-accueil div {
+  max-width: 900px;
+}
+
 /*Div contenant les conditions d'attributions des aides*/
+
+.ui.text.container {
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    max-width: 900px !important;
+    line-height: 1.5;
+}
+
 .conditions {
+  max-width: 900px;
 	border-style: solid;
   font-size: 1.3em;
   border-width:0.1em;
@@ -18,15 +33,18 @@
   margin-bottom: 50px;
   margin-top: 20px;
   padding: 10px;
+  margin-left:auto;
+  margin-right:auto
 }
 
 .masthead .conditions span {
-  margin-left: 87px;
+  margin-left: 25px;
 }
 
 .conditions.ul.li {
   font-size: 2em !important;
 }
+
 
 /* Formulaire de connection */
 #formulaire_connexion .masthead h1.ui.header {
