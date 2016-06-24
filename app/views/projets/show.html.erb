@@ -1,82 +1,76 @@
 <div class="ui grid">
   <div class="twelve wide column">
 
-  <h2><%= t('projets.visualisation.titre_detail_projet') %></h2>
-      <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
+    <h2><%= t('projets.visualisation.titre_detail_projet') %></h2>
+    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
     <div class="ui fluid card">
-    <div class="content">
-      <div class="header"><%= t('projets.visualisation.titre_description_projet') %></div>
-      <p><%= @projet.description %></p>
-    </div>
-  </div>
-
-  <div class="ui fluid card">
-    <div class="content">
-      <div class="header"><%= t('projets.visualisation.titre_liste_occupants') %></div>
-      <div class="meta">Ajouter ou supprimer des occupants à votre logement</div>
-        <% @projet.occupants.each do |occupant| %>
-      <div>
-        <ul>
-          <li><%= @projet.usager %>
-          <li><%= occupant.nom %> <%= occupant.prenom %>
-            <div class="ui checkbox">
-            </div>
-          </li>
-        </ul>
-        <% end %>
-      </div>
-
-      
-    </div>
-  </div>
-
-  <% if @projet.intervenants.present? %>
-  <h4 class="ui horizontal divider header">Intervenants invités</h4>
-  <div class="ui cards invites">
-    <% @projet.intervenants.each do |intervenant| %>
-    <div class="card">
       <div class="content">
-        <div class="header"><%= intervenant.raison_sociale %></div>
-        <div class="meta"><%= intervenant.type %></div>
-        <div class="description"><%= intervenant.adresse_postale %></div>
+        <div class="header"><%= t('projets.visualisation.titre_description_projet') %></div>
+        <p><%= @projet.description %></p>
       </div>
-      <div class="extra content">
-        <% intervenant.themes.each do |theme| %>
-          <div class="ui label"><%= theme %></div>
-        <% end if intervenant.themes.present? %>
+    </div>
+
+    <div class="ui fluid card">
+      <div class="content">
+        <div class="header"><%= t('projets.visualisation.titre_liste_occupants') %></div>
+        <div>
+          <ul>
+            <li><%= @projet.usager %></li>
+            <% @projet.occupants.each do |occupant| %>
+              <li><%= occupant.nom %> <%= occupant.prenom %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
+    </div>
+
+    <% if @projet.intervenants.present? %>
+    <h4 class="ui horizontal divider header">Intervenants invités</h4>
+    <div class="ui cards invites">
+      <% @projet.intervenants.each do |intervenant| %>
+      <div class="card">
+        <div class="content">
+          <div class="header"><%= intervenant.raison_sociale %></div>
+          <div class="meta"><%= intervenant.type %></div>
+          <div class="description"><%= intervenant.adresse_postale %></div>
+        </div>
+        <div class="extra content">
+          <% intervenant.themes.each do |theme| %>
+            <div class="ui label"><%= theme %></div>
+          <% end if intervenant.themes.present? %>
+        </div>
+      </div>
+      <% end %>
     </div>
     <% end %>
-  </div>
-  <% end %>
 
-  <% if @intervenants_departement.present? %>
-  <h4 class="ui horizontal divider header">Intervenants disponibles</h4>
-  <div class="ui cards disponibles">
-    <% @intervenants_departement.each do |intervenant| %>
-    <div class="ui card">
-      <div class="content">
-        <div class="header"><%= intervenant.raison_sociale %></div>
-        <div class="meta"><%= intervenant.type %></div>
-        <div class="description"><%= intervenant.adresse_postale %></div>
+    <% if @intervenants_departement.present? %>
+    <h4 class="ui horizontal divider header">Intervenants disponibles</h4>
+    <div class="ui cards disponibles">
+      <% @intervenants_departement.each do |intervenant| %>
+      <div class="ui card">
+        <div class="content">
+          <div class="header"><%= intervenant.raison_sociale %></div>
+          <div class="meta"><%= intervenant.type %></div>
+          <div class="description"><%= intervenant.adresse_postale %></div>
+        </div>
+        <div class="extra content">
+          <% intervenant.themes.each do |theme| %>
+            <div class="ui label"><%= theme %></div>
+          <% end if intervenant.themes.present? %>
+        </div>
+        <div class="extra content">
+          <%= link_to t('projets.visualisation.invitation_intervenant'), new_invitation_path(@projet, intervenant.id), class:"ui basic green button" %>
+        </div>
       </div>
-      <div class="extra content">
-        <% intervenant.themes.each do |theme| %>
-          <div class="ui label"><%= theme %></div>
-        <% end if intervenant.themes.present? %>
-      </div>
-      <div class="extra content">
-        <%= link_to t('projets.visualisation.invitation_intervenant'), new_invitation_path(@projet, intervenant.id), class:"ui basic green button" %>
-      </div>
+      <% end %>
     </div>
     <% end %>
-  </div>
-  <% end %>
 
-  <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
-  <div class="ui container eight wide column">
-  <div id="mapid"></div>
-  </div>
+    <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
+    <div class="ui container eight wide column">
+      <div id="mapid"></div>
+    </div>
   </div>
   <div class="four wide column">
     <h2><%= t('projets.visualisation.titre_detail_beneficiaire') %></h2>
