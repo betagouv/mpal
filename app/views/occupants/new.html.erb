@@ -1,10 +1,10 @@
 <div class="main ui container top">
-  <%= display_errors @occupant, t('occupants.messages.erreur') %>
+  <%= affiche_erreurs_avec_cle @occupant, t('occupants.messages.erreur') %>
   <h1 class="ui header"><%= t('occupants.nouveau.titre') %></h1>
   <%= form_for [@projet, @occupant], html: { class:'ui form' } do |f| %>
       <div class="field">
         <%= f.label :civilite %>
-        <%= f.text_field :civilite %>
+        <%= f.select :civilite, Occupant.civilites.keys %>
       </div>
       <div class="field">
         <%= f.label :nom %>

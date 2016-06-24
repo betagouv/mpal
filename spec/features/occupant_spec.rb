@@ -6,7 +6,7 @@ require 'support/api_ban_helper'
 feature "Occupant" do
   let(:projet) { FactoryGirl.create(:projet) }
 
-  scenario "ajout d'un occupant", pending: true do
+  scenario "ajout d'un occupant" do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.lien_ajout_occupant')
     fill_in :occupant_nom, with: 'Marielle'

@@ -17,10 +17,14 @@
           <ul>
             <li><%= @projet.usager %></li>
             <% @projet.occupants.each do |occupant| %>
-              <li><%= occupant.nom %> <%= occupant.prenom %></li>
+              <li><%= "#{occupant.prenom} #{occupant.nom}" %></li>
             <% end %>
           </ul>
         </div>
+      </div>
+      <div class="extra content">
+        <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" %>
+        
       </div>
     </div>
 
