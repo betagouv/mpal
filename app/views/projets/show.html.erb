@@ -2,14 +2,8 @@
   <div class="twelve wide column">
 
   <h2><%= t('projets.visualisation.titre_detail_projet') %></h2>
-
-  <div class="ui info message top">
-    <p>Le logement sur lequel vous souhaitez faire des travaux est-il celui-ci ?</p>
-    <p><%= @projet.adresse %></p>
-  </div>
-    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
-    <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" unless Rails.env.production? %>
-  <div class="ui fluid card">
+      <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
+    <div class="ui fluid card">
     <div class="content">
       <div class="header"><%= t('projets.visualisation.titre_description_projet') %></div>
       <p><%= @projet.description %></p>
@@ -20,15 +14,13 @@
     <div class="content">
       <div class="header"><%= t('projets.visualisation.titre_liste_occupants') %></div>
       <div class="meta">Ajouter ou supprimer des occupants à votre logement</div>
-      <div>
         <% @projet.occupants.each do |occupant| %>
+      <div>
         <ul>
+          <li><%= @projet.usager %>
           <li><%= occupant.nom %> <%= occupant.prenom %>
             <div class="ui checkbox">
-              <input type="checkbox" name="example">
-              <label>ce(te) occupant(e) est-il co-déclarant ?</label>
             </div>
-            <button class="ui button"> Modifier </button>
           </li>
         </ul>
         <% end %>
@@ -93,10 +85,8 @@
         <div class="header"><%= @projet.usager %></div>
         <div class="meta"><%= @projet.adresse %></div>
         <div class="meta"><%= @projet.email %></div>
-        <div class="description"><%= @projet.description %></div>
       </div>
     </div>
-        <%= link_to t('projets.visualisation.lien_edition_coordonnees'), edit_projet_path(@projet), class: "ui primary button" %>
     <h2><%= t('projets.visualisation.titre_fil_actualite') %></h1>
       <div class="ui feed">
         <% @projet.evenements.each do |evenement| %>
