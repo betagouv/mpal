@@ -35,7 +35,11 @@
       <div class="card">
         <div class="content">
           <div class="header"><%= intervenant.raison_sociale %></div>
-          <div class="meta"><%= intervenant.type %></div>
+          <div class="meta">
+            <% intervenant.roles.each do |role| %>
+              <div class="ui label"><%= role %></div>
+            <% end if intervenant.roles.present? %>
+          </div>
           <div class="description"><%= intervenant.adresse_postale %></div>
         </div>
         <div class="extra content">
@@ -48,14 +52,18 @@
     </div>
     <% end %>
 
-    <% if @intervenants_departement.present? %>
+    <% if @intervenants_disponibles.present? %>
     <h4 class="ui horizontal divider header">Intervenants disponibles</h4>
     <div class="ui cards disponibles">
-      <% @intervenants_departement.each do |intervenant| %>
+      <% @intervenants_disponibles.each do |intervenant| %>
       <div class="ui card">
         <div class="content">
           <div class="header"><%= intervenant.raison_sociale %></div>
-          <div class="meta"><%= intervenant.type %></div>
+          <div class="meta">
+            <% intervenant.roles.each do |role| %>
+              <div class="ui label"><%= role %></div>
+            <% end %>
+          </div>
           <div class="description"><%= intervenant.adresse_postale %></div>
         </div>
         <div class="extra content">

@@ -23,7 +23,7 @@ class ProjetsController < ApplicationController
         longitude: @projet.longitude
       })
       @profil = @projet.usager
-      @intervenants_departement = Intervenant.pour_departement(@projet.departement) - @projet.intervenants
+      @intervenants_disponibles = @projet.intervenants_disponibles(role: :pris)
     end
   end
 

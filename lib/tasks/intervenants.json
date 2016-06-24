@@ -1,50 +1,72 @@
 [
   {
     "raison_sociale": "Citemetrie",
+    "roles": ["opérateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "CACP",
+    "roles": ["opérateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "Soliha 95",
+    "roles": ["opérateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "CoProDiag",
+    "roles": ["opérateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "Urbam Conseil",
+    "roles": ["opérateur"],
     "departements": ["88"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "CAL PACT 88",
+    "roles": ["opérateur"],
     "departements": ["88"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "Association CAMEL",
+    "roles": ["opérateur"],
     "departements": ["88"],
     "themes": ["autonomie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "BET EXERGIE",
+    "roles": ["opérateur"],
     "departements": ["88"],
     "themes": ["énergie"],
+    "email": "operateur@anah.beta.gouv.fr"
+  },
+  {
+    "raison_sociale": "Direction Départementale des Territoires des Vosges",
+    "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
+    "roles": ["pris", "instructeur"],
+    "departements": ["88"],
+    "email": "operateur@anah.beta.gouv.fr"
+  },
+  {
+    "raison_sociale": "ADIL du Val d'Oise",
+    "adresse_postale": "Bâtiment G - La Croix St Sylvère, Rue des Châteaux Saint Sylvere, 95000 Cergy",
+    "roles": ["pris"],
+    "departements": ["95"],
     "email": "operateur@anah.beta.gouv.fr"
   }
 ]

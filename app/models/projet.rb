@@ -10,4 +10,9 @@ class Projet < ActiveRecord::Base
   def construit_evenement
     self.evenements.build(label: 'creation_projet', quand: Time.now)
   end
+
+  def intervenants_disponibles(role: nil)
+    Intervenant.pour_departement(self.departement, role: role) - self.intervenants
+  end
+
 end

@@ -33,7 +33,7 @@ fr:
     visualisation:
       lien_edition_projet: 'Modifier le projet'
       lien_edition_coordonnees: 'Modifier mes coordonnées'
-      invitation_intervenant: "Je souhaite contacter cet opérateur"
+      invitation_intervenant: "Je souhaite contacter cet intervenant"
       invitation_relance_intervenant: "Je relance l'intervenant"
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_description_projet: "Description du projet"
