@@ -5,9 +5,7 @@ class ProjetsController < ApplicationController
 
   def update
     @projet = Projet.find(params[:id])
-    service_adresse = ApiBan.new
-    adresse = service_adresse.precise(params[:projet][:adresse])
-    @projet.update_attributes(adresse)
+    @projet.assign_attributes(projet_params)
     if @projet.save
       redirect_to @projet
     else
@@ -27,5 +25,14 @@ class ProjetsController < ApplicationController
       @profil = @projet.usager
       @intervenants_departement = Intervenant.pour_departement(@projet.departement) - @projet.intervenants
     end
+  end
+
+  private
+  def projet_params
+    service_adresse = ApiBan.new
+    adresse = service_adresse.precise(params[:projet][:adresse])
+    attributs = params.require(:projet).permit(:description, :email, :tel)
+    attributs = attributs.merge(adresse) if adresse
+    attributs
   end
 end

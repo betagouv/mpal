@@ -2,6 +2,7 @@ class ApiBan
   DOMAIN = ENV['API_BAN_DOMAIN']
 
   def precise(adresse)
+    return nil if adresse.empty?
     json_adresse = geocode(adresse)
     coords = json_adresse['features'][0]['geometry']['coordinates']
     longitude = coords[0]
