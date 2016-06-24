@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160622100214) do
+ActiveRecord::Schema.define(version: 20160624154803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,13 +45,14 @@ ActiveRecord::Schema.define(version: 20160622100214) do
   create_table "intervenants", force: :cascade do |t|
     t.string "raison_sociale"
     t.string "adresse_postale"
-    t.string "type"
     t.string "themes",          array: true
     t.string "departements",    array: true
     t.string "email"
+    t.string "roles",           array: true
   end
 
   add_index "intervenants", ["departements"], name: "index_intervenants_on_departements", using: :gin
+  add_index "intervenants", ["roles"], name: "index_intervenants_on_roles", using: :gin
   add_index "intervenants", ["themes"], name: "index_intervenants_on_themes", using: :gin
 
   create_table "invitations", force: :cascade do |t|
