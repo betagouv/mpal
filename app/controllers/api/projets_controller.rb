@@ -1,5 +1,5 @@
 module API
-  class ProjetsController < ApplicationController
+  class ProjetsController < ActionController::Base
     protect_from_forgery with: :null_session
     before_action :authenticate
 
