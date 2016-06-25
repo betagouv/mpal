@@ -1,21 +1,21 @@
 class InvitationsController < ApplicationController
+  before_action :authenticate, except: :show
+
   def new
-    @projet = Projet.find(params[:projet_id])
     @intervenant = Intervenant.find(params[:intervenant_id])
   end
 
   def create
-    @projet = Projet.find(params[:projet_id])
     @intervenant = Intervenant.find(params[:intervenant_id])
-    @projet.adresse = params[:projet][:adresse]
-    @projet.description = params[:projet][:description]
-    @projet.email = params[:projet][:email]
-    @projet.tel = params[:projet][:tel]
-    @invitation = Invitation.new(projet: @projet, intervenant: @intervenant)
-    if valid? && @projet.save && @invitation.save
+    projet.adresse = params[:projet][:adresse]
+    projet.description = params[:projet][:description]
+    projet.email = params[:projet][:email]
+    projet.tel = params[:projet][:tel]
+    @invitation = Invitation.new(projet: projet, intervenant: @intervenant)
+    if valid? && projet.save && @invitation.save
       ProjetMailer.invitation_intervenant(@invitation).deliver_now!
       flash[:notice_titre] = t('invitations.messages.succes_titre')
-      redirect_to @projet, notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
+      redirect_to projet, notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else
       render :new
     end
@@ -38,5 +38,9 @@ class InvitationsController < ApplicationController
     @projet.errors[:description] = t('invitations.messages.description.obligatoire') unless @projet.description.present?
     @projet.errors[:email] = t('invitations.messages.email.obligatoire') unless @projet.email.present?
     @projet.description.present? && @projet.email.present? && @projet.adresse.present?
+  end
+
+  def projet
+    @projet ||= Projet.find(params[:projet_id])
   end
 end
