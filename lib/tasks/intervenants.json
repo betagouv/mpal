@@ -1,56 +1,56 @@
 [
   {
     "raison_sociale": "Citemetrie",
-    "roles": ["opérateur"],
+    "roles": ["operateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "CACP",
-    "roles": ["opérateur"],
+    "roles": ["operateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "Soliha 95",
-    "roles": ["opérateur"],
+    "roles": ["operateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "CoProDiag",
-    "roles": ["opérateur"],
+    "roles": ["operateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "Urbam Conseil",
-    "roles": ["opérateur"],
+    "roles": ["operateur"],
     "departements": ["88"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "CAL PACT 88",
-    "roles": ["opérateur"],
+    "roles": ["operateur"],
     "departements": ["88"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "Association CAMEL",
-    "roles": ["opérateur"],
+    "roles": ["operateur"],
     "departements": ["88"],
     "themes": ["autonomie"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
     "raison_sociale": "BET EXERGIE",
-    "roles": ["opérateur"],
+    "roles": ["operateur"],
     "departements": ["88"],
     "themes": ["énergie"],
     "email": "operateur@anah.beta.gouv.fr"
