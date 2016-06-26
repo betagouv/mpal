@@ -10,6 +10,6 @@ describe ProjetMailer do
     it { expect(email.body.encoded).to match(invitation.usager) }
     it { expect(email.body.encoded).to match(invitation.adresse) }
     it { expect(email.body.encoded).to match(invitation.description) }
-    it { expect(email.body.encoded).to match(invitation_url(jeton_id: invitation.token)) }
+    it { expect(email.body.encoded).to match(intervenant_projet_url(id: invitation.token)) }
   end
 end
