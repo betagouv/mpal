@@ -1,5 +1,5 @@
 class InvitationsController < ApplicationController
-  before_action :authenticate, except: :show
+  before_action :authenticate
 
   def new
     @intervenant = Intervenant.find(params[:intervenant_id])
@@ -21,16 +21,6 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def show
-    invitation = Invitation.find_by_token(params[:jeton_id])
-    @projet = invitation.projet
-    gon.push({
-      latitude: @projet.latitude,
-      longitude: @projet.longitude
-    })
-    @profil = invitation.intervenant.raison_sociale
-    render 'projets/show'
-  end
 
   private
   def valid?

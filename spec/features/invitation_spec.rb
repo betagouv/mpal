@@ -4,7 +4,6 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Invitation" do
-  let(:invitation) { FactoryGirl.create(:invitation) }
   let(:projet) { FactoryGirl.create(:projet) }
   let!(:pris) { FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:pris]) }
   let!(:operateur) { FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:operateur]) }
@@ -34,9 +33,4 @@ feature "Invitation" do
     expect(page).to have_content(I18n.t('invitations.messages.email.obligatoire'))
   end
 
-  scenario "affichage d'un projet par un opérateur invité" do
-    visit invitation_path(jeton_id: invitation.token)
-    expect(page).to have_content(invitation.usager)
-    expect(page).to have_content(invitation.adresse)
-  end
 end
