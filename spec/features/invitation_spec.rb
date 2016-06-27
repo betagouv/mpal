@@ -19,8 +19,6 @@ feature "Invitation" do
     expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: pris.raison_sociale))
     expect(page).to have_content('martin@gmel.com')
     expect(page).to have_css '.invites'
-    expect(page).to have_content(I18n.t('evenements.invitation_intervenant', intervenant: pris.raison_sociale))
-    expect(page).not_to have_content(I18n.t('evenements.invitation_intervenant', intervenant: operateur.raison_sociale))
   end
 
   scenario "prise de contact avec un pris sans laisser d'email" do

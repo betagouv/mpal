@@ -14,6 +14,7 @@ class SessionsController < ApplicationController
         facade = ProjetFacade.new(service, ApiBan.new)
         projet = facade.initialise_projet(params[:numero_fiscal], params[:reference_avis])
         projet.save
+        EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet_id: projet.id)
         notice = t('projets.messages.creation.corps')
         flash[:notice_titre] = t('projets.messages.creation.titre', usager: projet.usager)
       end

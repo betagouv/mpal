@@ -9,7 +9,6 @@ describe "identification", type: :feature do
     fill_in :reference_avis, with: '15'
     click_button I18n.t('sessions.nouvelle.action')
     expect(page).to have_content("Martin")
-    expect(page).to have_content(I18n.t('evenements.creation_projet'))
   end
 end
 

@@ -5,12 +5,6 @@ class Projet < ActiveRecord::Base
   has_many :evenements, -> { order('evenements.quand DESC') }
   has_many :occupants
 
-  before_create :construit_evenement
-
-  def construit_evenement
-    self.evenements.build(label: 'creation_projet', quand: Time.now)
-  end
-
   def intervenants_disponibles(role: nil)
     Intervenant.pour_departement(self.departement, role: role) - self.intervenants
   end

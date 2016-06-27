@@ -13,7 +13,8 @@ class InvitationsController < ApplicationController
     projet.tel = params[:projet][:tel]
     @invitation = Invitation.new(projet: projet, intervenant: @intervenant)
     if valid? && projet.save && @invitation.save
-      ProjetMailer.invitation_intervenant(@invitation).deliver_now!
+      ProjetMailer.invitation_intervenant(@invitation).deliver_later!
+      EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet_id: projet.id, intervenant_id: @intervenant.id)
       flash[:notice_titre] = t('invitations.messages.succes_titre')
       redirect_to projet, notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else

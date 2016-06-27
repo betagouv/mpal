@@ -53,6 +53,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'fakeweb'
   gem 'shoulda-matchers'
+  gem 'rspec-activejob'
 end
 
 gem 'rails_12factor'
