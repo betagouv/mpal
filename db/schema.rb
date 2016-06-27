@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160624154803) do
+ActiveRecord::Schema.define(version: 20160627081912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20160624154803) do
     t.string "departements",    array: true
     t.string "email"
     t.string "roles",           array: true
+    t.text   "informations"
   end
 
   add_index "intervenants", ["departements"], name: "index_intervenants_on_departements", using: :gin
