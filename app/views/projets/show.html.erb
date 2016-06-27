@@ -32,22 +32,7 @@
     <h4 class="ui horizontal divider header">Intervenants invités</h4>
     <div class="ui cards invites">
       <% @projet.intervenants.each do |intervenant| %>
-      <div class="card">
-        <div class="content">
-          <div class="header"><%= intervenant.raison_sociale %></div>
-          <div class="meta">
-            <% intervenant.roles.each do |role| %>
-              <div class="ui label"><%= role %></div>
-            <% end if intervenant.roles.present? %>
-          </div>
-          <div class="description"><%= intervenant.adresse_postale %></div>
-        </div>
-        <div class="extra content">
-          <% intervenant.themes.each do |theme| %>
-            <div class="ui label"><%= theme %></div>
-          <% end if intervenant.themes.present? %>
-        </div>
-      </div>
+        <%= render partial: 'shared/intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: false} %>
       <% end %>
     </div>
     <% end %>
@@ -56,25 +41,7 @@
     <h4 class="ui horizontal divider header">Intervenants disponibles</h4>
     <div class="ui cards disponibles">
       <% @intervenants_disponibles.each do |intervenant| %>
-      <div class="ui card">
-        <div class="content">
-          <div class="header"><%= intervenant.raison_sociale %></div>
-          <div class="meta">
-            <% intervenant.roles.each do |role| %>
-              <div class="ui label"><%= role %></div>
-            <% end %>
-          </div>
-          <div class="description"><%= intervenant.adresse_postale %></div>
-        </div>
-        <div class="extra content">
-          <% intervenant.themes.each do |theme| %>
-            <div class="ui label"><%= theme %></div>
-          <% end if intervenant.themes.present? %>
-        </div>
-        <div class="extra content">
-          <%= link_to t('projets.visualisation.invitation_intervenant'), new_invitation_path(@projet, intervenant.id), class:"ui basic green button" %>
-        </div>
-      </div>
+        <%= render partial: 'shared/intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: true} %>
       <% end %>
     </div>
     <% end %>

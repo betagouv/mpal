@@ -1,0 +1,23 @@
+<div class="ui card">
+  <div class="content">
+    <div class="header"><%= intervenant.raison_sociale %></div>
+    <div class="meta">
+      <% intervenant.roles.each do |role| %>
+        <div class="ui label"><%= role %></div>
+      <% end if intervenant.roles.present? %>
+    </div>
+    <div class="meta"><%= intervenant.adresse_postale %></div>
+    
+    <div class="description"><%= simple_format(intervenant.informations) %></div>
+  </div>
+  <div class="extra content">
+    <% intervenant.themes.each do |theme| %>
+      <div class="ui label"><%= theme %></div>
+    <% end if intervenant.themes.present? %>
+  </div>
+  <% if avec_appel_a_agir %>
+  <div class="extra content">
+    <%= link_to t("#{controller_name}.visualisation.invitation_intervenant"), new_invitation_path(projet, intervenant.id), class:"ui basic green button" %>
+  </div>
+  <% end %>
+</div>

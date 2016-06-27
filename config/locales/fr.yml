@@ -47,7 +47,7 @@ fr:
       description: 'Vous pouvez mettre à jour les informations concernant votre projet.'
   intervenant_projets:
     visualisation:
-      mise_en_relation: 'Je souhaite mettre en relation'
+      invitation_intervenant: 'Je souhaite mettre en relation'
   invitations:
     nouvelle:
       titre: "Invitation de l'intervenant %{intervenant}"
