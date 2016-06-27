@@ -72,7 +72,7 @@ fr:
   mailers:
     projet_mailer:
       invitation_intervenant:
-        sujet: "[MPAL] Invitation de %{usager} à consulter son projet"
+        sujet: "[ANAH] Invitation de %{usager} à consulter son projet"
 
   evenements:
     creation_projet: 'Création du projet'
