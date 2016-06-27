@@ -4,6 +4,7 @@ class Projet < ActiveRecord::Base
   has_many :invitations
   has_many :evenements, -> { order('evenements.quand DESC') }
   has_many :occupants
+  has_many :commentaires, as: :auteur
 
   before_create :construit_evenement
 
