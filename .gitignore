@@ -21,3 +21,5 @@
 .*swo
 
 /.ruby-gemset
+/doc
+.env
