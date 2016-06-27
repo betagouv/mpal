@@ -1,14 +1,5 @@
 <div class="main ui container top">
   <%= display_errors @projet, t('invitations.messages.erreur') %>
-  <div class="ui info message">
-    <div class="header">
-      Assurez-vous de respecter les conditions suivantes :
-    </div>
-    <ul class="ui list">
-      <li><%= t('accueil.condition1') %></li>
-      <li><%= t('accueil.condition2') %></li>
-    </ul>
-  </div>
   <h1 class="ui header"><%= t('invitations.nouvelle.titre', intervenant: @intervenant.raison_sociale) %></h1>
   <%= form_for @projet, url: {controller: 'invitations', action: 'create'}, method: 'post', html: { class:'ui form' } do |f| %>
       <div class="field">

@@ -11,8 +11,9 @@ fr:
     baseline: Le financement de mon projet prend vie en quelques minutes...
     condition1: Je suis propriétaire occupant
     condition2: Je n'ai pas encore commencé mes travaux
-    condition3: "Je m'engage à occuper mon logement"
+    condition3: "Je m'engage à occuper mon logement pendant 6 ans si j'obtiens une subvention de l'ANAH"
     condition4: "Je m'engage à faire faire mes travaux par un professionnel"
+    condition5: "Les aides sont liées aux conditions de ressources et au nombre d'occupants."
     condition_coche: "Je reconnais avoir pris connaissance de ces conditions"
     action: Je démarre mon projet
     description_titre: ANAH rassemble autour de votre projet toutes les compétences pour le faire aboutir
@@ -50,8 +51,8 @@ fr:
       invitation_intervenant: 'Je souhaite mettre en relation'
   invitations:
     nouvelle:
-      titre: "Invitation de l'intervenant %{intervenant}"
-      action: "J'invite %{intervenant}"
+      titre: "Je souhaite que %{intervenant} m'oriente pour avancer dans mon projet"
+      action: "J'envoie ma demande à %{intervenant}"
     messages:
       succes_titre: "Invitation envoyée"
       succes: "Une invitation avec la description de votre projet a été envoyée à %{intervenant}"
