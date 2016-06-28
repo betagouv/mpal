@@ -68,3 +68,4 @@ gem 'rest-client', '~>1.6.9'
 gem 'active_model_serializers'
 gem 'sidekiq'
 gem 'redis-namespace'
+gem 'sinatra', require: false
