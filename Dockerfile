@@ -5,9 +5,9 @@ RUN apt-get update && apt-get install -y nodejs build-essential qt5-default libq
 RUN mkdir -p /app
 WORKDIR /app
 
-ENV NOKOGIRI_USE_SYSTEM_LIBRARIES true
-ADD Gemfile /app/Gemfile
-ADD Gemfile.lock /app/Gemfile.lock
+ADD Gemfile /app/Gemfile  
+ADD Gemfile.lock /app/Gemfile.lock  
+ENV NOKOGIRI_USE_SYSTEM_LIBRARIES=1
 RUN bundle install
 
 RUN gem install foreman
