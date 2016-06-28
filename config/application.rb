@@ -24,5 +24,6 @@ module Mpal
     config.active_record.raise_in_transactional_callbacks = true
 
     config.action_mailer.default_url_options = { host: ENV['HOST']}
+    config.active_job.queue_adapter = :sidekiq
   end
 end
