@@ -8,7 +8,6 @@ class ProjetFacade
     projet = Projet.new
 
     contribuable = @service.retrouve_contribuable(numero_fiscal, reference_avis)
-    projet.usager = contribuable.usager
     projet.reference_avis = reference_avis
     projet.numero_fiscal = numero_fiscal
 
@@ -17,6 +16,13 @@ class ProjetFacade
     projet.latitude = adresse[:latitude]
     projet.departement = adresse[:departement]
     projet.adresse = adresse[:adresse]
+
+    contribuable.declarants.each do |declarant|
+      projet.occupants.build(
+        nom: declarant[:nom], prenom: declarant[:prenom],
+        date_de_naissance: "#{declarant[:date_de_naissance]}",
+        demandeur: true)
+    end
     projet
   end
 
