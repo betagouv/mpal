@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     if contribuable
       session[:numero_fiscal] = params[:numero_fiscal]
       projet = ProjetFacade.recupere_projet(params[:numero_fiscal])
-      unless projet 
+      unless projet
         facade = ProjetFacade.new(ApiParticulier.new)
         projet = facade.cree_projet(params[:numero_fiscal], params[:reference_avis])
       end
@@ -18,7 +18,7 @@ class SessionsController < ApplicationController
       else
         redirect_to new_session_path, alert: t('sessions.erreur_generique')
       end
-    else 
+    else
       redirect_to new_session_path, alert: t('sessions.invalid_credentials')
     end
   end
