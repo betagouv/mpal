@@ -2,7 +2,6 @@ require 'rails_helper'
 require 'support/api_particulier_helper'
 
 describe "identification", type: :feature do
-  let(:projet) { FactoryGirl.create(:projet) }
   scenario "je démarre mon projet", focus: true do
     visit new_session_path
     fill_in :numero_fiscal, with: '12'
