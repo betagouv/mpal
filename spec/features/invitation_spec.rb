@@ -7,7 +7,7 @@ feature "Invitation" do
   let(:projet) { FactoryGirl.create(:projet) }
   let!(:pris) { FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:pris]) }
   let!(:operateur) { FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:operateur]) }
-
+  let(:invitation) { FactoryGirl.create(:invitation) }
 
   scenario "prise de contact avec un pris" do
     signin(projet.numero_fiscal, projet.reference_avis)
@@ -31,4 +31,11 @@ feature "Invitation" do
     expect(page).to have_content(I18n.t('invitations.messages.email.obligatoire'))
   end
 
+  scenario "mise en relation par un pris entre un operateur et un demandeur" do
+    visit projet_path(id: invitation.projet, jeton: invitation.token)
+    within '.disponibles' do
+      click_button I18n.t('projets.visualisation.invitation_intervenant')
+    end
+    expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: operateur.raison_sociale))
+  end
 end

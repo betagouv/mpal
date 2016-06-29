@@ -68,7 +68,7 @@
           </div>
           <div class="content">
             <div class="summary">
-              <%= t(evenement.label, scope: 'evenements', intervenant: evenement.intervenant.try(:raison_sociale)) %>
+              <%= evenement %>
               <div class="date"><%= l(evenement.quand, format: :short) %></div>
             </div>
           </div>

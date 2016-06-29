@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
     facade = ProjetFacade.new(ApiParticulier.new, ApiBan.new)
     projet = facade.initialise_projet(params[:numero_fiscal], params[:reference_avis])
     if projet.save
-      EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet_id: projet.id)
+      EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')
       flash[:notice_titre] = t('projets.messages.creation.titre', usager: projet.usager)
       redirect_to projet_path(projet), notice: notice

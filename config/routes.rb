@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
-    post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create'
+    post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'
     get '/projets/:projet_id/invitations/edition/intervenant/:intervenant_id', to: 'invitations#edit', as: 'edit_invitation'
 
   end

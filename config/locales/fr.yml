@@ -80,3 +80,4 @@ fr:
   evenements:
     creation_projet: 'Création du projet'
     invitation_intervenant: "Invitation de l'intervenant %{intervenant}"
+    mise_en_relation_intervenant: "Invitation de %{intervenant} par %{intermediaire}"
