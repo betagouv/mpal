@@ -8,13 +8,13 @@ Rails.application.routes.draw do
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :projets, only: [:show, :edit, :update] do
       resources :occupants, only: [:new, :create]
+      resources :commentaires, only: [:new, :create]
     end
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create'
     get '/projets/:projet_id/invitations/edition/intervenant/:intervenant_id', to: 'invitations#edit', as: 'edit_invitation'
 
-    resources :intervenant_projets, only: :show
   end
   scope(path_names: { new: 'nouvelle' }) do
     resources :sessions, only: [:new, :create]

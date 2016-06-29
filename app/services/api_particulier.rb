@@ -7,16 +7,27 @@ class ApiParticulier
     response.code == 200 ? Contribuable.new(JSON.parse(response.body)) : nil
   end
 
-  private 
+  private
     def uri(numero_fiscal, reference_avis)
       "https://#{DOMAIN}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}"
     end
 end
 
 class Contribuable
-  attr_reader :usager, :adresse
+  attr_reader :declarants, :adresse
   def initialize(params)
-    @usager = "#{params["declarant1"]['prenoms']} #{params["declarant1"]['nom']}"
+    @declarants = []
+    @declarants << attributs_declarant(params['declarant1']) if params['declarant1'] && params['declarant1']['nom'].present?
+    @declarants << attributs_declarant(params['declarant2']) if params['declarant2'] && params['declarant2']['nom'].present?
     @adresse = params["foyerFiscal"]["adresse"]
+  end
+
+  private
+  def attributs_declarant(hash)
+    {
+      prenom: hash['prenoms'],
+      nom: hash['nom'],
+      date_de_naissance: hash['dateNaissance']
+    }
   end
 end

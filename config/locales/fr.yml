@@ -26,6 +26,7 @@ fr:
       action: "J'accède à mon projet"
     invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
     access_forbidden: Vous n'avez pas accès à cette page
+    erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
   projets:
     messages:
       creation:
@@ -39,9 +40,10 @@ fr:
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_description_projet: "Description du projet"
       titre_liste_occupants: "Liste des occupants"
-      titre_detail_projet: "Les détails du projet"
+      titre_description_projet: "Description du projet"
       titre_fil_actualite: "Fil d'actualité"
       titre_detail_beneficiaire: "Mes coordonnées"
+      lien_ajout_commentaire: 'Répondre'
     edition:
       action: 'Je mets à jour mon projet'
       titre: 'Modification du projet'
@@ -68,7 +70,7 @@ fr:
       titre: "Ajoutez un nouvel occupant à votre logement"
       action: "J'ajoute cet occupant"
     messages:
-      nom: 
+      nom:
         obligatoire: "Le nom de l'occupant est obligatoire"
   mailers:
     projet_mailer:

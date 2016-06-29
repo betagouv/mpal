@@ -1,12 +1,14 @@
 <div class="ui grid">
   <div class="twelve wide column">
 
-    <h2><%= t('projets.visualisation.titre_detail_projet') %></h2>
-    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
-    <div class="ui fluid card">
+    <h2><%= t('projets.visualisation.titre_description_projet') %></h2>
+    <div class="ui fluid segment">
       <div class="content">
-        <div class="header"><%= t('projets.visualisation.titre_description_projet') %></div>
+        <div>Demandeur principal : <%= @projet.usager %></div>
+        <div class="meta">Adresse du logement à rénover : <%= @projet.adresse %></div>
+        <div class="meta"><%= "Email de contact: #{@projet.email}" if @role_utilisateur == :demandeur %><hr>
         <p><%= @projet.description %></p>
+        <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
       </div>
     </div>
 
@@ -15,15 +17,17 @@
         <div class="header"><%= t('projets.visualisation.titre_liste_occupants') %></div>
         <div>
           <ul>
-            <li><%= @projet.usager %></li>
             <% @projet.occupants.each do |occupant| %>
-              <li><%= "#{occupant.prenom} #{occupant.nom}" %></li>
+              <li>
+                <%= occupant %>
+                <%= "(#{l(occupant.date_de_naissance)})" %>
+            </li>
             <% end %>
           </ul>
         </div>
       </div>
       <div class="extra content">
-        <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" %>
+        <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
         
       </div>
     </div>
@@ -32,7 +36,7 @@
     <h4 class="ui horizontal divider header">Intervenants invités</h4>
     <div class="ui cards invites">
       <% @projet.intervenants.each do |intervenant| %>
-        <%= render partial: 'shared/intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: false} %>
+        <%= render partial: 'intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: false} %>
       <% end %>
     </div>
     <% end %>
@@ -41,10 +45,13 @@
     <h4 class="ui horizontal divider header">Intervenants disponibles</h4>
     <div class="ui cards disponibles">
       <% @intervenants_disponibles.each do |intervenant| %>
-        <%= render partial: 'shared/intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: true} %>
+        <%= render partial: 'intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: true} %>
       <% end %>
     </div>
     <% end %>
+
+    <h4 class="ui horizontal divider header">Conversations autour du projet</h4>
+    <%= render partial: 'shared/messages_projet' %>
 
     <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
     <div class="ui container eight wide column">
@@ -52,14 +59,6 @@
     </div>
   </div>
   <div class="four wide column">
-    <h2><%= t('projets.visualisation.titre_detail_beneficiaire') %></h2>
-    <div class="ui card">
-      <div class="content">
-        <div class="header"><%= @projet.usager %></div>
-        <div class="meta"><%= @projet.adresse %></div>
-        <div class="meta"><%= @projet.email %></div>
-      </div>
-    </div>
     <h2><%= t('projets.visualisation.titre_fil_actualite') %></h1>
       <div class="ui feed">
         <% @projet.evenements.each do |evenement| %>
@@ -78,5 +77,3 @@
     </div>
   </div>
 </div>
-
-

@@ -7,7 +7,8 @@ RSpec.configure do |config|
       body: JSON.generate({
         "declarant1": {
           "nom": "Martin",
-          "prenoms": "Pierre"
+          "prenoms": "Pierre",
+          "dateNaissance": "19/03/1980"
         },
         "foyerFiscal": {
           "adresse": "12 rue de la mare, 75010 Paris"

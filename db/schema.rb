@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160627081912) do
+ActiveRecord::Schema.define(version: 20160629065950) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "commentaires", force: :cascade do |t|
+    t.integer  "projet_id"
+    t.integer  "auteur_id"
+    t.string   "auteur_type"
+    t.text     "corps_message"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "commentaires", ["auteur_type", "auteur_id"], name: "index_commentaires_on_auteur_type_and_auteur_id", using: :btree
+  add_index "commentaires", ["projet_id"], name: "index_commentaires_on_projet_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.string   "nom"
@@ -75,6 +87,7 @@ ActiveRecord::Schema.define(version: 20160627081912) do
     t.integer  "civilite"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.boolean  "demandeur"
   end
 
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
@@ -85,7 +98,6 @@ ActiveRecord::Schema.define(version: 20160627081912) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "usager"
     t.string   "adresse"
     t.float    "latitude"
     t.float    "longitude"
@@ -97,6 +109,7 @@ ActiveRecord::Schema.define(version: 20160627081912) do
 
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
+  add_foreign_key "commentaires", "projets"
   add_foreign_key "evenements", "intervenants"
   add_foreign_key "evenements", "projets"
   add_foreign_key "invitations", "intervenants"
