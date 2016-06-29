@@ -1,4 +1,5 @@
 <div class="ui comments">
+
   <div class="comment">
     <a class="author">Emile Durano</a>
     <div class="metadata">
@@ -17,7 +18,7 @@
       <textarea></textarea>
     </div>
     <div class="ui blue labeled submit icon button">
-      <i class="icon edit"></i> Répondre
+      <i class="icon edit"></i> <%= link_to I18n.t('projets.visualisation.lien_ajout_commentaire'), new_projet_commentaire_path(@projet) %>
     </div>
   </form>
 </div>

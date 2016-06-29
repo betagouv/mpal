@@ -42,6 +42,7 @@ fr:
       titre_description_projet: "Description du projet"
       titre_fil_actualite: "Fil d'actualité"
       titre_detail_beneficiaire: "Mes coordonnées"
+      lien_ajout_commentaire: 'Répondre'
     edition:
       action: 'Je mets à jour mon projet'
       titre: 'Modification du projet'
@@ -68,7 +69,7 @@ fr:
       titre: "Ajoutez un nouvel occupant à votre logement"
       action: "J'ajoute cet occupant"
     messages:
-      nom: 
+      nom:
         obligatoire: "Le nom de l'occupant est obligatoire"
   mailers:
     projet_mailer:
