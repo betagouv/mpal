@@ -1,0 +1,12 @@
+<p>
+<%= @invitation.intermediaire %> vient de vous mettre en relation avec le projet suivant :
+<p>
+<%= @invitation.usager %> souhaite rénover son habitat (<%= @invitation.adresse %>)
+<p>
+Voici une description des travaux qu'il souhaite effectuer :
+<p>
+----
+<%= @invitation.description %>
+----
+<p>
+<%= link_to "Pour visualiser le projet, cliquer sur ce lien", projet_url(@invitation.projet, jeton: @invitation.token) %>
