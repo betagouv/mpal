@@ -11,6 +11,7 @@
     </div>
   <% end %>
   <%= form_for [@projet, @commentaire], html: { class: "ui reply form" } do |f| %>
+    <%= hidden_field_tag :jeton, params[:jeton] if params[:jeton] %>
     <div class="field">
       <%= f.text_area :corps_message %>
     </div>
