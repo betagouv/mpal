@@ -15,9 +15,11 @@
         <div class="header"><%= t('projets.visualisation.titre_liste_occupants') %></div>
         <div>
           <ul>
-            <li><%= @projet.usager %></li>
             <% @projet.occupants.each do |occupant| %>
-              <li><%= "#{occupant.prenom} #{occupant.nom}" %></li>
+              <li>
+                <%= occupant %>
+                <%= "(#{l(occupant.date_de_naissance)})" %>
+            </li>
             <% end %>
           </ul>
         </div>
