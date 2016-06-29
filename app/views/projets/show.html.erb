@@ -6,7 +6,7 @@
       <div class="content">
         <div>Demandeur principal : <%= @projet.usager %></div>
         <div class="meta">Adresse du logement à rénover : <%= @projet.adresse %></div>
-        <hr>
+        <div class="meta"><%= "Email de contact: #{@projet.email}" if @role_utilisateur == :demandeur %><hr>
         <p><%= @projet.description %></p>
         <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
       </div>
