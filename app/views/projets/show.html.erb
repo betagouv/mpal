@@ -34,7 +34,7 @@
     <h4 class="ui horizontal divider header">Intervenants invités</h4>
     <div class="ui cards invites">
       <% @projet.intervenants.each do |intervenant| %>
-        <%= render partial: 'shared/intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: false} %>
+        <%= render partial: 'intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: false} %>
       <% end %>
     </div>
     <% end %>
@@ -43,7 +43,7 @@
     <h4 class="ui horizontal divider header">Intervenants disponibles</h4>
     <div class="ui cards disponibles">
       <% @intervenants_disponibles.each do |intervenant| %>
-        <%= render partial: 'shared/intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: true} %>
+        <%= render partial: 'intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: true} %>
       <% end %>
     </div>
     <% end %>
