@@ -7,5 +7,4 @@ Voici une description des travaux qu'il souhaite effectuer :
 <%= @invitation.description %>
 ----
 <p>
-Pour visualiser le projet, cliquer sur ce lien :
-<%= projet_url(@invitation.projet, jeton: @invitation.token) %>
+<%= link_to "Pour visualiser le projet, cliquer sur ce lien", projet_url(@invitation.projet, jeton: @invitation.token) %>
