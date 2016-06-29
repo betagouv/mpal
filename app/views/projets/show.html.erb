@@ -1,12 +1,14 @@
 <div class="ui grid">
   <div class="twelve wide column">
 
-    <h2><%= t('projets.visualisation.titre_detail_projet') %></h2>
-    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
-    <div class="ui fluid card">
+    <h2><%= t('projets.visualisation.titre_description_projet') %></h2>
+    <div class="ui fluid segment">
       <div class="content">
-        <div class="header"><%= t('projets.visualisation.titre_description_projet') %></div>
+        <div>Demandeur principal : <%= @projet.usager %></div>
+        <div class="meta">Adresse du logement à rénover : <%= @projet.adresse %></div>
+        <hr>
         <p><%= @projet.description %></p>
+        <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
       </div>
     </div>
 
@@ -54,14 +56,6 @@
     </div>
   </div>
   <div class="four wide column">
-    <h2><%= t('projets.visualisation.titre_detail_beneficiaire') %></h2>
-    <div class="ui card">
-      <div class="content">
-        <div class="header"><%= @projet.usager %></div>
-        <div class="meta"><%= @projet.adresse %></div>
-        <div class="meta"><%= @projet.email %></div>
-      </div>
-    </div>
     <h2><%= t('projets.visualisation.titre_fil_actualite') %></h1>
       <div class="ui feed">
         <% @projet.evenements.each do |evenement| %>

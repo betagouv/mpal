@@ -39,7 +39,7 @@ fr:
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_description_projet: "Description du projet"
       titre_liste_occupants: "Liste des occupants"
-      titre_detail_projet: "Les détails du projet"
+      titre_description_projet: "Description du projet"
       titre_fil_actualite: "Fil d'actualité"
       titre_detail_beneficiaire: "Mes coordonnées"
     edition:
