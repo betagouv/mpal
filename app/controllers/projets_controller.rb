@@ -20,7 +20,6 @@ class ProjetsController < ApplicationController
       latitude: @projet.latitude,
       longitude: @projet.longitude
     })
-    @profil = @projet.usager
     case @role_utilisateur 
       when :demandeur; @intervenants_disponibles = @projet.intervenants_disponibles(role: :pris)
       when :intervenant; @intervenants_disponibles = @projet.intervenants_disponibles(role: :operateur)

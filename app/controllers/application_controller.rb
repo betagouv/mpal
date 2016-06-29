@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
       invitation = Invitation.find_by_token(params[:jeton])
       if invitation
         @projet_courant = invitation.projet
+        @profil = invitation.intervenant.raison_sociale
       else
         utilisateur_invalide = true 
       end
@@ -17,6 +18,7 @@ class ApplicationController < ActionController::Base
       @role_utilisateur = :demandeur
       projet_id = params[:id] || params[:projet_id]
       @projet_courant = Projet.find(projet_id)
+      @profil = @projet_courant.usager
       utilisateur_invalide = true if session[:numero_fiscal] != @projet_courant.numero_fiscal
     end
 

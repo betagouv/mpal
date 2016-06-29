@@ -2,7 +2,7 @@
   <div class="twelve wide column">
 
     <h2><%= t('projets.visualisation.titre_detail_projet') %></h2>
-    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" %>
+    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
     <div class="ui fluid card">
       <div class="content">
         <div class="header"><%= t('projets.visualisation.titre_description_projet') %></div>
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="extra content">
-        <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" %>
+        <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
         
       </div>
     </div>
