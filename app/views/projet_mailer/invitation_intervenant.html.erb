@@ -8,4 +8,4 @@ Voici une description des travaux qu'il souhaite effectuer :
 ----
 <p>
 Pour visualiser le projet, cliquer sur ce lien :
-<%= intervenant_projet_url(id: @invitation.token) %>
+<%= projet_url(@invitation.projet, jeton: @invitation.token) %>

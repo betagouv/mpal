@@ -9,7 +9,7 @@ feature "intervenant" do
   let!(:operateur) { FactoryGirl.create(:intervenant, :operateur, departements: [ projet.departement ]) }
 
   scenario "visualisation d'un projet" do
-    visit intervenant_projet_path(invitation.token)
+    visit projet_path(invitation.projet, jeton: invitation.token)
     expect(page).to have_content(projet.adresse)
     within '.disponibles' do
       expect(page).to have_content(operateur.raison_sociale)

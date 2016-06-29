@@ -1,25 +1,30 @@
 class ProjetsController < ApplicationController
 
   def edit
-
+    @projet = @projet_courant
   end
 
   def update
-    projet.assign_attributes(projet_params)
-    if projet.save
-      redirect_to projet
+    @projet = @projet_courant
+    @projet.assign_attributes(projet_params)
+    if @projet.save
+      redirect_to @projet
     else
       render :edit
     end
   end
 
   def show
+    @projet = @projet_courant
     gon.push({
-      latitude: projet.latitude,
-      longitude: projet.longitude
+      latitude: @projet.latitude,
+      longitude: @projet.longitude
     })
-    @profil = projet.usager
-    @intervenants_disponibles = projet.intervenants_disponibles(role: :pris)
+    @profil = @projet.usager
+    case @role_utilisateur 
+      when :demandeur; @intervenants_disponibles = @projet.intervenants_disponibles(role: :pris)
+      when :intervenant; @intervenants_disponibles = @projet.intervenants_disponibles(role: :operateur)
+    end
   end
 
   private
@@ -31,7 +36,4 @@ class ProjetsController < ApplicationController
     attributs
   end
 
-  def projet
-    @projet ||= Projet.find(params[:id])
-  end
 end

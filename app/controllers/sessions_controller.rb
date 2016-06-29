@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authenticate
+  skip_before_action :authentifie
   def new
     
   end

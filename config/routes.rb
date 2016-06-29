@@ -14,7 +14,6 @@ Rails.application.routes.draw do
     post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create'
     get '/projets/:projet_id/invitations/edition/intervenant/:intervenant_id', to: 'invitations#edit', as: 'edit_invitation'
 
-    resources :intervenant_projets, only: :show
   end
   scope(path_names: { new: 'nouvelle' }) do
     resources :sessions, only: [:new, :create]
