@@ -4,7 +4,7 @@ class Projet < ActiveRecord::Base
   has_many :invitations
   has_many :evenements, -> { order('evenements.quand DESC') }
   has_many :occupants
-  has_many :commentaires
+  has_many :commentaires, -> { order('created_at DESC') }
 
   def intervenants_disponibles(role: nil)
     Intervenant.pour_departement(self.departement, role: role) - self.intervenants
