@@ -27,7 +27,7 @@ class Contribuable
     {
       prenom: hash['prenoms'],
       nom: hash['nom'],
-      date_de_naissance: hash['dob']
+      date_de_naissance: hash['dateNaissance']
     }
   end
 end
