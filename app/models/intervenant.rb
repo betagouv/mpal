@@ -7,4 +7,8 @@ class Intervenant < ActiveRecord::Base
     intervenants = intervenants.where("'#{role}' = ANY (roles)") if role.present?
     intervenants
   end
+
+  def to_s
+    self.raison_sociale
+  end
 end

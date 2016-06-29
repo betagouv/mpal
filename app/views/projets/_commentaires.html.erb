@@ -1,0 +1,20 @@
+<div class="ui comments">
+  <% @projet_courant.commentaires.each do |commentaire| %>
+    <div class="comment">
+      <a class="author"><%= commentaire.auteur %></a>
+      <div class="metadata">
+        <span class="date"><%= l(commentaire.created_at, format: :short) %></span>
+      </div>
+      <div class="text">
+        <%= commentaire.corps_message %>
+      </div>
+    </div>
+  <% end %>
+  <%= form_for [@projet, @commentaire], html: { class: "ui reply form" } do |f| %>
+    <div class="field">
+      <%= f.text_area :corps_message %>
+    </div>
+    <%= f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "ui button" %>
+    </div>
+  <% end %>   
+</div>

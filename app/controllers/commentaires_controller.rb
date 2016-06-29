@@ -1,17 +1,14 @@
 class CommentairesController < ApplicationController
 
   def create
-    @commentaire = projet.commentaires.build(commentaire_params)
-    commentaire.auteur = projet
-    commentaire.save
+    commentaire = @projet_courant.commentaires.build(corps_message: params[:commentaire][:corps_message])
+    commentaire.auteur = @utilisateur_courant
+    if commentaire.save
+      redirect_to commentaire.projet
+    else
+      raise "ERROR: #{commentaire.errors.full_messages}"
+      
+    end 
   end
 
-  def projet
-    @projet ||= Projet.find(params[:projet_id])
-  end
-
-  private
-  def commentaire_params
-    params.require(:projet).permit(:projet_id, :corps_message, :auteur)
-  end
 end

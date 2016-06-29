@@ -24,6 +24,7 @@ class ProjetsController < ApplicationController
       when :demandeur; @intervenants_disponibles = @projet.intervenants_disponibles(role: :pris)
       when :intervenant; @intervenants_disponibles = @projet.intervenants_disponibles(role: :operateur)
     end
+    @commentaire = Commentaire.new(projet: @projet)
   end
 
   private
