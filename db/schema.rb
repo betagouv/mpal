@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160629065950) do
+ActiveRecord::Schema.define(version: 20160629160330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,10 +48,11 @@ ActiveRecord::Schema.define(version: 20160629065950) do
     t.integer  "projet_id"
     t.string   "label"
     t.datetime "quand"
-    t.integer  "intervenant_id"
+    t.integer  "producteur_id"
+    t.string   "producteur_type"
   end
 
-  add_index "evenements", ["intervenant_id"], name: "index_evenements_on_intervenant_id", using: :btree
+  add_index "evenements", ["producteur_type", "producteur_id"], name: "index_evenements_on_producteur_type_and_producteur_id", using: :btree
   add_index "evenements", ["projet_id"], name: "index_evenements_on_projet_id", using: :btree
 
   create_table "intervenants", force: :cascade do |t|
@@ -72,8 +73,10 @@ ActiveRecord::Schema.define(version: 20160629065950) do
     t.integer "projet_id"
     t.integer "intervenant_id"
     t.string  "token"
+    t.integer "intermediaire_id"
   end
 
+  add_index "invitations", ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree
   add_index "invitations", ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
   add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
   add_index "invitations", ["token"], name: "index_invitations_on_token", using: :btree
@@ -110,7 +113,6 @@ ActiveRecord::Schema.define(version: 20160629065950) do
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
   add_foreign_key "commentaires", "projets"
-  add_foreign_key "evenements", "intervenants"
   add_foreign_key "evenements", "projets"
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
