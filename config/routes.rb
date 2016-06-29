@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :projets, only: [:show, :edit, :update] do
       resources :occupants, only: [:new, :create]
-      resources :commentaires, only: [:new, :create]
+      resources :commentaires, only: :create
     end
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
