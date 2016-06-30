@@ -4,8 +4,12 @@ module API
     before_action :authenticate
 
     def show
-      projet = Projet.find(params[:id])
-      render json: projet
+      begin
+        projet = Projet.find(params[:id])
+        render json: projet
+      rescue
+        render json: { error: 'not found', reason: 'Projet not found' }.to_json, status: 404
+      end
     end
 
     protected
