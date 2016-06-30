@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   end
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :projets, only: [:show, :edit, :update] do
-      resources :occupants, only: [:new, :create]
+      resources :occupants, only: [:new, :create, :edit, :update]
       resources :commentaires, only: :create
     end
 
