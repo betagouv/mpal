@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
       end
     else
       @role_utilisateur = :demandeur
-      projet_id = params[:id] || params[:projet_id]
+      projet_id = params[:projet_id] || params[:id]
       @projet_courant = Projet.find(projet_id)
       @utilisateur_courant = @projet_courant.demandeur_principal
       utilisateur_invalide = true if session[:numero_fiscal] != @projet_courant.numero_fiscal

@@ -31,7 +31,7 @@
           <ul>
             <% @projet.occupants.each do |occupant| %>
               <li>
-                <%= occupant %>
+                <%= link_to occupant.to_s, edit_projet_occupant_path(@projet, occupant) %>
                 <%= "(#{l(occupant.date_de_naissance)})" %>
             </li>
             <% end %>
