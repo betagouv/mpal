@@ -33,6 +33,8 @@ Rails.application.routes.draw do
 
     get '/reset' => 'tools#reset_base'
 
+    get '/invitations/:jeton_id', to: 'invitations#show', as: 'invitation'
+    get '/instruction', to: 'instruction#show', as: 'instruction'
   end
   scope(path_names: { new: 'nouvelle' }) do
     resources :sessions, only: [:new, :create]
