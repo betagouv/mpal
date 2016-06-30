@@ -9,7 +9,7 @@ class OccupantsController < ApplicationController
   end
 
   def create
-    @occupant = projet.occupants.build(occupant_params)    
+    @occupant = projet.occupants.build(occupant_params)
     if @occupant.save
       redirect_to projet
     else
@@ -29,11 +29,10 @@ class OccupantsController < ApplicationController
 
   private
   def occupant_params
-    params.require(:occupant).permit(:civilite, :prenom, :nom, :date_de_naissance, :lien_demandeur)
+    params.require(:occupant).permit(:civilite, :prenom, :nom, :date_de_naissance, :lien_demandeur, :demandeur)
   end
 
   def projet
     @projet ||= @projet_courant
   end
 end
-

@@ -22,6 +22,10 @@
         <%= f.label :lien_demandeur %>
         <%= f.text_field :lien_demandeur %>
       </div>
+      <div class="field">
+        <%= f.label :demandeur %>
+        <%= f.check_box :demandeur %>
+      </div>
     <%= f.submit I18n.t('occupants.edition.action', occupant: @occupant.to_s), class:'ui primary button' %>
   <% end %>
 </div>
