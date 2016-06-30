@@ -37,6 +37,7 @@ fr:
       lien_edition_coordonnees: 'Modifier mes coordonnées'
       invitation_intervenant: "Je souhaite contacter cet intervenant"
       invitation_relance_intervenant: "Je relance l'intervenant"
+      mise_en_relation_intervenant: "Je mets en relation"
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_description_projet: "Description du projet"
       titre_liste_occupants: "Liste des occupants"
@@ -79,6 +80,8 @@ fr:
     projet_mailer:
       invitation_intervenant:
         sujet: "[ANAH] Invitation de %{usager} à consulter son projet"
+      mise_en_relation_intervenant:
+        sujet: "[ANAH] Mise en relation par %{intermediaire}"
 
   evenements:
     creation_projet: 'Création du projet'
