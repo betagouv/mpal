@@ -1,6 +1,15 @@
 <div class="main ui container top">
   <%= display_errors @projet, t('invitations.messages.erreur') %>
   <h1 class="ui header"><%= t('invitations.nouvelle.titre', intervenant: @intervenant.raison_sociale) %></h1>
+    <p>Pour information, mon projet peut être soumis à certaines conditions telles que : </p>
+    <ul>
+      <li><%= t('accueil.condition1') %></h3></li>
+      <li><%= t('accueil.condition2') %></li>
+      <li><%= t('accueil.condition3') %></li>
+      <li><%= t('accueil.condition4') %></li>
+      <li><%= t('accueil.condition5') %></li>
+      <br />
+    </ul>
   <%= form_for @projet, url: {controller: 'invitations', action: 'create'}, method: 'post', html: { class:'ui form' } do |f| %>
       <div class="field">
         <%= f.label :adresse %>

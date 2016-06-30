@@ -42,7 +42,7 @@ fr:
       titre_description_projet: "Description du projet"
       titre_liste_occupants: "Liste des occupants"
       titre_description_projet: "Description du projet"
-      titre_fil_actualite: "Fil d'actualité"
+      titre_fil_actualite: "Chronologie"
       titre_detail_beneficiaire: "Mes coordonnées"
       lien_ajout_commentaire: 'Répondre'
     edition:
