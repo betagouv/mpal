@@ -1,21 +1,33 @@
 <div class="ui grid">
   <div class="twelve wide column">
 
-    <h2><%= t('projets.visualisation.titre_description_projet') %></h2>
-    <div class="ui fluid segment">
-      <div class="content">
-        <div>Demandeur principal : <%= @projet.usager %></div>
-        <div class="meta">Adresse du logement à rénover : <%= @projet.adresse %></div>
-        <div class="meta"><%= "Email de contact: #{@projet.email}" if @role_utilisateur == :demandeur %><hr>
-        <p><%= @projet.description %></p>
-        <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
-      </div>
-    </div>
+    <h2 class="ui horizontal divider header"><i class="tag icon"></i><%= t('projets.visualisation.titre_description_projet') %></h2>
 
-    <div class="ui fluid card">
-      <div class="content">
-        <div class="header"><%= t('projets.visualisation.titre_liste_occupants') %></div>
-        <div>
+    <table class="ui definition table">
+      <tbody>
+        <tr>
+          <td>Demandeur principal</td>
+          <td><%= @projet.usager %></td>
+        </tr>
+        <tr>
+          <td>Adresse du logement à rénover</td>
+          <td><%= @projet.adresse %></td>
+        </tr>
+        <tr>
+          <td>Email de contact</td>
+          <td><%= @projet.email if @role_utilisateur == :demandeur %></td>
+        </tr>
+        <tr>
+          <td>Le projet</td>
+          <td><%= @projet.description %></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
+
+    <h3 class="ui horizontal divider header"><i class="users icon"></i><%= t('projets.visualisation.titre_liste_occupants') %></h3>
+
           <ul>
             <% @projet.occupants.each do |occupant| %>
               <li>
@@ -24,44 +36,46 @@
             </li>
             <% end %>
           </ul>
-        </div>
-      </div>
-      <div class="extra content">
+
+
         <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
-        
-      </div>
-    </div>
 
     <% if @projet.intervenants.present? %>
-    <h4 class="ui horizontal divider header">Intervenants invités</h4>
-    <div class="ui cards invites">
-      <% @projet.intervenants.each do |intervenant| %>
-        <%= render partial: 'intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: false} %>
-      <% end %>
-    </div>
+      <h2 class="ui horizontal divider header">Intervenants invités</h2>
+      <div class="ui cards invites">
+        <% @projet.intervenants.each do |intervenant| %>
+          <%= render partial: 'intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: false} %>
+        <% end %>
+      </div>
     <% end %>
 
     <% if @intervenants_disponibles.present? %>
-    <h4 class="ui horizontal divider header">Intervenants disponibles</h4>
-    <div class="ui cards disponibles">
-      <% @intervenants_disponibles.each do |intervenant| %>
-        <%= render partial: 'intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: true} %>
-      <% end %>
-    </div>
+      <h2 class="ui horizontal divider header">Intervenants disponibles</h2>
+      <div class="ui cards disponibles">
+        <% @intervenants_disponibles.each do |intervenant| %>
+          <%= render partial: 'intervenant', locals: {projet: @projet, intervenant: intervenant, avec_appel_a_agir: true} %>
+        <% end %>
+      </div>
     <% end %>
 
-    <h4 class="ui horizontal divider header">Conversations autour du projet</h4>
+    <h2 class="ui horizontal divider header"><i class="comments icon"></i>Conversations autour du projet</h2>
     <%= render 'commentaires' %>
 
-    <h4 class="ui horizontal divider header"><i class="map icon"></i> Carte</h4>
+    <h2 class="ui horizontal divider header"><i class="map icon"></i> Carte</h2>
     <div class="ui container eight wide column">
       <div id="mapid"></div>
     </div>
+
   </div>
+
+  <!-- Fil d'actualité   -->
+
   <div class="four wide column">
-    <h2><%= t('projets.visualisation.titre_fil_actualite') %></h1>
+    <h2><%= t('projets.visualisation.titre_fil_actualite') %></h2>
       <div class="ui feed">
+
         <% @projet.evenements.each do |evenement| %>
+
         <div class="event">
           <div class="label">
             <i class="<%= icone_evenement(evenement.label) %> icon"></i>
@@ -74,6 +88,9 @@
           </div>
         </div>
       <% end %>
+
     </div>
   </div>
+
+<!-- fin ui grid -->
 </div>
