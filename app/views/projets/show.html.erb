@@ -13,10 +13,12 @@
           <td>Adresse du logement à rénover</td>
           <td><%= @projet.adresse %></td>
         </tr>
+        <% if @role_utilisateur == :demandeur %>
         <tr>
           <td>Email de contact</td>
-          <td><%= @projet.email if @role_utilisateur == :demandeur %></td>
+          <td><%= @projet.email %></td>
         </tr>
+        <% end %>
         <tr>
           <td>Le projet</td>
           <td><%= @projet.description %></td>
@@ -33,6 +35,7 @@
               <li>
                 <%= link_to occupant.to_s, edit_projet_occupant_path(@projet, occupant) %>
                 <%= "(#{l(occupant.date_de_naissance)})" %>
+                <% if occupant.demandeur %> <div class="ui label">Demandeur</div><% end %>
             </li>
             <% end %>
           </ul>
@@ -65,10 +68,7 @@
     <div class="ui container eight wide column">
       <div id="mapid"></div>
     </div>
-
   </div>
-
-  <!-- Fil d'actualité   -->
 
   <div class="four wide column">
     <h2><%= t('projets.visualisation.titre_fil_actualite') %></h2>
@@ -91,6 +91,4 @@
 
     </div>
   </div>
-
-<!-- fin ui grid -->
 </div>
