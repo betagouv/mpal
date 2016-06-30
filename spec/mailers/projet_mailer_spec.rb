@@ -18,7 +18,7 @@ describe ProjetMailer do
     let(:email) { ProjetMailer.mise_en_relation_intervenant(mise_en_relation) }
     it { expect(email.from).to eq(['no-reply@mpal.beta.gouv.fr']) }
     it { expect(email.to).to eq([mise_en_relation.intervenant_email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', usager: mise_en_relation.usager)) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: mise_en_relation.intermediaire)) }
   end 
 
 end
