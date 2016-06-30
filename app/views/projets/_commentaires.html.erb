@@ -1,4 +1,11 @@
 <div class="ui comments">
+  <%= form_for [@projet, @commentaire], html: { class: "ui reply form" } do |f| %>
+    <%= hidden_field_tag :jeton, params[:jeton] if params[:jeton] %>
+    <div class="field">
+      <%= f.text_area :corps_message %>
+    </div>
+    <%= f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "ui button" %>
+  <% end %>
   <% @projet_courant.commentaires.each do |commentaire| %>
     <div class="comment">
       <a class="author"><%= commentaire.auteur %></a>
@@ -10,12 +17,4 @@
       </div>
     </div>
   <% end %>
-  <%= form_for [@projet, @commentaire], html: { class: "ui reply form" } do |f| %>
-    <%= hidden_field_tag :jeton, params[:jeton] if params[:jeton] %>
-    <div class="field">
-      <%= f.text_area :corps_message %>
-    </div>
-    <%= f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "ui button" %>
-    </div>
-  <% end %>   
 </div>
