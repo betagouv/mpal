@@ -3,7 +3,7 @@ class Evenement < ActiveRecord::Base
   belongs_to :producteur, polymorphic: true
   validates :projet, :label, :quand, presence: true
 
-  def to_s
+  def description
     case self.label
     when 'creation_projet'
       I18n.t('creation_projet', scope: 'evenements')
@@ -14,5 +14,9 @@ class Evenement < ActiveRecord::Base
         
     end
 
+  end
+
+  def to_s
+    self.description
   end
 end

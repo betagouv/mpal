@@ -1,8 +1,14 @@
 class ProjetSerializer < ActiveModel::Serializer
-  attributes :id, :usager, :adresse
+  attributes :id, :adresse
+  has_many :occupants
   has_many :evenements
+
+  class OccupantSerializer < ActiveModel::Serializer
+    attributes :prenom, :nom, :demandeur
+  end
+
   class EvenementSerializer < ActiveModel::Serializer
-    attributes :label, :quand
-    attribute :intervenant_id, if: -> { object.intervenant }
+    attribute :quand
+    attribute :description
   end
 end
