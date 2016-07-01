@@ -9,9 +9,14 @@ services:
       POSTGRES_DB: mpal
       POSTGRES_USER: mpal
       POSTGRES_PASSWORD: mpal
+  redis:
+    build:
+      context: .
+      dockerfile: Dockerfile-redis
   mpal:
     depends_on:
       - postgres
+      - redis
     build:
       context: .
       dockerfile: Dockerfile-mpal
