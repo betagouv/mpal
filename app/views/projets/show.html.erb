@@ -13,7 +13,7 @@
           <td>Adresse du logement à rénover</td>
           <td><%= @projet.adresse %></td>
         </tr>
-        <% if @role_utilisateur == :demandeur %>
+        <% if @utilisateur_courant.is_a? Occupant %>
         <tr>
           <td>Email de contact</td>
           <td><%= @projet.email %></td>
@@ -26,7 +26,7 @@
       </tbody>
     </table>
 
-    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
+    <%= link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet), class: "ui primary button" if @utilisateur_courant.is_a? Occupant %>
 
     <h3 class="ui horizontal divider header"><i class="users icon"></i><%= t('projets.visualisation.titre_liste_occupants') %></h3>
 
@@ -41,7 +41,7 @@
           </ul>
 
 
-        <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" if @role_utilisateur == :demandeur %>
+        <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet), class: "ui primary button" if @utilisateur_courant.is_a? Occupant%>
 
     <% if @projet.intervenants.present? %>
       <h2 class="ui horizontal divider header">Intervenants invités</h2>
