@@ -23,3 +23,5 @@
 /.ruby-gemset
 /doc
 .env
+
+config/database.yml

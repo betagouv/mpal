@@ -1,0 +1,19 @@
+config: &config
+  adapter: postgresql
+  encoding: unicode
+  username: mpal
+  password: mpal
+  pool: 5
+  host: localhost
+
+production:
+  database: mpal
+  <<: *config
+
+development:
+  database: mpal
+  <<: *config
+
+test:
+  database: mpal_test
+  <<: *config
