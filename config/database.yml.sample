@@ -4,7 +4,7 @@ config: &config
   username: mpal
   password: mpal
   pool: 5
-  host: localhost
+  host: postgres
 
 production:
   database: mpal
