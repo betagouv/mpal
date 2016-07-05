@@ -1,6 +1,8 @@
 class Intervenant < ActiveRecord::Base
-  validates :raison_sociale, presence: true
+
   has_many :commentaires, as: :auteur
+
+  validates :raison_sociale, presence: true
 
   def self.pour_departement(departement, role: nil)
     intervenants = Intervenant.where("'#{departement}' = ANY (departements)")

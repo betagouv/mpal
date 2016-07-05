@@ -1,9 +1,12 @@
 class Invitation < ActiveRecord::Base
+
   belongs_to :projet
   belongs_to :intervenant
   belongs_to :intermediaire, class_name: "Intervenant"
+
   validates :projet, :intervenant, presence: true
   validates_uniqueness_of :intervenant, scope: :projet_id
+
   before_create :generate_token
 
   delegate :usager, to: :projet
