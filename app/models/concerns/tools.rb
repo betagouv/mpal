@@ -1,6 +1,6 @@
 class Tool < ActiveRecord::Base
 
-  def reset_base
+  def self.reset_base
     Evenement.delete_all
     Occupant.delete_all
     Invitation.delete_all

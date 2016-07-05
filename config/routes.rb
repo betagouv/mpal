@@ -15,6 +15,8 @@ Rails.application.routes.draw do
     post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'
     get '/projets/:projet_id/invitations/edition/intervenant/:intervenant_id', to: 'invitations#edit', as: 'edit_invitation'
 
+    get '/reset' => 'tools#reset_base'
+
   end
   scope(path_names: { new: 'nouvelle' }) do
     resources :sessions, only: [:new, :create]
@@ -25,4 +27,4 @@ Rails.application.routes.draw do
     username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
   end if Rails.env.production?
   mount Sidekiq::Web, at: "/sidekiq"
-end 
+end
