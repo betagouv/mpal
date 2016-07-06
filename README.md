@@ -39,3 +39,5 @@ docker-compose up
 
 # Notes
 Kanban Zenhub sur ce projet
+
+rake intervenants:charger pour avoir des intervenants en base
