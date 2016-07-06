@@ -27,9 +27,6 @@ class OccupantsController < ApplicationController
     end
   end
 
-  def composition
-  end
-
   private
 
   def occupant_params

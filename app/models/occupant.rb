@@ -6,6 +6,8 @@ class Occupant < ActiveRecord::Base
 
   enum civilite: [ 'mr', 'mme']
 
+  scope :sans_revenus, ->   { where(:revenu.in? [nil, 0]) }
+
   def to_s
     "#{prenom} #{nom}"
   end

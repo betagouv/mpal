@@ -40,8 +40,8 @@
             <% end %>
           </ul>
 
-
         <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur %>
+        <%= link_to t('projets.visualisation.modifier_list_occupant'), edit_projet_composition_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur %>
 
     <% if @projet_courant.intervenants.present? %>
       <h2 class="ui horizontal divider header">Intervenants invités</h2>
