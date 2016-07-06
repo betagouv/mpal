@@ -1,0 +1,13 @@
+div class="ui comments"
+  = form_for [@projet_courant, @commentaire], html: { class: "ui reply form" } do |f|
+    = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
+    div class="field"
+      = f.text_area :corps_message
+    = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "ui button"
+  - @projet_courant.commentaires.each do |commentaire|
+    div class="comment"
+      a class="author" = commentaire.auteur
+      div class="metadata"
+        span class="date" = l(commentaire.created_at, format: :short)
+      div class="text"
+        = commentaire.corps_message
