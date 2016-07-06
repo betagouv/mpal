@@ -36,3 +36,6 @@ dans config/database.yml, la partie config a besoin d'un host qui sera localhost
 
 # Installation (avec Docker)
 docker-compose up
+
+# Notes
+Kanban Zenhub sur ce projet

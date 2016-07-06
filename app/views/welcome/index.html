@@ -1,9 +1,13 @@
 <div class="ui large fixed menu">
   <div class="ui container">
     <a class="active item">Accueil</a>
+    <div class="notice">
+      <%= notice if notice %>
+    </div>
     <div class="right menu">
       <div class="item">
         <%= link_to t('accueil.menu.mon_projet'), new_session_path, class: "ui primary button" %>
+        <%= link_to t('accueil.reset'), reset_path, class: "ui primary button" %>
       </div>
     </div>
   </div>
