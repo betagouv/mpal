@@ -32,3 +32,7 @@ au service de votre projet.
 # Installation (sans passer par Docker)
 Nécessite redis, sidekiq
 La gem dotenv-rails vous oblige à copier les variables d'environnement de .env.sample vers .env
+dans config/database.yml, la partie config a besoin d'un host qui sera localhost
+
+# Installation (avec Docker)
+docker-compose up
