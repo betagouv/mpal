@@ -1,4 +1,5 @@
 class InvitationsController < ApplicationController
+
   def new
     @projet = @projet_courant
     @intervenant = Intervenant.find(params[:intervenant_id])
@@ -44,6 +45,7 @@ class InvitationsController < ApplicationController
   end
 
   private
+
   def valid?
     @projet.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet.adresse.present?
     @projet.errors[:description] = t('invitations.messages.description.obligatoire') unless @projet.description.present?

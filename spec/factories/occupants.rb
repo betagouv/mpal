@@ -10,4 +10,4 @@ FactoryGirl.define do
     demandeur true
   end
 
-end 
+end

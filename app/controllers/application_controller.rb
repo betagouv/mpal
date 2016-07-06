@@ -1,18 +1,16 @@
 class ApplicationController < ActionController::Base
-  # Prevent CSRF attacks by raising an exception.
-  # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :authentifie
 
   def authentifie
-    if params[:jeton]  # appelé par un intervenant
+    if params[:jeton]
       @role_utilisateur = :intervenant
       invitation = Invitation.find_by_token(params[:jeton])
       if invitation
         @projet_courant = invitation.projet
         @utilisateur_courant = invitation.intervenant
       else
-        utilisateur_invalide = true 
+        utilisateur_invalide = true
       end
     else
       @role_utilisateur = :demandeur
