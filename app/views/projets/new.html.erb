@@ -2,7 +2,7 @@
     <div class="main ui container top">
       <h1 class="ui header"><%= t('projets.new') %></h1>
       <p>Marche à suivre : munissez vous de votre avis d'impôt le plus récent. Cela nous permettra de pré-remplir les informations vous concernant, que vous pourrez modifier par la suite.
-      <%= form_for @projet, html: { class:'ui form' } do |f| %>
+      <%= form_for @projet_courant, html: { class:'ui form' } do |f| %>
           <div class="field">
             <%= f.label :numero_fiscal %>
             <%= f.text_field :numero_fiscal %>

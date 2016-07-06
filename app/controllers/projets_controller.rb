@@ -1,33 +1,31 @@
 class ProjetsController < ApplicationController
 
   def edit
-    @projet = @projet_courant
   end
 
   def update
-    @projet = @projet_courant
-    @projet.assign_attributes(projet_params)
-    if @projet.save
-      redirect_to @projet
+    @projet_courant.assign_attributes(projet_params)
+    if @projet_courant.save
+      redirect_to @projet_courant
     else
       render :edit
     end
   end
 
   def show
-    @projet = @projet_courant
     gon.push({
-      latitude: @projet.latitude,
-      longitude: @projet.longitude
+      latitude: @projet_courant.latitude,
+      longitude: @projet_courant.longitude
     })
-    case @role_utilisateur 
-      when :demandeur; @intervenants_disponibles = @projet.intervenants_disponibles(role: :pris)
-      when :intervenant; @intervenants_disponibles = @projet.intervenants_disponibles(role: :operateur)
+    case @role_utilisateur
+      when :demandeur; @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :pris)
+      when :intervenant; @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur)
     end
-    @commentaire = Commentaire.new(projet: @projet)
+    @commentaire = Commentaire.new(projet: @projet_courant)
   end
 
   private
+
   def projet_params
     service_adresse = ApiBan.new
     adresse = service_adresse.precise(params[:projet][:adresse])

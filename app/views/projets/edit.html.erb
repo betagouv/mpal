@@ -1,7 +1,7 @@
 <div class="main ui container top">
   <h1 class="ui header"><%= t('projets.edition.titre') %></h1>
   <p><%= t('projets.edition.description') %>
-  	<%= form_for @projet, url: { action: 'update'}, html: { class:'ui form'} do |f| %>
+  	<%= form_for @projet_courant, url: { action: 'update'}, html: { class:'ui form'} do |f| %>
       <div class="field">
         <%= f.label :description %>
         <%= f.text_area :description %>

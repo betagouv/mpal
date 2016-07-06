@@ -1,7 +1,7 @@
 <div class="main ui container top">
   <%= affiche_erreurs_avec_cle @occupant, t('occupants.messages.erreur') %>
   <h1 class="ui header"><%= t('occupants.modification.composition_logement') %></h1>
-  <%= form_for [@projet, @occupant], html: { class:'ui form' } do |f| %>
+  <%= form_for [@projet_courant, @occupant], html: { class:'ui form' } do |f| %>
       <div class="field">
         <%= f.label :civilite %>
         <%= f.select :civilite, Occupant.civilites.keys %>
