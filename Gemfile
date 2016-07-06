@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.2.2'
+ruby '2.3.1'
 
 gem 'rails', '4.2.6'
 gem 'pg'
@@ -34,8 +34,8 @@ group :test do
   gem 'fakeweb'
   gem 'shoulda-matchers'
   gem 'rspec-activejob'
-#  gem 'guard'
-#  gem 'guard-rspec'
+  gem 'guard'
+  gem 'guard-rspec'
 end
 
 gem 'rails_12factor'

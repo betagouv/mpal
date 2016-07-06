@@ -38,6 +38,7 @@ fr:
       invitation_intervenant: "Je souhaite contacter cet intervenant"
       invitation_relance_intervenant: "Je relance l'intervenant"
       mise_en_relation_intervenant: "Je mets en relation"
+      modifier_list_occupant: "Modifier la composition du logement"
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_description_projet: "Description du projet"
       titre_liste_occupants: "Liste des occupants"
@@ -76,6 +77,8 @@ fr:
     messages:
       nom:
         obligatoire: "Le nom de l'occupant est obligatoire"
+    modification:
+      composition_logement: "Composition du logement"
   mailers:
     projet_mailer:
       invitation_intervenant:

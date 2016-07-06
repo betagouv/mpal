@@ -1,4 +1,5 @@
 class OccupantsController < ApplicationController
+
   def new
     @occupant = projet.occupants.build
   end
@@ -24,10 +25,13 @@ class OccupantsController < ApplicationController
     else
       render :edit
     end
+  end
 
+  def composition
   end
 
   private
+
   def occupant_params
     params.require(:occupant).permit(:civilite, :prenom, :nom, :date_de_naissance, :lien_demandeur, :demandeur)
   end
