@@ -30,7 +30,13 @@ class OccupantsController < ApplicationController
   private
 
   def occupant_params
-    params.require(:occupant).permit(:civilite, :prenom, :nom, :date_de_naissance, :lien_demandeur, :demandeur)
+    params.require(:occupant).permit(
+      :civilite,
+      :prenom, :nom,
+      :date_de_naissance,
+      :lien_demandeur, :demandeur,
+      :revenus
+    )
   end
 
 end
