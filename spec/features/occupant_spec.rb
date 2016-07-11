@@ -20,7 +20,7 @@ feature "Occupant" do
   scenario "composition du logement" do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.modifier_list_occupant')
-    fill_in :projet_nb_total_occupants, with: '3'
+    fill_in :projet_nb_occupants_a_charge, with: '3'
     click_button I18n.t('projets.composition_logement.edition.action')
   end
 end
