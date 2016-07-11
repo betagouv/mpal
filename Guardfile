@@ -53,10 +53,6 @@ guard :rspec, cmd: "bundle exec rspec" do
     ]
   end
 
-  watch('app/models/sitter.rb')  { "spec/models/sitter" }
-  watch('app/models/parent.rb')  { "spec/models/parent" }
-  watch('app/models/sitting.rb')  { "spec/models/sitting" }
-
   # Rails config changes
   watch(rails.spec_helper)     { rspec.spec_dir }
   watch(rails.routes)          { "#{rspec.spec_dir}/routing" }

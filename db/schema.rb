@@ -11,10 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160711144355) do
+ActiveRecord::Schema.define(version: 20160711145142) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "avis_impositions", force: :cascade do |t|
+    t.integer  "occupant_id"
+    t.string   "numero_fiscal"
+    t.string   "reference_avis"
+    t.integer  "annee"
+    t.integer  "revenu_fiscal_reference"
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "avis_impositions", ["occupant_id"], name: "index_avis_impositions_on_occupant_id", using: :btree
 
   create_table "commentaires", force: :cascade do |t|
     t.integer  "projet_id"
@@ -91,7 +103,6 @@ ActiveRecord::Schema.define(version: 20160711144355) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.boolean  "demandeur"
-    t.integer  "revenus"
   end
 
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
@@ -114,6 +125,7 @@ ActiveRecord::Schema.define(version: 20160711144355) do
 
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
+  add_foreign_key "avis_impositions", "occupants"
   add_foreign_key "commentaires", "projets"
   add_foreign_key "evenements", "projets"
   add_foreign_key "invitations", "intervenants"

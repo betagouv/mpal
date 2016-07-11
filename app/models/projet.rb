@@ -5,6 +5,7 @@ class Projet < ActiveRecord::Base
   has_many :evenements, -> { order('evenements.quand DESC') }
   has_many :occupants
   has_many :commentaires, -> { order('created_at DESC') }
+  has_many :avis_impositions, through: :occupants
 
   validates :numero_fiscal, :reference_avis, :adresse, presence: true
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true

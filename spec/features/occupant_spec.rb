@@ -5,6 +5,7 @@ require 'support/api_ban_helper'
 
 feature "Occupant" do
   let(:projet) { FactoryGirl.create(:projet) }
+  let!(:occupant) { FactoryGirl.create(:occupant, projet: projet) }
 
   scenario "ajout d'un occupant" do
     signin(projet.numero_fiscal, projet.reference_avis)
@@ -23,4 +24,13 @@ feature "Occupant" do
     fill_in :projet_nb_occupants_a_charge, with: '3'
     click_button I18n.t('projets.composition_logement.edition.action')
   end
+
+  scenario "ajout d'un avis d'imposition" do
+    signin(projet.numero_fiscal, projet.reference_avis)
+    click_link I18n.t('projets.visualisation.modifier_list_occupant')
+    within "#occupant_#{occupant.id}" do
+      click_link occupant.to_s
+    end
+  end
+
 end

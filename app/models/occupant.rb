@@ -2,6 +2,7 @@ class Occupant < ActiveRecord::Base
 
   enum civilite: [ 'mr', 'mme']
   belongs_to :projet
+  has_many   :avis_impositions
 
   validates :nom, :prenom, :date_de_naissance, presence: true
 
