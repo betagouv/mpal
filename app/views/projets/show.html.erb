@@ -41,12 +41,12 @@
                 <% if occupant.demandeur %> <div class="ui label">Demandeur</div><% end %>
               </li>
             <% end %>
-          </ul>
-          <div>
             <% if @projet_courant.nb_occupants_a_charge > 0 %>
-              <%= t("projets.visualisation.occupants_a_charge", count: @projet_courant.nb_occupants_a_charge) %>
+              <li>
+                <%= t("projets.visualisation.occupants_a_charge", count: @projet_courant.nb_occupants_a_charge) %>
+              </li>
             <% end %>
-          </div>
+          </ul>
 
         <%= link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur %>
         <%= link_to t('projets.visualisation.modifier_list_occupant'), edit_projet_composition_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur %>

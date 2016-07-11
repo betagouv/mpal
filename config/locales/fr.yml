@@ -1,4 +1,8 @@
 fr:
+  activerecord:
+    attributes:
+      projet:
+        nb_occupants_a_charge: "Nombre d'occupants à charge"
   helpers:
     label:
       projet:
