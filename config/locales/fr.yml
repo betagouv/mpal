@@ -28,6 +28,11 @@ fr:
     access_forbidden: Vous n'avez pas accès à cette page
     erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
   projets:
+    composition_logement:
+      edition:
+        action: "Je mets à jour"
+      messages:
+        succes: "La composition du logement a bien été mise à jour."
     messages:
       creation:
         titre: 'Félicitations %{usager}'

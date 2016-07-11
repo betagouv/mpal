@@ -20,7 +20,7 @@ feature "Occupant" do
   scenario "composition du logement" do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.modifier_list_occupant')
-    expect(page).to have_content('Occupants: 1')
-    expect(page).to have_content('Occupants sans revenus: 1')
+    fill_in :projet_nb_total_occupants, with: '3'
+    click_button I18n.t('projets.composition_logement.edition.action')
   end
 end

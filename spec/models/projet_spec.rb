@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Projet do
   let(:projet) { FactoryGirl.build(:projet) }
   it { expect(FactoryGirl.build(:projet)).to be_valid }
-  
+
   #let!(:projet) { FactoryGirl.create(:projet) }
   #it { expect(Projet.count).to eq(1) }
 
@@ -12,4 +12,11 @@ describe Projet do
   it { is_expected.to validate_presence_of(:adresse) }
   it { is_expected.to have_many(:intervenants) }
   it { is_expected.to have_many(:evenements) }
+
+  it "calcule le nombre total d'occupants" do
+    occupant = FactoryGirl.create(:occupant, projet: projet)
+    occupant2 = FactoryGirl.create(:occupant, projet: projet)
+    projet.nb_occupants_a_charge = 3
+    expect(projet.nb_total_occupants).to eq(5)
+  end
 end

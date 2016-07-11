@@ -8,6 +8,11 @@ class Projet < ActiveRecord::Base
 
   validates :numero_fiscal, :reference_avis, :adresse, presence: true
 
+  def nb_total_occupants
+    nb_occupants = self.occupants.count || 0
+    return nb_occupants + self.nb_occupants_a_charge
+  end
+
   def intervenants_disponibles(role: nil)
     Intervenant.pour_departement(self.departement, role: role) - self.intervenants
   end

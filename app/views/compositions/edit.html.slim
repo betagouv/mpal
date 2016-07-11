@@ -6,5 +6,9 @@ ul
       = "(#{l(occupant.date_de_naissance)})"
       - if occupant.demandeur
         div class="ui label" Demandeur
-
   = link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
+br
+  = form_for @projet_courant, url: { action: "update" }, html: { class: 'ui form' } do |f|
+    = f.label :nb_occupants_a_charge
+    = f.number_field :nb_occupants_a_charge
+    = f.submit I18n.t('projets.composition_logement.edition.action', projet: @projet_courant.to_s), class: 'ui primary button'
