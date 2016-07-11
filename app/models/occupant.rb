@@ -1,12 +1,11 @@
 class Occupant < ActiveRecord::Base
 
+  enum civilite: [ 'mr', 'mme']
   belongs_to :projet
 
   validates :nom, :prenom, :date_de_naissance, presence: true
 
-  enum civilite: [ 'mr', 'mme']
-
-  scope :sans_revenus, ->   { where(:revenu.in? [nil, 0]) }
+  scope :sans_revenus, -> { where(revenus: nil) }
 
   def to_s
     "#{prenom} #{nom}"

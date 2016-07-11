@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160706132711) do
+ActiveRecord::Schema.define(version: 20160706142433) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,7 +108,8 @@ ActiveRecord::Schema.define(version: 20160706132711) do
     t.string   "departement"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",         array: true
+    t.string   "themes",            array: true
+    t.integer  "nb_total_occupant"
   end
 
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
