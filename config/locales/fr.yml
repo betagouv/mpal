@@ -51,6 +51,12 @@ fr:
       titre_fil_actualite: "Chronologie"
       titre_detail_beneficiaire: "Mes coordonnées"
       lien_ajout_commentaire: 'Répondre'
+      titre_section_composition:
+        one: " 1 occupant"
+        other: "%{count} occupants"
+      occupants_a_charge:
+        one: " 1 occupant à charge."
+        other: "%{count} occupants à charge."
     edition:
       action: 'Je mets à jour mon projet'
       titre: 'Modification du projet'
