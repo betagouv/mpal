@@ -21,9 +21,8 @@ ActiveRecord::Schema.define(version: 20160711145142) do
     t.string   "numero_fiscal"
     t.string   "reference_avis"
     t.integer  "annee"
-    t.integer  "revenu_fiscal_reference"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   add_index "avis_impositions", ["occupant_id"], name: "index_avis_impositions_on_occupant_id", using: :btree
@@ -103,6 +102,7 @@ ActiveRecord::Schema.define(version: 20160711145142) do
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
     t.boolean  "demandeur"
+    t.integer  "revenus"
   end
 
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree

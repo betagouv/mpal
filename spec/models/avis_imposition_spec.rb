@@ -6,7 +6,6 @@ describe AvisImposition do
   it { is_expected.to validate_presence_of(:numero_fiscal) }
   it { is_expected.to validate_presence_of(:reference_avis) }
   it { is_expected.to validate_presence_of(:annee) }
-  it { is_expected.to validate_presence_of(:revenu_fiscal_reference) }
   it { is_expected.to belong_to(:occupant) }
 
 end

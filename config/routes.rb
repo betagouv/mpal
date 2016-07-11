@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :occupants, only: [:new, :create, :edit, :update]
       resources :commentaires, only: :create
       resource  :composition
+      resource  :avis_imposition
     end
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
