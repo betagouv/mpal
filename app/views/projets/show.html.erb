@@ -13,7 +13,7 @@
           <td>Adresse du logement à rénover</td>
           <td><%= @projet_courant.adresse %></td>
         </tr>
-        <% if @role_utilisateur == :demandeur %>
+        <% if @utilisateur_courant.is_a? Occupant %>
         <tr>
           <td>Email de contact</td>
           <td><%= @projet_courant.email %></td>

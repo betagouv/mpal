@@ -4,7 +4,7 @@
     <div class="meta">
       <% intervenant.roles.each do |role| %>
         <div class="ui label"><%= role %></div>
-      <% end if intervenant.roles.present? && @role_utilisateur == :intervenant %>
+      <% end if intervenant.roles.present? && @utilisateur_courant.is_a?(Intervenant) %>
     </div>
     <div class="meta"><%= intervenant.adresse_postale %></div>
     
