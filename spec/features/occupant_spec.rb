@@ -17,7 +17,7 @@ feature "Occupant" do
     expect(page).to have_content('Jean-Pierre Marielle')
   end
 
-  scenario "composition du logement", pending: true do
+  scenario "composition du logement" do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.modifier_list_occupant')
     expect(page).to have_content('Occupants: 1')

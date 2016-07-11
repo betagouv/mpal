@@ -18,9 +18,9 @@ class ProjetsController < ApplicationController
       longitude: @projet_courant.longitude
     })
     if @utilisateur_courant.is_a? Intervenant
-      @intervenants_disponibles = @projet.intervenants_disponibles(role: :operateur)
+      @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur)
     else
-      @intervenants_disponibles = @projet.intervenants_disponibles(role: :pris)
+      @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :pris)
     end
     @commentaire = Commentaire.new(projet: @projet_courant)
   end
