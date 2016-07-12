@@ -31,4 +31,6 @@ Rails.application.routes.draw do
     username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
   end if Rails.env.production?
   mount Sidekiq::Web, at: "/sidekiq"
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" unless Rails.env.production?
 end
