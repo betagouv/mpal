@@ -15,4 +15,4 @@ RUN gem install rb-readline
 
 ADD . /app
 
-CMD bin/rake db:migrate RAILS_ENV=development && foreman start
+CMD foreman start
