@@ -2,10 +2,12 @@ require 'rails_helper'
 require 'support/api_ban_helper'
 
 class MonServiceContribuable
-  attr_reader :adresse, :declarants
+  attr_reader :adresse, :declarants, :annee_impots, :nombre_personnes_charge
   def initialize(params)
     @adresse = params[:adresse]
     @declarants = params[:declarants]
+    @annee_impots = params[:annee_impots]
+    @nombre_personnes_charge = params[:nombre_personnes_charge]
   end
 
   def retrouve_contribuable(numero_fiscal, reference_avis)
@@ -26,15 +28,17 @@ class MonServiceAdresse
   end
 end
 
-describe ProjetFacade do
+describe ProjetConstructeur do
   it "renvoie un projet qui contient l'adresse" do
     adresse = "12 rue de la Mare, 75010 Paris"
     declarants = [ {prenom: 'Jean', nom: 'Martin', date_de_naissance: '19/04/1980'}]
-    mon_service_contribuable = MonServiceContribuable.new(adresse: adresse, declarants: declarants)
+    annee_impots = "2015"
+    nombre_personnes_charge = 3
+    mon_service_contribuable = MonServiceContribuable.new(adresse: adresse, declarants: declarants, annee_impots: annee_impots, nombre_personnes_charge: nombre_personnes_charge)
     mon_service_adresse = MonServiceAdresse.new(adresse: adresse, latitude: '46', longitude: '6', departement: '92')
-    facade = ProjetFacade.new(mon_service_contribuable, mon_service_adresse)
+    constructeur = ProjetConstructeur.new(mon_service_contribuable, mon_service_adresse)
 
-    projet = facade.initialise_projet(12, 15)
+    projet = constructeur.initialise_projet(12, 15)
     projet.save
 
     expect(projet.adresse).to eq(adresse)

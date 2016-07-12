@@ -1,6 +1,7 @@
 class CompositionsController < ApplicationController
 
   def edit
+    @calcul = params[:calcul]
   end
 
   def update
@@ -11,4 +12,5 @@ class CompositionsController < ApplicationController
       render :edit, notice: @projet_courant.errors
     end
   end
+
 end

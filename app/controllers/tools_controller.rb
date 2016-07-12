@@ -3,11 +3,12 @@ class ToolsController < ApplicationController
 
   def reset_base
     unless Rails.env.production?
-      Evenement.delete_all
-      Occupant.delete_all
-      Invitation.delete_all
-      Commentaire.delete_all
-      Projet.delete_all
+      Evenement.destroy_all
+      Occupant.destroy_all
+      Invitation.destroy_all
+      Commentaire.destroy_all
+      AvisImposition.destroy_all
+      Projet.destroy_all
       redirect_to root_path, notice: t('reinitialisation.succes')
     end
   end
