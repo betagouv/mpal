@@ -27,4 +27,16 @@ class Projet < ActiveRecord::Base
     occupant = self.demandeur_principal
     occupant.to_s if occupant
   end
+
+  def calcul_revenu_fiscal_reference
+    total_revenu_fiscal_reference = 0
+    avis_impositions.map(&:annee).each do |annee|
+      avis_impositions.where(annee: annee).each do |avis_imposition|
+        contribuable = ApiParticulier.new.retrouve_contribuable(avis_imposition.numero_fiscal, avis_imposition.reference_avis)
+        total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference
+      end
+    end
+    return total_revenu_fiscal_reference
+  end
+
 end

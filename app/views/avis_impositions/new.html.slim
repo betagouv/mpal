@@ -1,0 +1,9 @@
+= form_for [@projet_courant, @occupant, @avis_imposition], html: { class:'ui form'} do |f|
+  div class="field"
+    = f.label :numero_fiscal
+    = f.text_field :numero_fiscal
+  div class="field"
+    = f.label :reference_avis
+    = f.text_field :reference_avis
+  div class="field"
+    = f.submit t('projets.composition_logement.avis_imposition.creation.action'), class:"ui primary button"

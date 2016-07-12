@@ -25,6 +25,11 @@ class ProjetsController < ApplicationController
     @commentaire = Commentaire.new(projet: @projet_courant)
   end
 
+  def calcul_revenu_fiscal_reference
+    @calcul = @projet_courant.calcul_revenu_fiscal_reference
+    redirect_to edit_projet_composition_path(@projet_courant, calcul: @calcul)
+  end
+
   private
 
   def projet_params
