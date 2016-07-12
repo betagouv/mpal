@@ -123,5 +123,6 @@ fr:
     creation_projet: 'Création du projet'
     invitation_intervenant: "Invitation de l'intervenant %{intervenant}"
     mise_en_relation_intervenant: "Invitation de %{intervenant} par %{intermediaire}"
+    ajout_avis_imposition: "Ajout de l'avis d'imposition %{avis_imposition}"
   reinitialisation:
     succes: 'Réinitialisation effectuée'
