@@ -13,6 +13,8 @@ class Evenement < ActiveRecord::Base
       I18n.t('invitation_intervenant', scope: 'evenements', intervenant: self.producteur.intervenant)
     when 'mise_en_relation_intervenant'
       I18n.t('mise_en_relation_intervenant', scope: 'evenements', intermediaire: self.producteur.intermediaire, intervenant: self.producteur.intervenant)
+    when 'ajout_avis_imposition'
+      I18n.t('ajout_avis_imposition', scope: 'evenements', avis_imposition: self.producteur.label)
     end
   end
 

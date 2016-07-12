@@ -20,6 +20,7 @@ class AvisImpositionsController < ApplicationController
     if avis_imposition
       avis_imposition.projet = @projet_courant
       avis_imposition.save
+      EvenementEnregistreurJob.perform_later(label: 'ajout_avis_imposition', projet: @projet_courant, producteur: avis_imposition)
       redirect_to projet_avis_imposition_path(@projet_courant, avis_imposition)
     else
       redirect_to edit_projet_composition_path(@projet_courant), alert: t('projets.composition_logement.avis_imposition.messages.non_trouve')
