@@ -26,15 +26,15 @@ class MonServiceAdresse
   end
 end
 
-describe ProjetFacade do
+describe ProjetConstructeur do
   it "renvoie un projet qui contient l'adresse" do
     adresse = "12 rue de la Mare, 75010 Paris"
     declarants = [ {prenom: 'Jean', nom: 'Martin', date_de_naissance: '19/04/1980'}]
     mon_service_contribuable = MonServiceContribuable.new(adresse: adresse, declarants: declarants)
     mon_service_adresse = MonServiceAdresse.new(adresse: adresse, latitude: '46', longitude: '6', departement: '92')
-    facade = ProjetFacade.new(mon_service_contribuable, mon_service_adresse)
+    constructeur = ProjetConstructeur.new(mon_service_contribuable, mon_service_adresse)
 
-    projet = facade.initialise_projet(12, 15)
+    projet = constructeur.initialise_projet(12, 15)
     projet.save
 
     expect(projet.adresse).to eq(adresse)

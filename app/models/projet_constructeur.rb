@@ -1,4 +1,4 @@
-class ProjetFacade
+class ProjetConstructeur
   def initialize(service, service_adresse)
     @service = service
     @service_adresse = service_adresse

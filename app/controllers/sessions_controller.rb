@@ -1,7 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :authentifie
   def new
-    
+
   end
 
   def create
@@ -11,17 +11,17 @@ class SessionsController < ApplicationController
       projet = ProjetEntrepot.par_numero_fiscal(params[:numero_fiscal])
       if projet
         redirect_to projet
-      else 
+      else
         create_projet_and_redirect
       end
-    else 
+    else
       redirect_to new_session_path, alert: t('sessions.invalid_credentials')
     end
   end
-  
+
   def create_projet_and_redirect
-    facade = ProjetFacade.new(ApiParticulier.new, ApiBan.new)
-    projet = facade.initialise_projet(params[:numero_fiscal], params[:reference_avis])
+    constructeur = ProjetConstructeur.new(ApiParticulier.new, ApiBan.new)
+    projet = constructeur.initialise_projet(params[:numero_fiscal], params[:reference_avis])
     if projet.save
       EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')

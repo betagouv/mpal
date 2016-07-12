@@ -3,6 +3,6 @@ FactoryGirl.define do
     numero_fiscal 12
     reference_avis 122
     annee 2013
-    occupant
+    projet
   end
 end
