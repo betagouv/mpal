@@ -16,7 +16,7 @@ class InvitationsController < ApplicationController
     @intervenant = Intervenant.find(params[:intervenant_id])
     @invitation = Invitation.new(projet: @projet_courant, intermediaire: @utilisateur_courant, intervenant: @intervenant)
     if @invitation.save
-      ProjetMailer.notification_mise_en_relation_intervenant(@invitation).deliver_later!
+      ProjetMailer.mise_en_relation_intervenant(@invitation).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'mise_en_relation_intervenant', projet: @projet_courant, producteur: @invitation)
       redirect_to projet_path(@projet_courant, jeton: params[:jeton]), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else
