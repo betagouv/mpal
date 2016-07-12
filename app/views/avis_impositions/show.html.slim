@@ -14,7 +14,7 @@ div class="ui grid"
       = "Foyer Fiscal"
 
 div
-  = link_to t('projets.composition_logement.avis_imposition.supprimer.action'), projet_occupant_avis_imposition_path(@projet_courant, occupant_id: @avis_imposition.occupant.id, id: @avis_imposition.id), method: :delete
+  = link_to t('projets.composition_logement.avis_imposition.supprimer.action'), projet_avis_imposition_path(@projet_courant, id: @avis_imposition.id), method: :delete
 
   table class="ui definition table"
     tbody

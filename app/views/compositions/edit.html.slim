@@ -1,29 +1,41 @@
 = affiche_erreurs_avec_cle @projet_courant, t('compositions.messages.erreur')
 
-h3 Occupants
-ul
-  - @projet_courant.occupants.each do |occupant|
-    li id="occupant_#{occupant.id}"
-      = link_to occupant.to_s, edit_projet_occupant_path(@projet_courant, occupant)
-      = "(#{l(occupant.date_de_naissance)})"
-      - if occupant.demandeur
-        div class="ui label" Demandeur
-  = link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
+div class="ui grid"
+  div class="twelve wide column"
 
-h3 Avis d'imposition
-ul
-  - @projet_courant.occupants.each do |occupant|
-    - occupant.avis_impositions.each do |avis_imposition|
-      li = link_to avis_imposition.annee, projet_occupant_avis_imposition_path(@projet_courant, occupant_id: occupant.id, id: avis_imposition.id)
-  = link_to t('projets.composition_logement.avis_imposition.nouveau.action'), new_projet_occupant_avis_imposition_path(@projet_courant, occupant_id: @projet_courant.occupants.first), class: 'ui primary button'
+    h2 class="ui horizontal divider header"
+      i class="tag icon"
+      = "Occupants"
+    ul
+      - @projet_courant.occupants.each do |occupant|
+        li id="occupant_#{occupant.id}"
+          = link_to occupant.to_s, edit_projet_occupant_path(@projet_courant, occupant)
+          = "(#{l(occupant.date_de_naissance)})"
+          - if occupant.demandeur
+            div class="ui label" Demandeur
+      = link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
+    h3 Nombre d'occupants à charge
+    br
+      = form_for @projet_courant, url: { action: "update" }, html: { class: 'ui form' } do |f|
+        = f.number_field :nb_occupants_a_charge
+        = f.submit t('projets.composition_logement.edition.action', projet: @projet_courant.to_s), class: 'ui primary button'
 
-h3 Calcul global du revenu fiscal de référence
-div
-  = @calcul
-= link_to t('projets.composition_logement.calcul_revenu_fiscal_reference.calcul.action'), projet_calcul_revenu_fiscal_reference_path(@projet_courant), class: 'ui primary button'
+    h2 class="ui horizontal divider header"
+      i class="tag icon"
+      = "Avis d'imposition"
+    h2 class="ui horizontal divider header"
+    = link_to t('projets.composition_logement.avis_imposition.nouveau.action'), new_projet_avis_imposition_path(@projet_courant), class: 'ui primary button'
 
-h3 Nombre d'occupants à charge
-br
-  = form_for @projet_courant, url: { action: "update" }, html: { class: 'ui form' } do |f|
-    = f.number_field :nb_occupants_a_charge
-    = f.submit t('projets.composition_logement.edition.action', projet: @projet_courant.to_s), class: 'ui primary button'
+    - @projet_courant.avis_impositions.map(&:annee).uniq.each do |annee|
+      h3 class="ui horizontal divider header"
+        = annee
+      - @projet_courant.avis_impositions.where(annee: annee).each do |avis_imposition|
+        li = link_to avis_imposition.label, projet_avis_imposition_path(@projet_courant, id: avis_imposition.id)
+
+      h2 class="ui horizontal divider header"
+      div
+        = "Revenu total: #{@calcul} euros" if @calcul
+      = link_to t('projets.composition_logement.calcul_revenu_fiscal_reference.calcul.action', annee: annee.to_s), projet_calcul_revenu_fiscal_reference_path(@projet_courant, annee: annee), class: 'ui primary button'
+
+
+

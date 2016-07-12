@@ -49,7 +49,7 @@ fr:
             foyer_fiscal: "Foyer Fiscal"
       calcul_revenu_fiscal_reference:
         calcul:
-          action: "Je calcule mon revenu fiscal de référence par année"
+          action: "Je calcule mon revenu fiscal de référence pour l'année %{annee}"
       edition:
         action: "Je mets à jour"
       messages:

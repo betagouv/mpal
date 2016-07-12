@@ -26,7 +26,7 @@ class ProjetsController < ApplicationController
   end
 
   def calcul_revenu_fiscal_reference
-    @calcul = @projet_courant.calcul_revenu_fiscal_reference
+    @calcul = @projet_courant.calcul_revenu_fiscal_reference(params[:annee])
     redirect_to edit_projet_composition_path(@projet_courant, calcul: @calcul)
   end
 
