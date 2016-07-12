@@ -17,6 +17,10 @@ class Invitation < ActiveRecord::Base
     self.intervenant.email
   end
 
+  def projet_email
+    self.projet.email
+  end
+
   private
   def generate_token
     sha = Digest::SHA2.new << Time.now.to_i.to_s + Time.now.usec.to_s

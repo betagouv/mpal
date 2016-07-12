@@ -16,7 +16,7 @@ class InvitationsController < ApplicationController
     @intervenant = Intervenant.find(params[:intervenant_id])
     @invitation = Invitation.new(projet: @projet_courant, intermediaire: @utilisateur_courant, intervenant: @intervenant)
     if @invitation.save
-      ProjetMailer.mise_en_relation_intervenant(@invitation).deliver_later!
+      ProjetMailer.notification_mise_en_relation_intervenant(@invitation).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'mise_en_relation_intervenant', projet: @projet_courant, producteur: @invitation)
       redirect_to projet_path(@projet_courant, jeton: params[:jeton]), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else
@@ -33,6 +33,7 @@ class InvitationsController < ApplicationController
     @invitation = Invitation.new(projet: @projet_courant, intervenant: @intervenant)
     if valid? && @projet_courant.save && @invitation.save
       ProjetMailer.invitation_intervenant(@invitation).deliver_later!
+      ProjetMailer.notification_invitation_intervenant(@invitation).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: @projet_courant, producteur: @invitation)
       flash[:notice_titre] = t('invitations.messages.succes_titre')
       redirect_to projet_path(@projet_courant, jeton: params[:jeton]), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
