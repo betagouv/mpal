@@ -2,33 +2,39 @@ version: '2'
 
 services:
   postgres:
-    build:
-      context: .
-      dockerfile: Dockerfile-postgres
+    image: postgres:9.5
     environment:
-      POSTGRES_DB: mpal
-      POSTGRES_USER: mpal
       POSTGRES_PASSWORD: mpal
+    volumes_from:
+      - data
+    port:
+      - 5432:5432
+  data:
+    image: busybox
+    volumes:
+      - "/var/lib/postgresql"
+
   redis:
-    build:
-      context: .
-      dockerfile: Dockerfile-redis
+    image: redis
+
   mpal:
     depends_on:
       - postgres
       - redis
     build:
       context: .
-      dockerfile: Dockerfile-mpal
     ports:
       - 5000:5000
     volumes:
       - .:/app/
-  test:
+    command: foreman start web
+
+  sidekiq:
     depends_on:
-      - postgres
+      - redis
     build:
       context: .
-      dockerfile: Dockerfile-mpal-test
     volumes:
       - .:/app/
+    command: foreman start worker
+
