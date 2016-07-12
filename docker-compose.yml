@@ -4,10 +4,11 @@ services:
   postgres:
     image: postgres:9.5
     environment:
+      POSTGRES_USER: mpal
       POSTGRES_PASSWORD: mpal
     volumes_from:
       - data
-    port:
+    ports:
       - 5432:5432
   data:
     image: busybox
