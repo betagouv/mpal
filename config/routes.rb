@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   root 'welcome#index'
   constraints subdomain: "api.#{ENV['SUBDOMAIN']}", format: 'json' do
     namespace :api, path: '/v1/' do
-      resources :projets, only: :show
+      resources :projets, only: :show do
+        resources :prestations, only: :create
+      end
     end
   end
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do

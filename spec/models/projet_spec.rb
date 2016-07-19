@@ -12,6 +12,7 @@ describe Projet do
   it { is_expected.to validate_presence_of(:adresse) }
   it { is_expected.to have_many(:intervenants) }
   it { is_expected.to have_many(:evenements) }
+  it { is_expected.to have_many(:prestations) }
   it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
 
   it "calcule le nombre total d'occupants" do
