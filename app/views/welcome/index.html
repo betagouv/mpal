@@ -7,7 +7,7 @@
     <div class="right menu">
       <div class="item">
         <%= link_to t('accueil.menu.mon_projet'), new_session_path, class: "ui primary button" %>
-        <%= link_to t('accueil.reset'), reset_path, class: "ui primary button" unless Rails.env.production? %>
+        <%= link_to t('accueil.reset'), reset_path, class: "ui primary button" if Tools.can_reset? %>
       </div>
     </div>
   </div>

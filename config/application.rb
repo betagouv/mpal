@@ -25,5 +25,7 @@ module Mpal
 
     config.action_mailer.default_url_options = { host: ENV['HOST']}
     config.active_job.queue_adapter = :sidekiq
+
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end
