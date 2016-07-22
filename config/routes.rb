@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :avis_impositions
 
       get '/calcul_revenu_fiscal_reference', to: 'projets#calcul_revenu_fiscal_reference', as: 'calcul_revenu_fiscal_reference'
+      get '/demande', to: 'projets#demande', as: 'demande'
     end
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'

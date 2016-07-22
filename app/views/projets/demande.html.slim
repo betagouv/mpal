@@ -1,0 +1,5 @@
+.prestations
+  .retenues
+    h1 Prestations retenues
+    - @projet_courant.prestations.each do |prestation|
+      = prestation.libelle

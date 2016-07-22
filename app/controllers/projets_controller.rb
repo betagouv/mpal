@@ -30,6 +30,10 @@ class ProjetsController < ApplicationController
     redirect_to edit_projet_composition_path(@projet_courant, calcul: @calcul)
   end
 
+  def demande
+
+  end
+
   private
 
   def projet_params
