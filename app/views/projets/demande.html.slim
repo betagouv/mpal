@@ -1,5 +1,17 @@
-.prestations
-  .retenues
-    h1 Prestations retenues
-    - @projet_courant.prestations.each do |prestation|
-      = prestation.libelle
+.prestations.ui.horizontal.segments
+  .souhaite.ui.segment
+    h3 Prestations souhaitées
+    ul.ui.list
+    - @projet_courant.prestations.where(scenario: 'souhaite').each do |prestation|
+      .li= prestation.libelle
+  .preconise.ui.segment
+    h3 Prestations préconisées
+    ul.ui.bulleted.list
+      - @projet_courant.prestations.where(scenario: 'preconise').each do |prestation|
+        .li= prestation.libelle
+  .retenue.ui.segment
+    h3 Prestations retenues
+    ul.ui.bulleted.list
+      - @projet_courant.prestations.where(scenario: 'retenu').each do |prestation|
+        .li= prestation.libelle
+
