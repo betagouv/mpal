@@ -1,17 +1,7 @@
 .prestations.ui.horizontal.segments
-  .souhaite.ui.segment
-    h3 Prestations souhaitées
-    ul.ui.list
-    - @projet_courant.prestations.where(scenario: 'souhaite').each do |prestation|
-      .li= prestation.libelle
-  .preconise.ui.segment
-    h3 Prestations préconisées
-    ul.ui.bulleted.list
-      - @projet_courant.prestations.where(scenario: 'preconise').each do |prestation|
-        .li= prestation.libelle
-  .retenue.ui.segment
-    h3 Prestations retenues
-    ul.ui.bulleted.list
-      - @projet_courant.prestations.where(scenario: 'retenu').each do |prestation|
-        .li= prestation.libelle
+
+  - sections = [ {adjectif: 'souhaitées', scenario: 'souhaite'}, {adjectif: 'préconisées', scenario: 'preconise'}, {adjectif: 'retenues', scenario: 'retenu'} ]
+  - sections.each do |section|
+    - prestations = @projet_courant.prestations.where(scenario: section[:scenario])
+    = render partial: 'prestations', locals: section.merge(prestations: prestations)
 

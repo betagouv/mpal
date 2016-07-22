@@ -1,0 +1,6 @@
+div class="#{scenario} ui segment"
+  h3= "Prestations #{adjectif}"
+  ul.ui.list
+    - prestations.each do |prestation| 
+      .li= prestation.libelle
+

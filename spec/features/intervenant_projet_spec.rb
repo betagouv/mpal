@@ -26,7 +26,7 @@ feature "intervenant" do
   scenario "visualisation de la demande de financement par l'operateur" do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
     expect(page).to have_content('Prestations retenues')
-    within '.prestations .retenue' do
+    within '.prestations .retenu' do
       expect(page).to have_content(chaudiere_r.libelle)
       expect(page).to have_content(production_ecs_r.libelle)
     end
