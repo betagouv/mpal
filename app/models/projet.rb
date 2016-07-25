@@ -7,6 +7,7 @@ class Projet < ActiveRecord::Base
   has_many :commentaires, -> { order('created_at DESC') }
   has_many :avis_impositions
   has_many :prestations
+  has_many :subventions
 
   validates :numero_fiscal, :reference_avis, :adresse, presence: true
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
