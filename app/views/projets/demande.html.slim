@@ -1,3 +1,34 @@
+div
+h1.ui.header Opérateur
+table.ui.basic.table
+  tbody
+    tr
+      td Operateur
+      td= @projet_courant.operateur
+  
+h1.ui.header Demandeur
+table.ui.basic.table
+  tbody
+    tr
+      td Nom
+      td= @projet_courant.demandeur_principal
+    tr
+      td Nombre d'occupants
+      td= @projet_courant.nb_total_occupants
+    tr
+      td Catégorie
+      td Propriétaire Occupant
+
+h1.ui.header Logement
+table.ui.basic.table
+  tbody
+    tr
+      td Adresse postale
+      td= @projet_courant.adresse
+    tr
+      td Année de construction
+      td
+
 h1.ui.header Plan de travaux
 .prestations.ui.horizontal.segments
 
