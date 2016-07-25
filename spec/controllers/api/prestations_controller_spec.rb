@@ -4,6 +4,7 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 describe API::PrestationsController do
+  before(:each) { set_token_header('test') }
   describe "ajoute un plan de travaux" do 
     let(:projet) { FactoryGirl.create(:projet) }
     it "ajoute un plan de travaux pour un projet donné" do

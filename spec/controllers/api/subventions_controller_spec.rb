@@ -4,6 +4,7 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 describe API::SubventionsController do
+  before(:each) { set_token_header('test') }
   let(:projet) { FactoryGirl.create(:projet) }
   describe "ajoute un plan de financmenet" do 
     it "ajoute un plan de financement pour un projet donné" do
