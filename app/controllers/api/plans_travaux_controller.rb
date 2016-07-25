@@ -1,5 +1,5 @@
 module API
-  class PrestationsController < APIController
+  class PlansTravauxController < APIController
     def create
       projet = Projet.find(params[:projet_id])
       plan_travaux_existe = projet.prestations.any?
