@@ -1,0 +1,10 @@
+table.subventions.ui.celled.table
+  thead
+    tr
+      th Libellé
+      th Montant
+  tbody
+    - @projet_courant.subventions.each do |subvention|
+      tr
+        td= subvention.libelle
+        td= subvention.montant

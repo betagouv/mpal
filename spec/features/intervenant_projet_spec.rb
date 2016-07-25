@@ -15,6 +15,9 @@ feature "intervenant" do
   let!(:chaudiere_p) { FactoryGirl.create(:prestation, libelle: 'Chaudière', scenario: :preconise, projet: projet) }
   let!(:production_ecs_p) { FactoryGirl.create(:prestation, libelle: 'Production ECS', scenario: :preconise, projet: projet) }
 
+  let!(:subvention_cd95) { FactoryGirl.create(:subvention, libelle:'CD95 - Aide amélioration habitat privé', montant: 2305.10, projet: projet) }
+  let!(:subvention_anah) { FactoryGirl.create(:subvention, libelle:'ANAH - Habiter mieux', montant: 2305.10, projet: projet) }
+
   scenario "visualisation d'un projet par un pris" do
     visit projet_path(invitation.projet, jeton: invitation.token)
     expect(page).to have_content(projet.adresse)
@@ -23,7 +26,7 @@ feature "intervenant" do
     end
   end
 
-  scenario "visualisation de la demande de financement par l'operateur" do
+  scenario "visualisation de la demande de travaux par l'operateur" do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
     expect(page).to have_content('Prestations retenues')
     within '.prestations .retenu' do
@@ -37,6 +40,14 @@ feature "intervenant" do
     within '.prestations .preconise' do
       expect(page).to have_content(chaudiere_p.libelle)
       expect(page).to have_content(production_ecs_p.libelle)
+    end
+  end
+
+  scenario "visualisation de la demande de financement par l'operateur" do
+    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
+    expect(page).to have_content('Plan de financement')
+    within ".subventions" do
+      expect(page).to have_content(subvention_cd95.libelle)
     end
   end
 end

@@ -1,3 +1,4 @@
+h1.ui.header Plan de travaux
 .prestations.ui.horizontal.segments
 
   - sections = [ {adjectif: 'souhaitées', scenario: 'souhaite'}, {adjectif: 'préconisées', scenario: 'preconise'}, {adjectif: 'retenues', scenario: 'retenu'} ]
@@ -5,3 +6,5 @@
     - prestations = @projet_courant.prestations.where(scenario: section[:scenario])
     = render partial: 'prestations', locals: section.merge(prestations: prestations)
 
+h1.ui.header Plan de financement
+= render partial: 'subventions', locals: { subventions: @projet_courant.subventions }
