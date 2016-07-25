@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-describe API::SubventionsController do
+describe API::PlansFinancementsController do
   before(:each) { set_token_header('test') }
   let(:projet) { FactoryGirl.create(:projet) }
   describe "ajoute un plan de financmenet" do 

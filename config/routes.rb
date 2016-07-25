@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     namespace :api, path: '/v1/' do
       resources :projets, only: :show do
         resource :plan_travaux, only: :create
-        resources :subventions, only: :create
+        resource :plan_financements, only: :create
       end
     end
   end

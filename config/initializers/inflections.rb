@@ -14,4 +14,5 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'API'
   inflect.irregular 'plan_travaux','plans_travaux'
+  inflect.irregular 'plan_financements','plans_financements'
 end
