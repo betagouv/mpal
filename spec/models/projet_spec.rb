@@ -21,4 +21,10 @@ describe Projet do
     projet.nb_occupants_a_charge = 3
     expect(projet.nb_total_occupants).to eq(5)
   end
+
+  it "renvoie l'opérateur chargé du projet" do
+    operateur = FactoryGirl.create(:intervenant, :operateur) 
+    invitation = FactoryGirl.create(:invitation, intervenant: operateur, projet: projet)
+    expect(projet.operateur.id).to eq(operateur.id)
+  end
 end

@@ -39,4 +39,7 @@ class Projet < ActiveRecord::Base
     return total_revenu_fiscal_reference
   end
 
+  def operateur
+    self.intervenants.where("'operateur' = ANY (roles)").first
+  end
 end
