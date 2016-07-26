@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
   root 'welcome#index'
-  constraints subdomain: "api.#{ENV['SUBDOMAIN']}", format: 'json' do
-    namespace :api, path: '/v1/' do
-      resources :projets, only: :show do
-        resource :plan_travaux, only: :create
-        resource :plan_financements, only: :create
-      end
+  # constraints subdomain: "api.#{ENV['SUBDOMAIN']}", format: 'json' do
+  namespace :api, path: '/api/v1/' do
+    resources :projets, only: :show do
+      resource :plan_travaux, only: :create
+      resource :plan_financements, only: :create
     end
   end
+  #end
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :projets, only: [:show, :edit, :update] do
       resources :occupants, only: [:new, :create, :edit, :update]
@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
       get '/calcul_revenu_fiscal_reference', to: 'projets#calcul_revenu_fiscal_reference', as: 'calcul_revenu_fiscal_reference'
       get '/demande', to: 'projets#demande', as: 'demande'
+
+      post '/transfert_csv', to: 'transfert_csv#create'
     end
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'

@@ -55,3 +55,6 @@ gem 'active_model_serializers'
 gem 'sidekiq'
 gem 'redis-namespace'
 gem 'sinatra', require: false
+
+gem 'csv2json'
+gem 'orderedhash'

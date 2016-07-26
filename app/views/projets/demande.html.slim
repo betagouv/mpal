@@ -1,4 +1,3 @@
-div
 h1.ui.header Opérateur
 table.ui.basic.table
   tbody
@@ -39,3 +38,9 @@ h1.ui.header Plan de travaux
 
 h1.ui.header Plan de financement
 = render partial: 'subventions', locals: { subventions: @projet_courant.subventions }
+
+h4.ui.header Déposer un plan de travaux
+= form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do 
+  = file_field_tag 'fichier_travaux'
+  = submit_tag 'Envoyer'
+

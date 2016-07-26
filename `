@@ -1,0 +1,10 @@
+class TransfertXCsvController < ApplicationController
+  def create
+    raise 'coucou'
+    travaux_csv = params[:travaux_csv]
+    travaux_json = StringIO.new
+    CSV2JSON.parse(travaux_csv, travaux_json)
+    travaux_json.pos = 0
+    API::PlansTravauxController.new.creer_projet(params[:projet_id], travaux_json)
+  end
+end
