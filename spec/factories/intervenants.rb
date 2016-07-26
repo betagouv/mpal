@@ -10,5 +10,9 @@ FactoryGirl.define do
       sequence(:raison_sociale) {|n| "Pris#{n}" }
       roles ['pris']
     end
+    trait :instructeur do
+      sequence(:raison_sociale) {|n| "Instructeur#{n}" }
+      roles ['instructeur']
+    end
   end
 end

@@ -3,9 +3,11 @@ class ApplicationController < ActionController::Base
   before_action :authentifie
 
   def authentifie
-    if params[:jeton]
+    jeton = params[:jeton] || session[:jeton]
+    if jeton
+      session[:jeton] = jeton
       @role_utilisateur = :intervenant
-      invitation = Invitation.find_by_token(params[:jeton])
+      invitation = Invitation.find_by_token(jeton)
       if invitation
         @projet_courant = invitation.projet
         @utilisateur_courant = invitation.intervenant

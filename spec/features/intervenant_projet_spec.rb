@@ -18,6 +18,8 @@ feature "intervenant" do
   let!(:subvention_cd95) { FactoryGirl.create(:subvention, libelle:'CD95 - Aide amélioration habitat privé', montant: 2305.10, projet: projet) }
   let!(:subvention_anah) { FactoryGirl.create(:subvention, libelle:'ANAH - Habiter mieux', montant: 2305.10, projet: projet) }
 
+  let!(:instructeur) { FactoryGirl.create(:intervenant, :instructeur, departements: [ projet.departement ]) }
+
   scenario "visualisation d'un projet par un pris" do
     visit projet_path(invitation.projet, jeton: invitation.token)
     expect(page).to have_content(projet.adresse)
@@ -49,5 +51,12 @@ feature "intervenant" do
     within ".subventions" do
       expect(page).to have_content(subvention_cd95.libelle)
     end
+  end
+
+  scenario "invitation de l'instructeur à instruire la demande" do
+    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
+    click_button I18n.t('projets.demande.action')
+    expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: instructeur.raison_sociale))
+    expect(projet.intervenants). to include(instructeur)
   end
 end

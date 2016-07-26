@@ -67,9 +67,16 @@
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
+    "raison_sociale": "Adil 88",
+    "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
+    "roles": ["pris"],
+    "departements": ["88"],
+    "email": "operateur@anah.beta.gouv.fr"
+  },
+  {
     "raison_sociale": "Direction Départementale des Territoires des Vosges",
     "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
-    "roles": ["pris", "instructeur"],
+    "roles": ["instructeur"],
     "departements": ["88"],
     "email": "operateur@anah.beta.gouv.fr"
   },

@@ -31,7 +31,7 @@ class ProjetsController < ApplicationController
   end
 
   def demande
-
+    @instructeur = Intervenant.pour_departement(@projet_courant.departement, role: 'instructeur').first
   end
 
   private
