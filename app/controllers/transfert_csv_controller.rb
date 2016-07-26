@@ -1,4 +1,4 @@
-class TransfertCsvController < ActionController::Base
+class TransfertCsvController < ApplicationController
   def create
     projet_id = params[:projet_id]
     travaux_csv = params[:fichier_travaux].open
