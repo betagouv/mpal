@@ -6,15 +6,20 @@ class InvitationsController < ApplicationController
 
   def create
     if @utilisateur_courant.is_a? Intervenant
-      create_mise_en_relation
+      cree_mise_en_relation
     else
-      create_invitation
+      cree_invitation
     end
   end
 
-  def create_mise_en_relation
+  def cree_mise_en_relation
     @intervenant = Intervenant.find(params[:intervenant_id])
-    @invitation = Invitation.new(projet: @projet_courant, intermediaire: @utilisateur_courant, intervenant: @intervenant)
+    @invitation = @projet_courant.invitations.where(intervenant: @intervenant).first
+    if @invitation
+      @invitation.intermediaire = @utilisateur_courant
+    else
+      @invitation = Invitation.new(projet: @projet_courant, intermediaire: @utilisateur_courant, intervenant: @intervenant)
+    end
     if @invitation.save
       ProjetMailer.mise_en_relation_intervenant(@invitation).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'mise_en_relation_intervenant', projet: @projet_courant, producteur: @invitation)
@@ -24,7 +29,7 @@ class InvitationsController < ApplicationController
     end
   end
 
-  def create_invitation
+  def cree_invitation
     @intervenant = Intervenant.find(params[:intervenant_id])
     @projet_courant.adresse = params[:projet][:adresse]
     @projet_courant.description = params[:projet][:description]
