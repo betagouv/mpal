@@ -4,27 +4,34 @@
     "roles": ["operateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
-    "email": "operateur@anah.beta.gouv.fr"
+    "email": "citemetrie95@mailinator.com"
   },
   {
     "raison_sociale": "CACP",
     "roles": ["operateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
-    "email": "operateur@anah.beta.gouv.fr"
+    "email": "cacp95@mailinator.com"
   },
   {
     "raison_sociale": "Soliha 95",
     "roles": ["operateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
-    "email": "operateur@anah.beta.gouv.fr"
+    "email": "soliha95@mailinator.com"
   },
   {
     "raison_sociale": "CoProDiag",
     "roles": ["operateur"],
     "departements": ["95"],
     "themes": ["autonomie","insalubrité", "énergie"],
+    "email": "coprodiag95@mailinator.com"
+  },
+  {
+    "raison_sociale": "DDT 95",
+    "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
+    "roles": ["instructeur"],
+    "departements": ["95"],
     "email": "operateur@anah.beta.gouv.fr"
   },
   {
@@ -34,7 +41,7 @@
     "themes": ["autonomie","insalubrité", "énergie"],
     "adresse_postale": "1 bis rue du souvenir, BP 93, 88194 Golbey Cedex",
     "informations": "PIG ComCom du Bassin de NEUFCHATEAU\nPIG ComCom du Pays de Mirecourt",
-    "email": "operateur@anah.beta.gouv.fr"
+    "email": "soliha88@mailinator.com"
   },
   {
     "raison_sociale": "Urbam Conseil",
@@ -43,41 +50,27 @@
     "themes": ["autonomie","insalubrité", "énergie"],
     "adresse_postale": "5 rue Thiers, BP 450, 88011 Epinal Cedex",
     "informations": "PIG ComCom de la Moyenne Moselle\nPIG de la Communauté d'agglomération d'Epinal",
-    "email": "operateur@anah.beta.gouv.fr"
-  },
-  {
-    "raison_sociale": "CAL PACT 88",
-    "roles": ["operateur"],
-    "departements": ["88"],
-    "themes": ["autonomie","insalubrité", "énergie"],
-    "email": "operateur@anah.beta.gouv.fr"
+    "email": "urbam88@mailinator.com"
   },
   {
     "raison_sociale": "Association CAMEL",
     "roles": ["operateur"],
     "departements": ["88"],
     "themes": ["autonomie"],
-    "email": "operateur@anah.beta.gouv.fr"
+    "email": "camel88@mailinator.com"
   },
   {
     "raison_sociale": "BET EXERGIE",
     "roles": ["operateur"],
     "departements": ["88"],
     "themes": ["énergie"],
-    "email": "operateur@anah.beta.gouv.fr"
+    "email": "betexergie@mailinator.com"
   },
   {
     "raison_sociale": "Direction Départementale des Territoires des Vosges",
     "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
     "roles": ["pris","instructeur"],
     "departements": ["88"],
-    "email": "operateur@anah.beta.gouv.fr"
-  },
-  {
-    "raison_sociale": "DDT 95",
-    "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
-    "roles": ["instructeur"],
-    "departements": ["95"],
-    "email": "operateur@anah.beta.gouv.fr"
+    "email": "ddt88@mailinator.com"
   }
 ]
