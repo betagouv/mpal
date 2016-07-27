@@ -8,7 +8,7 @@ describe 'tâches intervenants' do
   end
 
   it 'devrait créer ou modifier les intervenants définis dans le fichier intervenants.json' do
-    expect(Intervenant.where(raison_sociale: 'Soliha 95').first.email).to eq('operateur@anah.beta.gouv.fr')
+    expect(Intervenant.where(raison_sociale: 'Soliha 95').first.email).to eq('soliha95@mailinator.com')
     expect(Intervenant.where(raison_sociale: 'Soliha 95').first.themes.length).to eq(3)
   end
 
