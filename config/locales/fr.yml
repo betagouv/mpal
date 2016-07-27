@@ -55,7 +55,7 @@ fr:
       messages:
         succes: "La composition du logement a bien été mise à jour."
     demande:
-      action: "Envoyer la demande"
+      action: "Envoyer la demande à %{instructeur}"
     messages:
       creation:
         titre: 'Félicitations %{usager}'

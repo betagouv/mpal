@@ -55,8 +55,8 @@ feature "intervenant" do
 
   scenario "invitation de l'instructeur à instruire la demande" do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    click_button I18n.t('projets.demande.action')
+    click_button I18n.t('projets.demande.action', instructeur: instructeur.raison_sociale)
     expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: instructeur.raison_sociale))
-    expect(projet.intervenants). to include(instructeur)
+    expect(projet.intervenants).to include(instructeur)
   end
 end
