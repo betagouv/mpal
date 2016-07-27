@@ -4,6 +4,7 @@ class ToolsController < ApplicationController
   def reset_base
     if Tools.can_reset?
       Projet.destroy_all
+      reset_session
       redirect_to root_path, notice: t('reinitialisation.succes')
     else
       redirect_to root_path
