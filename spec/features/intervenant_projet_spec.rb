@@ -59,4 +59,13 @@ feature "intervenant" do
     expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: instructeur.raison_sociale))
     expect(projet.intervenants).to include(instructeur)
   end
+
+  scenario "ajout d'une prestation manuellement" do
+    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
+    within '.prestations .souhaite' do
+      fill_in 'prestation_libelle', with: 'Chaudière x11'
+      click_button 'Ajouter cette prestation'
+    end
+    expect(page).to have_content('Chaudière x11')
+  end
 end

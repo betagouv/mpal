@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       resources :commentaires, only: :create
       resource  :composition
       resources :avis_impositions
+      resources :prestations, only: [:create]
 
       get '/calcul_revenu_fiscal_reference', to: 'projets#calcul_revenu_fiscal_reference', as: 'calcul_revenu_fiscal_reference'
       get '/demande', to: 'projets#demande', as: 'demande'
