@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160725095240) do
+ActiveRecord::Schema.define(version: 20160801121358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -58,6 +58,16 @@ ActiveRecord::Schema.define(version: 20160725095240) do
 
   add_index "contacts_projets", ["contact_id"], name: "index_contacts_projets_on_contact_id", using: :btree
   add_index "contacts_projets", ["projet_id"], name: "index_contacts_projets_on_projet_id", using: :btree
+
+  create_table "documents", force: :cascade do |t|
+    t.string   "label"
+    t.string   "fichier"
+    t.integer  "projet_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "documents", ["projet_id"], name: "index_documents_on_projet_id", using: :btree
 
   create_table "evenements", force: :cascade do |t|
     t.integer  "projet_id"
@@ -151,6 +161,7 @@ ActiveRecord::Schema.define(version: 20160725095240) do
 
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "commentaires", "projets"
+  add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"

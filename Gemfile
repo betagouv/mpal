@@ -58,3 +58,4 @@ gem 'sinatra', require: false
 
 gem 'csv2json'
 gem 'orderedhash'
+gem 'carrierwave'

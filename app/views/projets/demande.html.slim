@@ -48,4 +48,9 @@ h4.ui.header Déposer un plan de travaux
   = file_field_tag 'fichier_travaux'
   = submit_tag 'Envoyer'
 
+h4.ui.header Déposer un document
+= form_tag({action: :create, controller: 'documents' }, multipart: true) do 
+  = file_field_tag 'fichier_document'
+  = submit_tag t('projets.demande.action_depot_document')
+
 
