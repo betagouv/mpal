@@ -7,8 +7,8 @@
     <div class="right menu">
       <div class="item">
         <%= link_to t('accueil.menu.mon_projet'), new_session_path, class: "ui primary button" %>
-        <%= link_to t('accueil.reset'), reset_path, class: "ui primary button" if Tools.can_reset? %>
-        <%= link_to "Messagerie Demo", letter_opener_web_path, class: "ui primary button" if Tools.can_reset? %>
+        <%= link_to t('accueil.reset'), reset_path, class: "ui primary button" if Tools.demo? %>
+        <%= link_to "Messagerie Demo", letter_opener_web_path, class: "ui primary button" if Tools.demo? %>
       </div>
     </div>
   </div>

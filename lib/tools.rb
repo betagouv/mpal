@@ -1,5 +1,5 @@
 module Tools
-  def self.can_reset?
-    ENV['RESET'] == 'true'
+  def self.demo?
+    ENV['DEMO'] == 'true'
   end
 end
