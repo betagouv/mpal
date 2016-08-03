@@ -4,7 +4,7 @@ table.ui.basic.table
     tr
       td Operateur
       td= @projet_courant.operateur
-  
+
 h1.ui.header Demandeur
 table.ui.basic.table
   tbody
@@ -39,18 +39,17 @@ h1.ui.header Plan de travaux
 h1.ui.header Plan de financement
 = render partial: 'subventions', locals: { subventions: @projet_courant.subventions }
 
-= form_tag(invitations_path(projet_id: @projet_courant.id, intervenant_id: @instructeur.id), method: 'post', class:'ui form' ) do
-  = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
-  = submit_tag t('projets.demande.action', instructeur: @instructeur.to_s), class:'ui primary button'
+- if @utilisateur_courant.is_a? Intervenant
+  = form_tag(invitations_path(projet_id: @projet_courant.id, intervenant_id: @instructeur.id), method: 'post', class:'ui form' ) do
+    = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
+    = submit_tag t('projets.demande.action', instructeur: @instructeur.to_s), class:'ui primary button'
 
 h4.ui.header Déposer un plan de travaux
-= form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do 
+= form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do
   = file_field_tag 'fichier_travaux'
   = submit_tag 'Envoyer'
 
 h4.ui.header Déposer un document
-= form_tag({action: :create, controller: 'documents' }, multipart: true) do 
+= form_tag({action: :create, controller: 'documents' }, multipart: true) do
   = file_field_tag 'fichier_document'
   = submit_tag t('projets.demande.action_depot_document')
-
-
