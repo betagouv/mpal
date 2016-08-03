@@ -69,7 +69,7 @@ feature "intervenant" do
     expect(page).to have_content('Chaudière x11')
   end
 
-  scenario "upload d'un document" do
+  scenario "upload d'un document", pending: true do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
     attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
     click_button(I18n.t('projets.demande.action_depot_document'))
