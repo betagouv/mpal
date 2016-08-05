@@ -38,7 +38,7 @@ div class="ui grid"
       h2 class="ui horizontal divider header"
       div
         = "Revenu total: #{@calcul} euros" if @calcul
-      = link_to t('projets.composition_logement.calcul_revenu_fiscal_reference.calcul.action', annee: annee.to_s), projet_calcul_revenu_fiscal_reference_path(@projet_courant, annee: annee), class: 'ui primary button'
+      = link_to t('projets.composition_logement.calcul_revenu_fiscal_reference_total.action', annee: annee.to_s), projet_calcul_revenu_fiscal_reference_path(@projet_courant, annee: annee), class: 'ui primary button'
       div
 
       h2 class="ui horizontal divider header"

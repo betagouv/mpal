@@ -47,9 +47,8 @@ fr:
           sections:
             declarants: "Déclarants"
             foyer_fiscal: "Foyer Fiscal"
-      calcul_revenu_fiscal_reference:
-        calcul:
-          action: "Je calcule mon revenu fiscal de référence pour l'année %{annee}"
+      calcul_revenu_fiscal_reference_total:
+        action: "Je calcule le revenu fiscal de référence total pour l'année %{annee}"
       calcul_preeligibilite:
         calcul:
           action: "Je calcule la préeligibilité pour l'année %{annee}"
