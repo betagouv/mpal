@@ -1,5 +1,5 @@
 class DocumentUploader < CarrierWave::Uploader::Base
   def store_dir
-    "./projets/#{model.id}/"
+    "projets/#{model.projet_id}/"
   end
 end
