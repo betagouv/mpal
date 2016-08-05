@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       resources :documents, only: [:create]
 
       get '/calcul_revenu_fiscal_reference', to: 'projets#calcul_revenu_fiscal_reference', as: 'calcul_revenu_fiscal_reference'
+      get '/preeligibilite', to: 'projets#preeligibilite', as: 'preeligibilite'
       get '/demande', to: 'projets#demande', as: 'demande'
 
       post '/transfert_csv', to: 'transfert_csv#create'

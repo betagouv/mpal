@@ -1,13 +1,13 @@
 class Projet < ActiveRecord::Base
 
   has_many :intervenants, through: :invitations
-  has_many :invitations, dependent: :destroy 
+  has_many :invitations, dependent: :destroy
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
-  has_many :occupants, dependent: :destroy  
+  has_many :occupants, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
-  has_many :avis_impositions, dependent: :destroy  
-  has_many :prestations, dependent: :destroy 
-  has_many :subventions, dependent: :destroy 
+  has_many :avis_impositions, dependent: :destroy
+  has_many :prestations, dependent: :destroy
+  has_many :subventions, dependent: :destroy
   has_many :documents, dependent: :destroy
 
   validates :numero_fiscal, :reference_avis, :adresse, presence: true
@@ -42,5 +42,9 @@ class Projet < ActiveRecord::Base
 
   def operateur
     self.intervenants.where("'operateur' = ANY (roles)").first
+  end
+
+  def preeligibilite(annee)
+    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference(annee), self.departement, self.nb_total_occupants)
   end
 end

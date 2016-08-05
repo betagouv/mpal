@@ -14,11 +14,14 @@ div class="ui grid"
           - if occupant.demandeur
             div class="ui label" Demandeur
       = link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
-    h3 Nombre d'occupants à charge
+    h3
+    = "Nombre d'occupants à charge"
     br
       = form_for @projet_courant, url: { action: "update" }, html: { class: 'ui form' } do |f|
         = f.number_field :nb_occupants_a_charge
         = f.submit t('projets.composition_logement.edition.action', projet: @projet_courant.to_s), class: 'ui primary button'
+    h3
+    = "Nombre de personnes composant le ménage : #{@nb_total_occupants}"
 
     h2 class="ui horizontal divider header"
       i class="tag icon"
@@ -36,6 +39,11 @@ div class="ui grid"
       div
         = "Revenu total: #{@calcul} euros" if @calcul
       = link_to t('projets.composition_logement.calcul_revenu_fiscal_reference.calcul.action', annee: annee.to_s), projet_calcul_revenu_fiscal_reference_path(@projet_courant, annee: annee), class: 'ui primary button'
+      div
 
-
-
+      h2 class="ui horizontal divider header"
+        i class="tag icon"
+        = "Calcul de prééligibilité"
+      h3
+        = "Plafond de ressources applicable du foyer: #{@preeligibilite}" if @preeligibilite
+      = link_to t('projets.composition_logement.calcul_preeligibilite.calcul.action', annee: annee.to_s), projet_preeligibilite_path(@projet_courant, annee: annee), class: 'ui primary button'

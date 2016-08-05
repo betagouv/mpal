@@ -11,10 +11,11 @@ RSpec.configure do |config|
           "dateNaissance": "19/03/1980"
         },
         "anneeImpots": "2015",
-        "nombrePersonnesCharge": 3,
+        "nombrePersonnesCharge": 2,
         "foyerFiscal": {
           "adresse": "12 rue de la mare, 75010 Paris"
-        }
+        },
+        "revenuFiscalReference": 29880
       }),
     )
   end

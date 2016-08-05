@@ -50,6 +50,9 @@ fr:
       calcul_revenu_fiscal_reference:
         calcul:
           action: "Je calcule mon revenu fiscal de référence pour l'année %{annee}"
+      calcul_preeligibilite:
+        calcul:
+          action: "Je calcule la préeligibilité pour l'année %{annee}"
       edition:
         action: "Je mets à jour"
       messages:
@@ -58,7 +61,7 @@ fr:
       action: "Envoyer la demande à %{instructeur}"
       action_depot_document: "Envoyer le document"
       messages:
-        succes_depot_document: 'Votre document a été ajouté au projet avec succès' 
+        succes_depot_document: 'Votre document a été ajouté au projet avec succès'
         erreur_depot_document: "Une erreur est survenue. Votre document n'a été ajouté au projet"
     messages:
       creation:

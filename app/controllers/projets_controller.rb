@@ -26,6 +26,11 @@ class ProjetsController < ApplicationController
     redirect_to edit_projet_composition_path(@projet_courant, calcul: @calcul)
   end
 
+  def preeligibilite
+    @preeligibilite = @projet_courant.preeligibilite(params[:annee])
+    redirect_to edit_projet_composition_path(@projet_courant, preeligibilite: @preeligibilite)
+  end
+
   def demande
     @instructeur = Intervenant.pour_departement(@projet_courant.departement, role: 'instructeur').first
   end
