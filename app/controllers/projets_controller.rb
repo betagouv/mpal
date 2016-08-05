@@ -17,7 +17,8 @@ class ProjetsController < ApplicationController
       latitude: @projet_courant.latitude,
       longitude: @projet_courant.longitude
     })
-    @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur)
+    @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
+
     @commentaire = Commentaire.new(projet: @projet_courant)
   end
 
