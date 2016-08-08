@@ -1,0 +1,21 @@
+div.main.ui.container.top
+  = affiche_erreurs_avec_cle @occupant, t('occupants.messages.erreur')
+  h1.ui.header
+    = t('occupants.modification.composition_logement')
+  = form_for [@projet_courant, @occupant], html: { class:'ui form' } do |f|
+      div.field
+        = f.label :civilite
+        = f.select :civilite, Occupant.civilites.keys
+      div.field
+        = f.label :nom
+        = f.text_field :nom
+      div.field
+        = f.label :prenom
+        = f.text_field :prenom
+      div.field
+        = f.label :date_de_naissance
+        = f.date_field :date_de_naissance
+      div.field
+        = f.label :lien_demandeur
+        = f.text_field :lien_demandeur
+      = f.submit I18n.t('occupants.nouveau.action'), class:'ui primary button'
