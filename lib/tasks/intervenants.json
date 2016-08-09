@@ -46,7 +46,7 @@
   {
     "raison_sociale": "Urbam Conseil",
     "roles": ["operateur"],
-    "departements": ["88"],
+    "departements": ["88", "25"],
     "themes": ["autonomie","insalubrité", "énergie"],
     "adresse_postale": "5 rue Thiers, BP 450, 88011 Epinal Cedex",
     "informations": "PIG ComCom de la Moyenne Moselle\nPIG de la Communauté d'agglomération d'Epinal",
@@ -72,5 +72,23 @@
     "roles": ["pris","instructeur"],
     "departements": ["88"],
     "email": "ddt88@mailinator.com"
-  }
+  },
+  {"raison_sociale": "Soliha 25-90",
+    "adresse_postale": [""],
+    "roles": ["operateur"],
+    "departements": ["25", "90"],
+    "email": ["soliha25-90@mailinator.com"]
+  },
+  {"raison_sociale": "Association Julienne Javel",
+  "adresse_postale": ["2 Grande Rue, 25220 Chalezeule"],
+  "roles": ["operateur"],
+  "departements": ["25"],
+  "email": ["asso-julienne-javel@mailinator.com"]
+},
+  {"raison_sociale": "Adil 25",
+  "adresse_postale": ["1 Rue de Ronde du Fort Griffon, 25000 Besançon"],
+  "roles": ["pris"],
+  "departements": ["25"],
+  "email": ["adil25@mailinator.com"]
+}
 ]
