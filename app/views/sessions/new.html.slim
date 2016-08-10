@@ -1,0 +1,20 @@
+div#formulaire_connexion
+  div.ui.inverted.vertical.masthead.center.aligned.segment.teal
+    div.ui.text.container
+      h1.ui.header= t('sessions.nouvelle.titre')
+      p
+        = t('sessions.nouvelle.conseil')
+        = form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do
+          div.field
+            = label_tag :numero_fiscal
+            = text_field_tag :numero_fiscal
+
+          div.field
+            = label_tag :reference_avis
+            = text_field_tag :reference_avis
+
+          = submit_tag t('sessions.nouvelle.action'), class:'ui huge primary button'
+
+- if Tools.demo?
+  div.ui
+    Pour simuler le fait d'être un demandeur habitant dans les Vosges : 88 / 1588
