@@ -1,0 +1,81 @@
+div.class.ui.grid
+  div.twelve.wide.column
+    h2.ui.horizontal.divider.header
+      i.tag.icon
+      = t('projets.visualisation.titre_description_projet')
+
+    table.ui.definition.table
+      tbody
+        tr
+          td Demandeur principal
+          td = @projet_courant.usager
+
+        tr
+          td Adresse du logement à rénover
+          td = @projet_courant.adresse
+
+        - if @utilisateur_courant.is_a? Occupant
+
+          tr
+            td Email de contact
+            td = @projet_courant.email
+
+          tr
+            td Le projet
+            td = @projet_courant.description
+
+    = link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
+
+    h2.ui.horizontal.divider.header
+      i.users.icon
+      = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
+    ul
+      - @projet_courant.occupants.each do |occupant|
+       li
+        = link_to occupant.to_s, edit_projet_occupant_path(@projet_courant, occupant)
+        = "(#{l(occupant.date_de_naissance)})"
+        - if occupant.demandeur
+          div.ui.label Demandeur
+        - if @projet_courant.nb_occupants_a_charge > 0
+          li = t("projets.visualisation.occupants_a_charge", count: @projet_courant.nb_occupants_a_charge)
+
+    = link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
+    = link_to t('projets.visualisation.modifier_list_occupant'), edit_projet_composition_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
+
+    - if @projet_courant.intervenants.present?
+      h2.ui.horizontal.divider.header Intervenants invités
+      div.ui.cards.invites
+
+        - @projet_courant.intervenants.each do |intervenant|
+          = render partial: 'intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: false}
+
+
+    - if @intervenants_disponibles.present?
+      h2.ui.horizontal.divider.header Intervenants disponibles
+      div.ui.cards.disponibles
+        - @intervenants_disponibles.each do |intervenant|
+          = render partial: 'intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: true}
+
+    h2.class.ui.horizontal.divider.header
+      i.comments.icon
+      = "Conversations autour du projet"
+    = render partial: 'commentaires'
+
+    h2.ui.horizontal.divider.header
+      i.map.icon
+      = "Carte"
+
+    div.ui.container.eight.wide.column
+      div#mapid
+
+  div.four.wide.column
+    h2 = t('projets.visualisation.titre_fil_actualite')
+    div.ui.feed
+      - @projet_courant.evenements.each do |evenement|
+        div.event
+          div.label
+            i.icone_evenement(evenement.label)
+            / http://stackoverflow.com/questions/12851843/ruby-slim-how-do-you-define-an-elements-class-with-a-rails-helper-or-variable
+          div.content
+            div.summary = evenement
+            div.date = l(evenement.quand, format: :short)
