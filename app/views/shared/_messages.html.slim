@@ -1,0 +1,9 @@
+- if notice.present?
+  div.ui.icon.success.message
+    i.inbox.icon
+    div.content
+      div.header= flash[:notice_titre]
+      p= notice
+- if alert
+  div.ui.negative.message
+    div.header= alert
