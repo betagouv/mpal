@@ -27,3 +27,6 @@
 /config/database.yml
 
 dump.rdb
+
+# Ignore les documents uploades en dev
+/public/uploads/
