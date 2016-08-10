@@ -1,0 +1,49 @@
+div.ui.large.fixed.menu
+  div.ui.container
+    a.active.item Accueil
+    div.notice
+      - notice if notice
+    div.right.menu
+      div.item
+        = link_to t('accueil.menu.mon_projet'), new_session_path, class: "ui primary button"
+        = link_to t('accueil.reset'), reset_path, class: "ui primary button" if Tools.demo?
+        = link_to "Messagerie Demo", letter_opener_web_path, class: "ui primary button" if Tools.demo?
+
+div.pushers
+  div.ui.inverted.vertical.masthead.center.aligned.segment.teal
+    div#texte-accueil
+      h1.ui.inverted.header = t('accueil.promesse')
+      h2 = t('accueil.baseline')
+      = link_to t('accueil.action'), new_session_path, class: "ui huge primary button"
+
+  div.ui.vertical.stripe.segment
+    div.ui.middle.aligned.stackable.grid.container
+      div.row
+        div.eight.wide.column
+        h3.ui.header = t('accueil.description_titre')
+        p = t('accueil.description')
+      div.six.wide.right.floated.column
+        = image_tag('visite_chantier.jpg', class: "ui large bordered rounded image")
+
+  div.ui.inverted.vertical.footer.segment
+    div.ui.container
+      div.ui.stackable.inverted.divided.equal.height.stackable.grid
+        div.three.wide.column
+          h4.ui.inverted.header About
+          div.ui.inverted.link.list
+            a href="#" class="item" Sitemap
+            a href="#" class="item" Contact Us
+            a href="#" class="item" Religious Ceremonies
+            a href="#" class="item" Gazebo Plans
+
+        div.three.wide.column
+          h4.ui.inverted.header Services
+          div.ui.inverted.link.list
+            a href="#" class="item" Banana Pre-Order
+            a href="#" class="item" DNA FAQ
+            a href="#" class="item" How To Access
+            a href="#" class="item" Favorite X-Men
+
+        div.seven.wide.column
+          h4.ui.inverted.header Footer Header
+          p Extra space for a call to action inside the footer that could help re-engage users.
