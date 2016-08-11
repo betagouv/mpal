@@ -76,8 +76,7 @@ div.class.ui.grid
       - @projet_courant.evenements.each do |evenement|
         div.event
           div.label
-            i.icone_evenement(evenement.label)
-            / http://stackoverflow.com/questions/12851843/ruby-slim-how-do-you-define-an-elements-class-with-a-rails-helper-or-variable
+            i class=("#{icone_evenement(evenement.label)} icon")
           div.content
             div.summary = evenement
             div.date = l(evenement.quand, format: :short)
