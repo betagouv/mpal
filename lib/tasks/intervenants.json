@@ -73,22 +73,28 @@
     "departements": ["88"],
     "email": "ddt88@mailinator.com"
   },
-  {"raison_sociale": "Soliha 25-90",
-    "adresse_postale": [""],
+  {
+    "raison_sociale": "Soliha 25-90",
+    "adresse_postale": "30 rue Caporal Peugeot, 25000 Besançon",
     "roles": ["operateur"],
     "departements": ["25", "90"],
-    "email": ["soliha25-90@mailinator.com"]
+    "themes": ["énergie"],
+    "email": "soliha25-90@mailinator.com"
   },
-  {"raison_sociale": "Association Julienne Javel",
-  "adresse_postale": ["2 Grande Rue, 25220 Chalezeule"],
-  "roles": ["operateur"],
-  "departements": ["25"],
-  "email": ["asso-julienne-javel@mailinator.com"]
-},
-  {"raison_sociale": "Adil 25",
-  "adresse_postale": ["1 Rue de Ronde du Fort Griffon, 25000 Besançon"],
-  "roles": ["pris"],
-  "departements": ["25"],
-  "email": ["adil25@mailinator.com"]
-}
+  {
+    "raison_sociale": "Association Julienne Javel",
+    "adresse_postale": "2 Grande Rue, 25220 Chalezeule",
+    "roles": ["operateur"],
+    "departements": ["25"],
+    "themes": ["énergie"],
+    "email": "asso-julienne-javel@mailinator.com"
+  },
+  {
+    "raison_sociale": "Adil 25",
+    "adresse_postale": "1 Rue de Ronde du Fort Griffon, 25000 Besançon",
+    "roles": ["pris"],
+    "departements": ["25"],
+    "themes": ["énergie"],
+    "email": "adil25@mailinator.com"
+  }
 ]
