@@ -31,13 +31,13 @@ class Projet < ActiveRecord::Base
     occupant.to_s if occupant
   end
 
-  def calcul_revenu_fiscal_reference(annee)
+  def calcul_revenu_fiscal_reference_total(annee)
     total_revenu_fiscal_reference = 0
     avis_impositions.where(annee: annee).each do |avis_imposition|
       contribuable = ApiParticulier.new.retrouve_contribuable(avis_imposition.numero_fiscal, avis_imposition.reference_avis)
       total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference
     end
-    return total_revenu_fiscal_reference
+    total_revenu_fiscal_reference
   end
 
   def operateur
@@ -45,6 +45,6 @@ class Projet < ActiveRecord::Base
   end
 
   def preeligibilite(annee)
-    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference(annee), self.departement, self.nb_total_occupants)
+    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee), self.departement, self.nb_total_occupants)
   end
 end

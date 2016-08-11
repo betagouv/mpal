@@ -18,18 +18,8 @@ class ProjetsController < ApplicationController
       longitude: @projet_courant.longitude
     })
     @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
-
     @commentaire = Commentaire.new(projet: @projet_courant)
-  end
-
-  def calcul_revenu_fiscal_reference
-    @calcul = @projet_courant.calcul_revenu_fiscal_reference(params[:annee])
-    redirect_to edit_projet_composition_path(@projet_courant, calcul: @calcul)
-  end
-
-  def preeligibilite
-    @preeligibilite = @projet_courant.preeligibilite(params[:annee])
-    redirect_to edit_projet_composition_path(@projet_courant, preeligibilite: @preeligibilite)
+    @revenu_total_boo = @projet_courant.calcul_revenu_fiscal_reference_total(:annee)
   end
 
   def demande

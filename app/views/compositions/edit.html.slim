@@ -22,28 +22,3 @@ div class="ui grid"
         = f.submit t('projets.composition_logement.edition.action', projet: @projet_courant.to_s), class: 'ui primary button'
     h3
     = "Nombre de personnes composant le ménage : #{@nb_total_occupants}"
-
-    h2 class="ui horizontal divider header"
-      i class="tag icon"
-      = "Avis d'imposition"
-    h2 class="ui horizontal divider header"
-    = link_to t('projets.composition_logement.avis_imposition.nouveau.action'), new_projet_avis_imposition_path(@projet_courant), class: 'ui primary button'
-
-    - @projet_courant.avis_impositions.map(&:annee).uniq.each do |annee|
-      h3 class="ui horizontal divider header"
-        = annee
-      - @projet_courant.avis_impositions.where(annee: annee).each do |avis_imposition|
-        li = link_to avis_imposition.label, projet_avis_imposition_path(@projet_courant, id: avis_imposition.id)
-
-      h2 class="ui horizontal divider header"
-      div
-        = "Revenu total: #{@calcul} euros" if @calcul
-      = link_to t('projets.composition_logement.calcul_revenu_fiscal_reference_total.action', annee: annee.to_s), projet_calcul_revenu_fiscal_reference_path(@projet_courant, annee: annee), class: 'ui primary button'
-      div
-
-      h2 class="ui horizontal divider header"
-        i class="tag icon"
-        = "Calcul de prééligibilité"
-      h3
-        = "Plafond de ressources applicable du foyer: #{@preeligibilite}" if @preeligibilite
-      = link_to t('projets.composition_logement.calcul_preeligibilite.calcul.action', annee: annee.to_s), projet_preeligibilite_path(@projet_courant, annee: annee), class: 'ui primary button'

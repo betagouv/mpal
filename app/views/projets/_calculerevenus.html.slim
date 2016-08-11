@@ -1,0 +1,25 @@
+h2 class="ui horizontal divider header"
+  i class="tag icon"
+  = "Les revenus"
+
+- @projet_courant.avis_impositions.map(&:annee).uniq.each do |annee|
+  h3 class="ui horizontal divider header"
+    = "Avis d'imposition pour l'année : #{annee}"
+  - @projet_courant.avis_impositions.where(annee: annee).each do |avis_imposition|
+    li = link_to avis_imposition.label, projet_avis_imposition_path(@projet_courant, id: avis_imposition.id)
+
+  h2 class="ui horizontal divider header"
+  = link_to t('projets.composition_logement.avis_imposition.nouveau.action'), new_projet_avis_imposition_path(@projet_courant), class: 'ui primary button'
+
+
+  h2 class="ui horizontal divider header"
+    i class="tag icon"
+    = "Calcul de prééligibilité"
+  p L'éligibilité de votre foyer est calculée à partir du revenu total, du nombre d'occupants et de votre département
+
+  h3
+    - revenu_total = @projet_courant.calcul_revenu_fiscal_reference_total(annee)
+    = "Revenus total du ménage : #{revenu_total} euros" if revenu_total
+    br
+    - eligibilite_menage = @projet_courant.preeligibilite(annee)
+    = "Plafond de ressources applicable du foyer: #{eligibilite_menage}" if eligibilite_menage

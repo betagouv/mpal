@@ -42,4 +42,12 @@ module ApplicationHelper
     liste_icone = {creation_projet: 'suitcase', invitation_intervenant: 'plug', mise_en_relation_intervenant: 'plug', ajout_avis_imposition: "file text outline" }
     liste_icone[label.to_sym]
   end
+
+  def calcul_revenu_fiscal_reference_total_in_controller(annee)
+    @calcul = @projet_courant.calcul_revenu_fiscal_reference(params[:annee])
+  end
+
+  def calcul_preeligibilite
+    @preeligibilite = @projet_courant.preeligibilite(params[:annee])
+  end
 end
