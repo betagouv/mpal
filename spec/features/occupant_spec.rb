@@ -12,7 +12,8 @@ feature "Occupant" do
     click_link I18n.t('projets.visualisation.lien_ajout_occupant')
     fill_in :occupant_nom,                  with: 'Marielle'
     fill_in :occupant_prenom,               with: 'Jean-Pierre'
-    fill_in :occupant_lien_demandeur,       with: 'enfant'
+    # fill_in :occupant_lien_demandeur,       with: '1'
+    # fill_in :occupant_civilite,             with: 'mr'
     fill_in :occupant_date_de_naissance,    with: '20/05/2010'
     click_button I18n.t('occupants.nouveau.action')
     expect(page).to have_content('Jean-Pierre Marielle')
@@ -29,7 +30,7 @@ feature "Occupant" do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.modifier_list_occupant')
     within "#occupant_#{occupant.id}" do
-      click_link occupant.to_s
+    click_link occupant.to_s
     end
   end
 

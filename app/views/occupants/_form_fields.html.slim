@@ -10,9 +10,12 @@ div class="field"
 div class="field"
   = f.label :date_de_naissance
   = f.date_field :date_de_naissance
+
+/ - if @occupant.demandeur == false
 div class="field"
   = f.label :lien_demandeur
-  = f.text_field :lien_demandeur
+  = f.select :lien_demandeur, Occupant.lien_demandeurs.keys
+
 div class="field"
   = f.label :demandeur
   = f.check_box :demandeur
