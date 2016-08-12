@@ -5,10 +5,10 @@ class ProjetsController < ApplicationController
 
   def update
     @projet_courant.assign_attributes(projet_params)
-    if @projet_courant.save
-      redirect_to @projet_courant
+    if valid? && @projet_courant.save
+      redirect_to @projet_courant, notice: t('projets.edition_projet.messages.succes')
     else
-      render :edit
+      render :edit, alert: t('projets.edition_projet.messages.erreur')
     end
   end
 
@@ -31,9 +31,14 @@ class ProjetsController < ApplicationController
   def projet_params
     service_adresse = ApiBan.new
     adresse = service_adresse.precise(params[:projet][:adresse])
-    attributs = params.require(:projet).permit(:description, :email, :tel)
+    attributs = params.require(:projet).permit(:description, :email, :tel, :adresse)
     attributs = attributs.merge(adresse) if adresse
     attributs
+  end
+
+  def valid?
+    @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
+    @projet_courant.adresse.present?
   end
 
 end

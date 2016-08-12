@@ -32,6 +32,10 @@ fr:
     access_forbidden: Vous n'avez pas accès à cette page
     erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
   projets:
+    edition_projet:
+      messages:
+        erreur: "Le projet n'a pas pu être modifié"
+        succes: "Projet modifié avec succès"
     composition_logement:
       avis_imposition:
         nouveau:
@@ -106,7 +110,7 @@ fr:
       description:
         obligatoire: "La description est obligatoire"
       adresse:
-        obligatoire: "L'adresse est obligatoire"
+        obligatoire: "L'adresse du logement à rénover est obligatoire"
   occupants:
     nouveau:
       titre: "Ajoutez un nouvel occupant à votre logement"

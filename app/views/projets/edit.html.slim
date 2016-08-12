@@ -1,4 +1,5 @@
 div class="main ui container top"
+  = display_errors @projet_courant, t('projets.edition_projet.messages.erreur')
   h1 class="ui header" = t('projets.edition.titre')
   p
     = t('projets.edition.description')
