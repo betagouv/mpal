@@ -4,3 +4,4 @@ div class="main ui container top"
   = form_for [@projet_courant, @occupant], url: { action: "update" }, html: { class: 'ui form' } do |f|
     = render partial: "form_fields", locals: { f: f }
     = f.submit I18n.t('occupants.edition.action', occupant: @occupant.to_s), class: 'ui primary button'
+  = bouton_retour_projet_courant
