@@ -19,7 +19,7 @@ class ProjetsController < ApplicationController
     })
     @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
     @commentaire = Commentaire.new(projet: @projet_courant)
-    @revenu_total_boo = @projet_courant.calcul_revenu_fiscal_reference_total(:annee)
+    @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
   end
 
   def demande

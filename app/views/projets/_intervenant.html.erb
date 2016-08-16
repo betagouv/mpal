@@ -3,11 +3,11 @@
     <div class="header"><%= intervenant.raison_sociale %></div>
     <div class="meta">
       <% intervenant.roles.each do |role| %>
-        <div class="ui label"><%= role %></div>
+        <div class="ui label">ROLE :<%= role %></div>
       <% end if intervenant.roles.present? && @utilisateur_courant.is_a?(Intervenant) %>
     </div>
     <div class="meta"><%= intervenant.adresse_postale %></div>
-    
+
     <div class="description"><%= simple_format(intervenant.informations) %></div>
   </div>
   <div class="extra content">
