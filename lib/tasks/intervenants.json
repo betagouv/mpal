@@ -2,29 +2,45 @@
   {
     "raison_sociale": "Citemetrie",
     "roles": ["operateur"],
-    "departements": ["95"],
-    "themes": ["autonomie","insalubrité", "énergie"],
+    "departements" : ["95"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
     "email": "citemetrie95@mailinator.com"
+  },
+  {
+    "raison_sociale": "Centre Information Habitat Adil 95",
+    "roles": ["pris"],
+    "departements": ["95"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
+    "adresse_postale": "7 Rue Cristino Garcia, 95600 Eaubonne",
+    "email": "adil_eaubonne_95@mailinator.com"
+  },
+  {
+    "raison_sociale": "Centre Information Habitat Adil 95",
+    "roles": ["pris"],
+    "departements": ["95"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
+    "adresse_postale": "6 Allée Fragonard, 95200 Sarcelles",
+    "email": "adil_sarcelles_95@mailinator.com"
   },
   {
     "raison_sociale": "CACP",
     "roles": ["operateur"],
     "departements": ["95"],
-    "themes": ["autonomie","insalubrité", "énergie"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
     "email": "cacp95@mailinator.com"
   },
   {
     "raison_sociale": "Soliha 95",
     "roles": ["operateur"],
     "departements": ["95"],
-    "themes": ["autonomie","insalubrité", "énergie"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
     "email": "soliha95@mailinator.com"
   },
   {
     "raison_sociale": "CoProDiag",
     "roles": ["operateur"],
     "departements": ["95"],
-    "themes": ["autonomie","insalubrité", "énergie"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
     "email": "coprodiag95@mailinator.com"
   },
   {
@@ -38,7 +54,7 @@
     "raison_sociale": "CAL-Soliha Vosges",
     "roles": ["operateur"],
     "departements": ["88"],
-    "themes": ["autonomie","insalubrité", "énergie"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
     "adresse_postale": "1 bis rue du souvenir, BP 93, 88194 Golbey Cedex",
     "informations": "PIG ComCom du Bassin de NEUFCHATEAU\nPIG ComCom du Pays de Mirecourt",
     "email": "soliha88@mailinator.com"
@@ -47,7 +63,7 @@
     "raison_sociale": "Urbam Conseil",
     "roles": ["operateur"],
     "departements": ["88", "25"],
-    "themes": ["autonomie","insalubrité", "énergie"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
     "adresse_postale": "5 rue Thiers, BP 450, 88011 Epinal Cedex",
     "informations": "PIG ComCom de la Moyenne Moselle\nPIG de la Communauté d'agglomération d'Epinal",
     "email": "urbam88@mailinator.com"
@@ -67,9 +83,17 @@
     "email": "betexergie@mailinator.com"
   },
   {
+    "raison_sociale": "EIE Lorraine",
+    "roles": ["pris"],
+    "departements": ["88"],
+    "themes": ["énergie"],
+    "adresse_postale": "1 rue du Souvenir, 88190 Golbey",
+    "email": "eie_lorraine@mailinator.com"
+  },
+  {
     "raison_sociale": "Direction Départementale des Territoires des Vosges",
     "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
-    "roles": ["pris","instructeur"],
+    "roles": ["pris", "instructeur"],
     "departements": ["88"],
     "email": "ddt88@mailinator.com"
   },
