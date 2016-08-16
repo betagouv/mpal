@@ -50,4 +50,9 @@ module ApplicationHelper
   def calcul_preeligibilite
     @preeligibilite = @projet_courant.preeligibilite(params[:annee])
   end
+
+  def bouton_retour_projet_courant
+    link_to 'Retour au projet', @projet_courant, class: "ui button"
+  end
+
 end

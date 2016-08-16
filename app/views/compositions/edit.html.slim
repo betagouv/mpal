@@ -22,3 +22,5 @@ div class="ui grid"
         = f.submit t('projets.composition_logement.edition.action', projet: @projet_courant.to_s), class: 'ui primary button'
     h3
     = "Nombre de personnes composant le ménage : #{@nb_total_occupants}"
+    br
+    = bouton_retour_projet_courant
