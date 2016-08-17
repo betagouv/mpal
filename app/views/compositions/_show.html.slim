@@ -1,0 +1,50 @@
+h2.ui.horizontal.divider.header
+  i.users.icon
+  = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
+
+p L'appel 
+
+table.ui.compact.celled.definition.table
+  thead
+    tr
+      th
+      th Date de naissance
+      th Demandeur
+      th A charge
+      th Revenus n-2
+      th Revenus n-1
+  tbody
+    - @projet_courant.occupants.each do |occupant|
+      tr
+        td
+          = link_to occupant.to_s, edit_projet_occupant_path(@projet_courant, occupant)
+          br
+            | #{bouton_suppression_occupant(occupant)} | #{bouton_modification_occupant(occupant)}
+        td
+          = l(occupant.date_de_naissance)
+        td
+          - if occupant.demandeur
+            div.ui.label Demandeur
+        td
+          - if @projet_courant.nb_occupants_a_charge > 0
+          = t("projets.visualisation.occupants_a_charge", count: @projet_courant.nb_occupants_a_charge)
+
+        td
+          | RFR Api
+        td
+          .field
+          input name="revenus_declare_n1" placeholder=("Vos revenus 2015") type="text"
+  tfoot.full-width
+    tr
+      th
+        .ui.small.button
+          i.add.icon
+          = bouton_ajout_occupant
+      th colspan="5"
+        .ui.right.floated.small.icon.button
+          i.user.icon
+          = bouton_modifier_composition
+
+.ui.horizontal.divider
+  | Informations complémentaires
+p Ces données sont issues de votre déclaration d'impôts. Si vous ne disposez pas de votre RFR, vous pouvez déclarez vos ressources manuellement.

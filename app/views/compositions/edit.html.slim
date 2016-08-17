@@ -1,11 +1,11 @@
-= affiche_erreurs_avec_cle @projet_courant, t('compositions.messages.erreur')
-
 div class="ui grid"
   div class="twelve wide column"
 
     h2 class="ui horizontal divider header"
       i class="tag icon"
       = "Occupants"
+    h3
+      = "Données du projet"
     ul
       - @projet_courant.occupants.each do |occupant|
         li id="occupant_#{occupant.id}"
@@ -14,13 +14,15 @@ div class="ui grid"
           - if occupant.demandeur
             div class="ui label" Demandeur
       = link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
-    h3
+.ui.container
+  = affiche_erreurs_avec_cle @projet_courant, t('compositions.messages.erreur')
+  h3
     = "Nombre d'occupants à charge"
-    br
-      = form_for @projet_courant, url: { action: "update" }, html: { class: 'ui form' } do |f|
+  p Si le nombre de personne à charge et sans revenus a changé, veuillez le renseignez ci-dessous :
+  br
+    = form_for @projet_courant, url: { action: "update" }, html: { class: 'ui form' } do |f|
+      .field
         = f.number_field :nb_occupants_a_charge
-        = f.submit t('projets.composition_logement.edition.action', projet: @projet_courant.to_s), class: 'ui primary button'
-    h3
-    = "Nombre de personnes composant le ménage : #{@nb_total_occupants}"
-    br
-    = bouton_retour_projet_courant
+      .field
+      = f.submit t('projets.composition_logement.edition.action', projet: @projet_courant.to_s), class: 'ui primary button'
+  = bouton_retour_projet_courant

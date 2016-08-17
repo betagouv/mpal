@@ -26,21 +26,7 @@ div.class.ui.grid
 
     = link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
 
-    h2.ui.horizontal.divider.header
-      i.users.icon
-      = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
-    ul
-      - @projet_courant.occupants.each do |occupant|
-       li
-        = link_to occupant.to_s, edit_projet_occupant_path(@projet_courant, occupant)
-        = "(#{l(occupant.date_de_naissance)})"
-        - if occupant.demandeur
-          div.ui.label Demandeur
-        - if @projet_courant.nb_occupants_a_charge > 0
-          li = t("projets.visualisation.occupants_a_charge", count: @projet_courant.nb_occupants_a_charge)
-
-    = link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
-    = link_to t('projets.visualisation.modifier_list_occupant'), edit_projet_composition_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
+    = render partial: 'compositions/show'
 
     = render partial: 'calculerevenus'
 

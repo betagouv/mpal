@@ -27,6 +27,12 @@ class OccupantsController < ApplicationController
     end
   end
 
+  def destroy
+    @occupant = @projet_courant.occupants.where(id: params[:id]).first
+    @occupant.destroy
+    redirect_to projet_path(@projet_courant)
+  end
+
   private
 
   def occupant_params

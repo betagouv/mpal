@@ -2,6 +2,10 @@
   margin-top: 80px;
 }
 
+.ui.success.message {
+    margin-top: 60px;
+}
+
 #mapid { height: 280px; }
 
 /* Page d'accueil */
