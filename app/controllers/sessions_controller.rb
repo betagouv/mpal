@@ -1,10 +1,10 @@
 class SessionsController < ApplicationController
   skip_before_action :authentifie
   def new
-
   end
 
   def create
+    reset_session
     contribuable = ApiParticulier.new.retrouve_contribuable(params[:numero_fiscal], params[:reference_avis])
     if contribuable
       session[:numero_fiscal] = params[:numero_fiscal]
