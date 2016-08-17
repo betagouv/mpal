@@ -11,15 +11,14 @@ h2 class="ui horizontal divider header"
   h2 class="ui horizontal divider header"
   = link_to t('projets.composition_logement.avis_imposition.nouveau.action'), new_projet_avis_imposition_path(@projet_courant), class: 'ui primary button'
 
-
   h2 class="ui horizontal divider header"
     i class="tag icon"
     = "Calcul de prééligibilité"
-  p L'éligibilité de votre foyer est calculée à partir du revenu total, du nombre d'occupants et de votre département
+  p L'éligibilité de votre foyer est calculée automatiquement à partir du revenu total de l'année 2014, du nombre d'occupants et de votre département.
 
-  h3
-    - revenu_total = @projet_courant.calcul_revenu_fiscal_reference_total(annee)
-    = "Revenus total du ménage : #{revenu_total} euros" if revenu_total
-    br
-    - eligibilite_menage = @projet_courant.preeligibilite(annee)
-    = "Plafond de ressources applicable du foyer: #{eligibilite_menage}" if eligibilite_menage
+  .ui.message.revenus
+    h3
+    = "Revenus total du ménage : #{calcul_revenu_fiscal_reference_total(annee)} euros" if calcul_revenu_fiscal_reference_total(annee)
+  .ui.message.revenus
+    h3
+    = "Plafond de ressources applicable du foyer : #{calcul_preeligibilite(annee)}" if calcul_revenu_fiscal_reference_total(annee)

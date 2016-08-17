@@ -43,14 +43,7 @@ module ApplicationHelper
     liste_icone[label.to_sym]
   end
 
-  def calcul_revenu_fiscal_reference_total_in_controller(annee)
-    @calcul = @projet_courant.calcul_revenu_fiscal_reference(params[:annee])
-  end
-
-  def calcul_preeligibilite
-    @preeligibilite = @projet_courant.preeligibilite(params[:annee])
-  end
-
+  
   def bouton_retour_projet_courant
     link_to 'Retour au projet', @projet_courant, class: "ui button"
   end
