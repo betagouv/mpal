@@ -1,8 +1,6 @@
 class CompositionsController < ApplicationController
 
   def edit
-    @calcul = params[:calcul]
-    @preeligibilite = params[:preeligibilite]
     @nb_total_occupants = @projet_courant.nb_total_occupants
   end
 
