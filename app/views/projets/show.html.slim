@@ -7,21 +7,21 @@ div.class.ui.grid
     table.ui.definition.table
       tbody
         tr
-          td Demandeur principal
+          td Demandeur principal #{bouton_modifier_demandeur}
           td = @projet_courant.usager
 
         tr
-          td Adresse du logement à rénover
+          td Adresse du logement à rénover #{bouton_modification_projet}
           td = @projet_courant.adresse
 
         - if @utilisateur_courant.is_a? Occupant
 
           tr
-            td Email de contact
+            td Email de contact #{bouton_modification_projet}
             td = @projet_courant.email
 
           tr
-            td Le projet
+            td Le projet #{bouton_modification_projet}
             td = @projet_courant.description
 
     = link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
