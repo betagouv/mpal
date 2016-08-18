@@ -120,5 +120,47 @@
     "departements": ["25"],
     "themes": ["énergie"],
     "email": "adil25@mailinator.com"
+  },
+  {
+    "raison_sociale": "URBANIS-31",
+    "departements": ["31"],
+    "roles": ["operateur"],
+    "email": "urbanis31@mailinator.com"
+  },
+  {
+    "raison_sociale": "Expertise & Patrimoine",
+    "departements": ["31"],
+    "roles": ["operateur"],
+    "email": "expertise-patrimoine@mailinator.com"
+  },
+  {
+    "raison_sociale": "SOLIHA-31",
+    "departements": ["31"],
+    "roles": ["operateur"],
+    "email": "soliha31@mailinator.com"
+  },
+  {
+    "raison_sociale": "Renoval",
+    "departements": ["31"],
+    "roles": ["pris"],
+    "email": "renoval@mailinator.com"
+  },
+  {
+    "raison_sociale": "CDHAT",
+    "departements": ["14"],
+    "roles": ["operateur"],
+    "email": "cdhat@mailinator.com"
+  },
+  {
+    "raison_sociale": "SOLIHA-14",
+    "departements": ["14"],
+    "roles": ["operateur"],
+    "email": "soliha14@mailinator.com"
+  },
+  {
+    "raison_sociale": "Direction Départementale des territoires et de la Mer du Calvados",
+    "roles": ["pris", "instructeur"],
+    "departements": ["14"],
+    "email": "ddt14@mailinator.com"
   }
 ]
