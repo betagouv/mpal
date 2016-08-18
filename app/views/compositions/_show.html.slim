@@ -2,8 +2,6 @@ h2.ui.horizontal.divider.header
   i.users.icon
   = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
 
-p L'appel 
-
 table.ui.compact.celled.definition.table
   thead
     tr
@@ -19,7 +17,8 @@ table.ui.compact.celled.definition.table
         td
           = link_to occupant.to_s, edit_projet_occupant_path(@projet_courant, occupant)
           br
-            | #{bouton_suppression_occupant(occupant)} | #{bouton_modification_occupant(occupant)}
+            | #{bouton_suppression_occupant(occupant)}
+            | #{bouton_modification_occupant(occupant)}
         td
           = l(occupant.date_de_naissance)
         td
@@ -37,14 +36,10 @@ table.ui.compact.celled.definition.table
   tfoot.full-width
     tr
       th
-        .ui.small.button
-          i.add.icon
           = bouton_ajout_occupant
       th colspan="5"
-        .ui.right.floated.small.icon.button
-          i.user.icon
           = bouton_modifier_composition
-
-.ui.horizontal.divider
-  | Informations complémentaires
-p Ces données sont issues de votre déclaration d'impôts. Si vous ne disposez pas de votre RFR, vous pouvez déclarez vos ressources manuellement.
+- if demandeur
+  .ui.horizontal.divider 
+    | Informations complémentaires
+  p Ces données sont issues de votre déclaration d'impôts. Si vous ne disposez pas de votre RFR, vous pouvez déclarez vos ressources manuellement.
