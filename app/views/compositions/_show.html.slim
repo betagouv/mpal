@@ -7,39 +7,55 @@ table.ui.compact.celled.definition.table
     tr
       th
       th Date de naissance
-      th Demandeur
+      th Lien demandeur
       th A charge
-      th Revenus n-2
-      th Revenus n-1
+      th Revenus 2014
+      th Revenus 2015
   tbody
     - @projet_courant.occupants.each do |occupant|
       tr
         td
           = link_to occupant.to_s, edit_projet_occupant_path(@projet_courant, occupant)
+          - if occupant.demandeur
+            div.ui.label Demandeur
           br
             | #{bouton_suppression_occupant(occupant)}
             | #{bouton_modification_occupant(occupant)}
         td
           = l(occupant.date_de_naissance)
         td
-          - if occupant.demandeur
-            div.ui.label Demandeur
+          = occupant.lien_demandeur
         td
           - if @projet_courant.nb_occupants_a_charge > 0
           = t("projets.visualisation.occupants_a_charge", count: @projet_courant.nb_occupants_a_charge)
 
         td
-          | RFR Api
+          | Via RFR Api
         td
-          .field
-          input name="revenus_declare_n1" placeholder=("Vos revenus 2015") type="text"
+          | Via revenus déclarés
   tfoot.full-width
     tr
       th
           = bouton_ajout_occupant
       th colspan="5"
           = bouton_modifier_composition
+
+br
+
 - if demandeur
-  .ui.horizontal.divider 
+  .ui.horizontal.divider
     | Informations complémentaires
   p Ces données sont issues de votre déclaration d'impôts. Si vous ne disposez pas de votre RFR, vous pouvez déclarez vos ressources manuellement.
+  p Si votre situation a changé, vous pouvez également déclarer manuellement vos revenus pour l'année en cours.
+  .ui.form
+    .field
+      label Vos revenus en 2015
+      input placeholder=("Vos revenus 2015") type="text"
+  br
+  p Afin d'apprécier votre changement de situation, merci d'en déclarer le motif ci-dessous :
+  .ui.form
+    .field
+      label Motif
+      / input placeholder="Séparation, licenciement, décès, etc." type="textarea"
+      textarea rows="2"
+    .ui.submit.button Ajouter
