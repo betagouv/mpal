@@ -3,7 +3,11 @@
 }
 
 .ui.success.message {
-    margin-top: 60px;
+  margin-top: 60px;
+}
+
+.ui.negative.message {
+  margin-top: 60px;
 }
 
 #mapid { height: 280px; }
