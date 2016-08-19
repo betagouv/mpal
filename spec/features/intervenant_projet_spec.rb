@@ -72,8 +72,10 @@ feature "intervenant" do
   scenario "upload d'un document" do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
     attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
+    fill_in 'label_document', with: 'Titre de propriété'
     click_button(I18n.t('projets.demande.action_depot_document'))
     expect(page).to have_content(I18n.t('projets.demande.messages.succes_depot_document'))
+    expect(page).to have_content('Titre de propriété')
     expect(projet.documents.count).to eq(1)
   end
 end
