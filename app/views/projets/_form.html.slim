@@ -1,16 +1,19 @@
 = form_for @projet_courant, url: { action: 'update'}, html: { class:'ui form'} do |f|
-  div class="field"
+  .field
     = f.label :description
     = f.text_area :description
-  div class="field"
+  .field
     = f.label :adresse
     = f.text_field :adresse
-  div class="field"
+  .field
     = f.label :email
     = f.text_field :email
-  div class="field"
+  .field
     = f.label :tel
     = f.text_field :tel
-  div class="field"
+  .field
+   = f.label :annee_construction
+   = f.select :annee_construction, (Time.zone.now.year - 300)..(Time.zone.now.year - 15)
+  .field
     = f.submit t('projets.edition.action'), class:"ui primary button"
   = bouton_retour_projet_courant

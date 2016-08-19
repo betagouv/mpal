@@ -20,4 +20,12 @@ feature "Projet" do
     expect(page).to have_content('12 rue de la Mare')
   end
 
+  scenario "correction de l'année de construction de mon logement" do
+    signin(projet.numero_fiscal, projet.reference_avis)
+    click_link I18n.t('projets.visualisation.lien_edition_projet')
+    page.select '1950', :from => 'projet_annee_construction'
+    click_button I18n.t('projets.edition.action')
+    expect(page).to have_content(1950)
+  end
+
 end
