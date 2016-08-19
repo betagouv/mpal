@@ -14,7 +14,7 @@ h1.ui.header Documents
           td.collapsing
             i.folder.icon
             = document.label
-          td= link_to document.fichier, projet_documents_path(@projet_courant, document)
+          td= link_to document.fichier, projet_documents_path(@projet_courant, document.fichier)
           td.right.aligned.collapsing
             i.trash.icon
             = bouton_suppression_document(document)
