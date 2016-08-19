@@ -26,7 +26,7 @@ table.ui.basic.table
       td= @projet_courant.adresse
     tr
       td Année de construction
-      td
+      td= @projet_courant.annee_construction
 
 h1.ui.header Plan de travaux
 .prestations.ui.horizontal.segments
@@ -36,6 +36,11 @@ h1.ui.header Plan de travaux
     - prestations = @projet_courant.prestations.where(scenario: section[:scenario])
     = render partial: 'prestations', locals: section.merge(prestations: prestations)
 
+h3 class="ui horizontal divider header" Déposer un plan de travaux
+= form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do
+  = file_field_tag 'fichier_travaux'
+  = submit_tag 'Envoyer'
+
 h1.ui.header Plan de financement
 = render partial: 'subventions', locals: { subventions: @projet_courant.subventions }
 
@@ -44,12 +49,4 @@ h1.ui.header Plan de financement
     = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
     = submit_tag t('projets.demande.action', instructeur: @instructeur.to_s), class:'ui primary button'
 
-h4.ui.header Déposer un plan de travaux
-= form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do
-  = file_field_tag 'fichier_travaux'
-  = submit_tag 'Envoyer'
-
-h4.ui.header Déposer un document
-= form_tag({action: :create, controller: 'documents' }, multipart: true) do
-  = file_field_tag 'fichier_document'
-  = submit_tag t('projets.demande.action_depot_document')
+  = render partial: 'documents/show'
