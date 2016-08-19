@@ -146,6 +146,13 @@
     "email": "renoval@mailinator.com"
   },
   {
+    "raison_sociale": "Direction Départementale des territoires de Haute-Garonne",
+    "adresse_postale": " 2 Boulevard Armand Duportal, 31000 Toulouse",
+    "roles": ["pris", "instructeur"],
+    "departements": ["31"],
+    "email": "ddt31@mailinator.com"
+  },
+  {
     "raison_sociale": "CDHAT",
     "departements": ["14"],
     "roles": ["operateur"],
