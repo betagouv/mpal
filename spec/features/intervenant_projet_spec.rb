@@ -78,4 +78,10 @@ feature "intervenant" do
     expect(page).to have_content('Titre de propriété')
     expect(projet.documents.count).to eq(1)
   end
+
+  scenario "visualisation d'un document" do
+    document = FactoryGirl.create(:document, projet: projet)
+    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
+    expect(page).to have_link(document.label, href: document.fichier_url)
+  end
 end
