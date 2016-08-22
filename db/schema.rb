@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160819075721) do
+ActiveRecord::Schema.define(version: 20160822141717) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,22 +42,6 @@ ActiveRecord::Schema.define(version: 20160819075721) do
 
   add_index "commentaires", ["auteur_type", "auteur_id"], name: "index_commentaires_on_auteur_type_and_auteur_id", using: :btree
   add_index "commentaires", ["projet_id"], name: "index_commentaires_on_projet_id", using: :btree
-
-  create_table "contacts", force: :cascade do |t|
-    t.string   "nom"
-    t.string   "role"
-    t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "contacts_projets", id: false, force: :cascade do |t|
-    t.integer "projet_id"
-    t.integer "contact_id"
-  end
-
-  add_index "contacts_projets", ["contact_id"], name: "index_contacts_projets_on_contact_id", using: :btree
-  add_index "contacts_projets", ["projet_id"], name: "index_contacts_projets_on_projet_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.string   "label"
