@@ -1,3 +1,5 @@
+= display_errors  @document, "Le document n'a pas pu être ajouté au projet" if @document
+
 h1.ui.header Opérateur
 table.ui.basic.table
   tbody
@@ -34,7 +36,7 @@ h1.ui.header Plan de travaux
   - sections = [ {adjectif: 'souhaitées', scenario: 'souhaite'}, {adjectif: 'préconisées', scenario: 'preconise'}, {adjectif: 'retenues', scenario: 'retenu'} ]
   - sections.each do |section|
     - prestations = @projet_courant.prestations.where(scenario: section[:scenario])
-    = render partial: 'prestations', locals: section.merge(prestations: prestations)
+    = render partial: 'projets/prestations', locals: section.merge(prestations: prestations)
 
 h3 class="ui horizontal divider header" Déposer un plan de travaux
 = form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do
@@ -42,11 +44,8 @@ h3 class="ui horizontal divider header" Déposer un plan de travaux
   = submit_tag 'Envoyer'
 
 h1.ui.header Plan de financement
-= render partial: 'subventions', locals: { subventions: @projet_courant.subventions }
+= render partial: 'projets/subventions', locals: { subventions: @projet_courant.subventions }
 
-- if @utilisateur_courant.is_a? Intervenant
-  = form_tag(invitations_path(projet_id: @projet_courant.id, intervenant_id: @instructeur.id), method: 'post', class:'ui form' ) do
-    = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
-    = submit_tag t('projets.demande.action', instructeur: @instructeur.to_s), class:'ui primary button'
+= mise_en_relation_instructeur
 
-  = render partial: 'documents/show'
+= render partial: 'documents/show'

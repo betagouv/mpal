@@ -79,6 +79,13 @@ feature "intervenant" do
     expect(projet.documents.count).to eq(1)
   end
 
+  scenario "upload d'un document avec erreur" do
+    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
+    attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
+    click_button(I18n.t('projets.demande.action_depot_document'))
+    expect(page).to have_content(I18n.t('projets.demande.messages.erreur_label_manquant'))
+  end
+
   scenario "visualisation d'un document" do
     document = FactoryGirl.create(:document, projet: projet)
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)

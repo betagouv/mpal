@@ -66,7 +66,9 @@ fr:
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
         erreur_depot_document: "Une erreur est survenue. Votre document n'a été ajouté au projet"
-        succes_suppression_document: 'votre document a été supprimé avec succès'
+        succes_suppression_document: 'Votre document a été supprimé avec succès'
+        erreur_label_manquant: "Veuillez ajouter un nom à votre document"
+        erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
     messages:
       creation:
         titre: 'Félicitations %{usager}'

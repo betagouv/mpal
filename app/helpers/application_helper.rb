@@ -43,7 +43,7 @@ module ApplicationHelper
     liste_icone[label.to_sym]
   end
 
-  
+
   def bouton_retour_projet_courant
     link_to 'Retour au projet', @projet_courant, class: "ui button"
   end

@@ -3,7 +3,7 @@ h1.ui.header Documents
 - if @projet_courant.documents
   table.ui.celled.striped.table
     tbody
-      - @projet_courant.documents.each do |document|
+      - @projet_courant.documents.select{|document| document.persisted? }.each do |document|
         tr
 
           td
