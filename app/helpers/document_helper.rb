@@ -5,6 +5,8 @@ module DocumentHelper
   end
 
   def bouton_suppression_document(document)
-    link_to t('projets.demande.action_suppression_document'), projet_document_path(@projet_courant, document), method: :delete if intervenant
+    link_to projet_document_path(@projet_courant, document), method: :delete do
+      content_tag(:i, "", class: "trash icon")
+    end
   end
 end

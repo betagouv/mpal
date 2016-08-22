@@ -1,28 +1,22 @@
 h1.ui.header Documents
 
 - if @projet_courant.documents
-  h3.ui.header Liste des documents
   table.ui.celled.striped.table
-    thead
-      tr
-        th Nom du document
-        th Url
-        th Supprimer
     tbody
       - @projet_courant.documents.each do |document|
         tr
-          td.collapsing
-            i.folder.icon
-          td= link_to document.label, document.fichier_url
+
+          td
+            i.file.icon
+            = link_to document.label, document.fichier_url
           td.right.aligned.collapsing
-            i.trash.icon
             = bouton_suppression_document(document)
 
 h3.ui.header Déposer un document
 = form_tag({action: :create, controller: 'documents' }, multipart: true) do
  .ui.form
    .field
-     = label_tag 'Donnez un nom à votre document'
+     = label_tag 'Nom du document'
    .field
      = text_field_tag 'label_document'
    .field

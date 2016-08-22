@@ -63,7 +63,6 @@ fr:
     demande:
       action: "Envoyer la demande à %{instructeur}"
       action_depot_document: "Envoyer le document"
-      action_suppression_document: "Supprimer"
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
         erreur_depot_document: "Une erreur est survenue. Votre document n'a été ajouté au projet"
