@@ -122,6 +122,13 @@
     "email": "adil25@mailinator.com"
   },
   {
+    "raison_sociale": "Direction Départementale des Territoires du Doubs",
+    "addresse_postale": "6 Rue Roussillon, 25000 Besançon",
+    "roles": ["instructeur"],
+    "departements": ["25"],
+    "email": "ddt25@mailinator.com"
+  }
+  {
     "raison_sociale": "URBANIS-31",
     "departements": ["31"],
     "roles": ["operateur"],
