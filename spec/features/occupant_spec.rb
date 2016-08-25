@@ -26,12 +26,4 @@ feature "Occupant" do
     click_button I18n.t('projets.composition_logement.edition.action')
   end
 
-  # scenario "ajout d'un avis d'imposition" do
-  #   signin(projet.numero_fiscal, projet.reference_avis)
-  #   click_link I18n.t('projets.visualisation.modifier_liste_occupant')
-  #   within "#occupant_#{occupant.id}" do
-  #   click_link occupant.to_s
-  #   end
-  # end
-
 end
