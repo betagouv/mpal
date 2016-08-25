@@ -11,7 +11,6 @@ table.ui.compact.celled.definition.table
       th Date de naissance
       th Lien demandeur principal
       th Revenus 2014
-      th Revenus 2015
   tbody
     - @projet_courant.occupants.each do |occupant|
       tr
@@ -28,8 +27,6 @@ table.ui.compact.celled.definition.table
           = occupant.lien_demandeur
         td
           | Revenus de #{occupant.to_s} Via RFR Api + Avis 2015
-        td
-          | Déclaratif
   tfoot.full-width
     tr
       th
