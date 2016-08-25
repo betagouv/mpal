@@ -7,8 +7,8 @@ div.class.ui.grid
     table.ui.definition.table
       tbody
         tr
-          td Demandeur principal #{bouton_modifier_demandeur}
-          td = @projet_courant.usager
+          td Demandeur principal #{bouton_modification_occupant(@projet_courant.demandeur_principal)}
+          td = @projet_courant.demandeur_principal
 
         tr
           td Adresse du logement à rénover #{bouton_modification_projet}
