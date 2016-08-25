@@ -14,6 +14,10 @@ div.class.ui.grid
           td Adresse du logement à rénover #{bouton_modification_projet}
           td = @projet_courant.adresse
 
+        tr
+          td Année de construction
+          td =@projet_courant.annee_construction
+
         - if @utilisateur_courant.is_a? Occupant
 
           tr
@@ -23,9 +27,6 @@ div.class.ui.grid
           tr
             td Le projet #{bouton_modification_projet}
             td = @projet_courant.description
-          tr
-            td Année de construction
-            td =@projet_courant.annee_construction
 
     = link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
 

@@ -61,7 +61,7 @@ fr:
       messages:
         succes: "La composition du logement a bien été mise à jour."
     demande:
-      titre_affiche_adresse: "Adresse du logement à renover" 
+      titre_affiche_adresse: "Adresse du logement à renover"
       action: "Envoyer la demande à %{instructeur}"
       action_depot_document: "Envoyer le document"
       messages:
@@ -81,7 +81,7 @@ fr:
       invitation_intervenant: "Je souhaite contacter cet intervenant"
       invitation_relance_intervenant: "Je relance l'intervenant"
       mise_en_relation_intervenant: "Je mets en relation"
-      modifier_list_occupant: "Modifier la composition du logement"
+      modifier_liste_occupant: "Modifier le nombre d'occupant à charge"
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_description_projet: "Description du projet"
       titre_liste_occupants: "Liste des occupants"

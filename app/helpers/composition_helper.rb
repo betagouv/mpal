@@ -29,7 +29,7 @@ module CompositionHelper
       html = <<-HTML
       <div class="ui right floated icon button">
         <i class="user icon"></i>
-      #{link_to t('projets.visualisation.modifier_list_occupant'), edit_projet_composition_path(@projet_courant)}
+      #{link_to t('projets.visualisation.modifier_liste_occupant'), edit_projet_composition_path(@projet_courant)}
       </div>
       HTML
       html.html_safe

@@ -22,3 +22,22 @@ h2 class="ui horizontal divider header"
   .ui.message.revenus
     h3
     = "Plafond de ressources applicable du foyer : #{calcul_preeligibilite(annee)}" if calcul_revenu_fiscal_reference_total(annee)
+
+
+  - if demandeur?
+    .ui.horizontal.divider
+      | Informations complémentaires
+    p Ces données sont issues de votre déclaration d'impôts. Si vous ne disposez pas de votre RFR, vous pouvez déclarez vos ressources manuellement.
+    p Si votre situation a changé, vous pouvez également déclarer manuellement vos revenus pour l'année en cours.
+    .ui.form
+      .field
+        label Vos revenus en 2015
+        input placeholder=("Vos revenus 2015") type="text"
+    br
+    p Afin d'apprécier votre changement de situation, merci d'en déclarer le motif ci-dessous :
+    .ui.form
+      .field
+        label Motif
+        / input placeholder="Séparation, licenciement, décès, etc." type="textarea"
+        textarea rows="2"
+      .ui.submit.button Ajouter
