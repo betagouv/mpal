@@ -99,6 +99,8 @@ fr:
       action: 'Je mets à jour mon projet'
       titre: 'Modification du projet'
       description: 'Vous pouvez mettre à jour les informations concernant votre projet.'
+  conversation:
+    titre_section: "Messages autour du projet"
   intervenant_projets:
     visualisation:
       invitation_intervenant: 'Je souhaite mettre en relation'
