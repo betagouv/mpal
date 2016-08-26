@@ -14,6 +14,8 @@ class ProjetConstructeur
     projet.reference_avis = reference_avis
     projet.numero_fiscal = numero_fiscal
 
+    projet.nb_occupants_a_charge = contribuable.nombre_personnes_charge
+
     adresse = @service_adresse.precise(contribuable.adresse)
     projet.longitude = adresse[:longitude]
     projet.latitude = adresse[:latitude]

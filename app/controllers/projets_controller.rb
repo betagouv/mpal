@@ -30,7 +30,7 @@ class ProjetsController < ApplicationController
   def projet_params
     service_adresse = ApiBan.new
     adresse = service_adresse.precise(params[:projet][:adresse])
-    attributs = params.require(:projet).permit(:description, :email, :tel, :adresse, :annee_construction)
+    attributs = params.require(:projet).permit(:description, :email, :tel, :adresse, :annee_construction, :nb_occupants_a_charge)
     attributs = attributs.merge(adresse) if adresse
     attributs
   end

@@ -46,5 +46,6 @@ describe ProjetConstructeur do
     expect(projet.reference_avis).to eq('15')
     expect(projet.occupants.any?).to be_truthy
     expect(projet.occupants.first).to be_demandeur
+    expect(projet.nb_occupants_a_charge).to eq(3)
   end
 end
