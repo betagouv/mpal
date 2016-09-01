@@ -23,13 +23,6 @@
     "email": "adil_sarcelles_95@mailinator.com"
   },
   {
-    "raison_sociale": "CACP",
-    "roles": ["operateur"],
-    "departements": ["95"],
-    "themes": ["autonomie", "insalubrité", "énergie"],
-    "email": "cacp95@mailinator.com"
-  },
-  {
     "raison_sociale": "Soliha 95",
     "roles": ["operateur"],
     "departements": ["95"],
