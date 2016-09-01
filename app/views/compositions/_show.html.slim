@@ -16,7 +16,7 @@ table.ui.compact.celled.definition.table
       tr
         td
           = link_to occupant.to_s, edit_projet_occupant_path(@projet_courant, occupant)
-          - if occupant.demandeur
+          - if occupant.demandeur?
             div.ui.label Demandeur
           br
             | #{bouton_suppression_occupant(occupant)}

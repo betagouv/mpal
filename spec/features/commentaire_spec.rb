@@ -12,7 +12,6 @@ feature 'commentaire' do
   scenario "ajout d'un commentaire par un demandeur" do
     signin(projet.numero_fiscal, projet.reference_avis)
     visit projet_path(projet)
-
     fill_in :commentaire_corps_message, with: message
     click_button I18n.t('projets.visualisation.lien_ajout_commentaire')
     expect(page).to have_content(message)
