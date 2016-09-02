@@ -2,6 +2,10 @@
   margin-top: 80px;
 }
 
+.table.ui.celled.table.etat-projet {
+  width: 50%
+}
+
 .ui.success.message {
   margin-top: 60px;
 }

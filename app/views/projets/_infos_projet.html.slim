@@ -1,0 +1,21 @@
+h2.ui.horizontal.divider.header
+  i.help.icon
+  = "Où en est mon projet ?"
+
+table.ui.celled.table.etat-projet
+  thead
+    tr
+      th colspan="3" Création de votre projet
+  tbody
+    tr
+      td.positive Dossier initialisé
+      td.negative Information manquante
+      td Etat
+
+.ui.top.attached.tabular.menu
+  a.item.active data-tab="messages"  Messages
+  a.item data-tab="travaux"  Travaux
+.ui.bottom.attached.tab.segment.active data-tab="messages"
+  | Messages
+.ui.bottom.attached.tab.segment data-tab="second"
+  | Affiche des informations sur les travaux si elles existent
