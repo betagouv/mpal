@@ -1,8 +1,10 @@
 div.ui.large.fixed.menu
   div.ui.container
+    header.item
+    = link_to 'MPAL', root_path, class: "header item"
     = link_to 'Le projet', @projet_courant, class: "active item"
-    = link_to 'Demande', projet_demande_path(@projet_courant), class: "active item" if intervenant?
-    = link_to 'Intervenants', projet_intervenants_path(@projet_courant), class: "active item" if @projet_courant
+    = link_to 'Demande', projet_demande_path(@projet_courant), class: "item" if intervenant?
+    = link_to 'Intervenants', projet_intervenants_path(@projet_courant), class: "item" if @projet_courant
     div.right.menu
       div.item
         = @utilisateur_courant
