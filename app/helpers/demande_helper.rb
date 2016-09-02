@@ -1,5 +1,4 @@
 module DemandeHelper
-
   def intervenant?
       @role_utilisateur  == :intervenant
   end

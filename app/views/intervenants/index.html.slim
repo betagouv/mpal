@@ -1,0 +1,25 @@
+- if @pris_departement.present?
+  h2.ui.horizontal.divider.header
+    i.info.circle.icon
+    | Point Rénovation Info Service
+  h4 Partout en France, prenez rendez-vous avec un conseiller rénovation info service indépendant qui vous aidera gratuitement à choisir les solutions techniques adaptées et à identifier les aides dont vous pouvez bénéficier. Il vous orientera vers l’intervenant pertinent sur votre territoire.
+  div.ui.cards
+    - @pris_departement.each do |intervenant|
+      = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: true}
+
+  h4
+    i.info.circle.icon
+    Vous pouvez également contacter, dans votre département, l'opérateur de votre choix :
+
+- if @projet_courant.intervenants.present?
+  h2.ui.horizontal.divider.header Intervenants invités
+  div.ui.cards.invites
+
+    - @projet_courant.intervenants.each do |intervenant|
+      = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: false}
+
+- if @intervenants_disponibles.present?
+  h2.ui.horizontal.divider.header Intervenants disponibles
+  div.ui.cards.disponibles
+    - @intervenants_disponibles.each do |intervenant|
+      = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: true}

@@ -94,9 +94,13 @@ div.class.ui.grid
             = icone_revenus(@projet_courant, 2015)
             = calcul_revenu_fiscal_reference_total(2015) if calcul_revenu_fiscal_reference_total(2015)
 
-      - if demandeur?
+    - if demandeur?
         .div
           h2 Mes contacts
+
+    - if intervenant?
+        .div
+          h2 Mise en relation
 
     h2 = t('projets.visualisation.titre_fil_actualite')
     div.ui.feed

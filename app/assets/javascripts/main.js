@@ -10,9 +10,3 @@ $(document).ready(function() {
   }
 
 });
-
-$('.menu .item')
-  .on('click', function() {
-    .tab()
-  })
-;

@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def intervenant?
+      @role_utilisateur  == :intervenant
+  end
+  
   def display_errors resource, message_header
     return '' if (resource.errors.empty?)
     messages = resource.errors.messages.map { |key, msg|
