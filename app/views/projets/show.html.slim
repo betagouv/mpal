@@ -80,17 +80,17 @@ div.class.ui.grid
       .div
         h2 = t('projets.visualisation.titre_infos_demandeur')
         = bouton_modification_projet(@projet_courant) if demandeur?
-        ul
-          li
+        ul.infos-demandeur
+          li.hide
             = icone_presence(@projet_courant, :adresse)
             = @projet_courant.adresse
-          li
+          li.hide
             = icone_presence(@projet_courant, :annee_construction)
             = @projet_courant.annee_construction
-          li
+          li.hide
             = icone_nombre_occupant(@projet_courant)
             = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
-          li
+          li.hide
             = icone_revenus(@projet_courant, 2015)
             = calcul_revenu_fiscal_reference_total(2015) if calcul_revenu_fiscal_reference_total(2015)
 

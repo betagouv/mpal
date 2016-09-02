@@ -4,7 +4,11 @@ module ProjetHelper
   end
 
   def icone_presence(projet, attribut)
-    projet.send(attribut).present? ? content_tag(:i, "", class: "checkmark box icon") : content_tag(:i, "", class: "square outline icon") + "Veuillez renseigner cette donnée"
+    liste_message = {
+      adresse: 'Adresse : ',
+      annee_construction: 'Année de construction : '
+    }
+    projet.send(attribut).present? ? content_tag(:i, "", class: "checkmark box icon") + liste_message[attribut] : content_tag(:i, "", class: "square outline icon") + "#{liste_message[attribut] } Veuillez renseigner cette donnée"
   end
 
   def icone_nombre_occupant(projet)
@@ -12,7 +16,7 @@ module ProjetHelper
   end
 
   def icone_revenus(projet, annee)
-    calcul_revenu_fiscal_reference_total(annee) ? content_tag(:i, "", class: "checkmark box icon") : content_tag(:i, "", class: "square outline icon") + "Année de construction ?"
+    calcul_revenu_fiscal_reference_total(annee) ? content_tag(:i, "", class: "checkmark box icon") + "Revenus #{annee} : " : content_tag(:i, "", class: "square outline icon") + "Revenus manquants"
   end
 
 end

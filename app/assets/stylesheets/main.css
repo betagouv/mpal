@@ -1,3 +1,11 @@
+.hide {
+  list-style-type:none;
+}
+
+ul.infos-demandeur {
+  margin-left: -1.9em;
+}
+
 .top {
   margin-top: 80px;
 }
