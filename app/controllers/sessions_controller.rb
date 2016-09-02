@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    # reset_session
+    reset_session
     contribuable = ApiParticulier.new.retrouve_contribuable(params[:numero_fiscal], params[:reference_avis])
     if contribuable
       session[:numero_fiscal] = params[:numero_fiscal]

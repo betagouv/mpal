@@ -25,6 +25,14 @@ class ProjetsController < ApplicationController
   def demande
   end
 
+  def suivi
+    @commentaire = Commentaire.new(projet: @projet_courant)
+  end
+
+  def suivi_intervenant
+    @commentaire = Commentaire.new(projet: @projet_courant)
+  end
+
   private
 
   def projet_params

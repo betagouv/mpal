@@ -21,6 +21,8 @@ Rails.application.routes.draw do
       get '/calcul_revenu_fiscal_reference', to: 'projets#calcul_revenu_fiscal_reference', as: 'calcul_revenu_fiscal_reference'
       get '/preeligibilite', to: 'projets#preeligibilite', as: 'preeligibilite'
       get '/demande', to: 'projets#demande', as: 'demande'
+      get '/suivi', to: 'projets#suivi', as: 'suivi'
+      get '/suivi_intervenant', to: 'projets#suivi_intervenant', as: 'suivi_intervenant'
 
       post '/transfert_csv', to: 'transfert_csv#create'
     end

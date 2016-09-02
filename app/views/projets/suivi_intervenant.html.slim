@@ -1,0 +1,54 @@
+div.class.ui.grid
+  div.twelve.wide.column
+    h2.ui.horizontal.divider.header
+      i.tag.icon
+      | Nouveaux projets
+
+    table.ui.celled.structured.table
+      thead
+        tr
+          th Nom Prénom
+          th Projet
+          th Contact
+      tbody
+        tr
+          td Emile Durano
+          td.center.aligned
+            a href="#" Voir la demande
+          td.center.aligned
+            i.large.green.checkmark.icon
+
+        tr
+          td Caroline Rafu
+          td.center.aligned
+            a href="#" Voir la demande
+          td.center.aligned
+            | A contacter
+
+  div.four.wide.column
+    - if demandeur?
+      .div
+        h2 = t('projets.visualisation.titre_infos_demandeur')
+        ul.infos-demandeur
+          li.hide
+            = icone_presence(@projet_courant, :adresse)
+            = @projet_courant.adresse
+          li.hide
+            = icone_presence(@projet_courant, :annee_construction)
+            = @projet_courant.annee_construction
+          li.hide
+            = icone_nombre_occupant(@projet_courant)
+            = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
+          li.hide
+            = icone_revenus(@projet_courant, 2015)
+            = calcul_revenu_fiscal_reference_total(2015) if calcul_revenu_fiscal_reference_total(2015)
+
+    h2 = t('projets.visualisation.titre_fil_actualite')
+    div.ui.feed
+      - @projet_courant.evenements.each do |evenement|
+        div.event
+          div.label
+            i class=("#{icone_evenement(evenement.label)} icon")
+          div.content
+            div.summary = evenement
+            div.date = l(evenement.quand, format: :short)
