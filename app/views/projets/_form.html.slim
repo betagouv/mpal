@@ -1,7 +1,7 @@
 = form_for @projet_courant, url: { action: 'update'}, html: { class:'ui form'} do |f|
   .field
     = f.label :description
-    = f.text_area :description
+    = f.text_area :description, placeholder: "Ma chaudière est en panne et j'ai froid dans mon logement"
   .field
     = f.label :adresse
     = f.text_field :adresse
@@ -13,7 +13,6 @@
     = f.text_field :tel
   .field
    = f.label :annee_construction
-   = f.select :annee_construction, (Time.zone.now.year - 300)..(Time.zone.now.year - 15)
-  .field
-    = f.submit t('projets.edition.action'), class:"ui primary button"
+   = f.text_field :annee_construction, placeholder: 1945
+  = f.submit t('projets.edition.action'), class:"ui primary button"
   = bouton_retour_projet_courant
