@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  # before_action :authentifie
+  before_action :authentifie
 
   def authentifie
     jeton = params[:jeton] || session[:jeton]
