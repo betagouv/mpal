@@ -1,3 +1,14 @@
+- if demandeur?
+  | De nombreux acteurs peuvent vous accompagner sur le terrain, que vous soyez directement concerné par une opération programmée ou non.
+  | Les délégations locales de l’Anah au sein des Directions départementales des territoires, les délégataires de compétence et les opérateurs vous conseillent et vous apportent toute l’assistance nécessaire.
+  br
+
+- if @projet_courant.intervenants.present?
+  h2.ui.horizontal.divider.header Intervenants invités
+  div.ui.cards.invites
+    - @projet_courant.intervenants.each do |intervenant|
+      = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: false}
+
 - if @pris_departement.present?
   h2.ui.horizontal.divider.header
     i.info.circle.icon
@@ -9,17 +20,12 @@
 
   h4
     i.info.circle.icon
-    Vous pouvez également contacter, dans votre département, l'opérateur de votre choix :
-
-- if @projet_courant.intervenants.present?
-  h2.ui.horizontal.divider.header Intervenants invités
-  div.ui.cards.invites
-
-    - @projet_courant.intervenants.each do |intervenant|
-      = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: false}
+    | Vous pouvez également contacter, dans votre département, l'opérateur de votre choix :
 
 - if @intervenants_disponibles.present?
   h2.ui.horizontal.divider.header Intervenants disponibles
   div.ui.cards.disponibles
     - @intervenants_disponibles.each do |intervenant|
       = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: true}
+br
+br

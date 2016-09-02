@@ -33,6 +33,7 @@ feature "Invitation" do
 
   scenario "mise en relation par un pris entre un operateur et un demandeur" do
     visit projet_path(id: invitation.projet, jeton: invitation.token)
+    click_link 'Intervenants'
     within '.disponibles' do
       click_button I18n.t('projets.visualisation.mise_en_relation_intervenant')
     end
