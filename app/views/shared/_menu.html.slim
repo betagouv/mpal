@@ -1,6 +1,6 @@
 div.ui.large.fixed.menu
   div.ui.container
-    = link_to 'MPAL', root_path, class: "header item"
+    = link_to 'ANAH', root_path, class: "header item"
     = link_to 'Le projet', @projet_courant, class: "active item"
     - if intervenant?
       = link_to 'Demande', projet_demande_path(@projet_courant), class: "item" if intervenant?
