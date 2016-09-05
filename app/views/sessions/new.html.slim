@@ -4,6 +4,8 @@ div#formulaire_connexion
       h1.ui.header= t('sessions.nouvelle.titre')
       p
         = t('sessions.nouvelle.conseil')
+        br
+        a href="https://cfspart.impots.gouv.fr/templates/troisS_faq.html#numFiscal" Aide : où se trouve mon numéro fiscal ?
         = form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do
           div.field
             = label_tag :numero_fiscal
