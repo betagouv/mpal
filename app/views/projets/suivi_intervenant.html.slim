@@ -2,53 +2,62 @@ div.class.ui.grid
   div.twelve.wide.column
     h2.ui.horizontal.divider.header
       i.tag.icon
-      | Nouveaux projets
+      = t('tableau_de_bord.titre_section')
+
+    / ul
+    /   - @invitations_intervenant.each do |projet|
+    /     li = projet.adresse
+    /     li = projet.description
+
+    .ui.selection.dropdown
+      input name="etatprojet" type="hidden" /
+      i.dropdown.icon
+      .default.text Filter les projets par :
+      .menu
+        .item data-value="1"  Prospect
+        .item data-value="0"  En cours
+        .item data-value="0"  Transmis aux services instructeurs
+
 
     table.ui.celled.structured.table
       thead
         tr
+          th Etat du dossier
+          th Détails
           th Nom Prénom
+          th id opal
+          th Adresse
+          th Nature des travaux
+          th Type d'immeuble
           th Projet
+          th Nom du référant
           th Contact
       tbody
         tr
+          td Demande d'information
+          td
+            a href="#" Voir le projet
           td Emile Durano
-          td.center.aligned
+          td Non créé
+          td
+          td
+            / i.large.green.checkmark.icon
+          td
+          td
+          td
+          td
             a href="#" Voir la demande
-          td.center.aligned
-            i.large.green.checkmark.icon
 
         tr
+          td Operateur missionné
+          td
+            a href="#" Voir le projet
           td Caroline Rafu
-          td.center.aligned
+          td Non créé
+          td
+          td
+          td
+          td
+          td
+          td
             a href="#" Voir la demande
-          td.center.aligned
-            | A contacter
-
-  div.four.wide.column
-    - if demandeur?
-      .div
-        h2 = t('projets.visualisation.titre_infos_demandeur')
-        ul.infos-demandeur
-          li.hide
-            = icone_presence(@projet_courant, :adresse)
-            = @projet_courant.adresse
-          li.hide
-            = icone_presence(@projet_courant, :annee_construction)
-            = @projet_courant.annee_construction
-          li.hide
-            = icone_nombre_occupant(@projet_courant)
-            = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
-          li.hide
-            = icone_revenus(@projet_courant, 2015)
-            = calcul_revenu_fiscal_reference_total(2015) if calcul_revenu_fiscal_reference_total(2015)
-
-    h2 = t('projets.visualisation.titre_fil_actualite')
-    div.ui.feed
-      - @projet_courant.evenements.each do |evenement|
-        div.event
-          div.label
-            i class=("#{icone_evenement(evenement.label)} icon")
-          div.content
-            div.summary = evenement
-            div.date = l(evenement.quand, format: :short)

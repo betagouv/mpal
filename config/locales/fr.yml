@@ -147,3 +147,5 @@ fr:
     ajout_avis_imposition: "Ajout de l'avis d'imposition %{avis_imposition}"
   reinitialisation:
     succes: 'Réinitialisation effectuée'
+  tableau_de_bord:
+    titre_section: 'Mon tableau de bord'

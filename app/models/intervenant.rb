@@ -1,6 +1,7 @@
 class Intervenant < ActiveRecord::Base
 
   has_many :commentaires, as: :auteur
+  # has_many :projets, through: :invitation
 
   validates :raison_sociale, presence: true
 

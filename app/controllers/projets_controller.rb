@@ -30,7 +30,7 @@ class ProjetsController < ApplicationController
   end
 
   def suivi_intervenant
-    @commentaire = Commentaire.new(projet: @projet_courant)
+    @invitations_intervenant = Invitation.where(intervenant_id: @utilisateur_courant.id)
   end
 
   private
