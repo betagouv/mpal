@@ -89,6 +89,7 @@ fr:
       titre_description_projet: "Description du projet"
       titre_fil_actualite: "Chronologie"
       titre_detail_beneficiaire: "Mes coordonnées"
+      titre_tableau_de_bord: "Le suivi de mon projet"
       lien_ajout_commentaire: 'Répondre'
       titre_section_composition:
         one: " 1 occupant"
