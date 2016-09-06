@@ -1,7 +1,7 @@
 div.ui.large.fixed.menu
   div.ui.container
     = link_to 'ANAH', root_path, class: "header item"
-    = link_to 'Le projet', @projet_courant, class: "active item"
+    = link_to 'Le projet', @projet_courant, class: "active item" if @projet_courant
     - if intervenant?
       = link_to 'Demande', projet_demande_path(@projet_courant), class: "item"
       = link_to 'Tableau de bord', projet_suivi_intervenant_path(@projet_courant), class: "item" if @projet_courant
