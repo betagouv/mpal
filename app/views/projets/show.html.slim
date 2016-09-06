@@ -30,7 +30,7 @@ div.class.ui.grid
 
     = render partial: 'compositions/show'
     = render partial: 'calculerevenus'
-    
+
     = render partial: 'commentaires' if intervenant?
 
     h2.ui.horizontal.divider.header
@@ -47,6 +47,12 @@ div.class.ui.grid
         h2 = t('projets.visualisation.titre_infos_demandeur')
         = bouton_modification_projet(@projet_courant) if demandeur?
         ul.infos-demandeur
+        li.hide
+          = icone_presence(@projet_courant, :email)
+          = @projet_courant.email
+        li.hide
+          = icone_presence(@projet_courant, :tel)
+          = @projet_courant.tel
           li.hide
             = icone_presence(@projet_courant, :adresse)
             = @projet_courant.adresse

@@ -6,7 +6,9 @@ module ProjetHelper
   def icone_presence(projet, attribut)
     liste_message = {
       adresse: 'Adresse : ',
-      annee_construction: 'Année de construction : '
+      annee_construction: 'Année de construction : ',
+      email: 'E-mail : ',
+      tel: 'N° de télephone : '
     }
     projet.send(attribut).present? ? content_tag(:i, "", class: "checkmark box icon") + liste_message[attribut] : content_tag(:i, "", class: "square outline icon") + "#{liste_message[attribut] } Veuillez renseigner cette donnée"
   end
