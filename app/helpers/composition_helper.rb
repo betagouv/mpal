@@ -19,7 +19,7 @@ module CompositionHelper
   def bouton_suppression_occupant(occupant)
     if demandeur?
       html = <<-HTML
-        <i class="write square icon"></i>
+        <i class="trash icon"></i>
         #{link_to 'Supprimer', projet_occupant_path(@projet_courant, occupant), method: :delete}
       </div>
       HTML
@@ -30,7 +30,7 @@ module CompositionHelper
   def bouton_modification_occupant(occupant)
     if demandeur?
       html = <<-HTML
-        <i class="trash icon"></i>
+        <i class="write square icon"></i>
         #{link_to 'Modifier', edit_projet_occupant_path(@projet_courant, occupant)}
       </div>
       HTML
