@@ -52,8 +52,9 @@ class InvitationsController < ApplicationController
   def valid?
     @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
     @projet_courant.errors[:description] = t('invitations.messages.description.obligatoire') unless @projet_courant.description.present?
+    @projet_courant.errors[:tel] = t('invitations.messages.telephone.obligatoire') unless @projet_courant.tel.present?
     @projet_courant.errors[:email] = t('invitations.messages.email.obligatoire') unless @projet_courant.email.present?
     @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
-    @projet_courant.description.present? && @projet_courant.email.present? && @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
+    @projet_courant.description.present? && @projet_courant.email.present? && @projet_courant.adresse.present? && email_valide?(@projet_courant.email) && @projet_courant.tel.present?
   end
 end

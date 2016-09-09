@@ -123,6 +123,8 @@ fr:
         obligatoire: "La description est obligatoire"
       adresse:
         obligatoire: "L'adresse du logement à rénover est obligatoire"
+      telephone:
+        obligatoire: "Le numéro de téléphone est obligatoire"
   occupants:
     nouveau:
       titre: "Ajoutez un nouvel occupant à votre logement"
