@@ -1,19 +1,16 @@
 div.class.ui.grid
   div.twelve.wide.column
+
     h2.ui.horizontal.divider.header
       i.tag.icon
       = t('projets.visualisation.titre_tableau_de_bord')
-    p Exemples de messages :
-    ul
-      li "Votre dossier a été consulté par Soliha 95"
-      li "Il manque des informations"
-      li "Votre dossier est complet, veuillez choisir un opérateur pour le suivi de votre projet"
 
-    .ui.warning.message
-      i.close.icon
-      .header
-      | Vous n'avez pas encore fourni le revenu fiscal de référence.
-      | Ces informations sont utilisées pour savoir si vos revenus vous permettent de bénéficier d'aides.
+    - if @invitations_demandeur.empty?
+      .ui.warning.message
+        .header
+          p Félicitations ! Vous avez initialisé votre projet et nous avons pu récupérer certaines informations grâce à votre numéro fiscal.
+          p Vous pouvez compléter votre projet ou bien contactez une structure qui pourra vous accompagner dans votre demande d'aide Anah.
+          p Vous n'avez encore invité personne à consulter votre projet. Rendez-vous simplement sur la page #{link_to 'Intervenants', projet_intervenants_path(@projet_courant)} et invitez des opérateurs !
 
     h2.class.ui.horizontal.divider.header
       i.comments.icon

@@ -1,4 +1,5 @@
 div class="ui comments"
+  p Vous pouvez à tout moment poser des questions à propos de votre projet
   = form_for [@projet_courant, @commentaire], html: { class: "ui reply form" } do |f|
     = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
     div class="field"
