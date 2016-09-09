@@ -27,6 +27,7 @@ class ProjetsController < ApplicationController
 
   def suivi
     @commentaire = Commentaire.new(projet: @projet_courant)
+    @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
   end
 
   def suivi_intervenant
@@ -45,7 +46,8 @@ class ProjetsController < ApplicationController
 
   def valid?
     @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
-    @projet_courant.adresse.present?
+    @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
+    @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
   end
 
 end

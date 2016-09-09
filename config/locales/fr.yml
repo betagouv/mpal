@@ -38,6 +38,7 @@ fr:
       messages:
         erreur: "Le projet n'a pas pu être modifié"
         succes: "Projet modifié avec succès"
+        erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
     composition_logement:
       avis_imposition:
         nouveau:

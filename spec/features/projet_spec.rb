@@ -34,4 +34,12 @@ feature "Projet" do
     expect(page).to have_content('Mes infos')
   end
 
+  scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur" do
+    signin(projet.numero_fiscal, projet.reference_avis)
+    click_link I18n.t('projets.visualisation.lien_edition_projet')
+    fill_in :projet_email, with: "lolo"
+    click_button I18n.t('projets.edition.action')
+    expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
+  end
+
 end
