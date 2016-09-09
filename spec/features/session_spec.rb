@@ -16,7 +16,9 @@ feature "Réinitialisation de la session" do
   let(:invitation) { FactoryGirl.create(:invitation) }
 
   scenario "je vois le lien pour se déconnecter s'il y a un projet et un message qui m'annonce que je me suis bien deconnecté(e)" do
+    signin(projet.numero_fiscal, projet.reference_avis)
     visit projet_path(projet)
+    expect(page).to have_content("Martin")
     expect(page).to have_link(I18n.t('sessions.lien_deconnexion'), href: '/deconnexion')
     click_link I18n.t('sessions.lien_deconnexion')
     expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion'))

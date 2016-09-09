@@ -12,6 +12,6 @@ div.ui.large.fixed.menu
     div.right.menu
       div.item
         = @utilisateur_courant
-      div.item
-        - if @projet_courant
-        p = link_to t('sessions.lien_deconnexion'), :controller => :sessions, :action => :deconnexion
+        - if @utilisateur_courant
+          div.item
+          = link_to t('sessions.lien_deconnexion'), :controller => :sessions, :action => :deconnexion
