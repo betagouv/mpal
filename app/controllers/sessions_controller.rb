@@ -4,12 +4,12 @@ class SessionsController < ApplicationController
   end
 
   def create
-    reset_session
     contribuable = ApiParticulier.new.retrouve_contribuable(params[:numero_fiscal], params[:reference_avis])
     if contribuable
       session[:numero_fiscal] = params[:numero_fiscal]
       projet = ProjetEntrepot.par_numero_fiscal(params[:numero_fiscal])
       if projet
+        # redirect_to projet_suivi_path(projet)
         redirect_to projet
       else
         create_projet_and_redirect
@@ -31,4 +31,10 @@ class SessionsController < ApplicationController
       redirect_to new_session_path, alert: t('sessions.erreurs.creation_projet')
     end
   end
+
+  def deconnexion
+    reset_session
+    redirect_to new_session_path, notice: t('sessions.confirmation_deconnexion')
+  end
+
 end
