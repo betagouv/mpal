@@ -33,10 +33,50 @@ table.ui.basic.table
 h1.ui.header Plan de travaux
 .prestations.ui.horizontal.segments
 
-  - sections = [ {adjectif: 'souhaitées', scenario: 'souhaite'}, {adjectif: 'préconisées', scenario: 'preconise'}, {adjectif: 'retenues', scenario: 'retenu'} ]
-  - sections.each do |section|
-    - prestations = @projet_courant.prestations.where(scenario: section[:scenario])
-    = render partial: 'projets/prestations', locals: section.merge(prestations: prestations)
+table.ui.striped.celled.table
+  thead
+    tr
+      td Autonomie
+      td.right.aligned Souhaité
+      td.right.aligned Préconisé
+      td.right.aligned Retenu
+  tbody
+    - travaux_autonomie.each do |travaux|
+      tr
+        td= travaux
+        td.right.aligned= check_box_tag :truc, :bidule
+        td.right.aligned= check_box_tag :truc, :bidule
+        td.right.aligned= check_box_tag :truc, :bidule
+
+table.ui.striped.celled.table
+  thead
+    tr
+      td Habiter mieux
+      td.right.aligned Souhaité
+      td.right.aligned Préconisé
+      td.right.aligned Retenu
+  tbody
+    - travaux_autonomie.each do |travaux|
+      tr
+        td= travaux
+        td.right.aligned= check_box_tag :truc, :bidule
+        td.right.aligned= check_box_tag :truc, :bidule
+        td.right.aligned= check_box_tag :truc, :bidule
+
+table.ui.striped.celled.table
+  thead
+    tr
+      td Autres travaux
+      td.right.aligned Souhaité
+      td.right.aligned Préconisé
+      td.right.aligned Retenu
+  tbody
+    - travaux_autres.each do |travaux|
+      tr
+        td= travaux
+        td.right.aligned= check_box_tag :truc, :bidule
+        td.right.aligned= check_box_tag :truc, :bidule
+        td.right.aligned= check_box_tag :truc, :bidule
 
 h3 class="ui horizontal divider header" Déposer un plan de travaux
 = form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do

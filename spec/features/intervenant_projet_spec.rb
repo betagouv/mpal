@@ -31,19 +31,8 @@ feature "intervenant" do
 
   scenario "visualisation de la demande de travaux par l'operateur" do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    expect(page).to have_content('Prestations retenues')
-    within '.prestations .retenu' do
-      expect(page).to have_content(chaudiere_r.libelle)
-      expect(page).to have_content(production_ecs_r.libelle)
-    end
-    within '.prestations .souhaite' do
-      expect(page).to have_content(chaudiere_s.libelle)
-      expect(page).to have_content(carrelage_s.libelle)
-    end
-    within '.prestations .preconise' do
-      expect(page).to have_content(chaudiere_p.libelle)
-      expect(page).to have_content(production_ecs_p.libelle)
-    end
+    expect(page).to have_content('Remplacement d\'une baigoire par une douche')
+    expect(page).to have_content("Plâtrerie")
   end
 
   scenario "visualisation de la demande de financement par l'operateur" do
@@ -59,15 +48,6 @@ feature "intervenant" do
     click_button I18n.t('projets.demande.action', instructeur: instructeur.raison_sociale)
     expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: instructeur.raison_sociale))
     expect(projet.intervenants).to include(instructeur)
-  end
-
-  scenario "ajout d'une prestation manuellement" do
-    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    within '.prestations .souhaite' do
-      fill_in 'prestation_libelle', with: 'Chaudière x11'
-      click_button 'Ajouter cette prestation'
-    end
-    expect(page).to have_content('Chaudière x11')
   end
 
   scenario "upload d'un document" do

@@ -52,4 +52,78 @@ module ApplicationHelper
     link_to 'Retour au projet', @projet_courant, class: "ui button"
   end
 
+  def travaux_autonomie
+    travaux = []
+    travaux << "Remplacement d'une baigoire par une douche"
+    travaux << "Barre de maintien"
+    travaux << "WC surélevé"
+    travaux << "Lavabo adapté"
+    travaux << "Monte Escalier - Ascenseur - Monte personne"
+    travaux << "Meubles PMR"
+    travaux << "Unité de vie"
+    travaux << "Volets roulants"
+    travaux << "Motorisation de volets roulants"
+    travaux << "Élargissement de portes"
+    travaux << "Transformation d'une pièce non habitable en salle de bain"
+    travaux << "Création unité de vie dans annexe"
+    travaux << "Élargissement cloisons"
+    travaux << "Repères lumineux pour personne malentendante"
+    travaux << "Cheminement extérieur"
+    return travaux
+  end
+
+  def travaux_habiter_mieux
+    travaux = []
+    travaux << "Chaudière"
+    travaux << "Condensation"
+    travaux << "Basse température"
+    travaux << "Radiateurs"
+    travaux << "Régulation de chauffage"
+    travaux << "Vannes thermostatiques"
+    travaux << "Poëlle à pellets"
+    travaux << "Poëlle bois buches"
+    travaux << "Insert"
+    travaux << "Radiateurs électriques"
+    travaux << "Chauffe eau électrique"
+    travaux << "Chauffe eau thermodynamique"
+    travaux << "Production ECS"
+    travaux << "Chauffe eau solaire"
+    travaux << "VMC simple"
+    travaux << "VMC Double flux"
+    travaux << "VMC Hygro type A"
+    travaux << "VMC Hygro type B"
+    travaux << "Fenêtres"
+    travaux << "Volets"
+    travaux << "Porte d'entrée"
+    travaux << "Isolation mures + plancher +toit"
+    travaux << "Isolation plancher"
+    travaux << "Isolation des combles"
+    travaux << "Isolation sous toiture"
+    travaux << "Isolation murs extérieurs"
+    travaux << "Pompe à chaleur air/air"
+    travaux << "Pompe à chaleur air/eau"
+    travaux << "Pompe à chaleur eau/air"
+    travaux << "Pompe à chaleur eau/eau"
+    travaux << "Géothermie"
+    return travaux
+  end
+
+  def travaux_autres
+    travaux = []
+    travaux << "Couverture"
+    travaux << "Charpente"
+    travaux << "Fumisterie"
+    travaux << "Gros oeuvre (mur, dalles...)"
+    travaux << "Carrelages - Faïences"
+    travaux << "Plomberie sanitaires"
+    travaux << "Électricité"
+    travaux << "Mise en sécurité installation électique"
+    travaux << "Plâtrerie"
+    travaux << "Menuiseries intérieurs"
+    travaux << "Réseaux"
+    travaux << "Assainissement non collectif"
+    travaux << "Peintures"
+    travaux << "Suppression peinture au plomb"
+    return travaux
+  end
 end
