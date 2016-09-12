@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :agents, controllers: { sessions: 'agents' }
+  devise_for :agents, controllers: { cas_sessions: 'my_cas' }
   root 'welcome#index'
   # constraints subdomain: "api.#{ENV['SUBDOMAIN']}", format: 'json' do
   namespace :api, path: '/api/v1/' do
