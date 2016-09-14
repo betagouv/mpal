@@ -96,6 +96,7 @@
     "roles": ["operateur"],
     "departements": ["25", "90"],
     "themes": ["énergie"],
+    "clavis_service_id": "5262",
     "email": "soliha25-90@mailinator.com"
   },
   {
@@ -119,6 +120,7 @@
     "adresse_postale": "6 Rue Roussillon, 25000 Besançon",
     "roles": ["instructeur"],
     "departements": ["25"],
+    "clavis_service_id": "5054",
     "email": "ddt25@mailinator.com"
   },
   {

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160826123726) do
+ActiveRecord::Schema.define(version: 20160914152324) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,8 +25,12 @@ ActiveRecord::Schema.define(version: 20160826123726) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "nom"
+    t.string   "prenom"
+    t.integer  "intervenant_id"
   end
 
+  add_index "agents", ["intervenant_id"], name: "index_agents_on_intervenant_id", using: :btree
   add_index "agents", ["username"], name: "index_agents_on_username", unique: true, using: :btree
 
   create_table "avis_impositions", force: :cascade do |t|
@@ -80,13 +84,15 @@ ActiveRecord::Schema.define(version: 20160826123726) do
   create_table "intervenants", force: :cascade do |t|
     t.string "raison_sociale"
     t.string "adresse_postale"
-    t.string "themes",          array: true
-    t.string "departements",    array: true
+    t.string "themes",            array: true
+    t.string "departements",      array: true
     t.string "email"
-    t.string "roles",           array: true
+    t.string "roles",             array: true
     t.text   "informations"
+    t.string "clavis_service_id"
   end
 
+  add_index "intervenants", ["clavis_service_id"], name: "index_intervenants_on_clavis_service_id", using: :btree
   add_index "intervenants", ["departements"], name: "index_intervenants_on_departements", using: :gin
   add_index "intervenants", ["roles"], name: "index_intervenants_on_roles", using: :gin
   add_index "intervenants", ["themes"], name: "index_intervenants_on_themes", using: :gin
@@ -157,6 +163,7 @@ ActiveRecord::Schema.define(version: 20160826123726) do
 
   add_index "subventions", ["projet_id"], name: "index_subventions_on_projet_id", using: :btree
 
+  add_foreign_key "agents", "intervenants"
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "commentaires", "projets"
   add_foreign_key "documents", "projets"
