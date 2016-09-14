@@ -40,4 +40,6 @@ docker-compose up
 # Notes
 Kanban Zenhub sur ce projet
 
-rake intervenants:charger pour avoir des intervenants en base
+`rake intervenants:charger` pour avoir des intervenants en base
+
+`docker-compose run mpal rake intervenants:charger`
