@@ -33,50 +33,25 @@ table.ui.basic.table
 h1.ui.header Plan de travaux
 .prestations.ui.horizontal.segments
 
-table.ui.striped.celled.table
-  thead
-    tr
-      td Autonomie
-      td.right.aligned Souhaité
-      td.right.aligned Préconisé
-      td.right.aligned Retenu
-  tbody
-    - travaux_autonomie.each do |travaux|
+- Theme.all.each do |theme|
+  table.ui.striped.celled.table
+    thead
       tr
-        td= travaux
-        td.right.aligned= check_box_tag :truc, :bidule
-        td.right.aligned= check_box_tag :truc, :bidule
-        td.right.aligned= check_box_tag :truc, :bidule
+        td= theme.libelle.capitalize
+        td.right.aligned Souhaité
+        td.right.aligned Préconisé
+        td.right.aligned Retenu
+    tbody
+      - theme.prestations.each do |prestation|
+        tr(data-url=projet_prestations_url(@projet_courant))
+          td(data-prestation-id=prestation.id)= prestation.libelle.capitalize
+          td.right.aligned.plan_travaux(data-prestation-id=prestation.id)
+            = projet_prestation_checkbox(@projet_courant, prestation, :souhaite)
+          td.right.aligned.plan_travaux(data-prestation-id=prestation.id)
+            = projet_prestation_checkbox(@projet_courant, prestation, :preconise)
+          td.right.aligned.plan_travaux(data-prestation-id=prestation.id)
+            = projet_prestation_checkbox(@projet_courant, prestation, :retenu)
 
-table.ui.striped.celled.table
-  thead
-    tr
-      td Habiter mieux
-      td.right.aligned Souhaité
-      td.right.aligned Préconisé
-      td.right.aligned Retenu
-  tbody
-    - travaux_autonomie.each do |travaux|
-      tr
-        td= travaux
-        td.right.aligned= check_box_tag :truc, :bidule
-        td.right.aligned= check_box_tag :truc, :bidule
-        td.right.aligned= check_box_tag :truc, :bidule
-
-table.ui.striped.celled.table
-  thead
-    tr
-      td Autres travaux
-      td.right.aligned Souhaité
-      td.right.aligned Préconisé
-      td.right.aligned Retenu
-  tbody
-    - travaux_autres.each do |travaux|
-      tr
-        td= travaux
-        td.right.aligned= check_box_tag :truc, :bidule
-        td.right.aligned= check_box_tag :truc, :bidule
-        td.right.aligned= check_box_tag :truc, :bidule
 
 h3 class="ui horizontal divider header" Déposer un plan de travaux
 = form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do

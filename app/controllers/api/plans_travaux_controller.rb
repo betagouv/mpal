@@ -1,5 +1,6 @@
 module API
   class PlansTravauxController < APIController
+
     def create
       projet_id = params[:projet_id]
       projet = Projet.find(projet_id)
