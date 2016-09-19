@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921083409) do
+ActiveRecord::Schema.define(version: 20160919212921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -171,6 +171,12 @@ ActiveRecord::Schema.define(version: 20160921083409) do
   end
 
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
+
+  create_table "qdm_references", force: :cascade do |t|
+    t.integer "opal_id"
+    t.string  "code"
+    t.text    "libelle"
+  end
 
   create_table "subventions", force: :cascade do |t|
     t.string  "libelle"

@@ -64,3 +64,8 @@ Prestation.find_or_create_by(theme: autres, libelle: 'Assainissement non collect
 Prestation.find_or_create_by(theme: autres, libelle: 'Peintures')
 Prestation.find_or_create_by(theme: autres, libelle: 'Suppresssion peinture au plomb')
 
+QdmReference.find_or_create_by(opal_id: 23, code:"ASC/DESC", libelle:"Ascendant / descendant")
+QdmReference.find_or_create_by(opal_id: 25, code:"IND", libelle:"Indivisaire occupant")
+QdmReference.find_or_create_by(opal_id: 29, code:"PO", libelle:"Propriétaire occupant")
+QdmReference.find_or_create_by(opal_id: 43, code:"SCIPO", libelle:"Associé SCI occupant")
+QdmReference.find_or_create_by(opal_id: 63, code:"LOCATAIRE", libelle:"Locataire")
