@@ -69,3 +69,8 @@ QdmReference.find_or_create_by(opal_id: 25, code:"IND", libelle:"Indivisaire occ
 QdmReference.find_or_create_by(opal_id: 29, code:"PO", libelle:"Propriétaire occupant")
 QdmReference.find_or_create_by(opal_id: 43, code:"SCIPO", libelle:"Associé SCI occupant")
 QdmReference.find_or_create_by(opal_id: 63, code:"LOCATAIRE", libelle:"Locataire")
+
+
+CadReference.find_or_create_by(opal_id:1, code: "MAINTIEN_DOMICILE", libelle:"Maintien à domicile")
+CadReference.find_or_create_by(opal_id:2, code: "AUTRE", libelle: "Autre")
+CadReference.find_or_create_by(opal_id:46, code: "PO_AUTO_REHA", libelle: "PO Auto-réhabilitation")

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160919212921) do
+ActiveRecord::Schema.define(version: 20160919214304) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,12 @@ ActiveRecord::Schema.define(version: 20160919212921) do
   end
 
   add_index "avis_impositions", ["projet_id"], name: "index_avis_impositions_on_projet_id", using: :btree
+
+  create_table "cad_references", force: :cascade do |t|
+    t.integer "opal_id"
+    t.string  "code"
+    t.text    "libelle"
+  end
 
   create_table "commentaires", force: :cascade do |t|
     t.integer  "projet_id"
