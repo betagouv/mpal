@@ -1,5 +1,5 @@
 autonomie = Theme.find_or_create_by(libelle: 'Autonomie')
-Prestation.find_or_create_by(theme: autonomie, libelle: "Remplacement d'une baigoire par une douche")
+Prestation.find_or_create_by(theme: autonomie, libelle: "Remplacement d'une baignoire par une douche")
 Prestation.find_or_create_by(theme: autonomie, libelle: "Barre de maintien")
 Prestation.find_or_create_by(theme: autonomie, libelle: "WC surélevé")
 Prestation.find_or_create_by(theme: autonomie, libelle: "Lavabo adapté")
