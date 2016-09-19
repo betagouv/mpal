@@ -9,8 +9,9 @@ class ApiBan
     latitude = coords[1]
     label = json_adresse['features'][0]['properties']['label']
     postcode = json_adresse['features'][0]['properties']['postcode']
+    citycode = json_adresse['features'][0]['properties']['citycode']
     departement = postcode[0,2]
-    {latitude: latitude, longitude: longitude, departement: departement, adresse: label}
+    {latitude: latitude, longitude: longitude, departement: departement, adresse: label, citycode: citycode}
   end
 
   def geocode(adresse)
