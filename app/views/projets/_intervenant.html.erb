@@ -29,4 +29,11 @@
     <% end %>
   </div>
   <% end %>
+  <% if avec_choix && @role_utilisateur == :demandeur %>
+    <div class="extra content">
+      <%= link_to new_projet_choix_intervenant_path(projet, intervenant_id: intervenant.id) do %>
+        <%= button_tag t('projets.visualisation.choisir_intervenant'), class:'ui primary button' %>
+      <% end %>
+    </div>
+  <% end %>
 </div>

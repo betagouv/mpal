@@ -73,6 +73,10 @@ fr:
         succes_suppression_document: 'Votre document a été supprimé avec succès'
         erreur_label_manquant: "Veuillez ajouter un nom à votre document"
         erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
+    intervenants:
+      messages:
+        succes_choix_intervenant_titre: "Succès"
+        succes_choix_intervenant: "Vous venez de choisir votre operateur"
     messages:
       creation:
         titre: 'Félicitations %{usager}'
@@ -84,6 +88,7 @@ fr:
       invitation_intervenant: "Je souhaite contacter cet intervenant"
       invitation_relance_intervenant: "Je relance l'intervenant"
       mise_en_relation_intervenant: "Je mets en relation"
+      choisir_intervenant: "Je choisis cet opérateur"
       modifier_liste_occupant: "Modifier le nombre d'occupant à charge"
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_infos_demandeur: "Mes infos"
@@ -154,3 +159,7 @@ fr:
     succes: 'Réinitialisation effectuée'
   tableau_de_bord:
     titre_section: 'Mon tableau de bord'
+  choix_intervenants:
+    nouveau:
+      explication: "Choisir un intervenant vous engage"
+      action: "Je choisis cet opérateur"

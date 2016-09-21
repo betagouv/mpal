@@ -42,4 +42,16 @@ feature "Projet" do
     expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
   end
 
+  scenario "choisit un opérateur qui a été invité" do
+    invitation = FactoryGirl.create(:invitation)
+    projet = invitation.projet
+    signin(projet.numero_fiscal, projet.reference_avis)
+    visit projet_intervenants_path(projet)
+    expect(page).to have_content(invitation.intervenant.raison_sociale)
+    click_link I18n.t('projets.visualisation.choisir_intervenant')
+    expect(page).to have_content(I18n.t('choix_intervenants.nouveau.explication'))
+    click_button I18n.t('choix_intervenants.nouveau.action')
+    expect(page).to have_content(I18n.t('projets.intervenants.messages.succes_choix_intervenant'))
+  end
+
 end
