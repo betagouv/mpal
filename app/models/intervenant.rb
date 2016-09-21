@@ -16,4 +16,8 @@ class Intervenant < ActiveRecord::Base
   def to_s
     self.raison_sociale
   end
+
+  def operateur?
+    self.roles.include?('operateur')
+  end
 end

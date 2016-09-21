@@ -17,4 +17,13 @@ describe Intervenant do
     expect(Intervenant.pour_departement(95, role: :pris).first).to eq(ddt95)
   end
 
+  it "renvoie true si l'intervenant est un operateur" do
+    intervenant = FactoryGirl.create(:intervenant, roles: [:operateur])
+    expect(intervenant.operateur?).to be_truthy
+  end
+
+  it "renvoie false si l'intervenant n'est pas un operateur" do
+    intervenant = FactoryGirl.create(:intervenant, roles: [:pris])
+    expect(intervenant.operateur?).to be_falsy
+  end
 end
