@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160914152324) do
+ActiveRecord::Schema.define(version: 20160915200153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -129,12 +129,28 @@ ActiveRecord::Schema.define(version: 20160914152324) do
     t.float    "montant"
     t.boolean  "recevable"
     t.integer  "projet_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
     t.string   "scenario"
+    t.boolean  "souhaite",   default: false, null: false
+    t.boolean  "preconise",  default: false, null: false
+    t.boolean  "retenu",     default: false, null: false
+    t.integer  "theme_id"
   end
 
   add_index "prestations", ["projet_id"], name: "index_prestations_on_projet_id", using: :btree
+  add_index "prestations", ["theme_id"], name: "index_prestations_on_theme_id", using: :btree
+
+  create_table "projet_prestations", force: :cascade do |t|
+    t.integer "projet_id"
+    t.integer "prestation_id"
+    t.boolean "souhaite",      default: false, null: false
+    t.boolean "preconise",     default: false, null: false
+    t.boolean "retenu",        default: false, null: false
+  end
+
+  add_index "projet_prestations", ["prestation_id"], name: "index_projet_prestations_on_prestation_id", using: :btree
+  add_index "projet_prestations", ["projet_id"], name: "index_projet_prestations_on_projet_id", using: :btree
 
   create_table "projets", force: :cascade do |t|
     t.string   "numero_fiscal"
@@ -163,6 +179,10 @@ ActiveRecord::Schema.define(version: 20160914152324) do
 
   add_index "subventions", ["projet_id"], name: "index_subventions_on_projet_id", using: :btree
 
+  create_table "themes", force: :cascade do |t|
+    t.string "libelle"
+  end
+
   add_foreign_key "agents", "intervenants"
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "commentaires", "projets"
@@ -172,5 +192,8 @@ ActiveRecord::Schema.define(version: 20160914152324) do
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
   add_foreign_key "prestations", "projets"
+  add_foreign_key "prestations", "themes"
+  add_foreign_key "projet_prestations", "prestations"
+  add_foreign_key "projet_prestations", "projets"
   add_foreign_key "subventions", "projets"
 end

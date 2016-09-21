@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   # constraints subdomain: "api.#{ENV['SUBDOMAIN']}", format: 'json' do
   namespace :api, path: '/api/v1/' do
     resources :projets, only: :show do
-      resource :plan_travaux, only: :create
       resource :plan_financements, only: :create
     end
   end
