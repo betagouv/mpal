@@ -81,3 +81,27 @@ NtrReference.find_or_create_by(opal_id:2, code: "PARTIES_COMM", libelle: "Princi
 NtrReference.find_or_create_by(opal_id:3, code: "OP_GENERALE", libelle: "Opération générale sur l'ensemble du bâti")
 NtrReference.find_or_create_by(opal_id: 21, code: "COMMUN_UNIQ", libelle: "Uniquement sur parties communes")
 NtrReference.find_or_create_by(opal_id: 41, code:"PRIVATIV_UNIQ", libelle: "Uniquement sur parties privatives")
+
+
+subventions = TypeAide.find_or_create_by(libelle: 'Subventions')
+Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention ANAH")
+Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention FART")
+Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention Commune / EPCI")
+Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention Département")
+Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention Région")
+Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention Europe")
+Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention ADEME")
+Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention Agende de l'eau")
+Aide.find_or_create_by(type_aide: subventions, libelle: "Autres")
+
+regime_de_base = TypeAide.find_or_create_by(libelle: 'Regime de base')
+Aide.find_or_create_by(type_aide: regime_de_base, libelle: "CNAV/CARSAT")
+Aide.find_or_create_by(type_aide: regime_de_base, libelle: "MSA")
+Aide.find_or_create_by(type_aide: regime_de_base, libelle: "RSI")
+Aide.find_or_create_by(type_aide: regime_de_base, libelle: "Autres - Préciser")
+
+complementaire = TypeAide.find_or_create_by(libelle: 'Aides complémentaires')
+Aide.find_or_create_by(type_aide: complementaire, libelle: "AGIRX")
+Aide.find_or_create_by(type_aide: complementaire, libelle: "ARRCO")
+Aide.find_or_create_by(type_aide: complementaire, libelle: "IRCANTEC")
+Aide.find_or_create_by(type_aide: complementaire, libelle: "Autres - Préciser")
