@@ -5,27 +5,28 @@
 
 - if @projet_courant.intervenants.present?
   h2.ui.horizontal.divider.header Intervenants invités
+
+  h4 Tous ces intervenants peuvent consulter mon projet, jusqu'à ce que je choisisse un opérateur pour m'accompagner.
   div.ui.cards.invites
     - @projet_courant.intervenants.each do |intervenant|
       = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: false, avec_choix: true }
 
-- if @pris_departement.present?
-  h2.ui.horizontal.divider.header
-    i.info.circle.icon
-    | Point Rénovation Info Service
-  h4 Partout en France, prenez rendez-vous avec un conseiller rénovation info service indépendant qui vous aidera gratuitement à choisir les solutions techniques adaptées et à identifier les aides dont vous pouvez bénéficier. Il vous orientera vers l’intervenant pertinent sur votre territoire.
-  div.ui.cards
-    - @pris_departement.each do |intervenant|
-      = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: true, avec_choix: false }
-
-  h4
-    i.info.circle.icon
-    | Vous pouvez également contacter, dans votre département, l'opérateur de votre choix :
-
-- if @intervenants_disponibles.present?
+- if @pris_disponibles.present? || @operateurs_disponibles.present?
   h2.ui.horizontal.divider.header Intervenants disponibles
-  div.ui.cards.disponibles
-    - @intervenants_disponibles.each do |intervenant|
-      = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: true, avec_choix: false }
-br
+
+  - if @pris_disponibles.present?
+    h4 Je souhaite me renseigner gratuitement sur l'ensemble des aides pour la rénovation de mon logement
+    div.ui.cards
+      - @pris_disponibles.each do |intervenant|
+        = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: true, avec_choix: false }
+  p
+
+  - if @operateurs_disponibles.present?
+    h4 Je connais déjà les aides disponibles, et je souhaite m'engager dans une demande de subvention à l'anah.
+
+
+    div.ui.cards.disponibles
+      - @operateurs_disponibles.each do |intervenant|
+        = render partial: 'projets/intervenant', locals: {projet: @projet_courant, intervenant: intervenant, avec_appel_a_agir: true, avec_choix: false }
+  br
 br
