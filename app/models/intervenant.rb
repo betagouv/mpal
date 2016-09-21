@@ -18,6 +18,6 @@ class Intervenant < ActiveRecord::Base
   end
 
   def operateur?
-    self.roles.include?('operateur')
+    self.roles && self.roles.include?('operateur')
   end
 end

@@ -43,7 +43,8 @@ feature "Projet" do
   end
 
   scenario "choisit un opérateur qui a été invité" do
-    invitation = FactoryGirl.create(:invitation)
+    operateur = FactoryGirl.create(:intervenant, :operateur)
+    invitation = FactoryGirl.create(:invitation, intervenant: operateur)
     projet = invitation.projet
     signin(projet.numero_fiscal, projet.reference_avis)
     visit projet_intervenants_path(projet)
