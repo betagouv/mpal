@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160921083409) do
+ActiveRecord::Schema.define(version: 20160922152225) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -180,8 +180,11 @@ ActiveRecord::Schema.define(version: 20160921083409) do
     t.integer  "nb_occupants_a_charge", default: 0
     t.integer  "annee_construction"
     t.string   "code_insee"
+    t.integer  "statut",                default: 0
+    t.integer  "operateur_id"
   end
 
+  add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
   create_table "qdm_references", force: :cascade do |t|
@@ -214,5 +217,6 @@ ActiveRecord::Schema.define(version: 20160921083409) do
   add_foreign_key "prestations", "themes"
   add_foreign_key "projet_prestations", "prestations"
   add_foreign_key "projet_prestations", "projets"
+  add_foreign_key "projets", "intervenants", column: "operateur_id"
   add_foreign_key "subventions", "projets"
 end

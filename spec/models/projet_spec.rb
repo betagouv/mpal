@@ -14,18 +14,13 @@ describe Projet do
   it { is_expected.to have_many(:evenements) }
   it { is_expected.to have_many(:projet_prestations) }
   it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
+  it { is_expected.to belong_to(:operateur) }
 
   it "calcule le nombre total d'occupants" do
     occupant = FactoryGirl.create(:occupant, projet: projet)
     occupant2 = FactoryGirl.create(:occupant, projet: projet)
     projet.nb_occupants_a_charge = 3
     expect(projet.nb_total_occupants).to eq(5)
-  end
-
-  it "renvoie l'opérateur chargé du projet" do
-    operateur = FactoryGirl.create(:intervenant, :operateur)
-    invitation = FactoryGirl.create(:invitation, intervenant: operateur, projet: projet)
-    expect(projet.operateur.id).to eq(operateur.id)
   end
 
   it "calcule la pré eligibilité d'une demande pour avec l'avis d'imposition n-1, un seul avis, 1

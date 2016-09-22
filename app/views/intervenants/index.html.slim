@@ -1,0 +1,5 @@
+| Vous êtes accompagné par
+p
+
+.choisi
+  = render partial: 'intervenant_demandeur', locals: {projet: @projet_courant, intervenant: @projet_courant.operateur, avec_invitation: false, avec_choix: false }

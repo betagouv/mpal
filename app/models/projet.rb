@@ -1,7 +1,9 @@
 class Projet < ActiveRecord::Base
 
+  enum statut: [ :prospect, :en_cours, :pret_pour_instruction ]
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
+  belongs_to :operateur, class_name: 'Intervenant'
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
   has_many :occupants, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
@@ -42,9 +44,6 @@ class Projet < ActiveRecord::Base
     total_revenu_fiscal_reference
   end
 
-  def operateur
-    self.intervenants.where("'operateur' = ANY (roles)").first
-  end
 
   def preeligibilite(annee)
     Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee), self.departement, self.nb_total_occupants)

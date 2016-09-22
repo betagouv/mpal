@@ -77,6 +77,7 @@ fr:
       messages:
         succes_choix_intervenant_titre: "Succès"
         succes_choix_intervenant: "Vous venez de choisir votre operateur"
+        erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
         titre: 'Félicitations %{usager}'
