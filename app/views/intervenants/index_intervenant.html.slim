@@ -1,0 +1,27 @@
+- if @projet_courant.intervenants.present?
+  h2.ui.horizontal.divider.header Intervenants invités
+
+  h4 Tous ces intervenants peuvent consulter le projet, jusqu'à ce que le demandeur choisisse un opérateur pour l'accompagner.
+  div.ui.cards.invites
+    - @projet_courant.intervenants.each do |intervenant|
+      = render partial: 'intervenant_intervenant', locals: {projet: @projet_courant, intervenant: intervenant }
+
+- if @pris_disponibles.present? || @operateurs_disponibles.present?
+  h2.ui.horizontal.divider.header Intervenants disponibles
+
+  - if @pris_disponibles.present?
+    h4 Point Renovation Info Service
+    div.ui.cards
+      - @pris_disponibles.each do |intervenant|
+        = render partial: 'intervenant_intervenant', locals: {projet: @projet_courant, intervenant: intervenant }
+  p
+
+  - if @operateurs_disponibles.present?
+    h4 Opérateurs
+
+
+    div.ui.cards.disponibles
+      - @operateurs_disponibles.each do |intervenant|
+        = render partial: 'intervenant_intervenant', locals: {projet: @projet_courant, intervenant: intervenant }
+  br
+br
