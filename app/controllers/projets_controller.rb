@@ -1,5 +1,13 @@
 class ProjetsController < ApplicationController
 
+  def index
+    if @role_utilisateur == :intervenant
+      @invitations = @utilisateur_courant.invitations
+    else
+      redirect_to projet_path(@projet_courant)
+    end
+  end
+
   def edit
   end
 
@@ -31,9 +39,6 @@ class ProjetsController < ApplicationController
     @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
   end
 
-  def suivi_intervenant
-    @invitations_intervenant = Invitation.where(intervenant_id: @utilisateur_courant.id)
-  end
 
   private
 

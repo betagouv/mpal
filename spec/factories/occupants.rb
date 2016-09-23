@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :occupant do
-    nom 'Martin'
+    sequence(:nom) {|n| "Martin#{n}" }
     prenom 'Jean'
     date_de_naissance '20/06/1977'
     projet

@@ -1,15 +1,13 @@
 Rails.application.routes.draw do
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
   root 'welcome#index'
-  # constraints subdomain: "api.#{ENV['SUBDOMAIN']}", format: 'json' do
   namespace :api, path: '/api/v1/' do
     resources :projets, only: :show do
       resource :plan_financements, only: :create
     end
   end
-  #end
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
-    resources :projets, only: [:show, :edit, :update] do
+    resources :projets, only: [:show, :edit, :update, :index] do
       resources :occupants, only: [:new, :create, :edit, :update, :destroy]
       resources :commentaires, only: :create
       resource  :composition
@@ -23,7 +21,6 @@ Rails.application.routes.draw do
       get '/preeligibilite', to: 'projets#preeligibilite', as: 'preeligibilite'
       get '/demande', to: 'projets#demande', as: 'demande'
       get '/suivi', to: 'projets#suivi', as: 'suivi'
-      get '/suivi_intervenant', to: 'projets#suivi_intervenant', as: 'suivi_intervenant'
 
       post '/transfert_csv', to: 'transfert_csv#create'
     end

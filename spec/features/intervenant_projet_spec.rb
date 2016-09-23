@@ -72,4 +72,27 @@ feature "intervenant" do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
     expect(page).to have_link(document.label, href: document.fichier_url)
   end
+
+  scenario "accès à un projet à partir du tableau de bord" do
+    projet_prospect = FactoryGirl.create(:projet, statut: :prospect)
+    projet_en_cours = FactoryGirl.create(:projet, statut: :en_cours)
+    invitation_prospect = FactoryGirl.create(:invitation, intervenant: operateur, projet: projet_prospect)
+    invitation_en_cours = FactoryGirl.create(:invitation, intervenant: operateur, projet: projet_en_cours)
+
+    visit projets_path(jeton: invitation_prospect.token)
+    within "#projet_#{projet_prospect.id}" do
+      expect(page).to have_content("prospect")
+      click_link projet_prospect.demandeur_principal
+      expect(page).to have_content(projet_prospect.demandeur_principal)
+    end
+
+    puts "projet en cours: #{projet_en_cours.demandeur_principal}"
+    puts "projet prospect: #{projet_prospect.demandeur_principal}"
+    visit projets_path(jeton: invitation_prospect.token)
+    within "#projet_#{projet_en_cours.id}" do
+      expect(page).to have_content("en_cours")
+      click_link projet_en_cours.demandeur_principal
+      expect(page).to have_content(projet_en_cours.demandeur_principal)
+    end
+  end
 end
