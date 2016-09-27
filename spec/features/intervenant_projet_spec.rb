@@ -15,7 +15,7 @@ feature "intervenant" do
   let!(:chaudiere_p) { FactoryGirl.create(:prestation, libelle: 'Chaudière', scenario: :preconise, projet: projet) }
   let!(:production_ecs_p) { FactoryGirl.create(:prestation, libelle: 'Production ECS', scenario: :preconise, projet: projet) }
 
-  let!(:subvention_cd95) { FactoryGirl.create(:subvention, libelle:'CD95 - Aide amélioration habitat privé', montant: 2305.10, projet: projet) }
+  let!(:aide) { FactoryGirl.create(:aide, libelle:'Subvention ANAH') }
   let!(:subvention_anah) { FactoryGirl.create(:subvention, libelle:'ANAH - Habiter mieux', montant: 2305.10, projet: projet) }
 
   let!(:instructeur) { FactoryGirl.create(:intervenant, :instructeur, departements: [ projet.departement ]) }
@@ -38,9 +38,7 @@ feature "intervenant" do
   scenario "visualisation de la demande de financement par l'operateur" do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
     expect(page).to have_content('Plan de financement')
-    within ".subventions" do
-      expect(page).to have_content(subvention_cd95.libelle)
-    end
+    expect(page).to have_content(aide.libelle)
   end
 
   scenario "upload d'un document" do
