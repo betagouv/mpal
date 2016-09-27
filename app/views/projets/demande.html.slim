@@ -53,13 +53,19 @@ h1.ui.header Plan de travaux
             = projet_prestation_checkbox(@projet_courant, prestation, :retenu)
 
 
-h1.ui.header Plan de financement
+h1.ui.header = t('projets.demande.plan_financement')
 
 - TypeAide.all.each do |type_aide|
   h2.ui.header =type_aide.libelle
-  ul
+  ul(data-url=projet_aides_url(@projet_courant))
     - type_aide.aides.each do |aide|
-      li =aide.libelle
+      li
+        label
+          = "#{aide.libelle} "
+          - if aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
+            = number_field_tag aide.id, aide_courante.montant, class: "aide"
+          - else
+            = number_field_tag aide.id, 0, class: "aide"
 
 = transmission_instructeur(@projet_courant)
 

@@ -16,7 +16,7 @@ feature "intervenant" do
   let!(:production_ecs_p) { FactoryGirl.create(:prestation, libelle: 'Production ECS', scenario: :preconise, projet: projet) }
 
   let!(:aide) { FactoryGirl.create(:aide, libelle:'Subvention ANAH') }
-  let!(:subvention_anah) { FactoryGirl.create(:subvention, libelle:'ANAH - Habiter mieux', montant: 2305.10, projet: projet) }
+  let!(:subvention_anah) { FactoryGirl.create(:projet_aide, aide_id: aide.id, montant: 2305.10, projet: projet) }
 
   let!(:instructeur) { FactoryGirl.create(:intervenant, :instructeur, departements: [ projet.departement ]) }
 
