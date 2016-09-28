@@ -34,6 +34,10 @@ fr:
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
     lien_deconnexion: "Se déconnecter"
   projets:
+    statut:
+      prospect: Prospect
+      en_cours: En cours
+      transmis_pour_instruction: 'Transmis aux services instructeurs'
     edition_projet:
       messages:
         erreur: "Le projet n'a pas pu être modifié"

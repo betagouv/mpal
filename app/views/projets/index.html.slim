@@ -25,6 +25,6 @@ div.class.ui.grid
         - @invitations.each do |invitation|
           - projet = invitation.projet
           tr id="projet_#{projet.id}"
-            td = projet.statut
+            td = t(projet.statut, scope: "projets.statut")
             td = link_to projet.demandeur_principal.to_s, projet_path(projet, jeton: invitation.token)
             td = projet.adresse

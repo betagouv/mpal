@@ -16,6 +16,7 @@ Rails.application.routes.draw do
       resources :documents, only: [:create, :destroy]
       resources :intervenants
       resources :choix_intervenants, only: [:new, :create]
+      resources :transmissions, only: [:create]
 
       get '/calcul_revenu_fiscal_reference', to: 'projets#calcul_revenu_fiscal_reference', as: 'calcul_revenu_fiscal_reference'
       get '/preeligibilite', to: 'projets#preeligibilite', as: 'preeligibilite'

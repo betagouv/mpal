@@ -14,7 +14,7 @@ describe Intervenant do
 
   let!(:ddt95) { FactoryGirl.create(:intervenant, raison_sociale: 'DDT95', departements: ['95'], roles: [:pris]) }
   it "renvoie le PRIS à partir d'une adresse" do
-    expect(Intervenant.pour_departement(95, role: :pris).first).to eq(ddt95)
+    expect(Intervenant.pour_departement(95, role: :pris)).to include(ddt95)
   end
 
   it "renvoie true si l'intervenant est un operateur" do

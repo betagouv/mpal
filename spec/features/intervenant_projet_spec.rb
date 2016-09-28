@@ -43,13 +43,6 @@ feature "intervenant" do
     end
   end
 
-  scenario "invitation de l'instructeur à instruire la demande" do
-    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    click_button I18n.t('projets.demande.action', instructeur: instructeur.raison_sociale)
-    expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: instructeur.raison_sociale))
-    expect(projet.intervenants).to include(instructeur)
-  end
-
   scenario "upload d'un document" do
     visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
     attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
@@ -81,14 +74,14 @@ feature "intervenant" do
 
     visit projets_path(jeton: invitation_prospect.token)
     within "#projet_#{projet_prospect.id}" do
-      expect(page).to have_content("prospect")
+      expect(page).to have_content(I18n.t("prospect", scope: "projets.statut"))
       click_link projet_prospect.demandeur_principal
       expect(page).to have_content(projet_prospect.demandeur_principal)
     end
 
     visit projets_path(jeton: invitation_prospect.token)
     within "#projet_#{projet_en_cours.id}" do
-      expect(page).to have_content("en_cours")
+      expect(page).to have_content(I18n.t("en_cours", scope: "projets.statut"))
       click_link projet_en_cours.demandeur_principal
       expect(page).to have_content(projet_en_cours.demandeur_principal)
     end

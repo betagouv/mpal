@@ -61,6 +61,6 @@ h3 class="ui horizontal divider header" Déposer un plan de travaux
 h1.ui.header Plan de financement
 = render partial: 'projets/subventions', locals: { subventions: @projet_courant.subventions }
 
-= mise_en_relation_instructeur
+= transmission_instructeur(@projet_courant)
 
 = render partial: 'documents/show'

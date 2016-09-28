@@ -1,6 +1,6 @@
 class Projet < ActiveRecord::Base
 
-  enum statut: [ :prospect, :en_cours, :pret_pour_instruction ]
+  enum statut: [ :prospect, :en_cours, :transmis_pour_instruction ]
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
   belongs_to :operateur, class_name: 'Intervenant'
@@ -16,6 +16,10 @@ class Projet < ActiveRecord::Base
 
   has_many :projet_prestations, dependent: :destroy
   accepts_nested_attributes_for :projet_prestations
+
+  def instructeur
+    @instructeur ||= Intervenant.pour_departement(self.departement, role: 'instructeur').first
+  end
 
   def nb_total_occupants
     nb_occupants = self.occupants.count || 0
@@ -47,5 +51,18 @@ class Projet < ActiveRecord::Base
 
   def preeligibilite(annee)
     Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee), self.departement, self.nb_total_occupants)
+  end
+
+  def transmettre_a_instructeur
+    @invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: self.instructeur)
+    if @invitation.save
+      ProjetMailer.mise_en_relation_intervenant(@invitation).deliver_later!
+      EvenementEnregistreurJob.perform_later(label: 'mise_en_relation_intervenant', projet: @projet_courant, producteur: @invitation)
+      self.statut = :transmis_pour_instruction
+      true
+    else
+      false
+    end
+
   end
 end
