@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :invitation do
-    projet
-    intervenant
+    association :projet, departement: '95'
+    association :intervenant, departements: [ '95' ], roles: [ :operateur ]
   end
   factory :mise_en_relation, parent: :invitation do
     association :intermediaire, factory: :intervenant

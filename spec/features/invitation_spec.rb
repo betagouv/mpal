@@ -43,6 +43,7 @@ feature "Invitation" do
   end
 
   scenario "mise en relation par un pris entre un operateur et un demandeur" do
+    invitation = FactoryGirl.create(:invitation, projet: projet, intervenant: pris)
     visit projet_path(id: invitation.projet, jeton: invitation.token)
     click_link 'Intervenants'
     within '.disponibles' do
