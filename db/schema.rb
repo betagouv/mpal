@@ -229,6 +229,4 @@ ActiveRecord::Schema.define(version: 20160922152225) do
   add_foreign_key "projet_aides", "projets"
   add_foreign_key "projet_prestations", "prestations"
   add_foreign_key "projet_prestations", "projets"
-  add_foreign_key "projets", "intervenants", column: "operateur_id"
-  add_foreign_key "subventions", "projets"
 end

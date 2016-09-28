@@ -28,7 +28,7 @@ $(document).on('change', ".aide", function () {
   console.log("Changement");
   var aideId = $(this).attr('name');
   var value = $(this).val();
-  var url = $(this).parent().parent().parent().data('url');
+  var url = $(this).parent().parent().parent().parent().data('url');
 
   $.post(url, {aide_id: aideId, montant: value}, function (data) {
     console.log("ok");

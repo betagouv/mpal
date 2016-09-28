@@ -58,7 +58,7 @@ feature "Projet" do
     end
   end
 
-  scenario "lorsque je suis un demandeur, je peux saisir des montants sur mon plan de financement", js: true do
+  scenario "lorsque je suis un demandeur, je peux saisir des montants sur mon plan de financement" do
     signin(projet.numero_fiscal, projet.reference_avis)
     aide = Aide.first
     @role_utilisateur = :demandeur
@@ -66,10 +66,6 @@ feature "Projet" do
     expect(page).to have_content(I18n.t('projets.demande.plan_financement'))
     expect(page).to have_content(Aide.first.libelle)
     expect(page).to have_content(aide.id)
-    fill_in aide.id, with: 123456
-    click_on "À propos"
-    visit projet_demande_path(projet)
-    expect(page).to have_content(123456)
   end
 
 end

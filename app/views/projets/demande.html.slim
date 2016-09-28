@@ -57,11 +57,13 @@ h1.ui.header = t('projets.demande.plan_financement')
 
 - TypeAide.all.each do |type_aide|
   h2.ui.header =type_aide.libelle
-  ul(data-url=projet_aides_url(@projet_courant))
+  table.ui.striped.celled.table(data-url=projet_aides_url(@projet_courant))
     - type_aide.aides.each do |aide|
-      li
-        label
-          = "#{aide.libelle} "
+      tr
+        td
+          label(for=aide.id)
+            = aide.libelle
+        td
           - if aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
             = number_field_tag aide.id, aide_courante.montant, class: "aide"
           - else
