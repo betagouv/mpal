@@ -6,11 +6,12 @@ class Intervenant < ActiveRecord::Base
   validates :raison_sociale, presence: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
+  scope :pour_departement, ->(departement) { where("'#{departement}' = ANY (departements)") }
+  scope :pour_role, ->(role) { where("'#{role}' = ANY (roles)") }
+  scope :instructeur, -> { where("'instructeur' = ANY (roles)") }
 
-  def self.pour_departement(departement, role: nil)
-    intervenants = Intervenant.where("'#{departement}' = ANY (departements)")
-    intervenants = intervenants.where("'#{role}' = ANY (roles)") if role.present?
-    intervenants
+  def self.instructeur_pour(projet)
+    instructeur.pour_departement(projet.departement).limit(1).first
   end
 
   def to_s

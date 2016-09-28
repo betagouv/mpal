@@ -17,17 +17,13 @@ class Projet < ActiveRecord::Base
   has_many :projet_prestations, dependent: :destroy
   accepts_nested_attributes_for :projet_prestations
 
-  def instructeur
-    @instructeur ||= Intervenant.pour_departement(self.departement, role: 'instructeur').first
-  end
-
   def nb_total_occupants
     nb_occupants = self.occupants.count || 0
     return nb_occupants + self.nb_occupants_a_charge
   end
 
   def intervenants_disponibles(role: nil)
-    Intervenant.pour_departement(self.departement, role: role) - self.intervenants
+    Intervenant.pour_departement(self.departement).pour_role(role) - self.intervenants
   end
 
   def demandeur_principal
@@ -53,16 +49,14 @@ class Projet < ActiveRecord::Base
     Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee), self.departement, self.nb_total_occupants)
   end
 
-  def transmettre_a_instructeur
-    @invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: self.instructeur)
-    if @invitation.save
-      ProjetMailer.mise_en_relation_intervenant(@invitation).deliver_later!
-      EvenementEnregistreurJob.perform_later(label: 'mise_en_relation_intervenant', projet: @projet_courant, producteur: @invitation)
+  def transmettre!(instructeur)
+    invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: instructeur)
+    if invitation.save
+      ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
+      EvenementEnregistreurJob.perform_later(label: 'mise_en_relation_intervenant', projet: self, producteur: invitation)
       self.statut = :transmis_pour_instruction
-      true
-    else
-      false
+      return self.save
     end
-
+    false
   end
 end
