@@ -86,8 +86,6 @@ feature "intervenant" do
       expect(page).to have_content(projet_prospect.demandeur_principal)
     end
 
-    puts "projet en cours: #{projet_en_cours.demandeur_principal}"
-    puts "projet prospect: #{projet_prospect.demandeur_principal}"
     visit projets_path(jeton: invitation_prospect.token)
     within "#projet_#{projet_en_cours.id}" do
       expect(page).to have_content("en_cours")
