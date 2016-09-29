@@ -33,6 +33,11 @@ ActiveRecord::Schema.define(version: 20160922152225) do
   add_index "agents", ["intervenant_id"], name: "index_agents_on_intervenant_id", using: :btree
   add_index "agents", ["username"], name: "index_agents_on_username", unique: true, using: :btree
 
+  create_table "aides", force: :cascade do |t|
+    t.string  "libelle"
+    t.integer "type_aide_id"
+  end
+
   create_table "avis_impositions", force: :cascade do |t|
     t.string   "numero_fiscal"
     t.string   "reference_avis"
@@ -153,6 +158,15 @@ ActiveRecord::Schema.define(version: 20160922152225) do
   add_index "prestations", ["projet_id"], name: "index_prestations_on_projet_id", using: :btree
   add_index "prestations", ["theme_id"], name: "index_prestations_on_theme_id", using: :btree
 
+  create_table "projet_aides", force: :cascade do |t|
+    t.integer "projet_id"
+    t.integer "aide_id"
+    t.float   "montant"
+  end
+
+  add_index "projet_aides", ["aide_id"], name: "index_projet_aides_on_aide_id", using: :btree
+  add_index "projet_aides", ["projet_id"], name: "index_projet_aides_on_projet_id", using: :btree
+
   create_table "projet_prestations", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "prestation_id"
@@ -193,15 +207,11 @@ ActiveRecord::Schema.define(version: 20160922152225) do
     t.text    "libelle"
   end
 
-  create_table "subventions", force: :cascade do |t|
-    t.string  "libelle"
-    t.float   "montant"
-    t.integer "projet_id"
+  create_table "themes", force: :cascade do |t|
+    t.string "libelle"
   end
 
-  add_index "subventions", ["projet_id"], name: "index_subventions_on_projet_id", using: :btree
-
-  create_table "themes", force: :cascade do |t|
+  create_table "type_aides", force: :cascade do |t|
     t.string "libelle"
   end
 
@@ -215,8 +225,8 @@ ActiveRecord::Schema.define(version: 20160922152225) do
   add_foreign_key "occupants", "projets"
   add_foreign_key "prestations", "projets"
   add_foreign_key "prestations", "themes"
+  add_foreign_key "projet_aides", "aides"
+  add_foreign_key "projet_aides", "projets"
   add_foreign_key "projet_prestations", "prestations"
   add_foreign_key "projet_prestations", "projets"
-  add_foreign_key "projets", "intervenants", column: "operateur_id"
-  add_foreign_key "subventions", "projets"
 end

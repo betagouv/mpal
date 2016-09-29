@@ -53,13 +53,21 @@ h1.ui.header Plan de travaux
             = projet_prestation_checkbox(@projet_courant, prestation, :retenu)
 
 
-h3 class="ui horizontal divider header" Déposer un plan de travaux
-= form_tag({action: :create, controller: 'transfert_csv' }, multipart: true) do
-  = file_field_tag 'fichier_travaux'
-  = submit_tag 'Envoyer'
+h1.ui.header = t('projets.demande.plan_financement')
 
-h1.ui.header Plan de financement
-= render partial: 'projets/subventions', locals: { subventions: @projet_courant.subventions }
+- TypeAide.all.each do |type_aide|
+  h2.ui.header =type_aide.libelle
+  table.ui.striped.celled.table(data-url=projet_aides_url(@projet_courant))
+    - type_aide.aides.each do |aide|
+      tr
+        td
+          label(for=aide.id)
+            = aide.libelle
+        td
+          - if aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
+            = number_field_tag aide.id, aide_courante.montant, class: "aide"
+          - else
+            = number_field_tag aide.id, 0, class: "aide"
 
 = transmission_instructeur(@projet_courant)
 

@@ -8,14 +8,15 @@ class Projet < ActiveRecord::Base
   has_many :occupants, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
-  has_many :subventions, dependent: :destroy
   has_many :documents, dependent: :destroy
+
+  has_many :projet_aides
+  has_many :aides, through: :projet_aides
 
   validates :numero_fiscal, :reference_avis, :adresse, presence: true
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
 
   has_many :projet_prestations, dependent: :destroy
-  accepts_nested_attributes_for :projet_prestations
 
   def instructeur
     @instructeur ||= Intervenant.pour_departement(self.departement, role: 'instructeur').first
