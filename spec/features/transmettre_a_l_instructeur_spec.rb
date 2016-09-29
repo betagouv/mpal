@@ -11,7 +11,7 @@ feature "transmettre à l'instructeur" do
     projet.operateur = operateur
     projet.save
 
-    Intervenant.pour_departement(projet.departement, role: 'instructeur').destroy_all
+    Intervenant.instructeur.pour_departement(projet.departement).destroy_all
     instructeur = FactoryGirl.create(:intervenant, :instructeur, departements: [ projet.departement ])
     visit projet_demande_path(projet, jeton: invitation.token)
 

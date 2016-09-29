@@ -9,12 +9,12 @@ describe Intervenant do
   let!(:soliho) { FactoryGirl.create(:intervenant, raison_sociale: 'Soliho', departements: ['91', '77'], roles: [:operateur]) }
 
   it "renvoie la liste des opérateurs des départements à partir d'une adresse" do
-    expect(Intervenant.pour_departement(91, role: :operateur)).to eq([urbanos, soliho])
+    expect(Intervenant.pour_departement(91).pour_role(:operateur)).to eq([urbanos, soliho])
   end
 
   let!(:ddt95) { FactoryGirl.create(:intervenant, raison_sociale: 'DDT95', departements: ['95'], roles: [:pris]) }
   it "renvoie le PRIS à partir d'une adresse" do
-    expect(Intervenant.pour_departement(95, role: :pris)).to include(ddt95)
+    expect(Intervenant.pour_departement(95).pour_role(:pris)).to include(ddt95)
   end
 
   it "renvoie true si l'intervenant est un operateur" do
@@ -25,5 +25,13 @@ describe Intervenant do
   it "renvoie false si l'intervenant n'est pas un operateur" do
     intervenant = FactoryGirl.create(:intervenant, roles: [:pris])
     expect(intervenant.operateur?).to be_falsy
+  end
+
+  it "renvoie l'instructeur de ce projet" do
+    projet = FactoryGirl.create(:projet, departement: 23)
+    FactoryGirl.create(:intervenant, roles: [:operateur], departements: [projet.departement])
+    instructeur = FactoryGirl.create(:intervenant, roles: [:instructeur], departements: [projet.departement])
+    FactoryGirl.create(:intervenant, roles: [:instructeur], departements: [75])
+    expect(Intervenant.instructeur_pour(projet)).to eq(instructeur)
   end
 end
