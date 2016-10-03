@@ -21,4 +21,8 @@ class Intervenant < ActiveRecord::Base
   def operateur?
     self.roles && self.roles.include?('operateur')
   end
+
+  def instructeur?
+    self.roles && self.roles.include?('instructeur')
+  end
 end

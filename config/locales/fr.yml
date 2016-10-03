@@ -78,9 +78,13 @@ fr:
         succes_suppression_document: 'Votre document a été supprimé avec succès'
         erreur_label_manquant: "Veuillez ajouter un nom à votre document"
         erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
-    transmission:
+    transmissions:
       messages:
         succes: La demande a bien été transmise aux services instructeurs
+    creation_opal:
+      messages:
+        succes: "Le dossier vient d'être créé dans OPAL avec l'identifiant %{id_opal}"
+        erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n'a pu être créé"
     intervenants:
       messages:
         succes_choix_intervenant_titre: "Succès"
@@ -98,6 +102,7 @@ fr:
       invitation_relance_intervenant: "Je relance l'intervenant"
       mise_en_relation_intervenant: "Je mets en relation"
       choisir_intervenant: "Je choisis cet opérateur"
+      creer_dossier_opal: "Je crée le dossier dans OPAL"
       modifier_liste_occupant: "Modifier le nombre d'occupant à charge"
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_infos_demandeur: "Mes infos"
