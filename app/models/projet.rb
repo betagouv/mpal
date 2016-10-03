@@ -10,7 +10,7 @@ class Projet < ActiveRecord::Base
   has_many :avis_impositions, dependent: :destroy
   has_many :documents, dependent: :destroy
 
-  has_many :projet_aides
+  has_many :projet_aides, dependent: :destroy
   has_many :aides, through: :projet_aides
 
   validates :numero_fiscal, :reference_avis, :adresse, presence: true
