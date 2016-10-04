@@ -7,7 +7,8 @@ RSpec.configure do |config|
       body: JSON.generate({
         "dosNumero": "09500840",
         "dosId": 959496
-      })
+      }),
+      status: [201, "Created"]
     )
   end
 end
