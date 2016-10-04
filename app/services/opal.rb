@@ -18,11 +18,11 @@ class Opal
   def convertit_projet_en_dossier(projet)
     {
       "dosNumeroPlateforme": "3007",
-      "dosDateDepot": "2016-09-19",
+      "dosDateDepot": Time.now.strftime("%Y-%m-%d"),
       "utiIdClavis": "5425",
       "demandeur": {
         "dmdNbOccupants": projet.nb_total_occupants,
-        "dmdRevenuOccupants": 5000,
+        "dmdRevenuOccupants": projet.calcul_revenu_fiscal_reference_total(2015),
         "qdmId": 29,
         "cadId": 2,
         "personnePhysique": {
@@ -38,7 +38,7 @@ class Opal
         }
       },
       "immeuble": {
-        "immAnneeAchevement": 1950,
+        "immAnneeAchevement": projet.annee_construction,
         "ntrId": 1,
         "immSiArretePeril": false,
         "immSiGrilleDegradation": false,
