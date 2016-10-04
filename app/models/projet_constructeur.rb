@@ -22,6 +22,8 @@ class ProjetConstructeur
     projet.departement = adresse[:departement]
     projet.adresse = adresse[:adresse]
     projet.code_insee = adresse[:code_insee]
+    projet.code_postal = adresse[:code_postal]
+    projet.ville = adresse[:ville]
 
     contribuable.declarants.each do |declarant|
       projet.occupants.build(

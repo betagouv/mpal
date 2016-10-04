@@ -7,7 +7,7 @@ class DossiersController < ApplicationController
         redirect_to(projet_path(@projet_courant), alert: t('projets.creation_opal.messages.erreur'))
       end
     else
-      redirect_to(projet_path(@projet_courant))
+      redirect_to(projet_path(@projet_courant), alert: t('sessions.access_forbidden'))
     end
   end
 end

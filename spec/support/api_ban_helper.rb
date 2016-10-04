@@ -9,7 +9,11 @@ RSpec.configure do |config|
           {
             "properties": {
               "label": "12 rue de la Mare, 75010 Paris",
-              "postcode": "75010"
+              "postcode": "75010",
+              "citycode": "75010",
+              "name": "12 rue de la Mare",
+              "city": "Paris"
+
             },
             "geometry": {  
               "coordinates": {

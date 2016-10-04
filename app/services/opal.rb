@@ -17,7 +17,7 @@ class Opal
 
   def convertit_projet_en_dossier(projet)
     {
-      "dosNumeroPlateforme": "3007",
+      "dosNumeroPlateforme": "3010",
       "dosDateDepot": Time.now.strftime("%Y-%m-%d"),
       "utiIdClavis": "5425",
       "demandeur": {
@@ -31,9 +31,9 @@ class Opal
           "pphPrenom": "Caroline",
           "adressePostale": {
             "payId": 1,
-            "adpLigne1": "27 rue des écoles",
-            "adpLocalite": "Eragny",
-            "adpCodePostal": "95610"
+            "adpLigne1": projet.adresse,
+            "adpLocalite": projet.ville,
+            "adpCodePostal": projet.code_postal
           }
         }
       },
@@ -46,12 +46,16 @@ class Opal
         "immSiDejaSubventionne": false,
         "immSiProcedureInsalubrite": false,
         "adresseGeographique": {
-          "adgLigne1": "27 rue des écoles",
-          "cdpCodePostal": "95610",
-          "comCodeInsee": "218",
-          "dptNumero": "95"
+          "adgLigne1": projet.adresse,
+          "cdpCodePostal": projet.code_postal,
+          "comCodeInsee": recupere_com_code_insee(projet),
+          "dptNumero": projet.departement
         }
       }
     }
+  end
+
+  def recupere_com_code_insee(projet)
+    projet.code_insee[2,projet.code_insee.length]
   end
 end
