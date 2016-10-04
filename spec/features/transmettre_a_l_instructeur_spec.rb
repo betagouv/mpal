@@ -16,7 +16,7 @@ feature "transmettre à l'instructeur" do
     visit projet_demande_path(projet, jeton: invitation.token)
 
     click_button I18n.t('projets.demande.action', instructeur: instructeur.raison_sociale)
-    expect(page).to have_content(I18n.t('transmission.messages.succes', intervenant: instructeur.raison_sociale))
+    expect(page).to have_content(I18n.t('projets.transmissions.messages.succes', intervenant: instructeur.raison_sociale))
     expect(projet.intervenants).to include(instructeur)
 
     visit projets_path(jeton: invitation.token)
