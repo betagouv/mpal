@@ -82,6 +82,7 @@ fr:
       messages:
         succes: La demande a bien été transmise aux services instructeurs
     creation_opal:
+      titre_creation_opal: Opal
       messages:
         succes: "Le dossier vient d'être créé dans OPAL avec l'identifiant %{id_opal}"
         erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n'a pu être créé"
