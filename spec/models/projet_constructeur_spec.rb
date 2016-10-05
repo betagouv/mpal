@@ -20,22 +20,28 @@ class MonServiceAdresse
     @latitude = params[:latitude]
     @longitude = params[:longitude]
     @departement = params[:departement]
-    @adresse = params[:adresse]
+    @adresse = params[:adresse_ligne1]
+    @code_postal = params[:code_postal]
+    @ville = params[:ville]
   end
 
   def precise(adresse)
-    { latitude: @latitude, longitude: @longitude, departement: @departement, adresse: @adresse }
+    { latitude: @latitude, longitude: @longitude, departement: @departement, adresse_ligne1: @adresse, code_postal: @code_postal, ville: @ville }
   end
 end
 
 describe ProjetConstructeur do
   it "renvoie un projet qui contient l'adresse" do
-    adresse = "12 rue de la Mare, 75010 Paris"
+    adresse_ligne1 = "12 rue de la Mare"
+    code_postal = "75010"
+    ville = "Paris"
+    adresse = "#{adresse_ligne1}, #{code_postal} #{ville}"
+
     declarants = [ {prenom: 'Jean', nom: 'Martin', date_de_naissance: '19/04/1980'}]
     annee_impots = "2015"
     nombre_personnes_charge = 3
     mon_service_contribuable = MonServiceContribuable.new(adresse: adresse, declarants: declarants, annee_impots: annee_impots, nombre_personnes_charge: nombre_personnes_charge)
-    mon_service_adresse = MonServiceAdresse.new(adresse: adresse, latitude: '46', longitude: '6', departement: '92')
+    mon_service_adresse = MonServiceAdresse.new(adresse_ligne1: adresse_ligne1, code_postal: code_postal, ville: ville, latitude: '46', longitude: '6', departement: '92')
     constructeur = ProjetConstructeur.new(mon_service_contribuable, mon_service_adresse)
 
     projet = constructeur.initialise_projet(12, 15)

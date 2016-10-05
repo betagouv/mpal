@@ -3,7 +3,7 @@ FactoryGirl.define do
     numero_fiscal 12
     reference_avis 15
     description "Je veux changer ma chaudiere"
-    adresse '12 rue de la mare, 75010 Paris'
+    adresse_ligne1 '12 rue de la mare'
     departement '75'
     code_insee '75010'
     code_postal '75010'

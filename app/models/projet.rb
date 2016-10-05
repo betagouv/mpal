@@ -13,7 +13,7 @@ class Projet < ActiveRecord::Base
   has_many :projet_aides, dependent: :destroy
   has_many :aides, through: :projet_aides
 
-  validates :numero_fiscal, :reference_avis, :adresse, presence: true
+  validates :numero_fiscal, :reference_avis, :adresse_ligne1, presence: true
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
 
   has_many :projet_prestations, dependent: :destroy
@@ -59,5 +59,9 @@ class Projet < ActiveRecord::Base
       return self.save
     end
     false
+  end
+
+  def adresse
+    "#{self.adresse_ligne1}, #{self.code_postal} #{self.ville}"
   end
 end

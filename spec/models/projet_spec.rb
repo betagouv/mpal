@@ -9,7 +9,7 @@ describe Projet do
 
   it { is_expected.to validate_presence_of(:numero_fiscal) }
   it { is_expected.to validate_presence_of(:reference_avis) }
-  it { is_expected.to validate_presence_of(:adresse) }
+  it { is_expected.to validate_presence_of(:adresse_ligne1) }
   it { is_expected.to have_many(:intervenants) }
   it { is_expected.to have_many(:evenements) }
   it { is_expected.to have_many(:projet_prestations) }
@@ -31,4 +31,5 @@ describe Projet do
     avis_imposition = FactoryGirl.create(:avis_imposition, projet: projet, annee: annee)
     expect(projet.preeligibilite(annee)).to eq(:tres_modeste)
   end
+
 end

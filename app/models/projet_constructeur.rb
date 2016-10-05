@@ -20,7 +20,7 @@ class ProjetConstructeur
     projet.longitude = adresse[:longitude]
     projet.latitude = adresse[:latitude]
     projet.departement = adresse[:departement]
-    projet.adresse = adresse[:adresse]
+    projet.adresse_ligne1 = adresse[:adresse_ligne1]
     projet.code_insee = adresse[:code_insee]
     projet.code_postal = adresse[:code_postal]
     projet.ville = adresse[:ville]

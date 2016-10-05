@@ -15,9 +15,9 @@ feature "Projet" do
   scenario "correction de mon adresse" do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.lien_edition_projet', match: :first)
-    fill_in :projet_adresse, with: '12 rue de la mare, 75012 Paris'
+    fill_in :projet_adresse, with: '12 rue de la mare, 75010 Paris'
     click_button I18n.t('projets.edition.action')
-    expect(page).to have_content('12 rue de la Mare')
+    expect(page).to have_content('12 rue de la Mare, 75010 Paris')
   end
 
   scenario "correction de l'année de construction de mon logement" do
@@ -60,12 +60,10 @@ feature "Projet" do
 
   scenario "lorsque je suis un demandeur, je peux saisir des montants sur mon plan de financement" do
     signin(projet.numero_fiscal, projet.reference_avis)
-    aide = Aide.first
     @role_utilisateur = :demandeur
     visit projet_demande_path(projet)
     expect(page).to have_content(I18n.t('projets.demande.plan_financement'))
     expect(page).to have_content(Aide.first.libelle)
-    expect(page).to have_content(aide.id)
   end
 
 end
