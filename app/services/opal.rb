@@ -26,12 +26,12 @@ class Opal
         "qdmId": 29,
         "cadId": 2,
         "personnePhysique": {
-          "civId": 1,
-          "pphNom": "Rafu",
-          "pphPrenom": "Caroline",
+          "civId": 4,
+          "pphNom": projet.nom_occupants,
+          "pphPrenom": projet.prenom_occupants,
           "adressePostale": {
             "payId": 1,
-            "adpLigne1": projet.adresse,
+            "adpLigne1": projet.adresse_ligne1,
             "adpLocalite": projet.ville,
             "adpCodePostal": projet.code_postal
           }

@@ -32,4 +32,15 @@ describe Projet do
     expect(projet.preeligibilite(annee)).to eq(:tres_modeste)
   end
 
+  it "contruit une chaine avec les noms des occupants" do
+    occupant = FactoryGirl.create(:occupant, projet: projet)
+    autre_occupant = FactoryGirl.create(:occupant, projet: projet)
+    expect(projet.nom_occupants).to eq("#{occupant.nom.upcase} ET #{autre_occupant.nom.upcase}")
+  end
+
+  it "contruit une chaine avec les prenoms des occupants" do
+    occupant = FactoryGirl.create(:occupant, projet: projet)
+    autre_occupant = FactoryGirl.create(:occupant, projet: projet)
+    expect(projet.prenom_occupants).to eq("#{occupant.prenom.capitalize} et #{autre_occupant.prenom.capitalize}")
+  end
 end

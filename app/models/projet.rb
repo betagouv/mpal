@@ -64,4 +64,12 @@ class Projet < ActiveRecord::Base
   def adresse
     "#{self.adresse_ligne1}, #{self.code_postal} #{self.ville}"
   end
+
+  def nom_occupants
+    self.occupants.map(&:nom).map{|n| n.upcase}.join(' ET ')
+  end
+
+  def prenom_occupants
+    self.occupants.map(&:prenom).map{|n| n.capitalize}.join(' et ')
+  end
 end
