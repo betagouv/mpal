@@ -10,11 +10,13 @@ div.ui.large.fixed.menu
         = link_to "Messagerie Demo", letter_opener_web_path, class: "ui primary button" if Tools.demo?
 
 div.pushers
-  div.ui.inverted.vertical.masthead.center.aligned.segment.teal
+  div.ui.inverted.vertical.masthead.center.aligned.segment.teal.img_accueil
     div#texte-accueil
       h1.ui.inverted.header = t('accueil.promesse')
       h2 = t('accueil.baseline')
-      = link_to t('accueil.action'), new_session_path, class: "ui huge primary button"
+    div
+      = link_to t('accueil.action'), new_session_path, class: "ui huge primary button", id: "bouton-accueil"
+
 
   div.ui.vertical.stripe.segment
     div.ui.middle.aligned.stackable.grid.container
@@ -22,5 +24,3 @@ div.pushers
         div.eight.wide.column
         h3.ui.header = t('accueil.description_titre')
         p = t('accueil.description')
-      div.six.wide.right.floated.column
-        = image_tag('visite_chantier.jpg', class: "ui large bordered rounded image")
