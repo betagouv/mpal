@@ -7,9 +7,6 @@ div.class.ui.grid
           p Vous pouvez compléter votre projet ou bien contactez une structure qui pourra vous accompagner dans votre demande d'aide Anah.
           p Vous n'avez encore invité personne à consulter votre projet. Rendez-vous simplement sur la page #{link_to 'Intervenants', projet_intervenants_path(@projet_courant)} et invitez des opérateurs !
 
-    h2. OPAL
-    = form_tag(projet_dossiers_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
-      = submit_tag t('projets.visualisation.creer_dossier_opal'), class:'ui primary button'
     h2.ui.horizontal.divider.header
       i.tag.icon
       = t('projets.visualisation.titre_description_projet')
@@ -80,6 +77,11 @@ div.class.ui.grid
         .div
           h2 Mon opérateur
           | Vous ne vous êtes pas encore engagé avec un opérateur
+
+    - if @role_utilisateur == :intervenant && @utilisateur_courant.instructeur?  
+      h2 = t('projets.creation_opal.titre_creation_opal')
+      = form_tag(projet_dossiers_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
+        = submit_tag t('projets.visualisation.creer_dossier_opal'), class:'ui primary button'
 
     h2 = t('projets.visualisation.titre_fil_actualite')
     div.ui.feed
