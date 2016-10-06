@@ -31,7 +31,16 @@ class InvitationsController < ApplicationController
 
   def cree_invitation
     @intervenant = Intervenant.find(params[:intervenant_id])
-    @projet_courant.adresse = params[:projet][:adresse]
+    service_adresse = ApiBan.new
+    adresse = service_adresse.precise(params[:projet][:adresse])
+    @projet_courant.longitude = adresse[:longitude]
+    @projet_courant.latitude = adresse[:latitude]
+    @projet_courant.departement = adresse[:departement]
+    @projet_courant.adresse_ligne1 = adresse[:adresse_ligne1]
+    @projet_courant.code_insee = adresse[:code_insee]
+    @projet_courant.code_postal = adresse[:code_postal]
+    @projet_courant.ville = adresse[:ville]
+
     @projet_courant.description = params[:projet][:description]
     @projet_courant.email = params[:projet][:email]
     @projet_courant.tel = params[:projet][:tel]
