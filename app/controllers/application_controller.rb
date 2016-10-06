@@ -8,9 +8,11 @@ class ApplicationController < ActionController::Base
       session[:jeton] = jeton
       @role_utilisateur = :intervenant
       invitation = Invitation.find_by_token(jeton)
-      if invitation
-        @projet_courant = invitation.projet
-        @utilisateur_courant = invitation.intervenant
+      intervenant = invitation.intervenant
+      projet = invitation.projet
+      if invitation && (projet.prospect? || intervenant == projet.operateur || intervenant.instructeur?)
+        @projet_courant = projet
+        @utilisateur_courant = intervenant
       else
         utilisateur_invalide = true
       end
