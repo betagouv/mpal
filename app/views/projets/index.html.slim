@@ -21,6 +21,7 @@ div.class.ui.grid
           th Etat du dossier
           th Demandeur
           th Adresse
+          th Intervenant(s)
           th Num Dossier Opal
       tbody
         - @invitations.each do |invitation|
@@ -29,4 +30,5 @@ div.class.ui.grid
             td = t(projet.statut, scope: "projets.statut")
             td = link_to projet.demandeur_principal.to_s, projet_path(projet, jeton: invitation.token)
             td = projet.adresse
+            td = affiche_intervenants(projet)
             td = projet.opal_numero

@@ -164,4 +164,11 @@ module ApplicationHelper
     calcul_revenu_fiscal_reference_total(annee) ? content_tag(:i, "", class: "checkmark box icon") + "Revenus #{annee} : " : content_tag(:i, "", class: "square outline icon") + "Revenus manquants"
   end
 
+  def affiche_intervenants(projet)
+    if projet.prospect?
+      projet.intervenants.map(&:raison_sociale).join(', ')
+    else
+      projet.operateur.raison_sociale if projet.operateur
+    end
+  end
 end
