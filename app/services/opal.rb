@@ -26,7 +26,7 @@ class Opal
 
   def convertit_projet_en_dossier(projet)
     {
-      "dosNumeroPlateforme": "3010",
+      "dosNumeroPlateforme": "3012",
       "dosDateDepot": Time.now.strftime("%Y-%m-%d"),
       "utiIdClavis": "5425",
       "demandeur": {
@@ -47,7 +47,7 @@ class Opal
         }
       },
       "immeuble": {
-        "immAnneeAchevement": projet.annee_construction,
+        "immAnneeAchevement": projet.annee_construction || 0,
         "ntrId": 1,
         "immSiArretePeril": false,
         "immSiGrilleDegradation": false,
