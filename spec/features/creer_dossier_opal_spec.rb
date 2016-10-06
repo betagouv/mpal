@@ -11,6 +11,11 @@ feature "creer dossier dans opal" do
     visit projet_path(projet, jeton: invitation.token)
     click_button I18n.t('projets.visualisation.creer_dossier_opal')
     expect(page).to have_content(I18n.t("projets.creation_opal.messages.succes", id_opal: 959496))
+
+    visit projets_path(jeton: invitation.token)
+    within "#projet_#{projet.id}" do
+      expect(page).to have_content(I18n.t("projets.statut.en_cours_d_instruction"))
+    end
   end
 
   scenario "en tant que demandeur" do

@@ -5,14 +5,23 @@ class Opal
 
   def creer_dossier(projet)
     response = @client.post('/createDossier', body: convertit_projet_en_dossier(projet).to_json)
-    response.code == 201 ? ajoute_id_opal(projet, response.body) : false
+    if response.code == 201 
+      ajoute_id_opal(projet, response.body)
+      met_a_jour_statut(projet)
+      projet.save
+    else
+      false
+    end
   end
 
   def ajoute_id_opal(projet, reponse)
     opal = JSON.parse(reponse)
     projet.opal_numero = opal["dosNumero"]
     projet.opal_id = opal["dosId"]
-    projet.save
+  end
+
+  def met_a_jour_statut(projet)
+    projet.statut = :en_cours_d_instruction
   end
 
   def convertit_projet_en_dossier(projet)
