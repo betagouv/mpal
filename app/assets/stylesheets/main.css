@@ -84,3 +84,30 @@ ul.infos-demandeur {
 h2.ui.horizontal.divider {
   color: #306492;
 }
+
+.ui.inverted.teal.segment {
+  background-image: url('illustration_accueil.jpg');
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+  height:100%;
+}
+
+.masthead h2 {
+  color: black;
+}
+
+.masthead h1.ui.header {
+  color: black;
+}
+
+#texte-accueil {
+  background-color: white;
+  opacity: 0.5;
+  margin: 1em;
+    /*padding: 20px;*/
+}
+
+#bouton-accueil {
+  opacity: 1;
+}
