@@ -32,6 +32,9 @@ class ProjetsController < ApplicationController
   end
 
   def demande
+    if @projet_courant.prospect?
+      redirect_to projet_path(@projet_courant), alert: t('sessions.access_forbidden')
+    end
   end
 
   def suivi
