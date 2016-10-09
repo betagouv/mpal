@@ -7,9 +7,12 @@ feature "creer dossier dans opal" do
     instructeur = FactoryGirl.create(:intervenant, :instructeur)
     invitation = FactoryGirl.create(:invitation, intervenant: instructeur)
     projet = invitation.projet
+    projet.statut = :transmis_pour_instruction
+    projet.save
+
     visit projet_path(projet, jeton: invitation.token)
     click_button I18n.t('projets.visualisation.creer_dossier_opal')
-    expect(page).to have_content(I18n.t("projets.creation_opal.messages.succes", id_opal: 959496))
+    expect(page).to have_content(I18n.t("projets.creation_opal.messages.succes", id_opal: "09500840"))
 
     visit projets_path(jeton: invitation.token)
     within "#projet_#{projet.id}" do

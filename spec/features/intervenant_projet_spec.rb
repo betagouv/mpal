@@ -29,39 +29,48 @@ feature "intervenant" do
     end
   end
 
-  scenario "visualisation de la demande de travaux par l'operateur" do
-    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    expect(page).to have_content('Remplacement d\'une baignoire par une douche')
-    expect(page).to have_content("Plâtrerie")
-  end
+  context "en tant qu'operateur" do
+    projet = FactoryGirl.create(:projet)
+    operateur = FactoryGirl.create(:intervenant, :operateur)
+    invit = FactoryGirl.create(:invitation, projet: projet, intervenant: operateur)
+    projet.operateur = operateur
+    projet.statut = :en_cours
+    projet.save
 
-  scenario "visualisation de la demande de financement par l'operateur" do
-    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    expect(page).to have_content('Plan de financement')
-    expect(page).to have_content(aide.libelle)
-  end
+    scenario "visualisation de la demande de travaux par l'operateur" do
+      visit projet_demande_path(projet, jeton: invit.token)
+      expect(page).to have_content('Remplacement d\'une baignoire par une douche')
+      expect(page).to have_content("Plâtrerie")
+    end
 
-  scenario "upload d'un document" do
-    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
-    fill_in 'label_document', with: 'Titre de propriété'
-    click_button(I18n.t('projets.demande.action_depot_document'))
-    expect(page).to have_content(I18n.t('projets.demande.messages.succes_depot_document'))
-    expect(page).to have_content('Titre de propriété')
-    expect(projet.documents.count).to eq(1)
-  end
+    scenario "visualisation de la demande de financement par l'operateur" do
+      visit projet_demande_path(projet, jeton: invit.token)
+      expect(page).to have_content('Plan de financement')
+      expect(page).to have_content(aide.libelle)
+    end
 
-  scenario "upload d'un document avec erreur" do
-    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
-    click_button(I18n.t('projets.demande.action_depot_document'))
-    expect(page).to have_content(I18n.t('projets.demande.messages.erreur_label_manquant'))
-  end
+    scenario "upload d'un document" do
+      visit projet_demande_path(projet, jeton: invit.token)
+      attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
+      fill_in 'label_document', with: 'Titre de propriété'
+      click_button(I18n.t('projets.demande.action_depot_document'))
+      expect(page).to have_content(I18n.t('projets.demande.messages.succes_depot_document'))
+      expect(page).to have_content('Titre de propriété')
+      expect(projet.documents.count).to eq(1)
+    end
 
-  scenario "visualisation d'un document" do
-    document = FactoryGirl.create(:document, projet: projet)
-    visit projet_demande_path(mise_en_relation.projet, jeton: mise_en_relation.token)
-    expect(page).to have_link(document.label, href: document.fichier_url)
+    scenario "upload d'un document avec erreur" do
+      visit projet_demande_path(projet, jeton: invit.token)
+      attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
+      click_button(I18n.t('projets.demande.action_depot_document'))
+      expect(page).to have_content(I18n.t('projets.demande.messages.erreur_label_manquant'))
+    end
+
+    scenario "visualisation d'un document" do
+      document = FactoryGirl.create(:document, projet: projet)
+      visit projet_demande_path(projet, jeton: invit.token)
+      expect(page).to have_link(document.label, href: document.fichier_url)
+    end
   end
 
   scenario "accès à un projet à partir du tableau de bord" do

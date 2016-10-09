@@ -97,19 +97,23 @@ RSpec.configure do |config|
   config.include(RSpec::ActiveJob)
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
   end
 
   config.before(:each, type: :feature) do
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
     if !driver_shares_db_connection_with_specs
       DatabaseCleaner.strategy = :truncation
+    else
+      DatabaseCleaner.strategy = :transaction
     end
   end
 
   config.before(:each) do
     DatabaseCleaner.start
   end
-  config.after(:each) do
+
+  config.append_after(:each) do
     DatabaseCleaner.clean
     ActiveJob::Base.queue_adapter.enqueued_jobs = []
     ActiveJob::Base.queue_adapter.performed_jobs = []

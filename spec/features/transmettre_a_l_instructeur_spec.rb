@@ -5,9 +5,10 @@ require 'support/api_ban_helper'
 
 feature "transmettre à l'instructeur" do
   scenario "une demande valide" do
-    invitation = FactoryGirl.create(:invitation) 
-    projet = invitation.projet
-    operateur = invitation.intervenant
+    projet = FactoryGirl.create(:projet)
+    operateur = FactoryGirl.create(:intervenant, :operateur)
+    invitation = FactoryGirl.create(:invitation, projet: projet, intervenant: operateur) 
+    projet.statut = :en_cours
     projet.operateur = operateur
     projet.save
 

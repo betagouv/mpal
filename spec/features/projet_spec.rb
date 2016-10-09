@@ -58,12 +58,4 @@ feature "Projet" do
     end
   end
 
-  scenario "lorsque je suis un demandeur, je peux saisir des montants sur mon plan de financement" do
-    signin(projet.numero_fiscal, projet.reference_avis)
-    @role_utilisateur = :demandeur
-    visit projet_demande_path(projet)
-    expect(page).to have_content(I18n.t('projets.demande.plan_financement'))
-    expect(page).to have_content(Aide.first.libelle)
-  end
-
 end
