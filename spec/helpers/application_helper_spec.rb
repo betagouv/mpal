@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
-  let(:projet) { FactoryGirl.create(:projet) }
-
   it "renvoie l'icone correspondant au type d'évènement" do
     expect(helper.icone_evenement('creation_projet')).to eq ('suitcase')
   end
@@ -23,9 +21,5 @@ describe ApplicationHelper do
 
   it "renvoie l'icone à faire et message si la donnée n'existe pas" do
     expect(helper.icone_presence(projet, :annee_construction)).to eq ("<i class=\"square outline icon\"></i>Année de construction :  Veuillez renseigner cette donnée")
-  end
-
-  it "n'affiche pas l'opérateur avec lequel s'est engagé le demandeur" do
-    expect(helper.affiche_operateur_choisi(projet)).to eq (I18n.t('projets.visualisation.operateur_non_choisi'))
   end
 end

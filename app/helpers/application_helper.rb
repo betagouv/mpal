@@ -171,14 +171,4 @@ module ApplicationHelper
       projet.operateur.raison_sociale if projet.operateur
     end
   end
-
-  def affiche_operateur_choisi(projet)
-    if projet.operateur
-      affiche_message = projet.operateur.raison_sociale
-    else
-      affiche_message = t('projets.visualisation.operateur_non_choisi')
-    end
-    affiche_message
-  end
-
 end
