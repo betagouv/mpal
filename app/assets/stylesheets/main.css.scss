@@ -65,34 +65,11 @@ ul.infos-demandeur {
   font-size: 2em !important;
 }
 
-
-/* Formulaire de connection */
-#formulaire_connexion .masthead h1.ui.header {
-	color: white;
-}
-
-#formulaire_connexion .masthead p {
-  font-size: 1.5em;
-}
-
-#formulaire_connexion .masthead .field label {
-  color: white;
-  font-size: 1.5em;
-  text-align: left;
-}
-
 h2.ui.horizontal.divider {
   color: #306492;
 }
 
-.ui.inverted.teal.segment {
-  background-image: image-url('illustration_accueil.jpg');
-  background-size:cover;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
-  height:100%;
-}
-
+// ------------- Page d'accueil -------------
 .masthead h2 {
   color: black;
 }
@@ -105,9 +82,39 @@ h2.ui.horizontal.divider {
   background-color: white;
   opacity: 0.5;
   margin: 1em;
-    /*padding: 20px;*/
 }
 
-#bouton-accueil {
-  opacity: 1;
+.ui.inverted.teal.segment {
+  background-image: image-url('illustration_accueil.jpg');
+  background-size:cover;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+  height:100%;
+}
+
+// ------------- Page de login avec numéro fiscal -------------
+
+#formulaire_connexion div.ui.text.container {
+    background-color: white;
+    opacity: 0.8;
+    margin: 1em;
+    padding: 50px;
+    text-align: center!important;
+}
+
+/* Formulaire de connection */
+#formulaire_connexion .masthead h1.ui.header {
+	color: black;
+  margin-top: 0.5em;
+}
+
+#formulaire_connexion .masthead p {
+  font-size: 1.5em;
+  color: black;
+}
+
+#formulaire_connexion .masthead .field label {
+  color: black;
+  font-size: 1.5em;
+  text-align: left;
 }
