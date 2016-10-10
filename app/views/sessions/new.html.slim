@@ -1,27 +1,30 @@
 div#formulaire_connexion
   div.ui.inverted.vertical.masthead.center.aligned.segment.teal
+
     div.ui.text.container
       h1.ui.header= t('sessions.nouvelle.titre')
       p
         = t('sessions.nouvelle.conseil')
         br
         a href="https://cfspart.impots.gouv.fr/templates/troisS_faq.html#numFiscal" Aide : où se trouve mon numéro fiscal ?
-        = form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do
-          div.field
-            = label_tag :numero_fiscal
-            = text_field_tag :numero_fiscal
 
-          div.field
-            = label_tag :reference_avis
-            = text_field_tag :reference_avis
+      = form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do
+        div.field
+          = label_tag :numero_fiscal
+          = text_field_tag :numero_fiscal
 
-          = submit_tag t('sessions.nouvelle.action'), class:'ui huge primary button'
+        div.field
+          = label_tag :reference_avis
+          = text_field_tag :reference_avis
+
+        = submit_tag t('sessions.nouvelle.action'), class:'ui huge primary button'
 
 - if Tools.demo?
-  div.ui
+  div.ui.text.container
+    br
     h3 Jeu de données disponibles pour la version de démonstration :
-    | Pour simuler le fait d'être un demandeur habitant dans les Vosges : 88 / 1588
-    br
-    | Pour simuler le fait d'être un demandeur habitant dans le Val d'Oise : 95 / 1595
-    br
-    | Pour simuler le fait d'être un demandeur habitant dans les Vosges : 25 / 1525
+    ul
+      li Pour simuler le fait d'être un demandeur habitant dans les Vosges : 88 / 1588
+      li Pour simuler le fait d'être un demandeur habitant dans le Val d'Oise : 95 / 1595
+      li Pour simuler le fait d'être un autre demandeur habitant dans le Val d'Oise : 952 / 15952
+      li Pour simuler le fait d'être un demandeur habitant dans les Vosges : 25 / 1525
