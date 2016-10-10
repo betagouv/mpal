@@ -106,6 +106,7 @@ fr:
       choisir_intervenant: "Je choisis cet opérateur"
       creer_dossier_opal: "Je crée le dossier dans OPAL"
       modifier_liste_occupant: "Modifier le nombre d'occupant à charge"
+      operateur_non_choisi: "Vous ne vous êtes pas encore engagé avec un opérateur"
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_infos_demandeur: "Mes infos"
       titre_description_projet: "Description du projet"
