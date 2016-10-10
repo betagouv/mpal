@@ -11,5 +11,10 @@ let!(:projet) { FactoryGirl.create(:projet) }
     expect{ subject.perform(label: 'invitation_intervenant', projet: invitation.projet, producteur: invitation) }
       .to change{ Evenement.count }.by(1)
   end
-end
 
+  it "enregistre la transmission d'un dossier aux services instructeurs" do
+    invitation = FactoryGirl.create(:invitation)
+    expect{ subject.perform(label: 'transmis_instructeur', projet: invitation.projet, producteur: invitation) }
+      .to change{ Evenement.count }.by(1)
+  end
+end

@@ -54,7 +54,7 @@ class Projet < ActiveRecord::Base
     invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: instructeur)
     if invitation.save
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
-      EvenementEnregistreurJob.perform_later(label: 'mise_en_relation_intervenant', projet: self, producteur: invitation)
+      EvenementEnregistreurJob.perform_later(label: 'transmis_instructeur', projet: self, producteur: invitation)
       self.statut = :transmis_pour_instruction
       return self.save
     end
