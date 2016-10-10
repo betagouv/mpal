@@ -171,6 +171,7 @@ fr:
     invitation_intervenant: "Invitation de l'intervenant %{intervenant}"
     mise_en_relation_intervenant: "Invitation de %{intervenant} par %{intermediaire}"
     ajout_avis_imposition: "Ajout de l'avis d'imposition %{avis_imposition}"
+    choix_intervenant: "Choix de l'opérateur %{operateur} pour accompagner le projet"
   reinitialisation:
     succes: 'Réinitialisation effectuée'
   tableau_de_bord:
