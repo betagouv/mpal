@@ -1,5 +1,5 @@
 p
-  = t('choix_intervenants.nouveau.explication')
+  = t('choix_intervenants.nouveau.explication_html')
 
 = form_tag(projet_choix_intervenants_path(@projet_courant, intervenant_id: @intervenant.id), method: 'post', class:'ui form' ) do 
   = submit_tag t('choix_intervenants.nouveau.action'), class:'ui primary button'

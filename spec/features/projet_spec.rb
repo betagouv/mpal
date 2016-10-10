@@ -50,7 +50,7 @@ feature "Projet" do
     visit projet_intervenants_path(projet)
     expect(page).to have_content(invitation.intervenant.raison_sociale)
     click_link I18n.t('projets.visualisation.choisir_intervenant')
-    expect(page).to have_content(I18n.t('choix_intervenants.nouveau.explication'))
+    expect(page).to have_content(ActionController::Base.helpers.strip_tags(I18n.t('choix_intervenants.nouveau.explication_html')))
     click_button I18n.t('choix_intervenants.nouveau.action')
     expect(page).to have_content(I18n.t('projets.intervenants.messages.succes_choix_intervenant'))
     within '.choisi' do
