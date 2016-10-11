@@ -66,7 +66,7 @@ Rails.application.configure do
   if Tools.demo?
     config.action_mailer.delivery_method = :letter_opener_web
   else
-    config.action_mailer.delivery_method = :mailjet
+    config.action_mailer.delivery_method = :letter_opener_web
   end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
