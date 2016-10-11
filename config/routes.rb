@@ -49,5 +49,5 @@ Rails.application.routes.draw do
   end if Rails.env.production?
   mount Sidekiq::Web, at: "/sidekiq"
 
-  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Tools.demo?
+  mount LetterOpenerWeb::Engine, at: "/letter_opener"
 end
