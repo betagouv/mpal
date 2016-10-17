@@ -43,6 +43,7 @@ Rails.application.routes.draw do
 
   get '/deconnexion', to: 'sessions#deconnexion', as: 'deconnexion'
   get  '/infos_projet/faq', to: 'infos_projet#faq'
+  get  '/infos_projet/cgu', to: 'infos_projet#cgu'
 
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
