@@ -1,13 +1,17 @@
 div.ui.large.fixed.menu
   div.ui.container
     = link_to 'ANAH', root_path, class: "header item"
+
     - if intervenant?
-      = link_to 'Tableau de bord', projets_path(@projet_courant), class: "item" if @projet_courant
-      = link_to 'Demande', projet_demande_path(@projet_courant), class: "item" unless @projet_courant.prospect?
-    = link_to 'Le projet', @projet_courant, class: "active item" if @projet_courant
+      = link_to 'Tableau de bord', projets_path(@projet_courant), class: (menu_actif?(projets_path(@projet_courant))) if @projet_courant
+      = link_to 'Demande', projet_demande_path(@projet_courant), class: (menu_actif?(projet_demande_path(@projet_courant))) unless @projet_courant.prospect?
+    = link_to 'Le projet', @projet_courant, class: (menu_actif?(@projet_courant)) if @projet_courant
+
     - if demandeur?
-      = link_to 'Tableau de bord', projet_suivi_path(@projet_courant), class: "item" if @projet_courant
-    = link_to 'Intervenants', projet_intervenants_path(@projet_courant), class: "item" if @projet_courant
+      = link_to 'Tableau de bord', projet_suivi_path(@projet_courant), class: (menu_actif?(projet_suivi_path(@projet_courant))) if @projet_courant
+
+    = link_to 'Intervenants', projet_intervenants_path(@projet_courant), class: (menu_actif?(projet_intervenants_path(@projet_courant))) if @projet_courant
+
 
     div.right.menu
       div.item

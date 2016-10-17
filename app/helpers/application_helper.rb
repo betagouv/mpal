@@ -171,4 +171,8 @@ module ApplicationHelper
       projet.operateur.raison_sociale if projet.operateur
     end
   end
+
+  def menu_actif?(url)
+    active = current_page?(url) ? "active item" : "item"
+  end
 end
