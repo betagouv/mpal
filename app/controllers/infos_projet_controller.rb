@@ -4,4 +4,7 @@ class InfosProjetController < ApplicationController
 
   def cgu
   end
+
+  def mentions_legales
+  end
 end
