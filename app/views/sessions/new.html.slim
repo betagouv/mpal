@@ -4,9 +4,15 @@ div#formulaire_connexion
     div.ui.text.container
       h1.ui.header= t('sessions.nouvelle.titre')
       p
-        = t('sessions.nouvelle.conseil')
-        br
-        a href="https://cfspart.impots.gouv.fr/templates/troisS_faq.html#numFiscal" Aide : où se trouve mon numéro fiscal ?
+        | Pour savoir si vous pouvez bénéficier d’une aide, merci de renseigner
+        b  votre numéro fiscal
+        |  et
+        b  la référence de l’avis d’imposition
+        |  de votre avis d'imposition de 2015 sur les revenus de 2014 et de 2016 sur les revenus de 2015
+
+      br
+
+      a href="https://cfspart.impots.gouv.fr/templates/troisS_faq.html#numFiscal" Aide : où se trouve mon numéro fiscal ?
 
       = form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do
         div.field
@@ -18,6 +24,18 @@ div#formulaire_connexion
           = text_field_tag :reference_avis
 
         = submit_tag t('sessions.nouvelle.action'), class:'ui huge primary button'
+        br
+        br
+        div#autorisations
+          input type="checkbox"
+            | J’autorise l’Anah à vérifier les conditions de ressources des occupants de mon logement pour bénéficier d’une subvention.
+          br
+          input type="checkbox"
+            | J’atteste avoir obtenu l’accord des occupants de mon logement pour communiquer leur informations fiscales.
+
+        a href="#" Je ne souhaite pas transmettre mes informations fiscales
+
+
 
 - if Tools.demo?
   div.ui.text.container

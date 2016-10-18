@@ -78,6 +78,10 @@ h2.ui.horizontal.divider {
   color: black;
 }
 
+.masthead p {
+  color: black!important;
+}
+
 #texte-accueil {
   background-color: white;
   opacity: 0.5;
@@ -117,4 +121,9 @@ h2.ui.horizontal.divider {
   color: black;
   font-size: 1.5em;
   text-align: left;
+}
+
+#autorisations {
+  color: black;
+  font-size: 1em;
 }
