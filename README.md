@@ -34,12 +34,16 @@ Nécessite redis, sidekiq
 La gem dotenv-rails vous oblige à copier les variables d'environnement de .env.sample vers .env
 dans config/database.yml, la partie config a besoin d'un host qui sera localhost
 
+`rake intervenants:charger` pour avoir des intervenants en base
+`rake intervenants:seed` pour charger la liste des travaux disponibles
+
+`foreman start web` pour lancer le serveur (alternative à l'utilisation de docker)
+
 # Installation (avec Docker)
-docker-compose up
+
+`docker-compose up`
+
+`docker-compose run mpal rake intervenants:charger`
 
 # Notes
 Kanban Zenhub sur ce projet
-
-`rake intervenants:charger` pour avoir des intervenants en base
-
-`docker-compose run mpal rake intervenants:charger`
