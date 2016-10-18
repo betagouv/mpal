@@ -1,5 +1,12 @@
 p
   = t('choix_intervenants.nouveau.explication_html')
 
-= form_tag(projet_choix_intervenants_path(@projet_courant, intervenant_id: @intervenant.id), method: 'post', class:'ui form' ) do 
+div#autorisations
+  input type="checkbox"
+    |  Je lui confie le soin de m’accompagner dans ma démarche de demande de subvention de l’Anah et de consulter et compléter, le cas échéant, les informations concernant mon dossier jusqu’à sa transmission au service instructeur.
+
+  p Je confirmerai par la suite tous les éléments de ma demande de subvention avant transmission au service instructeur.
+  br
+
+= form_tag(projet_choix_intervenants_path(@projet_courant, intervenant_id: @intervenant.id), method: 'post', class:'ui form' ) do
   = submit_tag t('choix_intervenants.nouveau.action'), class:'ui primary button'
