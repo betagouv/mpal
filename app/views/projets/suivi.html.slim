@@ -12,6 +12,12 @@ div.class.ui.grid
           p Vous pouvez compléter votre projet ou bien contacter une structure qui pourra vous accompagner dans votre demande d'aide Anah.
           p Vous n'avez encore invité personne à consulter votre projet. Rendez-vous simplement sur la page #{link_to 'Intervenants', projet_intervenants_path(@projet_courant)} et invitez des opérateurs !
 
+    p Merci de compléter, si vous en disposez, les deux informations qui suivent :
+    ul
+      li Année d’achèvement du logement ou de l’immeuble
+      li Avez-vous bénéficié d’un Prêt à taux zéro ?
+    p Si vous n’en disposez pas à l’instant, elles vous seront demandées par la suite.
+    
     h2.class.ui.horizontal.divider.header
       i.comments.icon
       = I18n.t('conversation.titre_section')

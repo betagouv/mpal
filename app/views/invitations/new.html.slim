@@ -2,21 +2,27 @@ div.main.ui.container.top
   = display_errors @projet_courant, t('invitations.messages.erreur')
   h1.ui.header
     = t('invitations.nouvelle.titre', intervenant: @intervenant.raison_sociale)
-  p
-    Pour information, mon projet peut être soumis à certaines conditions telles que :
+  p Pour information, mon projet peut être soumis à certaines conditions telles que :
   ul
     li = t('accueil.condition1')
     li = t('accueil.condition2')
     li = t('accueil.condition4')
     li = t('accueil.condition5')
-  br
+
+  div#autorisations
+    input type="checkbox"
+      |  Je suis informé que les intervenants avec lesquels je vais être mise en relation ou que je vais inviter à consulter mon dossier ont accès aux données que j’ai renseignées.
+    br
+    br
+    br
+
   = form_for [@projet_courant], url: {controller: 'invitations', action: 'create'}, method: 'post', html: { class:'ui form' } do |f|
     div.field
      = f.label :adresse
      = f.text_field :adresse
     div.field
       = f.label :description
-      = f.text_area :description
+      = f.text_area :description, placeholder: t('invitations.nouvelle.description_projet_suggestion')
     div.field
       = f.label :email
       = f.text_field :email

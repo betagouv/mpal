@@ -134,6 +134,7 @@ fr:
     nouvelle:
       titre: "Je souhaite que %{intervenant} m'oriente pour avancer dans mon projet"
       action: "J'envoie ma demande à %{intervenant}"
+      description_projet_suggestion: "Quelles difficultés rencontrez-vous dans votre logement ? Par exemple : j’ai froid, mon logement est mal isolé, je veux réaliser des économies d’énergies, j’ai du mal à me déplacer, un des occupants est handicapé, mon logement est globalement en très mauvais état et, ou quels travaux souhaitez-vous effectuer ? Par exemple : changer mon système de chauffage, isoler mon logement, adapter ma salle de bain, rendre plus accessible mon logement, réaliser d’importants travaux ou autres..."
     messages:
       succes_titre: "Invitation envoyée"
       succes: "Une invitation avec la description de votre projet a été envoyée à %{intervenant}"
