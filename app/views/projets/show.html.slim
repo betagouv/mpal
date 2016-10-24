@@ -8,7 +8,7 @@ div.class.ui.grid
           p Vous n'avez encore invité personne à consulter votre projet. Rendez-vous simplement sur la page #{link_to 'Intervenants', projet_intervenants_path(@projet_courant)} et invitez des opérateurs !
 
     = render partial: 'eligibilite' if demandeur?
-    
+
     h2.ui.horizontal.divider.header
       i.tag.icon
       = t('projets.visualisation.titre_description_projet')
@@ -17,9 +17,6 @@ div.class.ui.grid
         tr
           td Demandeur principal #{bouton_modification_occupant(@projet_courant.demandeur_principal)}
           td = @projet_courant.demandeur_principal
-        tr
-          td Adresse pour correspondance
-          td A créer dans la bdd
         tr
           td Adresse du logement à rénover #{ bouton_modification_projet(@projet_courant) if demandeur? }
           td = @projet_courant.adresse
@@ -33,15 +30,9 @@ div.class.ui.grid
           tr
             td Email de contact #{bouton_modification_projet(@projet_courant) if demandeur?}
             td = @projet_courant.email
-
           tr
-            td Numéro de téléphone
-            td A créer dans la bdd
-
-          tr
-            td Avez vous bénéficié d'un PTZ ?
-            td case à cocher (si vous ne disposez pas de cette information, vous pourrez la renseigner plus tard)
-
+            td Numéro de téléphone #{bouton_modification_projet(@projet_courant) if demandeur?}
+            td = @projet_courant.tel
           tr
             td Nature du projet #{bouton_modification_projet(@projet_courant) if demandeur?}
             td = @projet_courant.description
