@@ -165,6 +165,8 @@ fr:
         sujet: "[ANAH] Invitation de %{usager} à consulter son projet"
       notification_invitation_intervenant:
         sujet: "[ANAH] Invitation de %{intervenant} à consulter votre projet"
+      notification_choix_intervenant:
+        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{usager} pour l'accompagner sur son projet"
       mise_en_relation_intervenant:
         sujet: "[ANAH] Mise en relation par %{intermediaire}"
   evenements:
