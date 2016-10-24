@@ -10,6 +10,8 @@ fr:
         adresse: "L'adresse de mon logement à rénover"
         description: 'Je présente mon projet en quelques phrases'
         tel: 'Mon numéro de téléphone'
+  menu:
+    intervenants: "Intervenants"
   accueil:
     promesse: "Avec nous, améliorez l'habitat !"
     baseline: Le financement de mon projet prend vie en quelques minutes...

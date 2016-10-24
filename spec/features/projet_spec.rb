@@ -55,8 +55,7 @@ feature "Projet" do
     click_button I18n.t('choix_intervenants.nouveau.action')
     expect(page).to have_content(I18n.t('projets.intervenants.messages.succes_choix_intervenant'))
     within '.choisi' do
-      expect(page).to have_content(operateur.raison_sociale) 
+      expect(page).to have_content(operateur.raison_sociale)
     end
   end
-
 end
