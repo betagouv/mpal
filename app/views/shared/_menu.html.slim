@@ -10,7 +10,7 @@ div.ui.large.fixed.menu
     - if demandeur?
       = link_to 'Tableau de bord', projet_suivi_path(@projet_courant), class: (menu_actif?(projet_suivi_path(@projet_courant))) if @projet_courant
 
-    = link_to 'Intervenants', projet_intervenants_path(@projet_courant), class: (menu_actif?(projet_intervenants_path(@projet_courant))) if @projet_courant
+    = link_to t('menu.intervenants'), projet_intervenants_path(@projet_courant), class: (menu_actif?(projet_intervenants_path(@projet_courant))) if @projet_courant
 
 
     div.right.menu

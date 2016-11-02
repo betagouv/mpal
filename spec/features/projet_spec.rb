@@ -43,9 +43,10 @@ feature "Projet" do
   end
 
   scenario "choisit un opérateur qui a été invité" do
+    # cette spec est plus précise, je suggère de la déplacer dans spec/features/choisir_un_operateur_spec.rb
+    # il y a également un spc pour les invitations / même genre de tets spec/features/invitation_spec.rb
     operateur = FactoryGirl.create(:intervenant, :operateur)
-    invitation = FactoryGirl.create(:invitation, intervenant: operateur)
-    projet = invitation.projet
+    invitation = FactoryGirl.create(:invitation, projet: projet, intervenant: operateur)
     signin(projet.numero_fiscal, projet.reference_avis)
     visit projet_intervenants_path(projet)
     expect(page).to have_content(invitation.intervenant.raison_sociale)
@@ -54,8 +55,7 @@ feature "Projet" do
     click_button I18n.t('choix_intervenants.nouveau.action')
     expect(page).to have_content(I18n.t('projets.intervenants.messages.succes_choix_intervenant'))
     within '.choisi' do
-      expect(page).to have_content(operateur.raison_sociale) 
+      expect(page).to have_content(operateur.raison_sociale)
     end
   end
-
 end

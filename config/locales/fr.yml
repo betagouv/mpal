@@ -10,6 +10,8 @@ fr:
         adresse: "L'adresse de mon logement à rénover"
         description: 'Je présente mon projet en quelques phrases'
         tel: 'Mon numéro de téléphone'
+  menu:
+    intervenants: "Intervenants"
   accueil:
     promesse: "Avec nous, améliorez l'habitat !"
     baseline: Le financement de mon projet prend vie en quelques minutes...
@@ -165,6 +167,8 @@ fr:
         sujet: "[ANAH] Invitation de %{usager} à consulter son projet"
       notification_invitation_intervenant:
         sujet: "[ANAH] Invitation de %{intervenant} à consulter votre projet"
+      notification_choix_intervenant:
+        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{usager} pour l'accompagner sur son projet"
       mise_en_relation_intervenant:
         sujet: "[ANAH] Mise en relation par %{intermediaire}"
   evenements:
