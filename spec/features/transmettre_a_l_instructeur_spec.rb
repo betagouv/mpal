@@ -23,6 +23,7 @@ feature "transmettre à l'instructeur" do
     visit projets_path(jeton: invitation.token)
     within "#projet_#{projet.id}" do
       expect(page).to have_content(I18n.t("projets.statut.transmis_pour_instruction"))
+      expect(page).to have_content(projet.opal_numero)
     end
   end
 end
