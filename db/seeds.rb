@@ -1,3 +1,11 @@
+fichier_intervenants = File.read(Rails.root.join('db/seed_intervenants.json'))
+intervenants_json = JSON.parse(fichier_intervenants)
+intervenants_json.each do |attributes|
+  intervenant = Intervenant.find_or_initialize_by(raison_sociale: attributes["raison_sociale"])
+  intervenant.assign_attributes(attributes)
+  intervenant.save
+end
+
 autonomie = Theme.find_or_create_by(libelle: 'Autonomie')
 Prestation.find_or_create_by(theme: autonomie, libelle: "Remplacement d'une baignoire par une douche")
 Prestation.find_or_create_by(theme: autonomie, libelle: "Barre de maintien")
