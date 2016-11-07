@@ -1,5 +1,5 @@
-class InfosProjetController < ActionController::Base
-  layout 'application'
+class InfosProjetController < ApplicationController
+  skip_before_action :authentifie
 
   def faq
   end
