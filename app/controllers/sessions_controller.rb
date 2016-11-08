@@ -9,7 +9,6 @@ class SessionsController < ApplicationController
       session[:numero_fiscal] = params[:numero_fiscal]
       projet = ProjetEntrepot.par_numero_fiscal(params[:numero_fiscal])
       if projet
-        # redirect_to projet_suivi_path(projet)
         redirect_to projet
       else
         create_projet_and_redirect
