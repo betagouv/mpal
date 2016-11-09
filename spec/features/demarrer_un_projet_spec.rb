@@ -5,11 +5,10 @@ require 'support/api_ban_helper'
 
 feature "Démarrer un projet" do
   before do
+    Projet.destroy_all
+    Invitation.destroy_all
+    Occupant.destroy_all
   	p Projet.count
-  end
-
-  it 'fails' do
-  	puts 'fails'
   end
 
   scenario "depuis la page d'accueil" do

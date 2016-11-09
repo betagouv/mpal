@@ -38,7 +38,6 @@ feature "intervenant" do
     projet.save
 
     scenario "visualisation de la demande de travaux par l'operateur" do
-      puts "ce qu'on voit dans invitation #{invit}"
       visit projet_demande_path(projet, jeton: invit.token)
       expect(page).to have_content('Remplacement d\'une baignoire par une douche')
       expect(page).to have_content("Plâtrerie")
