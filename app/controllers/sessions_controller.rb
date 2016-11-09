@@ -9,10 +9,8 @@ class SessionsController < ApplicationController
       session[:numero_fiscal] = params[:numero_fiscal]
       projet = ProjetEntrepot.par_numero_fiscal(params[:numero_fiscal])
       if projet
-        puts "--- un projet existe déjà pour ce numéro fiscal"
         redirect_to projet
       else
-        puts "--- pas de projets existants"
         create_projet_and_redirect
       end
     else

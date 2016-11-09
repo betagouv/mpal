@@ -23,6 +23,7 @@ RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
+
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
     # and `failure_message` of custom matchers include text for helper methods
@@ -94,26 +95,51 @@ RSpec.configure do |config|
 =end
 #  Capybara.default_wait_time = 600
 
+
+# config DatabaseCleaner v1
   config.include(RSpec::ActiveJob)
   config.before(:each) do
-    puts ">>>>>> before each <<<<<<<<<<<<<"
-    DatabaseCleaner[:active_record].strategy = :transaction
-    DatabaseCleaner[:active_record].start
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.start
   end
 
   config.before(:each, type: :feature) do
     driver_shares_db_connection_with_specs = Capybara.current_driver == :rack_test
     if !driver_shares_db_connection_with_specs
-      DatabaseCleaner[:active_record].strategy = :truncation
+      DatabaseCleaner.strategy = :truncation
     else
-      DatabaseCleaner[:active_record].strategy = :transaction
+      DatabaseCleaner.strategy = :transaction
     end
   end
 
   config.append_after(:each) do
-    puts ">>>>>>>>> after each <<<<<<<<<<<< "
-    DatabaseCleaner[:active_record].clean
+    DatabaseCleaner.clean
     ActiveJob::Base.queue_adapter.enqueued_jobs = []
     ActiveJob::Base.queue_adapter.performed_jobs = []
   end
+
+
+  # Config DatabaseCleaner v2
+
+  # config.before(:suite) do
+  #   DatabaseCleaner.clean_with(:truncation)
+  # end
+  #
+  # config.before(:each) do
+  #   DatabaseCleaner.strategy = :transaction
+  # end
+  #
+  # config.before(:each, :js => true) do
+  #   DatabaseCleaner.strategy = :truncation
+  # end
+  #
+  # config.before(:each) do
+  #   DatabaseCleaner.start
+  # end
+  #
+  # config.after(:each) do
+  #   DatabaseCleaner.clean
+  # end
+
+
 end
