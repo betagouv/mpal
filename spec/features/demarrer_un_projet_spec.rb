@@ -16,7 +16,7 @@ feature "Démarrer un projet" do
     expect(page.current_path).to eq(new_session_path)
   end
 
-  scenario "depuis la page de connexion si je n'ai pas encore crée de projet" do
+  scenario "depuis la page de connexion, je recupere mes informations principales" do
     signin(12,15)
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
@@ -25,5 +25,17 @@ feature "Démarrer un projet" do
     expect(page).to have_content("12 rue de la Mare")
     expect(page).to have_content("75010")
     expect(page).to have_content("Paris")
+  end
+
+  scenario "depuis la page de connexion, j'ajoute une personne de confiance" do
+    signin(12,15)
+    projet = Projet.last
+    fill_in :prenom_personne_de_confiance, with: "Frank"
+    fill_in :nom, with: "Strazzeri"
+    fill_in :telephone, with: "0130201040"
+    fill_in :email, with: "frank@strazzeri.com"
+    fill_in :lien_parente, with: "Mon jazzman favori et neanmoins concubin"
+    click_button I18n.t('demarrage_projet.action')
+    expect(page.current_path).to eq(etape2_description_du_projet_path(projet))
   end
 end
