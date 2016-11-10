@@ -16,7 +16,7 @@ describe Invitation do
     expect(FactoryGirl.create(:invitation).token).to be_present
   end
 
-  it { is_expected.to delegate_method(:usager).to(:projet) }
+  it { is_expected.to delegate_method(:demandeur_principal).to(:projet) }
   it { is_expected.to delegate_method(:adresse).to(:projet) }
   it { is_expected.to delegate_method(:description).to(:projet) }
 

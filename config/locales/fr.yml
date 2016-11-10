@@ -96,7 +96,7 @@ fr:
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
-        titre: 'Félicitations %{usager}'
+        titre: 'Félicitations %{demandeur_principal}'
         corps: Votre projet démarre aujourd'hui.
     visualisation:
       lien_edition_projet: 'Modifier le projet'
@@ -164,11 +164,11 @@ fr:
   mailers:
     projet_mailer:
       invitation_intervenant:
-        sujet: "[ANAH] Invitation de %{usager} à consulter son projet"
+        sujet: "[ANAH] Invitation de %{demandeur_principal} à consulter son projet"
       notification_invitation_intervenant:
         sujet: "[ANAH] Invitation de %{intervenant} à consulter votre projet"
       notification_choix_intervenant:
-        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{usager} pour l'accompagner sur son projet"
+        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l'accompagner sur son projet"
       mise_en_relation_intervenant:
         sujet: "[ANAH] Mise en relation par %{intermediaire}"
   evenements:

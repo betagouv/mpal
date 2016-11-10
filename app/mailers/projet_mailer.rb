@@ -3,7 +3,7 @@ class ProjetMailer < ActionMailer::Base
 
   def invitation_intervenant(invitation)
     @invitation = invitation
-    mail(to: invitation.intervenant_email, subject: t('mailers.projet_mailer.invitation_intervenant.sujet', usager: @invitation.usager))
+    mail(to: invitation.intervenant_email, subject: t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur_principal: @invitation.demandeur_principal))
   end
 
   def notification_invitation_intervenant(invitation)
@@ -14,7 +14,7 @@ class ProjetMailer < ActionMailer::Base
 
   def notification_choix_intervenant(projet)
     @projet = projet
-    mail(to: @projet.operateur.email, subject: t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: @projet.operateur, usager: @projet.usager))
+    mail(to: @projet.operateur.email, subject: t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: @projet.operateur, demandeur_principal: @projet.demandeur_principal))
   end
 
   def mise_en_relation_intervenant(invitation)

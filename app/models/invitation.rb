@@ -9,7 +9,7 @@ class Invitation < ActiveRecord::Base
 
   before_create :generate_token
 
-  delegate :usager, to: :projet
+  delegate :demandeur_principal, to: :projet
   delegate :adresse, to: :projet
   delegate :description, to: :projet
 
