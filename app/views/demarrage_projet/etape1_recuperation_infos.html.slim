@@ -1,0 +1,11 @@
+div.class.ui.grid
+  div.twelve.wide.column
+    table.ui.definition.table
+      tbody
+        tr
+          td Demandeur principal #{bouton_modification_occupant(@projet_courant.demandeur_principal)}
+          td = @projet_courant.demandeur_principal
+        tr
+          td Adresse du logement à rénover #{ bouton_modification_projet(@projet_courant) if demandeur? }
+          td = @projet_courant.adresse
+
