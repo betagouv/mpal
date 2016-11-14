@@ -9,3 +9,18 @@ div.class.ui.grid
           td Adresse du logement à rénover #{ bouton_modification_projet(@projet_courant) if demandeur? }
           td = @projet_courant.adresse
 
+        = form_tag url: {controller: "demarrage_projet", action: "etape1_envoi_infos"} do 
+          = label_tag :personne_de_confiance_adresse
+          = text_field_tag :personne_de_confiance_adresse
+          = label_tag :personne_de_confiance_prenom
+          = text_field_tag :personne_de_confiance_prenom
+          = label_tag :personne_de_confiance_nom
+          = text_field_tag :personne_de_confiance_nom
+          = label_tag :personne_de_confiance_tel
+          = text_field_tag :personne_de_confiance_tel
+          = label_tag :personne_de_confiance_email
+          = text_field_tag :personne_de_confiance_email
+          = label_tag :personne_de_confiance_lien_avec_demandeur
+          = text_field_tag :personne_de_confiance_lien_avec_demandeur
+          = submit_tag t("demarrage_projet.action")
+

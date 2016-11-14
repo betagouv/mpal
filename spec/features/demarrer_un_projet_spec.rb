@@ -30,12 +30,19 @@ feature "Démarrer un projet" do
   scenario "depuis la page de connexion, j'ajoute une personne de confiance" do
     signin(12,15)
     projet = Projet.last
-    fill_in :prenom_personne_de_confiance, with: "Frank"
-    fill_in :nom, with: "Strazzeri"
-    fill_in :telephone, with: "0130201040"
-    fill_in :email, with: "frank@strazzeri.com"
-    fill_in :lien_parente, with: "Mon jazzman favori et neanmoins concubin"
+    fill_in :personne_de_confiance_prenom, with: "Frank"
+    fill_in :personne_de_confiance_nom, with: "Strazzeri"
+    fill_in :personne_de_confiance_tel, with: "0130201040"
+    fill_in :personne_de_confiance_email, with: "frank@strazzeri.com"
+    fill_in :personne_de_confiance_lien_avec_demandeur, with: "Mon jazzman favori et neanmoins concubin"
     click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape2_description_du_projet_path(projet))
+    expect(page.current_path).to eq(etape2_description_projet_path(projet))
+    
+    projet = Projet.last
+    expect(projet.personne_de_confiance.prenom).to eq("Frank")
+    expect(projet.personne_de_confiance.nom).to eq("Strazzeri")
+    expect(projet.personne_de_confiance.tel).to eq("0130201040")
+    expect(projet.personne_de_confiance.email).to eq("frank@strazzeri.com")
+    expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
   end
 end
