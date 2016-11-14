@@ -46,3 +46,16 @@ dans config/database.yml, la partie config a besoin d'un host qui sera localhost
 
 # Notes
 Kanban Zenhub sur ce projet
+
+# Wiki
+
+https://github.com/sgmap/mpal/wiki
+
+# Api utilisées (Voir dossier `app/services`)
+
+## Api particulier
+- https://particulier.api.gouv.fr/tech/#introduction
+- https://particulier.api.gouv.fr/docs/
+
+## Api ban
+- https://adresse.data.gouv.fr/api/
