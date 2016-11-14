@@ -145,6 +145,7 @@ ActiveRecord::Schema.define(version: 20161113171256) do
     t.string "nom"
     t.string "tel"
     t.string "email"
+    t.string "lien_avec_demandeur"
   end
 
   create_table "prestations", force: :cascade do |t|
