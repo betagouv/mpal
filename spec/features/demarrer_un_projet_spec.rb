@@ -27,6 +27,19 @@ feature "Démarrer un projet" do
     expect(page).to have_content("Paris")
   end
 
+  scenario "depuis la page de connexion, je modifie l'adresse du logement à rénover" do
+    signin(12,15)
+    projet = Projet.last
+    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
+    fill_in :adresse_logement_a_renover, with: "1 place Vendôme, 75001 Paris"
+    click_button I18n.t('demarrage_projet.action')
+    expect(page.current_path).to eq(etape2_description_projet_path(projet))
+    projet = Projet.last
+    expect(projet.adresse_ligne1).to eq("12 rue de la Mare")
+    expect(projet.code_postal).to eq("75010")
+    expect(projet.ville).to eq("Paris")
+  end
+
   scenario "depuis la page de connexion, j'ajoute une personne de confiance" do
     signin(12,15)
     projet = Projet.last

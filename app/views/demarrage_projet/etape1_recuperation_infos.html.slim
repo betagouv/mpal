@@ -6,10 +6,12 @@ div.class.ui.grid
           td Demandeur principal #{bouton_modification_occupant(@projet_courant.demandeur_principal)}
           td = @projet_courant.demandeur_principal
         tr
-          td Adresse du logement à rénover #{ bouton_modification_projet(@projet_courant) if demandeur? }
+          td Adresse
           td = @projet_courant.adresse
 
         = form_tag url: {controller: "demarrage_projet", action: "etape1_envoi_infos"} do 
+          = label_tag :adresse_logement_a_renover
+          = text_field_tag :adresse_logement_a_renover
           = label_tag :personne_de_confiance_adresse
           = text_field_tag :personne_de_confiance_adresse
           = label_tag :personne_de_confiance_prenom
