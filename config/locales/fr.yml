@@ -10,6 +10,9 @@ fr:
         adresse: "L'adresse de mon logement à rénover"
         description: 'Je présente mon projet en quelques phrases'
         tel: 'Mon numéro de téléphone'
+      civilite:
+        - M
+        - Mme
   menu:
     intervenants: "Intervenants"
   accueil:
