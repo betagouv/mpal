@@ -57,5 +57,12 @@ https://github.com/sgmap/mpal/wiki
 - https://particulier.api.gouv.fr/tech/#introduction
 - https://particulier.api.gouv.fr/docs/
 
+Exemple de requête : 
+
+curl "https://particulier-test.api.gouv.fr/api/impots/svair?numeroFiscal=12&referenceAvis=15" \
+  -H "X-API-KEY: test-token" \
+  -H "accept: application/json" \
+  -H "X-User: demo"
+
 ## Api ban
 - https://adresse.data.gouv.fr/api/
