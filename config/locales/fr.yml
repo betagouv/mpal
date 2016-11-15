@@ -36,7 +36,22 @@ fr:
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
     lien_deconnexion: "Se déconnecter"
   demarrage_projet:
-    action: "Je passe à l'étape 2"
+    action: "Je passe à l'étape suivante"
+    etape2_description_projet:
+      titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
+      froid: "J'ai froid, mon logement est mal isolé" 
+      energie: "Je veux réaliser des économies d’énergies"
+      probleme_deplacement: "J’ai du mal à me déplacer"
+      handicap: "Un des occupants est handicapé"
+      mauvais_etat: "Mon logement est globalement en mauvais état"
+      autres_besoins: "Autres besoins"
+      titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
+      changement_chauffage: "Changer mon système de chauffage"
+      isolation: "Isoler mon logement"
+      adaptation_salle_de_bain: "Adapter ma salle de bain"
+      accessibilite: "Rendre plus accessible mon logement"
+      travaux_importants: "Réaliser d’importants travaux (plusieurs des éléments ci-dessus et ou d’autres)"
+      autres_travaux: "Autres travaux"
   projets:
     statut:
       prospect: Prospect

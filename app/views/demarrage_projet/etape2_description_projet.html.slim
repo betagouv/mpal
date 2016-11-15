@@ -1,1 +1,37 @@
-Vous avez froid ?
+= form_for @demande, url: {controller: "demarrage_projet", action: "etape2_envoi_description_projet"} do |f|
+  h1= t('demarrage_projet.etape2_description_projet.titre_besoins')
+  = f.check_box :froid
+  = f.label t('demarrage_projet.etape2_description_projet.froid')
+
+  = f.check_box :probleme_deplacement
+  = f.label t('demarrage_projet.etape2_description_projet.probleme_deplacement')
+
+  = f.check_box :handicap
+  = f.label t('demarrage_projet.etape2_description_projet.handicap')
+
+  = f.check_box :mauvais_etat
+  = f.label t('demarrage_projet.etape2_description_projet.mauvais_etat')
+
+  = f.label t('demarrage_projet.etape2_description_projet.autres_besoins')
+  = f.text_area :autres_besoins
+
+  h1= t('demarrage_projet.etape2_description_projet.titre_travaux')
+  = f.check_box :changement_chauffage
+  = f.label t('demarrage_projet.etape2_description_projet.changement_chauffage')
+
+  = f.check_box :isolation
+  = f.label t('demarrage_projet.etape2_description_projet.isolation')
+
+  = f.check_box :adaptation_salle_de_bain
+  = f.label t('demarrage_projet.etape2_description_projet.adaptation_salle_de_bain')
+
+  = f.check_box :accessibilite
+  = f.label t('demarrage_projet.etape2_description_projet.accessibilite')
+
+  = f.check_box :travaux_importants
+  = f.label t('demarrage_projet.etape2_description_projet.travaux_importants')
+
+  = f.label t('demarrage_projet.etape2_description_projet.autres_travaux')
+  = f.text_area :autres_travaux
+
+  = f.submit t("demarrage_projet.action")

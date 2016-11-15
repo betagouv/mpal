@@ -27,7 +27,7 @@ feature "Démarrer un projet" do
     expect(page).to have_content("Paris")
   end
 
-  scenario "depuis la page de connexion, je modifie l'adresse du logement à rénover" do
+  scenario "je modifie l'adresse du logement à rénover" do
     signin(12,15)
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
@@ -40,7 +40,7 @@ feature "Démarrer un projet" do
     expect(projet.ville).to eq("Paris")
   end
 
-  scenario "depuis la page de connexion, j'ajoute une personne de confiance" do
+  scenario "j'ajoute une personne de confiance" do
     signin(12,15)
     projet = Projet.last
     fill_in :personne_de_confiance_prenom, with: "Frank"
@@ -57,5 +57,37 @@ feature "Démarrer un projet" do
     expect(projet.personne_de_confiance.tel).to eq("0130201040")
     expect(projet.personne_de_confiance.email).to eq("frank@strazzeri.com")
     expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
+  end
+
+  scenario "je décris précisément mes besoins" do
+    signin(12,15)
+    projet = Projet.last
+    visit etape2_description_projet_path(projet)
+    check('demande_froid')
+    check('demande_probleme_deplacement')
+    check('demande_handicap')
+    check('demande_mauvais_etat')
+    fill_in :demande_autres_besoins, with: "J'ai besoin d'un jacuzzi"
+    check('demande_changement_chauffage')
+    uncheck('demande_isolation')
+    check('demande_adaptation_salle_de_bain')
+    check('demande_accessibilite')
+    check('demande_travaux_importants')
+    fill_in :demande_autres_travaux, with: "Il faut construire une piste d'atterrissage d'un hélicoptère"
+    click_button I18n.t('demarrage_projet.action')
+    expect(page.current_path).to eq(etape3_infos_complementaires_path(projet))
+
+    projet = Projet.last
+    expect(projet.demande.froid).to be_truthy
+    expect(projet.demande.probleme_deplacement).to be_truthy
+    expect(projet.demande.handicap).to be_truthy
+    expect(projet.demande.mauvais_etat).to be_truthy
+    expect(projet.demande.autres_besoins).to eq("J'ai besoin d'un jacuzzi")
+    expect(projet.demande.changement_chauffage).to be_truthy
+    expect(projet.demande.isolation).not_to be_truthy
+    expect(projet.demande.adaptation_salle_de_bain).to be_truthy
+    expect(projet.demande.accessibilite).to be_truthy
+    expect(projet.demande.travaux_importants).to be_truthy
+    expect(projet.demande.autres_travaux).to eq("Il faut construire une piste d'atterrissage d'un hélicoptère")
   end
 end

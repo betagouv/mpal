@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161114165030) do
+ActiveRecord::Schema.define(version: 20161115102918) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,24 @@ ActiveRecord::Schema.define(version: 20161114165030) do
 
   add_index "commentaires", ["auteur_type", "auteur_id"], name: "index_commentaires_on_auteur_type_and_auteur_id", using: :btree
   add_index "commentaires", ["projet_id"], name: "index_commentaires_on_projet_id", using: :btree
+
+  create_table "demandes", force: :cascade do |t|
+    t.integer "projet_id"
+    t.boolean "froid"
+    t.boolean "energie"
+    t.boolean "probleme_deplacement"
+    t.boolean "handicap"
+    t.boolean "mauvais_etat"
+    t.string  "autres_besoins"
+    t.boolean "changement_chauffage"
+    t.boolean "isolation"
+    t.boolean "adaptation_salle_de_bain"
+    t.boolean "accessibilite"
+    t.boolean "travaux_importants"
+    t.string  "autres_travaux"
+  end
+
+  add_index "demandes", ["projet_id"], name: "index_demandes_on_projet_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.string   "label"
@@ -235,6 +253,7 @@ ActiveRecord::Schema.define(version: 20161114165030) do
   add_foreign_key "agents", "intervenants"
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "commentaires", "projets"
+  add_foreign_key "demandes", "projets"
   add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
   add_foreign_key "invitations", "intervenants"

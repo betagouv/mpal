@@ -18,6 +18,21 @@ class DemarrageProjetController < ApplicationController
   end
 
   def etape2_description_projet
+    @demande = @projet_courant.demande || @projet_courant.build_demande
   end
 
+  def etape2_envoi_description_projet
+    @projet_courant.demande = Demande.new(demande_params)
+    if @projet_courant.demande.save
+      redirect_to etape3_infos_complementaires_path(@projet_courant)
+    end
+  end
+
+  def etape3_infos_complementaires
+  end
+
+  private
+  def demande_params
+    params.require(:demande).permit(:froid, :probleme_deplacement, :handicap, :mauvais_etat, :autres_besoins, :changement_chauffage, :isolation, :adaptation_salle_de_bain, :accessibilite, :travaux_importants, :autres_travaux )
+  end
 end
