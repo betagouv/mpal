@@ -1,6 +1,7 @@
 [![Build status](https://circleci.com/gh/sgmap/mpal.svg?style=shield&circle-token=50a0754f6e164ff97a3f479374102a568b750847)](https://circleci.com/gh/sgmap/mpal/tree/dev)
 
 # mpal
+
 Nom temporaire du produit : Mon Projet Amélioration du Logement
 
 # Fiche Produit
@@ -30,6 +31,7 @@ MPAL est la plateforme pour l'amélioration du logement qui réunit tous les act
 au service de votre projet.
 
 # Installation (sans passer par Docker)
+
 Nécessite redis, sidekiq
 La gem dotenv-rails vous oblige à copier les variables d'environnement de .env.sample vers .env
 dans config/database.yml, la partie config a besoin d'un host qui sera localhost
@@ -40,11 +42,16 @@ dans config/database.yml, la partie config a besoin d'un host qui sera localhost
 
 # Installation (avec Docker)
 
+`cp config/database.yml{.sample,}`
+`cp .env{.sample,}`
+`docker-compose run mpal db:setup`
+`docker-compose run mpal db:setup RAILS_ENV=test`
 `docker-compose up`
 
 `docker-compose run mpal rake intervenants:charger`
 
 # Notes
+
 Kanban Zenhub sur ce projet
 
 # Wiki
@@ -57,7 +64,7 @@ https://github.com/sgmap/mpal/wiki
 - https://particulier.api.gouv.fr/tech/#introduction
 - https://particulier.api.gouv.fr/docs/
 
-Exemple de requête : 
+Exemple de requête :
 
 curl "https://particulier-test.api.gouv.fr/api/impots/svair?numeroFiscal=12&referenceAvis=15" \
   -H "X-API-KEY: test-token" \
@@ -65,4 +72,5 @@ curl "https://particulier-test.api.gouv.fr/api/impots/svair?numeroFiscal=12&refe
   -H "X-User: demo"
 
 ## Api ban
+
 - https://adresse.data.gouv.fr/api/
