@@ -129,9 +129,16 @@ h2.ui.horizontal.divider {
 }
 
 /* Premières étapes */
-
 .blocs-info {
-  margin: 10 10 10 10;
+  margin: 2em 2em 2em 2em;
+}
+
+.blocs-info h3.ui.header {
+  margin: 2em;
+}
+
+.blocs-info h2.ui.header {
+  margin: 2em;
 }
 
 .checkbox-inline {

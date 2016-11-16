@@ -1,5 +1,5 @@
 = form_for @demande, url: {controller: 'demarrage_projet', action: 'etape2_envoi_description_projet'}, html: { class:'ui form'}  do |f|
-  h2.ui.horizontal.divider.header = t('demarrage_projet.etape2_description_projet.titre_besoins')
+  h2.ui.horizontal.divider.header = t('demarrage_projet.etape2_description_projet.titre')
   .field
     = f.check_box :froid, class: 'checkbox-inline'
     = f.label t('demarrage_projet.etape2_description_projet.froid')

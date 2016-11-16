@@ -1,70 +1,63 @@
-div.class.ui.grid
-  div.twelve.wide.column
-    h2.ui.horizontal.divider.header
-      | Récapitulatif des informations disponibles vous concernant
-    table.ui.definition.table
-      tbody
-        tr
-          td Demandeur principal #{bouton_modification_occupant(@projet_courant.demandeur_principal)}
-          td = @projet_courant.demandeur_principal
-        tr
-          td Adresse postale
-          td = @projet_courant.adresse
-        tr
-          td Revenu Fiscal de Référence
-          td  = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).revenu_fiscal_reference
-        tr
-          td Année Avis d'imposition
-          td = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).annee_impots
-        tr
-          td Nombre d'occupants supposé (nombre de parts)
-          td = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).nombre_parts
 
-  br
-  br
+.blocs-info
+  h2.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
+  table.ui.definition.table
+    tbody
+      tr
+        td =t('demarrage_projet.etape1_demarrage_projet.demandeur_principal')
+        td = @projet_courant.demandeur_principal
+      tr
+        td = t('demarrage_projet.etape1_demarrage_projet.adresse_postale')
+        td = @projet_courant.adresse
+      tr
+        td = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
+        td  = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).revenu_fiscal_reference
+      tr
+        td = t('demarrage_projet.etape1_demarrage_projet.anne_imposition')
+        td = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).annee_impots
+      tr
+        td = t('demarrage_projet.etape1_demarrage_projet.nombre_occupant')
+        td = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).nombre_parts
 
-  h2.ui.horizontal.divider.header
-    | Informations complémentaires
+.blocs-info
+  h2.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.infos_complementaires')
 
   = form_tag({controller: 'demarrage_projet', action: 'etape1_envoi_infos'}, method: 'post', class:'ui form' ) do
 
-    h3.ui.horizontal.divider.header
-      | Adresse du logement à renover (si différente de l'adresse fiscale)
+    h3.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
     div.field
-      = label_tag :adresse_logement_a_renover
-      = text_field_tag :adresse_logement_a_renover, placeholder: @projet_courant.adresse
+      = label_tag t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
+      = text_field_tag :adresse_logement_a_renover, placeholder=(@projet_courant.adresse)
 
-    h3.ui.horizontal.divider.header
-      | Comment pouvons nous vous recontacter ?
+    h3.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.infos_contact')
     div.two.fields
       div.field
-        = label_tag :tel
+        = label_tag t('demarrage_projet.etape1_demarrage_projet.telephone')
         = text_field_tag :tel
       div.field
-        = label_tag :e_mail
+        = label_tag t('demarrage_projet.etape1_demarrage_projet.email')
         = text_field_tag :e_mail
-
-    h3.ui.horizontal.divider.header
-      | Souhaitez-vous indiquer une personne de confiance à contacter ?
+  
+    h3.ui.horizontal.divider.header = t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
     div.three.fields
       div.field
-        = label_tag :civilite
+        = label_tag t('demarrage_projet.etape1_demarrage_projet.civilite')
         = select_tag :civilite, options_for_select(t('helpers.label.civilite'))
       div.field
-        = label_tag :personne_de_confiance_prenom
+        = label_tag t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_prenom')
         = text_field_tag :personne_de_confiance_prenom
       div.field
-        = label_tag :personne_de_confiance_nom
+        = label_tag t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_nom')
         = text_field_tag :personne_de_confiance_nom
     div.two.fields
       div.field
-        = label_tag :personne_de_confiance_tel
+        = label_tag t('demarrage_projet.etape1_demarrage_projet.telephone')
         = text_field_tag :personne_de_confiance_tel
       div.field
-        = label_tag :personne_de_confiance_email
+        = label_tag t('demarrage_projet.etape1_demarrage_projet.email')
         = text_field_tag :personne_de_confiance_email
     div.field
-     = label_tag :personne_de_confiance_lien_avec_demandeur
+     = label_tag t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_lien')
      = text_field_tag :personne_de_confiance_lien_avec_demandeur, placeholder=("Soeur, etc.")
     br
-    = submit_tag t("demarrage_projet.action"), class:'ui primary button'
+    = submit_tag t('demarrage_projet.action'), class:'ui primary button'
