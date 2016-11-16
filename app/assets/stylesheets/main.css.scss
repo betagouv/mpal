@@ -145,3 +145,15 @@ h2.ui.horizontal.divider {
   float: left;
   margin: 0 0.5em 0 0;
 }
+
+.btn-suivant {
+  -webkit-border-radius: 9;
+  -moz-border-radius: 9;
+  border-radius: 9px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #ED1556;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
