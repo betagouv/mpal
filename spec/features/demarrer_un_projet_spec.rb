@@ -90,4 +90,26 @@ feature "Démarrer un projet" do
     expect(projet.demande.travaux_importants).to be_truthy
     expect(projet.demande.autres_travaux).to eq("Il faut construire une piste d'atterrissage d'un hélicoptère")
   end
+
+  scenario "j'ajoute des infos complémentaires" do
+    signin(12,15)
+    projet = Projet.last
+    visit etape3_infos_complementaires_path(projet)
+    check('demande_ptz')
+    check('demande_devis')
+    check('demande_travaux_engages')
+    fill_in :demande_annee_construction, with: "1930"
+    check('demande_maison_individuelle')
+    click_button I18n.t('demarrage_projet.action')
+    expect(page.current_path).to eq(etape4_choix_operateur_path(projet))
+
+    projet = Projet.last
+    expect(projet.demande.ptz).to be_truthy
+    expect(projet.demande.devis).to be_truthy
+    expect(projet.demande.travaux_engages).to be_truthy
+    expect(projet.demande.annee_construction).to eq("1930")
+    expect(projet.demande.maison_individuelle).to be_truthy
+
+    
+  end
 end

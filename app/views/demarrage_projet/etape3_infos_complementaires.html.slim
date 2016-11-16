@@ -1,1 +1,19 @@
-Infos complementaires
+= form_for(@demande, url: {controller: 'demarrage_projet', action: 'etape3_envoi_infos_complementaires'}, method: 'post', class:'ui form' ) do |f|
+  div.field
+    = f.check_box :ptz
+    = f.label t('demarrage_projet.etape3_description_projet.ptz')
+  div.field
+    = f.check_box :devis
+    = f.label t('demarrage_projet.etape3_description_projet.devis')
+  div.field
+    = f.check_box :travaux_engages
+    = f.label t('demarrage_projet.etape3_description_projet.travaux_engages')
+  div.field
+    = f.label :annee_construction
+    = f.text_field :annee_construction
+  div.field
+    = f.check_box :maison_individuelle
+    = f.label t('demarrage_projet.etape3_description_projet.maison_individuelle')
+
+  br
+  = submit_tag t("demarrage_projet.action"), class:'ui primary button'
