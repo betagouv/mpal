@@ -75,11 +75,14 @@ fr:
       travaux_importants: "Réaliser d’importants travaux (plusieurs des éléments ci-dessus et ou d’autres)"
       autres_travaux: "Autres travaux"
     etape3_description_projet:
+      titre: "Informations facultatives"
       ptz: "Avez-vous benéficié d'un PTZ ?"
       devis: "Disposez-vous des devis pour les travaux envisagés ?"
       travaux_engages: "Avez-vous déjà engagé des travaux ?"
       maison_individuelle: "S'agit-il d'une maison individuelle ?"
       anne_construction: "Quelle est l'année d'achèvement de construction de votre logement ?"
+    etape4_choix_operateur:
+      titre: "Choisissez votre opérateur"
   projets:
     statut:
       prospect: Prospect
