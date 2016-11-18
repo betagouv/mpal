@@ -38,26 +38,27 @@
         = f.text_field :email
 
     h3.ui.horizontal.divider.header = t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
-    = f.fields_for :personnes do |info_personne|
+    = f.fields_for :personne_de_confiance do |ff|
       .three.fields
         .field
-          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.civilite')
-          = select_tag :civilite, options_for_select(t('helpers.label.civilite'))
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.civilite')
+          = ff.select :civilite, options_for_select(t('helpers.label.civilite'))
         .field
-          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_prenom')
-          = info_personne.text_field :personne_de_confiance_prenom
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_prenom')
+          = ff.text_field :prenom
         .field
-          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_nom')
-          = info_personne.text_field :personne_de_confiance_nom
-      .two.fields
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_nom')
+          = ff.text_field :nom
+      .three.fields
         .field
-          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.telephone')
-          = info_personne.text_field :personne_de_confiance_tel
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.telephone')
+          = ff.text_field :tel
         .field
-          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.email')
-          = info_personne.text_field :personne_de_confiance_email
-      .field
-       = info_personne.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_lien')
-       = info_personne.text_field :personne_de_confiance_lien_avec_demandeur
-      br
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.email')
+          = ff.text_field :email
+        .field
+         = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_lien')
+         = ff.text_field :lien_avec_demandeur
+
+    br
     = submit_tag t('demarrage_projet.action'), class:'btn-suivant'

@@ -43,28 +43,24 @@ feature "Démarrer un projet" do
   scenario "j'ajoute une personne de confiance" do
     signin(12,15)
     projet = Projet.last
-    fill_in :projet_personnes_personne_de_confiance_prenom, with: "Frank"
-    fill_in :projet_personnes_personne_de_confiance_nom, with: "Strazzeri"
-    fill_in :projet_personnes_personne_de_confiance_tel, with: "0130201040"
-    fill_in :projet_personnes_personne_de_confiance_email, with: "frank@strazzeri.com"
-    fill_in :projet_personnes_personne_de_confiance_lien_avec_demandeur, with: "Mon jazzman favori et neanmoins concubin"
+
+    fill_in 'projet_personne_de_confiance_attributes_prenom', with: "Frank"
+    fill_in 'projet_personne_de_confiance_attributes_nom', with: "Strazzeri"
+    fill_in 'projet_personne_de_confiance_attributes_tel', with: "0130201040"
+    fill_in 'projet_personne_de_confiance_attributes_email', with: "frank@strazzeri.com"
+    fill_in 'projet_personne_de_confiance_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
+    fill_in 'projet_tel', with: "06 06 06 06 06"
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape2_description_projet_path(projet))
 
     projet = Projet.last
+    expect(projet.tel).to eq("06 06 06 06 06")
     expect(projet.personne_de_confiance.prenom).to eq("Frank")
     expect(projet.personne_de_confiance.nom).to eq("Strazzeri")
     expect(projet.personne_de_confiance.tel).to eq("0130201040")
     expect(projet.personne_de_confiance.email).to eq("frank@strazzeri.com")
     expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
   end
-
-  # scenario "j'ajoute mon numéro de téléphone et mon adresse e-mail" do
-  #   signin(12,15)
-  #   projet = Projet.last
-  #   fill_in :tel, with: "06 06 06 06 06"
-  #   expect(projet.tel).to eq("06 06 06 06 06")
-  # end
 
   scenario "je décris précisément mes besoins" do
     signin(12,15)
