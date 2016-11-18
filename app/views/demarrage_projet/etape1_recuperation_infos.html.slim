@@ -21,42 +21,43 @@
 .blocs-info
   h2.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.infos_complementaires')
 
-  = form_tag({controller: 'demarrage_projet', action: 'etape1_envoi_infos'}, method: 'post', class:'ui form' ) do
+  = form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'etape1_envoi_infos'}, method: 'post', html: { class:'ui form'}  do |f|
 
     h3.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
-    div.field
-      = label_tag t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
-      = text_field_tag :adresse_logement_a_renover, placeholder=(@projet_courant.adresse)
+    .field
+      = f.label t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
+      = f.text_field :adresse
 
     h3.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.infos_contact')
-    div.two.fields
-      div.field
-        = label_tag t('demarrage_projet.etape1_demarrage_projet.telephone')
-        = text_field_tag :tel
-      div.field
-        = label_tag t('demarrage_projet.etape1_demarrage_projet.email')
-        = text_field_tag :e_mail
+    .two.fields
+      .field
+        = f.label t('demarrage_projet.etape1_demarrage_projet.telephone')
+        = f.text_field :tel
+      .field
+        = f.label t('demarrage_projet.etape1_demarrage_projet.email')
+        = f.text_field :email
 
     h3.ui.horizontal.divider.header = t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
-    div.three.fields
-      div.field
-        = label_tag t('demarrage_projet.etape1_demarrage_projet.civilite')
-        = select_tag :civilite, options_for_select(t('helpers.label.civilite'))
-      div.field
-        = label_tag t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_prenom')
-        = text_field_tag :personne_de_confiance_prenom
-      div.field
-        = label_tag t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_nom')
-        = text_field_tag :personne_de_confiance_nom
-    div.two.fields
-      div.field
-        = label_tag t('demarrage_projet.etape1_demarrage_projet.telephone')
-        = text_field_tag :personne_de_confiance_tel
-      div.field
-        = label_tag t('demarrage_projet.etape1_demarrage_projet.email')
-        = text_field_tag :personne_de_confiance_email
-    div.field
-     = label_tag t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_lien')
-     = text_field_tag :personne_de_confiance_lien_avec_demandeur, placeholder=("Soeur, etc.")
-    br
+    = f.fields_for :personnes do |info_personne|
+      .three.fields
+        .field
+          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.civilite')
+          = select_tag :civilite, options_for_select(t('helpers.label.civilite'))
+        .field
+          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_prenom')
+          = info_personne.text_field :personne_de_confiance_prenom
+        .field
+          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_nom')
+          = info_personne.text_field :personne_de_confiance_nom
+      .two.fields
+        .field
+          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.telephone')
+          = info_personne.text_field :personne_de_confiance_tel
+        .field
+          = info_personne.label t('demarrage_projet.etape1_demarrage_projet.email')
+          = info_personne.text_field :personne_de_confiance_email
+      .field
+       = info_personne.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_lien')
+       = info_personne.text_field :personne_de_confiance_lien_avec_demandeur
+      br
     = submit_tag t('demarrage_projet.action'), class:'btn-suivant'

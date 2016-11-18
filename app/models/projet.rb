@@ -1,7 +1,8 @@
 class Projet < ActiveRecord::Base
 
   enum statut: [ :prospect, :en_cours, :transmis_pour_instruction, :en_cours_d_instruction ]
-  belongs_to :personne_de_confiance, class_name: "Personne", foreign_key: "personne_id"
+  has_one :personne_de_confiance, class_name: "Personne", foreign_key: "projet_id"
+  accepts_nested_attributes_for :personne_de_confiance
   has_one :demande
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy

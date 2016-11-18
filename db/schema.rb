@@ -164,12 +164,15 @@ ActiveRecord::Schema.define(version: 20161115150618) do
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
 
   create_table "personnes", force: :cascade do |t|
-    t.string "prenom"
-    t.string "nom"
-    t.string "tel"
-    t.string "email"
-    t.string "lien_avec_demandeur"
+    t.string  "prenom"
+    t.string  "nom"
+    t.string  "tel"
+    t.string  "email"
+    t.string  "lien_avec_demandeur"
+    t.integer "projet_id"
   end
+
+  add_index "personnes", ["projet_id"], name: "index_personnes_on_projet_id", using: :btree
 
   create_table "prestations", force: :cascade do |t|
     t.string   "libelle"

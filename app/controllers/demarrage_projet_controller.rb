@@ -1,16 +1,14 @@
 class DemarrageProjetController < ApplicationController
   def etape1_recuperation_infos
+    # définir projet courant ici car le formulaire le renvoi pas ?
   end
 
   def etape1_envoi_infos
-    personne_de_confiance = Personne.new
-    personne_de_confiance.prenom = params[:personne_de_confiance_prenom]
-    personne_de_confiance.nom = params[:personne_de_confiance_nom]
-    personne_de_confiance.tel = params[:personne_de_confiance_tel]
-    personne_de_confiance.email = params[:personne_de_confiance_email]
-    personne_de_confiance.lien_avec_demandeur = params[:personne_de_confiance_lien_avec_demandeur]
-    @projet_courant.personne_de_confiance = personne_de_confiance
-    if @projet_courant.save
+    @projet_courant.personne_de_confiance = projet_personne_de_confiance
+    puts "--------valeur de p courant  ------ #{@projet_courant}------------------"
+    @projet_courant.update_attributes(projet_moyen_contact_params)
+    puts "---------- update du tel et mail ------- "
+    if @projet_courant.personne_de_confiance.update_attributes(projet_personne_de_confiance_params)
       redirect_to etape2_description_projet_path(@projet_courant)
     else
       render :etape1_recuperation_infos
@@ -45,6 +43,19 @@ class DemarrageProjetController < ApplicationController
   private
   def projet_demande
     @projet_courant.demande || @projet_courant.build_demande
+  end
+
+  def projet_personne_de_confiance
+    @projet_courant.build_personne_de_confiance
+    puts "-------- valeur p confiance #{@projet_courant.personne_de_confiance} ----- "
+  end
+
+  def projet_moyen_contact_params
+    params.permit(:tel, :email)
+  end
+
+  def projet_personne_de_confiance_params
+    params.permit(:projet_personnes_personne_de_confiance_prenom, :projet_personnes_personne_de_confiance_nom, :projet_personnes_personne_de_confiance_tel, :projet_personnes_personne_de_confiance_email, :projet_personnes_personne_de_confiance_lien_avec_demandeur)
   end
 
   def demande_params
