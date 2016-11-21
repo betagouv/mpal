@@ -112,7 +112,13 @@ feature "Démarrer un projet" do
     expect(projet.demande.travaux_engages).to be_truthy
     expect(projet.demande.annee_construction).to eq("1930")
     expect(projet.demande.maison_individuelle).to be_truthy
+  end
 
-
+  scenario "J'invite le pris ou un opérateur à consulter mon projet" do
+    signin(12,15)
+    projet = Projet.last
+    pris = FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:pris])
+    visit etape4_choix_operateur_path(projet)
+    expect(page).to have_link(I18n.t('projets.visualisation.invitation_intervenant'))
   end
 end
