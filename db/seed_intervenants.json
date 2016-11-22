@@ -1,5 +1,20 @@
 [
   {
+    "raison_sociale": "Citemetrie 75",
+    "roles": ["operateur"],
+    "departements" : ["75"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
+    "email": "citemetrie75@mailinator.com"
+  },
+  {
+    "raison_sociale": "Centre Information Habitat Adil 75",
+    "roles": ["pris"],
+    "departements": ["75"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
+    "adresse_postale": "13 rue Crespin du Gast, 75011 Paris",
+    "email": "adil_75@mailinator.com"
+  },
+  {
     "raison_sociale": "Citemetrie",
     "roles": ["operateur"],
     "departements" : ["95"],

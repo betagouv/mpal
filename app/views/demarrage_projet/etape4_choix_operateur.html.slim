@@ -23,7 +23,7 @@
      h4 Je souhaite me renseigner gratuitement sur l'ensemble des aides pour la rénovation de mon logement
      div.ui.cards
        - @pris_departement.each do |intervenant|
-         = render partial: 'intervenants/intervenant_demandeur', locals: {projet: @projet_courant, intervenant: intervenant, avec_invitation: true, avec_choix: false }
+         = render partial: 'intervenants/intervenant_demarrage', locals: {projet: @projet_courant, intervenant: intervenant, avec_invitation: true, avec_choix: false }
  p
 
  - if @operateurs_disponibles.present?
@@ -32,5 +32,5 @@
 
    div.ui.cards.disponibles
      - @operateurs_disponibles.each do |intervenant|
-       = render partial: 'intervenants/intervenant_demandeur', locals: {projet: @projet_courant, intervenant: intervenant, avec_invitation: true, avec_choix: false }
+       = render partial: 'intervenants/intervenant_demarrage', locals: {projet: @projet_courant, intervenant: intervenant, avec_invitation: true, avec_choix: false }
  br

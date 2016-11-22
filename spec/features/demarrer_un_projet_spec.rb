@@ -117,8 +117,12 @@ feature "Démarrer un projet" do
   scenario "J'invite le pris ou un opérateur à consulter mon projet" do
     signin(12,15)
     projet = Projet.last
-    pris = FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:pris])
+    operateur = FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:operateur])
     visit etape4_choix_operateur_path(projet)
-    expect(page).to have_link(I18n.t('projets.visualisation.invitation_intervenant'))
+    within "#intervenant_#{operateur.id}" do
+      click_link I18n.t('projets.visualisation.invitation_intervenant')
+    end
+    expect(page.current_path).to eq(projet_path(projet))
+    expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: operateur.raison_sociale))
   end
 end

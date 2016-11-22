@@ -40,6 +40,20 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
+  def etape4_envoi_choix_operateur
+    @intervenant = Intervenant.find(params[:intervenant_id])
+    @invitation = Invitation.new(projet: @projet_courant, intervenant: @intervenant)
+    if @invitation.save
+      ProjetMailer.invitation_intervenant(@invitation).deliver_later!
+      ProjetMailer.notification_invitation_intervenant(@invitation).deliver_later!
+      EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: @projet_courant, producteur: @invitation)
+      flash[:notice_titre] = t('invitations.messages.succes_titre')
+      redirect_to projet_path(@projet_courant), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
+    else
+      render :etape4_choix_operateur
+    end
+  end
+
   private
   def projet_demande
     @projet_courant.demande || @projet_courant.build_demande
