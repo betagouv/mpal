@@ -15,6 +15,14 @@
     "email": "adil_75@mailinator.com"
   },
   {
+    "raison_sociale": "Centre Information Habitat Adil 75001",
+    "roles": ["pris"],
+    "departements": ["75"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
+    "adresse_postale": "4 place du Louvre, 75001 Paris",
+    "email": "adil_75@mailinator.com"
+  },
+  {
     "raison_sociale": "Citemetrie",
     "roles": ["operateur"],
     "departements" : ["95"],
@@ -22,7 +30,7 @@
     "email": "citemetrie95@mailinator.com"
   },
   {
-    "raison_sociale": "Centre Information Habitat Adil 95",
+    "raison_sociale": "Centre Information Habitat Adil 95 Eaubonne",
     "roles": ["pris"],
     "departements": ["95"],
     "themes": ["autonomie", "insalubrité", "énergie"],
@@ -30,7 +38,7 @@
     "email": "adil_eaubonne_95@mailinator.com"
   },
   {
-    "raison_sociale": "Centre Information Habitat Adil 95",
+    "raison_sociale": "Centre Information Habitat Adil 95 Sarcelles",
     "roles": ["pris"],
     "departements": ["95"],
     "themes": ["autonomie", "insalubrité", "énergie"],
