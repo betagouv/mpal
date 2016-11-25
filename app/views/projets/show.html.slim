@@ -1,108 +1,45 @@
 div.class.ui.grid
   div.twelve.wide.column
-    - if @invitations_demandeur.empty?
-      .ui.warning.message
-        .header
-          p Félicitations ! Vous avez initialisé votre projet et nous avons pu récupérer certaines informations grâce à votre numéro fiscal.
-          p Vous pouvez compléter votre projet ou bien contactez une structure qui pourra vous accompagner dans votre demande d'aide Anah.
-          p Vous n'avez encore invité personne à consulter votre projet. Rendez-vous simplement sur la page #{link_to 'Intervenants', projet_intervenants_path(@projet_courant)} et invitez des opérateurs !
-
-    = render partial: 'eligibilite' if demandeur?
-
-    h2.ui.horizontal.divider.header
-      i.tag.icon
-      = t('projets.visualisation.titre_description_projet')
-    table.ui.definition.table
-      tbody
-        tr
-          td Demandeur principal #{bouton_modification_occupant(@projet_courant.demandeur_principal)}
-          td = @projet_courant.demandeur_principal
-        tr
-          td Adresse du logement à rénover #{ bouton_modification_projet(@projet_courant) if demandeur? }
-          td = @projet_courant.adresse
-
-        tr
-          td Année de construction #{bouton_modification_projet(@projet_courant) if demandeur?}
-          td =@projet_courant.annee_construction
-
-        - if @utilisateur_courant.is_a? Occupant
-
-          tr
-            td Email de contact #{bouton_modification_projet(@projet_courant) if demandeur?}
-            td = @projet_courant.email
-          tr
-            td Numéro de téléphone #{bouton_modification_projet(@projet_courant) if demandeur?}
-            td = @projet_courant.tel
-          tr
-            td Nature du projet #{bouton_modification_projet(@projet_courant) if demandeur?}
-            td = @projet_courant.description
-    = link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
-
-    div#autorisations
-      br
-      input type="checkbox"
-        |  J’atteste sur l’honneur
-        ul
-          li  l’exactitude  des informations relatives à l’occupation du logement et aux revenus communiquées ci-avant ;
-          li  et que je suis propriétaire du logement à rénover
-
-    = render partial: 'compositions/show'
-    = render partial: 'calculerevenus'
-
-    = render partial: 'commentaires' if intervenant?
-
-    h2.ui.horizontal.divider.header
-      i.map.icon
-      = "Carte"
-
-    div.ui.container.eight.wide.column
-      div#mapid
-      br
-
-  div.four.wide.column
-    - if demandeur?
-      .div
-        h2 = t('projets.visualisation.titre_infos_demandeur')
-        = bouton_modification_projet(@projet_courant) if demandeur?
-        ul.infos-demandeur
-        li.hide
-          = icone_presence(@projet_courant, :email)
-          = @projet_courant.email
-        li.hide
-          = icone_presence(@projet_courant, :tel)
-          = @projet_courant.tel
-          li.hide
-            = icone_presence(@projet_courant, :adresse)
-            = @projet_courant.adresse
-          li.hide
-            = icone_presence(@projet_courant, :annee_construction)
-            = @projet_courant.annee_construction
-          li.hide
-            = icone_nombre_occupant(@projet_courant)
-            = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
-          li.hide
-            = icone_revenus(@projet_courant, 2015)
-            = calcul_revenu_fiscal_reference_total(2015) if calcul_revenu_fiscal_reference_total(2015)
-
-    - if demandeur?
-        .div
-          h2 Mon opérateur
-          | Vous ne vous êtes pas encore engagé avec un opérateur
-
-    - if @role_utilisateur == :intervenant && @utilisateur_courant.instructeur?
-      h2 = t('projets.creation_opal.titre_creation_opal')
-      - if @projet_courant.transmis_pour_instruction?
-        = form_tag(projet_dossiers_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
-          = submit_tag t('projets.visualisation.creer_dossier_opal'), class:'ui primary button'
-      - else
-        = "Dossier #{@projet_courant.opal_numero}" if @projet_courant.opal_numero.present?
-
-    h2 = t('projets.visualisation.titre_fil_actualite')
-    div.ui.feed
-      - @projet_courant.evenements.each do |evenement|
-        div.event
-          div.label
-            i class=("#{icone_evenement(evenement.label)} icon")
-          div.content
-            div.summary = evenement
-            div.date = l(evenement.quand, format: :short)
+    h2 class="ui horizontal divider header"
+      i class="tag icon"
+      = "Projet souhaité"
+    h3 Quelles difficultés rencontrez-vous dans le logement ?
+    ul
+      - if @projet_courant.demande.froid
+        li= t("demarrage_projet.etape2_description_projet.froid") 
+      - if @projet_courant.demande.probleme_deplacement
+        li= t("demarrage_projet.etape2_description_projet.probleme_deplacement") 
+      - if @projet_courant.demande.handicap
+        li= t("demarrage_projet.etape2_description_projet.handicap")
+      - if @projet_courant.demande.mauvais_etat
+        li= t("demarrage_projet.etape2_description_projet.mauvais_etat")
+      - if @projet_courant.demande.autres_besoins.present?
+        li= t("demarrage_projet.etape2_description_projet.autres_besoins")
+    br
+    h3 Quels travaux souhaitez-vous réaliser ?
+    ul
+      - if @projet_courant.demande.changement_chauffage
+        li= t("demarrage_projet.etape2_description_projet.changement_chauffage")
+      - if @projet_courant.demande.isolation
+        li= t("demarrage_projet.etape2_description_projet.isolation")
+      - if @projet_courant.demande.adaptation_salle_de_bain
+        li= t("demarrage_projet.etape2_description_projet.adaptation_salle_de_bain")
+      - if @projet_courant.demande.accessibilite
+        li= t("demarrage_projet.etape2_description_projet.accessibilite")
+      - if @projet_courant.demande.travaux_importants
+        li= t("demarrage_projet.etape2_description_projet.travaux_importants")
+      - if @projet_courant.demande.autres_travaux.present?
+        li= t("demarrage_projet.etape2_description_projet.autres_travaux")
+    br
+    h3 Souhaitez-vous communiquer des informations supplémentaires ?
+    ul
+      - if @projet_courant.demande.ptz
+        li= t("demarrage_projet.etape3_infos_complementaires.ptz")
+      - if @projet_courant.demande.devis
+        li= t("demarrage_projet.etape3_infos_complementaires.devis")
+      - if @projet_courant.demande.travaux_engages
+        li= t("demarrage_projet.etape3_infos_complementaires.travaux_engages")
+      - if @projet_courant.demande.annee_construction.present?
+        li= t("demarrage_projet.etape3_infos_complementaires.annee_construction")
+      - if @projet_courant.demande.maison_individuelle
+        li= t("demarrage_projet.etape3_infos_complementaires.maison_individuelle")
