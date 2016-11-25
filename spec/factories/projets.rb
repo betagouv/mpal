@@ -9,6 +9,7 @@ FactoryGirl.define do
     code_postal '75010'
     after(:create) do |projet, evaluator|
       create_list(:demandeur, 1, projet: projet)
+      create(:demande, projet: projet)
     end
   end
 end

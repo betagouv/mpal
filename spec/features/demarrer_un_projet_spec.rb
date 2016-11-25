@@ -6,6 +6,7 @@ require 'support/api_ban_helper'
 feature "Démarrer un projet" do
   before do
     Projet.destroy_all
+    Demande.destroy_all
     Invitation.destroy_all
     Occupant.destroy_all
   end
@@ -117,6 +118,7 @@ feature "Démarrer un projet" do
   scenario "J'invite le pris ou un opérateur à consulter mon projet" do
     signin(12,15)
     projet = Projet.last
+    projet.demande = FactoryGirl.create(:demande)
     operateur = FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:operateur])
     visit etape4_choix_operateur_path(projet)
     within "#intervenant_#{operateur.id}" do
