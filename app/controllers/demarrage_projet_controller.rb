@@ -21,7 +21,7 @@ class DemarrageProjetController < ApplicationController
       @projet_courant.demande.update_attributes(demande_params)
       redirect_to etape3_infos_complementaires_path(@projet_courant)
     else
-      redirect_to etape2_description_projet_path(@projet_courant), alert: t('etape2_description_projet.erreurs.besoin_obligatoire')
+      redirect_to etape2_description_projet_path(@projet_courant), alert: t('demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire')
     end
   end
 

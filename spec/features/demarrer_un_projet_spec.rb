@@ -101,7 +101,7 @@ feature "Démarrer un projet" do
     visit etape2_description_projet_path(projet)
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape2_description_projet_path(projet))
-    expect(page).to have_content(I18n.t("etape2_description_projet.erreurs.besoin_obligatoire"))
+    expect(page).to have_content(I18n.t("demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire"))
   end
 
   scenario "j'ajoute des infos complémentaires" do
