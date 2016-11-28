@@ -17,10 +17,14 @@ class DemarrageProjetController < ApplicationController
 
   def etape2_envoi_description_projet
     @projet_courant.demande = projet_demande
-    if @projet_courant.demande.update_attributes(demande_params)
+    if etape2_valide?
+      @projet_courant.demande.update_attributes(demande_params)
       redirect_to etape3_infos_complementaires_path(@projet_courant)
+    else
+      redirect_to etape2_description_projet_path(@projet_courant), alert: t('etape2_description_projet.erreurs.besoin_obligatoire')
     end
   end
+
 
   def etape3_infos_complementaires
     @demande = projet_demande
@@ -65,6 +69,15 @@ class DemarrageProjetController < ApplicationController
 
   def demande_params
     params.require(:demande).permit(:froid, :probleme_deplacement, :handicap, :mauvais_etat, :autres_besoins, :changement_chauffage, :isolation, :adaptation_salle_de_bain, :accessibilite, :travaux_importants, :autres_travaux )
+  end
+
+  def etape2_valide?
+    result = false
+    return true if demande_params[:autres_besoins].present? || demande_params[:autres_travaux].present?
+    demande_params.each_pair do |attribute,value|
+      result = result || value == "1"
+    end
+    result
   end
 
   def demande_infos_complementaires_params

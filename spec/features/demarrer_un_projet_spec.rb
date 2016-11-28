@@ -95,6 +95,15 @@ feature "Démarrer un projet" do
     expect(projet.demande.autres_travaux).to eq("Il faut construire une piste d'atterrissage d'un hélicoptère")
   end
 
+  scenario "je ne décris aucun besoin" do
+    signin(12,15)
+    projet = Projet.last
+    visit etape2_description_projet_path(projet)
+    click_button I18n.t('demarrage_projet.action')
+    expect(page.current_path).to eq(etape2_description_projet_path(projet))
+    expect(page).to have_content(I18n.t("etape2_description_projet.erreurs.besoin_obligatoire"))
+  end
+
   scenario "j'ajoute des infos complémentaires" do
     signin(12,15)
     projet = Projet.last
