@@ -1,5 +1,29 @@
 div.class.ui.grid
+  div.four.wide.column
+    .section_gauche
+      .section_gauche_titre
+        h1 = @projet_courant.demandeur_principal
+      .section_infos_demandeur
+        ul.infos-demandeur
+        li.hide
+          = @projet_courant.tel
+          li.hide
+            = @projet_courant.ville
+          li.hide
+            = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
+          li.hide
+            = calcul_preeligibilite(2015) if calcul_revenu_fiscal_reference_total(2015)
+            i.help.circle.icon
+      .section_gauche_titre
+        h1 = t('projets.visualisation.titre_fil_actualite')
+
+      - @projet_courant.evenements.each do |evenement|
+        .section_infos_event
+            h2 = evenement
+            = l(evenement.quand, format: :short)
+
   div.twelve.wide.column
+
     h2 class="ui horizontal divider header"
       i class="tag icon"
       = "Projet souhaité"
@@ -54,6 +78,16 @@ div.class.ui.grid
 
     = render partial: 'commentaires' if intervenant?
 
+    .div
+      - if @role_utilisateur == :intervenant && @utilisateur_courant.instructeur?
+        h2 = t('projets.creation_opal.titre_creation_opal')
+
+      - if @projet_courant.transmis_pour_instruction?
+       = form_tag(projet_dossiers_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
+         = submit_tag t('projets.visualisation.creer_dossier_opal'), class:'ui primary button'
+      - else
+       = "Dossier #{@projet_courant.opal_numero}" if @projet_courant.opal_numero.present?
+
     h2.ui.horizontal.divider.header
       i.map.icon
       = "Carte"
@@ -61,51 +95,3 @@ div.class.ui.grid
     div.ui.container.eight.wide.column
       div#mapid
       br
-
-  div.four.wide.column
-    - if demandeur?
-      .div
-        h2 = t('projets.visualisation.titre_infos_demandeur')
-        = bouton_modification_projet(@projet_courant) if demandeur?
-        ul.infos-demandeur
-        li.hide
-          = icone_presence(@projet_courant, :email)
-          = @projet_courant.email
-        li.hide
-          = icone_presence(@projet_courant, :tel)
-          = @projet_courant.tel
-          li.hide
-            = icone_presence(@projet_courant, :adresse)
-            = @projet_courant.adresse
-          li.hide
-            = icone_presence(@projet_courant, :annee_construction)
-            = @projet_courant.annee_construction
-          li.hide
-            = icone_nombre_occupant(@projet_courant)
-            = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
-          li.hide
-            = icone_revenus(@projet_courant, 2015)
-            = calcul_revenu_fiscal_reference_total(2015) if calcul_revenu_fiscal_reference_total(2015)
-
-    - if demandeur?
-        .div
-          h2 Mon opérateur
-          | Vous ne vous êtes pas encore engagé avec un opérateur
-
-    - if @role_utilisateur == :intervenant && @utilisateur_courant.instructeur?
-      h2 = t('projets.creation_opal.titre_creation_opal')
-      - if @projet_courant.transmis_pour_instruction?
-        = form_tag(projet_dossiers_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
-          = submit_tag t('projets.visualisation.creer_dossier_opal'), class:'ui primary button'
-      - else
-        = "Dossier #{@projet_courant.opal_numero}" if @projet_courant.opal_numero.present?
-
-    h2 = t('projets.visualisation.titre_fil_actualite')
-    div.ui.feed
-      - @projet_courant.evenements.each do |evenement|
-        div.event
-          div.label
-            i class=("#{icone_evenement(evenement.label)} icon")
-          div.content
-            div.summary = evenement
-            div.date = l(evenement.quand, format: :short)

@@ -170,7 +170,7 @@ fr:
       titre_identification_demandeur: "Identification du demandeur"
       titre_liste_occupants: "Liste des occupants"
       titre_description_projet: "Description du projet"
-      titre_fil_actualite: "Chronologie"
+      titre_fil_actualite: "Dernières actions"
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
       lien_ajout_commentaire: 'Ajouter un message'
