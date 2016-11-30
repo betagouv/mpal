@@ -31,7 +31,7 @@ feature "Projet" do
   scenario "lorsque je suis un demandeur, je vois les informations me concernant" do
     signin(projet.numero_fiscal, projet.reference_avis)
     @role_utilisateur = :demandeur
-    expect(page).to have_content('Mes infos')
+    expect(page).to have_content("Jean Martin")
   end
 
   scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur" do

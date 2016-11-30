@@ -6,9 +6,9 @@ div.ui.container.top.yield {
   list-style-type:none;
 }
 
-ul.infos-demandeur {
-  margin-left: -1.9em;
-}
+// ul.infos-demandeur {
+//   margin-left: -1.9em;
+// }
 
 .top {
   margin-top: 80px;
@@ -39,7 +39,7 @@ ul.infos-demandeur {
 /*Div contenant les conditions d'attributions des aides*/
 
 .ui.text.container {
-    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     max-width: 900px !important;
     line-height: 1.5;
 }
@@ -126,4 +126,34 @@ h2.ui.horizontal.divider {
 #autorisations {
   color: black;
   font-size: 1em;
+}
+
+/* Premières étapes */
+.blocs-info {
+  margin: 2em 2em 2em 2em;
+}
+
+.blocs-info h3.ui.header {
+  margin: 2em;
+}
+
+.blocs-info h2.ui.header {
+  margin: 2em;
+}
+
+.checkbox-inline {
+  float: left;
+  margin: 0 0.5em 0 0;
+}
+
+.btn-suivant {
+  -webkit-border-radius: 9;
+  -moz-border-radius: 9;
+  border-radius: 9px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  background: #ED1556;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
 }

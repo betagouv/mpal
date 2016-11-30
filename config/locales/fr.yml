@@ -10,6 +10,9 @@ fr:
         adresse: "L'adresse de mon logement à rénover"
         description: 'Je présente mon projet en quelques phrases'
         tel: 'Mon numéro de téléphone'
+      civilite:
+        - M
+        - Mme
   menu:
     intervenants: "Intervenants"
   accueil:
@@ -35,6 +38,60 @@ fr:
     erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
     lien_deconnexion: "Se déconnecter"
+  demarrage_projet:
+    action: "Je passe à l'étape suivante"
+    etape1_demarrage_projet:
+      titre: "Ceci est le titre"
+      recapitulatif_informations: "Récapitulatif des informations disponibles vous concernant"
+      infos_complementaires: "Informations complémentaires"
+      infos_contact: "Comment pouvons-nous vous recontacter ?"
+      personne_confiance: "Souhaitez-vous indiquer une personne de confiance à contacter ?"
+      adresse_logement_a_renover: "Adresse du logement à renover ?"
+      demandeur_principal: "Demandeur principal"
+      adresse_postale: "Adresse postale"
+      revenu_fiscal_reference: "Revenu fiscal de référence"
+      anne_imposition: "Année d'imposition"
+      nombre_occupant: "Nombre d'occupants supposé (nombre de parts)"
+      telephone: "Numéro de téléphone"
+      email: "Votre adresse e-mail"
+      civilite: "Civilite"
+      personne_de_confiance_prenom: "Prénom"
+      personne_de_confiance_nom: "Nom"
+      personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"
+
+    etape2_description_projet:
+      erreurs:
+        besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
+      titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
+      froid: "J'ai froid, mon logement est mal isolé"
+      energie: "Je veux réaliser des économies d’énergies"
+      probleme_deplacement: "J’ai du mal à me déplacer"
+      handicap: "Un des occupants est handicapé"
+      mauvais_etat: "Mon logement est globalement en mauvais état"
+      autres_besoins: "Autres besoins"
+      titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
+      changement_chauffage: "Changer mon système de chauffage"
+      isolation: "Isoler mon logement"
+      adaptation_salle_de_bain: "Adapter ma salle de bain"
+      accessibilite: "Rendre plus accessible mon logement"
+      travaux_importants: "Réaliser d’importants travaux (plusieurs des éléments ci-dessus et ou d’autres)"
+      autres_travaux: "Autres travaux"
+    etape3_description_projet:
+      titre: "Informations facultatives"
+      ptz: "Avez-vous benéficié d'un PTZ ?"
+      devis: "Disposez-vous des devis pour les travaux envisagés ?"
+      travaux_engages: "Avez-vous déjà engagé des travaux ?"
+      maison_individuelle: "S'agit-il d'une maison individuelle ?"
+      anne_construction: "Quelle est l'année d'achèvement de construction de votre logement ?"
+    etape3_infos_complementaires:
+      titre: "Informations facultatives"
+      ptz: "J'ai contracté un prêt à taux zéro"
+      devis: "Un devis a déjà été fait pour les travaux envisagés"
+      travaux_engages: "Les travaux ont déjà été engagés"
+      maison_individuelle: "C'est une maison individuelle"
+      anne_construction: "Année de construction"
+    etape4_choix_operateur:
+      titre: "Choisissez votre opérateur"
   projets:
     statut:
       prospect: Prospect
@@ -96,7 +153,7 @@ fr:
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
-        titre: 'Félicitations %{usager}'
+        titre: 'Félicitations %{demandeur_principal}'
         corps: Votre projet démarre aujourd'hui.
     visualisation:
       lien_edition_projet: 'Modifier le projet'
@@ -113,10 +170,12 @@ fr:
       titre_identification_demandeur: "Identification du demandeur"
       titre_liste_occupants: "Liste des occupants"
       titre_description_projet: "Description du projet"
-      titre_fil_actualite: "Chronologie"
+      titre_fil_actualite: "Dernières actions"
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
-      lien_ajout_commentaire: 'Ajouter un message'
+      lien_ajout_commentaire: 'Envoyer un message'
+      message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question.
+Vous serez notifié par email dès qu’un nouveau message apparaitra."
       titre_section_composition:
         one: " 1 occupant"
         other: "%{count} occupants"
@@ -128,7 +187,7 @@ fr:
       titre: 'Modification du projet'
       description: 'Vous pouvez mettre à jour les informations concernant votre projet.'
   conversation:
-    titre_section: "Messages autour du projet"
+    titre_section: "Chat"
   intervenant_projets:
     visualisation:
       invitation_intervenant: 'Je souhaite mettre en relation'
@@ -164,11 +223,11 @@ fr:
   mailers:
     projet_mailer:
       invitation_intervenant:
-        sujet: "[ANAH] Invitation de %{usager} à consulter son projet"
+        sujet: "[ANAH] Invitation de %{demandeur_principal} à consulter son projet"
       notification_invitation_intervenant:
         sujet: "[ANAH] Invitation de %{intervenant} à consulter votre projet"
       notification_choix_intervenant:
-        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{usager} pour l'accompagner sur son projet"
+        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l'accompagner sur son projet"
       mise_en_relation_intervenant:
         sujet: "[ANAH] Mise en relation par %{intermediaire}"
   evenements:

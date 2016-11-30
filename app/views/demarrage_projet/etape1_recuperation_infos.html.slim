@@ -1,0 +1,64 @@
+.blocs-info
+  h2.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
+  table.ui.definition.table
+    tbody
+      tr
+        td =t('demarrage_projet.etape1_demarrage_projet.demandeur_principal')
+        td = @projet_courant.demandeur_principal
+      tr
+        td = t('demarrage_projet.etape1_demarrage_projet.adresse_postale')
+        td = @projet_courant.adresse
+      tr
+        td = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
+        td  = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).revenu_fiscal_reference
+      tr
+        td = t('demarrage_projet.etape1_demarrage_projet.anne_imposition')
+        td = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).annee_impots
+      tr
+        td = t('demarrage_projet.etape1_demarrage_projet.nombre_occupant')
+        td = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).nombre_parts
+
+.blocs-info
+  h2.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.infos_complementaires')
+
+  = form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'etape1_envoi_infos'}, method: 'post', html: { class:'ui form'}  do |f|
+
+    h3.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
+    .field
+      = f.label t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
+      = f.text_field :adresse
+
+    h3.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.infos_contact')
+    .two.fields
+      .field
+        = f.label t('demarrage_projet.etape1_demarrage_projet.telephone')
+        = f.text_field :tel
+      .field
+        = f.label t('demarrage_projet.etape1_demarrage_projet.email')
+        = f.text_field :email
+
+    h3.ui.horizontal.divider.header = t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
+    = f.fields_for :personne_de_confiance do |ff|
+      .three.fields
+        .field
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.civilite')
+          = ff.select :civilite, options_for_select(t('helpers.label.civilite'))
+        .field
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_prenom')
+          = ff.text_field :prenom
+        .field
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_nom')
+          = ff.text_field :nom
+      .three.fields
+        .field
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.telephone')
+          = ff.text_field :tel
+        .field
+          = ff.label t('demarrage_projet.etape1_demarrage_projet.email')
+          = ff.text_field :email
+        .field
+         = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_lien')
+         = ff.text_field :lien_avec_demandeur
+
+    br
+    = submit_tag t('demarrage_projet.action'), class:'btn-suivant'

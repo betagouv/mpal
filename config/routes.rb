@@ -28,6 +28,18 @@ Rails.application.routes.draw do
       post '/transfert_csv', to: 'transfert_csv#create'
     end
 
+    get '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos', as: 'etape1_recuperation_infos_demarrage_projet'
+    post '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_envoi_infos'
+
+    get '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_description_projet', as: 'etape2_description_projet'
+    post '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_envoi_description_projet'
+
+    get '/projets/:projet_id/infos_complementaires', to: 'demarrage_projet#etape3_infos_complementaires', as: 'etape3_infos_complementaires'
+    post '/projets/:projet_id/infos_complementaires', to: 'demarrage_projet#etape3_envoi_infos_complementaires', as: 'etape3_envoi_infos_complementaires'
+
+    get '/projets/:projet_id/choix_operateur', to: 'demarrage_projet#etape4_choix_operateur', as: 'etape4_choix_operateur'
+    get '/projets/:projet_id/choix_operateur/:intervenant_id', to: 'demarrage_projet#etape4_envoi_choix_operateur', as: 'etape4_invitation_intervenant'
+
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'
     get '/projets/:projet_id/invitations/edition/intervenant/:intervenant_id', to: 'invitations#edit', as: 'edit_invitation'

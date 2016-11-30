@@ -9,7 +9,6 @@ class SessionsController < ApplicationController
       session[:numero_fiscal] = params[:numero_fiscal]
       projet = ProjetEntrepot.par_numero_fiscal(params[:numero_fiscal])
       if projet
-        # redirect_to projet_suivi_path(projet)
         redirect_to projet
       else
         create_projet_and_redirect
@@ -25,8 +24,8 @@ class SessionsController < ApplicationController
     if projet.save
       EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')
-      flash[:notice_titre] = t('projets.messages.creation.titre', usager: projet.usager)
-      redirect_to projet_path(projet), notice: notice
+      flash[:notice_titre] = t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal)
+      redirect_to etape1_recuperation_infos_demarrage_projet_path(projet), notice: notice
     else
       redirect_to new_session_path, alert: t('sessions.erreurs.creation_projet')
     end

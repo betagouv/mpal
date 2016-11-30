@@ -23,7 +23,8 @@
 /.ruby-gemset
 /doc
 .env
-
+#fichiers générés par rubymine
+.idea/
 /config/database.yml
 
 dump.rdb

@@ -175,4 +175,40 @@ module ApplicationHelper
   def menu_actif?(url)
     active = current_page?(url) ? "active item" : "item"
   end
+
+  def affiche_demande_souhaitee(demande)
+    html = content_tag(:h3, "Quelles difficultés rencontrez-vous dans le logement ?")
+    besoins = []
+    besoins << t("demarrage_projet.etape2_description_projet.froid") if demande.froid
+    besoins << t("demarrage_projet.etape2_description_projet.probleme_deplacement") if demande.probleme_deplacement
+    besoins << t("demarrage_projet.etape2_description_projet.handicap") if demande.probleme_deplacement
+    besoins << t("demarrage_projet.etape2_description_projet.mauvais_etat") if demande.mauvais_etat
+    besoins << t("demarrage_projet.etape2_description_projet.autres_besoins") if demande.autres_besoins.present?
+    html << content_tag(:ul) do
+      besoins.map { |besoin| content_tag(:li, besoin.html_safe) }.join.html_safe
+    end
+    html << content_tag(:br)
+    html << content_tag(:h3, "Souhaitez-vous communiquer des informations supplémentaires ?")
+    travaux = []
+    travaux << t("demarrage_projet.etape2_description_projet.changement_chauffage") if demande.changement_chauffage
+    travaux << t("demarrage_projet.etape2_description_projet.isolation") if demande.isolation
+    travaux << t("demarrage_projet.etape2_description_projet.adaptation_salle_de_bain") if demande.adaptation_salle_de_bain
+    travaux << t("demarrage_projet.etape2_description_projet.accessibilite") if demande.accessibilite
+    travaux << t("demarrage_projet.etape2_description_projet.travaux_importants") if demande.travaux_importants
+    travaux << t("demarrage_projet.etape2_description_projet.autres_travaux") if demande.autres_travaux.present?
+    html << content_tag(:ul) do
+      travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
+    end
+    html << content_tag(:br)
+    html << content_tag(:h3, "Informations complémentaires")
+    complements = []
+    complements << t("demarrage_projet.etape3_infos_complementaires.ptz") if demande.ptz
+    complements << t("demarrage_projet.etape3_infos_complementaires.devis") if demande.devis
+    complements << t("demarrage_projet.etape3_infos_complementaires.travaux_engages") if demande.travaux_engages
+    complements << "#{t("demarrage_projet.etape3_infos_complementaires.annee_construction")}: #{demande.annee_construction}" if demande.annee_construction.present?
+    complements << t("demarrage_projet.etape3_infos_complementaires.maison_individuelle") if demande.maison_individuelle
+    html << content_tag(:ul) do
+      complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe
+    end
+  end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161005094456) do
+ActiveRecord::Schema.define(version: 20161128095613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,29 @@ ActiveRecord::Schema.define(version: 20161005094456) do
 
   add_index "commentaires", ["auteur_type", "auteur_id"], name: "index_commentaires_on_auteur_type_and_auteur_id", using: :btree
   add_index "commentaires", ["projet_id"], name: "index_commentaires_on_projet_id", using: :btree
+
+  create_table "demandes", force: :cascade do |t|
+    t.integer "projet_id"
+    t.boolean "froid"
+    t.boolean "energie"
+    t.boolean "probleme_deplacement"
+    t.boolean "handicap"
+    t.boolean "mauvais_etat"
+    t.string  "autres_besoins"
+    t.boolean "changement_chauffage"
+    t.boolean "isolation"
+    t.boolean "adaptation_salle_de_bain"
+    t.boolean "accessibilite"
+    t.boolean "travaux_importants"
+    t.string  "autres_travaux"
+    t.boolean "ptz"
+    t.boolean "devis"
+    t.boolean "travaux_engages"
+    t.string  "annee_construction"
+    t.boolean "maison_individuelle"
+  end
+
+  add_index "demandes", ["projet_id"], name: "index_demandes_on_projet_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.string   "label"
@@ -140,6 +163,18 @@ ActiveRecord::Schema.define(version: 20161005094456) do
 
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
 
+  create_table "personnes", force: :cascade do |t|
+    t.string  "prenom"
+    t.string  "nom"
+    t.string  "tel"
+    t.string  "email"
+    t.string  "lien_avec_demandeur"
+    t.integer "projet_id"
+    t.string  "civilite"
+  end
+
+  add_index "personnes", ["projet_id"], name: "index_personnes_on_projet_id", using: :btree
+
   create_table "prestations", force: :cascade do |t|
     t.string   "libelle"
     t.string   "entreprise"
@@ -181,7 +216,6 @@ ActiveRecord::Schema.define(version: 20161005094456) do
   create_table "projets", force: :cascade do |t|
     t.string   "numero_fiscal"
     t.string   "reference_avis"
-    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "adresse_ligne1"
@@ -190,19 +224,24 @@ ActiveRecord::Schema.define(version: 20161005094456) do
     t.string   "departement"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                            array: true
-    t.integer  "nb_occupants_a_charge", default: 0
+    t.string   "themes",                                  array: true
+    t.integer  "nb_occupants_a_charge",       default: 0
     t.integer  "annee_construction"
     t.string   "code_insee"
-    t.integer  "statut",                default: 0
+    t.integer  "statut",                      default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"
     t.string   "opal_id"
     t.string   "code_postal"
     t.string   "ville"
+    t.integer  "personne_id"
+    t.string   "adresse_postale_ligne1"
+    t.string   "adresse_postale_code_postal"
+    t.string   "adresse_postale_ville"
   end
 
   add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
+  add_index "projets", ["personne_id"], name: "index_projets_on_personne_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
   create_table "qdm_references", force: :cascade do |t|
@@ -222,15 +261,19 @@ ActiveRecord::Schema.define(version: 20161005094456) do
   add_foreign_key "agents", "intervenants"
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "commentaires", "projets"
+  add_foreign_key "demandes", "projets"
   add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
+  add_foreign_key "personnes", "projets"
   add_foreign_key "prestations", "projets"
   add_foreign_key "prestations", "themes"
   add_foreign_key "projet_aides", "aides"
   add_foreign_key "projet_aides", "projets"
   add_foreign_key "projet_prestations", "prestations"
   add_foreign_key "projet_prestations", "projets"
+  add_foreign_key "projets", "intervenants", column: "operateur_id"
+  add_foreign_key "projets", "personnes"
 end

@@ -1,0 +1,40 @@
+.blocs-info
+  h2.ui.horizontal.divider.header = t('demarrage_projet.etape2_description_projet.titre_besoins')
+  = form_for @demande, url: {controller: 'demarrage_projet', action: 'etape2_envoi_description_projet'}, html: { class:'ui form'}  do |f|
+    .field
+      = f.check_box :froid, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.froid')
+    .field
+      = f.check_box :probleme_deplacement, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.probleme_deplacement')
+    .field
+      = f.check_box :handicap, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.handicap')
+    .field
+      = f.check_box :mauvais_etat, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.mauvais_etat')
+    .field
+      = f.label t('demarrage_projet.etape2_description_projet.autres_besoins')
+      = f.text_area :autres_besoins
+
+    h2.ui.horizontal.divider.header = t('demarrage_projet.etape2_description_projet.titre_travaux')
+    .field
+      = f.check_box :changement_chauffage, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.changement_chauffage')
+    .field
+      = f.check_box :isolation, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.isolation')
+    .field
+      = f.check_box :adaptation_salle_de_bain, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.adaptation_salle_de_bain')
+    .field
+      = f.check_box :accessibilite, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.accessibilite')
+    .field
+      = f.check_box :travaux_importants, class: 'checkbox-inline'
+      = f.label t('demarrage_projet.etape2_description_projet.travaux_importants')
+    .field
+      = f.label t('demarrage_projet.etape2_description_projet.autres_travaux')
+      = f.text_area :autres_travaux
+
+    = f.submit t("demarrage_projet.action"), class:'btn-suivant'
