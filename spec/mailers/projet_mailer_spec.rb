@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe ProjetMailer do
+describe ProjetMailer, type: :mailer do
   describe "invitation intervenant" do
     let(:invitation) { FactoryGirl.create(:invitation) }
     let(:email) { ProjetMailer.invitation_intervenant(invitation) }
@@ -9,7 +9,7 @@ describe ProjetMailer do
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur_principal: invitation.demandeur_principal)) }
     it { expect(email.body.encoded).to match(invitation.demandeur_principal.to_s) }
     it { expect(email.body.encoded).to match(invitation.adresse) }
-    it { expect(email.body.encoded).to match(invitation.description) }
+    it { expect(email.body.encoded).to include("Quelles difficultés rencontrez-vous dans le logement") }
     xit { expect(email.body.encoded).to match(projet_url(invitation.projet, jeton: invitation.token)) }
   end
 

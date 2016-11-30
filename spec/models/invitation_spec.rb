@@ -18,6 +18,5 @@ describe Invitation do
 
   it { is_expected.to delegate_method(:demandeur_principal).to(:projet) }
   it { is_expected.to delegate_method(:adresse).to(:projet) }
-  it { is_expected.to delegate_method(:description).to(:projet) }
 
 end

@@ -11,7 +11,6 @@ class Invitation < ActiveRecord::Base
 
   delegate :demandeur_principal, to: :projet
   delegate :adresse, to: :projet
-  delegate :description, to: :projet
 
   def intervenant_email
     self.intervenant.email

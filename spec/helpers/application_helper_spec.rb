@@ -22,4 +22,17 @@ describe ApplicationHelper do
   it "renvoie l'icone à faire et message si la donnée n'existe pas" do
     expect(helper.icone_presence(projet, :annee_construction)).to eq ("<i class=\"square outline icon\"></i>Année de construction :  Veuillez renseigner cette donnée")
   end
+
+  context "avec une demande existante" do
+    let(:demande) { FactoryGirl.build(:demande) }
+    it "une demande souhaitée contient un titre" do
+      expect(helper.affiche_demande_souhaitee(demande)).to start_with("<h3>Quelles difficultés rencontrez-vous dans le logement ?</h3>")
+    end
+
+    it "une demande souhaitée contient les besoins" do
+      demande.froid = true
+      expect(demande.froid).to be_truthy
+      expect(helper.affiche_demande_souhaitee(demande)).to include("J'ai froid")
+    end
+  end
 end

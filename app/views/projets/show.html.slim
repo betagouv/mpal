@@ -3,46 +3,7 @@ div.class.ui.grid
     h2 class="ui horizontal divider header"
       i class="tag icon"
       = "Projet souhaité"
-    h3 Quelles difficultés rencontrez-vous dans le logement ?
-    ul
-      - if @projet_courant.demande.froid
-        li= t("demarrage_projet.etape2_description_projet.froid") 
-      - if @projet_courant.demande.probleme_deplacement
-        li= t("demarrage_projet.etape2_description_projet.probleme_deplacement") 
-      - if @projet_courant.demande.handicap
-        li= t("demarrage_projet.etape2_description_projet.handicap")
-      - if @projet_courant.demande.mauvais_etat
-        li= t("demarrage_projet.etape2_description_projet.mauvais_etat")
-      - if @projet_courant.demande.autres_besoins.present?
-        li= t("demarrage_projet.etape2_description_projet.autres_besoins")
-    br
-    h3 Quels travaux souhaitez-vous réaliser ?
-    ul
-      - if @projet_courant.demande.changement_chauffage
-        li= t("demarrage_projet.etape2_description_projet.changement_chauffage")
-      - if @projet_courant.demande.isolation
-        li= t("demarrage_projet.etape2_description_projet.isolation")
-      - if @projet_courant.demande.adaptation_salle_de_bain
-        li= t("demarrage_projet.etape2_description_projet.adaptation_salle_de_bain")
-      - if @projet_courant.demande.accessibilite
-        li= t("demarrage_projet.etape2_description_projet.accessibilite")
-      - if @projet_courant.demande.travaux_importants
-        li= t("demarrage_projet.etape2_description_projet.travaux_importants")
-      - if @projet_courant.demande.autres_travaux.present?
-        li= t("demarrage_projet.etape2_description_projet.autres_travaux")
-    br
-    h3 Souhaitez-vous communiquer des informations supplémentaires ?
-    ul
-      - if @projet_courant.demande.ptz
-        li= t("demarrage_projet.etape3_infos_complementaires.ptz")
-      - if @projet_courant.demande.devis
-        li= t("demarrage_projet.etape3_infos_complementaires.devis")
-      - if @projet_courant.demande.travaux_engages
-        li= t("demarrage_projet.etape3_infos_complementaires.travaux_engages")
-      - if @projet_courant.demande.annee_construction.present?
-        li= t("demarrage_projet.etape3_infos_complementaires.annee_construction")
-      - if @projet_courant.demande.maison_individuelle
-        li= t("demarrage_projet.etape3_infos_complementaires.maison_individuelle")
+      = affiche_demande_souhaitee(@projet_courant.demande)
 div.class.ui.grid
   div.twelve.wide.column
     - if @invitations_demandeur.empty?
@@ -78,9 +39,6 @@ div.class.ui.grid
           tr
             td Numéro de téléphone #{bouton_modification_projet(@projet_courant) if demandeur?}
             td = @projet_courant.tel
-          tr
-            td Nature du projet #{bouton_modification_projet(@projet_courant) if demandeur?}
-            td = @projet_courant.description
     = link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
 
     div#autorisations

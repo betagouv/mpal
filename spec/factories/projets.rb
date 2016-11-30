@@ -2,7 +2,6 @@ FactoryGirl.define do
   factory :projet do
     numero_fiscal 12
     reference_avis 15
-    description "Je veux changer ma chaudiere"
     adresse_ligne1 '12 rue de la mare'
     departement '75'
     code_insee '75010'

@@ -1,4 +1,5 @@
 class ProjetMailer < ActionMailer::Base
+  add_template_helper(ApplicationHelper)
   default :from => ENV["NO_REPLY_FROM"]
 
   def invitation_intervenant(invitation)
