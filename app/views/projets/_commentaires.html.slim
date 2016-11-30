@@ -1,14 +1,26 @@
-div class="ui comments"
-  p Vous pouvez à tout moment poser des questions à propos de votre projet
+= render partial: 'test_accordeon_semantic'
+
+#chat
+  .titre_section_non_deployee
+    i.dropdown.icon
+    = I18n.t('conversation.titre_section')
+    span.align_right= "#{@projet_courant.commentaires.count } message(s)"
+
+  span = I18n.t('projets.visualisation.message_pas_de_commentaires') if @projet_courant.commentaires.count == 0
+
+
+  - @projet_courant.commentaires.each do |commentaire|
+    .messages
+      .auteur = commentaire.auteur
+      span.date-message = l(commentaire.created_at, format: :short)
+      .text-message
+      = commentaire.corps_message
+
+  .ui.divider
+
+  .formulaire-messages
   = form_for [@projet_courant, @commentaire], html: { class: "ui reply form" } do |f|
     = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
-    div class="field"
+    .field
       = f.text_area :corps_message
-    = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "ui button"
-  - @projet_courant.commentaires.each do |commentaire|
-    div class="comment"
-      a class="author" = commentaire.auteur
-      div class="metadata"
-        span class="date" = l(commentaire.created_at, format: :short)
-      div class="text"
-        = commentaire.corps_message
+    = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "button"

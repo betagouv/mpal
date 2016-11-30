@@ -173,7 +173,9 @@ fr:
       titre_fil_actualite: "Dernières actions"
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
-      lien_ajout_commentaire: 'Ajouter un message'
+      lien_ajout_commentaire: 'Envoyer un message'
+      message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question.
+Vous serez notifié par email dès qu’un nouveau message apparaitra."
       titre_section_composition:
         one: " 1 occupant"
         other: "%{count} occupants"
@@ -185,7 +187,7 @@ fr:
       titre: 'Modification du projet'
       description: 'Vous pouvez mettre à jour les informations concernant votre projet.'
   conversation:
-    titre_section: "Messages autour du projet"
+    titre_section: "Chat"
   intervenant_projets:
     visualisation:
       invitation_intervenant: 'Je souhaite mettre en relation'

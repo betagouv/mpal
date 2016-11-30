@@ -1,4 +1,56 @@
-titre_section_non_deployee {
+#chat {
+  width: 90%;
+}
+
+.titre_section_non_deployee {
   width: 100%;
   background-color: #607996;
+  font-family: "Open Sans";
+  font-size: 18px;
+  line-height: 24px;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  padding: 0.5em 0.5em 0.5em 0.5em;
+}
+
+#chat span {
+  font-family: Arial;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 20px;
+  color: #000000;
+}
+
+.align_right {
+  float: right
+}
+
+#chat .button {
+  background-color: #ED1556;
+  text-transform: uppercase;
+  color: #FFFFFF;
+}
+
+.messages {
+  margin: 1em 0 0 1em;
+}
+
+.auteur {
+  font-family: Arial;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: 18px;
+  color: #000000;
+}
+
+.text-message {
+  font-family: Arial;
+  font-size: 16px;
+  line-height: 20px;
+  color: #4A4A4A;
+}
+
+
+.formulaire-messages {
+
 }
