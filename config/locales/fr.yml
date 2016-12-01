@@ -55,6 +55,7 @@ fr:
       telephone: "Numéro de téléphone"
       email: "Votre adresse e-mail"
       civilite: "Civilite"
+      disponibilite: "A quel moment pouvons-nous vous recontacter ?"
       personne_de_confiance_prenom: "Prénom"
       personne_de_confiance_nom: "Nom"
       personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"

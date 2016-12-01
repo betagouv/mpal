@@ -59,6 +59,9 @@
         .field
          = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_lien')
          = ff.text_field :lien_avec_demandeur
+      .field
+       = ff.label t('demarrage_projet.etape1_demarrage_projet.disponibilite')
+       = ff.text_field :disponibilite
 
     br
     = submit_tag t('demarrage_projet.action'), class:'btn-suivant'

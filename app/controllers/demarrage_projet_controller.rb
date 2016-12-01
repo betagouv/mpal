@@ -4,7 +4,7 @@ class DemarrageProjetController < ApplicationController
   end
 
   def etape1_envoi_infos
-    if @projet_courant.update_attributes(projet_personne_de_confiance_params)
+    if @projet_courant.update_attributes(projet_contacts_params)
       redirect_to etape2_description_projet_path(@projet_courant)
     else
       render :etape1_recuperation_infos
@@ -63,8 +63,8 @@ class DemarrageProjetController < ApplicationController
     @projet_courant.demande || @projet_courant.build_demande
   end
 
-  def projet_personne_de_confiance_params
-    params.require(:projet).permit(:tel, :email, personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite])
+  def projet_contacts_params
+    params.require(:projet).permit(:tel, :email, personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
   end
 
   def demande_params
