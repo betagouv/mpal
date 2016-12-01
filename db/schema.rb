@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161201142953) do
+ActiveRecord::Schema.define(version: 20161201163344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,7 +84,6 @@ ActiveRecord::Schema.define(version: 20161201142953) do
     t.boolean "adaptation_salle_de_bain"
     t.boolean "accessibilite"
     t.boolean "travaux_importants"
-    t.string  "autres_travaux"
     t.boolean "ptz"
     t.boolean "devis"
     t.boolean "travaux_engages"

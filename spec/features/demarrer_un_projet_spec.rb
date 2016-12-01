@@ -82,7 +82,6 @@ feature "Démarrer un projet" do
     check('demande_adaptation_salle_de_bain')
     check('demande_accessibilite')
     check('demande_travaux_importants')
-    fill_in :demande_autres_travaux, with: "Il faut construire une piste d'atterrissage d'un hélicoptère"
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape3_infos_complementaires_path(projet))
 
@@ -97,7 +96,6 @@ feature "Démarrer un projet" do
     expect(projet.demande.adaptation_salle_de_bain).to be_truthy
     expect(projet.demande.accessibilite).to be_truthy
     expect(projet.demande.travaux_importants).to be_truthy
-    expect(projet.demande.autres_travaux).to eq("Il faut construire une piste d'atterrissage d'un hélicoptère")
   end
 
   scenario "je ne décris aucun besoin" do

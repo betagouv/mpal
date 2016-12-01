@@ -195,7 +195,6 @@ module ApplicationHelper
     travaux << t("demarrage_projet.etape2_description_projet.adaptation_salle_de_bain") if demande.adaptation_salle_de_bain
     travaux << t("demarrage_projet.etape2_description_projet.accessibilite") if demande.accessibilite
     travaux << t("demarrage_projet.etape2_description_projet.travaux_importants") if demande.travaux_importants
-    travaux << t("demarrage_projet.etape2_description_projet.autres_travaux") if demande.autres_travaux.present?
     html << content_tag(:ul) do
       travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
     end
