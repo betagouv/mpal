@@ -32,6 +32,13 @@ def email_valide?(email)
   email.match(/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i) || email.empty?
 end
 
+def projet_valide?
+  @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
+  @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
+  @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
+end
+
+
 module CASClient
   module XmlResponse
     alias_method :check_and_parse_xml_normally, :check_and_parse_xml

@@ -13,7 +13,7 @@ class ProjetsController < ApplicationController
 
   def update
     @projet_courant.assign_attributes(projet_params)
-    if valid? && @projet_courant.save
+    if projet_valide? && @projet_courant.save
       redirect_to @projet_courant, notice: t('projets.edition_projet.messages.succes')
     else
       render :edit, alert: t('projets.edition_projet.messages.erreur')
@@ -42,7 +42,6 @@ class ProjetsController < ApplicationController
     @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
   end
 
-
   private
 
   def projet_params
@@ -51,12 +50,6 @@ class ProjetsController < ApplicationController
     attributs = params.require(:projet).permit(:description, :email, :tel, :annee_construction, :nb_occupants_a_charge)
     attributs = attributs.merge(adresse_complete) if adresse_complete
     attributs
-  end
-
-  def valid?
-    @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
-    @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
-    @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
   end
 
 end
