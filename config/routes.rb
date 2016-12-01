@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     post '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_envoi_infos'
 
     get '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_description_projet', as: 'etape2_description_projet'
-    post '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_envoi_description_projet'
+    patch '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_envoi_description_projet'
 
     get '/projets/:projet_id/infos_complementaires', to: 'demarrage_projet#etape3_infos_complementaires', as: 'etape3_infos_complementaires'
     post '/projets/:projet_id/infos_complementaires', to: 'demarrage_projet#etape3_envoi_infos_complementaires', as: 'etape3_envoi_infos_complementaires'
