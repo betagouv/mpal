@@ -1,4 +1,4 @@
 p Bonjour,
 p = "Vous avez été choisi par #{@projet.usager} pour l'accompagner dans son projet"
 
-p = link_to "Pour visualiser le projet, cliquer sur ce lien", projet_url(@projet)
+p = link_to "Pour visualiser le projet, cliquer sur ce lien", projet_url(@projet, jeton: @invitation.token)

@@ -10,11 +10,11 @@ class ProjetMailer < ActionMailer::Base
   def notification_invitation_intervenant(invitation)
     @invitation = invitation
     mail(to: invitation.projet_email, subject: t('mailers.projet_mailer.notification_invitation_intervenant.sujet', intervenant: @invitation.intervenant.to_s))
-    # pourquoi intervenant.to_s et pas intermediaie.to_s ?
   end
 
   def notification_choix_intervenant(projet)
     @projet = projet
+    @invitation = @projet.invitations.find_by_intervenant_id(projet.operateur_id)
     mail(to: @projet.operateur.email, subject: t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: @projet.operateur, demandeur_principal: @projet.demandeur_principal))
   end
 

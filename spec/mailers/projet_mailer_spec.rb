@@ -10,7 +10,7 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.body.encoded).to match(invitation.demandeur_principal.to_s) }
     it { expect(email.body.encoded).to match(invitation.adresse) }
     it { expect(email.body.encoded).to include("Quelles difficultés rencontrez-vous dans le logement") }
-    xit { expect(email.body.encoded).to match(projet_url(invitation.projet, jeton: invitation.token)) }
+    it { expect(email.body.encoded).to include(projet_url(invitation.projet, jeton: invitation.token)) }
   end
 
   describe "mise en relation intervenant" do
@@ -21,12 +21,21 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: mise_en_relation.intermediaire)) }
   end
 
-  describe "notification de choix de l'intervenant par le demandeur " do
-    operateur = FactoryGirl.create(:intervenant, :operateur)
-    @projet = FactoryGirl.create(:projet)
-    @projet.operateur = operateur
-    let(:invitation) { FactoryGirl.create(:invitation) }
-    let(:email) { ProjetMailer.notification_choix_intervenant(@projet) }
+  describe "l'intervenant reçoit un e-mail lorsqu'il a été choisi par le demandeur" do
+   it "le mail contient un sujet" do
+     @projet = FactoryGirl.create(:projet)
+     operateur = FactoryGirl.create(:intervenant, :operateur)
+     invitation = FactoryGirl.create(:invitation, projet: @projet, intervenant: operateur)
+     @projet.operateur = operateur
+     email = ProjetMailer.notification_choix_intervenant(@projet)
+
+     expect(email.from).to eq(['no-reply@mpal.beta.gouv.fr'])
+     expect(email.to).to eq([@projet.operateur.email])
+     expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: operateur, demandeur_principal: @projet.demandeur_principal))
+     expect(email.body.encoded).to match(invitation.demandeur_principal.to_s)
+     expect(email.body.encoded).to include(projet_url(@projet, jeton: invitation.token))
+   end
+
   end
 
 end
