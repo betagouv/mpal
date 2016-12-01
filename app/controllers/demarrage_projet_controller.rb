@@ -64,7 +64,7 @@ class DemarrageProjetController < ApplicationController
   end
 
   def projet_contacts_params
-    params.require(:projet).permit(:tel, :email, personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
+    params.require(:projet).permit(:tel, :email, :disponibilite, personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
   end
 
   def demande_params

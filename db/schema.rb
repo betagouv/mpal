@@ -239,6 +239,7 @@ ActiveRecord::Schema.define(version: 20161201142953) do
     t.string   "adresse_postale_ligne1"
     t.string   "adresse_postale_code_postal"
     t.string   "adresse_postale_ville"
+    t.string   "disponibilite"
   end
 
   add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree

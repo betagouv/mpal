@@ -36,6 +36,9 @@
       .field
         = f.label t('demarrage_projet.etape1_demarrage_projet.email')
         = f.text_field :email
+    .field
+      = f.label t('demarrage_projet.etape1_demarrage_projet.disponibilite')
+      = f.text_field :disponibilite
 
     h3.ui.horizontal.divider.header = t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
     = f.fields_for :personne_de_confiance do |ff|
