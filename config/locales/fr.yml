@@ -69,7 +69,7 @@ fr:
       probleme_deplacement: "J’ai du mal à me déplacer"
       handicap: "Un des occupants est handicapé"
       mauvais_etat: "Mon logement est globalement en mauvais état"
-      autres_besoins: "Autres besoins"
+      autres_besoins: "Souhaitez-vous communiquer des informations supplémentaires"
       titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
       changement_chauffage: "Changer mon système de chauffage"
       isolation: "Isoler mon logement"
