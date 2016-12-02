@@ -4,7 +4,7 @@ class Occupant < ActiveRecord::Base
   enum lien_demandeur: [ 'père/mère', 'enfant', 'frère/soeur', 'conjoint']
 
   belongs_to :projet
-  has_many   :avis_impositions
+  has_many :avis_impositions
 
   validates :nom, :prenom, :date_de_naissance, presence: true
 

@@ -6,13 +6,21 @@ fr:
   helpers:
     label:
       projet:
+        civilite: "-- ici civilite ----"
         email: 'Mon e-mail'
-        adresse: "L'adresse de mon logement à rénover"
-        description: 'Je présente mon projet en quelques phrases'
+        adresse: "Mon adresse fiscale"
+        renover: "adresse du logement à rénover si différente"
+
         tel: 'Mon numéro de téléphone'
+        disponibilite: "---Ici disponibilite-"
+
       civilite:
         - M
         - Mme
+      personne_de_confiance:
+        nom: 'Nom'
+        lien_avec_demandeur: 'Quel est votre lien avec le demandeur ?'
+
   menu:
     intervenants: "Intervenants"
   accueil:
@@ -39,13 +47,13 @@ fr:
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
     lien_deconnexion: "Se déconnecter"
   demarrage_projet:
-    action: "Je passe à l'étape suivante"
+    action: "Enregistrez mes informations"
     etape1_demarrage_projet:
       titre: "Ceci est le titre"
       recapitulatif_informations: "Récapitulatif des informations disponibles vous concernant"
       infos_complementaires: "Informations complémentaires"
       infos_contact: "Comment pouvons-nous vous recontacter ?"
-      personne_confiance: "Souhaitez-vous indiquer une personne de confiance à contacter ?"
+      personne_confiance: "Qui contacter pour les démarches à venir ?"
       adresse_logement_a_renover: "Adresse du logement à renover ?"
       demandeur_principal: "Demandeur principal"
       adresse_postale: "Adresse postale"

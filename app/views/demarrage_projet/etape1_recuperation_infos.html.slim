@@ -1,70 +1,78 @@
-.blocs-info
-  h2.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
-  table.ui.definition.table
-    tbody
-      tr
-        td =t('demarrage_projet.etape1_demarrage_projet.demandeur_principal')
-        td = @projet_courant.demandeur_principal
-      tr
-        td = t('demarrage_projet.etape1_demarrage_projet.adresse_postale')
-        td = @projet_courant.adresse
-      tr
-        td = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
-        td  = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).revenu_fiscal_reference
-      tr
-        td = t('demarrage_projet.etape1_demarrage_projet.anne_imposition')
-        td = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).annee_impots
-      tr
-        td = t('demarrage_projet.etape1_demarrage_projet.nombre_occupant')
-        td = ApiParticulier.new.retrouve_contribuable(@projet_courant.numero_fiscal, @projet_courant.reference_avis).nombre_parts
+/! Main Container
+.main-container
+  .inscription
+    /! Header
+    header.ins-header
+      h1
+        = image_tag('logo-anah.png', alt:"Agence Nationale de l'habitat - Anah" )
+      h2 Inscription
+    /! Demandeur
+    section.demandeur
+      h2.header-blk Demandeur
+      p.chapo Veuillez verifier les champs ci-dessous lorem ipsum dolor sit amet
 
-.blocs-info
-  h2.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.infos_complementaires')
+      = form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'etape1_envoi_infos'}, method: 'post', html: { class:'ui form'}  do |f|
+        ul.dem-info.ins-form
+          li.radio
+            = f.radio_button :demandeur_principal_civilite, Occupant.civilites.keys[1]
+            = f.label :demandeur_principal_civilite, Occupant.civilites.keys[1]
+          li.radio
+            = f.radio_button :demandeur_principal_civilite, Occupant.civilites.keys[0]
+            = f.label :demandeur_principal_civilite, Occupant.civilites.keys[0]
+          li
+            = f.label :demandeur_principal_nom
+            = f.text_field :demandeur_principal_nom, disabled: true, class: 'disabled'
+          li
+            = f.label :demandeur_principal_prenom
+            = f.text_field :demandeur_principal_prenom, disabled: true, class: 'disabled'
+          li
+            = f.label :adresse
+            = f.text_field :adresse
+          li
+            = f.label :tel
+            = f.telephone_field :tel
+          li
+            = f.label :email
+            = f.text_field :email
+          li.full
+          = f.label :disponibilite
+          = f.text_field :disponibilite, placeholder:"Le matin, entre 8h et 11h"
+        .dem-contact
+          p.chapo = t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
+          ul.dem-contact.ins-form
+            li.radio
+              input#contact-idem checked="checked" name="contact" type="radio" /
+              label for="contact-idem"  vous-même
+            li.radio
+              input#contact-diff name="contact" type="radio" /
+              label for="contact-diff"  Une autre personne
 
-  = form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'etape1_envoi_infos'}, method: 'post', html: { class:'ui form'}  do |f|
+          ul.dem-diff.ins-form
 
-    h3.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
-    .field
-      = f.label t('demarrage_projet.etape1_demarrage_projet.adresse_logement_a_renover')
-      = f.text_field :adresse
+              = f.fields_for :personne_de_confiance do |ff|
+                li.radio
+                  = ff.label "Monsieur"
+                  = ff.radio_button :civilite, "M", :value => "monsieur"
+                li.radio
+                  = ff.label "Madame"
+                  = ff.radio_button :civilite, "Mme", :value => "madame"
+                li
+                  = ff.label :prenom
+                  = ff.text_field :prenom
+                li
+                  = ff.label :nom
+                  = ff.text_field :nom
+                li
+                  = ff.label :tel
+                  = ff.text_field :tel
+                li
+                  = ff.label :email
+                  = ff.text_field :email
+                li
+                 = ff.label :lien_avec_demandeur
+                 = ff.text_field :lien_avec_demandeur, placeholder: "Enfant, voisin, ..."
+                li
+                 = ff.label :disponibilite
+                 = ff.text_field :disponibilite
 
-    h3.ui.horizontal.divider.header=t('demarrage_projet.etape1_demarrage_projet.infos_contact')
-    .two.fields
-      .field
-        = f.label t('demarrage_projet.etape1_demarrage_projet.telephone')
-        = f.text_field :tel
-      .field
-        = f.label t('demarrage_projet.etape1_demarrage_projet.email')
-        = f.text_field :email
-    .field
-      = f.label t('demarrage_projet.etape1_demarrage_projet.disponibilite')
-      = f.text_field :disponibilite
-
-    h3.ui.horizontal.divider.header = t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
-    = f.fields_for :personne_de_confiance do |ff|
-      .three.fields
-        .field
-          = ff.label t('demarrage_projet.etape1_demarrage_projet.civilite')
-          = ff.select :civilite, options_for_select(t('helpers.label.civilite'))
-        .field
-          = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_prenom')
-          = ff.text_field :prenom
-        .field
-          = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_nom')
-          = ff.text_field :nom
-      .three.fields
-        .field
-          = ff.label t('demarrage_projet.etape1_demarrage_projet.telephone')
-          = ff.text_field :tel
-        .field
-          = ff.label t('demarrage_projet.etape1_demarrage_projet.email')
-          = ff.text_field :email
-        .field
-         = ff.label t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_lien')
-         = ff.text_field :lien_avec_demandeur
-      .field
-       = ff.label t('demarrage_projet.etape1_demarrage_projet.disponibilite')
-       = ff.text_field :disponibilite
-
-    br
-    = submit_tag t('demarrage_projet.action'), class:'btn-suivant'
+        = submit_tag t('demarrage_projet.action'), class: 'validate btn'

@@ -34,6 +34,18 @@ class Projet < ActiveRecord::Base
     self.occupants.where(demandeur: true).first
   end
 
+  def demandeur_principal_nom
+    self.occupants.where(demandeur: true).first.nom
+  end
+
+  def demandeur_principal_prenom
+    self.occupants.where(demandeur: true).first.prenom
+  end
+
+  def demandeur_principal_civilite
+    self.occupants.where(demandeur: true).first.civilite
+  end
+
   def usager
     occupant = self.demandeur_principal
     occupant.to_s if occupant
