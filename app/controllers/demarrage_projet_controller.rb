@@ -15,7 +15,6 @@ class DemarrageProjetController < ApplicationController
 
   def etape2_description_projet
     @demande = projet_demande
-    render :etape2_description
   end
 
   def etape2_envoi_description_projet
