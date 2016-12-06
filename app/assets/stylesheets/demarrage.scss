@@ -179,7 +179,7 @@ input:-ms-input-placeholder {
   width: 100%;
   min-height: 100%;
   position: relative;
-  background: url(background.jpg) 0 0 no-repeat;
+  background: url('background.jpg') 0 0 no-repeat;
   background-size: cover; }
 
 /** REBBON **/
@@ -297,7 +297,7 @@ input:-ms-input-placeholder {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
   padding: 5px 15px 5px 37px;
-  background-image: url(add-user.svg);
+  background-image: url('add-user.svg');
   background-color: #e7235a;
   background-position: 10px 50%;
   background-repeat: no-repeat;
@@ -342,7 +342,7 @@ input:-ms-input-placeholder {
       width: 50px;
       text-align: center; }
     .inscription .occ-table td .btn {
-      background-image: url(delete.svg);
+      background-image: url('delete.svg');
       position: static;
       font-size: 12px;
       padding: 4px 10px 4px 30px; }
@@ -404,7 +404,7 @@ input:-ms-input-placeholder {
   font-size: 16px;
   padding: 16px 20px 16px 45px;
   border: 1px solid #1580cd;
-  background-image: url(validate.svg);
+  background-image: url('validate.svg');
   background-position: 15px 50%; }
   .inscription .validate:hover {
     background-color: #43a5ec; }
@@ -468,7 +468,7 @@ input:-ms-input-placeholder {
         color: #ffffff;
         text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
         padding: 5px 15px 5px 37px;
-        background-image: url(add-user.svg);
+        background-image: url('add-user.svg');
         background-color: #e7235a;
         background-position: 10px 50%;
         background-repeat: no-repeat;
@@ -476,7 +476,7 @@ input:-ms-input-placeholder {
         position: absolute;
         top: 15px;
         right: 20px;
-        background-image: url(logout.svg); }
+        background-image: url('logout.svg'); }
         .page-projet .col-right .project-header .btn:hover {
           background-color: #d9184e; }
       .page-projet .col-right .project-header .notification {
@@ -504,7 +504,7 @@ input:-ms-input-placeholder {
         color: #ffffff;
         text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
         padding: 5px 15px 5px 37px;
-        background-image: url(add-user.svg);
+        background-image: url('add-user.svg');
         background-color: #e7235a;
         background-position: 10px 50%;
         background-repeat: no-repeat;
@@ -517,7 +517,7 @@ input:-ms-input-placeholder {
           background-color: #d9184e; }
       .page-projet .col-right .content-projet .edit {
         position: absolute;
-        background: url(edit.svg) 100% 0 no-repeat;
+        background: url('edit.svg') 100% 0 no-repeat;
         top: 7px;
         right: 7px;
         font-size: 12px;
@@ -540,7 +540,7 @@ input:-ms-input-placeholder {
           margin-bottom: 0; }
         .page-projet .col-right .content-projet .block h3 {
           background-color: #eef1f7;
-          background-image: url(fle-closed.svg);
+          background-image: url('fle-closed.svg');
           background-position: 10px 50%;
           background-repeat: no-repeat;
           font-size: 18px;
@@ -549,7 +549,7 @@ input:-ms-input-placeholder {
           text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
           padding: 10px 30px; }
           .page-projet .col-right .content-projet .block h3.is-open {
-            background-image: url(fle-open.svg); }
+            background-image: url('fle-open.svg'); }
           .page-projet .col-right .content-projet .block h3:hover {
             cursor: pointer; }
         .page-projet .col-right .content-projet .block .content-block {
@@ -566,7 +566,7 @@ input:-ms-input-placeholder {
             float: right;
             margin: 10px 0 0; }
             .page-projet .col-right .content-projet .block .content-block .btn.message {
-              background-image: url(message.svg); }
+              background-image: url('message.svg'); }
           .page-projet .col-right .content-projet .block .content-block h4 {
             font-weight: 600;
             padding: 0 0 10px 0; }
@@ -672,7 +672,7 @@ input:-ms-input-placeholder {
             padding: 10px;
             text-align: center; }
             .page-projet .col-right .content-projet .block.occupants .occ-table td .btn {
-              background-image: url(delete.svg);
+              background-image: url('delete.svg');
               position: static;
               float: none;
               padding: 4px 10px 4px 30px; }
