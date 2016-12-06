@@ -15,13 +15,14 @@ class DemarrageProjetController < ApplicationController
 
   def etape2_description_projet
     @demande = projet_demande
+    render :etape2_description
   end
 
   def etape2_envoi_description_projet
     @projet_courant.demande = projet_demande
     if etape2_valide?
       @projet_courant.demande.update_attributes(demande_params)
-      redirect_to etape3_infos_complementaires_path(@projet_courant)
+      redirect_to etape3_choix_operateur_path(@projet_courant)
     else
       redirect_to etape2_description_projet_path(@projet_courant), alert: t('demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire')
     end
@@ -39,14 +40,14 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
-  def etape4_choix_operateur
+  def etape3_choix_operateur
     if @projet_courant.prospect?
       @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
       @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
     end
   end
 
-  def etape4_envoi_choix_operateur
+  def etape3_envoi_choix_operateur
     @intervenant = Intervenant.find(params[:intervenant_id])
     @invitation = Invitation.new(projet: @projet_courant, intervenant: @intervenant)
     if @invitation.save
@@ -70,7 +71,7 @@ class DemarrageProjetController < ApplicationController
   end
 
   def demande_params
-    params.require(:demande).permit(:froid, :probleme_deplacement, :handicap, :mauvais_etat, :autres_besoins, :changement_chauffage, :isolation, :adaptation_salle_de_bain, :accessibilite, :travaux_importants, :autres_travaux )
+    params.require(:demande).permit(:froid, :probleme_deplacement, :handicap, :mauvais_etat, :autres_besoins, :changement_chauffage, :isolation, :adaptation_salle_de_bain, :accessibilite, :travaux_importants, :complement, :ptz, :annee_construction )
   end
 
   def etape2_valide?

@@ -1,0 +1,59 @@
+= form_for @demande, url: {controller: 'demarrage_projet', action: 'etape2_envoi_description_projet'}, method: 'patch', html: { class:'ui form'}  do |f|
+  section.projet
+    h2 Projet envisagé
+    p.chapo Quelles difficultés rencontrez-vous dans le logement ?
+    ul.ins-form
+      li.radio
+        = f.check_box :froid
+        = f.label t('demarrage_projet.etape2_description_projet.froid')
+      li.radio
+        = f.check_box :probleme_deplacement
+        = f.label t('demarrage_projet.etape2_description_projet.probleme_deplacement')
+      li.radio
+        = f.check_box :handicap
+        = f.label t('demarrage_projet.etape2_description_projet.handicap')
+      li.radio
+        = f.check_box :mauvais_etat, class: 'checkbox-inline'
+        = f.label t('demarrage_projet.etape2_description_projet.mauvais_etat')
+    p.chapo Quels travaux souhaitez-vous realiser ?
+    ul.ins-form
+      li.radio
+        = f.check_box :changement_chauffage, class: 'checkbox-inline'
+        = f.label t('demarrage_projet.etape2_description_projet.changement_chauffage')
+      li.radio
+        = f.check_box :isolation, class: 'checkbox-inline'
+        = f.label t('demarrage_projet.etape2_description_projet.isolation')
+      li.radio
+        = f.check_box :adaptation_salle_de_bain, class: 'checkbox-inline'
+        = f.label t('demarrage_projet.etape2_description_projet.adaptation_salle_de_bain')
+      li.radio
+        = f.check_box :accessibilite, class: 'checkbox-inline'
+        = f.label t('demarrage_projet.etape2_description_projet.accessibilite')
+      li.radio
+        = f.check_box :travaux_importants, class: 'checkbox-inline'
+        = f.label t('demarrage_projet.etape2_description_projet.travaux_importants')
+    p.chapo Souhaitez-vous communiquer des informations supplementaires ?
+    = f.text_area :complement
+    p.chapo Logement ou immeuble achevé depuis plus de 15 ans
+    ul.ins-form
+      li.radio
+        input#proj-diff-o name="proj-diff" type="radio" /
+        label for="proj-diff-o"  Oui
+      li.radio
+        input#proj-diff-n name="proj-diff" type="radio" /
+        label for="proj-diff-n"  Non
+    p.chapo Si vous la connaissez, indiquez l'année d'achèvement de votre maison ou immeuble :
+    = f.text_field :annee_construction, class: "ct-years" 
+    p.chapo Prêt à taux zéro contracté :
+    ul.ins-form
+      li.radio
+        = f.radio_button :ptz, true
+        = f.label :ptz, "Oui", value: "true"
+      li.radio
+        = f.radio_button :ptz, false
+        = f.label :ptz, "Non", value: "false"
+      li.radio
+        = f.radio_button :ptz, nil
+        = f.label :ptz, "Ne sait pas", value: "nil"
+
+  = submit_tag t('demarrage_projet.action'), class: 'validate btn'

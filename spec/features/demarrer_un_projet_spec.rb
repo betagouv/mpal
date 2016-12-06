@@ -74,26 +74,36 @@ feature "Démarrer un projet" do
     check('demande_probleme_deplacement')
     check('demande_handicap')
     check('demande_mauvais_etat')
-    fill_in :demande_autres_besoins, with: "J'ai besoin d'un jacuzzi"
+    fill_in :demande_complement, with: "J'ai besoin d'un jacuzzi"
     check('demande_changement_chauffage')
     uncheck('demande_isolation')
     check('demande_adaptation_salle_de_bain')
     check('demande_accessibilite')
     check('demande_travaux_importants')
+    choose('demande_ptz')
+    # check('demande_devis')
+    # check('demande_travaux_engages')
+    fill_in :demande_annee_construction, with: "1930"
+    # check('demande_maison_individuelle')
     click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape3_infos_complementaires_path(projet))
+    expect(page.current_path).to eq(etape3_choix_operateur_path(projet))
 
     projet = Projet.last
     expect(projet.demande.froid).to be_truthy
     expect(projet.demande.probleme_deplacement).to be_truthy
     expect(projet.demande.handicap).to be_truthy
     expect(projet.demande.mauvais_etat).to be_truthy
-    expect(projet.demande.autres_besoins).to eq("J'ai besoin d'un jacuzzi")
+    expect(projet.demande.complement).to eq("J'ai besoin d'un jacuzzi")
     expect(projet.demande.changement_chauffage).to be_truthy
     expect(projet.demande.isolation).not_to be_truthy
     expect(projet.demande.adaptation_salle_de_bain).to be_truthy
     expect(projet.demande.accessibilite).to be_truthy
     expect(projet.demande.travaux_importants).to be_truthy
+    expect(projet.demande.ptz).to be_truthy
+    # expect(projet.demande.devis).to be_truthy
+    # expect(projet.demande.travaux_engages).to be_truthy
+    expect(projet.demande.annee_construction).to eq("1930")
+    # expect(projet.demande.maison_individuelle).to be_truthy
   end
 
   scenario "je ne décris aucun besoin" do
@@ -105,32 +115,12 @@ feature "Démarrer un projet" do
     expect(page).to have_content(I18n.t("demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire"))
   end
 
-  scenario "j'ajoute des infos complémentaires" do
-    signin(12,15)
-    projet = Projet.last
-    visit etape3_infos_complementaires_path(projet)
-    check('demande_ptz')
-    check('demande_devis')
-    check('demande_travaux_engages')
-    fill_in :demande_annee_construction, with: "1930"
-    check('demande_maison_individuelle')
-    click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape4_choix_operateur_path(projet))
-
-    projet = Projet.last
-    expect(projet.demande.ptz).to be_truthy
-    expect(projet.demande.devis).to be_truthy
-    expect(projet.demande.travaux_engages).to be_truthy
-    expect(projet.demande.annee_construction).to eq("1930")
-    expect(projet.demande.maison_individuelle).to be_truthy
-  end
-
   scenario "J'invite le pris ou un opérateur à consulter mon projet" do
     signin(12,15)
     projet = Projet.last
     projet.demande = FactoryGirl.create(:demande)
     operateur = FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:operateur])
-    visit etape4_choix_operateur_path(projet)
+    visit etape3_choix_operateur_path(projet)
     within "#intervenant_#{operateur.id}" do
       click_link I18n.t('projets.visualisation.invitation_intervenant')
     end
