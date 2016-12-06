@@ -1,0 +1,45 @@
+/! Eligibilite
+section.eligibilite
+  h2 Pre-eligibilité
+  p.chapo
+    | Au vue des informations que vous avez transmises, vous pouvez prétendre à une subvention sur la base des revenus de l’année N-1 ou N-2.
+    br>/
+    | Nous vous invitons à vous rapprocher du (ou des) intervenant(s) suivant(s) (PRIS ou opérateur) pour poursuivre votre démarche.
+/! Eligibilite
+section.intervenant
+  h2 Intervenants disponibles
+  p.chapo
+    | L’opérateur est un intervenant chargé de vous conseiller tout au long de la démarche. Il vous accompagne dans l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.
+    br/
+    br/
+    | Si une subvention vous est accordée par l’Anah, l’opérateur vous accompagne jusqu’au paiement de la subvention.
+    br/
+    br/
+    | En diffus, hors secteur programmé : Cette prestation est payante. Elle peut être totalement ou partiellement remboursée par le complément de subvention qui complète la subvention pour travaux.
+    br/
+    br/
+    | Les opérateurs suivants sont compétents pour vous accompagner. Vous pouvez demander à être mis en relation avec un ou plusieurs d’entre eux. Pour effectuer votre choix, l’opérateur doit vous indiquer un RDV pour examiner votre situation et une fourchette de prix de son intervention.
+  hr/
+  p.chapo
+    strong Je souhaite me renseigner gratuitement sur l'ensemble des aides pour la rénovation de mon logement :
+  ul.choose-operator
+    - @pris_departement.each do |pris|
+      li
+        h3 Centre Information
+        p= pris
+        = link_to 'Sélectionner', etape4_invitation_intervenant_path(@projet_courant, pris.id), class:"btn"
+  p.chapo
+    strong Je connais déjà les aides disponibles, et je souhaite m'engager dans une demande de subvention à l'anah.
+  ul.choose-operator
+    - @operateurs_disponibles.each do |operateur|
+      li
+        h3= operateur
+        p= operateur.adresse_postale
+        = link_to new_projet_choix_intervenant_path(@projet_courant, intervenant_id: operateur.id) do
+          = button_tag 'Sélectionner', class:'btn'
+  ul.ins-form
+    li.radio
+      input#dif1 type="checkbox" /
+      label for="dif1"  Je suis informé que les intervenants avec lesquels je vais être mise en relation ou que je vais inviter à consulter mon dossier ont accès aux données que j’ai renseignées
+a.validate.btn href="#"  Enregistrer mes informations
+

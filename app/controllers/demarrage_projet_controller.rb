@@ -44,6 +44,7 @@ class DemarrageProjetController < ApplicationController
       @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
       @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
     end
+  render :etape3_choix_intervenant
   end
 
   def etape3_envoi_choix_operateur
