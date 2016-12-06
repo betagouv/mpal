@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="17px" viewBox="0 0 19 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 6</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowOffsetOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Piste-Graphique" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home" transform="translate(-1146.000000, -327.000000)" fill="#FFFFFF">
+            <g id="chat-box" transform="translate(361.000000, 213.000000)">
+                <g id="Group-6" filter="url(#filter-1)" transform="translate(785.000000, 115.000000)">
+                    <path d="M3.58625,13.0145061 C3.574375,13.0858185 3.5625,13.1571308 3.5625,13.2284432 L3.5625,14.9637107 C3.5625,15.5460949 3.9425,15.5698657 4.334375,15.153877 L5.996875,13.0739331 L7.350625,13.0739331 C9.393125,13.0739331 11.115,11.4575195 11.744375,9.50831495 L12.825,9.50831495 L14.665625,11.5882588 C15.0575,12.0042476 15.4375,12.1944139 15.4375,11.6120296 L15.4375,9.53208574 C17.349375,9.48454416 19,7.1668924 19,4.93243838 C19,2.21068323 16.921875,0 14.36875,0 L11.649375,0 C9.57125,0 7.81375,1.59264275 7.22,3.56561811 L4.63125,3.56561811 C2.078125,3.56561811 0,5.77630133 0,8.49805649 C0,10.7325105 1.674375,12.408351 3.58625,13.0145061 Z M11.97,8.31977558 L11.981875,7.95132838 C11.981875,5.58613503 10.414375,4.18365858 8.324375,3.73201362 C8.8825,2.30576638 10.295625,1.18853937 11.791875,1.18853937 L14.428125,1.18853937 C16.36375,1.18853937 17.824375,2.78118212 17.8125,4.77792826 C17.78875,8.55748346 14.25,8.34354637 14.25,8.34354637 L14.25,9.47265877 L13.0625,8.31977558 L11.97,8.31977558 L11.97,8.31977558 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

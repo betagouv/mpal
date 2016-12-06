@@ -3,16 +3,26 @@ fr:
     attributes:
       projet:
         nb_occupants_a_charge: "Nombre d'occupants à charge"
+        demandeur_principal_prenom: Prenom
+        demandeur_principal_nom: Nom
   helpers:
     label:
       projet:
-        email: 'Mon e-mail'
-        adresse: "L'adresse de mon logement à rénover"
-        description: 'Je présente mon projet en quelques phrases'
-        tel: 'Mon numéro de téléphone'
+        civilite: "-- ici civilite ----"
+        email: Email
+        adresse: Adresse
+        renover: "adresse du logement à rénover si différente"
+
+        tel: 'Téléphone'
+        disponibilite: "A quel moment souhaitez-vous être contacté ?"
+
       civilite:
         - M
         - Mme
+      personne_de_confiance:
+        nom: 'Nom'
+        lien_avec_demandeur: 'Quel est votre lien avec le demandeur ?'
+
   menu:
     intervenants: "Intervenants"
   accueil:
@@ -39,13 +49,13 @@ fr:
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
     lien_deconnexion: "Se déconnecter"
   demarrage_projet:
-    action: "Je passe à l'étape suivante"
+    action: "Enregistrez mes informations"
     etape1_demarrage_projet:
       titre: "Ceci est le titre"
       recapitulatif_informations: "Récapitulatif des informations disponibles vous concernant"
       infos_complementaires: "Informations complémentaires"
       infos_contact: "Comment pouvons-nous vous recontacter ?"
-      personne_confiance: "Souhaitez-vous indiquer une personne de confiance à contacter ?"
+      personne_confiance: "Qui contacter pour les démarches à venir ?"
       adresse_logement_a_renover: "Adresse du logement à renover ?"
       demandeur_principal: "Demandeur principal"
       adresse_postale: "Adresse postale"
@@ -221,6 +231,9 @@ Vous serez notifié par email dès qu’un nouveau message apparaitra."
         obligatoire: "Le nom de l'occupant est obligatoire"
     modification:
       composition_logement: "Composition du logement"
+    civilite:
+      mme: Madame
+      mr: Monsieur
   mailers:
     projet_mailer:
       invitation_intervenant:

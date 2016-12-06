@@ -21,6 +21,7 @@ feature "intervenant" do
   let!(:instructeur) { FactoryGirl.create(:intervenant, :instructeur, departements: [ projet.departement ]) }
 
   scenario "visualisation d'un projet par un pris" do
+    pending
     visit projet_path(invitation.projet, jeton: invitation.token)
     expect(page).to have_content(projet.adresse)
     click_link 'Intervenants'

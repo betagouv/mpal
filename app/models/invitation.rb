@@ -10,6 +10,9 @@ class Invitation < ActiveRecord::Base
   before_create :generate_token
 
   delegate :demandeur_principal, to: :projet
+  delegate :demandeur_principal_prenom, to: :projet
+  delegate :demandeur_principal_nom, to: :projet
+  delegate :demandeur_principal_civilite, to: :projet
   delegate :adresse, to: :projet
 
   def intervenant_email

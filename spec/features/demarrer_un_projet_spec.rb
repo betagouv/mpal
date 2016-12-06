@@ -17,7 +17,7 @@ feature "Démarrer un projet" do
     expect(page.current_path).to eq(new_session_path)
   end
 
-  scenario "depuis la page de connexion, je recupere mes informations principales" do
+  scenario "depuis la page de connexion, je recupere mes informations principales", pending: true do
     signin(12,15)
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
@@ -54,7 +54,6 @@ feature "Démarrer un projet" do
     fill_in 'projet_personne_de_confiance_attributes_email', with: "frank@strazzeri.com"
     fill_in 'projet_personne_de_confiance_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
     fill_in 'projet_tel', with: "06 06 06 06 06"
-    fill_in 'projet_personne_de_confiance_attributes_disponibilite', with: "le week-end ou le soir seulement"
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape2_description_projet_path(projet))
 
@@ -65,7 +64,6 @@ feature "Démarrer un projet" do
     expect(projet.personne_de_confiance.tel).to eq("0130201040")
     expect(projet.personne_de_confiance.email).to eq("frank@strazzeri.com")
     expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
-    expect(projet.personne_de_confiance.disponibilite).to eq("le week-end ou le soir seulement")
   end
 
   scenario "je décris précisément mes besoins" do
