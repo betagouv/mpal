@@ -3,16 +3,18 @@ fr:
     attributes:
       projet:
         nb_occupants_a_charge: "Nombre d'occupants à charge"
+        demandeur_principal_prenom: Prenom
+        demandeur_principal_nom: Nom
   helpers:
     label:
       projet:
         civilite: "-- ici civilite ----"
-        email: 'Mon e-mail'
-        adresse: "Mon adresse fiscale"
+        email: Email
+        adresse: Adresse
         renover: "adresse du logement à rénover si différente"
 
-        tel: 'Mon numéro de téléphone'
-        disponibilite: "---Ici disponibilite-"
+        tel: 'Téléphone'
+        disponibilite: "A quel moment souhaitez-vous être contacté ?"
 
       civilite:
         - M
@@ -229,6 +231,9 @@ Vous serez notifié par email dès qu’un nouveau message apparaitra."
         obligatoire: "Le nom de l'occupant est obligatoire"
     modification:
       composition_logement: "Composition du logement"
+    civilite:
+      mme: Madame
+      mr: Monsieur
   mailers:
     projet_mailer:
       invitation_intervenant:

@@ -1,4 +1,6 @@
 class DemarrageProjetController < ApplicationController
+  layout "minimal"
+
   def etape1_recuperation_infos
     @projet_courant.personne_de_confiance = Personne.new
   end

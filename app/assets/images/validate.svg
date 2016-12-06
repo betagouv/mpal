@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="16px" viewBox="0 0 19 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M18.3089669,19.8258222 C17.8815089,20.2770171 17.9052566,21.1794069 18.3327146,21.6187283 L23.5453279,26.902458 C23.9846598,27.3536529 24.8633235,27.3655264 25.3145292,26.9380786 L26.1456976,26.1425508 L27.9386466,24.4208861 L36.654041,16.1094011 C37.1052467,15.6819533 37.1171205,14.8033106 36.6777887,14.3639893 L35.6685128,13.3309905 C35.2291809,12.8916691 34.3505171,12.8916691 33.9111853,13.3191169 L25.3857722,21.8324522 C24.9464403,22.2717735 24.0677766,22.2599 23.6403186,21.8205786 L20.8024722,18.9590531 C20.3750141,18.5078582 19.520098,18.5197318 19.09264,18.9828002 L18.3089669,19.8258222 L18.3089669,19.8258222 Z" id="path-1"></path>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="-1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.2 0" type="matrix" in="shadowOffsetOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Piste-Graphique" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Inscription" transform="translate(-481.000000, -2331.000000)">
+            <g id="btn-valider" transform="translate(463.000000, 2319.000000)">
+                <g id="Shape">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
