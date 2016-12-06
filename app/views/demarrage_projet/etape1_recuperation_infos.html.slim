@@ -7,10 +7,10 @@
     ul.dem-info.ins-form
       li.radio
         = f.radio_button :demandeur_principal_civilite, Occupant.civilites.keys[1]
-        = f.label :demandeur_principal_civilite, t(:"occupants.civilite.mme")
+        = f.label :demandeur_principal_civilite_mme, t(:"occupants.civilite.mme")
       li.radio
         = f.radio_button :demandeur_principal_civilite, Occupant.civilites.keys[0]
-        = f.label :demandeur_principal_civilite, t(:"occupants.civilite.mr")
+        = f.label :demandeur_principal_civilite_mr, t(:"occupants.civilite.mr")
       li
         = f.label :demandeur_principal_prenom
         = f.text_field :demandeur_principal_prenom, disabled: true, class: 'disabled'
@@ -46,10 +46,10 @@
 
             li.radio
               = ff.radio_button :civilite, "Mme", :value => "madame"
-              = ff.label :civilite, "Madame"
+              = ff.label :civilite_mme, "Madame"
             li.radio
-              = ff.radio_button :civilite, "M", :value => "monsieur"
-              = ff.label :civilite, "Monsieur"
+              = ff.radio_button :civilite, "Mr", :value => "monsieur"
+              = ff.label :civilite_mr, "Monsieur"
             li
               = ff.label :prenom
               = ff.text_field :prenom

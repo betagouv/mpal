@@ -3,35 +3,35 @@
     h2 Projet envisagé
     p.chapo Quelles difficultés rencontrez-vous dans le logement ?
     ul.ins-form
-      li.radio
+      li.checkbox
         = f.check_box :froid
-        = f.label t('demarrage_projet.etape2_description_projet.froid')
-      li.radio
+        = f.label :froid, t('demarrage_projet.etape2_description_projet.froid')
+      li.checkbox
         = f.check_box :probleme_deplacement
-        = f.label t('demarrage_projet.etape2_description_projet.probleme_deplacement')
-      li.radio
+        = f.label :probleme_deplacement, t('demarrage_projet.etape2_description_projet.probleme_deplacement')
+      li.checkbox
         = f.check_box :handicap
-        = f.label t('demarrage_projet.etape2_description_projet.handicap')
-      li.radio
+        = f.label :handicap, t('demarrage_projet.etape2_description_projet.handicap')
+      li.checkbox
         = f.check_box :mauvais_etat, class: 'checkbox-inline'
-        = f.label t('demarrage_projet.etape2_description_projet.mauvais_etat')
-    p.chapo Quels travaux souhaitez-vous realiser ?
+        = f.label :mauvais_etat, t('demarrage_projet.etape2_description_projet.mauvais_etat')
+    p.chapo Quels travaux souhaitez-vous réaliser ?
     ul.ins-form
-      li.radio
+      li.checkbox
         = f.check_box :changement_chauffage, class: 'checkbox-inline'
-        = f.label t('demarrage_projet.etape2_description_projet.changement_chauffage')
-      li.radio
+        = f.label :changement_chauffage, t('demarrage_projet.etape2_description_projet.changement_chauffage')
+      li.checkbox
         = f.check_box :isolation, class: 'checkbox-inline'
-        = f.label t('demarrage_projet.etape2_description_projet.isolation')
-      li.radio
+        = f.label :isolation, t('demarrage_projet.etape2_description_projet.isolation')
+      li.checkbox
         = f.check_box :adaptation_salle_de_bain, class: 'checkbox-inline'
-        = f.label t('demarrage_projet.etape2_description_projet.adaptation_salle_de_bain')
-      li.radio
+        = f.label :adaptation_salle_de_bain, t('demarrage_projet.etape2_description_projet.adaptation_salle_de_bain')
+      li.checkbox
         = f.check_box :accessibilite, class: 'checkbox-inline'
-        = f.label t('demarrage_projet.etape2_description_projet.accessibilite')
-      li.radio
+        = f.label :accessibilite, t('demarrage_projet.etape2_description_projet.accessibilite')
+      li.checkbox
         = f.check_box :travaux_importants, class: 'checkbox-inline'
-        = f.label t('demarrage_projet.etape2_description_projet.travaux_importants')
+        = f.label :travaux_importants, t('demarrage_projet.etape2_description_projet.travaux_importants')
     p.chapo Souhaitez-vous communiquer des informations supplementaires ?
     = f.text_area :complement
     p.chapo Logement ou immeuble achevé depuis plus de 15 ans
