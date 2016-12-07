@@ -35,6 +35,7 @@ html lang="fr"
                   = image_tag "help.svg", alt: "Aide - Revenus modestes"
         /! Colonne droite
         .col-right
+          = render 'shared/messages'
           = yield
           footer.main-footer
             ul
