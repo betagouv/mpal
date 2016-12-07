@@ -26,7 +26,7 @@ describe ApplicationHelper do
   context "avec une demande existante" do
     let(:demande) { FactoryGirl.build(:demande) }
     it "une demande souhaitée contient un titre" do
-      expect(helper.affiche_demande_souhaitee(demande)).to start_with("<h3>Quelles difficultés rencontrez-vous dans le logement ?</h3>")
+      expect(helper.affiche_demande_souhaitee(demande)).to start_with("<h4>Difficultés rencontrées dans le logement</h4>")
     end
 
     it "une demande souhaitée contient les besoins" do

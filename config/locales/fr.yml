@@ -96,11 +96,11 @@ fr:
       anne_construction: "Quelle est l'année d'achèvement de construction de votre logement ?"
     etape3_infos_complementaires:
       titre: "Informations facultatives"
-      ptz: "J'ai contracté un prêt à taux zéro"
+      ptz: "Prêt à taux zéro contracté dans les 5 dernières années"
       devis: "Un devis a déjà été fait pour les travaux envisagés"
       travaux_engages: "Les travaux ont déjà été engagés"
       maison_individuelle: "C'est une maison individuelle"
-      anne_construction: "Année de construction"
+      annee_construction: "Année d'achèvement du logement ou de l'immeuble"
     etape4_choix_operateur:
       titre: "Choisissez votre opérateur"
   projets:
@@ -170,7 +170,7 @@ fr:
       lien_edition_projet: 'Modifier le projet'
       lien_edition: 'Modifier'
       lien_edition_coordonnees: 'Modifier mes coordonnées'
-      invitation_intervenant: "Je souhaite contacter cet intervenant"
+      invitation_intervenant: "Sélectionner"
       invitation_relance_intervenant: "Je relance l'intervenant"
       mise_en_relation_intervenant: "Je mets en relation"
       choisir_intervenant: "Je choisis cet opérateur"

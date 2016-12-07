@@ -177,7 +177,7 @@ module ApplicationHelper
   end
 
   def affiche_demande_souhaitee(demande)
-    html = content_tag(:h3, "Quelles difficultés rencontrez-vous dans le logement ?")
+    html = content_tag(:h4, "Difficultés rencontrées dans le logement")
     besoins = []
     besoins << t("demarrage_projet.etape2_description_projet.froid") if demande.froid
     besoins << t("demarrage_projet.etape2_description_projet.probleme_deplacement") if demande.probleme_deplacement
@@ -187,8 +187,7 @@ module ApplicationHelper
     html << content_tag(:ul) do
       besoins.map { |besoin| content_tag(:li, besoin.html_safe) }.join.html_safe
     end
-    html << content_tag(:br)
-    html << content_tag(:h3, "Souhaitez-vous communiquer des informations supplémentaires ?")
+    html << content_tag(:h4, "Travaux envisagés")
     travaux = []
     travaux << t("demarrage_projet.etape2_description_projet.changement_chauffage") if demande.changement_chauffage
     travaux << t("demarrage_projet.etape2_description_projet.isolation") if demande.isolation
@@ -198,13 +197,16 @@ module ApplicationHelper
     html << content_tag(:ul) do
       travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
     end
-    html << content_tag(:br)
-    html << content_tag(:h3, "Informations complémentaires")
+    html << content_tag(:h4, "Informations supplémentaires")
     complements = []
-    complements << t("demarrage_projet.etape3_infos_complementaires.ptz") if demande.ptz
+    ptz = demande.ptz ? "Oui": "Non"
+    ptz_strong = content_tag(:strong, ptz)
+    complements << "#{t("demarrage_projet.etape3_infos_complementaires.ptz")} : #{ptz_strong}"
     complements << t("demarrage_projet.etape3_infos_complementaires.devis") if demande.devis
     complements << t("demarrage_projet.etape3_infos_complementaires.travaux_engages") if demande.travaux_engages
-    complements << "#{t("demarrage_projet.etape3_infos_complementaires.annee_construction")}: #{demande.annee_construction}" if demande.annee_construction.present?
+    annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
+    annee_construction_strong = content_tag(:strong, annee_construction)
+    complements << "#{t("demarrage_projet.etape3_infos_complementaires.annee_construction")} : #{annee_construction_strong}"
     complements << t("demarrage_projet.etape3_infos_complementaires.maison_individuelle") if demande.maison_individuelle
     html << content_tag(:ul) do
       complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe

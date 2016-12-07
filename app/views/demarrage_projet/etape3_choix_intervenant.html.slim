@@ -27,16 +27,17 @@ section.intervenant
       li
         h3 Centre Information
         p= pris
-        = link_to 'Sélectionner', etape4_invitation_intervenant_path(@projet_courant, pris.id), class:"btn"
+        = link_to etape3_invitation_intervenant_path(@projet_courant, pris.id) do
+          = button_tag t('projets.visualisation.invitation_intervenant'), class: 'btn'
   p.chapo
     strong Je connais déjà les aides disponibles, et je souhaite m'engager dans une demande de subvention à l'anah.
   ul.choose-operator
     - @operateurs_disponibles.each do |operateur|
-      li
+      li id="intervenant_#{operateur.id}"
         h3= operateur
         p= operateur.adresse_postale
-        = link_to new_projet_choix_intervenant_path(@projet_courant, intervenant_id: operateur.id) do
-          = button_tag 'Sélectionner', class:'btn'
+        = link_to etape3_invitation_intervenant_path(@projet_courant, operateur.id) do
+          = button_tag t('projets.visualisation.invitation_intervenant'), class: 'btn'
   ul.ins-form
     li.radio
       input#dif1 type="checkbox" /

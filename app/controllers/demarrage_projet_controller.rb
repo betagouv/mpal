@@ -57,7 +57,7 @@ class DemarrageProjetController < ApplicationController
       flash[:notice_titre] = t('invitations.messages.succes_titre')
       redirect_to projet_path(@projet_courant), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else
-      render :etape4_choix_operateur
+      render :etape3_choix_operateur
     end
   end
 

@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     patch '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_envoi_description_projet'
 
     get '/projets/:projet_id/choix_operateur', to: 'demarrage_projet#etape3_choix_operateur', as: 'etape3_choix_operateur'
-    get '/projets/:projet_id/choix_operateur/:intervenant_id', to: 'demarrage_projet#etape3_envoi_choix_operateur', as: 'etape4_invitation_intervenant'
+    get '/projets/:projet_id/choix_operateur/:intervenant_id', to: 'demarrage_projet#etape3_envoi_choix_operateur', as: 'etape3_invitation_intervenant'
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'

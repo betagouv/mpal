@@ -9,7 +9,7 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur_principal: invitation.demandeur_principal)) }
     it { expect(email.body.encoded).to match(invitation.demandeur_principal.to_s) }
     it { expect(email.body.encoded).to match(invitation.adresse) }
-    it { expect(email.body.encoded).to include("Quelles difficultés rencontrez-vous dans le logement") }
+    it { expect(email.body.encoded).to include("Difficultés rencontrées dans le logement") }
     it { expect(email.body.encoded).to include(projet_url(invitation.projet, jeton: invitation.token)) }
   end
 
