@@ -3,6 +3,11 @@ class DemarrageProjetController < ApplicationController
 
   def etape1_recuperation_infos
     @projet_courant.personne_de_confiance = Personne.new
+    nb_occupants = @projet_courant.occupants.count
+    @occupants_a_charge = []
+    @projet_courant.nb_occupants_a_charge.times.each do |index|
+      @occupants_a_charge << Occupant.new(nom: "Occupant #{index + nb_occupants + 1}")
+    end
   end
 
   def etape1_envoi_infos

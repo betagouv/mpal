@@ -75,10 +75,10 @@
       ul
         li
           | Nombre d’occupants :
-          span 4
+          span= @projet_courant.nb_total_occupants
         li
           | Total RFR :
-          span 12 345,00 €
+          span= "#{calcul_revenu_fiscal_reference_total(2015)} €"
     p.chapo Veuillez confirmer le nombre de personnes occupants le logement ainsi que leur année de naissance.
     table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%" 
       tbody
@@ -86,27 +86,16 @@
           th scope="col"  Occupants
           th scope="col"  Année de naissance
           th scope="col"  Modification
-        tr
-          td Demandeur
-          td 1970
-          td -
-        tr
-          td Occupant 1
-          td
-            input type="text" /
-          td
-            a.btn href="#"  Supprimer
-        tr
-          td Occupant 2
-          td
-            input type="text" /
-          td
-            a.btn href="#"  Supprimer
-        tr
-          td Occupant 3
-          td
-            input type="text" /
-          td
-            a.btn href="#"  Supprimer
+        - @projet_courant.occupants.each do |occupant|
+          tr
+            td= occupant
+            td= occupant.date_de_naissance.year
+        - @occupants_a_charge.each do |occupant|
+          tr
+            td= occupant
+            td
+              input type="text" /
+            td
+              a.btn href="#"  Supprimer
   = submit_tag t('demarrage_projet.action'), class: 'validate btn'
 
