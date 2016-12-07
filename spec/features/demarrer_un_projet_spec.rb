@@ -33,7 +33,6 @@ feature "Démarrer un projet" do
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     fill_in :projet_adresse, with: "1 place Vendôme, 75001 Paris"
-    fill_in 'projet_disponibilite', with: "Plutôt en journée pendant la semaine"
 
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape2_description_projet_path(projet))
