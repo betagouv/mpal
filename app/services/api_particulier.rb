@@ -3,14 +3,34 @@ class ApiParticulier
   DOMAIN = ENV['API_PARTICULIER_DOMAIN']
 
   def retrouve_contribuable(numero_fiscal, reference_avis)
-    response = HTTParty.get(uri(numero_fiscal, reference_avis), headers: HEADERS)
-    response.code == 200 ? Contribuable.new(JSON.parse(response.body)) : nil
+    key = cache_key(numero_fiscal, reference_avis)
+    json = Rails.cache.read(key)
+
+    if json.present?
+      contribuable = Contribuable.new(json)
+    else
+      json = requete_contribuable(numero_fiscal, reference_avis)
+      contribuable = Contribuable.new(json) if json.present?
+      Rails.cache.write(key, json, :expires_in => 1.day) if contribuable && contribuable.valid?
+    end
+
+    contribuable
   end
 
   private
-    def uri(numero_fiscal, reference_avis)
-      "https://#{DOMAIN}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}"
-    end
+
+  def requete_contribuable(numero_fiscal, reference_avis)
+    response = HTTParty.get(uri(numero_fiscal, reference_avis), headers: HEADERS)
+    response.code == 200 ? JSON.parse(response.body) : nil
+  end
+
+  def uri(numero_fiscal, reference_avis)
+    "https://#{DOMAIN}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}"
+  end
+
+  def cache_key(numero_fiscal, reference_avis)
+    "contribuable-#{numero_fiscal}-#{reference_avis}"
+  end
 end
 
 class Contribuable
@@ -46,6 +66,10 @@ class Contribuable
     @revenu_fiscal_reference = params["revenuFiscalReference"]
     @annee_impots = params["anneeImpots"]
     @annee_revenus = params["anneeRevenus"]
+  end
+
+  def valid?
+    @declarants.present?
   end
 
   private
