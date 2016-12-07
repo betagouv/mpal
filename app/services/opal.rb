@@ -4,12 +4,13 @@ class Opal
   end
 
   def creer_dossier(projet)
-    response = @client.post('/createDossier', body: convertit_projet_en_dossier(projet).to_json)
+    response = @client.post('/createDossier', body: convertit_projet_en_dossier(projet).to_json, verify: false)
     if response.code == 201 
       ajoute_id_opal(projet, response.body)
       met_a_jour_statut(projet)
       projet.save
     else
+      puts "ERREUR: #{response}"
       false
     end
   end
