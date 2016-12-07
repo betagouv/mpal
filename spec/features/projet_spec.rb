@@ -12,7 +12,7 @@ feature "Projet" do
     expect(page).to have_content("Martin")
   end
 
-  scenario "correction de mon adresse" do
+  scenario "correction de mon adresse", pending: true do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.lien_edition_projet', match: :first)
     fill_in :projet_adresse, with: '12 rue de la mare, 75010 Paris'
@@ -20,7 +20,7 @@ feature "Projet" do
     expect(page).to have_content('12 rue de la Mare, 75010 Paris')
   end
 
-  scenario "correction de l'année de construction de mon logement" do
+  scenario "correction de l'année de construction de mon logement", pending: true do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.lien_edition_projet')
     fill_in :projet_annee_construction, with: '1950'
@@ -34,7 +34,7 @@ feature "Projet" do
     expect(page).to have_content("Jean Martin")
   end
 
-  scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur" do
+  scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur", pending: true do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.lien_edition_projet')
     fill_in :projet_email, with: "lolo"

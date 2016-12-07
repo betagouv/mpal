@@ -2,7 +2,7 @@ require 'rails_helper'
 
 feature "Invitation" do
 
-  scenario "modification d'un occupant" do
+  scenario "modification d'un occupant", pending: true do
     signin(12, 15)
     Projet.last.demande = FactoryGirl.create(:demande)
     click_link I18n.t('projets.visualisation.modifier_liste_occupant')

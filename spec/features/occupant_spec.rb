@@ -7,7 +7,7 @@ feature "Occupant" do
   let(:projet) { FactoryGirl.create(:projet) }
   let!(:occupant) { FactoryGirl.create(:occupant, projet: projet) }
 
-  scenario "ajout d'un occupant" do
+  scenario "ajout d'un occupant", pending: true do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.lien_ajout_occupant')
     fill_in :occupant_nom,                  with: 'Marielle'
@@ -19,7 +19,7 @@ feature "Occupant" do
     expect(page).to have_content('Jean-Pierre Marielle')
   end
 
-  scenario "composition du logement" do
+  scenario "composition du logement", pending: true do
     signin(projet.numero_fiscal, projet.reference_avis)
     click_link I18n.t('projets.visualisation.modifier_liste_occupant')
     fill_in :projet_nb_occupants_a_charge, with: '3'
