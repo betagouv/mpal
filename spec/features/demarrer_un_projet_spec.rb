@@ -40,7 +40,6 @@ feature "Démarrer un projet" do
     expect(projet.adresse_ligne1).to eq("12 rue de la Mare")
     expect(projet.code_postal).to eq("75010")
     expect(projet.ville).to eq("Paris")
-    expect(projet.disponibilite).to eq("Plutôt en journée pendant la semaine")
   end
 
   scenario "j'ajoute une personne de confiance" do
