@@ -208,6 +208,7 @@ module ApplicationHelper
     annee_construction_strong = content_tag(:strong, annee_construction)
     complements << "#{t("demarrage_projet.etape3_infos_complementaires.annee_construction")} : #{annee_construction_strong}"
     complements << t("demarrage_projet.etape3_infos_complementaires.maison_individuelle") if demande.maison_individuelle
+    complements << demande.complement if demande.complement.present?
     html << content_tag(:ul) do
       complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe
     end
