@@ -30,25 +30,41 @@ A partir de ce moment, vous êtes accompagnés:
 MPAL est la plateforme pour l'amélioration du logement qui réunit tous les acteurs et toutes les compétences,
 au service de votre projet.
 
-# Installation (sans passer par Docker)
-
-Nécessite redis, sidekiq
-La gem dotenv-rails vous oblige à copier les variables d'environnement de .env.sample vers .env
-dans config/database.yml, la partie config a besoin d'un host qui sera localhost
-
-`rake db:seed` pour charger la liste des travaux disponibles et des intervenants disponibles
-
-`foreman start web` pour lancer le serveur (alternative à l'utilisation de docker)
-
 # Installation (avec Docker)
 
-`cp config/database.yml{.sample,}`
-`cp .env{.sample,}`
-`docker-compose run mpal db:setup`
-`docker-compose run mpal db:setup RAILS_ENV=test`
-`docker-compose up`
+```shell
+cp config/database.yml{.sample,}
+cp .env{.sample,}
+docker-compose run mpal db:setup
+docker-compose run mpal db:setup RAILS_ENV=test`
+docker-compose up
 
-`docker-compose run mpal rake intervenants:charger`
+docker-compose run mpal rake intervenants:charger
+```
+
+# Installation (sans passer par Docker)
+
+Pré-requis : ce projet nécessite un serveur PostgreSQL et un serveur Redis lancés localement.
+
+## Configurer l'environnement
+
+```shell
+# Création des fichiers de configuration
+cp .env.sample .env
+cp config/database.yml.sample config/database.yml
+# Création de l'utilisateur de la base de données
+# (mot de passe : `mpal`)
+createuser --superuser --createdb mpal
+# Création de la base de données
+rake db:setup
+rake db:seed
+```
+
+## Lancer le projet
+
+```shell
+foreman start
+```
 
 # Notes
 
