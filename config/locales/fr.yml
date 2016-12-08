@@ -49,7 +49,7 @@ fr:
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
     lien_deconnexion: "Se déconnecter"
   demarrage_projet:
-    action: "Enregistrez mes informations"
+    action: "Suivant"
     etape1_demarrage_projet:
       titre: "Ceci est le titre"
       recapitulatif_informations: "Récapitulatif des informations disponibles vous concernant"
