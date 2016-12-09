@@ -41,6 +41,8 @@ class DemarrageProjetController < ApplicationController
   end
 
   def etape3_envoi_choix_intervenant
+    @projet_courant.disponibilite = params[:disponibilite]
+
     @intervenant = Intervenant.find(params[:intervenant_id])
     @invitation = Invitation.new(projet: @projet_courant, intervenant: @intervenant)
     if @invitation.save
