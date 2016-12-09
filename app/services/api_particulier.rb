@@ -20,7 +20,12 @@ class ApiParticulier
   private
 
   def requete_contribuable(numero_fiscal, reference_avis)
-    response = HTTParty.get(uri(numero_fiscal, reference_avis), headers: HEADERS)
+    api_uri = uri(numero_fiscal, reference_avis)
+
+    logger.debug "Started Api-Particuliers request \"#{api_uri}\""
+    response = HTTParty.get(api_uri, headers: HEADERS)
+    logger.debug "Completed Api-Particuliers request (#{response.code})"
+
     response.code == 200 ? JSON.parse(response.body) : nil
   end
 
@@ -30,6 +35,10 @@ class ApiParticulier
 
   def cache_key(numero_fiscal, reference_avis)
     "contribuable-#{numero_fiscal}-#{reference_avis}"
+  end
+
+  def logger
+    Rails.logger
   end
 end
 

@@ -16,11 +16,22 @@ class ApiBan
   end
 
   def geocode(adresse)
+    api_uri = uri(adresse)
+
+    logger.debug "Started Api-Ban request \"#{api_uri}\""
     response = HTTParty.get(uri(adresse))
+    logger.debug "Completed Api-Ban request (#{response.code})"
+
     response.code == 200 ? JSON.parse(response.body) : nil
   end
 
+  private
+
   def uri(adresse)
     URI.escape "http://#{DOMAIN}/search/?q=#{adresse}"
+  end
+
+  def logger
+    Rails.logger
   end
 end
