@@ -18,5 +18,12 @@ RSpec.configure do |config|
         "revenuFiscalReference": 29880
       }),
     )
+
+    FakeWeb.register_uri(
+      :get, "https://#{ENV['API_PARTICULIER_DOMAIN']}/api/impots/svair?numeroFiscal=INVALID&referenceAvis=INVALID",
+      content_type: 'application/json',
+      status: ["404", "Not Found"],
+      body: JSON.generate({ error: 'An error occured.'}),
+    )
   end
 end
