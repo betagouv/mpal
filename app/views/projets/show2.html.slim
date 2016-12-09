@@ -3,7 +3,7 @@
 header.project-header
   section.top-bar
     h2 Dossier en cours
-    a.btn.logoff href="#"  Déconnexion
+    =link_to t('sessions.lien_deconnexion'), {:controller => :sessions, :action => :deconnexion}, class: 'btn'
   hr/
   section.notification
     a.btn-notif href="#messagerie"  Vous 2 nouveaux messages

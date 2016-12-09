@@ -50,7 +50,7 @@ Rails.application.routes.draw do
     resources :sessions, only: [:new, :create]
   end
 
-  get '/deconnexion', to: 'sessions#deconnexion', as: 'deconnexion'
+  get '/deconnexion', to: 'sessions#deconnexion', as: '/'
   get  '/infos_projet/faq', to: 'infos_projet#faq'
   get  '/infos_projet/cgu', to: 'infos_projet#cgu'
   get  '/infos_projet/mentions_legales', to: 'infos_projet#mentions_legales'

@@ -47,7 +47,7 @@ fr:
     access_forbidden: Vous n'avez pas accès à cette page
     erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
-    lien_deconnexion: "Se déconnecter"
+    lien_deconnexion: "Déconnexion"
   demarrage_projet:
     action: "Suivant"
     etape1_demarrage_projet:
