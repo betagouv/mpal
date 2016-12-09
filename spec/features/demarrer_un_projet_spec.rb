@@ -78,7 +78,7 @@ feature "Démarrer un projet" do
     check('demande_adaptation_salle_de_bain')
     check('demande_accessibilite')
     check('demande_travaux_importants')
-    choose('demande_ptz')
+    choose('demande_ptz_true')
     # check('demande_devis')
     # check('demande_travaux_engages')
     fill_in :demande_annee_construction, with: "1930"

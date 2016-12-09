@@ -1,5 +1,5 @@
 doctype html
-html lang="fr" 
+html lang="fr"
   head
     = stylesheet_link_tag    'minimal', media: 'all'
     = javascript_include_tag 'minimal'
@@ -30,9 +30,9 @@ html lang="fr"
               li= @projet_courant.ville
               li= "#{@projet_courant.nb_total_occupants} occupants"
               li
-                | Revenus modestes
-                a.help href="#" 
-                  = image_tag "help.svg", alt: "Aide - Revenus modestes"
+                | Revenus dits modestes
+                a.help href="#"
+                  = image_tag "help.svg", alt: "Aide - Revenus dits modestes"
         /! Colonne droite
         .col-right
           = render 'shared/messages'
@@ -47,4 +47,3 @@ html lang="fr"
                 | \-
               li
                 a href="#"  Contact
-
