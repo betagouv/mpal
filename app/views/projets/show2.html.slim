@@ -53,4 +53,4 @@ section.content-projet
       hr/
       h4 Organisme qui vous accompagnera pour la suite de votre projet :
       p= @projet_courant.intervenants.first
-      a.btn href="#" name="choose"  S'engager avec un opérateur
+      = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn'

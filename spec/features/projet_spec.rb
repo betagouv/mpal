@@ -43,15 +43,15 @@ feature "Projet" do
     expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
   end
 
-  scenario "choisit un opérateur qui a été invité" do
+  scenario "s'engage auprès d'un opérateur qui a été consulté" do
     # cette spec est plus précise, je suggère de la déplacer dans spec/features/choisir_un_operateur_spec.rb
     # il y a également un spc pour les invitations / même genre de tets spec/features/invitation_spec.rb
     operateur = FactoryGirl.create(:intervenant, :operateur)
     invitation = FactoryGirl.create(:invitation, projet: projet, intervenant: operateur)
     signin(projet.numero_fiscal, projet.reference_avis)
-    visit projet_intervenants_path(projet)
+    visit projet_path(projet)
     expect(page).to have_content(invitation.intervenant.raison_sociale)
-    click_link I18n.t('projets.visualisation.choisir_intervenant')
+    click_link I18n.t('projets.visualisation.s_engager_avec_operateur')
     expect(page).to have_content(ActionController::Base.helpers.strip_tags(I18n.t('choix_intervenants.nouveau.explication_html')))
     click_button I18n.t('choix_intervenants.nouveau.action')
     expect(page).to have_content(I18n.t('projets.intervenants.messages.succes_choix_intervenant'))
