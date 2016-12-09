@@ -32,18 +32,6 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
-
-  def etape3_infos_complementaires
-    @demande = projet_demande
-  end
-
-  def etape3_envoi_infos_complementaires
-    @projet_courant.demande = projet_demande
-    if @projet_courant.demande.update_attributes(demande_infos_complementaires_params)
-      redirect_to etape4_choix_operateur_path(@projet_courant)
-    end
-  end
-
   def etape3_choix_intervenant
     if @projet_courant.prospect?
       @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
