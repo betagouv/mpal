@@ -194,5 +194,20 @@
     "roles": ["pris", "instructeur"],
     "departements": ["14"],
     "email": "ddt14@mailinator.com"
+  },
+  {
+    "raison_sociale": "Direction Départementale des Territoires des Yvelines",
+    "roles": ["pris", "instructeur"],
+    "departements": ["78"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
+    "adresse_postale": "35 rue Noailles, 78000 Versailles",
+    "email": "adil_sarcelles_95@mailinator.com"
+  },
+  {
+    "raison_sociale": "Soliha 78",
+    "roles": ["operateur"],
+    "departements": ["78"],
+    "themes": ["autonomie", "insalubrité", "énergie"],
+    "email": "soliha78@mailinator.com"
   }
 ]
