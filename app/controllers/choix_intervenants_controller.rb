@@ -1,4 +1,6 @@
 class ChoixIntervenantsController < ApplicationController
+  layout 'minimal'
+
   def new
     @intervenant = Intervenant.find(params[:intervenant_id])
   end
