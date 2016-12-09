@@ -84,7 +84,7 @@ feature "Démarrer un projet" do
     fill_in :demande_annee_construction, with: "1930"
     # check('demande_maison_individuelle')
     click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape3_choix_operateur_path(projet))
+    expect(page.current_path).to eq(etape3_choix_intervenant_path(projet))
 
     projet = Projet.last
     expect(projet.demande.froid).to be_truthy
@@ -118,7 +118,7 @@ feature "Démarrer un projet" do
     projet = Projet.last
     projet.demande = FactoryGirl.create(:demande)
     operateur = FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:operateur])
-    visit etape3_choix_operateur_path(projet)
+    visit etape3_choix_intervenant_path(projet)
     within "#intervenant_#{operateur.id}" do
       click_link I18n.t('projets.visualisation.invitation_intervenant')
     end

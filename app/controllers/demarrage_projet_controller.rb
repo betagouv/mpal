@@ -26,7 +26,7 @@ class DemarrageProjetController < ApplicationController
     @projet_courant.demande = projet_demande
     if etape2_valide?
       @projet_courant.demande.update_attributes(demande_params)
-      redirect_to etape3_choix_operateur_path(@projet_courant)
+      redirect_to etape3_choix_intervenant_path(@projet_courant)
     else
       redirect_to etape2_description_projet_path(@projet_courant), alert: t('demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire')
     end
@@ -44,15 +44,14 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
-  def etape3_choix_operateur
+  def etape3_choix_intervenant
     if @projet_courant.prospect?
       @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
       @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
     end
-  render :etape3_choix_intervenant
   end
 
-  def etape3_envoi_choix_operateur
+  def etape3_envoi_choix_intervenant
     @intervenant = Intervenant.find(params[:intervenant_id])
     @invitation = Invitation.new(projet: @projet_courant, intervenant: @intervenant)
     if @invitation.save
