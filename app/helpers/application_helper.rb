@@ -124,8 +124,12 @@ module ApplicationHelper
     end
   end
 
-  def calcul_revenu_fiscal_reference_total(annee)
-    @projet_courant.calcul_revenu_fiscal_reference_total(annee)
+  def annee_fiscale_reference
+    @projet_courant.annee_fiscale_reference
+  end
+
+  def revenu_fiscal_reference_total
+    @projet_courant.revenu_fiscal_reference_total
   end
 
   def calcul_preeligibilite(annee)

@@ -12,7 +12,7 @@ div.class.ui.grid
           li.hide
             = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
           li.hide
-            = calcul_preeligibilite(2015) if calcul_revenu_fiscal_reference_total(2015)
+            = calcul_preeligibilite(annee_fiscale_reference) if revenu_fiscal_reference_total
             i.help.circle.icon
       .section_gauche_titre
         h1 = t('projets.visualisation.titre_fil_actualite')

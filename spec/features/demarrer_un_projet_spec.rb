@@ -26,6 +26,7 @@ feature "Démarrer un projet" do
     expect(page).to have_content("12 rue de la Mare")
     expect(page).to have_content("75010")
     expect(page).to have_content("Paris")
+    expect(page).to have_content("Revenu Fiscal de Référence 2015 : 29880 €")
   end
 
   scenario "je modifie l'adresse du logement à rénover" do

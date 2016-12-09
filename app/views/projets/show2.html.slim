@@ -22,8 +22,8 @@ section.content-projet
           | Nombre d’occupants :
           span= " #{@projet_courant.nb_total_occupants}"
         li
-          | Total Revenu Fiscal de Référence :
-          span= " #{calcul_revenu_fiscal_reference_total(2015)} €"
+          | Total Revenu Fiscal de Référence #{annee_fiscale_reference} :
+          span= " #{revenu_fiscal_reference_total} €"
     .content-block
       h4 Demandeur :
       p

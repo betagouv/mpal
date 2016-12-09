@@ -51,18 +51,27 @@ class Projet < ActiveRecord::Base
     occupant.to_s if occupant
   end
 
-  def calcul_revenu_fiscal_reference_total(annee)
+  def annee_fiscale_reference
+    annee_imposition = avis_impositions.maximum(:annee)
+    annee_revenus = annee_imposition ? annee_imposition - 1 : nil
+  end
+
+  def revenu_fiscal_reference_total
+    calcul_revenu_fiscal_reference_total(annee_fiscale_reference)
+  end
+
+  def calcul_revenu_fiscal_reference_total(annee_revenus)
     total_revenu_fiscal_reference = 0
-    avis_impositions.where(annee: annee).each do |avis_imposition|
+    annee_imposition = annee_revenus ? annee_revenus + 1 : nil
+    avis_impositions.where(annee: annee_imposition).each do |avis_imposition|
       contribuable = ApiParticulier.new.retrouve_contribuable(avis_imposition.numero_fiscal, avis_imposition.reference_avis)
       total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference
     end
     total_revenu_fiscal_reference
   end
 
-
-  def preeligibilite(annee)
-    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee), self.departement, self.nb_total_occupants)
+  def preeligibilite(annee_revenus)
+    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee_revenus), self.departement, self.nb_total_occupants)
   end
 
   def transmettre!(instructeur)

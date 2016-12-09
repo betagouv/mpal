@@ -32,6 +32,7 @@ feature "Projet" do
     signin(projet.numero_fiscal, projet.reference_avis)
     @role_utilisateur = :demandeur
     expect(page).to have_content("Jean Martin")
+    expect(page).to have_content("Total Revenu Fiscal de Référence")
   end
 
   scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur", pending: true do

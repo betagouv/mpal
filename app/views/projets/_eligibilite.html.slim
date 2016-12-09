@@ -15,8 +15,8 @@ br
 
 .ui.message.revenus
   h3
-  - annee = 2015
-  = "Revenus total du ménage : #{calcul_revenu_fiscal_reference_total(annee)} euros" if calcul_revenu_fiscal_reference_total(annee)
+  - annee = #{annee_fiscale_reference}
+  = "Revenus total du ménage : #{revenu_fiscal_reference_total} euros" if revenu_fiscal_reference_total
 .ui.message.revenus
   h3
-  = "Plafond de ressources applicable du foyer : #{calcul_preeligibilite(annee)}" if calcul_revenu_fiscal_reference_total(annee)
+  = "Plafond de ressources applicable du foyer : #{calcul_preeligibilite(annee)}" if revenu_fiscal_reference_total

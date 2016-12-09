@@ -23,6 +23,13 @@ describe Projet do
     expect(projet.nb_total_occupants).to eq(5)
   end
 
+  it "définit l'année fiscale de référence comme l'année des revenus du dernier avis d'imposition" do
+    avis_imposition_1 = FactoryGirl.create(:avis_imposition, projet: projet, annee: 2013)
+    avis_imposition_2 = FactoryGirl.create(:avis_imposition, projet: projet, annee: 2014)
+    avis_imposition_3 = FactoryGirl.create(:avis_imposition, projet: projet, annee: 2015)
+    expect(projet.annee_fiscale_reference).to eq(2014)
+  end
+
   it "calcule la pré eligibilité d'une demande pour avec l'avis d'imposition n-1, un seul avis, 1
    occupant et 2 personnes à charges" do
     annee = 2015

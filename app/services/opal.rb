@@ -5,7 +5,7 @@ class Opal
 
   def creer_dossier(projet)
     response = @client.post('/createDossier', body: convertit_projet_en_dossier(projet).to_json, verify: false)
-    if response.code == 201 
+    if response.code == 201
       ajoute_id_opal(projet, response.body)
       met_a_jour_statut(projet)
       projet.save
@@ -32,7 +32,7 @@ class Opal
       "utiIdClavis": "5425",
       "demandeur": {
         "dmdNbOccupants": projet.nb_total_occupants,
-        "dmdRevenuOccupants": projet.calcul_revenu_fiscal_reference_total(2015),
+        "dmdRevenuOccupants": projet.revenu_fiscal_reference_total,
         "qdmId": 29,
         "cadId": 2,
         "personnePhysique": {
