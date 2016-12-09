@@ -66,7 +66,16 @@ Rails.application.configure do
   if Tools.demo?
     config.action_mailer.delivery_method = :letter_opener_web
   else
-    config.action_mailer.delivery_method = :letter_opener_web
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      address:              'in-v3.mailjet.com',
+      port:                 587,
+      # domain:               'mpal.beta.gouv.fr',
+      user_name:            ENV['MAILJET_API_KEY'],
+      password:             ENV['MAILJET_SECRET_KEY'],
+      # authentication:       'plain',
+      # enable_starttls_auto: true
+    }
   end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
