@@ -120,9 +120,8 @@ feature "Démarrer un projet" do
     projet.demande = FactoryGirl.create(:demande)
     operateur = FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:operateur])
     visit etape3_choix_intervenant_path(projet)
-    within "#intervenant_#{operateur.id}" do
-      click_link I18n.t('projets.visualisation.invitation_intervenant')
-    end
+    choose("intervenant_#{operateur.id}")
+    click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(projet_path(projet))
     expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: operateur.raison_sociale))
   end

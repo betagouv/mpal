@@ -441,7 +441,9 @@ input:-ms-input-placeholder {
 .inscription .intervenant .choose-operator {
   padding: 20px 30px;
   text-align: center; }
-  .inscription .intervenant .choose-operator li {
+  .inscription .intervenant .choose-operator input[type="radio"] {
+    display: none; }
+  .inscription .intervenant .choose-operator label {
     display: inline-block;
     text-align: center;
     border: 1px solid #d2daea;
@@ -450,9 +452,10 @@ input:-ms-input-placeholder {
     margin-right: 20px;
     width: calc(33% - 23px);
     transition: all 200ms ease; }
-    .inscription .intervenant .choose-operator li.is-active {
-      border: 1px solid #56869a; }
-    .inscription .intervenant .choose-operator li h3 {
+    .inscription .intervenant .choose-operator input[type="radio"]:checked + label {
+      border: 1px solid #56869a;
+      background-color: #eef1f7; }
+    .inscription .intervenant .choose-operator label h3 {
       background: #eef1f7;
       border-radius: 10px 10px 0 0;
       padding: 5px 20px;
