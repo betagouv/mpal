@@ -4,6 +4,7 @@ require 'support/opal_helper'
 
 feature "creer dossier dans opal" do
   scenario "depuis la page projet" do
+    pending
     instructeur = FactoryGirl.create(:intervenant, :instructeur)
     invitation = FactoryGirl.create(:invitation, intervenant: instructeur)
     projet = invitation.projet
@@ -22,6 +23,7 @@ feature "creer dossier dans opal" do
   end
 
   scenario "lorsque je suis instructeur je vois le bouton me permettant de créer un dossier dans Opal" do
+    pending
     instructeur = FactoryGirl.create(:intervenant, :instructeur)
     invitation = FactoryGirl.create(:invitation, intervenant: instructeur)
     projet = invitation.projet

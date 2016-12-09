@@ -25,9 +25,8 @@ feature "Réinitialisation de la session" do
   end
 
   scenario "je peux me déconnecter si je consulte le projet en tant qu'intervenant via une invitation" do
-    pending
     visit projet_path(invitation.projet, jeton: invitation.token)
-    expect(page).to have_link(I18n.t('sessions.lien_deconnexion'), href: '/deconnexion')
+    expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
     click_link I18n.t('sessions.lien_deconnexion')
     expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion'))
   end

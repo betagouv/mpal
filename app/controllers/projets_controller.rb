@@ -28,7 +28,7 @@ class ProjetsController < ApplicationController
     @commentaire = Commentaire.new(projet: @projet_courant)
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
     @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
-    render :show2, layout: "projet" if @role_utilisateur == :demandeur
+    render :show2, layout: "projet"
   end
 
   def demande
