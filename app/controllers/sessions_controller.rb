@@ -4,10 +4,10 @@ class SessionsController < ApplicationController
   end
 
   def create
-    contribuable = ApiParticulier.new.retrouve_contribuable(params[:numero_fiscal], params[:reference_avis])
+    contribuable = ApiParticulier.new.retrouve_contribuable(param_numero_fiscal, param_reference_avis)
     if contribuable
-      session[:numero_fiscal] = params[:numero_fiscal]
-      projet = ProjetEntrepot.par_numero_fiscal(params[:numero_fiscal])
+      session[:numero_fiscal] = param_numero_fiscal
+      projet = ProjetEntrepot.par_numero_fiscal(param_numero_fiscal)
       if projet
         redirect_to projet
       else
@@ -20,7 +20,7 @@ class SessionsController < ApplicationController
 
   def create_projet_and_redirect
     constructeur = ProjetConstructeur.new(ApiParticulier.new, ApiBan.new)
-    projet = constructeur.initialise_projet(params[:numero_fiscal], params[:reference_avis])
+    projet = constructeur.initialise_projet(param_numero_fiscal, param_reference_avis)
     if projet.save
       EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')
@@ -34,6 +34,16 @@ class SessionsController < ApplicationController
   def deconnexion
     reset_session
     redirect_to new_session_path, notice: t('sessions.confirmation_deconnexion')
+  end
+
+  private
+
+  def param_numero_fiscal
+    params[:numero_fiscal].try(:delete, ' ')
+  end
+
+  def param_reference_avis
+    params[:reference_avis].try(:delete, ' ')
   end
 
 end
