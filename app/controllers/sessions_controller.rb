@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
+  layout 'onepage'
   skip_before_action :authentifie
+
   def new
   end
 

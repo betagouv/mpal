@@ -1,53 +1,70 @@
-div#formulaire_connexion
-  div.ui.inverted.vertical.masthead.center.aligned.segment.teal
+.login
+  section.intro
+    h1
+      = image_tag "logo-anah.png", alt: "REALAgence Nationale de l'Habitat - Anah"
+    h2
+      strong Avec nous, améliorez l'habitat !
+      | Le financement de mon projet prend vie
+      br>/
+      | en quelques minutes...
+    p
+      | Vous êtes propriétaire d’un appartement ou d’une maison et vous y habitez ou allez y
+      | habiter. Mais ce logement est en mauvais état, difficile à chauffer ou mal adapté à votre
+      | situation de handicap ou votre état de santé.
+      br/
+      br/
+      | Si vous n’avez pas commencé à faire les travaux, l’Agence nationale de l’habitat (
+      abbr title=("Agence nationale de l’habitat") > Anah
+      | ) peut
+      | vous aider à financer ces travaux et vous accompagner dans votre projet.
+      br/
+      br/
+      | Ses aides sont accordées notamment sous conditions de ressources de l’ensemble des
+      | occupants du logement.
+      br/
+      br/
+      | Vous devez donc vous munir des deux derniers avis d’imposition ou de situation fiscale de
+      | l’ensemble des personnes habitant sous votre toit.
+    a href="#"  En savoir plus
+  section.champs
+    h2 Connectez-vous
+    p
+      | Vous souhaitez vous renseigner ou demander une aide à l’Anah. Identifiez-vous en
+      | renseignant votre numéro fiscal et la référence de l’avis d’imposition présents sur votre
+      | dernier avis d’imposition.
+      br/
+      br/
+      | Ces renseignements permettront d’aller rechercher directement auprès de la direction
+      | générale des finances publiques les coordonnées vous concernant ainsi que votre revenu
+      | fiscal de référence (
+      abbr title=("Revenu fiscal de référence") > RFR
+      | ) correspondant à votre niveau de ressources.
+    = form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'form-login' ) do
+      .auth
+        = label_tag :numero_fiscal
+        = text_field_tag :numero_fiscal, nil, placeholder: "Ex : 123 456 789 AB", id: "form-nf"
+        a href="#"  où se trouve mon numéro fiscal ?
+        = label_tag :reference_avis
+        = text_field_tag :reference_avis, nil, placeholder: "Ex: ABC DEF 123", id: "form-ra"
+      .mleg
+        input#lab-rfr type="checkbox" /
+        label for="lab-rfr" 
+          | j’autorise l’
+          abbr title=("Agence nationale de l’habitat")  Anah
+          | à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon
+          abbr title=("Revenu fiscal de référence")  RFR
+        = submit_tag t('sessions.nouvelle.action'), class:'btn'
 
-    div.ui.text.container
-      h1.ui.header= t('sessions.nouvelle.titre')
-      p
-        | Pour savoir si vous pouvez bénéficier d’une aide, merci de renseigner
-        b  votre numéro fiscal
-        |  et
-        b  la référence de l’avis d’imposition
-        |  de votre avis d'imposition de 2015 sur les revenus de 2014 et de 2016 sur les revenus de 2015
-
+  - if Tools.demo?
+    section.exemples
+      h3 Jeu de données disponibles pour la version de démonstration :
+      ul
+        li Pour simuler le fait d'être un demandeur habitant dans les Vosges : 88 / 1588
+        li Pour simuler le fait d'être un demandeur habitant dans le Val d'Oise : 95 / 1595
+        li Pour simuler le fait d'être un autre demandeur habitant dans le Val d'Oise : 952 / 15952
+        li Pour simuler le fait d'être un demandeur habitant dans les Vosges : 25 / 1525
       br
-
-      a href="https://cfspart.impots.gouv.fr/templates/troisS_faq.html#numFiscal" Aide : où se trouve mon numéro fiscal ?
-
-      = form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'ui form' ) do
-        div.field
-          = label_tag :numero_fiscal
-          = text_field_tag :numero_fiscal
-
-        div.field
-          = label_tag :reference_avis
-          = text_field_tag :reference_avis
-
-        = submit_tag t('sessions.nouvelle.action'), class:'ui huge primary button'
-        br
-        br
-        div#autorisations
-          input type="checkbox"
-            | J’autorise l’Anah à vérifier les conditions de ressources des occupants de mon logement pour bénéficier d’une subvention.
-          br
-          input type="checkbox"
-            | J’atteste avoir obtenu l’accord des occupants de mon logement pour communiquer leur informations fiscales.
-
-        a href="#" Je ne souhaite pas transmettre mes informations fiscales
-
-
-
-- if Tools.demo?
-  div.ui.text.container
-    br
-    h3 Jeu de données disponibles pour la version de démonstration :
-    ul
-      li Pour simuler le fait d'être un demandeur habitant dans les Vosges : 88 / 1588
-      li Pour simuler le fait d'être un demandeur habitant dans le Val d'Oise : 95 / 1595
-      li Pour simuler le fait d'être un autre demandeur habitant dans le Val d'Oise : 952 / 15952
-      li Pour simuler le fait d'être un demandeur habitant dans les Vosges : 25 / 1525
-    br
-    | Pour accéder à la plate-forme en tant qu'opérateur, il est indispensable sur cette version béta de cliquer sur le lien reçu, consultable sur
-    a href="http://anah-demo.beta.gouv.fr/letter_opener" "http://anah-demo.beta.gouv.fr/letter_opener"
-    br
-    | (Si les mails n'apparaissent pas, cliquez sur "Refresh" pour mettre à jour la page)
+      | Pour accéder à la plate-forme en tant qu'opérateur, il est indispensable sur cette version béta de cliquer sur le lien reçu, consultable sur
+      a href="http://anah-demo.beta.gouv.fr/letter_opener" "http://anah-demo.beta.gouv.fr/letter_opener"
+      br
+      | (Si les mails n'apparaissent pas, cliquez sur "Refresh" pour mettre à jour la page)
