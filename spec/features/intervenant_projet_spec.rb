@@ -39,7 +39,8 @@ feature "intervenant" do
     projet.save
 
     scenario "visualisation de la demande de travaux par l'operateur" do
-      visit projet_demande_path(projet, jeton: invit.token)
+      visit projet_path(projet, jeton: invit.token)
+      click_link I18n.t('projets.visualisation.remplir_le_projet')
       expect(page).to have_content('Remplacement d\'une baignoire par une douche')
       expect(page).to have_content("Plâtrerie")
     end
