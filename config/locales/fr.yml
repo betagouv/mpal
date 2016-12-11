@@ -109,6 +109,7 @@ fr:
       en_cours: En cours
       transmis_pour_instruction: 'Transmis aux services instructeurs'
       en_cours_d_instruction: "En cours d'instruction"
+    operateur_construit_proposition: "%{operateur}, l'opérateur chargé de vous accompagner, est en train de construire une proposition de projet."
     edition_projet:
       messages:
         erreur: "Le projet n'a pas pu être modifié"

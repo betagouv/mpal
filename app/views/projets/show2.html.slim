@@ -45,12 +45,4 @@ section.content-projet
               td= occupant
               td= occupant.date_de_naissance.year
   /! PROJET ENVISAGE
-  article.block.projet
-    h3 Projet envisagé
-    a.edit href="#"  Modifier
-    .content-block
-      = affiche_demande_souhaitee(@projet_courant.demande)
-      hr/
-      h4 Organisme qui vous accompagnera pour la suite de votre projet :
-      p= @projet_courant.intervenants.first
-      = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn'
+  = render "projet_#{@projet_courant.statut}_#{@role_utilisateur}"
