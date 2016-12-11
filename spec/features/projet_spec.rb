@@ -56,6 +56,7 @@ feature "Projet" do
     click_button I18n.t('choix_intervenants.nouveau.action')
     expect(page.current_path).to eq(projet_path(projet))
     expect(page).to have_content(I18n.t('projets.intervenants.messages.succes_choix_intervenant'))
+    expect(page).not_to have_content(I18n.t('projets.visualisation.s_engager_avec_operateur'))
     within '.projet-ope' do
       expect(page).to have_content(operateur.raison_sociale)
       expect(page).to have_content(I18n.t('projets.operateur_construit_proposition', operateur: operateur.raison_sociale))
