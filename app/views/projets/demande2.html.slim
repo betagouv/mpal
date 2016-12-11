@@ -1,0 +1,194 @@
+/! Header
+header.project-header
+  section.top-bar
+    h2 Projet en cours
+    a.btn.logoff href="#"  Déconnexion
+/! Blocks Projet
+= form_for @projet_courant, url: {id: @projet_courant.id, action: "update"} do |f|
+  section.content-projet
+    article.block.projet-ope
+      h3.is-open Projet proposé par l'opérateur
+      hr/
+      .occupants-recap
+        ul
+          li
+            = "Opérateur : "
+            span= @projet_courant.operateur
+      .content-block
+        form
+          fieldset
+            legend Logement
+            ul.ins-form
+              li
+                = f.label :type_logement, "Type de logement"
+                = f.select :type_logement, options_for_select(["Maison","Appartement"], @projet_courant.type_logement)
+              li
+                = f.label :etage, "Votre étage"
+                = f.select :etage, options_for_select(["0","1","2","3","4","5","Plus de 5"], @projet_courant.etage)
+
+              li
+                = f.label :nb_pieces, "Nombre de pièces"
+                = f.select :nb_pieces, options_for_select(["1","2","3","4","5","Plus de 5"], @projet_courant.nb_pieces)
+              li
+                = f.label :annee_construction, "Année de construction"
+                = f.text_field :annee_construction
+              li
+                = f.label :surface_habitable, "Surface habitable"
+                = f.text_field :surface_habitable
+                = " m²"
+              li
+                = f.label :etiquette_avant_travaux, "Etiquette énergétique avant travaux"
+                = f.text_field :etiquette_avant_travaux
+          fieldset
+            legend Diagnostic opérateur
+            ul.ins-form
+              li
+                = f.label :niveau_gir, "Niveau GIR"
+                = f.select :niveau_gir, options_for_select(["1","2","3","4","5","6"], @projet_courant.niveau_gir)
+              li.radio
+                p.like-label Situation de handicap
+                = f.radio_button :handicap, true
+                = f.label :handicap, "Oui", value: "true"
+                = f.radio_button :handicap, false
+                = f.label :handicap, "Non", value: "false"
+              li.radio
+                p.like-label Le demandeur est-il salarié
+                = f.radio_button :demandeur_salarie, true
+                = f.label :demandeur_salarie, "Oui", value: "true"
+                = f.radio_button :demandeur_salarie, false
+                = f.label :demandeur_salarie, "Non", value: "false"
+              li.radio
+                p.like-label Si oui, l'entreprise a t'elle plus de 10 personnes
+                = f.radio_button :entreprise_plus_10_personnes, true
+                = f.label :entreprise_plus_10_personnes, "Oui", value: "true"
+                = f.radio_button :entreprise_plus_10_personnes, false
+                = f.label :entreprise_plus_10_personnes, "Non", value: "false"
+              li
+                = f.label :note_degradation, "Note de dégradation"
+                = f.select :note_degradation, options_for_select(["1","2","3","4","5"], @projet_courant.note_degradation)
+              li
+                = f.label :note_insalubrite, "Note d'insalubrité"
+                = f.select :note_insalubrite, options_for_select(["1","2","3","4","5"], @projet_courant.note_insalubrite)
+              li.radio
+                p.like-label Ventilation adaptée
+                = f.radio_button :ventilation_adaptee, true
+                = f.label :ventilation_adaptee, "Oui", value: "true"
+                = f.radio_button :ventilation_adaptee, false
+                = f.label :ventilation_adaptee, "Non", value: "false"
+              li.radio
+                p.like-label Présence traces d'humidité
+                = f.radio_button :presence_humidite, true
+                = f.label :presence_humidite, "Oui", value: "true"
+                = f.radio_button :presence_humidite, false
+                = f.label :presence_humidite, "Non", value: "false"
+              li.radio
+                p.like-label Ces travaux seront-ils réalisés en auto-réhabilitation ?
+                = f.radio_button :auto_rehabilitation, true
+                = f.label :auto_rehabilitation, "Oui", value: "true"
+                = f.radio_button :auto_rehabilitation, false
+                = f.label :auto_rehabilitation, "Non", value: "false"
+              li
+                = f.label :remarques_diagnostic, "Autres remarques"
+                = f.text_area :remarques_diagnostic
+          fieldset
+            legend Description des travaux proposés
+            p Vous pouvez ajouter un deuxième scénario si vous le souhaitez. Dans ce cas, le demandeur pourra choisir le scénario de son choix
+            table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%" 
+              tbody
+                tr
+                  th.empty scope="col"  &nbsp;
+                  th.top-tab scope="col"  Scénario 1
+                - Theme.all.each do |theme|
+                  tr
+                    th.tab-title colspan="3" scope="row" #{theme.libelle.capitalize}
+                  - theme.prestations.each do |prestation|
+                    tr(data-url=projet_prestations_url(@projet_courant))
+                      th scope="row" #{prestation.libelle.capitalize}
+                      td.plan_travaux(data-prestation-id=prestation.id)
+                        = projet_prestation_checkbox(@projet_courant, prestation, :preconise)
+                tr
+                  th.tab-title colspan="3" scope="row"  Efficacité énergétique
+                tr
+                  th scope="row"  Gain energetique (%)
+                  td
+                    = f.text_field :gain_energetique
+                tr
+                  th scope="row"  Étiquette énergétique après travaux
+                  td
+                    = f.text_field :etiquette_apres_travaux
+                tr
+                  th.tab-title colspan="3" scope="row"  Montant
+                tr
+                  th scope="row"  Montant total HT
+                  td
+                    = f.text_field :montant_travaux_ht
+                    = " €"
+                tr
+                  th scope="row"  Montant total TTC
+                  td
+                    = f.text_field :montant_travaux_ttc
+                    = " €"
+                tr
+                  th.tab-title colspan="3" scope="row"  Plan de financement
+
+                - TypeAide.all.each do |type_aide|
+                  - type_aide.aides.each do |aide|
+                    tr(data-url=projet_aides_url(@projet_courant))
+                      th scope="row" #{aide.libelle} 
+                      td
+                        label.masque(for=aide.id)
+                          = aide.libelle
+                        - if aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
+                          = text_field_tag aide.id, aide_courante.montant, class: "aide"
+                        - else
+                          = text_field_tag aide.id, nil, class: "aide"
+
+                tr
+                  th.tab-title colspan="3" scope="row"  Prêt
+                tr
+                  th scope="row" Prêt bancaire
+                  td
+                    = f.text_field :pret_bancaire
+                    = " €"
+          ul.ins-form
+            li
+              = f.label :precisions_travaux, "Précisions travaux proposés"
+              = f.text_area :precisions_travaux
+            li
+              = f.label :precisions_financement, "Précisions financement"
+              = f.text_area :precisions_financement
+            li
+              p.like-label.form-pj
+                strong Piéce jointe
+            li
+              p.like-label.form-pj Piéce jointe n°1 :
+              .file-drop-area
+                span.fake-btn Ajouter
+                span.file-msg.js-set-number Aucun fichier choisi
+                input.file-input type="file" /
+            li
+              p.like-label.form-pj Piéce jointe n°2 :
+              .file-drop-area
+                span.fake-btn Ajouter
+                span.file-msg.js-set-number Aucun fichier choisi
+                input.file-input type="file" /
+            li
+              p.like-label.form-pj Piéce jointe n°3 :
+              .file-drop-area
+                span.fake-btn Ajouter
+                span.file-msg.js-set-number Aucun fichier choisi
+                input.file-input type="file" /
+            li
+              p.like-label.form-pj Piéce jointe n°4 :
+              .file-drop-area
+                span.fake-btn Ajouter
+                span.file-msg.js-set-number Aucun fichier choisi
+                input.file-input type="file" /
+            li
+              p.like-label.form-pj Piéce jointe n°5 :
+              .file-drop-area
+                span.fake-btn Ajouter
+                span.file-msg.js-set-number Aucun fichier choisi
+                input.file-input type="file" /
+          = f.button "Enregistrer cette proposition", class: "btn-save"
+

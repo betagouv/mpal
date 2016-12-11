@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161207064931) do
+ActiveRecord::Schema.define(version: 20161211162617) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -224,11 +224,11 @@ ActiveRecord::Schema.define(version: 20161207064931) do
     t.string   "departement"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                                  array: true
-    t.integer  "nb_occupants_a_charge",       default: 0
+    t.string   "themes",                                   array: true
+    t.integer  "nb_occupants_a_charge",        default: 0
     t.integer  "annee_construction"
     t.string   "code_insee"
-    t.integer  "statut",                      default: 0
+    t.integer  "statut",                       default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"
     t.string   "opal_id"
@@ -239,6 +239,28 @@ ActiveRecord::Schema.define(version: 20161207064931) do
     t.string   "adresse_postale_code_postal"
     t.string   "adresse_postale_ville"
     t.string   "disponibilite"
+    t.string   "type_logement"
+    t.string   "etage"
+    t.string   "nb_pieces"
+    t.integer  "surface_habitable"
+    t.string   "etiquette_avant_travaux"
+    t.integer  "niveau_gir"
+    t.boolean  "handicap"
+    t.boolean  "demandeur_salarie"
+    t.boolean  "entreprise_plus_10_personnes"
+    t.integer  "note_degradation"
+    t.integer  "note_insalubrite"
+    t.boolean  "ventilation_adaptee"
+    t.boolean  "presence_humidite"
+    t.boolean  "auto_rehabilitation"
+    t.text     "remarques_diagnostic"
+    t.string   "etiquette_apres_travaux"
+    t.integer  "gain_energetique"
+    t.float    "montant_travaux_ht"
+    t.float    "montant_travaux_ttc"
+    t.float    "pret_bancaire"
+    t.text     "precisions_travaux"
+    t.text     "precisions_financement"
   end
 
   add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree

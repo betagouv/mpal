@@ -100,16 +100,15 @@ Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention Région")
 Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention Europe")
 Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention ADEME")
 Aide.find_or_create_by(type_aide: subventions, libelle: "Subvention Agende de l'eau")
-Aide.find_or_create_by(type_aide: subventions, libelle: "Autres")
 
 regime_de_base = TypeAide.find_or_create_by(libelle: 'Regime de base')
 Aide.find_or_create_by(type_aide: regime_de_base, libelle: "CNAV/CARSAT")
 Aide.find_or_create_by(type_aide: regime_de_base, libelle: "MSA")
 Aide.find_or_create_by(type_aide: regime_de_base, libelle: "RSI")
-Aide.find_or_create_by(type_aide: regime_de_base, libelle: "Autres")
 
 complementaire = TypeAide.find_or_create_by(libelle: 'Aides complémentaires')
 Aide.find_or_create_by(type_aide: complementaire, libelle: "AGIRX")
 Aide.find_or_create_by(type_aide: complementaire, libelle: "ARRCO")
 Aide.find_or_create_by(type_aide: complementaire, libelle: "IRCANTEC")
-Aide.find_or_create_by(type_aide: complementaire, libelle: "Autres")
+
+Aide.find_or_create_by(type_aide: subventions, libelle: "Autres")

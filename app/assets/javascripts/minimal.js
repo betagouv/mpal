@@ -13,3 +13,4 @@
 //= require jquery
 //= require jquery_ujs
 //= require mpal_new
+//= require main

@@ -15,6 +15,8 @@ $(document).on('click', ".plan_travaux", function () {
   var checkbox = $(this).children().first("checkbox");
   var attributeName = checkbox.val();
   var value = checkbox.prop("checked");
+  console.log("prestation: " + prestationId);
+  console.log("url: " + url);
 
   $.post(url, {prestation_id: prestationId, attributeName: attributeName, value: value}, function (data) {
     console.log("ok");
@@ -28,7 +30,7 @@ $(document).on('change', ".aide", function () {
   console.log("Changement");
   var aideId = $(this).attr('name');
   var value = $(this).val();
-  var url = $(this).parent().parent().parent().parent().data('url');
+  var url = $(this).parent().parent().data('url');
 
   $.post(url, {aide_id: aideId, montant: value}, function (data) {
     console.log("ok");

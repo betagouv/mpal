@@ -35,6 +35,8 @@ class ProjetsController < ApplicationController
     if @projet_courant.prospect?
       redirect_to projet_path(@projet_courant), alert: t('sessions.access_forbidden')
     end
+
+    render 'demande2', layout: 'projet'
   end
 
   def suivi
@@ -45,9 +47,19 @@ class ProjetsController < ApplicationController
   private
 
   def projet_params
-    service_adresse = ApiBan.new
-    adresse_complete = service_adresse.precise(params[:projet][:adresse])
-    attributs = params.require(:projet).permit(:description, :email, :tel, :annee_construction, :nb_occupants_a_charge)
+    if params[:projet][:adresse]
+      service_adresse = ApiBan.new
+      adresse_complete = service_adresse.precise(params[:projet][:adresse])
+    end
+    attributs = params.require(:projet)
+      .permit(:description, :email, :tel, :annee_construction, :nb_occupants_a_charge,
+              :type_logement, :etage, :nb_pieces, :surface_habitable, :etiquette_avant_travaux,
+              :niveau_gir, :handicap, :demandeur_salarie, :entreprise_plus_10_personnes,
+              :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation,
+              :remarques_diagnostic,
+              :gain_energetique, :etiquette_apres_travaux,
+              :precisions_travaux, :precisions_financement,
+              :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire)
     attributs = attributs.merge(adresse_complete) if adresse_complete
     attributs
   end
