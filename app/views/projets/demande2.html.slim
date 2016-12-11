@@ -160,35 +160,13 @@ header.project-header
             li
               p.like-label.form-pj
                 strong Piéce jointe
-            li
-              p.like-label.form-pj Piéce jointe n°1 :
-              .file-drop-area
-                span.fake-btn Ajouter
-                span.file-msg.js-set-number Aucun fichier choisi
-                input.file-input type="file" /
-            li
-              p.like-label.form-pj Piéce jointe n°2 :
-              .file-drop-area
-                span.fake-btn Ajouter
-                span.file-msg.js-set-number Aucun fichier choisi
-                input.file-input type="file" /
-            li
-              p.like-label.form-pj Piéce jointe n°3 :
-              .file-drop-area
-                span.fake-btn Ajouter
-                span.file-msg.js-set-number Aucun fichier choisi
-                input.file-input type="file" /
-            li
-              p.like-label.form-pj Piéce jointe n°4 :
-              .file-drop-area
-                span.fake-btn Ajouter
-                span.file-msg.js-set-number Aucun fichier choisi
-                input.file-input type="file" /
-            li
-              p.like-label.form-pj Piéce jointe n°5 :
-              .file-drop-area
-                span.fake-btn Ajouter
-                span.file-msg.js-set-number Aucun fichier choisi
-                input.file-input type="file" /
+            = f.fields_for :documents do |builder_document|
+              li
+                p.like-label.form-pj= builder_document.object.label
+                .file-drop-area
+                  span.fake-btn Ajouter
+                  span.file-msg.js-set-number Aucun fichier choisi
+                  = builder_document.hidden_field :label
+                  = builder_document.file_field :fichier, class: "file-input"
           = f.button "Enregistrer cette proposition", class: "btn-save"
 

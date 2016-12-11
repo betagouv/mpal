@@ -12,6 +12,7 @@ class Projet < ActiveRecord::Base
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
   has_many :documents, dependent: :destroy
+  accepts_nested_attributes_for :documents
 
   has_many :projet_aides, dependent: :destroy
   has_many :aides, through: :projet_aides

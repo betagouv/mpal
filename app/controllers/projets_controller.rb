@@ -34,9 +34,15 @@ class ProjetsController < ApplicationController
   def demande
     if @projet_courant.prospect?
       redirect_to projet_path(@projet_courant), alert: t('sessions.access_forbidden')
+    else
+      @projet_courant.documents.build(label: "Evaluation énergétique")
+      @projet_courant.documents.build(label: "Decision CDAPH ou GIR")
+      @projet_courant.documents.build(label: "Rapport d'ergotherpeute ou diagnostic autonomie")
+      @projet_courant.documents.build(label: "Grille de degradation ou arrêté")
+      @projet_courant.documents.build(label: "Grille d'insalubrité ou arrêté")
+      @projet_courant.documents.build(label: "Devis ou estimation de travaux")
+      render 'demande2', layout: 'projet'
     end
-
-    render 'demande2', layout: 'projet'
   end
 
   def suivi
@@ -59,7 +65,8 @@ class ProjetsController < ApplicationController
               :remarques_diagnostic,
               :gain_energetique, :etiquette_apres_travaux,
               :precisions_travaux, :precisions_financement,
-              :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire)
+              :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire,
+              :documents_attributes)
     attributs = attributs.merge(adresse_complete) if adresse_complete
     attributs
   end

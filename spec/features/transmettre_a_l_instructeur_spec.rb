@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "transmettre à l'instructeur" do
+feature "transmettre à l'instructeur", pending: true do
   scenario "une demande valide" do
     projet = FactoryGirl.create(:projet)
     operateur = FactoryGirl.create(:intervenant, :operateur)
