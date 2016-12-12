@@ -45,4 +45,5 @@ section.content-projet
               td= occupant
               td= occupant.date_de_naissance.year
   /! PROJET ENVISAGE
-  = render "projet_#{@projet_courant.statut}_#{@role_utilisateur}"
+  = render "projet_envisage"
+  = render "projet_#{@projet_courant.statut}_#{@role_utilisateur}" if (@projet_courant.statut != "prospect" && @role_utilisateur != "demandeur")
