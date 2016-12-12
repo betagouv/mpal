@@ -1,13 +1,3 @@
-$(document).on('ready', 'page:load', function() {
-  if ($("#mapid").length) {
-    coord = { 'lat': gon.latitude, lng: gon.longitude };
-    var mymap = L.map('mapid').setView([coord.lat, coord.lng], 16);
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        }).addTo(mymap);
-    L.marker([coord.lat, coord.lng]).addTo(mymap);
-  }
-});
 
 $(document).on('click', ".plan_travaux", function () {
   var prestationId = $(this).data('prestation-id');
@@ -37,4 +27,11 @@ $(document).on('change', ".aide", function () {
   }, function (data) {
     console.log("ko ?");
   });
+});
+
+$(document).on('click', ".engagement", function () {
+  var isChecked = $(this).prop("checked");
+  console.log("checked: " + isChecked);
+  submit_btn = $('.btn').first();
+  submit_btn.prop('disabled', !(isChecked));
 });
