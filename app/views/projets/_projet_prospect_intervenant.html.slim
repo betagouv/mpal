@@ -4,7 +4,12 @@ article.block.projet-ope
   a.edit href="#"  Modifier
   .content-block
     p
-      | Suite à votre visite chez le demandeur, veuillez remplir le projet que vous lui recommandez.
-      br
-      | Une fois les informations remplies, vous pourrez proposer effectivement ce projet au demandeur.
-    a.btn.pen href="#"  Remplir le projet
+
+    - if @projet_courant.intervenants.pour_role(:operateur).count > 0
+      | N'oubliez pas de fixer un rendez-vous avec le demandeur
+    - else
+      p
+        strong Aucun
+        br
+        br
+      = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'

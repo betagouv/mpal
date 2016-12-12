@@ -80,7 +80,7 @@ class ProjetsController < ApplicationController
       adresse_complete = service_adresse.precise(params[:projet][:adresse])
     end
     attributs = params.require(:projet)
-      .permit(:description, :email, :tel, :annee_construction, :nb_occupants_a_charge,
+      .permit(:disponibilite, :description, :email, :tel, :annee_construction, :nb_occupants_a_charge,
               :type_logement, :etage, :nb_pieces, :surface_habitable, :etiquette_avant_travaux,
               :niveau_gir, :handicap, :demandeur_salarie, :entreprise_plus_10_personnes,
               :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation,
