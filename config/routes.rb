@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
-  root 'welcome#index'
+  root 'sessions#new'
+  get 'welcome', to: 'welcome#index'
   namespace :api, path: '/api/v1/' do
     resources :projets, only: :show do
       resource :plan_financements, only: :create
