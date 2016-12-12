@@ -11,12 +11,6 @@ feature "Démarrer un projet" do
     Occupant.destroy_all
   end
 
-  scenario "depuis la page d'accueil" do
-    visit root_path
-    click_on I18n.t('accueil.action')
-    expect(page.current_path).to eq(new_session_path)
-  end
-
   scenario "depuis la page de connexion, je recupere mes informations principales", pending: true do
     signin(12,15)
     projet = Projet.last
