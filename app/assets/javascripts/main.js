@@ -32,6 +32,6 @@ $(document).on('change', ".aide", function () {
 $(document).on('click', ".engagement", function () {
   var isChecked = $(this).prop("checked");
   console.log("checked: " + isChecked);
-  submit_btn = $('.btn').first();
+  submit_btn = $('input[type="submit"]')
   submit_btn.prop('disabled', !(isChecked));
 });
