@@ -1,28 +1,32 @@
 = form_for @demande, url: {controller: 'demarrage_projet', action: 'etape3_envoi_choix_intervenant'}, method: 'patch', html: { class:'ui form'}  do |f|
   /! Eligibilite
   section.eligibilite
-    h2 Pre-eligibilité
+    h2 Accompagnement
     p.chapo
-      | Au vue des informations que vous avez transmises, vous pouvez prétendre à une subvention sur la base des revenus de l’année N-1 ou N-2.
-      br>/
-      | Nous vous invitons à vous rapprocher du (ou des) intervenant(s) suivant(s) (PRIS ou opérateur) pour poursuivre votre démarche.
+      | D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies.
+      br/
+      br/
+      | Nous vous invitons à vous rapprocher du (ou des) intervenant(s) suivant(s)
+      abbr title=("Point Rénovation Info Service")  PRIS
+      |  ou
+      abbr title=("Opérateur")  opérateur
+      |  pour poursuivre votre démarche.
   /! Eligibilite
   section.intervenant
     h2 Intervenants disponibles
     p.chapo
-      | L’opérateur est un intervenant chargé de vous conseiller tout au long de la démarche. Il vous accompagne dans l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.
+      | Pour continuer votre démarche, nous vous invitons à vous rapprocher soit d’un point d’information vous permettant de vous renseigner de manière générale sur les aides existant en matière de rénovation de l’habitat, soit d’un organisme spécialisé, appelé «
+      abbr title=("Opérateur")   opérateur
+      |  », qui vous accompagnera dans le montage de votre dossier de demande d’aide à l’Anah.
       br/
       br/
-      | Si une subvention vous est accordée par l’Anah, l’opérateur vous accompagne jusqu’au paiement de la subvention.
+      | L’opérateur est un intervenant chargé de vous accompagner tout au long de votre démarche. Il vous aide à élaborer votre projet de travaux et à constituer votre demande de subvention. Si la subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de celle-ci.
       br/
       br/
-      | En diffus, hors secteur programmé : Cette prestation est payante. Elle peut être totalement ou partiellement remboursée par le complément de subvention qui complète la subvention pour travaux.
-      br/
-      br/
-      | Les opérateurs suivants sont compétents pour vous accompagner. Vous pouvez demander à être mis en relation avec un ou plusieurs d’entre eux. Pour effectuer votre choix, l’opérateur doit vous indiquer un RDV pour examiner votre situation et une fourchette de prix de son intervention.
+      | Selon le secteur dans lequel le logement à rénover se situe, cette prestation d’accompagnement est payante ou gratuite. Si elle est payante, l’Anah peut vous attribuer en complément de l’aide aux travaux une aide correspondant totalement ou partiellement au montant de la prestation d’accompagnement.
     hr/
     p.chapo
-      strong Je souhaite me renseigner gratuitement sur l'ensemble des aides pour la rénovation de mon logement :
+      strong Je souhaite me renseigner gratuitement, je choisis de prendre contact avec :
     div.choose-operator
       - @pris_departement.each do |pris|
         input type="radio" id="intervenant_#{pris.id}" name="intervenant_id" value="#{pris.id}"
@@ -31,7 +35,7 @@
           p= pris
           div.btn= t('projets.visualisation.invitation_intervenant')
     p.chapo
-      strong Je connais déjà les aides disponibles, et je souhaite m'engager dans une demande de subvention à l'anah.
+      strong Je souhaite déposer une demande d’aide à l’Anah, je prends contact avec l’opérateur suivant :
     div.choose-operator
       - @operateurs_disponibles.each do |operateur|
         input type="radio" id="intervenant_#{operateur.id}" name="intervenant_id" value="#{operateur.id}"
