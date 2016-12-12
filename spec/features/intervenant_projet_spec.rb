@@ -45,6 +45,14 @@ feature "intervenant" do
       expect(page).to have_content("Plâtrerie")
     end
 
+    scenario "modification de la demande", pending: true do
+      visit projet_demande_path(projet, jeton: invit.token)
+      fill_in 'projet_surface_habitable', with: '42'
+      click_on 'Enregistrer cette proposition'
+      expect(page.current_path).to eq(projet_path(projet))
+      expect(page).to have_content('42')
+    end
+
     scenario "visualisation de la demande de financement par l'operateur" do
       visit projet_demande_path(projet, jeton: invit.token)
       expect(page).to have_content('Plan de financement')

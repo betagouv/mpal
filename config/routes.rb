@@ -24,6 +24,8 @@ Rails.application.routes.draw do
       get '/preeligibilite', to: 'projets#preeligibilite', as: 'preeligibilite'
       get '/demande', to: 'projets#demande', as: 'demande'
       get '/suivi', to: 'projets#suivi', as: 'suivi'
+      get '/proposer', to: 'projets#proposer', as: 'proposer'
+      get '/accepter', to: 'projets#accepter', as: 'accepter'
 
       post '/transfert_csv', to: 'transfert_csv#create'
     end

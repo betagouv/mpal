@@ -1,0 +1,3 @@
+- content_for :cta do
+  = link_to "Je valide mon projet", projet_accepter_path(@projet_courant), class: "btn"
+= render 'projet_proposition_acceptee'

@@ -11,6 +11,7 @@ class ProjetsController < ApplicationController
   end
 
   def update
+    @projet_courant.statut = :proposition_enregistree
     @projet_courant.assign_attributes(projet_params)
     if projet_valide? && @projet_courant.save
       redirect_to @projet_courant, notice: t('projets.edition_projet.messages.succes')
@@ -18,6 +19,27 @@ class ProjetsController < ApplicationController
       render :edit, alert: t('projets.edition_projet.messages.erreur')
     end
   end
+
+  def proposer
+    @projet_courant.statut = :proposition_proposee
+    if @projet_courant.save
+      redirect_to @projet_courant
+    else
+      render :edit
+    end
+  end
+
+  def accepter
+    @projet_courant.statut = :proposition_acceptee
+    if @projet_courant.save
+      redirect_to @projet_courant
+    else
+      render :edit
+    end
+  end
+
+
+
 
   def show
     gon.push({

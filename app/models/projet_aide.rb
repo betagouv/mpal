@@ -1,4 +1,4 @@
 class ProjetAide < ActiveRecord::Base
   belongs_to :projet
-  belongs_to :aides
+  belongs_to :aide
 end
