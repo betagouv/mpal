@@ -43,16 +43,16 @@
       .auth
         = label_tag :numero_fiscal
         = text_field_tag :numero_fiscal, nil, placeholder: "Ex : 123 456 789 AB", id: "form-nf"
-        a href="#"  où se trouve mon numéro fiscal ?
+        a href="#"  Où se trouve mon numéro fiscal ?
         = label_tag :reference_avis
         = text_field_tag :reference_avis, nil, placeholder: "Ex: ABC DEF 123", id: "form-ra"
         = submit_tag t('sessions.nouvelle.action'), class:'btn'
       .mleg
         input#lab-rfr type="checkbox" class="engagement" name="autorisation"
-        label for="lab-rfr" 
-          | j’autorise l’
+        label for="lab-rfr"
+          |  J’autorise l’
           abbr title=("Agence nationale de l’habitat")  Anah
-          | à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon
+          |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon
           abbr title=("Revenu fiscal de référence")  RFR
 
   - if Tools.demo?

@@ -68,6 +68,7 @@
       | Occupants
       a.btn href="#"  Ajouter un occupant
     hr/
+
     .occupants-recap
       ul
         li
@@ -94,4 +95,10 @@
               input type="text" /
             td
               a.btn href="#"  Supprimer
+    .intervenant
+      ul.ins-form
+        li.radio
+          input#dif1 type="checkbox" class="engagement"
+          label for="dif1"  J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur RFR auprès de la direction générale des finances publiques 
+
   = submit_tag t('demarrage_projet.action'), class: 'validate btn'
