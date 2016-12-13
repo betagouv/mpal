@@ -42,11 +42,17 @@ header.project-header
           fieldset
             legend Diagnostic opérateur
             ul.ins-form
+              li.radio
+                p.like-label Ce projet concerne-t-il la perte d'autonomie ou le handicap ?
+                = f.radio_button :handicap, true
+                = f.label :handicap, "Oui", value: "true"
+                = f.radio_button :handicap, false
+                = f.label :handicap, "Non", value: "false"
               li
                 = f.label :niveau_gir, "Niveau GIR"
-                = f.select :niveau_gir, options_for_select(["1","2","3","4","5","6"], @projet_courant.niveau_gir)
+                = f.text_field :niveau_gir
               li.radio
-                p.like-label Situation de handicap
+                p.like-label MDPH/CDAPH
                 = f.radio_button :handicap, true
                 = f.label :handicap, "Oui", value: "true"
                 = f.radio_button :handicap, false
@@ -147,7 +153,7 @@ header.project-header
               = f.text_area :precisions_financement
             li
               p.like-label.form-pj
-                strong Piéce jointe
+                strong Pièce(s) jointe(s)
             = f.fields_for :documents do |builder_document|
               li
                 p.like-label.form-pj= builder_document.object.label

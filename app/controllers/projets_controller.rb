@@ -63,6 +63,9 @@ class ProjetsController < ApplicationController
       @projet_courant.documents.build(label: "Grille de degradation ou arrêté")
       @projet_courant.documents.build(label: "Grille d'insalubrité ou arrêté")
       @projet_courant.documents.build(label: "Devis ou estimation de travaux")
+      @projet_courant.documents.build(label: "Justificatif MDPH")
+      @projet_courant.documents.build(label: "Justificatif CDAPH")
+
       render 'demande2', layout: 'projet'
     end
   end
