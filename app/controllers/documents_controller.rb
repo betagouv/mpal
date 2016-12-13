@@ -4,8 +4,6 @@ class DocumentsController < ApplicationController
     @document.fichier = params[:fichier_document]
     @document.label = params[:label_document]
     if @document.save
-      puts "DOCUMENT #{@document.label} SAUVEGARDE"
-      redirect_to projet_path(@projet_courant), notice: t('projets.demande.messages.succes_depot_document')
     else
       render 'projets/demande2'
       # redirect_to projet_demande_path(@projet_courant), alert: t('projets.demande.messages.erreur_depot_document')
