@@ -53,10 +53,10 @@ header.project-header
                 = f.label :handicap, "Non", value: "false"
               li
                 = f.label :note_degradation, "Note de dégradation"
-                = f.select :note_degradation, options_for_select(["1","2","3","4","5"], @projet_courant.note_degradation)
+                = f.text_field :note_degradation
               li
                 = f.label :note_insalubrite, "Note d'insalubrité"
-                = f.select :note_insalubrite, options_for_select(["1","2","3","4","5"], @projet_courant.note_insalubrite)
+                = f.text_field :note_insalubrite
               li.radio
                 p.like-label Ventilation adaptée
                 = f.radio_button :ventilation_adaptee, true
