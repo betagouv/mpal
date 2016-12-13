@@ -55,7 +55,7 @@ feature "intervenant" do
 
     scenario "visualisation de la demande de financement par l'operateur" do
       visit projet_demande_path(projet, jeton: invit.token)
-      expect(page).to have_content('Plan de financement')
+      expect(page).to have_content('Plan de financement prévisionnel')
       expect(page).to have_content(aide.libelle)
     end
 

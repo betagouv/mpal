@@ -140,7 +140,7 @@ fr:
       messages:
         succes: "La composition du logement a bien été mise à jour."
     demande:
-      plan_financement: "Plan de financement"
+      plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action: "Envoyer la demande à %{instructeur}"
       action_depot_document: "Envoyer le document"
