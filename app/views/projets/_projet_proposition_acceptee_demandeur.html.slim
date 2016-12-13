@@ -36,5 +36,5 @@
     br
 
   = form_tag(projet_transmissions_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
-    = submit_tag "Je valide mon projet", class: 'btn'
+    = submit_tag "Signer et transmettre la demande de subvention", class: 'btn'
 = render 'projet_proposition_acceptee'
