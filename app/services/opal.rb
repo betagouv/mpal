@@ -56,7 +56,7 @@ class Opal
         "immSiDejaSubventionne": false,
         "immSiProcedureInsalubrite": false,
         "adresseGeographique": {
-          "adgLigne1": projet.adresse,
+          "adgLigne1": projet.adresse_ligne1,
           "cdpCodePostal": projet.code_postal,
           "comCodeInsee": recupere_com_code_insee(projet),
           "dptNumero": projet.departement
