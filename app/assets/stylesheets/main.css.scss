@@ -829,9 +829,9 @@ input:-ms-input-placeholder {
             text-align: right; }
           .page-projet .col-right .content-projet .block.messagerie .chat:first-child {
             margin-top: 0; }
-          .page-projet .col-right .content-projet .block.messagerie .chat.chat-dem p {
+          .page-projet .col-right .content-projet .block.messagerie .chat.chat-demandeur p {
             border: 1px solid #56869a; }
-            .page-projet .col-right .content-projet .block.messagerie .chat.chat-dem p:after, .page-projet .col-right .content-projet .block.messagerie .chat.chat-dem p:before {
+            .page-projet .col-right .content-projet .block.messagerie .chat.chat-demandeur p:after, .page-projet .col-right .content-projet .block.messagerie .chat.chat-demandeur p:before {
               bottom: 100%;
               left: 26px;
               border: solid transparent;
@@ -840,23 +840,23 @@ input:-ms-input-placeholder {
               width: 0;
               position: absolute;
               pointer-events: none; }
-            .page-projet .col-right .content-projet .block.messagerie .chat.chat-dem p:after {
+            .page-projet .col-right .content-projet .block.messagerie .chat.chat-demandeur p:after {
               border-color: rgba(136, 183, 213, 0);
               border-bottom-color: #fff;
               border-width: 10px;
               margin-left: -10px; }
-            .page-projet .col-right .content-projet .block.messagerie .chat.chat-dem p:before {
+            .page-projet .col-right .content-projet .block.messagerie .chat.chat-demandeur p:before {
               border-color: rgba(194, 225, 245, 0);
               border-bottom-color: #56869a;
               border-width: 11px;
               margin-left: -11px; }
-          .page-projet .col-right .content-projet .block.messagerie .chat.chat-ope {
+          .page-projet .col-right .content-projet .block.messagerie .chat.chat-intervenant {
             text-align: right; }
-            .page-projet .col-right .content-projet .block.messagerie .chat.chat-ope p {
+            .page-projet .col-right .content-projet .block.messagerie .chat.chat-intervenant p {
               text-align: left;
               display: inline-block;
               background: #eef1f7; }
-              .page-projet .col-right .content-projet .block.messagerie .chat.chat-ope p:after {
+              .page-projet .col-right .content-projet .block.messagerie .chat.chat-intervenant p:after {
                 bottom: 100%;
                 right: 17px;
                 border: solid transparent;
@@ -869,7 +869,7 @@ input:-ms-input-placeholder {
                 border-bottom-color: #eef1f7;
                 border-width: 10px;
                 margin-left: -30px; }
-              .page-projet .col-right .content-projet .block.messagerie .chat.chat-ope p date {
+              .page-projet .col-right .content-projet .block.messagerie .chat.chat-intervenant p date {
                 color: #93b5c3; }
         .page-projet .col-right .content-projet .block.messagerie .chat-respond {
           border-radius: 3px;

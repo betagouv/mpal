@@ -218,4 +218,24 @@ module ApplicationHelper
       complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe
     end
   end
+
+  def affiche_commentaire(commentaire)
+    article = content_tag(:h4, commentaire.auteur)
+    corps = []
+    corps << commentaire.corps_message
+    corps << content_tag(:date, l(commentaire.created_at, format: :short))
+    article += content_tag(:p, corps.join.html_safe)
+    role_auteur = commentaire.auteur.is_a?(Intervenant) ? "intervenant" : "demandeur"
+    html = content_tag(:article, article.html_safe, class:"chat chat-#{role_auteur}")
+  end
+=begin
+
+        article class="chat chat-intervenant"
+          h4= commentaire.auteur
+          p
+            = commentaire.corps_message
+            date= l(commentaire.created_at, format: :short)
+
+  end
+=end
 end

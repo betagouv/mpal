@@ -7,7 +7,10 @@
         | Il n’y a pas de message. Soyez le premier/la première à poser votre question.
         br>/
         | Vous serez notifié par email dès qu’un nouveau message apparaitra.
-      a.btn.message href="#"  Écrire un message
+      = form_for [@projet_courant, @commentaire] do |f|
+        = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
+        = f.text_area :corps_message, class: 'chat-respond'
+        = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "btn message"
 - else
   article.block.messagerie
     a name="messagerie" 
@@ -17,23 +20,10 @@
       span 2
     .content-block
       .chat-container
-        article.chat.chat-dem
-          h4 Marianne Durano
-          p
-            | Ok, merci !
-            date 06 déc. 18h57
-        article.chat.chat-ope
-          h4 Opérateur
-          p
-            | Bonjour, vous pouvez trouver plus d'information sur notre page
-            a href="#"  anah.gouv.fr/operateur
-            br/
-            | Je suis à votre disposition pour plus d'information.
-            date 06 déc. 14h22
-        article.chat.chat-dem
-          h4 Marianne Durano
-          p
-            | Bonjour, pouvez-vous me donner plus d'informations sur les opérateurs ?
-            date 06 déc. 10h37
-      textarea.chat-respond
-      a.btn.message href="#"  Répondre
+        - @projet_courant.commentaires.each do |commentaire|
+          = affiche_commentaire(commentaire)
+        = form_for [@projet_courant, @commentaire] do |f|
+          = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
+          = f.text_area :corps_message, class: 'chat-respond'
+          = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "btn message"
+
