@@ -10,7 +10,7 @@ article.block.projet
         strong= @projet_courant.intervenants.pour_role(:operateur).first
         br
         br
-        | vous pouvez à présent dialoguer avec cette entreprise par la messagerie. vous serez informé par email pour chaque réponse de sa part.
+        | vous pouvez à présent dialoguer avec cet intervenant par la messagerie. vous serez informé par email pour chaque réponse de sa part.
       = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn' unless @projet_courant.operateur
     - else
       p
