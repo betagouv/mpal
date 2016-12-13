@@ -6,8 +6,6 @@ header.project-header
     =link_to t('sessions.lien_deconnexion'), {:controller => :sessions, :action => :deconnexion}, class: 'btn'
   hr/
   section.notification
-    a.btn-notif href="#messagerie"  Vous 2 nouveaux messages
-    a.btn-notif href="#choose"  Vous devez choisir un opérateur
 /! Blocks Projet
 section.content-projet
   = render partial: 'messagerie'
