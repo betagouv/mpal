@@ -162,4 +162,5 @@ header.project-header
                   span.file-msg.js-set-number Aucun fichier choisi
                   = builder_document.hidden_field :label
                   = builder_document.file_field :fichier, class: "file-input"
+          = render partial: 'documents/show'
           = f.button "Enregistrer cette proposition", class: "btn-save"
