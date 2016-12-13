@@ -1,3 +1,4 @@
 - content_for :cta do
-  = link_to "Je valide mon projet", projet_accepter_path(@projet_courant), class: "btn"
+  = form_tag(projet_transmissions_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
+    = submit_tag "Je valide mon projet", class: 'btn'
 = render 'projet_proposition_acceptee'

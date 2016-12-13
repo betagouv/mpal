@@ -1,0 +1,5 @@
+- content_for :cta do
+  - if @utilisateur_courant.instructeur?
+    = form_tag(projet_dossiers_path(projet_id: @projet_courant.id), method: 'post' ) do
+      = submit_tag t('projets.visualisation.creer_dossier_opal'), class:'btn'
+= render 'projet_transmis_pour_instruction'
