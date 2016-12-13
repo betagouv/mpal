@@ -51,18 +51,6 @@ header.project-header
                 = f.label :handicap, "Oui", value: "true"
                 = f.radio_button :handicap, false
                 = f.label :handicap, "Non", value: "false"
-              li.radio
-                p.like-label Le demandeur est-il salarié
-                = f.radio_button :demandeur_salarie, true
-                = f.label :demandeur_salarie, "Oui", value: "true"
-                = f.radio_button :demandeur_salarie, false
-                = f.label :demandeur_salarie, "Non", value: "false"
-              li.radio
-                p.like-label Si oui, l'entreprise a t'elle plus de 10 personnes
-                = f.radio_button :entreprise_plus_10_personnes, true
-                = f.label :entreprise_plus_10_personnes, "Oui", value: "true"
-                = f.radio_button :entreprise_plus_10_personnes, false
-                = f.label :entreprise_plus_10_personnes, "Non", value: "false"
               li
                 = f.label :note_degradation, "Note de dégradation"
                 = f.select :note_degradation, options_for_select(["1","2","3","4","5"], @projet_courant.note_degradation)
@@ -93,7 +81,7 @@ header.project-header
           fieldset
             legend Description des travaux proposés
             p Vous pouvez ajouter un deuxième scénario si vous le souhaitez. Dans ce cas, le demandeur pourra choisir le scénario de son choix
-            table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%" 
+            table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%"
               tbody
                 tr
                   th.empty scope="col"  &nbsp;
@@ -134,7 +122,7 @@ header.project-header
                 - TypeAide.all.each do |type_aide|
                   - type_aide.aides.each do |aide|
                     tr(data-url=projet_aides_url(@projet_courant))
-                      th scope="row" #{aide.libelle} 
+                      th scope="row" #{aide.libelle}
                       td
                         label.masque(for=aide.id)
                           = aide.libelle
@@ -169,4 +157,3 @@ header.project-header
                   = builder_document.hidden_field :label
                   = builder_document.file_field :fichier, class: "file-input"
           = f.button "Enregistrer cette proposition", class: "btn-save"
-
