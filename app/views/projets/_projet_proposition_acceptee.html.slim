@@ -68,4 +68,10 @@ article.block.recap-projet
               th scope="row" #{projet_aide.aide.libelle} 
               td= "#{projet_aide.montant} €"
       date= l(Time.now.to_date)
+      h4 Pièces jointes
+      - if @projet_courant.documents
+        ul.ctr-ope
+          - @projet_courant.documents.each do |document|
+            li
+              = link_to document.label, document.fichier_url, target: "_blank"
       = yield (:cta)

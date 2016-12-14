@@ -1,7 +1,7 @@
 /! PROJET PROPOSE - vue operateur 2em etape
 article.block.projet-ope
   h3.is-open Projet proposé
-  a.edit href="#"  Modifier
+  = link_to "Modifier", projet_demande_path(@projet_courant), class: "edit"
   .content-block
     h4 Logement du demandeur
     ul.ctr-ope
@@ -57,5 +57,11 @@ article.block.projet-ope
           tr
             th scope="row" #{projet_aide.aide.libelle} 
             td= "#{projet_aide.montant} €"
+    h4 Pièces jointes
+    - if @projet_courant.documents
+      ul.ctr-ope
+        - @projet_courant.documents.each do |document|
+          li
+            = link_to document.label, document.fichier_url, target: "_blank"
     = yield (:cta)
 

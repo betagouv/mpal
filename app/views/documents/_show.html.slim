@@ -1,27 +1,25 @@
-h1.ui.header Documents
-
-- if @projet_courant.documents
-  table.ui.celled.striped.table
-    tbody
-      - @projet_courant.documents.select{|document| document.persisted? }.each do |document|
-        tr
-
-          td
+section.content-projet
+  article.block.projet-ope
+    h3.is-open Pieces jointes
+    hr/
+    .content-block
+      - if @projet_courant.documents
+        ul
+        - @projet_courant.documents.select{|document| document.persisted? }.each do |document|
+          li
             i.file.icon
-            = link_to document.label, document.fichier_url
-          td.right.aligned.collapsing
-            = bouton_suppression_document(document)
+            = link_to document.label, document.fichier_url, target: "_blank"
 
-h3.ui.header Déposer un document
-= form_tag({action: :create, controller: 'documents' }, multipart: true) do
- .ui.form
-   .field
-     = label_tag 'Nom du document'
-   .field
-     = text_field_tag 'label_document'
-   .field
-     = file_field_tag 'fichier_document'
-   .field
-     = submit_tag t('projets.demande.action_depot_document')
-br
-br
+      p
+        br
+      = form_tag({action: :create, controller: 'documents' }, multipart: true) do
+        fieldset
+          legend Pièce à ajouter
+          .field
+            = label_tag 'Nom du document'
+          .field
+            = text_field_tag 'label_document'
+          .field
+            = file_field_tag 'fichier_document'
+          .field
+            = submit_tag t('projets.demande.action_depot_document'), class: 'btn'

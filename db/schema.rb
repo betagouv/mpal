@@ -261,8 +261,8 @@ ActiveRecord::Schema.define(version: 20161213234807) do
     t.float    "pret_bancaire"
     t.text     "precisions_travaux"
     t.text     "precisions_financement"
-    t.boolean  "autonomie"
     t.string   "plateforme_id"
+    t.boolean  "autonomie"
   end
 
   add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
