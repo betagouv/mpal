@@ -183,21 +183,25 @@ module ApplicationHelper
   def affiche_demande_souhaitee(demande)
     html = content_tag(:h4, "Difficultés rencontrées dans le logement")
     besoins = []
+    besoins << t("demarrage_projet.etape2_description_projet.changement_chauffage") if demande.changement_chauffage
     besoins << t("demarrage_projet.etape2_description_projet.froid") if demande.froid
     besoins << t("demarrage_projet.etape2_description_projet.probleme_deplacement") if demande.probleme_deplacement
-    besoins << t("demarrage_projet.etape2_description_projet.handicap") if demande.probleme_deplacement
-    besoins << t("demarrage_projet.etape2_description_projet.mauvais_etat") if demande.mauvais_etat
-    besoins << t("demarrage_projet.etape2_description_projet.autres_besoins") if demande.autres_besoins.present?
+    besoins << t("demarrage_projet.etape2_description_projet.accessibilite") if demande.accessibilite
+    besoins << t("demarrage_projet.etape2_description_projet.hospitalisation") if demande.hospitalisation
+    besoins << t("demarrage_projet.etape2_description_projet.adaptation_salle_de_bain") if demande.adaptation_salle_de_bain
+    besoins << t("demarrage_projet.etape2_description_projet.autre") if demande.autre.present?
     html << content_tag(:ul) do
       besoins.map { |besoin| content_tag(:li, besoin.html_safe) }.join.html_safe
     end
     html << content_tag(:h4, "Travaux envisagés")
     travaux = []
-    travaux << t("demarrage_projet.etape2_description_projet.changement_chauffage") if demande.changement_chauffage
-    travaux << t("demarrage_projet.etape2_description_projet.isolation") if demande.isolation
-    travaux << t("demarrage_projet.etape2_description_projet.adaptation_salle_de_bain") if demande.adaptation_salle_de_bain
-    travaux << t("demarrage_projet.etape2_description_projet.accessibilite") if demande.accessibilite
-    travaux << t("demarrage_projet.etape2_description_projet.travaux_importants") if demande.travaux_importants
+    travaux << t("demarrage_projet.etape2_description_projet.travaux_fenetres") if demande.travaux_fenetres
+    travaux << t("demarrage_projet.etape2_description_projet.travaux_isolation") if demande.travaux_isolation
+    travaux << t("demarrage_projet.etape2_description_projet.travaux_chauffage") if demande.travaux_chauffage
+    travaux << t("demarrage_projet.etape2_description_projet.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb
+    travaux << t("demarrage_projet.etape2_description_projet.travaux_monte_escalier") if demande.travaux_monte_escalier
+    travaux << t("demarrage_projet.etape2_description_projet.travaux_amenagement_ext") if demande.travaux_amenagement_ext
+    travaux << t("demarrage_projet.etape2_description_projet.travaux_autres") if demande.travaux_autres
     html << content_tag(:ul) do
       travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
     end

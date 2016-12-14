@@ -27,42 +27,31 @@
 
     p.chapo Quels travaux souhaitez-vous réaliser ?
     ul.ins-form
-
-      li.checkbox
-        = f.check_box :isolation, class: 'checkbox-inline'
-        = f.label :isolation, t('demarrage_projet.etape2_description_projet.isolation')
-
       li.checkbox
         = f.check_box :travaux_fenetres, class: 'checkbox-inline'
         = f.label :travaux_fenetres, t('demarrage_projet.etape2_description_projet.travaux_fenetres')
-
       li.checkbox
         = f.check_box :travaux_isolation, class: 'checkbox-inline'
         = f.label :travaux_isolation, t('demarrage_projet.etape2_description_projet.travaux_isolation')
-
       li.checkbox
         = f.check_box :travaux_chauffage, class: 'checkbox-inline'
         = f.label :travaux_chauffage, t('demarrage_projet.etape2_description_projet.travaux_chauffage')
-
       li.checkbox
         = f.check_box :travaux_adaptation_sdb, class: 'checkbox-inline'
         = f.label :travaux_adaptation_sdb, t('demarrage_projet.etape2_description_projet.travaux_adaptation_sdb')
-
       li.checkbox
         = f.check_box :travaux_monte_escalier, class: 'checkbox-inline'
         = f.label :travaux_monte_escalier, t('demarrage_projet.etape2_description_projet.travaux_monte_escalier')
-
       li.checkbox
         = f.check_box :travaux_amenagement_ext, class: 'checkbox-inline'
         = f.label :travaux_amenagement_ext, t('demarrage_projet.etape2_description_projet.travaux_amenagement_ext')
-
       li.checkbox
         = f.check_box :travaux_autres, class: 'checkbox-inline'
         = f.label :travaux_autres, t('demarrage_projet.etape2_description_projet.travaux_autres')
 
-
     p.chapo = t('demarrage_projet.etape2_description_projet.complement')
     = f.text_area :complement
+
     p.chapo Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?
     ul.ins-form
       li.radio

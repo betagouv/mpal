@@ -89,9 +89,7 @@ fr:
       travaux_monte_escalier: "Monte-escalier"
       travaux_amenagement_ext: "Aménagement extérieur"
       travaux_autres: "Autre"
-
       complement: "Précisez votre projet"
-
       energie: "Je veux réaliser des économies d’énergies"
       mauvais_etat: "Mon logement est globalement en mauvais état"
       autres_besoins: "Souhaitez-vous communiquer des informations supplémentaires"

@@ -66,7 +66,7 @@ class DemarrageProjetController < ApplicationController
   end
 
   def demande_params
-    params.require(:demande).permit(:froid, :probleme_deplacement, :handicap, :mauvais_etat, :autres_besoins, :changement_chauffage, :isolation, :adaptation_salle_de_bain, :accessibilite, :travaux_importants, :complement, :ptz, :annee_construction )
+    params.require(:demande).permit(:froid, :hospitalisation, :autre, :probleme_deplacement, :handicap, :mauvais_etat, :autres_besoins, :changement_chauffage, :isolation, :adaptation_salle_de_bain, :accessibilite, :travaux_importants, :complement, :ptz, :annee_construction, :travaux_fenetres, :travaux_isolation, :travaux_chauffage, :travaux_adaptation_sdb, :travaux_monte_escalier, :travaux_amenagement_ext, :travaux_autres )
   end
 
   def etape2_valide?
