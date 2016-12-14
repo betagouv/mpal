@@ -22,6 +22,14 @@ class Projet < ActiveRecord::Base
 
   has_many :projet_prestations, dependent: :destroy
 
+  before_create do
+    self.plateforme_id = Time.now.to_i
+  end
+  
+  def numero_plateforme
+    "#{self.id}_#{self.plateforme_id}"
+  end
+
   def nb_total_occupants
     nb_occupants = self.occupants.count || 0
     return nb_occupants + self.nb_occupants_a_charge

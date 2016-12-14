@@ -31,6 +31,7 @@ Rails.application.routes.draw do
       post '/transfert_csv', to: 'transfert_csv#create'
     end
 
+    get '/dossiers/:numero_plateforme', to: 'dossiers#show'
     get '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos', as: 'etape1_recuperation_infos_demarrage_projet'
     post '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_envoi_infos'
 
