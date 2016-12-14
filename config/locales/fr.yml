@@ -75,7 +75,7 @@ fr:
         besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
       titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
       froid: "Vous avez froid, votre logement est mal isolé"
-      probleme_deplacement: "Vous avez du mal à me déplacer"
+      probleme_deplacement: "Vous avez du mal à vous déplacer"
       changement_chauffage: "Votre chauffage vous coûte trop cher"
       adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
       accessibilite: "Vous avez des difficultés dans les escaliers"

@@ -22,7 +22,7 @@
         = f.check_box :adaptation_salle_de_bain, class: 'checkbox-inline'
         = f.label :adaptation_salle_de_bain, t('demarrage_projet.etape2_description_projet.adaptation_salle_de_bain')
       li.checkbox
-        = f.check_box :autre, class: 'checkbox-inline'
+        = f.text_field :autre
         = f.label :autre, t('demarrage_projet.etape2_description_projet.autre')
 
     p.chapo Quels travaux souhaitez-vous réaliser ?
@@ -46,7 +46,7 @@
         = f.check_box :travaux_amenagement_ext, class: 'checkbox-inline'
         = f.label :travaux_amenagement_ext, t('demarrage_projet.etape2_description_projet.travaux_amenagement_ext')
       li.checkbox
-        = f.check_box :travaux_autres, class: 'checkbox-inline'
+        = f.text_field :travaux_autres
         = f.label :travaux_autres, t('demarrage_projet.etape2_description_projet.travaux_autres')
 
     p.chapo = t('demarrage_projet.etape2_description_projet.complement')
