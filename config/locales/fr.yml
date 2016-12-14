@@ -74,19 +74,32 @@ fr:
       erreurs:
         besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
       titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
-      froid: "J'ai froid, mon logement est mal isolé"
+      froid: "Vous avez froid, votre logement est mal isolé"
+      probleme_deplacement: "Vous avez du mal à me déplacer"
+      changement_chauffage: "Votre chauffage vous coûte trop cher"
+      adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
+      accessibilite: "Vous avez des difficultés dans les escaliers"
+      hospitalisation: "Vous rentrez d'hospitalisation ou de maison de retraite"
+      autre: "Autre, précisez"
+
+      travaux_fenetres: "Fenêtres"
+      travaux_isolation: "Isolation"
+      travaux_chauffage: "Chauffage"
+      travaux_adaptation_sdb: "Adaptation salle de bain"
+      travaux_monte_escalier: "Monte-escalier"
+      travaux_amenagement_ext: "Aménagement extérieur"
+      travaux_autres: "Autre"
+
+      complement: "Précisez votre projet"
+
       energie: "Je veux réaliser des économies d’énergies"
-      probleme_deplacement: "J’ai du mal à me déplacer"
-      handicap: "Un des occupants est handicapé"
       mauvais_etat: "Mon logement est globalement en mauvais état"
       autres_besoins: "Souhaitez-vous communiquer des informations supplémentaires"
       titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
-      changement_chauffage: "Changer mon système de chauffage"
       isolation: "Isoler mon logement"
-      adaptation_salle_de_bain: "Adapter ma salle de bain"
-      accessibilite: "Rendre plus accessible mon logement"
       travaux_importants: "Réaliser d’importants travaux (plusieurs des éléments ci-dessus et ou d’autres)"
       autres_travaux: "Autres travaux"
+
     etape3_description_projet:
       titre: "Informations facultatives"
       ptz: "Avez-vous benéficié d'un PTZ ?"

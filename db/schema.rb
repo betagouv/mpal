@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161213234807) do
+ActiveRecord::Schema.define(version: 20161213214716)
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(version: 20161213234807) do
     t.boolean "froid"
     t.boolean "energie"
     t.boolean "probleme_deplacement"
-    t.boolean "handicap"
     t.boolean "mauvais_etat"
     t.string  "autres_besoins"
     t.boolean "changement_chauffage"
@@ -90,6 +89,15 @@ ActiveRecord::Schema.define(version: 20161213234807) do
     t.string  "annee_construction"
     t.boolean "maison_individuelle"
     t.text    "complement"
+    t.boolean "autre"
+    t.boolean "hospitalisation"
+    t.boolean "travaux_fenetres"
+    t.boolean "travaux_isolation"
+    t.boolean "travaux_chauffage"
+    t.boolean "travaux_adaptation_sdb"
+    t.boolean "travaux_monte_escalier"
+    t.boolean "travaux_amenagement_ext"
+    t.boolean "travaux_autres"
   end
 
   add_index "demandes", ["projet_id"], name: "index_demandes_on_projet_id", using: :btree

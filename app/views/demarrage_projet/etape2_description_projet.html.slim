@@ -4,35 +4,64 @@
     p.chapo Quelles difficultés rencontrez-vous dans le logement ?
     ul.ins-form
       li.checkbox
+        = f.check_box :changement_chauffage, class: 'checkbox-inline'
+        = f.label :changement_chauffage, t('demarrage_projet.etape2_description_projet.changement_chauffage')
+      li.checkbox
         = f.check_box :froid
         = f.label :froid, t('demarrage_projet.etape2_description_projet.froid')
       li.checkbox
         = f.check_box :probleme_deplacement
         = f.label :probleme_deplacement, t('demarrage_projet.etape2_description_projet.probleme_deplacement')
       li.checkbox
-        = f.check_box :handicap
-        = f.label :handicap, t('demarrage_projet.etape2_description_projet.handicap')
+        = f.check_box :accessibilite, class: 'checkbox-inline'
+        = f.label :accessibilite, t('demarrage_projet.etape2_description_projet.accessibilite')
       li.checkbox
-        = f.check_box :mauvais_etat, class: 'checkbox-inline'
-        = f.label :mauvais_etat, t('demarrage_projet.etape2_description_projet.mauvais_etat')
-    p.chapo Quels travaux souhaitez-vous réaliser ?
-    ul.ins-form
-      li.checkbox
-        = f.check_box :changement_chauffage, class: 'checkbox-inline'
-        = f.label :changement_chauffage, t('demarrage_projet.etape2_description_projet.changement_chauffage')
-      li.checkbox
-        = f.check_box :isolation, class: 'checkbox-inline'
-        = f.label :isolation, t('demarrage_projet.etape2_description_projet.isolation')
+        = f.check_box :hospitalisation, class: 'checkbox-inline'
+        = f.label :hospitalisation, t('demarrage_projet.etape2_description_projet.hospitalisation')
       li.checkbox
         = f.check_box :adaptation_salle_de_bain, class: 'checkbox-inline'
         = f.label :adaptation_salle_de_bain, t('demarrage_projet.etape2_description_projet.adaptation_salle_de_bain')
       li.checkbox
-        = f.check_box :accessibilite, class: 'checkbox-inline'
-        = f.label :accessibilite, t('demarrage_projet.etape2_description_projet.accessibilite')
+        = f.check_box :autre, class: 'checkbox-inline'
+        = f.label :autre, t('demarrage_projet.etape2_description_projet.autre')
+
+    p.chapo Quels travaux souhaitez-vous réaliser ?
+    ul.ins-form
+
       li.checkbox
-        = f.check_box :travaux_importants, class: 'checkbox-inline'
-        = f.label :travaux_importants, t('demarrage_projet.etape2_description_projet.travaux_importants')
-    p.chapo Souhaitez-vous communiquer des informations supplementaires ?
+        = f.check_box :isolation, class: 'checkbox-inline'
+        = f.label :isolation, t('demarrage_projet.etape2_description_projet.isolation')
+
+      li.checkbox
+        = f.check_box :travaux_fenetres, class: 'checkbox-inline'
+        = f.label :travaux_fenetres, t('demarrage_projet.etape2_description_projet.travaux_fenetres')
+
+      li.checkbox
+        = f.check_box :travaux_isolation, class: 'checkbox-inline'
+        = f.label :travaux_isolation, t('demarrage_projet.etape2_description_projet.travaux_isolation')
+
+      li.checkbox
+        = f.check_box :travaux_chauffage, class: 'checkbox-inline'
+        = f.label :travaux_chauffage, t('demarrage_projet.etape2_description_projet.travaux_chauffage')
+
+      li.checkbox
+        = f.check_box :travaux_adaptation_sdb, class: 'checkbox-inline'
+        = f.label :travaux_adaptation_sdb, t('demarrage_projet.etape2_description_projet.travaux_adaptation_sdb')
+
+      li.checkbox
+        = f.check_box :travaux_monte_escalier, class: 'checkbox-inline'
+        = f.label :travaux_monte_escalier, t('demarrage_projet.etape2_description_projet.travaux_monte_escalier')
+
+      li.checkbox
+        = f.check_box :travaux_amenagement_ext, class: 'checkbox-inline'
+        = f.label :travaux_amenagement_ext, t('demarrage_projet.etape2_description_projet.travaux_amenagement_ext')
+
+      li.checkbox
+        = f.check_box :travaux_autres, class: 'checkbox-inline'
+        = f.label :travaux_autres, t('demarrage_projet.etape2_description_projet.travaux_autres')
+
+
+    p.chapo = t('demarrage_projet.etape2_description_projet.complement')
     = f.text_area :complement
     p.chapo Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?
     ul.ins-form
