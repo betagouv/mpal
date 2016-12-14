@@ -67,6 +67,9 @@ article.block.recap-projet
             tr
               th scope="row" #{projet_aide.aide.libelle} 
               td= "#{projet_aide.montant} €"
+          tr
+            th scope="row" Reste à charge
+            td= "#{@projet_courant.reste_a_charge} €"
       date= l(Time.now.to_date)
       h4 Pièces jointes
       - if @projet_courant.documents

@@ -57,6 +57,11 @@ article.block.projet-ope
           tr
             th scope="row" #{projet_aide.aide.libelle} 
             td= "#{projet_aide.montant} €"
+        tr
+          th scope="row" Reste à charge
+          td= "#{@projet_courant.reste_a_charge} €"
+    p
+      br
     h4 Pièces jointes
     - if @projet_courant.documents
       ul.ctr-ope

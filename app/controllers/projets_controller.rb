@@ -90,7 +90,7 @@ class ProjetsController < ApplicationController
               :remarques_diagnostic,
               :gain_energetique, :etiquette_apres_travaux,
               :precisions_travaux, :precisions_financement,
-              :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire,
+              :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire, :reste_a_charge,
               :documents_attributes)
     attributs = attributs.merge(adresse_complete) if adresse_complete
     attributs

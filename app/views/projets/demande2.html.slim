@@ -138,7 +138,12 @@ header.project-header
                           = text_field_tag aide.id, nil, class: "aide"
 
                 tr
-                  th.tab-title colspan="3" scope="row"  Prêt
+                  th.tab-title colspan="3" scope="row"  Financement personnel
+                tr
+                  th scope="row" Reste à charge
+                  td
+                    = f.text_field :reste_a_charge
+                    = " €"
                 tr
                   th scope="row" Prêt bancaire
                   td
