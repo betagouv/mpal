@@ -93,7 +93,8 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
-#  Capybara.default_wait_time = 600
+
+# Capybara.default_max_wait_time = 600
 
 
 # config DatabaseCleaner v1
