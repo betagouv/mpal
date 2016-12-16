@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161214085709) do
+ActiveRecord::Schema.define(version: 20161216144937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -111,6 +111,13 @@ ActiveRecord::Schema.define(version: 20161214085709) do
   end
 
   add_index "documents", ["projet_id"], name: "index_documents_on_projet_id", using: :btree
+
+  create_table "engagements", force: :cascade do |t|
+    t.string   "nom"
+    t.boolean  "valeur"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "evenements", force: :cascade do |t|
     t.integer  "projet_id"
@@ -269,8 +276,8 @@ ActiveRecord::Schema.define(version: 20161214085709) do
     t.float    "pret_bancaire"
     t.text     "precisions_travaux"
     t.text     "precisions_financement"
-    t.string   "plateforme_id"
     t.boolean  "autonomie"
+    t.string   "plateforme_id"
     t.float    "reste_a_charge"
   end
 
