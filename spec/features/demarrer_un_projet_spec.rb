@@ -11,16 +11,14 @@ feature "Démarrer un projet" do
     Occupant.destroy_all
   end
 
-  scenario "depuis la page de connexion, je recupere mes informations principales", pending: true do
+
+  scenario "depuis la page de connexion, je recupere mes informations principales" do
     signin(12,15)
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     expect(page).to have_content("Martin")
-    expect(page).to have_content("Pierre")
-    expect(page).to have_content("12 rue de la Mare")
-    expect(page).to have_content("75010")
-    expect(page).to have_content("Paris")
-    expect(page).to have_content("Revenu Fiscal de Référence 2015 : 29880 €")
+    expect(page).to have_content("Veuillez vérifier les champs ci-dessous et les compléter")
+    expect(find_field('projet_adresse').value).to eq('12 rue de la Mare, 75010 Paris')
   end
 
   scenario "je modifie l'adresse du logement à rénover" do
@@ -28,7 +26,6 @@ feature "Démarrer un projet" do
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     fill_in :projet_adresse, with: "1 place Vendôme, 75001 Paris"
-
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape2_description_projet_path(projet))
     projet = Projet.last
@@ -67,7 +64,7 @@ feature "Démarrer un projet" do
     check('demande_probleme_deplacement')
     fill_in :demande_complement, with: "J'ai besoin d'un jacuzzi"
     check('demande_changement_chauffage')
-    uncheck('demande_isolation')
+    uncheck('demande_travaux_isolation')
     check('demande_adaptation_salle_de_bain')
     check('demande_accessibilite')
     choose('demande_ptz_true')
@@ -110,7 +107,8 @@ feature "Démarrer un projet" do
     visit etape3_choix_intervenant_path(projet)
     choose("intervenant_#{operateur.id}")
     fill_in :disponibilite, with: "Plutôt le matin"
-    click_button I18n.t('demarrage_projet.action')
+    find('.validate').click
+    # click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(projet_path(projet))
     expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: operateur.raison_sociale))
   end
