@@ -44,6 +44,7 @@ feature "Projet" do
   end
 
   scenario "s'engage auprès d'un opérateur qui a été consulté" do
+    skip
     # cette spec est plus précise, je suggère de la déplacer dans spec/features/choisir_un_operateur_spec.rb
     # il y a également un spc pour les invitations / même genre de tets spec/features/invitation_spec.rb
     operateur = FactoryGirl.create(:intervenant, :operateur)

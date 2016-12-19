@@ -76,11 +76,11 @@ feature "intervenant" do
       expect(page).to have_content(I18n.t('projets.demande.messages.erreur_label_manquant'))
     end
 
-    scenario "visualisation d'un document", pending: true do
-      document = FactoryGirl.create(:document, projet: projet)
-      visit projet_demande_path(projet, jeton: invit.token)
-      expect(page).to have_link(document.label, href: document.fichier_url)
-    end
+    # scenario "visualisation d'un document", pending: true do
+    #   document = FactoryGirl.create(:document, projet: projet)
+    #   visit projet_demande_path(projet, jeton: invit.token)
+    #   expect(page).to have_link(document.label, href: document.fichier_url)
+    # end
   end
 
   scenario "accès à un projet à partir du tableau de bord" do
