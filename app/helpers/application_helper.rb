@@ -242,4 +242,9 @@ module ApplicationHelper
 
   end
 =end
+
+  def message_projet_transmis
+    instructeur = Intervenant.instructeur_pour(@projet_courant)
+    html = content_tag(:p, t('projets.transmissions.messages.info_demandeur', :instructeur => instructeur)) if @projet_courant.statut = :transmis_pour_instruction
+  end
 end
