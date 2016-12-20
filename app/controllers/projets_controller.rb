@@ -47,7 +47,6 @@ class ProjetsController < ApplicationController
     @commentaire = Commentaire.new(projet: @projet_courant)
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
     @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
-    render :show2, layout: "projet"
   end
 
   def demande
@@ -63,7 +62,6 @@ class ProjetsController < ApplicationController
       @projet_courant.documents.build(label: "Justificatif MDPH")
       @projet_courant.documents.build(label: "Justificatif CDAPH")
 
-      render 'demande2', layout: 'projet'
     end
   end
 

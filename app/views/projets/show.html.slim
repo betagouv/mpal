@@ -1,98 +1,47 @@
-div.class.ui.grid
-  div.four.wide.column
-    .section_gauche
-      .section_gauche_titre
-        h1 = @projet_courant.demandeur_principal
-      .section_infos_demandeur
-        ul.infos-demandeur
-        li.hide
-          = @projet_courant.tel
-          li.hide
-            = @projet_courant.ville
-          li.hide
-            = t('projets.visualisation.titre_section_composition', count: @projet_courant.nb_total_occupants)
-          li.hide
-            = calcul_preeligibilite(annee_fiscale_reference) if revenu_fiscal_reference_total
-            i.help.circle.icon
-      .section_gauche_titre
-        h1 = t('projets.visualisation.titre_fil_actualite')
 
-      - @projet_courant.evenements.each do |evenement|
-        .section_infos_event
-            h2 = evenement
-            = l(evenement.quand, format: :short)
-
-  div.twelve.wide.column
-    = render partial: 'commentaires'
-
-    h2 class="ui horizontal divider header"
-      i class="tag icon"
-      = "Projet souhaité"
-      = affiche_demande_souhaitee(@projet_courant.demande)
-div.class.ui.grid
-  div.twelve.wide.column
-    - if @invitations_demandeur.empty?
-      .ui.warning.message
-        .header
-          p Félicitations ! Vous avez initialisé votre projet et nous avons pu récupérer certaines informations grâce à votre numéro fiscal.
-          p Vous pouvez compléter votre projet ou bien contactez une structure qui pourra vous accompagner dans votre demande d'aide Anah.
-          p Vous n'avez encore invité personne à consulter votre projet. Rendez-vous simplement sur la page #{link_to 'Intervenants', projet_intervenants_path(@projet_courant)} et invitez des opérateurs !
-
-    = render partial: 'eligibilite' if demandeur?
-
-    h2.ui.horizontal.divider.header
-      i.tag.icon
-      = t('projets.visualisation.titre_description_projet')
-    table.ui.definition.table
-      tbody
-        tr
-          td Demandeur principal #{bouton_modification_occupant(@projet_courant.demandeur_principal)}
-          td = @projet_courant.demandeur_principal
-        tr
-          td Adresse du logement à rénover #{ bouton_modification_projet(@projet_courant) if demandeur? }
-          td = @projet_courant.adresse
-
-        tr
-          td Année de construction #{bouton_modification_projet(@projet_courant) if demandeur?}
-          td =@projet_courant.annee_construction
-
-        - if @utilisateur_courant.is_a? Occupant
-
+/! Header
+header.project-header
+  section.top-bar
+    h2 Dossier en cours
+    =link_to t('sessions.lien_deconnexion'), {:controller => :sessions, :action => :deconnexion}, class: 'btn'
+  hr/
+  section.notification
+/! Blocks Projet
+section.content-projet
+  = render partial: 'messagerie'
+  /! OCCUPANTS
+  article.block.occupants
+    h3 Détails des occupants
+    a.edit href="#"  Modifier
+    hr/
+    .occupants-recap
+      ul
+        li
+          | Nombre d’occupants :
+          span= " #{@projet_courant.nb_total_occupants}"
+        li
+          | Total Revenu Fiscal de Référence #{annee_fiscale_reference} :
+          span= " #{revenu_fiscal_reference_total} €"
+    .content-block
+      h4 Demandeur :
+      p
+        strong= @projet_courant.demandeur_principal
+        br/
+        = @projet_courant.adresse
+        br/
+        = @projet_courant.tel
+        br/
+        = @projet_courant.email
+      h4 Occupants :
+      table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
+        tbody
           tr
-            td Email de contact #{bouton_modification_projet(@projet_courant) if demandeur?}
-            td = @projet_courant.email
-          tr
-            td Numéro de téléphone #{bouton_modification_projet(@projet_courant) if demandeur?}
-            td = @projet_courant.tel
-    = link_to t('projets.visualisation.lien_edition_projet'), edit_projet_path(@projet_courant), class: "ui primary button" if @role_utilisateur == :demandeur
-
-    div#autorisations
-      br
-      input type="checkbox"
-        |  J’atteste sur l’honneur
-        ul
-          li  l’exactitude  des informations relatives à l’occupation du logement et aux revenus communiquées ci-avant ;
-          li  et que je suis propriétaire du logement à rénover
-
-    = render partial: 'compositions/show'
-    = render partial: 'calculerevenus'
-
-    = render partial: 'commentaires' if intervenant?
-
-    .div
-      - if @role_utilisateur == :intervenant && @utilisateur_courant.instructeur?
-        h2 = t('projets.creation_opal.titre_creation_opal')
-
-      - if @projet_courant.transmis_pour_instruction?
-       = form_tag(projet_dossiers_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
-         = submit_tag t('projets.visualisation.creer_dossier_opal'), class:'ui primary button'
-      - else
-       = "Dossier #{@projet_courant.opal_numero}" if @projet_courant.opal_numero.present?
-
-    h2.ui.horizontal.divider.header
-      i.map.icon
-      = "Carte"
-
-    div.ui.container.eight.wide.column
-      div#mapid
-      br
+            th scope="col"  Occupants
+            th scope="col"  Année de naissance
+          - @projet_courant.occupants.each do |occupant|
+            tr
+              td= occupant
+              td= occupant.date_de_naissance.year
+  /! PROJET ENVISAGE
+  = render "projet_envisage"
+  = render "projet_#{@projet_courant.statut}_#{@role_utilisateur}" if (@projet_courant.statut != "prospect" && @role_utilisateur != "demandeur")

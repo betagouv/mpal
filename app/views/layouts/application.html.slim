@@ -1,19 +1,49 @@
 doctype html
-html
+html lang="fr"
   head
-    title ANAH
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
+
     = csrf_meta_tag
-
-    script src = "//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"
-
-  = render 'shared/head'
-
+    meta charset="utf-8" /
+    meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" /
+    meta content="ie=edge" http-equiv="x-ua-compatible" /
+    title Anah
+    /![if lt IE 9]
+      | <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script
+    link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700" rel="stylesheet" /
   body
-    = render 'shared/messages'
-
-    div.ui.container.top.yield
-      == yield
-
-    = render "shared/bas_page"
+    /! Main Container
+    .main-container
+      /! Ribbon BETA
+      #beta-ribbon Bêta
+      /! Page projet
+      .page-projet
+        /! Colonne gauche
+        aside.col-left
+          h1
+            = image_tag("logo-anah-w.png", alt: "Agence Nationale de l'Habitat - Anah")
+          section.personal-information
+            h2= @projet_courant.demandeur_principal
+            ul
+              li= @projet_courant.tel
+              li= @projet_courant.ville
+              li= "#{@projet_courant.nb_total_occupants} occupants"
+              li
+                | Revenus dits modestes
+                a.help href="#"
+                  = image_tag "help.svg", alt: "Aide - Revenus dits modestes"
+        /! Colonne droite
+        .col-right
+          = render 'shared/messages'
+          = yield
+          footer.main-footer
+            ul
+              li
+                a href="#"  À propos de la xxxx
+                | \-
+              li
+                a href="#"  Conditions générales
+                | \-
+              li
+                a href="#"  Contact
