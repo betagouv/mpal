@@ -1,1 +1,0 @@
-$(document).ready(function(){$(".dem-diff").hide(),$(".dem-contact input:radio").change(function(){$("#contact-diff").is(":checked")?$(".dem-diff").slideDown("fast"):$(".dem-diff").slideUp("fast")})});
