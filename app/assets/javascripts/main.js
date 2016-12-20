@@ -99,14 +99,14 @@ $(document).ready(function() {
     });
     
     // Same height choose operator
-    var eHeight =  $(".choose-operator li");
+    var eHeight =  $(".choose-operator label");
 
     var mHeight = function(eHeight) {
         return Math.max.apply(null, eHeight.map(function() {
             return $(this).outerHeight()
         }).get())
     };
-    $(".choose-operator li").outerHeight(mHeight($(".choose-operator li")));
+    $(".choose-operator label").outerHeight(mHeight($(".choose-operator label")));
 
 
 
