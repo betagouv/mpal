@@ -38,9 +38,6 @@ class ProjetsController < ApplicationController
     end
   end
 
-
-
-
   def show
     gon.push({
       latitude: @projet_courant.latitude,

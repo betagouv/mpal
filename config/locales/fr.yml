@@ -12,10 +12,9 @@ fr:
         email: Email
         adresse: Adresse
         renover: "adresse du logement à rénover si différente"
-
+        adresse_logement: "Adresse du logement à rénover si différente"
         tel: 'Téléphone'
         disponibilite: "A quel moment souhaitez-vous être contacté ?"
-
       civilite:
         - M
         - Mme
@@ -56,7 +55,6 @@ fr:
       infos_complementaires: "Informations complémentaires"
       infos_contact: "Comment pouvons-nous vous recontacter ?"
       personne_confiance: "Qui contacter pour les démarches à venir ?"
-      adresse_logement_a_renover: "Adresse du logement à renover ?"
       demandeur_principal: "Demandeur principal"
       adresse_postale: "Adresse postale"
       revenu_fiscal_reference: "Revenu fiscal de référence"
