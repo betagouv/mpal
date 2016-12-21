@@ -1,29 +1,20 @@
 fr:
-  activerecord:
-    attributes:
-      projet:
-        nb_occupants_a_charge: "Nombre d'occupants à charge"
-        demandeur_principal_prenom: Prenom
-        demandeur_principal_nom: Nom
   helpers:
     label:
       projet:
-        civilite: "-- ici civilite ----"
+        demandeur_principal_nom: Nom
+        demandeur_principal_prenom: Prénom
         email: Email
         adresse: Adresse
-        renover: "adresse du logement à rénover si différente"
         adresse_logement: "Adresse du logement à rénover si différente"
-        tel: 'Téléphone'
+        tel: Téléphone
         disponibilite: "A quel moment souhaitez-vous être contacté ?"
-      civilite:
-        - M
-        - Mme
-      personne_de_confiance:
+      personne:
         nom: 'Nom'
-        lien_avec_demandeur: 'Quel est votre lien avec le demandeur ?'
-
-  menu:
-    intervenants: "Intervenants"
+        prenom: Prénom
+        tel: Téléphone
+        email: Email
+        lien_avec_demandeur: 'Lien avec vous ?'
   accueil:
     promesse: "Avec nous, améliorez l'habitat !"
     baseline: Le financement de mon projet prend vie en quelques minutes...
@@ -36,6 +27,8 @@ fr:
     action: Je démarre mon projet
     description_titre: ANAH rassemble autour de votre projet toutes les compétences pour le faire aboutir
     description: "Vous reculez devant un projet d'amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches pour obtenir une subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé sous des informations contradictoires, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra."
+  agrements:
+    attestation_communiquer_infos_occupants: "J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur RFR auprès de la direction générale des finances publiques."
   sessions:
     nouvelle:
       titre: Connectez-vous
@@ -50,23 +43,28 @@ fr:
   demarrage_projet:
     action: "Suivant"
     etape1_demarrage_projet:
-      titre: "Ceci est le titre"
-      recapitulatif_informations: "Récapitulatif des informations disponibles vous concernant"
-      infos_complementaires: "Informations complémentaires"
-      infos_contact: "Comment pouvons-nous vous recontacter ?"
+      erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
+      section_demandeur: "Demandeur"
+      section_occupants: "Occupants"
+      recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
       personne_confiance: "Qui contacter pour les démarches à venir ?"
-      demandeur_principal: "Demandeur principal"
-      adresse_postale: "Adresse postale"
-      revenu_fiscal_reference: "Revenu fiscal de référence"
-      anne_imposition: "Année d'imposition"
-      nombre_occupant: "Nombre d'occupants supposé (nombre de parts)"
+      personne_confiance_choix1: Vous-même
+      personne_confiance_choix2: "Une personne chargée du suivi du dossier(pour vous)"
       telephone: "Numéro de téléphone"
       email: "Votre adresse e-mail"
       civilite: "Civilite"
-      disponibilite: "A quel moment pouvons-nous vous recontacter ?"
       personne_de_confiance_prenom: "Prénom"
       personne_de_confiance_nom: "Nom"
       personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"
+      personne_de_confiance_placeholder: "Enfant, voisin..."
+      revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
+      nombre_occupant: "Nombre d’occupants :"
+      ajouter_occupant: "Ajouter un occupant"
+      confirmer_occupants: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
+      occupants: Occupants
+      occupants_date_naissance: "Date de naissance"
+      occupants_modification: "Modification"
+      occupants_supprimer: "Supprimer"
 
     etape2_description_projet:
       erreurs:
@@ -97,6 +95,7 @@ fr:
       autres_travaux: "Autres travaux"
 
     etape3_description_projet:
+      disponibilite: "A quel moment pouvons-nous vous recontacter ?"
       titre: "Informations facultatives"
       ptz: "Avez-vous benéficié d'un PTZ ?"
       devis: "Disposez-vous des devis pour les travaux envisagés ?"
@@ -116,7 +115,7 @@ fr:
     statut:
       prospect: Prospect
       en_cours: En cours
-      transmis_pour_instruction: 'Transmis aux services instructeurs'
+      transmis_pour_instruction: "Transmis aux services instructeurs"
       en_cours_d_instruction: "En cours d'instruction"
       bouton_accepter: "Accepter ce projet"
     operateur_construit_proposition: "%{operateur}, l'opérateur chargé de vous accompagner, est en train de construire une proposition de projet."
@@ -125,6 +124,7 @@ fr:
         erreur: "Le projet n'a pas pu être modifié"
         succes: "Projet modifié avec succès"
         erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
+        email_obligatoire: "L'email est obligatoire"
     composition_logement:
       avis_imposition:
         nouveau:

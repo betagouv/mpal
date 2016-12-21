@@ -1,8 +1,8 @@
 /! Demandeur
 = form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'etape1_envoi_infos'}, method: 'post', html: { class:'ui form'}  do |f|
   section.demandeur
-    h2.header-blk Demandeur
-    p.chapo Veuillez vérifier les champs ci-dessous et les compléter.
+    h2.header-blk = t('demarrage_projet.etape1_demarrage_projet.section_demandeur')
+    p.chapo = t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
 
     ul.dem-info.ins-form
       li.radio
@@ -30,17 +30,16 @@
         = f.label :email
         = f.text_field :email
     .dem-contact
-      p.chapo Qui contacter pour les démarches à venir ?
+      p.chapo = t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
       ul.dem-contact.ins-form
         li.radio
           input#contact-idem checked="checked" name="contact" type="radio" /
-          label for="contact-idem"  Vous-même
+          label for="contact-idem"  = t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix1')
         li.radio
           input#contact-diff name="contact" type="radio" /
-          label for="contact-diff"  Une personne chargée du suivi du dossier(pour vous)
+          label for="contact-diff" = t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix2')
       = f.fields_for :personne_de_confiance do |ff|
           ul.dem-diff.ins-form
-
             li.radio
               = ff.radio_button :civilite, "Mme", :value => "madame"
               = ff.label :civilite_mme, "Madame"
@@ -60,30 +59,32 @@
               = ff.label :email
               = ff.text_field :email
             li
-             = ff.label :lien_avec_demandeur, "Lien avec vous"
-             = ff.text_field :lien_avec_demandeur, placeholder: "Enfant, voisin, ..."
+             = ff.label :lien_avec_demandeur
+             = ff.text_field :lien_avec_demandeur, placeholder:  t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_placeholder')
   /! Occupants
   section.occupants
     h2
-      | Occupants
-      a.btn href="#"  Ajouter un occupant
-    hr/
+      = t('demarrage_projet.etape1_demarrage_projet.section_occupants')
+      a.btn href="#"
+        = t('demarrage_projet.etape1_demarrage_projet.ajouter_occupant')
 
+    hr/
     .occupants-recap
       ul
         li
-          | Nombre d’occupants :
+          = t('demarrage_projet.etape1_demarrage_projet.nombre_occupant')
           span= " #{@projet_courant.nb_total_occupants}"
         li
-          | Total Revenu Fiscal de Référence #{annee_fiscale_reference} :
+          = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
+          span = " #{annee_fiscale_reference} : "
           span= " #{revenu_fiscal_reference_total} €"
-    p.chapo Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance.
+    p.chapo = t('demarrage_projet.etape1_demarrage_projet.confirmer_occupants')
     table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
       tbody
         tr
-          th scope="col"  Occupants
-          th scope="col"  Année de naissance
-          th scope="col"  Modification
+          th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants')
+          th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants_date_naissance')
+          th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants_modification')
         - @projet_courant.occupants.each do |occupant|
           tr
             td= occupant
@@ -94,11 +95,11 @@
             td
               input type="text" /
             td
-              a.btn href="#"  Supprimer
+              a.btn href="#"  = t('demarrage_projet.etape1_demarrage_projet.occupants_supprimer')
     .intervenant
       ul.ins-form
         li.radio
           input#dif1 type="checkbox" class="engagement"
-          label for="dif1"  J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur RFR auprès de la direction générale des finances publiques 
+          label for="dif1" = t('agrements.attestation_communiquer_infos_occupants')
 
   = submit_tag t('demarrage_projet.action'), class: 'validate btn'
