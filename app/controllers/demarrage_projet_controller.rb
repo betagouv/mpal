@@ -62,23 +62,37 @@ class DemarrageProjetController < ApplicationController
   end
 
   def projet_contacts_params
+    # manque civilite
     params.require(:projet).permit(:tel, :email, :disponibilite, personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
   end
 
   def demande_params
-    params.require(:demande).permit(:froid, :hospitalisation, :autre, :probleme_deplacement, :handicap, :mauvais_etat, :autres_besoins, :changement_chauffage, :isolation, :adaptation_salle_de_bain, :accessibilite, :travaux_importants, :complement, :ptz, :annee_construction, :travaux_fenetres, :travaux_isolation, :travaux_chauffage, :travaux_adaptation_sdb, :travaux_monte_escalier, :travaux_amenagement_ext, :travaux_autres )
+    params.require(:demande).permit(
+    :changement_chauffage,
+    :froid,
+    :probleme_deplacement,
+    :accessibilite,
+    :hospitalisation,
+    :adaptation_salle_de_bain,
+    :autre,
+    :travaux_fenetres,
+    :travaux_isolation,
+    :travaux_chauffage,
+    :travaux_adaptation_sdb,
+    :travaux_monte_escalier,
+    :travaux_amenagement_ext,
+    :travaux_autres,
+    :complement,
+    :annee_construction,
+    :ptz,
+    :date_achevement_15_ans)
   end
 
   def etape2_valide?
     result = false
-    return true if demande_params[:autres_besoins].present? || demande_params[:autres_travaux].present?
     demande_params.each_pair do |attribute,value|
       result = result || value == "1"
     end
     result
-  end
-
-  def demande_infos_complementaires_params
-    params.require(:demande).permit(:ptz, :devis, :travaux_engages, :annee_construction, :maison_individuelle)
   end
 end

@@ -210,13 +210,10 @@ module ApplicationHelper
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite
     ptz = demande.ptz ? "Oui": "Non"
     ptz_strong = content_tag(:strong, ptz)
-    complements << "#{t("demarrage_projet.etape3_infos_complementaires.ptz")} : #{ptz_strong}"
-    complements << t("demarrage_projet.etape3_infos_complementaires.devis") if demande.devis
-    complements << t("demarrage_projet.etape3_infos_complementaires.travaux_engages") if demande.travaux_engages
+    complements << "#{t("demarrage_projet.etape2_description_projet.ptz")} : #{ptz_strong}"
     annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
     annee_construction_strong = content_tag(:strong, annee_construction)
-    complements << "#{t("demarrage_projet.etape3_infos_complementaires.annee_construction")} : #{annee_construction_strong}"
-    complements << t("demarrage_projet.etape3_infos_complementaires.maison_individuelle") if demande.maison_individuelle
+    complements << "#{t("demarrage_projet.etape2_description_projet.annee_construction")} : #{annee_construction_strong}"
     complements << demande.complement if demande.complement.present?
     html << content_tag(:ul) do
       complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe

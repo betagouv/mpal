@@ -50,6 +50,7 @@ class ProjetsController < ApplicationController
   end
 
   def demande
+    # attention à la confusion avec la table demandes qui correspond au projet envisagé par le demandeur lors des premières étapes voir demarrage_projet
     if @projet_courant.prospect?
       redirect_to projet_path(@projet_courant), alert: t('sessions.access_forbidden')
     else

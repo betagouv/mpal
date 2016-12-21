@@ -1,68 +1,69 @@
 = form_for @demande, url: {controller: 'demarrage_projet', action: 'etape2_envoi_description_projet'}, method: 'patch', html: { class:'ui form'}  do |f|
   section.projet
-    h2 Projet envisagé
-    p.chapo Quelles difficultés rencontrez-vous dans le logement ?
+    h2 = t('demarrage_projet.etape2_description_projet.section_projet_envisage')
+    p.chapo = t('demarrage_projet.etape2_description_projet.titre_besoins')
     ul.ins-form
       li.checkbox
         = f.check_box :changement_chauffage, class: 'checkbox-inline'
-        = f.label :changement_chauffage, t('demarrage_projet.etape2_description_projet.changement_chauffage')
+        = f.label :changement_chauffage
       li.checkbox
         = f.check_box :froid
-        = f.label :froid, t('demarrage_projet.etape2_description_projet.froid')
+        = f.label :froid
       li.checkbox
         = f.check_box :probleme_deplacement
-        = f.label :probleme_deplacement, t('demarrage_projet.etape2_description_projet.probleme_deplacement')
+        = f.label :probleme_deplacement
       li.checkbox
         = f.check_box :accessibilite, class: 'checkbox-inline'
-        = f.label :accessibilite, t('demarrage_projet.etape2_description_projet.accessibilite')
+        = f.label :accessibilite
       li.checkbox
         = f.check_box :hospitalisation, class: 'checkbox-inline'
-        = f.label :hospitalisation, t('demarrage_projet.etape2_description_projet.hospitalisation')
+        = f.label :hospitalisation
       li.checkbox
         = f.check_box :adaptation_salle_de_bain, class: 'checkbox-inline'
-        = f.label :adaptation_salle_de_bain, t('demarrage_projet.etape2_description_projet.adaptation_salle_de_bain')
+        = f.label :adaptation_salle_de_bain
       li.checkbox
         = f.text_field :autre
-        = f.label :autre, t('demarrage_projet.etape2_description_projet.autre')
+        = f.label :autre
 
-    p.chapo Quels travaux souhaitez-vous réaliser ?
+    p.chapo = t('demarrage_projet.etape2_description_projet.titre_travaux')
     ul.ins-form
       li.checkbox
         = f.check_box :travaux_fenetres, class: 'checkbox-inline'
-        = f.label :travaux_fenetres, t('demarrage_projet.etape2_description_projet.travaux_fenetres')
+        = f.label :travaux_fenetres
       li.checkbox
         = f.check_box :travaux_isolation, class: 'checkbox-inline'
-        = f.label :travaux_isolation, t('demarrage_projet.etape2_description_projet.travaux_isolation')
+        = f.label :travaux_isolation
       li.checkbox
         = f.check_box :travaux_chauffage, class: 'checkbox-inline'
-        = f.label :travaux_chauffage, t('demarrage_projet.etape2_description_projet.travaux_chauffage')
+        = f.label :travaux_chauffage
       li.checkbox
         = f.check_box :travaux_adaptation_sdb, class: 'checkbox-inline'
-        = f.label :travaux_adaptation_sdb, t('demarrage_projet.etape2_description_projet.travaux_adaptation_sdb')
+        = f.label :travaux_adaptation_sdb
       li.checkbox
         = f.check_box :travaux_monte_escalier, class: 'checkbox-inline'
-        = f.label :travaux_monte_escalier, t('demarrage_projet.etape2_description_projet.travaux_monte_escalier')
+        = f.label :travaux_monte_escalier
       li.checkbox
         = f.check_box :travaux_amenagement_ext, class: 'checkbox-inline'
-        = f.label :travaux_amenagement_ext, t('demarrage_projet.etape2_description_projet.travaux_amenagement_ext')
+        = f.label :travaux_amenagement_ext
       li.checkbox
         = f.text_field :travaux_autres
-        = f.label :travaux_autres, t('demarrage_projet.etape2_description_projet.travaux_autres')
+        = f.label :travaux_autres
 
-    p.chapo = t('demarrage_projet.etape2_description_projet.complement')
+    p.chapo = t('helpers.label.demande.complement')
     = f.text_area :complement
 
-    p.chapo Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?
+    p.chapo = t('helpers.label.demande..date_achevement_15_ans')
     ul.ins-form
       li.radio
-        input#proj-diff-o name="proj-diff" type="radio" /
-        label for="proj-diff-o"  Oui
+        = f.radio_button :date_achevement_15_ans, true
+        = f.label :date_achevement_15_ans, "Oui", value: "true"
       li.radio
-        input#proj-diff-n name="proj-diff" type="radio" /
-        label for="proj-diff-n"  Non
-    p.chapo Si vous la connaissez, indiquez l'année d'achèvement de votre logement :
+        = f.radio_button :date_achevement_15_ans, false
+        = f.label :date_achevement_15_ans, "Non", value: "false"
+
+    p.chapo = t('helpers.label.demande.annee_construction')
     = f.text_field :annee_construction, class: "ct-years"
-    p.chapo Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?
+    p.chapo = t('helpers.label.demande.ptz')
     ul.ins-form
       li.radio
         = f.radio_button :ptz, true

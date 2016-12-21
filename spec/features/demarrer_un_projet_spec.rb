@@ -79,34 +79,50 @@ feature "Démarrer un projet" do
     signin(12,15)
     projet = Projet.last
     visit etape2_description_projet_path(projet)
+    expect(page).to have_content(I18n.t('demarrage_projet.etape2_description_projet.section_projet_envisage'))
+    # Liste des besoins
     check('demande_froid')
-    check('demande_probleme_deplacement')
-    fill_in :demande_complement, with: "J'ai besoin d'un jacuzzi"
     check('demande_changement_chauffage')
-    uncheck('demande_travaux_isolation')
-    check('demande_adaptation_salle_de_bain')
+    uncheck('demande_probleme_deplacement')
     check('demande_accessibilite')
+    check('demande_hospitalisation')
+    check('demande_adaptation_salle_de_bain')
     choose('demande_ptz_true')
-    # check('demande_devis')
-    # check('demande_travaux_engages')
+    choose('demande_date_achevement_15_ans_true')
+    fill_in :demande_complement, with: "J'ai besoin d'un jacuzzi"
+    fill_in :demande_autre, with: "Mes fenêtres ferment mal"
     fill_in :demande_annee_construction, with: "1930"
-    # check('demande_maison_individuelle')
+    # Liste des travaux
+    uncheck('demande_travaux_isolation')
+    check('demande_travaux_fenetres')
+    check('demande_travaux_chauffage')
+    uncheck('demande_travaux_adaptation_sdb')
+    check('demande_travaux_monte_escalier')
+    check('demande_travaux_amenagement_ext')
+    fill_in :demande_travaux_autres, with: "Aménager une chambre au RDC"
+
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape3_choix_intervenant_path(projet))
 
     projet = Projet.last
     expect(projet.demande.froid).to be_truthy
-    expect(projet.demande.probleme_deplacement).to be_truthy
-    expect(projet.demande.complement).to eq("J'ai besoin d'un jacuzzi")
     expect(projet.demande.changement_chauffage).to be_truthy
-    expect(projet.demande.isolation).not_to be_truthy
+    expect(projet.demande.date_achevement_15_ans).to be_truthy
+    expect(projet.demande.probleme_deplacement).not_to be_truthy
+    expect(projet.demande.complement).to eq("J'ai besoin d'un jacuzzi")
+    expect(projet.demande.autre).to eq("Mes fenêtres ferment mal")
+    expect(projet.demande.changement_chauffage).to be_truthy
     expect(projet.demande.adaptation_salle_de_bain).to be_truthy
     expect(projet.demande.accessibilite).to be_truthy
     expect(projet.demande.ptz).to be_truthy
-    # expect(projet.demande.devis).to be_truthy
-    # expect(projet.demande.travaux_engages).to be_truthy
     expect(projet.demande.annee_construction).to eq("1930")
-    # expect(projet.demande.maison_individuelle).to be_truthy
+    expect(projet.demande.travaux_isolation).not_to be_truthy
+    expect(projet.demande.travaux_adaptation_sdb).not_to be_truthy
+    expect(projet.demande.travaux_amenagement_ext).to be_truthy
+    expect(projet.demande.travaux_monte_escalier).to be_truthy
+    expect(projet.demande.travaux_chauffage).to be_truthy
+    expect(projet.demande.travaux_fenetres).to be_truthy
+    expect(projet.demande.travaux_autres).to eq("Aménager une chambre au RDC")
   end
 
   scenario "je ne décris aucun besoin" do
