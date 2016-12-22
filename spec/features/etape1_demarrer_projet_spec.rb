@@ -4,7 +4,7 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Etape 1 de la création d'un projet, le demandeur visualise les infos récupérées par l'appel à api particulier et il les modifie et précise si besoin" do
-  
+
   before do
     Projet.destroy_all
     Demande.destroy_all
@@ -51,7 +51,14 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
     skip
   end
 
-  scenario "je modifie l'adresse du logement à rénover" do
+  scenario "Je peux modifier l'adresse du logement à rénover si elle est différente de l'adresse fiscale" do
+    skip
+  end
+
+  scenario "Je modifie l'adresse du logement à rénover" do
+    skip
+    # attention, pour le moment l'adresse récupérée est celle de l'avis d'imposition.
+    # l'adresse du logement à rénover peut être différente, l'adresse postale également !
     signin(12,15)
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
