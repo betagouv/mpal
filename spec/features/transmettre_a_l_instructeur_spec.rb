@@ -25,9 +25,6 @@ feature "transmettre à l'instructeur" do
     expect(page.current_path).to eq(projet_path(projet))
 
     @role_utilisateur = :demandeur
-    puts " -------- STATUT ------------- #{projet.statut}"
-    puts " -------- ROLE ------------- #{@role_utilisateur}"
-    puts " -------- OPERATEUR ------------- #{projet.operateur.raison_sociale}"
     # etape 3 l'opérateur fait une proposition
 
     expect(page).to have_content(I18n.t('projets.operateur_construit_proposition', operateur: projet.operateur.raison_sociale))
@@ -43,7 +40,6 @@ feature "transmettre à l'instructeur" do
     expect(page).to have_content('Projet proposé')
 
     projet.statut = :proposition_proposee
-    puts " -------- STATUT ------------- #{projet.statut}"
     # rend app/views/projets/_projet_proposition_proposee_demandeur.html.slim
     # qui rend projet_proposition
     # mais en fait ça appelle app/views/projets/_projet_en_cours_demandeur.html.slim
