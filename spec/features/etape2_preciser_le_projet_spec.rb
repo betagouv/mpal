@@ -3,76 +3,12 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "Démarrer un projet" do
+feature "Etape 2 de la création de projet, le demandeur précise ses besoins" do
   before do
     Projet.destroy_all
     Demande.destroy_all
     Invitation.destroy_all
     Occupant.destroy_all
-  end
-
-  scenario "depuis la page de connexion, je recupère mes informations principales" do
-    signin(12,15)
-    projet = Projet.last
-    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
-    expect(page).to have_content("Martin")
-    expect(page).to have_content("Pierre")
-    expect(projet.demandeur_principal_nom).to eq("Martin")
-    expect(projet.demandeur_principal_prenom).to eq("Pierre")
-    # attention j'ai fakeweb on dirait...
-    expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_demandeur'))
-    expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_occupants'))
-    expect(find_field('projet_adresse').value).to eq('12 rue de la Mare, 75010 Paris')
-  end
-
-  scenario "je modifie l'adresse du logement à rénover" do
-    signin(12,15)
-    projet = Projet.last
-    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
-    fill_in :projet_adresse, with: "1 place Vendôme, 75001 Paris"
-    fill_in :projet_email, with: "jean@jean.com"
-    click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape2_description_projet_path(projet))
-    projet = Projet.last
-    expect(projet.adresse_ligne1).to eq("12 rue de la Mare")
-    expect(projet.code_postal).to eq("75010")
-    expect(projet.ville).to eq("Paris")
-  end
-
-  scenario "mon e-mail doit être valide et obligatoire" do
-    skip
-    signin(12,15)
-    projet = Projet.last
-    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
-    fill_in :projet_email, with: ""
-    click_button I18n.t('demarrage_projet.action')
-    # expect message d'erreur
-    # expect qu'on reste sur l'étape 1
-  end
-
-
-  scenario "si je ne coche pas la case d'engagements je ne peut pas accéder à la page suivante" do
-    skip
-  end
-
-  scenario "j'ajoute une personne de confiance" do
-    signin(12,15)
-    projet = Projet.last
-    fill_in 'projet_personne_de_confiance_attributes_prenom', with: "Frank"
-    fill_in 'projet_personne_de_confiance_attributes_nom', with: "Strazzeri"
-    fill_in 'projet_personne_de_confiance_attributes_tel', with: "0130201040"
-    fill_in 'projet_personne_de_confiance_attributes_email', with: "frank@strazzeri.com"
-    fill_in 'projet_personne_de_confiance_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
-    fill_in 'projet_tel', with: "06 06 06 06 06"
-    click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape2_description_projet_path(projet))
-    projet = Projet.last
-    expect(projet.tel).to eq("06 06 06 06 06")
-    expect(projet.personne_de_confiance.prenom).to eq("Frank")
-    expect(projet.personne_de_confiance.nom).to eq("Strazzeri")
-    expect(projet.personne_de_confiance.tel).to eq("0130201040")
-    expect(projet.personne_de_confiance.email).to eq("frank@strazzeri.com")
-    expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
   end
 
   scenario "je décris précisément mes besoins" do
@@ -125,7 +61,7 @@ feature "Démarrer un projet" do
     expect(projet.demande.travaux_autres).to eq("Aménager une chambre au RDC")
   end
 
-  scenario "je ne décris aucun besoin" do
+  scenario "je ne décris aucun besoin à l'étape 2 et je ne peux pas passer à l'étape suivante" do
     signin(12,15)
     projet = Projet.last
     visit etape2_description_projet_path(projet)
