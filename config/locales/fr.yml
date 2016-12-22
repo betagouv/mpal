@@ -16,7 +16,7 @@ fr:
         email: Email
         lien_avec_demandeur: 'Lien avec vous ?'
       demande:
-        travaux_fenetres: "FenêtresXXXXX"
+        travaux_fenetres: "Fenêtres"
         froid: "Vous avez froid, votre logement est mal isolé"
         probleme_deplacement: "Vous avez du mal à vous déplacer"
         changement_chauffage: "Votre chauffage vous coûte trop cher"
