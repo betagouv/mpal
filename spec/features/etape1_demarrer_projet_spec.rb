@@ -59,6 +59,7 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
     skip
     # attention, pour le moment l'adresse récupérée est celle de l'avis d'imposition.
     # l'adresse du logement à rénover peut être différente, l'adresse postale également !
+    # l'adresse est transmise à opal
     signin(12,15)
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
@@ -118,6 +119,12 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
     signin(12,15)
     projet = Projet.last
     expect(page).to have_content(I18n.t('agrements.attestation_communiquer_infos_occupants'))
+  end
+
+  scenario "j'ai commencé une demande, j'ai quitté la page puis j'ai recommancé la démarche depuis la page d'accueil" do
+    skip
+    # actuellement une erreur
+    # https://github.com/sgmap/mpal/issues/198
   end
 
 end
