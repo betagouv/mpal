@@ -1,5 +1,6 @@
 class InfosProjetController < ApplicationController
   skip_before_action :authentifie
+  layout "info-projet"
 
   def faq
   end

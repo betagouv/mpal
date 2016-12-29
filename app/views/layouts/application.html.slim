@@ -41,10 +41,16 @@ html lang="fr"
           footer.main-footer
             ul
               li
-                a href="#"  À propos de la xxxx
+                a href="#"  À propos
                 | \-
               li
-                a href="#"  Conditions générales
+                = link_to t('menu_bas.cgu'), :controller => :infos_projet, :action => :cgu
                 | \-
               li
                 a href="#"  Contact
+                | \-
+              li
+                = link_to t('menu_bas.faq'), :controller => :infos_projet, :action => :faq
+                | \-
+              li
+                =  link_to t('menu_bas.mentions_legales'), :controller => :infos_projet, :action => :mentions_legales
