@@ -30,9 +30,10 @@ html lang="fr"
               li= @projet_courant.ville
               li= "#{@projet_courant.nb_total_occupants} occupants"
               li
-                | Revenus dits modestes
+                = "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
                 a.help href="#"
-                  = image_tag "help.svg", alt: "Aide - Revenus dits modestes"
+                  = image_tag "help.svg", alt: "Aide - Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
+
         /! Colonne droite
         .col-right
           = render 'shared/messages'
