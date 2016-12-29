@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature 'commentaire' do
+feature 'messagerie' do
   # let(:commentaire) { FactoryGirl.create(:commentaire) }
   # let(:projet) { commentaire.projet }
   let(:message) { "Vous ne m'avez toujours pas répondu." }
