@@ -3,13 +3,21 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "Projet" do
+feature "J'ai accès aux données concernant le demandeur et son logement" do
   let(:projet) { FactoryGirl.create(:projet) }
 
-  scenario "affichage de mon projet" do
+  scenario "affichage du nom du demandeur principal" do
     signin(projet.numero_fiscal, projet.reference_avis)
     visit projet_path(projet)
     expect(page).to have_content("Martin")
+    # utilité et valeur apportée par ce test ?
+  end
+
+  scenario "lorsque je suis un demandeur, je vois les informations me concernant" do
+    signin(projet.numero_fiscal, projet.reference_avis)
+    @role_utilisateur = :demandeur
+    expect(page).to have_content("Jean Martin")
+    expect(page).to have_content("Total Revenu Fiscal de Référence")
   end
 
   scenario "correction de mon adresse", pending: true do
@@ -26,13 +34,6 @@ feature "Projet" do
     fill_in :projet_annee_construction, with: '1950'
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content(1950)
-  end
-
-  scenario "lorsque je suis un demandeur, je vois les informations me concernant" do
-    signin(projet.numero_fiscal, projet.reference_avis)
-    @role_utilisateur = :demandeur
-    expect(page).to have_content("Jean Martin")
-    expect(page).to have_content("Total Revenu Fiscal de Référence")
   end
 
   scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur", pending: true do
