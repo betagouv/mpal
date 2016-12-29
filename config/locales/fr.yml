@@ -35,6 +35,7 @@ fr:
         annee_construction: "Si vous la connaissez, indiquez l'année d'achèvement de votre logement :"
         ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
 
+  # ----------------------- Page d'accueil ---------------------
   accueil:
     promesse: "Avec nous, améliorez l'habitat !"
     baseline: Le financement de mon projet prend vie en quelques minutes...
@@ -51,14 +52,14 @@ fr:
   # ----------------------- Liste des messages à caractère juridique ---------------------
   agrements:
     attestation_communiquer_infos_occupants: "J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur RFR auprès de la direction générale des finances publiques."
-
+    autorisation_acces_donnees_intervenants: "Je suis informé(e) que les intervenants avec lesquels je vais être mis(e) en relation ou que je vais inviter à consulter mon dossier ont accès aux données que j’ai renseignées."
   # ----------------------- Liste des liens du menu bas ---------------------
   menu_bas:
     cgu: "CGU"
     contact: "Contact"
     faq: "Faq"
     mentions_legales: "Mentions légales"
-    
+
   # ----------------------- Gestion des sessions utilisateur ---------------------
   sessions:
     nouvelle:
@@ -75,6 +76,7 @@ fr:
   # ----------------------- Initialisation d'un projet ---------------------
   demarrage_projet:
     action: "Suivant"
+    # ----------------------- Etape 1 ---------------------
     etape1_demarrage_projet:
       erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
       section_demandeur: "Demandeur"
@@ -98,7 +100,7 @@ fr:
       occupants_date_naissance: "Date de naissance"
       occupants_modification: "Modification"
       occupants_supprimer: "Supprimer"
-
+    # ----------------------- Etape 2 ---------------------
     etape2_description_projet:
       erreurs:
         besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
@@ -106,9 +108,13 @@ fr:
       titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
       titre_travaux: "Quels travaux souhaitez-vous réaliser ?"
       titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
-
+    # ----------------------- Etape 3 ---------------------
     etape3_choix_intervenant:
       titre: "Choisissez votre opérateur"
+      section_eligibilite: "Accompagnement"
+      section_intervenants: "Intervenants disponibles"
+      disponibilite_placeholder: "Le matin, entre 8h et 11h"
+
 
   # ----------------------- Page de visualisation du projet ---------------------
   projets:

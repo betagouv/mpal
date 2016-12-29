@@ -1,7 +1,7 @@
 = form_for @demande, url: {controller: 'demarrage_projet', action: 'etape3_envoi_choix_intervenant'}, method: 'patch', html: { class:'ui form'}  do |f|
   /! Eligibilite
   section.eligibilite
-    h2 Accompagnement
+    h2 = t('demarrage_projet.etape3_choix_intervenant.section_eligibilite')
     p.chapo
       | D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies.
       br/
@@ -13,7 +13,7 @@
       |  pour poursuivre votre démarche.
   /! Eligibilite
   section.intervenant
-    h2 Intervenants disponibles
+    h2 = t('demarrage_projet.etape3_choix_intervenant.section_intervenants')
     p.chapo
       | Pour continuer votre démarche, nous vous invitons à vous rapprocher soit d’un point d’information vous permettant de vous renseigner de manière générale sur les aides existant en matière de rénovation de l’habitat, soit d’un organisme spécialisé, appelé «
       abbr title=("Opérateur")   opérateur
@@ -44,12 +44,13 @@
           p= operateur.adresse_postale
           div.btn= t('projets.visualisation.invitation_intervenant')
 
-    ul.ins-form
-      li.full
-        label for="dem-time"  À quel moment préférez-vous être contacté ?
-        input#dem-time type="text" name="disponibilite" placeholder="Le matin, entre 8h et 11h"
-      li.radio
-        input#dif1 type="checkbox" class="engagement"
-        label for="dif1"  Je suis informé(e) que les intervenants avec lesquels je vais être mis(e) en relation ou que je vais inviter à consulter mon dossier ont accès aux données que j’ai renseignées.
+    = form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'etape3_choix_intervenant'}, method: 'patch', html: { class:'ui form'}  do |f|
+      ul.ins-form
+        li.full
+          label = t('helpers.label.projet.disponibilite')
+          = f.text_field :disponibilite, placeholder: t('demarrage_projet.etape3_choix_intervenant.disponibilite_placeholder')
+        li.radio
+          input#dif1 type="checkbox" class="engagement"
+          label for="dif1" = t('agrements.autorisation_acces_donnees_intervenants')
 
   = submit_tag t('demarrage_projet.action'), class: 'validate btn', disabled: true

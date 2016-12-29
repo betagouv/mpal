@@ -18,10 +18,14 @@ feature "Etape 3 de la création de projet, le demandeur contacte un intervenant
     operateur = FactoryGirl.create(:intervenant, departements: [projet.departement], roles: [:operateur])
     visit etape3_choix_intervenant_path(projet)
     choose("intervenant_#{operateur.id}")
-    fill_in :disponibilite, with: "Plutôt le matin"
+    expect(page).to have_content(I18n.t('helpers.label.projet.disponibilite'))
+    fill_in 'projet_disponibilite', with: "Plutôt le matin"
     find('.validate').click
     # click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(projet_path(projet))
+
+    # puts "Que vaut projet dans le test #{projet.disponibilite}"
     expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: operateur.raison_sociale))
+    # expect(projet.disponibilite).to eq("J'ai besoin d'un jacuzzi")
   end
 end
