@@ -424,6 +424,38 @@ input:-ms-input-placeholder {
     .inscription .demandeur .chapo.is-wrong, .inscription .occupants .chapo.is-wrong, .inscription .projet .chapo.is-wrong, .inscription .eligibilite .chapo.is-wrong, .inscription .intervenant .chapo.is-wrong, .inscription .popin-form .chapo.is-wrong {
       color: #e7235a; }
 
+
+  .inscription .ins-form-civilite {
+    margin: 10px 30px; }
+    .inscription .ins-form-civilite li {
+      display: inline-block;
+      margin-right: -4px;
+      width: 50%;
+      padding: 10px 0 10px; }
+      .inscription .ins-form-civilite li.full {
+        width: 100%; }
+        .inscription .ins-form-civilite li.full input[type="text"] {
+          width: 90%; }
+      .inscription .ins-form-civilite li.radio, .inscription .ins-form-civilite li.checkbox {
+        width: 200px;
+        padding-bottom: 0; }
+        .inscription .ins-form-civilite li.radio input, .inscription .ins-form-civilite li.checkbox input {
+          display: inline-block;
+          vertical-align: middle; }
+        .inscription .ins-form-civilite li.radio label, .inscription .ins-form-civilite li.checkbox label {
+          display: inline-block;
+          width: auto;
+          margin-left: 5px;
+          vertical-align: middle; }
+      .inscription .ins-form-civilite li.checkbox {
+        width: 50%; }
+        .inscription .ins-form-civilite li.checkbox.full {
+          width: 100%; }
+      .inscription .ins-form-civilite li label {
+        display: block;
+        padding: 5px 0; }
+
+
 .inscription .ins-form {
   margin: 10px 30px; }
   .inscription .ins-form li {

@@ -41,7 +41,6 @@ class DemarrageProjetController < ApplicationController
   end
 
   def etape3_envoi_choix_intervenant
-    @projet_courant.update_attributes(disponibilite_params)
     @intervenant = Intervenant.find(params[:intervenant_id])
     @invitation = Invitation.new(projet: @projet_courant, intervenant: @intervenant)
     if @invitation.save
@@ -61,17 +60,12 @@ class DemarrageProjetController < ApplicationController
   end
 
   def projet_contacts_params
-    # manque civilite
+    # civilite n'est pas pris en compte
     params.require(:projet).permit(
     :tel,
     :email,
-    :demandeur_principal_civilite,
-    demandeur_principal_attributes: [:civilite],
+    :civilite,
     personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
-  end
-
-  def disponibilite_params
-    params.require(:projet).permit(:disponibilite)
   end
 
   def demande_params

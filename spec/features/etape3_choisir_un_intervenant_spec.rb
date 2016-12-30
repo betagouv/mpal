@@ -23,8 +23,6 @@ feature "Etape 3 de la création de projet, le demandeur contacte un intervenant
     find('.validate').click
     # click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(projet_path(projet))
-
-    puts "Que vaut projet dans le test #{projet.disponibilite}"
     expect(page).to have_content(I18n.t('invitations.messages.succes', intervenant: operateur.raison_sociale))
     expect(page).to have_content("Plutôt le matin")
   end
