@@ -8,10 +8,13 @@ class DemarrageProjetController < ApplicationController
     @projet_courant.nb_occupants_a_charge.times.each do |index|
       @occupants_a_charge << Occupant.new(nom: "Occupant #{index + nb_occupants + 1}")
     end
+    @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
   end
 
   def etape1_envoi_infos
+    @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
     if @projet_courant.update_attributes(projet_contacts_params)
+      @demandeur_principal.update_attributes(demandeur_principal_civilite_params)
       redirect_to etape2_description_projet_path(@projet_courant)
     else
       render :etape1_recuperation_infos
@@ -64,8 +67,11 @@ class DemarrageProjetController < ApplicationController
     params.require(:projet).permit(
     :tel,
     :email,
-    :civilite,
     personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
+  end
+
+  def demandeur_principal_civilite_params
+    params.fetch(:occupant, {}).permit(:civilite)
   end
 
   def demande_params

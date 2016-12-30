@@ -29,24 +29,17 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
   end
 
   scenario "je complète la civilité du demandeur principal" do
-    skip
     signin(12,15)
     projet = Projet.last
-    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
-    within '.dem-info.ins-form-civilite' do
-      choose('projet_demandeur_principal_civilite_mme')
-    end
-    fill_in 'projet_tel', with: "06 06 06 06 06"
+    choose('occupant_civilite_mr')
     click_button I18n.t('demarrage_projet.action')
-    expect(projet.demandeur_principal.civilite).to eq("Madame")
-    expect(projet.tel).to eq("06 06 06 06 06")
+    expect(projet.demandeur_principal.civilite).to eq("mr")
   end
 
   scenario "mon e-mail doit être valide et obligatoire" do
     skip
     signin(12,15)
     projet = Projet.last
-    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     fill_in :projet_email, with: ""
     fill_in 'projet_tel', with: "06 06 06 06 06"
     click_button I18n.t('demarrage_projet.action')
