@@ -33,7 +33,10 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
     signin(12,15)
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
-    expect(projet.demandeur_principal.civilite).to eq(nil)
+    within '.dem-info.ins-form' do
+      page.choose('Madame')
+    end
+    expect(projet.demandeur_principal.civilite).to eq("Madame")
   end
 
   scenario "mon e-mail doit être valide et obligatoire" do
@@ -42,7 +45,9 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
     projet = Projet.last
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     fill_in :projet_email, with: ""
+    fill_in 'projet_tel', with: "06 06 06 06 06"
     click_button I18n.t('demarrage_projet.action')
+    expect(projet.tel).to eq("06 06 06 06 06")
     # expect message d'erreur
     # expect qu'on reste sur l'étape 1
   end
@@ -73,6 +78,32 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
     expect(projet.ville).to eq("Paris")
   end
 
+  scenario "j'ajoute une personne de confiance" do
+    signin(12,15)
+    projet = Projet.last
+    within '.dem-diff.ins-form' do
+      page.choose('Monsieur')
+      fill_in 'projet_personne_de_confiance_attributes_prenom', with: "Frank"
+      fill_in 'projet_personne_de_confiance_attributes_nom', with: "Strazzeri"
+      fill_in 'projet_personne_de_confiance_attributes_tel', with: "0130201040"
+      fill_in 'projet_personne_de_confiance_attributes_email', with: "frank@strazzeri.com"
+      fill_in 'projet_personne_de_confiance_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
+    end
+    click_button I18n.t('demarrage_projet.action')
+    expect(page.current_path).to eq(etape2_description_projet_path(projet))
+    projet = Projet.last
+    expect(projet.personne_de_confiance.civilite).to eq('Mr')
+    expect(projet.personne_de_confiance.prenom).to eq("Frank")
+    expect(projet.personne_de_confiance.nom).to eq("Strazzeri")
+    expect(projet.personne_de_confiance.tel).to eq("0130201040")
+    expect(projet.personne_de_confiance.email).to eq("frank@strazzeri.com")
+    expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
+  end
+
+  scenario "je peux supprimer un occupant" do
+    skip
+  end
+
   scenario "je vois la liste des personnes présentes dans l'avis d'imposition sous forme d'occupants" do
     signin(12,15)
     projet = Projet.last
@@ -89,31 +120,6 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
   scenario "je peux ajouter un occupant" do
     skip
   end
-
-  scenario "je peux supprimer un occupant" do
-    skip
-  end
-
-  scenario "j'ajoute une personne de confiance" do
-    signin(12,15)
-    projet = Projet.last
-    fill_in 'projet_personne_de_confiance_attributes_prenom', with: "Frank"
-    fill_in 'projet_personne_de_confiance_attributes_nom', with: "Strazzeri"
-    fill_in 'projet_personne_de_confiance_attributes_tel', with: "0130201040"
-    fill_in 'projet_personne_de_confiance_attributes_email', with: "frank@strazzeri.com"
-    fill_in 'projet_personne_de_confiance_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
-    fill_in 'projet_tel', with: "06 06 06 06 06"
-    click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape2_description_projet_path(projet))
-    projet = Projet.last
-    expect(projet.tel).to eq("06 06 06 06 06")
-    expect(projet.personne_de_confiance.prenom).to eq("Frank")
-    expect(projet.personne_de_confiance.nom).to eq("Strazzeri")
-    expect(projet.personne_de_confiance.tel).to eq("0130201040")
-    expect(projet.personne_de_confiance.email).to eq("frank@strazzeri.com")
-    expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
-  end
-
   scenario "si je ne coche pas la case d'engagements je ne peut pas accéder à la page suivante" do
     skip
     signin(12,15)

@@ -23,8 +23,6 @@ class DemarrageProjetController < ApplicationController
   end
 
   def etape2_envoi_description_projet
-    puts " ---- PARAMS --#{demande_params}"
-
     @projet_courant.demande = projet_demande
     if etape2_valide?
       @projet_courant.demande.update_attributes(demande_params)
@@ -64,7 +62,12 @@ class DemarrageProjetController < ApplicationController
 
   def projet_contacts_params
     # manque civilite
-    params.require(:projet).permit(:tel, :email, :disponibilite, personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
+    params.require(:projet).permit(
+    :tel,
+    :email,
+    :demandeur_principal_civilite,
+    demandeur_principal_attributes: [:civilite],
+    personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
   end
 
   def disponibilite_params

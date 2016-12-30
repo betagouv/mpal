@@ -1,6 +1,6 @@
 class Occupant < ActiveRecord::Base
 
-  enum civilite: [ 'mr', 'mme']
+  enum civilite: ['mr', 'mme']
   enum lien_demandeur: [ 'père/mère', 'enfant', 'frère/soeur', 'conjoint']
 
   belongs_to :projet

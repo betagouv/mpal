@@ -25,7 +25,7 @@ class Projet < ActiveRecord::Base
   before_create do
     self.plateforme_id = Time.now.to_i
   end
-  
+
   def numero_plateforme
     "#{self.id}_#{self.plateforme_id}"
   end

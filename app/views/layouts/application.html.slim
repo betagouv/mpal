@@ -28,6 +28,7 @@ html lang="fr"
             ul
               li= @projet_courant.tel
               li= @projet_courant.ville
+              li= @projet_courant.disponibilite
               li= "#{@projet_courant.nb_total_occupants} occupants"
               li
                 = "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
