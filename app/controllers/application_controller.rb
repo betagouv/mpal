@@ -33,6 +33,14 @@ class ApplicationController < ActionController::Base
 
     redirect_to new_session_path, alert: t('sessions.access_forbidden') if utilisateur_invalide
   end
+
+  def after_sign_in_path_for(resource)
+    if projet_id = session[:projet_id_from_opal]
+      projet_path(Projet.find(projet_id))
+    else
+      stored_location_for(resource) || root_path
+    end
+  end
 end
 
 def email_valide?(email)
@@ -44,7 +52,6 @@ def projet_valide?
   @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
   @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
 end
-
 
 module CASClient
   module XmlResponse

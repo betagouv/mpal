@@ -22,7 +22,8 @@ class DossiersController < ApplicationController
     if agent_signed_in?
       redirect_to projet_path(projet)
     else
-      redirect_to new_agent_session_path(from: "opal", projet_id: projet.id)
+      session[:projet_id_from_opal] = projet.id
+      redirect_to new_agent_session_path
     end
   end
 end
