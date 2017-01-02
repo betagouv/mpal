@@ -1,5 +1,6 @@
 class DossiersController < ApplicationController
   skip_before_action :authentifie, only: [:show]
+
   def create
     if (@role_utilisateur == :intervenant) && (@utilisateur_courant.instructeur?)
       if Opal.new(OpalClient).creer_dossier(@projet_courant)
@@ -18,6 +19,11 @@ class DossiersController < ApplicationController
     projet_id = attributs[0]
     plateforme_id = attributs[1]
     projet = Projet.where(id: projet_id, plateforme_id: plateforme_id).first
-    redirect_to projet_path(projet)
+    if agent_signed_in?
+      redirect_to projet_path(projet)
+    else
+      session[:projet_id_from_opal] = projet.id
+      redirect_to new_agent_session_path
+    end
   end
 end
