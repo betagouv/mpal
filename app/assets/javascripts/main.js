@@ -80,7 +80,7 @@ $(document).ready(function() {
     var $fileInput = $('.file-input');
     var $droparea = $('.file-drop-area');
     $(".like-label").click(function(){
-        $fileInput.click();    
+        $fileInput.click();
     });
     $fileInput.on('dragenter focus click', function() {
         $droparea.addClass('is-active');
@@ -97,7 +97,7 @@ $(document).ready(function() {
             $textContainer.text(filesCount + ' fichiers sélectionnés');
         }
     });
-    
+
     // Same height choose operator
     var eHeight =  $(".choose-operator label");
 
@@ -150,9 +150,13 @@ $(document).ready(function() {
 
     $(document).on('click', ".engagement", function () {
       var isChecked = $(this).prop("checked");
-      console.log("checked: " + isChecked);
-      submit_btn = $('input[type="submit"]')
-      submit_btn.prop('disabled', !(isChecked));
+      console.log("checked: " , isChecked);
+      var submit_btn = $('input[type="submit"]');
+      if (isChecked) {
+        submit_btn.removeProp('disabled');
+      } else {
+        submit_btn.prop('disabled', true);
+      }
     });
 
 });

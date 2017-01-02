@@ -54,6 +54,8 @@
           abbr title=("Agence nationale de l’habitat")  Anah
           |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon
           abbr title=("Revenu fiscal de référence")  RFR
+      .authentification-clavis
+        = t('sessions.authentification_clavis', clavis: link_to('Clavis', new_agent_session_path)).html_safe
 
   - if Tools.demo?
     section.exemples

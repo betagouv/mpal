@@ -60,19 +60,6 @@ fr:
     faq: "Faq"
     mentions_legales: "Mentions légales"
 
-  # ----------------------- Gestion des sessions utilisateur ---------------------
-  sessions:
-    nouvelle:
-      titre: Connectez-vous
-      conseil: "A l'aide de votre avis d'imposition 2014 (ou 2015 si vous n'avez pas celui de 2014) veuillez renseigner les deux champs ci-dessous."
-      conseil2: ""
-      action: "Se connecter"
-    invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
-    access_forbidden: Vous n'avez pas accès à cette page
-    erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
-    confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
-    lien_deconnexion: "Déconnexion"
-
   # ----------------------- Initialisation d'un projet ---------------------
   demarrage_projet:
     action: "Suivant"
