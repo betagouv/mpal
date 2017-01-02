@@ -21,8 +21,6 @@ class ApplicationController < ActionController::Base
       projet_id = params[:projet_id] || params[:id]
       @projet_courant = Projet.find(projet_id)
       @utilisateur_courant = current_agent
-      puts " --- CURRENT AGENT -- #{current_agent.username}"
-      puts " --- CURRENT PROJET -- #{@projet_courant.id}"
     else
       @role_utilisateur = :demandeur
       projet_id = params[:projet_id] || params[:id]
@@ -43,19 +41,9 @@ class ApplicationController < ActionController::Base
   end
 end
 
-def email_valide?(email)
-  email.match(/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i) || email.empty?
-end
-
-def projet_valide?
-  @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
-  @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
-  @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
-end
-
 module CASClient
   module XmlResponse
-    alias_method :check_and_parse_xml_normally, :check_and_parse_xml
+    alias :check_and_parse_xml_normally :check_and_parse_xml
     def check_and_parse_xml(raw_xml)
       cooked_xml = raw_xml.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
       check_and_parse_xml_normally(cooked_xml)
