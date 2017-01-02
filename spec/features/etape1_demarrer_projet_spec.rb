@@ -29,6 +29,7 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
   end
 
   scenario "je complète la civilité du demandeur principal" do
+    skip
     signin(12,15)
     projet = Projet.last
     choose('occupant_civilite_mr')

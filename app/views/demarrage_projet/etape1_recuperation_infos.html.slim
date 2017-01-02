@@ -3,14 +3,13 @@
   section.demandeur
     h2.header-blk = t('demarrage_projet.etape1_demarrage_projet.section_demandeur')
     p.chapo = t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
-    ul.dem-info.ins-form-civilite
-      = form_for @demandeur_principal, url: {controller: 'demarrage_projet', action: 'etape1_envoi_infos'}, method: 'post', html: { class:'ui form'}  do |dd|
-        li.radio
-          = dd.radio_button :civilite, Occupant.civilites.keys[1]
-          = dd.label :civilite, t(:"occupants.civilite.mme")
-        li.radio
-          = dd.radio_button :civilite, Occupant.civilites.keys[0]
-          = dd.label :civilite, t(:"occupants.civilite.mr")
+    ul.dem-info.ins-form
+      li.radio
+        = f.radio_button :demandeur_principal_civilite, Occupant.civilites.keys[1]
+        = f.label :demandeur_principal_civilite_mme, t(:"occupants.civilite.mme")
+      li.radio
+        = f.radio_button :demandeur_principal_civilite, Occupant.civilites.keys[0]
+        = f.label :demandeur_principal_civilite_mr, t(:"occupants.civilite.mr")
     ul.dem-info.ins-form
       li
         = f.label :demandeur_principal_prenom
