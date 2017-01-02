@@ -16,6 +16,13 @@ class ApplicationController < ActionController::Base
       else
         utilisateur_invalide = true
       end
+    elsif agent_signed_in?
+      @role_utilisateur = :intervenant
+      projet_id = params[:projet_id] || params[:id]
+      @projet_courant = Projet.find(projet_id)
+      @utilisateur_courant = current_agent
+      puts " --- CURRENT AGENT -- #{current_agent.username}"
+      puts " --- CURRENT PROJET -- #{@projet_courant.id}"
     else
       @role_utilisateur = :demandeur
       projet_id = params[:projet_id] || params[:id]
