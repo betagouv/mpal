@@ -6,7 +6,7 @@ html lang="fr"
 
     = csrf_meta_tag
     meta charset="utf-8" /
-    meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport" /
+    meta content="width=device-width, initial-scale=1" name="viewport" /
     meta content="ie=edge" http-equiv="x-ua-compatible" /
     title Anah
     /![if lt IE 9]
@@ -41,17 +41,17 @@ html lang="fr"
           = yield
           footer.main-footer
             ul
-              li
+              /li
                 a href="#"  À propos
-                | \-
+                |  - 
               li
                 = link_to t('menu_bas.cgu'), :controller => :infos_projet, :action => :cgu
-                | \-
-              li
+                |  - 
+              /li
                 a href="#"  Contact
-                | \-
+                |  - 
               li
                 = link_to t('menu_bas.faq'), :controller => :infos_projet, :action => :faq
-                | \-
+                |  - 
               li
-                =  link_to t('menu_bas.mentions_legales'), :controller => :infos_projet, :action => :mentions_legales
+                = link_to t('menu_bas.mentions_legales'), :controller => :infos_projet, :action => :mentions_legales
