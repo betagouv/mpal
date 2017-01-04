@@ -16,6 +16,11 @@ class ApplicationController < ActionController::Base
       else
         utilisateur_invalide = true
       end
+    elsif agent_signed_in?
+      @role_utilisateur = :intervenant
+      projet_id = params[:projet_id] || params[:id]
+      @projet_courant = Projet.find(projet_id)
+      @utilisateur_courant = current_agent
     else
       @role_utilisateur = :demandeur
       projet_id = params[:projet_id] || params[:id]
@@ -26,22 +31,19 @@ class ApplicationController < ActionController::Base
 
     redirect_to new_session_path, alert: t('sessions.access_forbidden') if utilisateur_invalide
   end
-end
 
-def email_valide?(email)
-  email.match(/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i) || email.empty?
+  def after_sign_in_path_for(resource)
+    if projet_id = session[:projet_id_from_opal]
+      projet_path(Projet.find(projet_id))
+    else
+      stored_location_for(resource) || root_path
+    end
+  end
 end
-
-def projet_valide?
-  @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
-  @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
-  @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
-end
-
 
 module CASClient
   module XmlResponse
-    alias_method :check_and_parse_xml_normally, :check_and_parse_xml
+    alias :check_and_parse_xml_normally :check_and_parse_xml
     def check_and_parse_xml(raw_xml)
       cooked_xml = raw_xml.encode('UTF-8', 'binary', invalid: :replace, undef: :replace, replace: '')
       check_and_parse_xml_normally(cooked_xml)
