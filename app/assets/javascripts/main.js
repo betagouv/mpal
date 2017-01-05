@@ -148,15 +148,21 @@ $(document).ready(function() {
       });
     });
 
-    $(document).on('click', ".engagement", function () {
-      var isChecked = $(this).prop("checked");
-      console.log("checked: " , isChecked);
+    function updateSubmitButton() {
+      var isChecked = $(".engagement").prop("checked");
+      console.log("checked: ", isChecked);
       var submit_btn = $('input[type="submit"]');
       if (isChecked) {
         submit_btn.removeProp('disabled');
       } else {
         submit_btn.prop('disabled', true);
       }
-    });
+    }
+
+    var engagement = $(".engagement");
+    if (engagement.length) {
+      updateSubmitButton();
+      engagement.click(updateSubmitButton);
+    }
 
 });

@@ -7,17 +7,16 @@ class SessionsController < ApplicationController
 
   def create
     contribuable = ApiParticulier.new.retrouve_contribuable(param_numero_fiscal, param_reference_avis)
-    if contribuable
-      session[:numero_fiscal] = param_numero_fiscal
-      projet = ProjetEntrepot.par_numero_fiscal(param_numero_fiscal)
-      if projet
-        redirect_to projet
-      else
-        create_projet_and_redirect
-      end
-    else
-      redirect_to new_session_path, alert: t('sessions.invalid_credentials')
+    unless contribuable
+      flash.now[:alert] = t('sessions.invalid_credentials')
+      return render :new
     end
+    session[:numero_fiscal] = param_numero_fiscal
+    projet = ProjetEntrepot.par_numero_fiscal(param_numero_fiscal)
+    unless projet
+      return create_projet_and_redirect
+    end
+    redirect_to projet
   end
 
   def create_projet_and_redirect

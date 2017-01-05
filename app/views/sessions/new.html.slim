@@ -32,21 +32,22 @@
       |  fiscal de référence (
       abbr title=("Revenu fiscal de référence") RFR
       | ) correspondant à votre niveau de ressources.
-    = form_tag({controller: 'sessions', action: 'create'}, method: 'post', class:'form-login' ) do
+    = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'form-login') do
       .auth
         = label_tag "form-nf", "Numéro fiscal", class: "auth-label"
-        = text_field_tag :numero_fiscal, nil, placeholder: "Ex : 123 456 789 AB", id: "form-nf", class: "auth-input"
+        = text_field_tag :numero_fiscal, params[:numero_fiscal], placeholder: "Ex : 123 456 789 AB", id: "form-nf", class: "auth-input"
         a href="#"  Où se trouve mon numéro fiscal ?
         = label_tag "form-ra", "Référence avis", class: "auth-label"
-        = text_field_tag :reference_avis, nil, placeholder: "Ex: ABC DEF 123", id: "form-ra", class: "auth-input"
+        = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : ABC DEF 123", id: "form-ra", class: "auth-input"
         .mleg
-          input#lab-rfr type="checkbox" class="engagement" name="autorisation"
+          /input#lab-rfr type="checkbox" class="engagement" name="autorisation" 
+          = check_box_tag "autorisation", "1", params[:autorisation], class: "engagement", id: "lab-rfr"
           label for="lab-rfr"
             | J’autorise l’
             abbr title=("Agence nationale de l’habitat") Anah
             |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon 
             abbr title=("Revenu fiscal de référence") RFR
-        = submit_tag t('sessions.nouvelle.action'), class:'btn', disabled: true
+        = submit_tag t('sessions.nouvelle.action'), class:'btn'
       .authentification-clavis
         = t('sessions.authentification_clavis', clavis: link_to('Clavis', new_agent_session_path)).html_safe
 
