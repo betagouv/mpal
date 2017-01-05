@@ -20,6 +20,9 @@
 .*swp
 .*swo
 
+# Ignore vi tempfiles
+.DS_Store
+
 /.ruby-gemset
 /doc
 .env

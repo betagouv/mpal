@@ -38,6 +38,7 @@ group :test do
   gem 'rspec-activejob'
   gem 'guard'
   gem 'guard-rspec'
+  gem 'terminal-notifier-guard'
 end
 
 gem 'letter_opener_web'
