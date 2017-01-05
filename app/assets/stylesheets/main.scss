@@ -112,7 +112,13 @@ button, input[type="button"], input[type="reset"], input[type="submit"] {
   cursor: pointer;
   -webkit-appearance: button;
   -moz-appearance: button;
-  appearance: button; }
+  appearance: button;
+  &.disabled, &[disabled] {
+    cursor: not-allowed;
+    pointer-events: none; // Future-proof disabling of clicks
+    opacity: .65;
+  }
+}
 
 input[type="checkbox"], input[type="radio"] {
   box-sizing: border-box; }
@@ -181,6 +187,15 @@ input:-ms-input-placeholder {
   position: relative;
   background: image-url("background.jpg") 0 0 no-repeat;
   background-size: cover; }
+
+.centered-page {
+  position: relative;
+  margin: 0 auto;
+  max-width: 1080px;
+  @media screen and (min-width: 820px) {
+    padding: 30px 0;
+  }
+}
 
 .layer {
   display: none;
@@ -267,22 +282,18 @@ input:-ms-input-placeholder {
 
 /** Login **/
 .login {
-  width: 1080px;
-  background-color: #eef1f7;
-  box-shadow: 2px 2px 12px 0 rgba(0, 0, 0, 0.2);
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%); }
-  .login .intro {
+  background: #eef1f7;
+  box-shadow: 2px 2px 12px 0 rgba(0, 0, 0, 0.2); }
+  .intro {
     vertical-align: top;
-    display: inline-block;
-    width: 55%;
-    margin: 0 -4px 0 0;
     padding: 30px;
     box-sizing: border-box;
-    background: #eef1f7; }
+    background: #eef1f7;
+    @media screen and (min-width: 820px) {
+      display: inline-block;
+      width: 50%;
+    }
+  }
     .login .intro h1 {
       text-align: center;
       padding: 10px 0 20px; }
@@ -308,23 +319,28 @@ input:-ms-input-placeholder {
       color: #e7235a;
       text-decoration: underline; }
   .login .champs {
-    background: #fff;
-    display: inline-block;
+    background: white;
     vertical-align: top;
-    width: 45%;
-    box-sizing: border-box; }
+    box-sizing: border-box;
+    @media screen and (min-width: 820px) {
+      display: inline-block;
+      width: 50%;
+    }
+  }
     .login .champs h2 {
-      padding: 40px 20px;
       text-align: center;
       font-size: 30px;
       font-weight: bold;
-      padding: 60px 30px 30px;
+      padding: 30px;
       text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
     .login .champs p {
       line-height: 20px;
       font-size: 14px;
       margin-bottom: 1em;
       padding: 0 30px; }
+    .form-login {
+      margin-top: 30px;
+    }
     .login .champs .auth {
       padding: 25px 30px;
       background: #56869a; }
@@ -377,9 +393,14 @@ input:-ms-input-placeholder {
         color: white;
         border-bottom-color: white; }
 .authentification-clavis {
-  padding: 20px; }
+  padding: 30px;
+  a {
+    text-decoration: underline;
+  }
+}
 .login .exemples {
-  padding: 20px; }
+  background-color: #eef1f7;
+  padding: 30px; }
 .login .exemples li {
   display: list-item;
   list-style-type: square;
@@ -388,18 +409,22 @@ input:-ms-input-placeholder {
   margin-top: 1em; }
 
 /** Inscription **/
-.inscription input[type="text"], .inscription input[type="tel"], .inscription textarea {
-  border-radius: 3px;
-  background-color: #f2f6fa;
-  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  border: solid 1px #909eaf;
-  padding: 9px 10px 8px;
-  width: 80%; }
-  .inscription input[type="text"].disabled, .inscription input[type="tel"].disabled, .inscription textarea.disabled {
+.inscription {
+  input[type="text"], input[type="tel"], textarea {
+    border-radius: 3px;
     background-color: #f2f6fa;
     box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    border: solid 1px #f2f6fa;
-    color: #909eaf; }
+    border: solid 1px #909eaf;
+    padding: 9px 10px 8px;
+    width: 80%;
+    &.disabled, &[disabled] {
+      background-color: #f2f6fa;
+      box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+      border: solid 1px #f2f6fa;
+      color: #909eaf;
+    }
+  }
+}
 
 .inscription textarea {
   padding: 10px;
