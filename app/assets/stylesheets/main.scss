@@ -248,7 +248,7 @@ input:-ms-input-placeholder {
     display: inline-block;
     vertical-align: middle; }
 
-/** REBBON **/
+/** RIBBON **/
 #beta-ribbon {
   text-align: center;
   text-transform: uppercase;
@@ -299,6 +299,7 @@ input:-ms-input-placeholder {
         display: block;
         text-align: center; }
     .login .intro p {
+      margin-bottom: 1em;
       line-height: 20px; }
     .login .intro a {
       display: inline-block;
@@ -322,11 +323,12 @@ input:-ms-input-placeholder {
     .login .champs p {
       line-height: 20px;
       font-size: 14px;
-      padding: 0 30px 30px; }
+      margin-bottom: 1em;
+      padding: 0 30px; }
     .login .champs .auth {
       padding: 25px 30px;
       background: #56869a; }
-      .login .champs .auth input {
+      .login .champs .auth .auth-input {
         display: block;
         border-radius: 3px;
         background-color: #f2f6fa;
@@ -334,7 +336,7 @@ input:-ms-input-placeholder {
         border: solid 1px #909eaf;
         padding: 9px 10px 8px;
         width: 80%; }
-      .login .champs .auth label {
+      .login .champs .auth .auth-label {
         display: block;
         color: #fff;
         text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
@@ -364,8 +366,26 @@ input:-ms-input-placeholder {
         .login .champs .auth .btn:hover {
           background-color: #d9184e; }
     .login .champs .mleg {
-      padding: 30px;
+      margin-top: 1em;
       line-height: 20px; }
+      .login .champs .mleg input {
+        margin-right: 10px; }
+      .login .champs .mleg label {
+        color: #fff;
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5); }
+      .login .champs .mleg abbr {
+        color: white;
+        border-bottom-color: white; }
+.authentification-clavis {
+  padding: 20px; }
+.login .exemples {
+  padding: 20px; }
+.login .exemples li {
+  display: list-item;
+  list-style-type: square;
+  margin-left: 1em; }
+.login .exemples p {
+  margin-top: 1em; }
 
 /** Inscription **/
 .inscription input[type="text"], .inscription input[type="tel"], .inscription textarea {
