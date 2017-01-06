@@ -41,8 +41,11 @@ group :test do
   gem 'terminal-notifier-guard'
 end
 
+group :production do
+  gem 'rails_12factor'
+end
+
 gem 'letter_opener_web'
-gem 'rails_12factor'
 
 gem 'httparty'
 
