@@ -187,6 +187,7 @@ GEM
     multi_json (1.12.1)
     multi_xml (0.5.5)
     nenv (0.3.0)
+    newrelic_rpm (3.17.2.327)
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
@@ -369,6 +370,7 @@ DEPENDENCIES
   launchy
   letter_opener_web
   mailjet
+  newrelic_rpm
   orderedhash
   pg
   pry
