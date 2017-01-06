@@ -26,6 +26,8 @@ group :development do
   gem 'foreman'
   gem 'pry'
   gem 'pry-nav'
+  gem 'quiet_assets'
+  gem 'sextant'
 end
 
 group :test do
@@ -52,6 +54,7 @@ gem 'httparty'
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 gem 'gon'
 
+gem 'exception_notification'
 gem 'mailjet'
 gem 'rest-client', '~>1.6.9'
 gem 'active_model_serializers'

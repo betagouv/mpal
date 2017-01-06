@@ -73,6 +73,11 @@ Rails.application.configure do
       user_name:            ENV['MAILJET_API_KEY'],
       password:             ENV['MAILJET_SECRET_KEY']
     }
+    Rails.application.config.middleware.use ExceptionNotification::Rack, email: {
+      email_prefix: "[MPAL][ERREUR] ",
+      sender_address: %{"MPAL" <#{ENV['EMAIL_SUPERVISION']}>},
+      exception_recipients: [ENV['EMAIL_SUPERVISION']]
+    }
   end
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to

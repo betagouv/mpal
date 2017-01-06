@@ -97,6 +97,9 @@ GEM
       dotenv (= 2.1.1)
       railties (>= 4.0, < 5.1)
     erubis (2.7.0)
+    exception_notification (4.2.1)
+      actionmailer (>= 4.0, < 6)
+      activesupport (>= 4.0, < 6)
     excon (0.51.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -200,6 +203,8 @@ GEM
       slop (~> 3.4)
     pry-nav (0.2.4)
       pry (>= 0.9.10, < 0.11.0)
+    quiet_assets (1.1.0)
+      railties (>= 3.1, < 5.0)
     rack (1.6.4)
     rack-protection (1.5.3)
       rack
@@ -285,6 +290,8 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    sextant (0.2.4)
+      rails (>= 3.2)
     shellany (0.0.1)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
@@ -348,6 +355,7 @@ DEPENDENCIES
   devise
   devise_cas_authenticatable
   dotenv-rails
+  exception_notification
   factory_girl_rails
   fakeweb
   fog-openstack
@@ -365,6 +373,7 @@ DEPENDENCIES
   pg
   pry
   pry-nav
+  quiet_assets
   rails (= 4.2.6)
   rails_12factor
   redis-namespace
@@ -374,6 +383,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   semantic-ui-sass!
+  sextant
   shoulda-matchers
   sidekiq
   simple_form
