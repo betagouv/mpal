@@ -1,9 +1,8 @@
 - if notice.present?
-  div.ui.icon.success.message
-    i.inbox.icon
-    div.content
-      div.header= flash[:notice_titre]
-      p= notice
+  .alert.alert-info
+    - title = flash[:notice_titre]
+    - if title.present?
+      .header= title
+    p= notice
 - if alert
-  div.ui.negative.message
-    div.header= alert
+  .alert.alert-danger= alert
