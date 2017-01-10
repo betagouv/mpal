@@ -6,7 +6,7 @@ Vous reculez devant un projet d'amélioration de votre logement pourtant nécess
 
 Vous êtes accompagné tout au long de votre démarche par des intervenants compétents pour faire aboutir votre projet.
 
-Grâce au service "les aides de l'Anah", votre projet prend forme en quelques minutes chez vous, 24h/24 et 7j/7 par Internet :
+Grâce au service "Les aides de l'Anah", votre projet prend forme en quelques minutes chez vous, 24h/24 et 7j/7 par Internet :
 - vous êtes orienté vers un interlocuteur compétent et proche de chez vous - dans votre département ;
 - vous êtes conseillé dans votre projet selon votre situation et vos besoins ;
 - vous recevez une évaluation personnalisée des aides auxquelles vous pouvez prétendre ;
