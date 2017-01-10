@@ -11,7 +11,7 @@ Grâce au service "Les aides de l'Anah", votre projet prend forme en quelques mi
 - vous êtes conseillé dans votre projet selon votre situation et vos besoins ;
 - vous recevez une évaluation personnalisée des aides auxquelles vous pouvez prétendre ;
 - vous ne fournissez que les justificatifs strictement nécessaires ;
-- vous êtes informé en permanence de l'avancement de votre dossier et des délais prévisibles ;
+- vous êtes informé en continu de l'avancement de votre dossier et des délais prévisibles ;
 
 "Les aides de l'Anah" est le service qui réunit tous les acteurs et toutes les compétences au service du projet d'amélioration de votre logement.
 
