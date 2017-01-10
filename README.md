@@ -13,7 +13,7 @@ Grâce au service "les aides de l'Anah", votre projet prend forme en quelques mi
 - vous ne fournissez que les justificatifs strictement nécessaires ;
 - vous êtes informé en permanence de l'avancement de votre dossier et des délais prévisibles ;
 
-Les aides de l'Anah est le service pour l'amélioration du logement qui réunit tous les acteurs et toutes les compétences au service du projet d'amélioration de votre logement.
+"Les aides de l'Anah" est le service qui réunit tous les acteurs et toutes les compétences au service du projet d'amélioration de votre logement.
 
 # Installation (avec Docker)
 
