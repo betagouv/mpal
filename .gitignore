@@ -34,3 +34,7 @@ dump.rdb
 
 # Ignore les documents uploades en dev
 /public/uploads/
+
+# Couverture de tests
+coverage
+

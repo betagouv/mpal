@@ -18,6 +18,7 @@ group :development, :test do
   gem 'byebug'
   gem 'fakeweb'
   gem 'dotenv-rails'
+  gem 'simplecov', :require => false
 end
 
 group :development do

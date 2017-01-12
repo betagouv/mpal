@@ -1,3 +1,6 @@
+require 'simplecov'
+SimpleCov.start 'rails'
+
 require 'capybara/rspec'
 require 'rspec/active_job'
 
