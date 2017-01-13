@@ -1,0 +1,37 @@
+- content_for :content do
+  .page-projet.clearfix
+    aside.col-left
+      h1= image_tag "logo-anah-w.png", alt: "Agence Nationale de l’Habitat - ANAH", title: "Agence Nationale de l’Habitat - ANAH", class: "logo"
+      - if @projet_courant
+        section.personal-information
+          h2= @projet_courant.demandeur_principal
+          ul
+            li= @projet_courant.tel
+            li= @projet_courant.ville
+            li= @projet_courant.disponibilite
+            li= "#{@projet_courant.nb_total_occupants} occupants"
+            li
+              = "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
+              a.help href="#"
+                = image_tag "help.svg", alt: "Aide - Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
+        - unless @role_utilisateur == "demandeur"
+          section.affectation
+            - if (agent = @projet_courant.agent)
+              p= "Ce dossier est affecté à #{agent.prenom} #{agent.nom}"
+            - else
+              p Ce dossier n'est pas encore affecté.
+              - if @utilisateur_courant.is_a?(Intervenant) && @utilisateur_courant.operateur?
+                p= link_to t('projets.visualisation.lien_affecter_agent'), '#', class: 'btn btn-affecter-agent'
+    .col-right
+      header.project-header
+        section.top-bar.clearfix
+          h1.heading= @page_heading || "Bonjour"
+          = link_to t('sessions.lien_deconnexion'), {:controller => :sessions, :action => :deconnexion}, class: 'btn btn-logout'
+          - if @utilisateur_courant.is_a?(Intervenant) && @utilisateur_courant.instructeur?
+            = link_to t('projets.creation_opal.titre_creation_opal'), '#', class: 'btn btn-create-opal'
+          hr/
+        section.notification
+      section.main-content
+        = render 'shared/messages'
+        = yield
+= render template: "layouts/application"
