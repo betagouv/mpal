@@ -7,6 +7,7 @@ class Projet < ActiveRecord::Base
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
   belongs_to :operateur, class_name: 'Intervenant'
+  belongs_to :agent
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
   has_many :occupants, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy

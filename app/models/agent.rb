@@ -4,6 +4,7 @@ class Agent < ActiveRecord::Base
   devise :cas_authenticatable, :trackable
 
   belongs_to :intervenant
+  has_many   :projects
   validates :nom, presence: true
   validates :prenom, presence: true
 

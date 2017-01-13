@@ -1,10 +1,10 @@
 class ProjetsController < ApplicationController
   def index
-    if @role_utilisateur == :intervenant
-      @invitations = @utilisateur_courant.invitations
-    else
-      redirect_to projet_path(@projet_courant)
+    unless @role_utilisateur == :intervenant
+      return redirect_to projet_path(@projet_courant) if @projet_courant
+      return redirect_to root_path
     end
+    @invitations = @utilisateur_courant.invitations
   end
 
   def edit
@@ -47,6 +47,7 @@ class ProjetsController < ApplicationController
     @commentaire = Commentaire.new(projet: @projet_courant)
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
     @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
+    @page_heading = "Dossier en cours"
   end
 
   def demande
@@ -62,8 +63,8 @@ class ProjetsController < ApplicationController
       @projet_courant.documents.build(label: "Devis ou estimation de travaux")
       @projet_courant.documents.build(label: "Justificatif MDPH")
       @projet_courant.documents.build(label: "Justificatif CDAPH")
-
     end
+    @page_heading = "Dossier en cours"
   end
 
   def suivi
@@ -71,8 +72,18 @@ class ProjetsController < ApplicationController
     @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
   end
 
-  private
+  def affecter_agent
+    if @projet_courant.agent
+      return redirect_to projet_path(@projet_courant), alert: t('projets.agent_deja_affecte')
+    end
+    @projet_courant.agent = @utilisateur_courant
+    unless @projet_courant.save
+      flash[:alert] = "Une erreur s'est produite"
+    end
+    redirect_to projet_path(@projet_courant)
+  end
 
+private
   def email_valide?(email)
     email.match(/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i) || email.empty?
   end
@@ -82,7 +93,6 @@ class ProjetsController < ApplicationController
     @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
     @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
   end
-
 
   def projet_params
     if params[:projet][:adresse]
@@ -102,5 +112,4 @@ class ProjetsController < ApplicationController
     attributs = attributs.merge(adresse_complete) if adresse_complete
     attributs
   end
-
 end

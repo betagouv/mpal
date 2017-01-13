@@ -34,7 +34,7 @@ $(document).ready(function() {
     $(".block").last().children().addClass("is-open").slideDown(0);
 
     // Layout
-    $(".col-left").css("min-height", $(window).height()-60);
+    $(".col-left").css("min-height", $(window).height()-30);
 
     // Smouth scroll anchor
     $('a[href*="#"]:not([href="#"])').click(function() {

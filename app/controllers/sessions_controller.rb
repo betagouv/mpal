@@ -1,8 +1,13 @@
 class SessionsController < ApplicationController
-  layout 'onepage'
+  layout 'application'
+
   skip_before_action :authentifie
+  before_action :authentifie_sans_redirection
 
   def new
+    if agent_signed_in?
+      return redirect_to dossiers_path
+    end
   end
 
   def create
@@ -37,8 +42,7 @@ class SessionsController < ApplicationController
     redirect_to new_session_path, notice: t('sessions.confirmation_deconnexion')
   end
 
-  private
-
+private
   def param_numero_fiscal
     params[:numero_fiscal].try(:delete, ' ')
   end
@@ -46,5 +50,4 @@ class SessionsController < ApplicationController
   def param_reference_avis
     params[:reference_avis].try(:delete, ' ')
   end
-
 end

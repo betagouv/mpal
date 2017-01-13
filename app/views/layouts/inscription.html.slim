@@ -1,0 +1,9 @@
+- content_for :header do
+  header.inscription-header
+   h1= image_tag "logo-anah.png", alt: "Agence Nationale de l’Habitat - ANAH", title: "Agence Nationale de l’Habitat - ANAH", class: "logo"
+   h1.heading Inscription
+- content_for :content do
+ .inscription
+   = render 'shared/messages'
+   = yield
+= render template: "layouts/application"

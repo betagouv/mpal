@@ -1,5 +1,5 @@
 class ChoixIntervenantsController < ApplicationController
-  layout 'minimal'
+  layout 'inscription'
 
   def new
     @intervenant = Intervenant.find(params[:intervenant_id])

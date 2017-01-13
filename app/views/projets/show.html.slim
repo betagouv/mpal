@@ -1,15 +1,5 @@
-
-/! Header
-header.project-header
-  section.top-bar
-    h2 Dossier en cours
-    =link_to t('sessions.lien_deconnexion'), {:controller => :sessions, :action => :deconnexion}, class: 'btn'
-  hr/
-  section.notification
-/! Blocks Projet
 section.content-projet
-  = render partial: 'messagerie'
-  /! OCCUPANTS
+  = render 'messagerie'
   article.block.occupants
     h3 Détails des occupants
     a.edit href="#"  Modifier
@@ -42,6 +32,6 @@ section.content-projet
             tr
               td= occupant
               td= occupant.date_de_naissance.year
-  /! PROJET ENVISAGE
   = render "projet_envisage"
-  = render "projet_#{@projet_courant.statut}_#{@role_utilisateur}" if (@projet_courant.statut != "prospect" && @role_utilisateur != "demandeur")
+  - if @projet_courant.statut != "prospect" && @role_utilisateur != "demandeur"
+    = render "projet_#{@projet_courant.statut}_#{@role_utilisateur}"

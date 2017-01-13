@@ -1,8 +1,10 @@
-- if notice.present?
-  .alert.alert-info
-    - title = flash[:notice_titre]
-    - if title.present?
-      .header= title
-    p= notice
-- if alert
-  .alert.alert-danger= alert
+- unless @__messages_deja_affiches
+  - @__messages_deja_affiches = true
+  - if notice.present?
+    .alert.alert-info
+      - title = flash[:notice_titre]
+      - if title.present?
+        .header= title
+      p= notice
+  - if alert
+    .alert.alert-danger= alert

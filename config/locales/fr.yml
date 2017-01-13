@@ -48,6 +48,8 @@ fr:
     action: Je démarre mon projet
     description_titre: ANAH rassemble autour de votre projet toutes les compétences pour le faire aboutir
     description: "Vous reculez devant un projet d'amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches pour obtenir une subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé sous des informations contradictoires, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra."
+    lire_les_emails: "Lire les emails"
+    reinitialisation: "Réinitialisation"
 
   # ----------------------- Liste des messages à caractère juridique ---------------------
   agrements:
@@ -161,7 +163,7 @@ fr:
         info_demandeur: "Votre projet a bien été envoyé au %{instructeur}. Vous serez informé par email de l'avancement de votre dossier."
 
     creation_opal:
-      titre_creation_opal: Opal
+      titre_creation_opal: "Créer le dossier dans Opal"
       messages:
         succes: "Le dossier vient d'être créé dans OPAL avec l'identifiant %{id_opal}"
         erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n'a pu être créé"
@@ -196,7 +198,8 @@ fr:
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
       lien_ajout_commentaire: 'Envoyer un message'
-      message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaitra."
+      lien_affecter_agent: "Je m'affecte ce dossier"
+      message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
       titre_section_composition:
         one: " 1 occupant"
         other: "%{count} occupants"

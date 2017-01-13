@@ -189,7 +189,7 @@ module ApplicationHelper
     besoins << t("demarrage_projet.etape2_description_projet.accessibilite") if demande.accessibilite
     besoins << t("demarrage_projet.etape2_description_projet.hospitalisation") if demande.hospitalisation
     besoins << t("demarrage_projet.etape2_description_projet.adaptation_salle_de_bain") if demande.adaptation_salle_de_bain
-    besoins << t("demarrage_projet.etape2_description_projet.autre") if demande.autre.present?
+    besoins << "#{t("demarrage_projet.etape2_description_projet.autre")} : #{demande.autre}" if demande.autre.present?
     html << content_tag(:ul) do
       besoins.map { |besoin| content_tag(:li, besoin.html_safe) }.join.html_safe
     end
@@ -201,7 +201,7 @@ module ApplicationHelper
     travaux << t("demarrage_projet.etape2_description_projet.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb
     travaux << t("demarrage_projet.etape2_description_projet.travaux_monte_escalier") if demande.travaux_monte_escalier
     travaux << t("demarrage_projet.etape2_description_projet.travaux_amenagement_ext") if demande.travaux_amenagement_ext
-    travaux << t("demarrage_projet.etape2_description_projet.travaux_autres") if demande.travaux_autres
+    travaux << "#{t("demarrage_projet.etape2_description_projet.travaux_autres")} : #{demande.travaux_autres}" if demande.travaux_autres
     html << content_tag(:ul) do
       travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
     end
@@ -219,26 +219,6 @@ module ApplicationHelper
       complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe
     end
   end
-
-  def affiche_commentaire(commentaire)
-    article = content_tag(:h4, commentaire.auteur)
-    corps = []
-    corps << commentaire.corps_message
-    corps << content_tag(:date, l(commentaire.created_at, format: :short))
-    article += content_tag(:p, corps.join.html_safe)
-    role_auteur = commentaire.auteur.is_a?(Intervenant) ? "intervenant" : "demandeur"
-    html = content_tag(:article, article.html_safe, class:"chat chat-#{role_auteur}")
-  end
-=begin
-
-        article class="chat chat-intervenant"
-          h4= commentaire.auteur
-          p
-            = commentaire.corps_message
-            date= l(commentaire.created_at, format: :short)
-
-  end
-=end
 
   def message_projet_transmis
     instructeur = Intervenant.instructeur_pour(@projet_courant)

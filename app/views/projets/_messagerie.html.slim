@@ -1,29 +1,26 @@
-- if @projet_courant.commentaires.count == 0
-  article.block.messagerie
-    a name="messagerie" 
-    h3.is-open Messagerie
-    .content-block
-      p
-        | Il n’y a pas de message. Soyez le premier/la première à poser votre question.
-        br>/
-        | Vous serez notifié par email dès qu’un nouveau message apparaitra.
-      = form_for [@projet_courant, @commentaire] do |f|
-        = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
-        = f.text_area :corps_message, class: 'chat-respond'
-        = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "btn message"
-- else
-  article.block.messagerie
-    a name="messagerie" 
-    h3.is-open Messagerie
+- commentaire_count = @projet_courant.commentaires.count
+article.block.messagerie
+  a name="messagerie" 
+  h3.is-open Messagerie
+  - if 0 < commentaire_count
     p.nbr-message
-      | Nouveaux messages
-      span 2
-    .content-block
-      .chat-container
-        - @projet_courant.commentaires.each do |commentaire|
-          = affiche_commentaire(commentaire)
-        = form_for [@projet_courant, @commentaire] do |f|
-          = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
-          = f.text_area :corps_message, class: 'chat-respond'
-          = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "btn message"
+      | Messages
+      span= commentaire_count
+  .content-block
+    - if 0 < commentaire_count
+      - @projet_courant.commentaires.reverse.each do |commentaire|
+        - role_auteur = commentaire.auteur.is_a?(Intervenant) ? "intervenant" : "demandeur"
+        article(class="chat chat-#{role_auteur}")
+          h4= commentaire.auteur
+          p
+            = commentaire.corps_message
+            date= l(commentaire.created_at, format: :short)
+    - else
+      p Il n’y a pas de message. Soyez le premier/la première à poser votre question.
+      p Vous serez notifié par email dès qu’un nouveau message apparaîtra.
+    = form_for [@projet_courant, @commentaire] do |f|
+      - if params[:jeton]
+        = hidden_field_tag :jeton, params[:jeton]
+      = f.text_area :corps_message, class: 'chat-respond'
+      = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "btn btn-message"
 

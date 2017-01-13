@@ -7,11 +7,12 @@ article.block.recap-projet
           strong= @projet_courant.demandeur_principal
         li= @projet_courant.tel
         li= @projet_courant.adresse
-      ul.operateur-info
-        li
-          strong= @projet_courant.operateur
-        li= @projet_courant.operateur.adresse_postale
-        li TOULOUSE
+      - if @projet_courant.operateur
+        ul.operateur-info
+          li
+            strong= @projet_courant.operateur
+          li= @projet_courant.operateur.adresse_postale
+          li TOULOUSE
       p.delegataire Délégataire : Conseil départemental de la Haute-Garonne
       h4 Votre logement
       ul.ctr-ope

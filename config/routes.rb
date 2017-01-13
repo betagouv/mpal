@@ -1,13 +1,13 @@
 Rails.application.routes.draw do
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
   root 'sessions#new'
-  get 'welcome', to: 'welcome#index'
   namespace :api, path: '/api/v1/' do
     resources :projets, only: :show do
       resource :plan_financements, only: :create
     end
   end
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
+    resources :dossiers, only: [:show, :edit, :update, :index]
     resources :projets, only: [:show, :edit, :update, :index] do
       resources :occupants, only: [:new, :create, :edit, :update, :destroy]
       resources :commentaires, only: :create
@@ -19,8 +19,8 @@ Rails.application.routes.draw do
       resources :intervenants
       resources :choix_intervenants, only: [:new, :create]
       resources :transmissions, only: [:create]
-      resources :dossiers, only: [:create]
 
+      post '/dossiers_opal', to: 'dossiers_opal#create'
       get '/calcul_revenu_fiscal_reference', to: 'projets#calcul_revenu_fiscal_reference', as: 'calcul_revenu_fiscal_reference'
       get '/preeligibilite', to: 'projets#preeligibilite', as: 'preeligibilite'
       get '/demande', to: 'projets#demande', as: 'demande'
@@ -40,6 +40,8 @@ Rails.application.routes.draw do
 
     get '/projets/:projet_id/choix_operateur', to: 'demarrage_projet#etape3_choix_intervenant', as: 'etape3_choix_intervenant'
     patch '/projets/:projet_id/choix_operateur', to: 'demarrage_projet#etape3_envoi_choix_intervenant'
+
+    get '/projets/:projet_id/affecter_agent', to: 'projets#affecter_agent', as: 'affecter_agent'
 
     get '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'

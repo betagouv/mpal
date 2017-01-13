@@ -1,0 +1,22 @@
+.main-content-block
+  h2= t('tableau_de_bord.titre_section')
+  - if @invitations.blank?
+    p  Aucun projet.
+  - else
+    table
+      thead
+        tr
+          th État du dossier
+          th Demandeur
+          th Adresse
+          th Intervenant(s)
+          th Numéro dossier Opal
+      tbody
+        - @invitations.each do |invitation|
+          - projet = invitation.projet
+          tr id="projet_#{projet.id}"
+            td= t(projet.statut, scope: "projets.statut")
+            td= link_to projet.demandeur_principal.to_s, projet_path(projet, jeton: invitation.token)
+            td= projet.adresse
+            td= affiche_intervenants(projet)
+            td= projet.opal_numero

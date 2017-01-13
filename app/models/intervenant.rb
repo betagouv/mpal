@@ -3,6 +3,7 @@ class Intervenant < ActiveRecord::Base
   has_many :commentaires, as: :auteur
   has_many :invitations
   has_many :projets, through: :invitations
+  has_many :agents
   validates :raison_sociale, presence: true
   validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
 
