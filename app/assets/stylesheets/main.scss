@@ -746,12 +746,17 @@ input:-ms-input-placeholder {
           display: inline-block;
           vertical-align: bottom;
           padding-left: 10px; }
-    .page-projet .col-left .affectation {
-      padding: 20px;
-      .btn-affecter-agent {
-        margin: 0 auto;
-      }
-    }
+.affectation {
+  padding: 20px;
+  color: white;
+  p {
+    margin-bottom: 1em;
+    color: white;
+  }
+  .btn-affecter-agent {
+    margin: 0 auto;
+  }
+}
   .page-projet .col-right {
     display: inline-block;
     width: 73%;

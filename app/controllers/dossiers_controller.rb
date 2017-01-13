@@ -3,7 +3,8 @@ class DossiersController < ApplicationController
   skip_before_action :authentifie, only: [:show]
 
   def index
-    @invitations = @utilisateur_courant.intervenant.invitations
+    intervenant = @utilisateur_courant.is_a?(Agent) ? @utilisateur_courant.intervenant : @utilisateur_courant
+    @invitations = intervenant.invitations
     @page_heading = "Dossiers"
   end
 

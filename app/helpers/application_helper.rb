@@ -1,10 +1,18 @@
 module ApplicationHelper
+  def agent?
+    @role_utilisateur == :agent
+  end
+
   def intervenant?
     @role_utilisateur == :intervenant
   end
 
   def demandeur?
     @role_utilisateur == :demandeur
+  end
+
+  def projet_suffix
+    demandeur? ? "demandeur" : "intervenant"
   end
 
   def transmission_instructeur(projet)
@@ -25,10 +33,7 @@ module ApplicationHelper
       <i class="warning sign icon"></i>
       <div class="content">
         <div class="header">#{message_header}</div>
-        <ul class="list">
-
-    #{messages}
-        </ul>
+        <ul class="list">#{messages}</ul>
       </div>
     </div>
     HTML
@@ -58,7 +63,6 @@ module ApplicationHelper
     liste_icone = {choix_intervenant: 'pin', transmis_instructeur: 'external', creation_projet: 'suitcase', invitation_intervenant: 'plug', mise_en_relation_intervenant: 'plug', ajout_avis_imposition: "file text outline" }
     liste_icone[label.to_sym]
   end
-
 
   def bouton_retour_projet_courant
     link_to 'Retour au projet', @projet_courant, class: "ui button"
