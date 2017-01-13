@@ -49,7 +49,7 @@ fr:
     description_titre: ANAH rassemble autour de votre projet toutes les compétences pour le faire aboutir
     description: "Vous reculez devant un projet d'amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches pour obtenir une subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé sous des informations contradictoires, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra."
     lire_les_emails: "Lire les emails"
-    reinitialisation: "Réinitialisation"
+    reinitialiser: "Réinitialiser les données"
 
   # ----------------------- Liste des messages à caractère juridique ---------------------
   agrements:
