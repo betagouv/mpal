@@ -1,14 +1,14 @@
 module ApplicationHelper
   def agent?
-    @role_utilisateur == :agent
+    @role_utilisateur && @role_utilisateur.to_sym == :agent
   end
 
   def intervenant?
-    @role_utilisateur == :intervenant
+    @role_utilisateur && @role_utilisateur.to_sym == :intervenant
   end
 
   def demandeur?
-    @role_utilisateur == :demandeur
+    @role_utilisateur && @role_utilisateur.to_sym == :demandeur
   end
 
   def projet_suffix

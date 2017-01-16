@@ -14,7 +14,7 @@
               = "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
               a.help href="#"
                 = image_tag "help.svg", alt: "Aide - Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
-        - unless demandeur?
+        - if intervenant? || agent?
           section.affectation
             - if (agent = @projet_courant.agent)
               p= "Ce dossier est affecté à #{agent.prenom} #{agent.nom}"
@@ -23,8 +23,6 @@
               - if @utilisateur_courant.is_a?(Agent)
                 p= link_to t('projets.visualisation.lien_affecter_agent'), affecter_agent_path(@projet_courant), class: 'btn btn-affecter-agent'
               - else
-                /- if @utilisateur_courant.is_a?(Intervenant) && @utilisateur_courant.operateur?
-                /p= link_to t('projets.visualisation.lien_affecter_agent'), affecter_agent_path(@projet_courant), class: 'btn btn-affecter-agent'
                 p= link_to t('sessions.authentification_clavis_logged', clavis: 'Clavis'), new_agent_session_path, class: 'btn btn-simple'
     .col-right
       header.project-header
