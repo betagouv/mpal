@@ -49,8 +49,8 @@
         li.full
           label = t('helpers.label.projet.disponibilite')
           = f.text_field :disponibilite, placeholder: t('demarrage_projet.etape3_choix_intervenant.disponibilite_placeholder')
-        li.radio
-          input#dif1 type="checkbox" class="engagement"
-          label for="dif1" = t('agrements.autorisation_acces_donnees_intervenants')
+      .checkbox-validation
+        input#dif1 type="checkbox" class="engagement"
+        label for="dif1" = t('agrements.autorisation_acces_donnees_intervenants')
 
     = submit_tag t('demarrage_projet.action'), class: 'validate btn', disabled: true

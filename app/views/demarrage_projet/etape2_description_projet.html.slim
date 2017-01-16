@@ -22,8 +22,8 @@
         = f.check_box :adaptation_salle_de_bain, class: 'checkbox-inline'
         = f.label :adaptation_salle_de_bain
       li.checkbox
-        = f.text_field :autre
         = f.label :autre
+        = f.text_field :autre
 
     p.chapo = t('demarrage_projet.etape2_description_projet.titre_travaux')
     ul.ins-form
@@ -46,8 +46,8 @@
         = f.check_box :travaux_amenagement_ext, class: 'checkbox-inline'
         = f.label :travaux_amenagement_ext
       li.checkbox
-        = f.text_field :travaux_autres
         = f.label :travaux_autres
+        = f.text_field :travaux_autres
 
     p.chapo = t('helpers.label.demande.complement')
     = f.text_area :complement
