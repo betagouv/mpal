@@ -50,18 +50,6 @@ $(document).ready(function() {
         }
     });
 
-    // Select operator
-    $(".choose-operator .btn").click(function(){
-        if ( $(this).parent().hasClass("is-active") ){
-            $(this).parent().removeClass("is-active");
-        } else {
-            $(".choose-operator li").removeClass("is-active");
-            $(this).parent().addClass("is-active");
-            $(".operator").text($(this).prevAll("h3").text());
-        }
-        return false;
-    });
-
     // Popin confirm operator
     $(".open-popin").click(function(){
         var cible = $(this).attr("name");
