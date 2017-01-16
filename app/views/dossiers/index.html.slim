@@ -1,12 +1,12 @@
-.main-content-block
-  h2= t('tableau_de_bord.titre_section')
+.main-content-block.dashboard-dossiers
+  h2.heading= t('tableau_de_bord.titre_section')
   - if @invitations.blank?
     p  Aucun projet.
   - else
-    table
+    table.table
       thead
         tr
-          th État du dossier
+          th État
           th Demandeur
           th Adresse
           th Intervenant(s)

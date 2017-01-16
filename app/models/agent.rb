@@ -21,4 +21,8 @@ class Agent < ActiveRecord::Base
       end
     end
   end
+
+  def to_s
+    [prenom, nom].join(' ').strip
+  end
 end
