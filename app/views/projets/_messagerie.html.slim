@@ -12,10 +12,10 @@ article.block.messagerie
         - role_auteur = commentaire.auteur.is_a?(Occupant) ? "demandeur" : "intervenant"
         article(class="chat chat-#{role_auteur}")
           h4
-            - if commentaire.auteur.is_a?(Occupant)
-              = commentaire.auteur
-            - else
+            - if commentaire.auteur.is_a?(Agent)
               = "#{commentaire.auteur} (#{commentaire.auteur.intervenant})"
+            - else
+              = commentaire.auteur
           p
             = commentaire.corps_message
             date= l(commentaire.created_at, format: :short)
