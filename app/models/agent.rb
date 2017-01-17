@@ -9,7 +9,6 @@ class Agent < ActiveRecord::Base
   validates :prenom, presence: true
 
   def cas_extra_attributes=(extra_attributes)
-    puts extra_attributes
     extra_attributes.each do |cas_cle, valeur|
       case cas_cle.to_sym
       when :Nom

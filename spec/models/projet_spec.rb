@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 
-RSpec.describe Projet, type: :model do
+describe Projet do
   describe 'validations' do
     let(:projet) { build :projet }
     it { expect(projet).to be_valid }
