@@ -26,7 +26,7 @@ feature "intervenant" do
     expect(page).to have_content(projet.adresse)
     click_link 'Intervenants'
     within '.disponibles' do
-    expect(page).to have_content(operateur.raison_sociale)
+      expect(page).to have_content(operateur.raison_sociale)
     end
   end
 
@@ -45,7 +45,7 @@ feature "intervenant" do
       expect(page).to have_content("Plâtrerie")
     end
 
-    scenario "modification de la demande", pending: true do
+    scenario "modification de la demande" do
       visit projet_demande_path(projet, jeton: invit.token)
       fill_in 'projet_surface_habitable', with: '42'
       click_on 'Enregistrer cette proposition'
