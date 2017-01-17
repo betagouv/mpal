@@ -2,52 +2,80 @@ require 'rails_helper'
 require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 
-
-describe Projet do
-  let(:projet) { FactoryGirl.build(:projet) }
-  it { expect(FactoryGirl.build(:projet)).to be_valid }
-
-  it { is_expected.to validate_presence_of(:numero_fiscal) }
-  it { is_expected.to validate_presence_of(:reference_avis) }
-  it { is_expected.to validate_presence_of(:adresse_ligne1) }
-  it { is_expected.to have_many(:intervenants) }
-  it { is_expected.to have_many(:evenements) }
-  it { is_expected.to have_many(:projet_prestations) }
-  it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
-  it { is_expected.to belong_to(:operateur) }
-
-  it "calcule le nombre total d'occupants" do
-    occupant = FactoryGirl.create(:occupant, projet: projet)
-    occupant2 = FactoryGirl.create(:occupant, projet: projet)
-    projet.nb_occupants_a_charge = 3
-    expect(projet.nb_total_occupants).to eq(5)
+RSpec.describe Projet, type: :model do
+  describe 'validations' do
+    let(:projet) { build :projet }
+    it { expect(projet).to be_valid }
+    it { is_expected.to validate_presence_of :numero_fiscal }
+    it { is_expected.to validate_presence_of :reference_avis }
+    it { is_expected.to validate_presence_of :adresse_ligne1 }
+    it { is_expected.to have_many :intervenants }
+    it { is_expected.to have_many :evenements }
+    it { is_expected.to have_many :projet_prestations }
+    it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
+    it { is_expected.to belong_to :operateur }
   end
 
-  it "définit l'année fiscale de référence comme l'année des revenus du dernier avis d'imposition" do
-    avis_imposition_1 = FactoryGirl.create(:avis_imposition, projet: projet, annee: 2013)
-    avis_imposition_2 = FactoryGirl.create(:avis_imposition, projet: projet, annee: 2014)
-    avis_imposition_3 = FactoryGirl.create(:avis_imposition, projet: projet, annee: 2015)
-    expect(projet.annee_fiscale_reference).to eq(2014)
+  describe '#nb_occupants_a_charge' do
+    let(:projet) { create :projet, nb_occupants_a_charge: 3 }
+    let!(:occupant_2) { create :occupant, projet: projet }
+    it { expect(projet.nb_total_occupants).to eq(5) }
   end
 
-  it "calcule la pré eligibilité d'une demande pour avec l'avis d'imposition n-1, un seul avis, 1
-   occupant et 2 personnes à charges" do
-    annee = 2015
-    projet.nb_occupants_a_charge = 2
-    occupant = FactoryGirl.create(:occupant, projet: projet)
-    avis_imposition = FactoryGirl.create(:avis_imposition, projet: projet, annee: annee)
-    expect(projet.preeligibilite(annee)).to eq(:tres_modeste)
+  describe '#annee_fiscale_reference' do
+    let(:projet) { create :projet }
+    let!(:avis_imposition_1) { create :avis_imposition, projet: projet, annee: 2013 }
+    let!(:avis_imposition_2) { create :avis_imposition, projet: projet, annee: 2014 }
+    let!(:avis_imposition_3) { create :avis_imposition, projet: projet, annee: 2015 }
+    it { expect(projet.annee_fiscale_reference).to eq(2014) }
   end
 
-  it "contruit une chaine avec les noms des occupants" do
-    occupant = FactoryGirl.create(:occupant, projet: projet)
-    autre_occupant = FactoryGirl.create(:occupant, projet: projet)
-    expect(projet.nom_occupants).to eq("#{occupant.nom.upcase} ET #{autre_occupant.nom.upcase}")
+  describe '#preeligibilite' do
+    let(:annee) { 2015 }
+    let(:projet) { create :projet, nb_occupants_a_charge: 2 }
+    let!(:occupant) { create :occupant, projet: projet }
+    let!(:avis_imposition) { create :avis_imposition, projet: projet, annee: annee }
+    it { expect(projet.preeligibilite(annee)).to eq(:tres_modeste) }
   end
 
-  it "contruit une chaine avec les prenoms des occupants" do
-    occupant = FactoryGirl.create(:occupant, projet: projet)
-    autre_occupant = FactoryGirl.create(:occupant, projet: projet)
-    expect(projet.prenom_occupants).to eq("#{occupant.prenom.capitalize} et #{autre_occupant.prenom.capitalize}")
+  describe '#nom_occupants' do
+    let(:projet) { create :projet }
+    let(:occupant_1) { projet.occupants.first }
+    let!(:occupant_2) { create :occupant, projet: projet }
+    it { expect(projet.nom_occupants).to eq("#{occupant_1.nom.upcase} ET #{occupant_2.nom.upcase}") }
+  end
+
+  describe '#prenom_occupants' do
+    let(:projet) { create :projet }
+    let(:occupant_1) { projet.occupants.first }
+    let!(:occupant_2) { create :occupant, projet: projet }
+    it { expect(projet.prenom_occupants).to eq("#{occupant_1.prenom.capitalize} et #{occupant_2.prenom.capitalize}") }
+  end
+
+  describe "#numero_plateforme" do
+    let(:projet) { build :projet, id: 42, plateforme_id: 1234 }
+    it { expect(projet.numero_plateforme).to eq("42_1234") }
+  end
+
+  describe "#transmettre!" do
+    context "with valid call" do
+      let(:projet) { create :projet }
+      let!(:instructeur) { create :intervenant, :instructeur }
+      it do
+        result = projet.transmettre!(instructeur)
+        expect(result).to be true
+        expect(projet.statut).to eq("transmis_pour_instruction")
+        expect(projet.invitations.count).to eq(1)
+      end
+    end
+    context "with invalid call" do
+      let(:projet) { create :projet }
+      it do
+        result = projet.transmettre!(nil)
+        expect(result).to be false
+        expect(projet.statut).not_to eq("transmis_pour_instruction")
+        expect(projet.invitations.count).to eq(0)
+      end
+    end
   end
 end

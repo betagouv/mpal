@@ -17,6 +17,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 group :development, :test do
   gem 'byebug'
   gem 'fakeweb'
+  gem 'factory_girl_rails'
   gem 'dotenv-rails'
   gem 'simplecov', :require => false
 end
@@ -36,7 +37,6 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'database_cleaner'
-  gem 'factory_girl_rails'
   gem 'shoulda-matchers'
   gem 'rspec-activejob'
   gem 'guard'

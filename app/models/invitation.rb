@@ -16,17 +16,16 @@ class Invitation < ActiveRecord::Base
   delegate :adresse, to: :projet
 
   def intervenant_email
-    self.intervenant.email
+    intervenant.email
   end
 
   def projet_email
-    self.projet.email
+    projet.email
   end
 
-  private
+private
   def generate_token
     sha = Digest::SHA2.new << Time.now.to_i.to_s + Time.now.usec.to_s
     self.token = sha.to_s
   end
-
 end
