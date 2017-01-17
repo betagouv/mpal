@@ -29,7 +29,7 @@ class Opal
     {
       "dosNumeroPlateforme": "#{projet.plateforme_id}",
       "dosDateDepot": Time.now.strftime("%Y-%m-%d"),
-      "utiIdClavis": "7109",
+      "utiIdClavis": "5272",
       "demandeur": {
         "dmdNbOccupants": projet.nb_total_occupants,
         "dmdRevenuOccupants": projet.revenu_fiscal_reference_total,
