@@ -1,0 +1,50 @@
+article.block.recap-projet
+  h3.is-open Projet retenu par le demandeur
+  .content-block
+    .invoice
+      ul.demandeur-info
+        li
+          strong= @projet_courant.demandeur_principal
+        li= @projet_courant.tel
+        li= @projet_courant.adresse
+      - if @projet_courant.operateur
+        ul.operateur-info
+          li
+            strong= @projet_courant.operateur
+          li= @projet_courant.operateur.adresse_postale
+          li TOULOUSE
+      p.delegataire Délégataire : Conseil départemental de la Haute-Garonne
+      h4 Votre logement
+      ul.ctr-ope
+        li
+          = "Type de logement : "
+          span= @projet_courant.type_logement
+        li
+          = "Etage : "
+          span= @projet_courant.etage
+        li
+          = "Nombre de pièces : "
+          span= @projet_courant.nb_pieces
+        li
+          = "Année de construction : "
+          span= @projet_courant.annee_construction
+        li
+          = "Surface avant travaux : "
+          span= "#{@projet_courant.surface_habitable} m2" if @projet_courant.surface_habitable
+      h4 Votre évaluation
+      ul.ctr-ope
+        li
+          = "Note de dégradation : "
+          span= @projet_courant.note_degradation
+        li
+          = "Note d'insalubrité : "
+          span= @projet_courant.note_insalubrite
+        li
+          = "Ventilation adaptée : "
+          span= @projet_courant.ventilation_adaptee ? "Oui" : "Non"
+        li
+          = "Présence traces d'humidité : "
+          span= @projet_courant.presence_humidite ? "Oui" : "Non"
+        li
+          = "Autres remarques : "
+          span= @projet_courant.remarques_diagnostic

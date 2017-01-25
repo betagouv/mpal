@@ -4,11 +4,10 @@ class DocumentsController < ApplicationController
     @document.fichier = params[:fichier_document]
     @document.label = params[:label_document]
     if @document.save
-      redirect_to projet_demande_path(@projet_courant)
-    else
-      render 'projets/demande2'
-      # redirect_to projet_demande_path(@projet_courant), alert: t('projets.demande.messages.erreur_depot_document')
+      return redirect_to projet_demande_path(@projet_courant)
     end
+    render 'projets/demande'
+    # redirect_to projet_demande_path(@projet_courant), alert: t('projets.demande.messages.erreur_depot_document')
   end
 
   def destroy

@@ -22,25 +22,30 @@ describe "identification", type: :feature do
   end
 end
 
-
 feature "Réinitialisation de la session" do
-  let(:projet) { FactoryGirl.create(:projet) }
-  let(:invitation) { FactoryGirl.create(:invitation) }
+  let(:projet) {          create :projet }
+  let(:invitation) {      create :invitation }
+  let(:operateur) {       create :intervenant, :operateur, departements: [projet.departement] }
+  let(:agent_operateur) { create :agent, intervenant: operateur }
 
-  scenario "je vois le lien pour se déconnecter s'il y a un projet et un message qui m'annonce que je me suis bien deconnecté(e)" do
-    signin(projet.numero_fiscal, projet.reference_avis)
-    visit projet_path(projet)
-    expect(page).to have_content("Martin")
-    expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
-    click_link I18n.t('sessions.lien_deconnexion')
-    expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion'))
+  context "en tant que demandeur" do
+    scenario "je vois le lien pour se déconnecter s'il y a un projet et un message qui m'annonce que je me suis bien deconnecté(e)" do
+      signin(projet.numero_fiscal, projet.reference_avis)
+      visit projet_path(projet)
+      expect(page).to have_content("Martin")
+      expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
+      click_link I18n.t('sessions.lien_deconnexion')
+      expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion'))
+    end
   end
 
-  scenario "je peux me déconnecter si je consulte le projet en tant qu'intervenant via une invitation" do
-    visit projet_path(invitation.projet, jeton: invitation.token)
-    expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
-    click_link I18n.t('sessions.lien_deconnexion')
-    expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion'))
+  context "en tant qu'intervenant" do
+    before { login_as agent_operateur, scope: :agent }
+    scenario "je peux me déconnecter" do
+      visit dossier_path(invitation.projet)
+      expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
+      click_link I18n.t('sessions.lien_deconnexion')
+      expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion'))
+    end
   end
-
 end

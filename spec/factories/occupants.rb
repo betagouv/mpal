@@ -9,5 +9,4 @@ FactoryGirl.define do
   factory :demandeur, parent: :occupant do
     demandeur true
   end
-
 end

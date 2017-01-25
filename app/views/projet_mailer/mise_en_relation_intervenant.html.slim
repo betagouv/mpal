@@ -1,7 +1,6 @@
 p Bonjour,
-
-p = "#{@invitation.intermediaire} vient de vous mettre en relation avec le projet suivant :"
-p = "#{@invitation.demandeur_principal} souhaite rénover son habitat #{@invitation.adresse}"
+p= "#{@invitation.intermediaire} vient de vous mettre en relation avec le projet suivant :"
+p= "#{@invitation.demandeur_principal} souhaite rénover son habitat #{@invitation.adresse}"
 p Voici une description des travaux qu'il souhaite effectuer :
-p = affiche_demande_souhaitee(@invitation.projet.demande)
-p = link_to "Pour visualiser le projet, cliquer sur ce lien", projet_url(@invitation.projet, jeton: @invitation.token)
+p= affiche_demande_souhaitee(@invitation.projet.demande)
+p= link_to "Pour visualiser le projet, cliquer sur ce lien", dossier_url(@invitation.projet)

@@ -9,7 +9,7 @@ class Projet < ActiveRecord::Base
   belongs_to :operateur, class_name: 'Intervenant'
   belongs_to :agent
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
-  has_many :occupants, dependent: :destroy
+  has_many :occupants, -> { order "id" }, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
   has_many :documents, dependent: :destroy
@@ -27,37 +27,41 @@ class Projet < ActiveRecord::Base
     self.plateforme_id = Time.now.to_i
   end
 
+  scope :for_agent, ->(agent) {
+    next where(nil) if agent.instructeur?
+    joins(:intervenants).where('intervenants.id' == agent.id)
+  }
+
   def numero_plateforme
-    "#{self.id}_#{self.plateforme_id}"
+    "#{id}_#{plateforme_id}"
   end
 
   def nb_total_occupants
-    nb_occupants = self.occupants.count || 0
-    return nb_occupants + self.nb_occupants_a_charge
+    occupants.count + nb_occupants_a_charge
   end
 
   def intervenants_disponibles(role: nil)
-    Intervenant.pour_departement(self.departement).pour_role(role) - self.intervenants
+    Intervenant.pour_departement(departement).pour_role(role) - intervenants
   end
 
   def demandeur_principal
-    self.occupants.where(demandeur: true).first
+    occupants.where(demandeur: true).first
   end
 
   def demandeur_principal_nom
-    self.occupants.where(demandeur: true).first.nom
+    demandeur_principal.nom
   end
 
   def demandeur_principal_prenom
-    self.occupants.where(demandeur: true).first.prenom
+    demandeur_principal.prenom
   end
 
   def demandeur_principal_civilite
-    self.occupants.where(demandeur: true).first.civilite
+    demandeur_principal.civilite
   end
 
   def usager
-    occupant = self.demandeur_principal
+    occupant = demandeur_principal
     occupant.to_s if occupant
   end
 
@@ -96,14 +100,14 @@ class Projet < ActiveRecord::Base
   end
 
   def adresse
-    "#{self.adresse_ligne1}, #{self.code_postal} #{self.ville}"
+    "#{adresse_ligne1}, #{code_postal} #{ville}"
   end
 
   def nom_occupants
-    self.occupants.map(&:nom).map{|n| n.upcase}.join(' ET ')
+    occupants.map { |occupant| occupant.nom.upcase }.join(' ET ')
   end
 
   def prenom_occupants
-    self.occupants.map(&:prenom).map{|n| n.capitalize}.join(' et ')
+    occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
   end
 end

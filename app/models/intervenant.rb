@@ -15,15 +15,19 @@ class Intervenant < ActiveRecord::Base
     instructeur.pour_departement(projet.departement).limit(1).first
   end
 
-  def to_s
-    self.raison_sociale
+  def instructeur?
+    (roles || []).include?('instructeur')
+  end
+
+  def pris?
+    (roles || []).include?('pris')
   end
 
   def operateur?
-    self.roles && self.roles.include?('operateur')
+    (roles || []).include?('operateur')
   end
 
-  def instructeur?
-    self.roles && self.roles.include?('instructeur')
+  def to_s
+    self.raison_sociale
   end
 end

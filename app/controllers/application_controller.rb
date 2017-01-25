@@ -2,34 +2,15 @@ class ApplicationController < ActionController::Base
   layout 'logged_in'
 
   protect_from_forgery with: :exception
+  before_action :set_projet
   before_action :authentifie
 
   def authentifie_sans_redirection
-    jeton = params[:jeton] || session[:jeton]
-    if jeton
-      session[:jeton] = jeton
-      @role_utilisateur = :intervenant
-      invitation = Invitation.find_by_token(jeton)
-      if invitation
-        intervenant = invitation.intervenant
-        projet = invitation.projet
-      end
-      if invitation && (projet.prospect? || intervenant == projet.operateur || intervenant.instructeur?)
-        @projet_courant = projet
-        @utilisateur_courant = intervenant
-      else
-        @utilisateur_invalide = true
-      end
-    end
     if agent_signed_in?
       @role_utilisateur = :agent
-      projet_id = params[:projet_id] || params[:id]
-      @projet_courant ||= Projet.find_by_id(projet_id)
       @utilisateur_courant = current_agent
     elsif @role_utilisateur.blank?
       @role_utilisateur = :demandeur
-      projet_id = params[:projet_id] || params[:id]
-      @projet_courant = Projet.find_by_id(projet_id)
       if @projet_courant
         @utilisateur_courant = @projet_courant.demandeur_principal
         @utilisateur_invalide = true if session[:numero_fiscal] != @projet_courant.numero_fiscal
@@ -48,9 +29,15 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if projet_id = session[:projet_id_from_opal]
-      projet_path(Projet.find(projet_id))
+      send("#{@dossier_ou_projet}_path", Projet.find_by_id(projet_id))
     else
       stored_location_for(resource) || root_path
     end
+  end
+
+  def set_projet
+    @dossier_ou_projet = "projet"
+    projet_id = params[:dossier_id] || params[:projet_id] || params[:id]
+    @projet_courant = Projet.find_by_id(projet_id) if projet_id
   end
 end

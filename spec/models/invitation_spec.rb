@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Invitation do
-  let(:invitation) { FactoryGirl.build(:invitation) }
-  let(:projet) { FactoryGirl.build(:projet) }
+  let(:invitation) { build :invitation }
+  let(:projet) { build :projet }
   subject { invitation }
 
   it { is_expected.to validate_presence_of(:projet) }
@@ -12,16 +12,11 @@ describe Invitation do
 
   it { is_expected.to be_valid }
 
-  it "genere un jeton avant la création" do
-    expect(FactoryGirl.create(:invitation).token).to be_present
-  end
-
   it { is_expected.to delegate_method(:demandeur_principal).to(:projet) }
   it { is_expected.to delegate_method(:adresse).to(:projet) }
 
   describe '#projet_email' do
     it "devrait retourner l'email du projet" do
-      invitation.projet = projet
       expect(invitation.projet_email).to eq('prenom.nom@site.com')
     end
   end

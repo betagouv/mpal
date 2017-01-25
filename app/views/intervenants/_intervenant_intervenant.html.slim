@@ -7,5 +7,4 @@
   - if intervenant != @utilisateur_courant
     .extra.content
       = form_tag(invitations_path(projet_id: projet.id, intervenant_id: intervenant.id), method: 'post', class:'ui form' ) do
-        = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
         = submit_tag t('projets.visualisation.mise_en_relation_intervenant'), class:'ui primary button'

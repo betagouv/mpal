@@ -4,63 +4,64 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "intervenant" do
-  let(:invitation) { FactoryGirl.create(:invitation) }
-  let(:projet) { invitation.projet }
-  let!(:operateur) { FactoryGirl.create(:intervenant, :operateur, departements: [ projet.departement ]) }
-  let(:mise_en_relation) { FactoryGirl.create(:mise_en_relation, projet: projet, intermediaire: invitation.intervenant) }
-  let!(:chaudiere_s) { FactoryGirl.create(:prestation, libelle: 'Chaudière', scenario: :souhaite, projet: projet) }
-  let!(:chaudiere_r) { FactoryGirl.create(:prestation, libelle: 'Chaudière', scenario: :retenu, projet: projet) }
-  let!(:production_ecs_r) { FactoryGirl.create(:prestation, libelle: 'Production ECS', scenario: :retenu, projet: projet) }
-  let!(:carrelage_s) { FactoryGirl.create(:prestation, libelle: 'Carrelage', scenario: :souhaite, projet: projet) }
-  let!(:chaudiere_p) { FactoryGirl.create(:prestation, libelle: 'Chaudière', scenario: :preconise, projet: projet) }
-  let!(:production_ecs_p) { FactoryGirl.create(:prestation, libelle: 'Production ECS', scenario: :preconise, projet: projet) }
+  let(:projet) {            create :projet, statut: :en_cours }
+  let!(:instructeur) {      create :intervenant, :instructeur, departements: [projet.departement] }
+  let!(:pris) {             create :intervenant, :pris,        departements: [projet.departement] }
+  let!(:operateur) {        create :intervenant, :operateur,   departements: [projet.departement] }
+  let!(:invitation) {       create :invitation, intervenant: operateur, projet: projet }
+  let(:mise_en_relation) {  create :mise_en_relation, projet: projet, intermediaire: invitation.intervenant }
+  let!(:chaudiere_s) {      create :prestation, libelle: 'Chaudière',      scenario: :souhaite,  projet: projet }
+  let!(:chaudiere_r) {      create :prestation, libelle: 'Chaudière',      scenario: :retenu,    projet: projet }
+  let!(:production_ecs_r) { create :prestation, libelle: 'Production ECS', scenario: :retenu,    projet: projet }
+  let!(:carrelage_s) {      create :prestation, libelle: 'Carrelage',      scenario: :souhaite,  projet: projet }
+  let!(:chaudiere_p) {      create :prestation, libelle: 'Chaudière',      scenario: :preconise, projet: projet }
+  let!(:production_ecs_p) { create :prestation, libelle: 'Production ECS', scenario: :preconise, projet: projet }
+  let!(:aide) {             create :aide, libelle: 'Subvention ANAH' }
+  let!(:subvention_anah) {  create :projet_aide, aide_id: aide.id, montant: 2305.10, projet: projet }
+  let(:agent_instructeur) { create :agent, intervenant: instructeur }
+  let(:agent_pris) {        create :agent, intervenant: pris }
+  let(:agent_operateur) {   create :agent, intervenant: operateur }
 
-  let!(:aide) { FactoryGirl.create(:aide, libelle:'Subvention ANAH') }
-  let!(:subvention_anah) { FactoryGirl.create(:projet_aide, aide_id: aide.id, montant: 2305.10, projet: projet) }
+  context "en tant que PRIS" do
+    before { login_as agent_pris, scope: :agent }
 
-  let!(:instructeur) { FactoryGirl.create(:intervenant, :instructeur, departements: [ projet.departement ]) }
-
-  scenario "visualisation d'un projet par un pris" do
-    pending
-    visit projet_path(invitation.projet, jeton: invitation.token)
-    expect(page).to have_content(projet.adresse)
-    click_link 'Intervenants'
-    within '.disponibles' do
-      expect(page).to have_content(operateur.raison_sociale)
+    scenario "visualisation d'un projet", pending: true do
+      visit dossier_path(invitation.projet)
+      expect(page).to have_content(projet.adresse)
+      click_link 'Intervenants'
+      within '.disponibles' do
+        expect(page).to have_content(operateur.raison_sociale)
+      end
     end
   end
 
-  context "en tant qu'operateur" do
-    projet = FactoryGirl.create(:projet)
-    operateur = FactoryGirl.create(:intervenant, :operateur)
-    invit = FactoryGirl.create(:invitation, projet: projet, intervenant: operateur)
-    projet.operateur = operateur
-    projet.statut = :en_cours
-    projet.save
+  context "en tant qu'opérateur" do
+    let(:document) { create :document, projet: projet }
+    before { login_as agent_operateur, scope: :agent }
 
-    scenario "visualisation de la demande de travaux par l'operateur" do
-      visit projet_path(projet, jeton: invit.token)
+    scenario "visualisation de la demande de travaux" do
+      visit dossier_path(projet)
       click_link I18n.t('projets.visualisation.remplir_le_projet')
       expect(page).to have_content("Remplacement d'une baignoire par une douche")
       expect(page).to have_content("Plâtrerie")
     end
 
     scenario "modification de la demande" do
-      visit projet_demande_path(projet, jeton: invit.token)
+      visit dossier_demande_path(projet)
       fill_in 'projet_surface_habitable', with: '42'
       click_on 'Enregistrer cette proposition'
-      expect(page.current_path).to eq(projet_path(projet))
+      expect(page.current_path).to eq(dossier_path(projet))
       expect(page).to have_content('42')
     end
 
-    scenario "visualisation de la demande de financement par l'operateur" do
-      visit projet_demande_path(projet, jeton: invit.token)
+    scenario "visualisation de la demande de financement" do
+      visit dossier_demande_path(projet)
       expect(page).to have_content('Plan de financement prévisionnel')
       expect(page).to have_content(aide.libelle)
     end
 
     scenario "upload d'un document", pending: true do
-      visit projet_demande_path(projet, jeton: invit.token)
+      visit dossier_demande_path(projet)
       attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
       fill_in 'label_document', with: 'Titre de propriété'
       click_button(I18n.t('projets.demande.action_depot_document'))
@@ -70,37 +71,37 @@ feature "intervenant" do
     end
 
     scenario "upload d'un document avec erreur", pending: true do
-      visit projet_demande_path(projet, jeton: invit.token)
+      visit dossier_demande_path(projet)
       attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
       click_button(I18n.t('projets.demande.action_depot_document'))
       expect(page).to have_content(I18n.t('projets.demande.messages.erreur_label_manquant'))
     end
 
-    # scenario "visualisation d'un document", pending: true do
-    #   document = FactoryGirl.create(:document, projet: projet)
-    #   visit projet_demande_path(projet, jeton: invit.token)
-    #   expect(page).to have_link(document.label, href: document.fichier_url)
-    # end
+    scenario "visualisation d'un document", pending: true do
+      visit dossier_demande_path(projet)
+      expect(page).to have_link(document.label, href: document.fichier_url)
+    end
   end
 
-  scenario "accès à un projet à partir du tableau de bord" do
-    projet_prospect = FactoryGirl.create(:projet, statut: :prospect)
-    projet_en_cours = FactoryGirl.create(:projet, statut: :en_cours)
-    invitation_prospect = FactoryGirl.create(:invitation, intervenant: operateur, projet: projet_prospect)
-    invitation_en_cours = FactoryGirl.create(:invitation, intervenant: operateur, projet: projet_en_cours)
+  context do
+    let!(:projet_prospect) {     create :projet, statut: :prospect }
+    let!(:invitation_prospect) { create :invitation, intervenant: operateur, projet: projet_prospect }
+    before { login_as agent_operateur, scope: :agent }
 
-    visit projets_path(jeton: invitation_prospect.token)
-    within "#projet_#{projet_prospect.id}" do
-      expect(page).to have_content(I18n.t("prospect", scope: "projets.statut"))
-      click_link projet_prospect.demandeur_principal
-      expect(page).to have_content(projet_prospect.demandeur_principal)
-    end
+    scenario "accès à un projet à partir du tableau de bord" do
+      visit dossiers_path
+      within "#projet_#{projet_prospect.id}" do
+        expect(page).to have_content(I18n.t("prospect", scope: "projets.statut"))
+        click_link projet_prospect.demandeur_principal
+        expect(page).to have_content(projet_prospect.demandeur_principal)
+      end
 
-    visit projets_path(jeton: invitation_prospect.token)
-    within "#projet_#{projet_en_cours.id}" do
-      expect(page).to have_content(I18n.t("en_cours", scope: "projets.statut"))
-      click_link projet_en_cours.demandeur_principal
-      expect(page).to have_content(projet_en_cours.demandeur_principal)
+      visit dossiers_path
+      within "#projet_#{projet.id}" do
+        expect(page).to have_content(I18n.t("en_cours", scope: "projets.statut"))
+        click_link projet.demandeur_principal
+        expect(page).to have_content(projet.demandeur_principal)
+      end
     end
   end
 end

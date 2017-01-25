@@ -1,4 +1,4 @@
-= form_for @projet_courant, html: { url: {id: @projet_courant.id, action: "update"}, class: "edition-demande" } do |f|
+= form_for @projet_courant, url: send("#{@dossier_ou_projet}_path", @projet_courant), html: { method: :put, class: "edition-demande" } do |f|
   section.content-projet
     article.block.projet-ope
       h3.is-open Projet proposé par l'opérateur

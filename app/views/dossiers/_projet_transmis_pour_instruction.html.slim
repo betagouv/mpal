@@ -1,0 +1,5 @@
+- content_for :cta do
+  - if current_agent && current_agent.instructeur?
+    = form_tag(dossier_dossiers_opal_path(dossier_id: @projet_courant.id), method: :post) do
+      = submit_tag t('projets.visualisation.creer_dossier_opal'), class: 'btn'
+= render 'projets/projet_transmis_pour_instruction'

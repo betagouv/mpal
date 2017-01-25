@@ -4,10 +4,10 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "L'opérateur visualise les informations syntéthiques concernant le projet dans le volet gauche de la vue projet" do
+  let(:projet) { create :projet }
 
   scenario "Les informations personnelles sont visibles " do
     signin(12, 15)
-    projet = Projet.last
     annee = 2015
     plafond = projet.preeligibilite(annee)
     visit projet_path(projet)

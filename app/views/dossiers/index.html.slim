@@ -1,7 +1,7 @@
 .main-content-block.dashboard-dossiers
   h2.heading= t('tableau_de_bord.titre_section')
-  - if @invitations.blank?
-    p  Aucun projet.
+  - if @dossiers.blank?
+    p Aucun dossier.
   - else
     table.table
       thead
@@ -12,11 +12,10 @@
           th Intervenant(s)
           th Numéro dossier Opal
       tbody
-        - @invitations.each do |invitation|
-          - projet = invitation.projet
+        - @dossiers.each do |projet|
           tr id="projet_#{projet.id}"
             td= t(projet.statut, scope: "projets.statut")
-            td= link_to projet.demandeur_principal.to_s, projet_path(projet, jeton: invitation.token)
+            td= link_to projet.demandeur_principal.to_s, dossier_path(projet)
             td= projet.adresse
             td= affiche_intervenants(projet)
             td= projet.opal_numero

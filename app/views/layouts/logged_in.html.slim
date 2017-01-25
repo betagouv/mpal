@@ -32,8 +32,6 @@
           - if agent?
             p.agent-connecte= "#{@utilisateur_courant} - #{@utilisateur_courant.intervenant}"
           = link_to t('sessions.lien_deconnexion'), {:controller => :sessions, :action => :deconnexion}, class: 'btn btn-logout'
-          - if @utilisateur_courant.is_a?(Intervenant) && @utilisateur_courant.instructeur?
-            = link_to t('projets.creation_opal.titre_creation_opal'), '#', class: 'btn btn-create-opal'
         /section.notification
           hr/
       section.main-content

@@ -8,6 +8,10 @@ class Agent < ActiveRecord::Base
   validates :nom, presence: true
   validates :prenom, presence: true
 
+  delegate :instructeur?, to: :intervenant
+  delegate :operateur?,   to: :intervenant
+  delegate :pris?,        to: :intervenant
+
   def cas_extra_attributes=(extra_attributes)
     extra_attributes.each do |cas_cle, valeur|
       case cas_cle.to_sym

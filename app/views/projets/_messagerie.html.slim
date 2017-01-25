@@ -23,8 +23,6 @@ article.block.messagerie
       p Il n’y a pas de message. Soyez le premier/la première à poser votre question.
       p Vous serez notifié par email dès qu’un nouveau message apparaîtra.
     = form_for [@projet_courant, @commentaire] do |f|
-      - if params[:jeton]
-        = hidden_field_tag :jeton, params[:jeton]
       = f.text_area :corps_message, class: 'chat-respond'
       = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "btn btn-message"
 

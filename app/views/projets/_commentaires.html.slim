@@ -18,7 +18,6 @@
 
   .formulaire-messages
   = form_for [@projet_courant, @commentaire], html: { class: "ui reply form" } do |f|
-    = hidden_field_tag :jeton, params[:jeton] if params[:jeton]
     .field
       = f.text_area :corps_message
     = f.submit t('projets.visualisation.lien_ajout_commentaire'), class: "button"

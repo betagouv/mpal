@@ -23,7 +23,7 @@ class InvitationsController < ApplicationController
     if @invitation.save
       ProjetMailer.mise_en_relation_intervenant(@invitation).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'mise_en_relation_intervenant', projet: @projet_courant, producteur: @invitation)
-      redirect_to projet_path(@projet_courant, jeton: params[:jeton]), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
+      redirect_to projet_path(@projet_courant), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else
       raise "error: #{@invitation.errors.full_messages}"
     end
@@ -50,7 +50,7 @@ class InvitationsController < ApplicationController
       ProjetMailer.notification_invitation_intervenant(@invitation).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: @projet_courant, producteur: @invitation)
       flash[:notice_titre] = t('invitations.messages.succes_titre')
-      redirect_to projet_path(@projet_courant, jeton: params[:jeton]), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
+      redirect_to projet_path(@projet_courant), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else
       render :new
     end

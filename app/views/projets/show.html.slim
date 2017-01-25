@@ -1,5 +1,5 @@
 section.content-projet
-  = render 'messagerie'
+  = render "projets/messagerie"
   article.block.occupants
     h3 Détails des occupants
     a.edit href="#"  Modifier
@@ -32,6 +32,6 @@ section.content-projet
             tr
               td= occupant
               td= occupant.date_de_naissance.year
-  = render "projet_envisage"
+  = render "projets/projet_envisage"
   - if @projet_courant.statut != "prospect"
-    = render "projet_#{@projet_courant.statut}_#{projet_suffix}"
+    = render "projet_#{@projet_courant.statut}"
