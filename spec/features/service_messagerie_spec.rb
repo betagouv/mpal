@@ -16,7 +16,10 @@ feature 'messagerie' do
       visit dossier_path(projet)
       fill_in :commentaire_corps_message, with: message
       click_button I18n.t('projets.visualisation.lien_ajout_commentaire')
-      expect(page).to have_content(message)
+      within ".chat-intervenant" do
+        expect(page).to have_content(operateur.raison_sociale)
+        expect(page).to have_content(message_operateur)
+      end
     end
   end
 end
