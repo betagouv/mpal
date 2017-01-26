@@ -2,6 +2,7 @@ require 'simplecov'
 SimpleCov.start 'rails'
 
 require 'capybara/rspec'
+require 'capybara-screenshot/rspec'
 require 'rspec/active_job'
 require 'support/factory_girl'
 require 'devise'
@@ -104,6 +105,10 @@ RSpec.configure do |config|
 
 # Capybara.default_max_wait_time = 600
 
+Capybara::Screenshot.prune_strategy = :keep_last_run
+# Make Capybara HTML snapshots of failed tests look better in a browser.
+# (cf. https://github.com/mattheworiordan/capybara-screenshot#better-looking-html-screenshots)
+Capybara.asset_host = 'http://localhost:3000'
 
 # config DatabaseCleaner v1
   config.include(RSpec::ActiveJob)
