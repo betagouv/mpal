@@ -65,9 +65,19 @@ class DemarrageProjetController < ApplicationController
   def projet_contacts_params
     # civilite n'est pas pris en compte
     params.require(:projet).permit(
-    :tel,
-    :email,
-    personne_de_confiance_attributes: [:id, :prenom, :nom, :tel, :email, :lien_avec_demandeur, :civilite, :disponibilite])
+      :tel,
+      :email,
+      personne_de_confiance_attributes: [
+        :id,
+        :prenom,
+        :nom,
+        :tel,
+        :email,
+        :lien_avec_demandeur,
+        :civilite,
+        :disponibilite
+      ]
+    )
   end
 
   def demandeur_principal_civilite_params
