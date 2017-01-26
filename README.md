@@ -51,6 +51,12 @@ rake db:seed
 foreman start
 ```
 
+## Lancer les tests
+
+```shell
+bin/rspec
+```
+
 # Notes
 
 Kanban Zenhub sur ce projet
