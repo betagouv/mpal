@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170111161653) do
+ActiveRecord::Schema.define(version: 20170126153412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -142,14 +142,12 @@ ActiveRecord::Schema.define(version: 20170111161653) do
   create_table "invitations", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "intervenant_id"
-    t.string  "token"
     t.integer "intermediaire_id"
   end
 
   add_index "invitations", ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree
   add_index "invitations", ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
   add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
-  add_index "invitations", ["token"], name: "index_invitations_on_token", using: :btree
 
   create_table "ntr_references", force: :cascade do |t|
     t.integer "opal_id"
