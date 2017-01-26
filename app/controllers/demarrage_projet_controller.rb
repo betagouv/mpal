@@ -9,13 +9,14 @@ class DemarrageProjetController < ApplicationController
       @occupants_a_charge << Occupant.new(nom: "Occupant #{index + nb_occupants + 1}")
     end
     @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
+    @action_label = if needs_etape2? then action_label_create else action_label_update end
   end
 
   def etape1_envoi_infos
     @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
     if @projet_courant.update_attributes(projet_contacts_params)
       @demandeur_principal.update_attributes(demandeur_principal_civilite_params)
-      redirect_to etape2_description_projet_path(@projet_courant)
+      etape1_redirect_to_next_step
     else
       render :etape1_recuperation_infos
     end
@@ -58,6 +59,7 @@ class DemarrageProjetController < ApplicationController
   end
 
   private
+
   def projet_demande
     @projet_courant.demande || @projet_courant.build_demande
   end
@@ -86,31 +88,48 @@ class DemarrageProjetController < ApplicationController
 
   def demande_params
     params.require(:demande).permit(
-    :changement_chauffage,
-    :froid,
-    :probleme_deplacement,
-    :accessibilite,
-    :hospitalisation,
-    :adaptation_salle_de_bain,
-    :autre,
-    :travaux_fenetres,
-    :travaux_isolation,
-    :travaux_chauffage,
-    :travaux_adaptation_sdb,
-    :travaux_monte_escalier,
-    :travaux_amenagement_ext,
-    :travaux_autres,
-    :complement,
-    :annee_construction,
-    :ptz,
-    :date_achevement_15_ans)
+      :changement_chauffage,
+      :froid,
+      :probleme_deplacement,
+      :accessibilite,
+      :hospitalisation,
+      :adaptation_salle_de_bain,
+      :autre,
+      :travaux_fenetres,
+      :travaux_isolation,
+      :travaux_chauffage,
+      :travaux_adaptation_sdb,
+      :travaux_monte_escalier,
+      :travaux_amenagement_ext,
+      :travaux_autres,
+      :complement,
+      :annee_construction,
+      :ptz,
+      :date_achevement_15_ans
+    )
   end
 
-  def etape2_valide?
-    result = false
-    demande_params.each_pair do |attribute,value|
-      result = result || value == "1"
+  def demande_params_valid?
+    demande_params.values.include?('1')
+  end
+
+  def needs_etape2?
+    @projet_courant.demande.blank? || @projet_courant.demande.complete? == false
+  end
+
+  def etape1_redirect_to_next_step
+    if needs_etape2?
+      redirect_to etape2_description_projet_path(@projet_courant)
+    else
+      redirect_to projet_path(@projet_courant)
     end
-    result
+  end
+
+  def action_label_create
+    t('demarrage_projet.action')
+  end
+
+  def action_label_update
+    t('projets.edition.action')
   end
 end
