@@ -4,7 +4,7 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "J'ai accès aux données concernant le demandeur et son logement" do
-  let(:projet) { FactoryGirl.create(:projet) }
+  let(:projet) { create(:projet, :with_invitation) }
 
   scenario "affichage du nom du demandeur principal" do
     signin(projet.numero_fiscal, projet.reference_avis)
@@ -20,18 +20,33 @@ feature "J'ai accès aux données concernant le demandeur et son logement" do
     expect(page).to have_content("Total Revenu Fiscal de Référence")
   end
 
-  scenario "correction de mon adresse", pending: true do
+  scenario "je peux modifier mon numéro de téléphone" do
     signin(projet.numero_fiscal, projet.reference_avis)
-    click_link I18n.t('projets.visualisation.lien_edition_projet', match: :first)
+    within 'article.occupants' do
+      click_link I18n.t('projets.visualisation.lien_edition')
+    end
+    fill_in :projet_tel, with: '01 10 20 30 40'
+    click_button I18n.t('projets.edition.action')
+    expect(page).to have_content('01 10 20 30 40')
+  end
+
+  scenario "je peux modifier mon adresse", pending: true do
+    # FIXME: l'adresse doit être décomposée en éléments individuels (rue, code postal, ville, etc.)
+    signin(projet.numero_fiscal, projet.reference_avis)
+    within 'article.occupants' do
+      click_link I18n.t('projets.visualisation.lien_edition')
+    end
     fill_in :projet_adresse, with: '12 rue de la mare, 75010 Paris'
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content('12 rue de la Mare, 75010 Paris')
   end
 
-  scenario "correction de l'année de construction de mon logement", pending: true do
+  scenario "je peux modifier l'année de construction de mon logement" do
     signin(projet.numero_fiscal, projet.reference_avis)
-    click_link I18n.t('projets.visualisation.lien_edition_projet')
-    fill_in :projet_annee_construction, with: '1950'
+    within 'article.projet' do
+      click_link I18n.t('projets.visualisation.lien_edition')
+    end
+    fill_in :demande_annee_construction, with: '1950'
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content(1950)
   end
