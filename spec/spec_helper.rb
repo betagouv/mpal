@@ -108,7 +108,7 @@ RSpec.configure do |config|
 Capybara::Screenshot.prune_strategy = :keep_last_run
 # Make Capybara HTML snapshots of failed tests look better in a browser.
 # (cf. https://github.com/mattheworiordan/capybara-screenshot#better-looking-html-screenshots)
-Capybara.asset_host = 'http://localhost:3000'
+Capybara.asset_host = "http#{ENV['USE_HTTPS'].to_bool && 's'}://#{ENV['DOMAIN']}"
 
 # config DatabaseCleaner v1
   config.include(RSpec::ActiveJob)
