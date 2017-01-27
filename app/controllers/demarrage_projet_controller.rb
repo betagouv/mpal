@@ -24,13 +24,14 @@ class DemarrageProjetController < ApplicationController
 
   def etape2_description_projet
     @demande = projet_demande
+    @action_label = if needs_etape3? then action_label_create else action_label_update end
   end
 
   def etape2_envoi_description_projet
     @projet_courant.demande = projet_demande
-    if etape2_valide?
+    if demande_params_valid?
       @projet_courant.demande.update_attributes(demande_params)
-      redirect_to etape3_choix_intervenant_path(@projet_courant)
+      etape2_redirect_to_next_step
     else
       redirect_to etape2_description_projet_path(@projet_courant), alert: t('demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire')
     end
@@ -54,6 +55,7 @@ class DemarrageProjetController < ApplicationController
       flash[:notice_titre] = t('invitations.messages.succes_titre')
       redirect_to projet_path(@projet_courant), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
     else
+      # FIXME: cette redirection semble invalide
       render :etape3_choix_operateur
     end
   end
@@ -117,9 +119,21 @@ class DemarrageProjetController < ApplicationController
     @projet_courant.demande.blank? || @projet_courant.demande.complete? == false
   end
 
+  def needs_etape3?
+    @projet_courant.invitations.blank?
+  end
+
   def etape1_redirect_to_next_step
     if needs_etape2?
       redirect_to etape2_description_projet_path(@projet_courant)
+    else
+      redirect_to projet_path(@projet_courant)
+    end
+  end
+
+  def etape2_redirect_to_next_step
+    if needs_etape3?
+      redirect_to etape3_choix_intervenant_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end

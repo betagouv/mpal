@@ -1,6 +1,6 @@
 article.block.projet
   h3 Projet envisagé
-  a.edit href="#"  Modifier
+  = link_to t('projets.visualisation.lien_edition'), etape2_description_projet_path(@projet_courant), class: 'edit'
   .content-block
     = affiche_demande_souhaitee(@projet_courant.demande)
     hr/
