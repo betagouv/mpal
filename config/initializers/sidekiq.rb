@@ -1,4 +1,4 @@
-unless ENV['SIDEKIQ_DISABLED'].to_bool
+unless "true" == ENV['SIDEKIQ_DISABLED']
   Sidekiq.configure_server do |config|
     config.redis = { url: (ENV["REDIS_URL"] || 'redis://redis:6379/0') , namespace: "sidekiq-#{Rails.env}" }
   end
