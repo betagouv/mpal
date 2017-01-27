@@ -15,7 +15,7 @@ feature "L'opérateur visualise les informations syntéthiques concernant le pro
         expect(page).to have_content(projet.demandeur_principal)
         expect(page).to have_content(projet.tel)
         expect(page).to have_content(projet.email)
-        expect(page).to have_content("Très Modeste")
+        expect(page).to have_content("très modeste")
         expect(page).to have_content(projet.nb_total_occupants)
       end
   end

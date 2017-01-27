@@ -9,13 +9,10 @@ Rails.application.routes.draw do
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
     resources :choix_intervenants, only: [:new, :create]
-    resources :transmissions,      only: [:create]
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       :demande
     get       :suivi
-    get       :proposer
-    get       :accepter
     post      :transfert_csv, to: 'transfert_csv#create'
   end
 
@@ -29,8 +26,13 @@ Rails.application.routes.draw do
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [:show, :edit, :update, :index], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
+      get  :affecter_agent
+      get  :proposer
     end
-    resources :projets, only: [:show, :edit, :update, :index], concerns: :projectable do
+
+    resources :projets, only: [:show, :edit, :update], concerns: :projectable do
+      resources :transmissions, only: [:create]
+      get  :accepter
     end
 
     get   '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos', as: 'etape1_recuperation_infos_demarrage_projet'
@@ -41,8 +43,6 @@ Rails.application.routes.draw do
 
     get   '/projets/:projet_id/choix_operateur', to: 'demarrage_projet#etape3_choix_intervenant', as: 'etape3_choix_intervenant'
     patch '/projets/:projet_id/choix_operateur', to: 'demarrage_projet#etape3_envoi_choix_intervenant'
-
-    get   '/projets/:projet_id/affecter_agent', to: 'projets#affecter_agent', as: 'affecter_agent'
 
     get   '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post  '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'

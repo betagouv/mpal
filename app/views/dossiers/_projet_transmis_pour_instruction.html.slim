@@ -1,5 +1,8 @@
-- content_for :cta do
-  - if current_agent && current_agent.instructeur?
-    = form_tag(dossier_dossiers_opal_path(dossier_id: @projet_courant.id), method: :post) do
-      = submit_tag t('projets.visualisation.creer_dossier_opal'), class: 'btn'
-= render 'projets/projet_transmis_pour_instruction'
+article.block.recap-projet
+  h3.is-open Projet retenu par le demandeur
+  .content-block
+    .invoice
+      = render 'projets/projet_invoice'
+      - if current_agent && current_agent.instructeur?
+        = form_for @projet_courant, url: dossier_dossiers_opal_path(dossier_id: @projet_courant.id), html: { method: :post } do |f|
+          = f.button t('projets.creation_opal.titre_creation_opal'), class: 'btn'

@@ -1,15 +1,3 @@
-article.block.projet
-  h3 Projet envisagé
-  a.edit href="#"  Modifier
-  .content-block
-    = affiche_demande_souhaitee(@projet_courant.demande)
-    hr/
-    h4 Organisme qui vous accompagne pour la suite de votre projet :
-    p
-      strong= @projet_courant.intervenants.first
-      br
-      br
-      | Vous pouvez à présent dialoguer avec cet intervenant par la messagerie. Vous serez informé par email pour chaque réponse de sa part.
 /! PROJET PROPOSE - vue demandeur 1er etape
 article.block.projet-ope
   h3 Projet proposé par l'opérateur

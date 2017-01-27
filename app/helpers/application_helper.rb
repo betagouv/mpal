@@ -142,12 +142,7 @@ module ApplicationHelper
   end
 
   def affiche_message_eligibilite(revenus)
-    liste_message = {
-      tres_modeste: 'Très Modeste',
-      modeste: 'Modeste',
-      plafond_depasse: 'Plafond dépassé'
-    }
-    liste_message[revenus.to_sym]
+    t("projets.composition_logement.calcul_preeligibilite.#{revenus}")
   end
 
   def bouton_modification_projet(projet)

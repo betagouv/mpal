@@ -140,6 +140,9 @@ fr:
       calcul_preeligibilite:
         calcul:
           action: "Je calcule la préeligibilité pour l'année %{annee}"
+        modeste: "modeste"
+        tres_modeste: "très modeste"
+        plafond_depasse: "plafond dépassé"
       edition:
         action: "Je mets à jour"
       messages:

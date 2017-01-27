@@ -13,7 +13,7 @@ feature "creer dossier dans opal" do
 
     scenario "je peux créer un dossier OPAL depuis la page projet" do
       visit dossier_path(projet)
-      click_button I18n.t('projets.visualisation.creer_dossier_opal')
+      click_button I18n.t('projets.creation_opal.titre_creation_opal')
       expect(page).to have_content(I18n.t("projets.creation_opal.messages.succes", id_opal: "09500840"))
 
       visit dossiers_path

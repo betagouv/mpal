@@ -1,3 +1,7 @@
-- content_for :cta do
-  = "La proposition est en cours d'acceptation par le demandeur"
-= render 'projet_proposition'
+article.block.projet-ope
+  h3.is-open Projet proposé
+  = link_to t('projets.visualisation.lien_edition'), dossier_demande_path(@projet_courant), class: "edit"
+  .content-block
+    .invoice
+      = render 'projets/projet_invoice'
+    p La proposition est en cours d'acceptation par le demandeur.

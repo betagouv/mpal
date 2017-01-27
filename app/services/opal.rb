@@ -66,6 +66,6 @@ class Opal
   end
 
   def recupere_com_code_insee(projet)
-    projet.code_insee[2,projet.code_insee.length]
+    projet.code_insee[2, projet.code_insee.length]
   end
 end

@@ -8,10 +8,10 @@ describe ApplicationHelper do
   it { expect(helper.icone_evenement('invitation_intervenant')).to eq ('plug')}
 
   it "renvoie le message correspondant au plafond de revenus" do
-    expect(helper.affiche_message_eligibilite('modeste')).to eq ('Modeste')
+    expect(helper.affiche_message_eligibilite('modeste')).to eq ('modeste')
   end
 
-  it { expect(helper.affiche_message_eligibilite('plafond_depasse')).to eq ('Plafond dépassé')}
+  it { expect(helper.affiche_message_eligibilite('plafond_depasse')).to eq ('plafond dépassé')}
 
   let(:projet) { FactoryGirl.build(:projet) }
 

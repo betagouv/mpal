@@ -1,7 +1,12 @@
 - content_for :content do
   .page-projet.clearfix
     aside.col-left
-      h1= image_tag "logo-anah-w.png", alt: "Agence Nationale de l’Habitat - ANAH", title: "Agence Nationale de l’Habitat - ANAH", class: "logo"
+      - logo_link = current_agent ? dossiers_path : root_path
+      = link_to dossiers_path, class: "logo-link" do
+        = image_tag "logo-anah-w.png", alt: "Agence Nationale de l’Habitat - ANAH", title: "Agence Nationale de l’Habitat - ANAH", class: "logo"
+      - if current_agent
+        section.agent-connecte
+          p= "#{current_agent} (#{current_agent.intervenant})"
       - if @projet_courant
         section.personal-information
           h2= @projet_courant.demandeur_principal
@@ -12,25 +17,21 @@
             li= @projet_courant.disponibilite
             li= "#{@projet_courant.nb_total_occupants} occupants"
             li
-              = "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
+              = "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"
               a.help href="#"
-                = image_tag "help.svg", alt: "Aide - Revenus dits #{calcul_preeligibilite(annee_fiscale_reference)}"
-        - if intervenant? || agent?
+                = image_tag "help.svg", alt: "Aide - Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"
+        - if current_agent
           section.affectation
             - if (agent = @projet_courant.agent)
               p= "Ce dossier est affecté à #{agent.prenom} #{agent.nom}"
             - else
               p Ce dossier n'est pas encore affecté.
-              - if @utilisateur_courant.is_a?(Agent)
-                p= link_to t('projets.visualisation.lien_affecter_agent'), affecter_agent_path(@projet_courant), class: 'btn btn-affecter-agent'
-              - else
-                p= link_to t('sessions.authentification_clavis_logged', clavis: 'Clavis'), new_agent_session_path, class: 'btn btn-simple'
+              - if current_agent.operateur?
+                p= link_to t('projets.visualisation.lien_affecter_agent'), dossier_affecter_agent_path(@projet_courant), class: 'btn btn-affecter-agent'
     .col-right
       header.project-header
         section.top-bar.clearfix
           h1.heading= @page_heading || "Bonjour"
-          - if agent?
-            p.agent-connecte= "#{@utilisateur_courant} - #{@utilisateur_courant.intervenant}"
           = link_to t('sessions.lien_deconnexion'), {:controller => :sessions, :action => :deconnexion}, class: 'btn btn-logout'
         /section.notification
           hr/

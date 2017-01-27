@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   layout 'logged_in'
 
   protect_from_forgery with: :exception
+  before_action :dossier_ou_projet
   before_action :set_projet
   before_action :authentifie
 
@@ -35,8 +36,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def dossier_ou_projet
+    @dossier_ou_projet = current_agent ? "dossier" : "projet"
+  end
+
   def set_projet
-    @dossier_ou_projet = "projet"
     projet_id = params[:dossier_id] || params[:projet_id] || params[:id]
     @projet_courant = Projet.find_by_id(projet_id) if projet_id
   end

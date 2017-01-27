@@ -38,10 +38,10 @@
             ul.ins-form
               li.radio
                 p.like-label Ce projet concerne-t-il la perte d'autonomie ou le handicap ?
-                = f.radio_button :handicap, true
-                = f.label :handicap, "Oui", value: "true"
-                = f.radio_button :handicap, false
-                = f.label :handicap, "Non", value: "false"
+                = f.radio_button :autonomie, true
+                = f.label :autonomie, "Oui", value: "true"
+                = f.radio_button :autonomie, false
+                = f.label :autonomie, "Non", value: "false"
               li
                 = f.label :niveau_gir, "Niveau GIR"
                 = f.text_field :niveau_gir

@@ -20,7 +20,7 @@ ul, ol {
   list-style: none;
   font-weight: normal;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
-  color: #56869a; }
+}
 
 html {
   font-size: 100%;
@@ -33,6 +33,7 @@ body {
   line-height: 1.231;
   position: relative;
   height: 100%;
+  color: #56869a;
 }
 
 a {
@@ -741,18 +742,31 @@ input:-ms-input-placeholder {
   margin: 0 auto;
   box-sizing: border-box;
 }
-  .page-projet .col-left {
-    position: absolute;
-    background: #56869a;
-    width: 27%;
-    height: calc(100% - 30px); }
-    .page-projet .col-left h1 {
-      text-align: center;
-      padding: 30px; }
-      .page-projet .col-left h1 img {
-        width: 100px;
-        height: auto;
-        display: inline-block; }
+.page-projet .col-left {
+  position: absolute;
+  background: #56869a;
+  color: white;
+  width: 27%;
+  height: calc(100% - 30px);
+  a {
+    color: white;
+  }
+  section {
+    padding: 0 20px;
+    margin-bottom: 20px;
+  }
+  .logo-link {
+    display: block;
+    width: 123px;
+    height: 96px;
+    margin: 30px auto;
+  }
+  .logo {
+    display: block;
+    width: 123px;
+    height: 96px;
+  }
+}
     .page-projet .col-left .personal-information {
       padding: 30px;
       background-color: #576f8c;

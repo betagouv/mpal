@@ -2,116 +2,41 @@ article.block.recap-projet
   h3.is-open Projet retenu par le demandeur
   .content-block
     .invoice
-      ul.demandeur-info
-        li
-          strong= @projet_courant.demandeur_principal
-        li= @projet_courant.tel
-        li= @projet_courant.adresse
-      - if @projet_courant.operateur
-        ul.operateur-info
-          li
-            strong= @projet_courant.operateur
-          li= @projet_courant.operateur.adresse_postale
-          li TOULOUSE
-      p.delegataire Délégataire : Conseil départemental de la Haute-Garonne
-      h4 Votre logement
-      ul.ctr-ope
-        li
-          = "Type de logement : "
-          span= @projet_courant.type_logement
-        li
-          = "Etage : "
-          span= @projet_courant.etage
-        li
-          = "Nombre de pièces : "
-          span= @projet_courant.nb_pieces
-        li
-          = "Année de construction : "
-          span= @projet_courant.annee_construction
-        li
-          = "Surface avant travaux : "
-          span= "#{@projet_courant.surface_habitable} m2" if @projet_courant.surface_habitable
-      h4 Votre évaluation
-      ul.ctr-ope
-        li
-          = "Note de dégradation : "
-          span= @projet_courant.note_degradation
-        li
-          = "Note d'insalubrité : "
-          span= @projet_courant.note_insalubrite
-        li
-          = "Ventilation adaptée : "
-          span= @projet_courant.ventilation_adaptee ? "Oui" : "Non"
-        li
-          = "Présence traces d'humidité : "
-          span= @projet_courant.presence_humidite ? "Oui" : "Non"
-        li
-          = "Autres remarques : "
-          span= @projet_courant.remarques_diagnostic
+      = render 'projets/projet_invoice'
 
-      h4 Travaux
-      table.recap-projet-table border="0" cellpadding="0" cellspacing="0" 
-        tbody
-          tr
-            th.empty scope="row"  &nbsp;
-            td Scérario 1
-          - @projet_courant.projet_prestations.preconise.each do |projet_prestation|
-            tr
-              th scope="row" #{projet_prestation.prestation.libelle}
-              td
-                = image_tag "check.svg", alt: "Pris en compte"
-          - if @projet_courant.gain_energetique
-            tr
-              th scope="row"  Gain energetique (%)
-              td= @projet_courant.gain_energetique
-          - @projet_courant.projet_aides.each do |projet_aide|
-            tr
-              th scope="row" #{projet_aide.aide.libelle} 
-              td= "#{projet_aide.montant} €"
-          tr
-            th scope="row" Reste à charge
-            td= "#{@projet_courant.reste_a_charge} €"
-      date= l(Time.now.to_date)
-      h4 Pièces jointes
-      - if @projet_courant.documents
-        ul.ctr-ope
-          - @projet_courant.documents.each do |document|
-            li
-              = link_to document.label, document.fichier_url, target: "_blank"
-      .div
-        h4 Engagements
-        br
-        strong J’atteste :
-        br
-        br
-        |  - de l’exactitude des informations renseignées dans la présente demande
-        br
-        |  - ne pas avoir commencé les travaux avant de valider la présente demande (article 5 du Règlement Général de l’Agence – RGA).
-        br
-        br
-        strong Je m’engage à :
-        br
-        br
-        | - faire réaliser les travaux par des entreprises du bâtiment ayant une activité déclarée en rapport avec les travaux effectués (pose et fourniture à la charge de ces derniers) (article 13 du RGA)
-        br
-        | - en justifier l’achèvement dans le délai de trois ans suivant la date de la décision d’octroi de la subvention, en présentant dans ce délai ma demande de paiement du solde de la subvention (articles 14 et 20 du RGA)
-        br
-        | - occuper le logement pendant une durée minimale de six ans (article 15 D du RGA)
-        br
-        | - en cas d’octroi de l’aide de solidarité écologique (ASE), fournir exclusivement à l’Anah, dont je reconnais le rôle actif et incitatif, l'ensemble des documents lui permettant de valoriser les certificats d’économie d’énergie - CEE (factures et attestations d'exclusivité de chaque entreprise ou professionnel ayant réalisé les travaux)
-        br
-        | - aviser l’Anah par écrit de toute modification qui pourrait être apportée au droit de propriété et aux conditions d’occupation du logement subventionné (pendant toute la durée de l’engagement d’occupation)
-        br
-        br
-        strong Je reconnais être informé(e) que :
-        br
-        br
-        | - l’Anah se réserve la possibilité d’effectuer des contrôles à tout moment (visite du logement subventionné, demande de pièces justificatives)
-        br
-        | - en cas de non-respect des engagements et de la règlementation en vigueur et en cas de fraude, l’aide attribuée est annulée et les sommes déjà perçues seront reversées avec majoration
-        br
-        | - toute fraude ou fausse déclaration expose également à des sanctions pécuniaires, à des sanctions administratives (interdiction de bénéficier d’une subvention pendant un délai pouvant atteindre cinq années), et à des poursuites judiciaires.
-        br
-        br
-      = form_tag(projet_transmissions_path(projet_id: @projet_courant.id), method: 'post', class:'ui form' ) do
+      h4 Engagements
+      br
+      strong J’atteste :
+      br
+      br
+      |  - de l’exactitude des informations renseignées dans la présente demande
+      br
+      |  - ne pas avoir commencé les travaux avant de valider la présente demande (article 5 du Règlement Général de l’Agence – RGA).
+      br
+      br
+      strong Je m’engage à :
+      br
+      br
+      | - faire réaliser les travaux par des entreprises du bâtiment ayant une activité déclarée en rapport avec les travaux effectués (pose et fourniture à la charge de ces derniers) (article 13 du RGA)
+      br
+      | - en justifier l’achèvement dans le délai de trois ans suivant la date de la décision d’octroi de la subvention, en présentant dans ce délai ma demande de paiement du solde de la subvention (articles 14 et 20 du RGA)
+      br
+      | - occuper le logement pendant une durée minimale de six ans (article 15 D du RGA)
+      br
+      | - en cas d’octroi de l’aide de solidarité écologique (ASE), fournir exclusivement à l’Anah, dont je reconnais le rôle actif et incitatif, l'ensemble des documents lui permettant de valoriser les certificats d’économie d’énergie - CEE (factures et attestations d'exclusivité de chaque entreprise ou professionnel ayant réalisé les travaux)
+      br
+      | - aviser l’Anah par écrit de toute modification qui pourrait être apportée au droit de propriété et aux conditions d’occupation du logement subventionné (pendant toute la durée de l’engagement d’occupation)
+      br
+      br
+      strong Je reconnais être informé(e) que :
+      br
+      br
+      | - l’Anah se réserve la possibilité d’effectuer des contrôles à tout moment (visite du logement subventionné, demande de pièces justificatives)
+      br
+      | - en cas de non-respect des engagements et de la règlementation en vigueur et en cas de fraude, l’aide attribuée est annulée et les sommes déjà perçues seront reversées avec majoration
+      br
+      | - toute fraude ou fausse déclaration expose également à des sanctions pécuniaires, à des sanctions administratives (interdiction de bénéficier d’une subvention pendant un délai pouvant atteindre cinq années), et à des poursuites judiciaires.
+      br
+      br
+      = form_tag(projet_transmissions_path(projet_id: @projet_courant.id), method: :post, class: 'ui form' ) do
         = submit_tag t('projets.transmissions.messages.envoi_demande'), class: 'btn'
