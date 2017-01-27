@@ -1,3 +1,11 @@
+# Ce modèle fait la jointure entre un projet et des intervenants.
+#
+# Il était essentiellement utile lorsque la connexion au système
+# se faisait par un jeton envoyé dans les emails.
+#
+# Aujourd'hui son usage est moins clair. Cela dit il pourrait être
+# utile de créer Invitation.role : un Intervenant peut avoir plusieurs
+# rôle, mais il serait bon de savoir pour quel rôle il a été invité.
 class Invitation < ActiveRecord::Base
 
   belongs_to :projet
