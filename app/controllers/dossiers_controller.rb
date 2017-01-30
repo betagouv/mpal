@@ -3,6 +3,7 @@ class DossiersController < ApplicationController
 
   skip_before_action :authentifie
   before_action :authenticate_agent!
+  skip_before_action :assert_projet_courant, only: [:index]
 
   def affecter_agent
     if @projet_courant.agent

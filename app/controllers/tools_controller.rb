@@ -1,4 +1,5 @@
 class ToolsController < ApplicationController
+  skip_before_action :assert_projet_courant
   skip_before_action :authentifie
 
   def reset_base

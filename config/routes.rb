@@ -18,22 +18,23 @@ Rails.application.routes.draw do
 
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
   root 'sessions#new'
-  namespace :api, path: '/api/v1/' do
-    resources :projets, only: :show do
-      resource :plan_financements, only: :create
-    end
+  namespace :api, path: '/api/v1/projets/:projet_id' do
+    get  '/', to: 'projets#show', as: 'projet'
+    post '/plan_financements', to: 'plans_financements#create', as: 'projet_plan_financements'
   end
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
-    resources :dossiers, only: [:show, :edit, :update, :index], concerns: :projectable do
+    resources :dossiers, only: [], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
       get  :affecter_agent
       get  :proposer
     end
+    resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
-    resources :projets, only: [:show, :edit, :update], concerns: :projectable do
+    resources :projets, only: [], concerns: :projectable do
       resources :transmissions, only: [:create]
       get  :accepter
     end
+    resources :projets, only: [:show, :edit, :update], param: :projet_id
 
     get   '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos', as: 'etape1_recuperation_infos_demarrage_projet'
     post  '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_envoi_infos'

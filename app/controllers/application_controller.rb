@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   before_action :dossier_ou_projet
-  before_action :set_projet
+  before_action :assert_projet_courant
   before_action :authentifie
 
   def authentifie_sans_redirection
@@ -40,8 +40,12 @@ class ApplicationController < ActionController::Base
     @dossier_ou_projet = current_agent ? "dossier" : "projet"
   end
 
-  def set_projet
-    projet_id = params[:dossier_id] || params[:projet_id] || params[:id]
+  def assert_projet_courant
+    projet_id = params[:dossier_id] || params[:projet_id]
     @projet_courant = Projet.find_by_id(projet_id) if projet_id
+    unless @projet_courant
+      return redirect_to root_path, alert: t('sessions.access_forbidden')
+    end
+    true
   end
 end

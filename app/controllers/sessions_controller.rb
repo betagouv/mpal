@@ -1,6 +1,7 @@
 class SessionsController < ApplicationController
   layout 'application'
 
+  skip_before_action :assert_projet_courant
   skip_before_action :authentifie
   before_action :authentifie_sans_redirection
 

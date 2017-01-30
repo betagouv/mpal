@@ -1,6 +1,7 @@
 class DossiersOpalController < ApplicationController
   before_action :authenticate_agent!
   before_action :check_agent_instructeur
+  before_action :assert_projet_courant
 
   def create
     unless Opal.new(OpalClient).creer_dossier(@projet_courant)

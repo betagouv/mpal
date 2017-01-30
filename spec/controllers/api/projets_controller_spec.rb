@@ -7,7 +7,7 @@ describe API::ProjetsController do
   let(:projet) { FactoryGirl.create(:projet) }
   before(:each) {
     set_token_header(token)
-    get :show, id: projet.id
+    get :show, projet_id: projet.id
   }
   context 'avec un jeton invalide' do
     let(:token) { 'fake' }
