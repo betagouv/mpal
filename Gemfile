@@ -16,33 +16,33 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
   gem 'byebug'
-  gem 'fakeweb'
-  gem 'factory_girl_rails'
   gem 'dotenv-rails'
+  gem 'factory_girl_rails'
+  gem 'fakeweb'
   gem 'simplecov', :require => false
 end
 
 group :development do
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
-  gem 'spring-commands-rspec'
   gem 'foreman'
   gem 'pry'
   gem 'pry-nav'
   gem 'quiet_assets'
   gem 'sextant'
+  gem 'spring'
+  gem 'spring-commands-rspec'
+  gem 'web-console', '~> 2.0'
 end
 
 group :test do
-  gem 'rspec-rails'
   gem 'capybara'
   gem 'capybara-screenshot'
-  gem 'launchy'
   gem 'database_cleaner'
-  gem 'shoulda-matchers'
-  gem 'rspec-activejob'
   gem 'guard'
   gem 'guard-rspec'
+  gem 'launchy'
+  gem 'rspec-activejob'
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
   gem 'terminal-notifier-guard'
 end
 
