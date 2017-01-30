@@ -9,14 +9,16 @@ article.block.projet
     - if operateur.present?
       p
         strong= operateur
+      - unless current_agent
         br
         br
-        | Vous pouvez à présent dialoguer avec cet intervenant par la messagerie. Vous serez informé par email pour chaque réponse de sa part.
-      - unless @projet_courant.operateur
-        = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn'
-    - else
-      p
-        strong Aucun
-        br
-        br
-      = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'
+        p Vous pouvez à présent dialoguer avec cet intervenant par la messagerie. Vous serez informé par email pour chaque réponse de sa part.
+        - unless @projet_courant.operateur
+          = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn'
+      - else
+        p
+          strong Aucun
+        - unless current_agent
+          br
+          br
+          = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'

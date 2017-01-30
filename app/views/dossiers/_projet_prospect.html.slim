@@ -4,7 +4,6 @@ article.block.projet-ope
   a.edit href="#"  Modifier
   .content-block
     p
-
     - if @projet_courant.intervenants.pour_role(:operateur).count > 0
       | N'oubliez pas de fixer un rendez-vous avec le demandeur
     - else
