@@ -1,6 +1,4 @@
 class ApiBan
-  DOMAIN = ENV['API_BAN_DOMAIN']
-
   def precise(adresse)
     return nil if adresse.empty?
     json_adresse = geocode(adresse)
@@ -28,7 +26,7 @@ class ApiBan
   private
 
   def uri(adresse)
-    URI.escape "http://#{DOMAIN}/search/?q=#{adresse}"
+    URI.escape "http://#{ENV['API_BAN_DOMAIN']}/search/?q=#{adresse}"
   end
 
   def logger

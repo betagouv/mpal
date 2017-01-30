@@ -1,7 +1,4 @@
 class ApiParticulier
-  HEADERS = { 'X-API-KEY' => ENV['API_PARTICULIER_KEY'], 'accept' => "application/json" }
-  DOMAIN = ENV['API_PARTICULIER_DOMAIN']
-
   def retrouve_contribuable(numero_fiscal, reference_avis)
     key = cache_key(numero_fiscal, reference_avis)
     json = Rails.cache.read(key)
@@ -23,14 +20,14 @@ class ApiParticulier
     api_uri = uri(numero_fiscal, reference_avis)
 
     logger.debug "Started Api-Particuliers request \"#{api_uri}\""
-    response = HTTParty.get(api_uri, headers: HEADERS)
+    response = HTTParty.get(api_uri, headers: { 'X-API-KEY' => ENV['API_PARTICULIER_KEY'], 'accept' => "application/json" })
     logger.debug "Completed Api-Particuliers request (#{response.code})"
 
     response.code == 200 ? JSON.parse(response.body) : nil
   end
 
   def uri(numero_fiscal, reference_avis)
-    "https://#{DOMAIN}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}"
+    "https://#{ENV['API_PARTICULIER_DOMAIN']}/api/impots/svair?numeroFiscal=#{numero_fiscal}&referenceAvis=#{reference_avis}"
   end
 
   def cache_key(numero_fiscal, reference_avis)
