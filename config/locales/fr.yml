@@ -189,7 +189,8 @@ fr:
       mise_en_relation_intervenant: "Je mets en relation"
       choisir_intervenant: "Je choisis cet opérateur"
       s_engager_avec_operateur: "S’engager avec cet opérateur"
-      remplir_le_projet: 'Remplir le projet'
+      affecter_et_remplir_le_projet: "Je m'affecte et je remplis le projet"
+      remplir_le_projet: "Je remplis le projet"
       modifier_liste_occupant: "Modifier le nombre d'occupant à charge"
       lien_ajout_occupant: "J'ajoute un occupant"
       titre_infos_demandeur: "Mes infos"
@@ -200,7 +201,8 @@ fr:
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
       lien_ajout_commentaire: 'Envoyer un message'
-      lien_affecter_agent: "Je m'affecte ce dossier"
+      lien_affecter_agent: "Je m'affecte ce projet"
+      projet_affecte: "Ce projet vous est maintenant affecté"
       message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
       titre_section_composition:
         one: " 1 occupant"

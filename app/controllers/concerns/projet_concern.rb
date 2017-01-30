@@ -16,6 +16,11 @@ module ProjetConcern
       if @projet_courant.prospect?
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), alert: t('sessions.access_forbidden')
       end
+      if !@projet_courant.agent && current_agent
+        if @projet_courant.update_attribute(:agent, current_agent)
+          flash[:notice] = t('projets.visualisation.projet_affecte')
+        end
+      end
       @projet_courant.documents.build(label: "Evaluation énergétique")
       @projet_courant.documents.build(label: "Decision CDAPH ou GIR")
       @projet_courant.documents.build(label: "Rapport d'ergotherpeute ou diagnostic autonomie")

@@ -1,10 +1,14 @@
 /! PROJET PROPOSE - vue operateur 1er etape
 article.block.projet-ope
   h3 Projet proposé
-  a.edit href="#"  Modifier
+  /a.edit href="#"  Modifier
   .content-block
     p
       | Suite à votre visite chez le demandeur, veuillez remplir le projet que vous lui recommandez.
       br
       | Une fois les informations remplies, vous pourrez proposer effectivement ce projet au demandeur.
-    = link_to t('projets.visualisation.remplir_le_projet'), dossier_demande_path(@projet_courant), class: 'btn pen'
+    - if @projet_courant.agent
+      = link_to t('projets.visualisation.remplir_le_projet'), dossier_demande_path(@projet_courant), class: 'btn pen'
+    - else
+      = link_to t('projets.visualisation.affecter_et_remplir_le_projet'), dossier_demande_path(@projet_courant), class: 'btn pen'
+      = link_to t('projets.visualisation.lien_affecter_agent'), dossier_affecter_agent_path(@projet_courant), class: 'btn btn-affecter_agent'
