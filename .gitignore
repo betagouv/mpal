@@ -26,6 +26,8 @@
 /.ruby-gemset
 /doc
 .env
+.env.local
+.env.production
 #fichiers générés par rubymine
 .idea/
 /config/database.yml
@@ -37,4 +39,3 @@ dump.rdb
 
 # Couverture de tests
 coverage
-
