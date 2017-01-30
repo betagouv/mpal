@@ -3,7 +3,7 @@
 #
 # This protects against out-to-date environment leading to runtime errors.
 
-if ENV['RAILS_ENV'] != 'test'
+if ENV['RAILS_ENV'] != 'test' && File.basename($0) != 'rake'
   REFERENCE_ENV_FILE = File.join(Rails.root, '.env.sample')
 
   File.foreach(REFERENCE_ENV_FILE).with_index { |line, line_num|
