@@ -41,7 +41,7 @@ feature "intervenant" do
 
     scenario "visualisation de la demande de travaux" do
       visit dossier_path(projet)
-      click_link I18n.t('projets.visualisation.remplir_le_projet')
+      click_link I18n.t('projets.visualisation.affecter_et_remplir_le_projet')
       expect(page).to have_content("Remplacement d'une baignoire par une douche")
       expect(page).to have_content("Plâtrerie")
     end
