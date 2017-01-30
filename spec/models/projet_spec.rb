@@ -16,6 +16,29 @@ describe Projet do
     it { is_expected.to belong_to :operateur }
   end
 
+  describe '#for_agent' do
+    context "en tant qu'operateur" do
+      let(:instructeur) {       create :intervenant, :instructeur }
+      let(:operateur1) {        create :intervenant, :operateur }
+      let(:operateur2) {        create :intervenant, :operateur }
+      let(:operateur3) {        create :intervenant, :operateur }
+      let(:agent_instructeur) { create :agent, intervenant: instructeur }
+      let(:agent_operateur1) {  create :agent, intervenant: operateur1 }
+      let(:agent_operateur2) {  create :agent, intervenant: operateur2 }
+      let(:agent_operateur3) {  create :agent, intervenant: operateur3 }
+      let(:projet1) {           create :projet }
+      let(:projet2) {           create :projet }
+      let(:projet3) {           create :projet }
+      let!(:invitation1) {       create :invitation, intervenant: operateur1, projet: projet1 }
+      let!(:invitation2) {       create :invitation, intervenant: operateur1, projet: projet2 }
+      let!(:invitation3) {       create :invitation, intervenant: operateur2, projet: projet3 }
+      it { expect(Projet.for_agent(agent_operateur1).length).to eq(2) }
+      it { expect(Projet.for_agent(agent_operateur2).length).to eq(1) }
+      it { expect(Projet.for_agent(agent_operateur3).length).to eq(0) }
+      it { expect(Projet.for_agent(agent_instructeur).length).to eq(3) }
+    end
+  end
+
   describe '#nb_occupants_a_charge' do
     let(:projet) { create :projet, nb_occupants_a_charge: 3 }
     let!(:occupant_2) { create :occupant, projet: projet }

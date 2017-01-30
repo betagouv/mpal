@@ -29,7 +29,7 @@ class Projet < ActiveRecord::Base
 
   scope :for_agent, ->(agent) {
     next where(nil) if agent.instructeur?
-    joins(:intervenants).where('intervenants.id' == agent.id)
+    joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
   }
 
   def numero_plateforme
