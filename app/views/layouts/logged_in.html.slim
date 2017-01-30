@@ -1,8 +1,8 @@
 - content_for :content do
   .page-projet.clearfix
     aside.col-left
-      - logo_link = current_agent ? dossiers_path : root_path
-      = link_to dossiers_path, class: "logo-link" do
+      - logo_path = current_agent ? dossiers_path : root_path
+      = link_to logo_path, class: "logo-link" do
         = image_tag "logo-anah-w.png", alt: "Agence Nationale de l’Habitat - ANAH", title: "Agence Nationale de l’Habitat - ANAH", class: "logo"
       - if current_agent
         section.agent-connecte
