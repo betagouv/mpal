@@ -1,7 +1,5 @@
 require 'rails_helper'
 require 'support/mpal_helper'
-require 'support/api_particulier_helper'
-require 'support/api_ban_helper'
 
 feature "En tant que demandeur, j'ai accès aux données concernant mon projet" do
   let(:projet) { create(:projet, :with_intervenants, :with_invited_operateur) }
@@ -55,26 +53,6 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content(1950)
     # TODO: tester la modification des travaux demandés
-  end
-
-  scenario "je peux changer d'opérateur" do
-    signin(projet.numero_fiscal, projet.reference_avis)
-    click_link I18n.t('projets.visualisation.changer_intervenant')
-
-    expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.section_eligibilite'))
-    expect(page).to have_selector('.choose-operator.pris')
-    expect(page).to have_selector('.choose-operator.intervenant')
-    expect(page).to have_selector("#intervenant_#{projet.invited_operateur.id}[checked]")
-
-    previous_operateur = projet.invited_operateur
-    new_operateur = projet.intervenants_disponibles(role: :operateur).first
-
-    choose new_operateur.raison_sociale
-    check I18n.t('agrements.autorisation_acces_donnees_intervenants')
-    click_button I18n.t('projets.edition.action')
-
-    expect(page).to have_content(new_operateur.raison_sociale)
-    expect(page).not_to have_content(previous_operateur.raison_sociale)
   end
 
   scenario "s'engage auprès d'un opérateur qui a été consulté" do
