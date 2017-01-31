@@ -15,6 +15,7 @@
 /log/*
 !/log/.keep
 /tmp
+.byebug_history
 
 # Ignore vi tempfiles
 .*swp
@@ -28,7 +29,7 @@
 .env
 .env.local
 .env.production
-#fichiers générés par rubymine
+# Fichiers générés par rubymine
 .idea/
 /config/database.yml
 
