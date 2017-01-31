@@ -41,11 +41,9 @@ feature "Réinitialisation de la session" do
 
   context "en tant qu'intervenant" do
     before { login_as agent_operateur, scope: :agent }
-    scenario "je peux me déconnecter" do
+    scenario "j'ai un bouton pour me déconnecter" do
       visit dossier_path(invitation.projet)
       expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
-      click_link I18n.t('sessions.lien_deconnexion')
-      expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion'))
     end
   end
 end
