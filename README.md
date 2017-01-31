@@ -57,6 +57,19 @@ foreman start
 bin/rspec
 ```
 
+# Déployer
+
+## Sur l'environnement de TEST
+
+- Se placer localement sur la branche `dev`
+- Lancer `git push`
+
+## Sur l'environnement de DEMO
+
+- Se placer localement sur la branche `master`
+- Lancer `git push`
+
+
 # Notes
 
 Kanban Zenhub sur ce projet
