@@ -1,0 +1,25 @@
+article.block.projet
+  h3 Projet envisagé
+  = link_to t('projets.visualisation.lien_edition'), etape2_description_projet_path(@projet_courant), class: 'edit'
+  .content-block
+    - if @projet_courant.demande.blank?
+      p Le demandeur n'a pas encore rempli le projet.
+    - else
+      = affiche_demande_souhaitee(@projet_courant.demande)
+      hr/
+      h4 Organisme choisi pour accompagner le projet :
+      - operateur = @projet_courant.intervenants.pour_role(:operateur).first
+      - if operateur.present?
+        p
+          strong= operateur
+        - unless current_agent
+          br
+          br
+          | Vous pouvez à présent dialoguer avec le demandeur par la messagerie. Vous serez informé par email pour chaque réponse de sa part.
+      - else
+        p
+          strong Aucun
+        - unless current_agent
+          br
+          br
+        = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'

@@ -32,6 +32,6 @@ section.content-projet
             tr
               td= occupant
               td= occupant.date_de_naissance.year
-  = render "projets/projet_envisage"
+  = render "projet_envisage"
   - if @projet_courant.statut != "prospect"
     = render "projet_#{@projet_courant.statut}"
