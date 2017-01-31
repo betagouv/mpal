@@ -227,6 +227,9 @@ input:-ms-input-placeholder {
     border-color: #4cae4c;
   }
 }
+.btn-edit {
+  background-image: image-url("edit-white.svg");
+}
 .btn-create-opal {
   background-image: image-url("add-user.svg");
 }
@@ -859,12 +862,6 @@ input:-ms-input-placeholder {
     .page-projet .col-right .content-projet {
       position: relative;
     }
-      .page-projet .col-right .content-projet .btn {
-        position: absolute;
-        top: 7px;
-        right: 7px;
-        font-weight: 400;
-      }
       .page-projet .col-right .content-projet .edit {
         position: absolute;
         background: image-url("edit.svg") 100% 0 no-repeat;
@@ -914,9 +911,8 @@ input:-ms-input-placeholder {
             display: table;
             clear: both; }
           .page-projet .col-right .content-projet .block .content-block .btn {
-            position: static;
             float: right;
-            margin: 10px 0 0 10px;
+            margin: 10px 0 0 30px;
           }
           .page-projet .col-right .content-projet .block .content-block .btn-message {
             background-image: image-url("message.svg");

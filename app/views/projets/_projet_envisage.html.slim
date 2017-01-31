@@ -18,13 +18,15 @@ article.block.projet
         - unless current_agent
           br
           br
-          p Vous pouvez à présent dialoguer avec cet intervenant par la messagerie. Vous serez informé par email pour chaque réponse de sa part.
-          - unless @projet_courant.operateur
-            = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn'
-        - else
-          p
-            strong Aucun
-          - unless current_agent
-            br
-            br
-            = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'
+          | Vous pouvez à présent dialoguer avec cet intervenant par la messagerie. Vous serez informé par email pour chaque réponse de sa part.
+        - if @projet_courant.can_validate_operateur?
+          = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn'
+        - if @projet_courant.can_switch_operateur?
+          = link_to t('projets.visualisation.changer_intervenant'), etape3_choix_intervenant_path(@projet_courant), class: 'btn btn-edit'
+      - else
+        p
+          strong Aucun
+        - unless current_agent
+          br
+          br
+        = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'

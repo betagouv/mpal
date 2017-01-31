@@ -188,6 +188,7 @@ fr:
       invitation_relance_intervenant: "Je relance l'intervenant"
       mise_en_relation_intervenant: "Je mets en relation"
       choisir_intervenant: "Je choisis cet opérateur"
+      changer_intervenant: "Changer d’opérateur"
       s_engager_avec_operateur: "S’engager avec cet opérateur"
       affecter_et_remplir_le_projet: "Je m'affecte et je remplis le projet"
       remplir_le_projet: "Je remplis le projet"

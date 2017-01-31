@@ -13,6 +13,11 @@ class ProjetMailer < ActionMailer::Base
     mail(to: invitation.projet_email, subject: t('mailers.projet_mailer.notification_invitation_intervenant.sujet', intervenant: @invitation.intervenant.to_s))
   end
 
+  def resiliation_intervenant(invitation)
+    @invitation = invitation
+    mail(to: invitation.intervenant_email, subject: t('mailers.projet_mailer.resiliation_intervenant.sujet', intervenant: @invitation.intervenant.to_s))
+  end
+
   def notification_choix_intervenant(projet)
     @projet = projet
     @invitation = @projet.invitations.find_by_intervenant_id(projet.operateur_id)

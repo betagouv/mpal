@@ -4,7 +4,7 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "J'ai accès aux données concernant le demandeur et son logement" do
-  let(:projet) { create(:projet, :with_invitation) }
+  let(:projet) { create(:projet, :with_intervenants, :with_invited_operateur) }
 
   scenario "affichage du nom du demandeur principal" do
     signin(projet.numero_fiscal, projet.reference_avis)
@@ -57,6 +57,26 @@ feature "J'ai accès aux données concernant le demandeur et son logement" do
     fill_in :projet_email, with: "lolo"
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
+  end
+
+  scenario "je peux changer d'opérateur" do
+    signin(projet.numero_fiscal, projet.reference_avis)
+    click_link I18n.t('projets.visualisation.changer_intervenant')
+
+    expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.section_eligibilite'))
+    expect(page).to have_selector('.choose-operator.pris')
+    expect(page).to have_selector('.choose-operator.intervenant')
+    expect(page).to have_selector("#intervenant_#{projet.invited_operateur.id}[checked]")
+
+    previous_operateur = projet.invited_operateur
+    new_operateur = projet.intervenants_disponibles(role: :operateur).first
+
+    choose new_operateur.raison_sociale
+    check I18n.t('agrements.autorisation_acces_donnees_intervenants')
+    click_button I18n.t('projets.edition.action')
+
+    expect(page).to have_content(new_operateur.raison_sociale)
+    expect(page).not_to have_content(previous_operateur.raison_sociale)
   end
 
   scenario "s'engage auprès d'un opérateur qui a été consulté" do

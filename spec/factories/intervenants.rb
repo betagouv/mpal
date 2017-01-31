@@ -2,6 +2,8 @@ FactoryGirl.define do
   factory :intervenant do
     sequence(:raison_sociale) {|n| "Intervenant#{n}" }
     email 'contact@urbanos.com'
+    departements ['75']
+
     trait :operateur do
       sequence(:raison_sociale) {|n| "Operateur#{n}" }
       roles ['operateur']

@@ -80,6 +80,42 @@ describe Projet do
     it { expect(projet.numero_plateforme).to eq("42_1234") }
   end
 
+  describe "invite_intervenant!" do
+    context "sans intervenant invité au préalable" do
+      let(:projet)    { create :projet }
+      let(:operateur) { create :intervenant, :operateur }
+
+      it "sélectionne et notifie l'intervenant" do
+        expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+        projet.invite_intervenant!(operateur)
+        expect(projet.invitations.count).to eq(1)
+        expect(projet.invited_operateur).to eq(operateur)
+      end
+    end
+
+    context "avec un opérateur invité auparavant" do
+      let(:projet)             { create :projet, :with_invited_operateur }
+      let(:previous_operateur) { projet.invited_operateur }
+      let(:new_operateur)      { create :intervenant, :operateur }
+
+      it "sélectionne le nouvel opérateur, et notifie l'ancien opérateur" do
+        expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+        expect(ProjetMailer).to receive(:resiliation_intervenant).and_call_original
+        projet.invite_intervenant!(new_operateur)
+        expect(projet.invitations.count).to eq(1)
+        expect(projet.invited_operateur).to eq(new_operateur)
+      end
+    end
+
+    # context "avec un PRIS invité auparavant", pending: true do
+    #   let(:projet) { create :projet, :with_invited_operateur }
+    #
+    #   it "sélectionne le nouvel intervenant, et notifie le PRIS" do
+    #     # TODO
+    #   end
+    # end
+  end
+
   describe "#transmettre!" do
     context "with valid call" do
       let(:projet) { create :projet }

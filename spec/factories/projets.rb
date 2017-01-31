@@ -15,9 +15,18 @@ FactoryGirl.define do
       create(:demande, projet: projet)
     end
 
-    trait :with_invitation do
+    trait :with_intervenants do
       after(:create) do |projet, evaluator|
-        create(:invitation, projet: projet, intervenant: create(:intervenant, :operateur))
+        create(:intervenant, :operateur,   departements: [projet.departement])
+        create(:intervenant, :pris,        departements: [projet.departement])
+        create(:intervenant, :instructeur, departements: [projet.departement])
+      end
+    end
+
+    trait :with_invited_operateur do
+      after(:create) do |projet, evaluator|
+        operateur = create(:intervenant, :operateur, departements: [projet.departement])
+        create(:invitation, projet: projet, intervenant: operateur)
       end
     end
   end

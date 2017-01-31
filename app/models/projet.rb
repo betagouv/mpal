@@ -44,6 +44,18 @@ class Projet < ActiveRecord::Base
     Intervenant.pour_departement(departement).pour_role(role) - intervenants
   end
 
+  def invited_operateur
+    intervenants.pour_role(:operateur).first
+  end
+
+  def can_switch_operateur?
+    invited_operateur.present? && operateur.blank?
+  end
+
+  def can_validate_operateur?
+    invited_operateur.present? && operateur.blank?
+  end
+
   def demandeur_principal
     occupants.where(demandeur: true).first
   end
@@ -86,6 +98,22 @@ class Projet < ActiveRecord::Base
 
   def preeligibilite(annee_revenus)
     Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee_revenus), self.departement, self.nb_total_occupants)
+  end
+
+  def invite_intervenant!(intervenant)
+    previous_operateur = invited_operateur
+
+    invitation = Invitation.new(projet: self, intervenant: intervenant)
+    invitation.save!
+    ProjetMailer.invitation_intervenant(invitation).deliver_later!
+    ProjetMailer.notification_invitation_intervenant(invitation).deliver_later!
+    EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
+
+    if previous_operateur
+      previous_invitation = invitations.where(intervenant: previous_operateur).first
+      ProjetMailer.resiliation_intervenant(previous_invitation).deliver_later!
+      previous_invitation.destroy!
+    end
   end
 
   def transmettre!(instructeur)

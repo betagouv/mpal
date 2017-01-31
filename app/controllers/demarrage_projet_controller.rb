@@ -39,24 +39,27 @@ class DemarrageProjetController < ApplicationController
 
   def etape3_choix_intervenant
     @demande = projet_demande
+    @is_updating = @projet_courant.intervenants.present?
+    @action_label = if @is_updating then action_label_update else action_label_create end
+    @operateur = @projet_courant.invited_operateur
     if @projet_courant.prospect?
       @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
       @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
     end
+    if @is_updating && @operateur.present?
+      @operateurs_disponibles << @operateur
+    end
   end
 
   def etape3_envoi_choix_intervenant
-    @intervenant = Intervenant.find(params[:intervenant_id])
-    @invitation = Invitation.new(projet: @projet_courant, intervenant: @intervenant)
-    if @invitation.save
-      ProjetMailer.invitation_intervenant(@invitation).deliver_later!
-      ProjetMailer.notification_invitation_intervenant(@invitation).deliver_later!
-      EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: @projet_courant, producteur: @invitation)
+    begin
+      intervenant = Intervenant.find(params[:intervenant])
+      @projet_courant.invite_intervenant!(intervenant)
       flash[:notice_titre] = t('invitations.messages.succes_titre')
-      redirect_to projet_path(@projet_courant), notice: t('invitations.messages.succes', intervenant: @intervenant.raison_sociale)
-    else
-      # FIXME: cette redirection semble invalide
-      render :etape3_choix_operateur
+      redirect_to projet_path(@projet_courant), notice: t('invitations.messages.succes', intervenant: intervenant.raison_sociale)
+    rescue => e
+      logger.error e.message
+      redirect_to etape3_choix_intervenant_path(@projet_courant), alert: "Une erreur s'est produite lors de l'enregistrement de l'intervenant."
     end
   end
 
@@ -116,11 +119,11 @@ class DemarrageProjetController < ApplicationController
   end
 
   def needs_etape2?
-    @projet_courant.demande.blank? || @projet_courant.demande.complete? == false
+    @projet_courant.demande.blank? || ! @projet_courant.demande.complete?
   end
 
   def needs_etape3?
-    @projet_courant.invitations.blank?
+    @projet_courant.invited_operateur.blank?
   end
 
   def etape1_redirect_to_next_step

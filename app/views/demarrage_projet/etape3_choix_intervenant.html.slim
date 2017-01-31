@@ -1,17 +1,18 @@
 = form_for @demande, url: {controller: 'demarrage_projet', action: 'etape3_envoi_choix_intervenant'}, method: 'patch', html: { class:'ui form'}  do |f|
   /! Eligibilite
-  section.eligibilite
-    h2 = t('demarrage_projet.etape3_choix_intervenant.section_eligibilite')
-    p.chapo
-      | D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies.
-      br/
-      br/
-      | Nous vous invitons à vous rapprocher du (ou des) intervenant(s) suivant(s)
-      abbr title=("Point Rénovation Info Service")  PRIS
-      |  ou
-      abbr title=("Opérateur")  opérateur
-      |  pour poursuivre votre démarche.
-  /! Eligibilite
+  - unless @is_updating
+    section.eligibilite
+      h2 = t('demarrage_projet.etape3_choix_intervenant.section_eligibilite')
+      p.chapo
+        | D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies.
+        br/
+        br/
+        | Nous vous invitons à vous rapprocher du (ou des) intervenant(s) suivant(s)
+        abbr title=("Point Rénovation Info Service")  PRIS
+        |  ou
+        abbr title=("Opérateur")  opérateur
+        |  pour poursuivre votre démarche.
+  /! Intervenant
   section.intervenant
     h2 = t('demarrage_projet.etape3_choix_intervenant.section_intervenants')
     p.chapo
@@ -25,24 +26,26 @@
       br/
       | Selon le secteur dans lequel le logement à rénover se situe, cette prestation d’accompagnement est payante ou gratuite. Si elle est payante, l’Anah peut vous attribuer en complément de l’aide aux travaux une aide correspondant totalement ou partiellement au montant de la prestation d’accompagnement.
     hr/
-    p.chapo
-      strong Je souhaite me renseigner gratuitement, je choisis de prendre contact avec :
-    div.choose-operator
-      - @pris_departement.each do |pris|
-        input type="radio" id="intervenant_#{pris.id}" name="intervenant_id" value="#{pris.id}"
-        label for="intervenant_#{pris.id}"
-          h3 Centre Information
-          p= pris
-          div.btn= t('projets.visualisation.invitation_intervenant')
-    p.chapo
-      strong Je souhaite déposer une demande d’aide à l’Anah, je prends contact avec l’opérateur suivant :
-    div.choose-operator
-      - @operateurs_disponibles.each do |operateur|
-        input type="radio" id="intervenant_#{operateur.id}" name="intervenant_id" value="#{operateur.id}"
-        label for="intervenant_#{operateur.id}"
-          h3= operateur
-          p= operateur.adresse_postale
-          div.btn= t('projets.visualisation.invitation_intervenant')
+    - if @pris_departement.present?
+      p.chapo
+        strong Je souhaite me renseigner gratuitement, je choisis de prendre contact avec :
+      div.choose-operator.pris
+        - @pris_departement.each do |pris|
+          = radio_button_tag :intervenant, pris.id, pris.id == @operateur.try(:id)
+          label for="intervenant_#{pris.id}"
+            h3 Centre Information
+            p= pris
+            div.btn= t('projets.visualisation.invitation_intervenant')
+    - if @operateurs_disponibles.present?
+      p.chapo
+        strong Je souhaite déposer une demande d’aide à l’Anah, je prends contact avec l’opérateur suivant :
+      div.choose-operator.intervenant
+        - @operateurs_disponibles.each do |operateur|
+          = radio_button_tag :intervenant, operateur.id, operateur.id == @operateur.try(:id)
+          label for="intervenant_#{operateur.id}"
+            h3= operateur
+            p= operateur.adresse_postale
+            div.btn= t('projets.visualisation.invitation_intervenant')
 
     = form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'etape3_choix_intervenant'}, method: 'patch', html: { class:'ui form'}  do |f|
       ul.ins-form
@@ -53,4 +56,4 @@
         input#dif1 type="checkbox" class="engagement"
         label for="dif1" = t('agrements.autorisation_acces_donnees_intervenants')
 
-    = submit_tag t('demarrage_projet.action'), class: 'validate btn'
+    = submit_tag @action_label, class: 'validate btn'
