@@ -32,7 +32,10 @@
       header.project-header
         section.top-bar.clearfix
           h1.heading= @page_heading || "Bonjour"
-          = link_to t('sessions.lien_deconnexion'), {:controller => :sessions, :action => :deconnexion}, class: 'btn btn-logout'
+          - if current_agent
+            = link_to t('sessions.lien_deconnexion'), destroy_agent_session_path, class: 'btn btn-logout'
+          - else
+            = link_to t('sessions.lien_deconnexion'), deconnexion_path, class: 'btn btn-logout'
         /section.notification
           hr/
       section.main-content
