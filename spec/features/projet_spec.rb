@@ -3,24 +3,17 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "J'ai accès aux données concernant le demandeur et son logement" do
+feature "En tant que demandeur, j'ai accès aux données concernant mon projet" do
   let(:projet) { create(:projet, :with_intervenants, :with_invited_operateur) }
 
-  scenario "affichage du nom du demandeur principal" do
-    signin(projet.numero_fiscal, projet.reference_avis)
-    visit projet_path(projet)
-    expect(page).to have_content("Martin")
-    # utilité et valeur apportée par ce test ?
-  end
-
-  scenario "lorsque je suis un demandeur, je vois les informations me concernant" do
+  scenario "je peux consulter mon projet en me connectant" do
     signin(projet.numero_fiscal, projet.reference_avis)
     @role_utilisateur = :demandeur
     expect(page).to have_content("Jean Martin")
     expect(page).to have_content("Total Revenu Fiscal de Référence")
   end
 
-  scenario "je peux modifier mon numéro de téléphone" do
+  scenario "je peux modifier mes données personnelles et celles des occupants du logement" do
     signin(projet.numero_fiscal, projet.reference_avis)
     within 'article.occupants' do
       click_link I18n.t('projets.visualisation.lien_edition')
@@ -28,6 +21,18 @@ feature "J'ai accès aux données concernant le demandeur et son logement" do
     fill_in :projet_tel, with: '01 10 20 30 40'
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content('01 10 20 30 40')
+    # TODO: tester les autres données personnelles
+    # TODO: tester la mise à jour des occupants
+  end
+
+  scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur", pending: true do
+    signin(projet.numero_fiscal, projet.reference_avis)
+    within 'article.occupants' do
+      click_link I18n.t('projets.visualisation.lien_edition')
+    end
+    fill_in :projet_email, with: "lolo"
+    click_button I18n.t('projets.edition.action')
+    expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
   end
 
   scenario "je peux modifier mon adresse", pending: true do
@@ -41,7 +46,7 @@ feature "J'ai accès aux données concernant le demandeur et son logement" do
     expect(page).to have_content('12 rue de la Mare, 75010 Paris')
   end
 
-  scenario "je peux modifier l'année de construction de mon logement" do
+  scenario "je peux modifier les données concernant mon habitation et mon projet" do
     signin(projet.numero_fiscal, projet.reference_avis)
     within 'article.projet' do
       click_link I18n.t('projets.visualisation.lien_edition')
@@ -49,14 +54,7 @@ feature "J'ai accès aux données concernant le demandeur et son logement" do
     fill_in :demande_annee_construction, with: '1950'
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content(1950)
-  end
-
-  scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur", pending: true do
-    signin(projet.numero_fiscal, projet.reference_avis)
-    click_link I18n.t('projets.visualisation.lien_edition_projet')
-    fill_in :projet_email, with: "lolo"
-    click_button I18n.t('projets.edition.action')
-    expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
+    # TODO: tester la modification des travaux demandés
   end
 
   scenario "je peux changer d'opérateur" do
