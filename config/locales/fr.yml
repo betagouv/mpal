@@ -270,6 +270,8 @@ fr:
         sujet: "[ANAH] Invitation de %{intervenant} à consulter votre projet"
       notification_choix_intervenant:
         sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l'accompagner sur son projet"
+      resiliation_intervenant:
+        sujet: "[ANAH] %{demandeur_principal} a changé d’opérateur pour son projet"
       mise_en_relation_intervenant:
         sujet: "[ANAH] Mise en relation par %{intermediaire}"
 

@@ -15,7 +15,7 @@ class ProjetMailer < ActionMailer::Base
 
   def resiliation_intervenant(invitation)
     @invitation = invitation
-    mail(to: invitation.intervenant_email, subject: t('mailers.projet_mailer.resiliation_intervenant.sujet', intervenant: @invitation.intervenant.to_s))
+    mail(to: invitation.intervenant_email, subject: t('mailers.projet_mailer.resiliation_intervenant.sujet', demandeur_principal: @invitation.demandeur_principal))
   end
 
   def notification_choix_intervenant(projet)
