@@ -4,7 +4,7 @@ class DossiersOpalController < ApplicationController
   before_action :assert_projet_courant
 
   def create
-    unless Opal.new(OpalClient).creer_dossier(@projet_courant)
+    unless Opal.new(OpalClient).creer_dossier(@projet_courant, current_agent)
       return redirect_to(dossier_path(@projet_courant), alert: t('projets.creation_opal.messages.erreur'))
     end
     redirect_to(dossier_path(@projet_courant), notice: t('projets.creation_opal.messages.succes', id_opal: @projet_courant.opal_numero))

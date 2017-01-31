@@ -19,6 +19,8 @@ class Agent < ActiveRecord::Base
         self.nom = valeur
       when :Prenom
         self.prenom = valeur
+      when :Id
+        self.clavis_id = valeur
       when :ServiceId
         self.intervenant = Intervenant.find_by_clavis_service_id(valeur)
       end

@@ -3,8 +3,8 @@ class Opal
     @client = client
   end
 
-  def creer_dossier(projet)
-    response = @client.post('/createDossier', body: convertit_projet_en_dossier(projet).to_json, verify: false)
+  def creer_dossier(projet, agent_instructeur)
+    response = @client.post('/createDossier', body: convertit_projet_en_dossier(projet, agent_instructeur).to_json, verify: false)
     if response.code == 201
       ajoute_id_opal(projet, response.body)
       met_a_jour_statut(projet)
@@ -25,11 +25,11 @@ class Opal
     projet.statut = :en_cours_d_instruction
   end
 
-  def convertit_projet_en_dossier(projet)
+  def convertit_projet_en_dossier(projet, agent_instructeur)
     {
       "dosNumeroPlateforme": "#{projet.plateforme_id}",
       "dosDateDepot": Time.now.strftime("%Y-%m-%d"),
-      "utiIdClavis": ENV['CLAVIS_INSTRUCTEUR_ID'],
+      "utiIdClavis": agent_instructeur.clavis_id,
       "demandeur": {
         "dmdNbOccupants": projet.nb_total_occupants,
         "dmdRevenuOccupants": projet.revenu_fiscal_reference_total,
