@@ -39,15 +39,16 @@ class DemarrageProjetController < ApplicationController
 
   def etape3_choix_intervenant
     @demande = projet_demande
-    @is_updating = @projet_courant.intervenants.present?
+    @is_updating = @projet_courant.intervenants.present? || @projet_courant.operateur.present?
     @action_label = if @is_updating then action_label_update else action_label_create end
     @operateur = @projet_courant.invited_operateur
     if @projet_courant.prospect?
       @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
       @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
-    end
-    if @is_updating && @operateur.present?
-      @operateurs_disponibles << @operateur
+
+      if @is_updating && @operateur.present?
+        @operateurs_disponibles << @operateur
+      end
     end
   end
 

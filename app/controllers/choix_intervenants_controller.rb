@@ -6,9 +6,8 @@ class ChoixIntervenantsController < ApplicationController
   end
 
   def create
-    @projet_courant.operateur = Intervenant.find(params[:intervenant_id])
-    @projet_courant.statut = :en_cours
-    if @projet_courant.save
+    operateur = Intervenant.find(params[:intervenant_id])
+    if @projet_courant.commit_with_operateur!(operateur)
       flash[:notice_titre] = t('projets.intervenants.messages.succes_choix_intervenant_titre')
       ProjetMailer.notification_choix_intervenant(@projet_courant).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'choix_intervenant', projet: @projet_courant, producteur: @projet_courant.operateur)
