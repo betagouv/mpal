@@ -1,0 +1,25 @@
+.section.informations {
+  padding-top: 20px;
+  h1 {
+    text-align: center;
+  }
+  h2 {
+    margin-top: 1em;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .text {
+    padding: 20px;
+    p {
+      margin-top: 1em;
+    }
+    li {
+      display: list-item;
+      list-style-type: square;
+      margin-left: 1em;
+    }
+    a {
+      text-decoration: underline;
+    }
+  }
+}

@@ -1079,13 +1079,10 @@ input:-ms-input-placeholder {
 .main-footer {
   text-align: center;
   padding: 30px 0;
-  box-sizing: border-box;
-  color: #fff;
   a {
-    text-decoration: underline;
-    color: #ccc;
+    color: white;
     &:hover {
-      color: white;
+      text-decoration: underline;
     }
   }
 }
