@@ -4,7 +4,7 @@ require 'support/mpal_helper'
 feature "en tant que demandeur, je peux changer d'opérateur" do
 
   context "avant de m'être engagé avec un opérateur" do
-    let(:projet) { create(:projet, :with_intervenants, :with_invited_operateur) }
+    let(:projet) { create(:projet, :with_intervenants_disponibles, :with_invited_operateur) }
 
     scenario "je peux choisir un autre opérateur" do
       signin(projet.numero_fiscal, projet.reference_avis)
@@ -28,7 +28,7 @@ feature "en tant que demandeur, je peux changer d'opérateur" do
   end
 
   context "après m'être engagé avec un opérateur" do
-    let(:projet) { create(:projet, :with_committed_operateur) }
+    let(:projet) { create(:projet, :en_cours) }
 
     scenario "je ne peux plus changer d'opérateur depuis la page du projet" do
       signin(projet.numero_fiscal, projet.reference_avis)

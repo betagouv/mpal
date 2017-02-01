@@ -4,15 +4,17 @@ FactoryGirl.define do
     email 'contact@urbanos.com'
     departements ['75']
 
-    trait :operateur do
+    factory :operateur do
       sequence(:raison_sociale) {|n| "Operateur#{n}" }
       roles ['operateur']
     end
-    trait :pris do
+
+    factory :pris do
       sequence(:raison_sociale) {|n| "Pris#{n}" }
       roles ['pris']
     end
-    trait :instructeur do
+
+    factory :instructeur do
       sequence(:raison_sociale) {|n| "Instructeur#{n}" }
       roles ['instructeur']
     end

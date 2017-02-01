@@ -22,7 +22,7 @@ describe ProjetMailer, type: :mailer do
   end
 
   describe "l'intervenant reçoit un e-mail lorsqu'il a été choisi par le demandeur" do
-    let(:operateur) { create :intervenant, :operateur }
+    let(:operateur) { create :operateur }
     let(:projet) { create :projet, operateur: operateur }
     let!(:invitation) { create :invitation, projet: projet, intervenant: operateur }
     let(:email) { ProjetMailer.notification_choix_intervenant(projet) }

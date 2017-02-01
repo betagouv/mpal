@@ -18,10 +18,10 @@ describe Projet do
 
   describe '#for_agent' do
     context "en tant qu'operateur" do
-      let(:instructeur) {       create :intervenant, :instructeur }
-      let(:operateur1) {        create :intervenant, :operateur }
-      let(:operateur2) {        create :intervenant, :operateur }
-      let(:operateur3) {        create :intervenant, :operateur }
+      let(:instructeur) {       create :instructeur }
+      let(:operateur1) {        create :operateur }
+      let(:operateur2) {        create :operateur }
+      let(:operateur3) {        create :operateur }
       let(:agent_instructeur) { create :agent, intervenant: instructeur }
       let(:agent_operateur1) {  create :agent, intervenant: operateur1 }
       let(:agent_operateur2) {  create :agent, intervenant: operateur2 }
@@ -83,7 +83,7 @@ describe Projet do
   describe "invite_intervenant!" do
     context "sans intervenant invité au préalable" do
       let(:projet)    { create :projet }
-      let(:operateur) { create :intervenant, :operateur }
+      let(:operateur) { create :operateur }
 
       it "sélectionne et notifie l'intervenant" do
         expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
@@ -96,7 +96,7 @@ describe Projet do
     context "avec un opérateur invité auparavant" do
       let(:projet)             { create :projet, :with_invited_operateur }
       let(:previous_operateur) { projet.invited_operateur }
-      let(:new_operateur)      { create :intervenant, :operateur }
+      let(:new_operateur)      { create :operateur }
 
       it "sélectionne le nouvel opérateur, et notifie l'ancien opérateur" do
         expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
@@ -118,7 +118,7 @@ describe Projet do
 
   describe "commit_to_operateur!" do
     let(:projet)    { create :projet, statut: :prospect }
-    let(:operateur) { create :intervenant, :operateur }
+    let(:operateur) { create :operateur }
 
     it "s'engage auprès d'un opérateur" do
       expect(projet.commit_with_operateur!(operateur)).to be true
@@ -131,7 +131,7 @@ describe Projet do
   describe "#transmettre!" do
     context "with valid call" do
       let(:projet) { create :projet }
-      let!(:instructeur) { create :intervenant, :instructeur }
+      let!(:instructeur) { create :instructeur }
       it do
         result = projet.transmettre!(instructeur)
         expect(result).to be true
