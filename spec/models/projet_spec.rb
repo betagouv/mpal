@@ -116,6 +116,18 @@ describe Projet do
     # end
   end
 
+  describe "commit_to_operateur!" do
+    let(:projet)    { create :projet, statut: :prospect }
+    let(:operateur) { create :intervenant, :operateur }
+
+    it "s'engage auprès d'un opérateur" do
+      expect(projet.commit_with_operateur!(operateur)).to be true
+      expect(projet.persisted?).to be true
+      expect(projet.operateur).to eq(operateur)
+      expect(projet.statut).to eq(:en_cours.to_s)
+    end
+  end
+
   describe "#transmettre!" do
     context "with valid call" do
       let(:projet) { create :projet }

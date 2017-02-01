@@ -116,6 +116,16 @@ class Projet < ActiveRecord::Base
     end
   end
 
+  def commit_with_operateur!(committed_operateur)
+    raise "Commiting with an operateur expects a projet in `prospect` state, but got a `#{statut}` state instead" unless statut == :prospect.to_s
+    raise "To commit with an operateur there should be no pre-existing operateur" unless operateur.blank?
+    raise "Cannot commit with an operateur: the operateur is empty" unless committed_operateur.present?
+
+    self.operateur = committed_operateur
+    self.statut = :en_cours
+    save
+  end
+
   def transmettre!(instructeur)
     invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: instructeur)
     if invitation.save
