@@ -2,16 +2,16 @@
 doctype html
 html lang="fr"
   head
-    = stylesheet_link_tag    'application', media: 'all'
-    = javascript_include_tag 'application'
-    = csrf_meta_tag
     meta charset="utf-8" /
     meta content="width=device-width, initial-scale=1" name="viewport" /
     meta content="ie=edge" http-equiv="x-ua-compatible" /
     title= @page_title
+    link rel="icon" type="image/png" href="#{image_path('favicon.png')}" /
+    = stylesheet_link_tag    'application', media: 'all'
+    = csrf_meta_tag
     /![if lt IE 9]
       | <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script
-    link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700" rel="stylesheet" /
+    = javascript_include_tag 'application'
   body
     .main-container
       = yield :header

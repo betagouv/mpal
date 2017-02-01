@@ -1,155 +1,23 @@
-/** VARS **/
-/** Variables **/
-/* Clearfix */
-/** RESET IMPORT **/
-/* Reset - Base */
-/** VARS **/
-/** Variables **/
-/* Clearfix */
-* {
-  outline: none; }
-
-html, body, h1, h2, h3, h4, h5, h6, abbr, acronym, address, article, aside, big,
-blockquote, button, cite, code, details, div, dd, dl, dt, em, fieldset, figcaption,
-figure, font, footer, form, header, hgroup, input, img, label, legend, nav, p, pre,
-section, small, span, select, strong, sub, sup, textarea,
-ul, ol {
-  margin: 0;
-  padding: 0;
-  font-style: normal;
-  list-style: none;
+@font-face {
+  font-family: 'Open Sans';
+  src: asset-url('assets/opensans-regular/opensans-regular-webfont.eot');
+  src: asset-url('assets/opensans-regular/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+  asset-url('assets/opensans-regular/opensans-regular-webfont.woff') format('woff'),
+  asset-url('assets/opensans-regular/opensans-regular-webfont.ttf') format('truetype'),
+  asset-url('assets/opensans-regular/opensans-regular-webfont.svg#open_sansregular') format('svg');
   font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  color: #56869a;
+  background-color: white;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
 
-html {
-  font-size: 100%;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  height: 100%; }
-
-body {
-  font-size: 90%;
-  line-height: 1.231;
-  position: relative;
-  height: 100%;
-  color: #56869a;
-}
-
 a {
-  text-decoration: none;
-  cursor: pointer;
-  color: #353940; }
-
-a:hover {
-  text-decoration: none; }
-
-a:focus {
-  outline: none; }
-
-abbr {
-  border-bottom: 1px dotted #56869a; }
-
-strong {
-  font-weight: 700; }
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-bottom: 1px solid #fff;
-  border-top: 1px solid #dadfea;
-  margin: 0;
-  padding: 0; }
-
-sub, sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
-  vertical-align: baseline; }
-
-sup {
-  top: -0.5em; }
-
-sub {
-  bottom: -0.25em; }
-
-ul, ol {
-  margin: 0;
-  padding: 0; }
-
-img {
-  border: 0;
-  -ms-interpolation-mode: bicubic;
-  display: block; }
-
-iframe {
-  border: none; }
-
-svg:not(:root) {
-  overflow: hidden; }
-
-fieldset {
-  border: 0; }
-
-legend {
-  border: 0; }
-
-label {
-  cursor: pointer; }
-
-em {
-  font-style: italic; }
-
-button, input, select, textarea {
-  font-size: 100%;
-  margin: 0;
-  vertical-align: baseline; }
-
-button, input {
-  line-height: normal;
-  outline: none; }
-
-button, input[type="button"], input[type="reset"], input[type="submit"] {
-  cursor: pointer;
-  -webkit-appearance: button;
-  -moz-appearance: button;
-  appearance: button;
-  &.disabled, &[disabled] {
-    cursor: not-allowed;
-    pointer-events: none; // Future-proof disabling of clicks
-    opacity: .65;
-  }
+  color: #353940;
 }
-
-input[type="checkbox"], input[type="radio"] {
-  box-sizing: border-box; }
-
-input[type="search"] {
-  box-sizing: content-box; }
-
-button::-moz-focus-inner, input::-moz-focus-inner {
-  border: 0;
-  padding: 0; }
-
-textarea {
-  overflow: auto;
-  vertical-align: top; }
-
-table {
-  border-collapse: collapse;
-  border-spacing: 0; }
-
-blockquote, q {
-  quotes: none; }
-
-blockquote:before, blockquote:after, q:before, q:after {
-  content: "";
-  content: none; }
-
-/* Remove tap highlight on iOS */
-input, textarea, button, select, a {
-  -webkit-tap-highlight-color: transparent; }
 
 .clearfix::after {
   display: block;
@@ -187,6 +55,10 @@ input::-moz-placeholder {
 
 input:-ms-input-placeholder {
   color: #bbb; }
+
+@at-root {
+  @-ms-viewport { width: device-width; }
+}
 
 /** Buttons **/
 .btn {
