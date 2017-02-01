@@ -101,6 +101,8 @@ class Projet < ActiveRecord::Base
   end
 
   def invite_intervenant!(intervenant)
+    raise "Cannot invite an operator: the projet is already committed with an operator (#{operateur.raison_sociale})" if intervenant.operateur? && operateur.present?
+
     previous_operateur = invited_operateur
 
     invitation = Invitation.new(projet: self, intervenant: intervenant)

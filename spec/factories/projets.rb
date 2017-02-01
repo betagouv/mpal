@@ -29,5 +29,12 @@ FactoryGirl.define do
         create(:invitation, projet: projet, intervenant: operateur)
       end
     end
+
+    trait :with_committed_operateur do
+      after(:build) do |projet, evaluator|
+        projet.operateur = create(:intervenant, :operateur, departements: [projet.departement])
+        projet.statut = :en_cours
+      end
+    end
   end
 end

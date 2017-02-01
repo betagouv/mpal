@@ -26,4 +26,20 @@ feature "en tant que demandeur, je peux changer d'opérateur" do
       expect(page).not_to have_content(previous_operateur.raison_sociale)
     end
   end
+
+  context "après m'être engagé avec un opérateur" do
+    let(:projet) { create(:projet, :with_committed_operateur) }
+
+    scenario "je ne peux plus changer d'opérateur depuis la page du projet" do
+      signin(projet.numero_fiscal, projet.reference_avis)
+      expect(page).not_to have_link(I18n.t('projets.visualisation.changer_intervenant'))
+    end
+
+    scenario "je ne peux plus changer d'opérateur en allant directement sur la page d'édition" do
+      signin(projet.numero_fiscal, projet.reference_avis)
+      visit etape3_choix_intervenant_path(projet)
+      expect(page).not_to have_selector('.choose-operator.pris')
+      expect(page).not_to have_selector('.choose-operator.intervenant')
+    end
+  end
 end

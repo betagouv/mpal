@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_helper'
 
 feature "En tant que demandeur, j'ai accès aux données concernant mon projet" do
-  let(:projet) { create(:projet, :with_intervenants, :with_invited_operateur) }
+  let(:projet) { create(:projet, :with_invited_operateur) }
 
   scenario "je peux consulter mon projet en me connectant" do
     signin(projet.numero_fiscal, projet.reference_avis)
