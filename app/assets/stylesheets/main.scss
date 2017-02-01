@@ -674,67 +674,66 @@ input:-ms-input-placeholder {
   border-radius: 3px;
 }
 
-    .page-projet .col-right .content-projet {
-      position: relative;
+.content-projet {
+  position: relative;
+  .edit {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 12px;
+    padding-right: 26px;
+    line-height: 18px;
+    color: #e7235a;
+    background: image-url("edit.svg") 100% 0 no-repeat;
+    &:hover {
+      text-decoration: underline;
     }
-      .page-projet .col-right .content-projet .edit {
-        position: absolute;
-        background: image-url("edit.svg") 100% 0 no-repeat;
-        top: 7px;
-        right: 14px;
-        font-size: 12px;
-        padding: 3px 26px 2px 0;
-        margin: 5px;
-        color: #e7235a;
-        &:hover {
-          text-decoration: underline;
-        }
-      }
-      .page-projet .col-right .content-projet .block {
-        position: relative;
-        display: inline-block;
-        width: 100%;
-        margin-bottom: 15px;
-        background-color: white;
-        box-shadow: 0 1px 2px 0 rgba(95, 121, 150, 0.2);
-        border-radius: 3px;
-        border: solid 1px #f2f6fa;
-      }
-        .page-projet .col-right .content-projet .block:last-child {
-          margin-bottom: 0; }
-        .page-projet .col-right .content-projet .block h3 {
-          background-color: #eef1f7;
-          background-image: image-url("fle-closed.svg");
-          background-position: 10px 50%;
-          background-repeat: no-repeat;
-          font-size: 18px;
-          font-weight: 600;
-          color: #56869a;
-          text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-          padding: 10px 30px; }
-          .page-projet .col-right .content-projet .block h3.is-open {
-            background-image: image-url("fle-open.svg"); }
-          .page-projet .col-right .content-projet .block h3:hover {
-            cursor: pointer; }
-        .page-projet .col-right .content-projet .block .content-block {
-          padding: 20px;
-          box-sizing: border-box;
-          width: 100%;
-          float: left; }
-          .page-projet .col-right .content-projet .block .content-block:after {
-            content: "";
-            display: table;
-            clear: both; }
-          .page-projet .col-right .content-projet .block .content-block .btn {
-            float: right;
-            margin: 10px 0 0 30px;
-          }
-          .page-projet .col-right .content-projet .block .content-block .btn-message {
-            background-image: image-url("message.svg");
-          }
-          .page-projet .col-right .content-projet .block .content-block h4 {
-            font-weight: 600;
-            padding: 0 0 10px 0; }
+  }
+  .block {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+    background-color: white;
+    box-shadow: 0 1px 2px 0 rgba(95, 121, 150, 0.2);
+    border-radius: 3px;
+    border: solid 1px #f2f6fa;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  h3 {
+    background-color: #eef1f7;
+    background-image: image-url("fle-closed.svg");
+    background-position: 10px 50%;
+    background-repeat: no-repeat;
+    font-size: 18px;
+    font-weight: 600;
+    color: #56869a;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 10px 30px;
+    border-bottom: 1px solid #dadfea;
+    cursor: pointer;
+    &.is-open {
+      background-image: image-url("fle-open.svg");
+    }
+  }
+  .content-block {
+    padding: 20px;
+    @extend .clearfix;
+  }
+  .btn {
+    float: right;
+    margin: 10px 0 0 30px;
+  }
+  .btn-message {
+    background-image: image-url("message.svg");
+  }
+  h4 {
+    font-weight: 600;
+    padding: 0 0 10px 0;
+  }
+}
         .page-projet .col-right .content-projet .block .occupants-recap {
           background: #eef1f7;
           padding: 15px 30px;
