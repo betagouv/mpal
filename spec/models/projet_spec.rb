@@ -117,7 +117,7 @@ describe Projet do
   end
 
   describe "commit_to_operateur!" do
-    let(:projet)    { create :projet, statut: :prospect }
+    let(:projet)    { create :projet, :prospect }
     let(:operateur) { create :operateur }
 
     it "s'engage auprès d'un opérateur" do

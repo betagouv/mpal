@@ -4,7 +4,7 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "intervenant" do
-  let(:projet) {            create :projet, statut: :en_cours }
+  let(:projet) {            create :projet, :en_cours }
   let!(:instructeur) {      create :instructeur, departements: [projet.departement] }
   let!(:pris) {             create :pris,        departements: [projet.departement] }
   let!(:operateur) {        create :operateur,   departements: [projet.departement] }
@@ -84,7 +84,7 @@ feature "intervenant" do
   end
 
   context do
-    let!(:projet_prospect) {     create :projet, statut: :prospect }
+    let!(:projet_prospect) {     create :projet, :prospect }
     let!(:invitation_prospect) { create :invitation, intervenant: operateur, projet: projet_prospect }
     before { login_as agent_operateur, scope: :agent }
 
