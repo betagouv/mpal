@@ -229,7 +229,7 @@ input:-ms-input-placeholder {
       line-height: 20px; }
     .login .intro a {
       display: inline-block;
-      padding: 20px 0;
+      margin-top: 20px;
       font-size: 13px;
       color: #e7235a;
       text-decoration: underline; }
@@ -269,22 +269,29 @@ input:-ms-input-placeholder {
         width: 80%; }
       .login .champs .auth .auth-label {
         display: block;
-        color: #fff;
+        color: white;
         text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
-        padding-bottom: 8px; }
+        margin-top: 20px;
+        margin-bottom: 8px;
+      }
+      .login .champs .auth .auth-label-numero-fiscal {
+        margin-top: 0;
+      }
       .login .champs .auth a {
         color: #fff;
         text-decoration: underline;
         font-size: 12px;
         display: inline-block;
-        padding: 5px 0 30px; }
+        margin-top: 5px;
+      }
       .login .champs .auth .btn {
         display: table;
         margin: 20px 0 0;
       }
     .login .champs .mleg {
-      margin-top: 1em;
-      line-height: 20px; }
+      margin-top: 20px;
+      line-height: 20px;
+    }
       .login .champs .mleg input {
         margin-right: 10px; }
       .login .champs .mleg label {

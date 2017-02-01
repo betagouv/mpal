@@ -19,7 +19,7 @@
     p
       | Vous devez donc vous munir des deux derniers avis d’imposition ou de situation fiscale de
       |  l’ensemble des personnes habitant sous votre toit.
-    a href="#"  En savoir plus
+    /a href="#"  En savoir plus
   section.champs
     h2 Connectez-vous
     p
@@ -34,13 +34,12 @@
       | ) correspondant à votre niveau de ressources.
     = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'form-login') do
       .auth
-        = label_tag "form-nf", "Numéro fiscal", class: "auth-label"
+        = label_tag "form-nf", "Numéro fiscal", class: "auth-label auth-label-numero-fiscal"
         = text_field_tag :numero_fiscal, params[:numero_fiscal], placeholder: "Ex : 123 456 789 AB", id: "form-nf", class: "auth-input"
-        a href="#"  Où se trouve mon numéro fiscal ?
+        /TODO a href="#"  Où se trouve mon numéro fiscal ?
         = label_tag "form-ra", "Référence de l’avis", class: "auth-label"
         = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : ABC DEF 123", id: "form-ra", class: "auth-input"
         .mleg
-          /input#lab-rfr type="checkbox" class="engagement" name="autorisation" 
           = check_box_tag "autorisation", "1", params[:autorisation], class: "engagement", id: "lab-rfr"
           label for="lab-rfr"
             | J’autorise l’
