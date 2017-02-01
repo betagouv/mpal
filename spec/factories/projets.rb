@@ -16,7 +16,7 @@ FactoryGirl.define do
     end
 
     trait :with_intervenants do
-      after(:create) do |projet, evaluator|
+      after(:build) do |projet, evaluator|
         create(:intervenant, :operateur,   departements: [projet.departement])
         create(:intervenant, :pris,        departements: [projet.departement])
         create(:intervenant, :instructeur, departements: [projet.departement])
@@ -24,7 +24,7 @@ FactoryGirl.define do
     end
 
     trait :with_invited_operateur do
-      after(:create) do |projet, evaluator|
+      after(:build) do |projet, evaluator|
         operateur = create(:intervenant, :operateur, departements: [projet.departement])
         create(:invitation, projet: projet, intervenant: operateur)
       end
