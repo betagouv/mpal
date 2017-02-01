@@ -617,63 +617,11 @@ input:-ms-input-placeholder {
   margin: 0 auto;
   box-sizing: border-box;
 }
-.page-projet .col-left {
-  position: absolute;
-  background: #56869a;
-  color: white;
-  width: 27%;
-  height: calc(100% - 30px);
-  a {
-    color: white;
-  }
-  section {
-    padding: 0 20px;
-    margin-bottom: 20px;
-  }
-  .logo-link {
-    display: block;
-    width: 123px;
-    height: 96px;
-    margin: 30px auto;
-  }
-  .logo {
-    display: block;
-    width: 123px;
-    height: 96px;
-  }
+.page-projet .col-right {
+  display: inline-block;
+  width: 73%;
+  margin-left: 27%;
 }
-    .page-projet .col-left .personal-information {
-      padding: 30px;
-      background-color: #576f8c;
-      box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.22); }
-      .page-projet .col-left .personal-information h2 {
-        color: #fff;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-        padding-bottom: 5px; }
-      .page-projet .col-left .personal-information li {
-        color: #fff;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-        padding: 2px 0; }
-        .page-projet .col-left .personal-information li .help {
-          display: inline-block;
-          vertical-align: bottom;
-          padding-left: 10px; }
-.affectation {
-  padding: 20px;
-  color: white;
-  p {
-    margin-bottom: 1em;
-    color: white;
-  }
-  .btn-affecter-agent {
-    margin: 0 auto;
-  }
-}
-  .page-projet .col-right {
-    display: inline-block;
-    width: 73%;
-    margin-left: 27%;
-  }
 
 .project-header {
   position: relative;
@@ -687,11 +635,6 @@ input:-ms-input-placeholder {
     color: #56869a;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.68);
     margin-left: 15px;
-  }
-  .agent-connecte {
-    position: absolute;
-    top: 0;
-    right: 0;
   }
   .btn {
     float: right;
