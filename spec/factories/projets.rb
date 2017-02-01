@@ -15,7 +15,7 @@ FactoryGirl.define do
       create(:demande, projet: projet)
     end
 
-    trait :with_intervenants do
+    trait :with_intervenants_disponibles do
       after(:build) do |projet, evaluator|
         create(:intervenant, :operateur,   departements: [projet.departement])
         create(:intervenant, :pris,        departements: [projet.departement])
@@ -23,17 +23,24 @@ FactoryGirl.define do
       end
     end
 
+    # Project states
+
+    trait :prospect do
+      statut :prospect
+    end
+
     trait :with_invited_operateur do
-      after(:build) do |projet, evaluator|
+      statut :prospect
+      after(:build) do |projet|
         operateur = create(:intervenant, :operateur, departements: [projet.departement])
         create(:invitation, projet: projet, intervenant: operateur)
       end
     end
 
-    trait :with_committed_operateur do
-      after(:build) do |projet, evaluator|
+    trait :en_cours do
+      statut :en_cours
+      after(:build) do |projet|
         projet.operateur = create(:intervenant, :operateur, departements: [projet.departement])
-        projet.statut = :en_cours
       end
     end
   end
