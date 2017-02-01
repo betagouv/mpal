@@ -25,7 +25,7 @@ end
 feature "Réinitialisation de la session" do
   let(:projet) {          create :projet }
   let(:invitation) {      create :invitation }
-  let(:operateur) {       create :intervenant, :operateur, departements: [projet.departement] }
+  let(:operateur) {       create :operateur, departements: [projet.departement] }
   let(:agent_operateur) { create :agent, intervenant: operateur }
 
   context "en tant que demandeur" do

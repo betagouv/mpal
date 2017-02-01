@@ -7,7 +7,7 @@ feature 'messagerie' do
   let(:message_demandeur) { "Bonjour ! J'ai une question sur mon projet." }
   let(:message_operateur) { "J'attend votre question." }
   let(:projet)            { create :projet }
-  let(:operateur)         { create :intervenant, :operateur, departements: [projet.departement] }
+  let(:operateur)         { create :operateur, departements: [projet.departement] }
   let(:agent_operateur)   { create :agent, intervenant: operateur }
 
   context "en tant que demandeur" do

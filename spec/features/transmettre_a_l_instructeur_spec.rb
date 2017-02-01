@@ -14,13 +14,13 @@ feature "transmettre à l'instructeur" do
 
   scenario "en tant que demandeur je transmet une demande aux services instructeurs" do
     projet = FactoryGirl.create(:projet)
-    operateur = FactoryGirl.create(:intervenant, :operateur)
+    operateur = FactoryGirl.create(:operateur)
     invitation = FactoryGirl.create(:invitation, projet: projet, intervenant: operateur)
     projet.statut = :en_cours
     projet.operateur = invitation.intervenant
     projet.save
     # Intervenant.instructeur.pour_departement(projet.departement).destroy_all
-    instructeur = FactoryGirl.create(:intervenant, :instructeur, departements: [ projet.departement ])
+    instructeur = FactoryGirl.create(:instructeur, departements: [ projet.departement ])
     signin(12, 15)
     expect(page.current_path).to eq(projet_path(projet))
 

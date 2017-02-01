@@ -4,7 +4,7 @@ require 'support/opal_helper'
 
 feature "creer dossier dans opal" do
   let(:projet) {            create :projet, statut: :transmis_pour_instruction }
-  let(:instructeur) {       create :intervenant, :instructeur }
+  let(:instructeur) {       create :instructeur }
   let(:invitation) {        create :invitation, intervenant: instructeur }
 
   context "en tant qu'agent instructeur" do

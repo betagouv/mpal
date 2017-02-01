@@ -59,7 +59,7 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
     skip
     # cette spec est plus précise, je suggère de la déplacer dans spec/features/choisir_un_operateur_spec.rb
     # il y a également un spc pour les invitations / même genre de tets spec/features/invitation_spec.rb
-    operateur = FactoryGirl.create(:intervenant, :operateur)
+    operateur = FactoryGirl.create(:operateur)
     invitation = FactoryGirl.create(:invitation, projet: projet, intervenant: operateur)
     signin(projet.numero_fiscal, projet.reference_avis)
     visit projet_path(projet)

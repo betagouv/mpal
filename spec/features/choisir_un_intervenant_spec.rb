@@ -5,9 +5,9 @@ require 'support/api_ban_helper'
 
 feature "intervenant" do
   let(:projet) {            create :projet, statut: :en_cours }
-  let!(:instructeur) {      create :intervenant, :instructeur, departements: [projet.departement] }
-  let!(:pris) {             create :intervenant, :pris,        departements: [projet.departement] }
-  let!(:operateur) {        create :intervenant, :operateur,   departements: [projet.departement] }
+  let!(:instructeur) {      create :instructeur, departements: [projet.departement] }
+  let!(:pris) {             create :pris,        departements: [projet.departement] }
+  let!(:operateur) {        create :operateur,   departements: [projet.departement] }
   let!(:invitation) {       create :invitation, intervenant: operateur, projet: projet }
   let(:mise_en_relation) {  create :mise_en_relation, projet: projet, intermediaire: invitation.intervenant }
   let!(:chaudiere_s) {      create :prestation, libelle: 'Chaudière',      scenario: :souhaite,  projet: projet }
