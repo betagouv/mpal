@@ -3,7 +3,7 @@ section.popin-form
   ul.ins-form
     li.checkbox
       input#confirm type="checkbox" class="engagement"
-      label for="confirm" 
+      label for="confirm"
         | Je m'engage avec "
         span.operator= @intervenant
         | " pour m’accompagner.
@@ -14,5 +14,5 @@ section.popin-form
         br/
         | Je confirmerai par la suite tous les éléments de ma demande de subvention avant transmission au service instructeur.
   = form_tag(projet_choix_intervenants_path(@projet_courant, intervenant_id: @intervenant.id), method: 'post', class:'ui form' ) do
-    = submit_tag "Je m'engage avec cet opérateur", class:'btn', disabled: true
+    = submit_tag t('projets.visualisation.engagement_action'), class:'btn'
 

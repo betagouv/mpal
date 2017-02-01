@@ -190,6 +190,7 @@ fr:
       choisir_intervenant: "Je choisis cet opérateur"
       changer_intervenant: "Changer d’opérateur"
       s_engager_avec_operateur: "S’engager avec cet opérateur"
+      engagement_action: "Je m’engage avec cet opérateur"
       affecter_et_remplir_le_projet: "Je m'affecte et je remplis le projet"
       remplir_le_projet: "Je remplis le projet"
       modifier_liste_occupant: "Modifier le nombre d'occupant à charge"
