@@ -1,0 +1,4 @@
+p Bonjour,
+p= "#{@invitation.demandeur_principal} a choisi de contacter l'opérateur « #{@operateur.raison_sociale} » sur la plateforme ANAH."
+p Sauf erreur de manipulation de sa part, il n'est donc plus nécessaire de l'assister dans le choix d'un opérateur.
+p= link_to "Pour visualiser le projet, cliquer sur ce lien", dossier_url(@invitation.projet)

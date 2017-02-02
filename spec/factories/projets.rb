@@ -29,6 +29,14 @@ FactoryGirl.define do
       statut :prospect
     end
 
+    trait :with_invited_pris do
+      statut :prospect
+      after(:build) do |projet|
+        pris = create(:pris, departements: [projet.departement])
+        create(:invitation, projet: projet, intervenant: pris)
+      end
+    end
+
     trait :with_invited_operateur do
       statut :prospect
       after(:build) do |projet|

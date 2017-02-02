@@ -100,20 +100,26 @@ describe Projet do
 
       it "sélectionne le nouvel opérateur, et notifie l'ancien opérateur" do
         expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
-        expect(ProjetMailer).to receive(:resiliation_intervenant).and_call_original
+        expect(ProjetMailer).to receive(:resiliation_operateur).and_call_original
         projet.invite_intervenant!(new_operateur)
         expect(projet.invitations.count).to eq(1)
         expect(projet.invited_operateur).to eq(new_operateur)
       end
     end
 
-    # context "avec un PRIS invité auparavant", pending: true do
-    #   let(:projet) { create :projet, :with_invited_operateur }
-    #
-    #   it "sélectionne le nouvel intervenant, et notifie le PRIS" do
-    #     # TODO
-    #   end
-    # end
+    context "avec un PRIS invité auparavant" do
+      let(:projet)        { create :projet, :with_invited_pris }
+      let(:new_operateur) { create :operateur }
+
+      it "sélectionne le nouvel intervenant, et notifie le PRIS" do
+        expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+        expect(ProjetMailer).to receive(:resiliation_pris).and_call_original
+        projet.invite_intervenant!(new_operateur)
+        expect(projet.invitations.count).to eq(1)
+        expect(projet.invited_operateur).to eq(new_operateur)
+        expect(projet.invited_pris).to be_nil
+      end
+    end
   end
 
   describe "commit_to_operateur!" do

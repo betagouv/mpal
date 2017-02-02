@@ -48,6 +48,10 @@ class Projet < ActiveRecord::Base
     intervenants.pour_role(:operateur).first
   end
 
+  def invited_pris
+    intervenants.pour_role(:pris).first
+  end
+
   def can_switch_operateur?
     invited_operateur.present? && operateur.blank?
   end
@@ -104,6 +108,7 @@ class Projet < ActiveRecord::Base
     raise "Cannot invite an operator: the projet is already committed with an operator (#{operateur.raison_sociale})" if intervenant.operateur? && operateur.present?
 
     previous_operateur = invited_operateur
+    previous_pris = invited_pris
 
     invitation = Invitation.new(projet: self, intervenant: intervenant)
     invitation.save!
@@ -113,7 +118,13 @@ class Projet < ActiveRecord::Base
 
     if previous_operateur
       previous_invitation = invitations.where(intervenant: previous_operateur).first
-      ProjetMailer.resiliation_intervenant(previous_invitation).deliver_later!
+      ProjetMailer.resiliation_operateur(previous_invitation).deliver_later!
+      previous_invitation.destroy!
+    end
+
+    if previous_pris
+      previous_invitation = invitations.where(intervenant: previous_pris).first
+      ProjetMailer.resiliation_pris(previous_invitation, intervenant).deliver_later!
       previous_invitation.destroy!
     end
   end
