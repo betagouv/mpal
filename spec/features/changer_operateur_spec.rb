@@ -36,7 +36,7 @@ feature "en tant que demandeur, je peux changer d'opérateur" do
       expect(page).to have_selector("#intervenant_#{projet.invited_operateur.id}[checked]")
 
       previous_operateur = projet.invited_operateur
-      pris = projet.intervenants_disponibles(role: :pris).first
+      pris = projet.intervenants_disponibles(role: :pris).last
 
       choose pris.raison_sociale
       check I18n.t('agrements.autorisation_acces_donnees_intervenants')
