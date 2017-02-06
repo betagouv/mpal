@@ -11,8 +11,8 @@ feature "en tant que demandeur, je peux changer d'opérateur" do
       click_link I18n.t('projets.visualisation.changer_intervenant')
 
       expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.section_eligibilite'))
-      expect(page).to have_selector('.choose-operator.pris')
-      expect(page).to have_selector('.choose-operator.intervenant')
+      expect(page).to have_selector('.choose-operator.choose-operator-pris')
+      expect(page).to have_selector('.choose-operator.choose-operator-intervenant')
       expect(page).to have_selector("#intervenant_#{projet.invited_operateur.id}[checked]")
 
       previous_operateur = projet.invited_operateur
@@ -31,8 +31,8 @@ feature "en tant que demandeur, je peux changer d'opérateur" do
       click_link I18n.t('projets.visualisation.changer_intervenant')
 
       expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.section_eligibilite'))
-      expect(page).to have_selector('.choose-operator.pris')
-      expect(page).to have_selector('.choose-operator.intervenant')
+      expect(page).to have_selector('.choose-operator.choose-operator-pris')
+      expect(page).to have_selector('.choose-operator.choose-operator-intervenant')
       expect(page).to have_selector("#intervenant_#{projet.invited_operateur.id}[checked]")
 
       previous_operateur = projet.invited_operateur
@@ -58,8 +58,8 @@ feature "en tant que demandeur, je peux changer d'opérateur" do
     scenario "je ne peux plus changer d'opérateur en allant directement sur la page d'édition" do
       signin(projet.numero_fiscal, projet.reference_avis)
       visit etape3_choix_intervenant_path(projet)
-      expect(page).not_to have_selector('.choose-operator.pris')
-      expect(page).not_to have_selector('.choose-operator.intervenant')
+      expect(page).not_to have_selector('.choose-operator.choose-operator-pris')
+      expect(page).not_to have_selector('.choose-operator.choose-operator-intervenant')
     end
   end
 end

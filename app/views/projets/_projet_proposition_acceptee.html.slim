@@ -36,7 +36,6 @@ article.block.recap-projet
       | - en cas de non-respect des engagements et de la règlementation en vigueur et en cas de fraude, l’aide attribuée est annulée et les sommes déjà perçues seront reversées avec majoration
       br
       | - toute fraude ou fausse déclaration expose également à des sanctions pécuniaires, à des sanctions administratives (interdiction de bénéficier d’une subvention pendant un délai pouvant atteindre cinq années), et à des poursuites judiciaires.
-      br
-      br
-      = form_tag(projet_transmissions_path(projet_id: @projet_courant.id), method: :post, class: 'ui form' ) do
-        = submit_tag t('projets.transmissions.messages.envoi_demande'), class: 'btn'
+      .button-group
+        = form_tag(projet_transmissions_path(projet_id: @projet_courant.id), method: :post, class: 'ui form' ) do
+          = submit_tag t('projets.transmissions.messages.envoi_demande'), class: 'btn'

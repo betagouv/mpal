@@ -6,27 +6,31 @@ article.block.projet
       - if current_agent
         p Le demandeur n'a pas encore rempli le projet.
       - else
-        = link_to "Remplir le projet", etape2_description_projet_path(@projet_courant), class: 'btn pen'
+        .button-group
+          = link_to "Remplir le projet", etape2_description_projet_path(@projet_courant), class: 'btn pen'
     - else
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/
       h4 Organisme qui vous accompagne pour la suite de votre projet :
       - operateur = @projet_courant.intervenants.pour_role(:operateur).first
       - if operateur.present?
-        p
+        .description-operateur
           strong= operateur
+          p= operateur.adresse_postale
         - unless current_agent
           br
           br
-          | Vous pouvez à présent dialoguer avec cet intervenant par la messagerie. Vous serez informé par email pour chaque réponse de sa part.
-        - if @projet_courant.can_validate_operateur?
-          = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn'
-        - if @projet_courant.can_switch_operateur?
-          = link_to t('projets.visualisation.changer_intervenant'), etape3_choix_intervenant_path(@projet_courant), class: 'btn btn-edit'
+          | Vous pouvez à présent dialoguer avec cet intervenant par la
+          = link_to 'messagerie', '#messagerie'
+          |. Vous serez informé par email pour chaque réponse de sa part.
+        .button-group
+          - if @projet_courant.can_validate_operateur?
+            = link_to t('projets.visualisation.s_engager_avec_operateur'), new_projet_choix_intervenant_path(@projet_courant, intervenant_id: @projet_courant.intervenants.first), class: 'btn'
+          - if @projet_courant.can_switch_operateur?
+            = link_to t('projets.visualisation.changer_intervenant'), etape3_choix_intervenant_path(@projet_courant), class: 'btn btn-edit'
       - else
         p
           strong Aucun
         - unless current_agent
-          br
-          br
-        = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'
+          .button-group
+            = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'

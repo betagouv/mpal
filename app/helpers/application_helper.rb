@@ -200,7 +200,7 @@ module ApplicationHelper
     travaux << t("demarrage_projet.etape2_description_projet.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb
     travaux << t("demarrage_projet.etape2_description_projet.travaux_monte_escalier") if demande.travaux_monte_escalier
     travaux << t("demarrage_projet.etape2_description_projet.travaux_amenagement_ext") if demande.travaux_amenagement_ext
-    travaux << "#{t("demarrage_projet.etape2_description_projet.travaux_autres")} : #{demande.travaux_autres}" if demande.travaux_autres
+    travaux << "#{t("demarrage_projet.etape2_description_projet.travaux_autres")} : #{demande.travaux_autres}" if demande.travaux_autres.present?
     html << content_tag(:ul) do
       travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
     end

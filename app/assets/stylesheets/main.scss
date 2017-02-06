@@ -1093,6 +1093,13 @@ input:-ms-input-placeholder {
             background-image: image-url("pen.svg");
           }
 
+.description-operateur {
+  border-left: 5px solid #ddd;
+  padding-left: 10px;
+}
+.button-group {
+  @extend .clearfix;
+}
 .dashboard-dossiers {
   .heading {
     margin-bottom: 1em;
