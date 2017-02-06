@@ -6,8 +6,7 @@ class DocumentsController < ApplicationController
     if @document.save
       redirect_to projet_demande_path(@projet_courant), notice: t('projets.demande.messages.succes_depot_document')
     else
-      render 'projets/demande'
-      # redirect_to projet_demande_path(@projet_courant), alert: t('projets.demande.messages.erreur_depot_document')
+      redirect_to projet_demande_path(@projet_courant), alert: t('projets.demande.messages.erreur_depot_document')
     end
   end
 

@@ -82,16 +82,11 @@ feature "intervenant" do
       expect(page).to have_link('Titre de propriété', href: "/uploads/projets/#{projet.id}/Ma_pi_ce_jointe.txt")
     end
 
-    scenario "upload d'un document avec erreur", pending: true do
+    scenario "upload d'un document avec erreur" do
       visit dossier_demande_path(projet)
-      attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
       click_button(I18n.t('projets.demande.action_depot_document'))
-      expect(page).to have_content(I18n.t('projets.demande.messages.erreur_label_manquant'))
-    end
 
-    scenario "visualisation d'un document", pending: true do
-      visit dossier_demande_path(projet)
-      expect(page).to have_link(document.label, href: document.fichier_url)
+      expect(page).to have_content(I18n.t('projets.demande.messages.erreur_depot_document'))
     end
   end
 
