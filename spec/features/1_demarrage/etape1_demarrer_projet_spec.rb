@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "Etape 1 de la création d'un projet, le demandeur visualise les infos récupérées par l'appel à api particulier et il les modifie et précise si besoin" do
+feature "En tant que demandeur, je peux vérifier et corriger mes informations personnelles" do
 
   before do
     Projet.destroy_all

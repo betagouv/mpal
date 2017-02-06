@@ -4,7 +4,7 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "J'ai accès aux données concernant mes dossiers" do
-  let(:projet)      { create(:projet, :with_intervenants_disponibles, :with_invited_operateur) }
+  let(:projet)      { create(:projet, :prospect, :with_intervenants_disponibles, :with_invited_operateur) }
   let(:operateur)   { create :operateur,   departements: [projet.departement] }
   let(:instructeur) { create :instructeur, departements: [projet.departement] }
   let(:pris)        { create :pris,        departements: [projet.departement] }

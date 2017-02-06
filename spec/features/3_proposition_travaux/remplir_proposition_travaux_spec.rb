@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "intervenant" do
+feature "Remplir la proposition de travaux" do
   let(:projet) {            create :projet, :en_cours }
   let!(:instructeur) {      create :instructeur, departements: [projet.departement] }
   let!(:pris) {             create :pris,        departements: [projet.departement] }
@@ -21,19 +21,6 @@ feature "intervenant" do
   let(:agent_instructeur) { create :agent, intervenant: instructeur }
   let(:agent_pris) {        create :agent, intervenant: pris }
   let(:agent_operateur) {   create :agent, intervenant: operateur }
-
-  context "en tant que PRIS" do
-    before { login_as agent_pris, scope: :agent }
-
-    scenario "visualisation d'un projet", pending: true do
-      visit dossier_path(invitation.projet)
-      expect(page).to have_content(projet.adresse)
-      click_link 'Intervenants'
-      within '.disponibles' do
-        expect(page).to have_content(operateur.raison_sociale)
-      end
-    end
-  end
 
   context "en tant qu'opérateur" do
     let(:document) { create :document, projet: projet }
@@ -87,28 +74,6 @@ feature "intervenant" do
       click_button(I18n.t('projets.demande.action_depot_document'))
 
       expect(page).to have_content(I18n.t('projets.demande.messages.erreur_depot_document'))
-    end
-  end
-
-  context do
-    let!(:projet_prospect) {     create :projet, :prospect }
-    let!(:invitation_prospect) { create :invitation, intervenant: operateur, projet: projet_prospect }
-    before { login_as agent_operateur, scope: :agent }
-
-    scenario "accès à un projet à partir du tableau de bord" do
-      visit dossiers_path
-      within "#projet_#{projet_prospect.id}" do
-        expect(page).to have_content(I18n.t("prospect", scope: "projets.statut"))
-        click_link projet_prospect.demandeur_principal
-        expect(page).to have_content(projet_prospect.demandeur_principal)
-      end
-
-      visit dossiers_path
-      within "#projet_#{projet.id}" do
-        expect(page).to have_content(I18n.t("en_cours", scope: "projets.statut"))
-        click_link projet.demandeur_principal
-        expect(page).to have_content(projet.demandeur_principal)
-      end
     end
   end
 end

@@ -1,8 +1,7 @@
 require 'rails_helper'
 require 'support/mpal_helper'
 
-feature "en tant que demandeur, je peux changer d'opérateur" do
-
+feature "En tant que demandeur, je peux changer d'opérateur" do
   context "avant de m'être engagé avec un opérateur" do
     let(:projet) { create(:projet, :with_intervenants_disponibles, :with_invited_operateur) }
 
