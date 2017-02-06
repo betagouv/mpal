@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    // show/hide diffrent demandeur
+    // show/hide different demandeur
     $(".dem-diff").hide();
     $(".dem-contact input:radio").change(function(){
         if ($("#contact-diff").is(':checked')){
@@ -11,7 +11,7 @@ $(document).ready(function() {
     });
 
 
-    // Tobggle block page projet
+    // Toggle block page projet
     $(".block h3").each( function(index) {
         if ( !$(this).hasClass("is-open") ){
             $(this).parent().find(".content-block").slideUp(0);
@@ -85,20 +85,6 @@ $(document).ready(function() {
             $textContainer.text(filesCount + ' fichiers sélectionnés');
         }
     });
-
-    // Same height choose operator
-    var eHeight =  $(".choose-operator label");
-
-    var mHeight = function(eHeight) {
-        return Math.max.apply(null, eHeight.map(function() {
-            return $(this).outerHeight()
-        }).get())
-    };
-    $(".choose-operator label").outerHeight(mHeight($(".choose-operator label")));
-
-
-
-
 
     // change taux
     $(".change-taux").click(function(){

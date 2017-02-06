@@ -29,7 +29,7 @@
     - if @pris_departement.present?
       p.chapo
         strong Je souhaite me renseigner gratuitement, je choisis de prendre contact avec :
-      div.choose-operator.pris
+      .choose-operator.pris
         - @pris_departement.each do |pris|
           = radio_button_tag :intervenant, pris.id, pris.id == @operateur.try(:id)
           label for="intervenant_#{pris.id}"
@@ -39,7 +39,7 @@
     - if @operateurs_disponibles.present?
       p.chapo
         strong Je souhaite déposer une demande d’aide à l’Anah, je prends contact avec l’opérateur suivant :
-      div.choose-operator.intervenant
+      .choose-operator
         - @operateurs_disponibles.each do |operateur|
           = radio_button_tag :intervenant, operateur.id, operateur.id == @operateur.try(:id)
           label for="intervenant_#{operateur.id}"

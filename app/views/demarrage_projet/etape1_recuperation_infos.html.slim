@@ -65,12 +65,11 @@
              = ff.text_field :lien_avec_demandeur, placeholder:  t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_placeholder')
   /! Occupants
   section.occupants
-    h2
+    h2.occupants-heading
       = t('demarrage_projet.etape1_demarrage_projet.section_occupants')
-      a.btn href="#"
+      /TODO a.btn href="#"
         = t('demarrage_projet.etape1_demarrage_projet.ajouter_occupant')
 
-    hr/
     .occupants-recap
       ul
         li
