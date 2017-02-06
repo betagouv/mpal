@@ -237,6 +237,4 @@ Devise.setup do |config|
 
   # The default HTTP method used to sign out a resource. Default is :delete.
   config.sign_out_via = :get
-
-  config.cas_base_url = ENV['CLAVIS_URL']
 end

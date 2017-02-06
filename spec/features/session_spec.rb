@@ -46,4 +46,11 @@ feature "Réinitialisation de la session" do
       expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
     end
   end
+
+  context "en tant qu'intervenant" do
+    scenario "j'ai une notification de deconnexion" do
+      visit agents_signed_out_path
+      expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion_clavis'))
+    end
+  end
 end

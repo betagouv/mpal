@@ -4,7 +4,12 @@ class MyCasController < Devise::CasSessionsController
   before_action :delete_flash_error, only: :new
 
   def cas_logout_url
-    "#{ENV['CLAVIS_URL']}logout?service=#{root_url}"
+    "#{ENV['CLAVIS_URL']}logout?service=#{agents_signed_out_url}"
+  end
+
+  def signed_out
+    flash.notice = t('sessions.confirmation_deconnexion_clavis') unless current_agent
+    redirect_to new_session_path
   end
 
 private

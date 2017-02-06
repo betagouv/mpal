@@ -20,7 +20,7 @@ class ApiBan
     response = HTTParty.get(uri(adresse))
     logger.debug "Completed Api-Ban request (#{response.code})"
 
-    response.code == 200 ? JSON.parse(response.body) : nil
+    response.code == 200 ? JSON.parse(response.body) : {}
   end
 
   private

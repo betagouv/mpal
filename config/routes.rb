@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   end
 
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
+  devise_scope :agent do
+    get '/agents/signed_out', to: 'my_cas#signed_out'
+  end
+
   root 'sessions#new'
   namespace :api, path: '/api/v1/projets/:projet_id' do
     get  '/', to: 'projets#show', as: 'projet'

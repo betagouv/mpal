@@ -9,6 +9,7 @@ fr:
     access_forbidden: Vous n'avez pas accès à cette page
     erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
+    confirmation_deconnexion_clavis: "Vous avez été déconnecté de Clavis"
     lien_deconnexion: "Déconnexion"
     authentification_clavis: "Vous êtes intervenant ? Identifiez-vous via %{clavis}"
     authentification_clavis_logged: "Je m'identifie via %{clavis}"
