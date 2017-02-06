@@ -3,6 +3,6 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "Etape 3 de la création de projet, le demandeur contacte un intervenant" do
+feature "En tant que demandeur, je peux choisir un opérateur ou un PRIS" do
   # TODO
 end

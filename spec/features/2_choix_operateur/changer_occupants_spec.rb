@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "Occupant" do
+feature "En tant que demandeur, je peux modifier les occupants de mon logement" do
   let(:projet) { FactoryGirl.create(:projet) }
   let!(:occupant) { FactoryGirl.create(:occupant, projet: projet) }
 

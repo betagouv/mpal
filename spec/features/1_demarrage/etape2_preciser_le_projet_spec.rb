@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "Etape 2 de la création de projet, le demandeur précise ses besoins" do
+feature "En tant que demandeur, je peux préciser mes besoins pour ma demande de travaux" do
   before do
     Projet.destroy_all
     Demande.destroy_all

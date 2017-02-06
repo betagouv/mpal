@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "remplir la proposition de travaux" do
+feature "Remplir la proposition de travaux" do
   let(:projet) {            create :projet, :en_cours }
   let!(:instructeur) {      create :instructeur, departements: [projet.departement] }
   let!(:pris) {             create :pris,        departements: [projet.departement] }
