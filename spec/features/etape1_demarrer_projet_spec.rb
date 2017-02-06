@@ -124,7 +124,7 @@ feature "Etape 1 de la création d'un projet, le demandeur visualise les infos r
     expect(page).to have_content(I18n.t('agrements.attestation_communiquer_infos_occupants'))
   end
 
-  scenario "j'ai commencé une demande, j'ai quitté la page puis j'ai recommancé la démarche depuis la page d'accueil" do
+  scenario "j'ai commencé une demande, j'ai quitté la page puis j'ai recommencé la démarche depuis la page d'accueil" do
     skip
     # actuellement une erreur
     # https://github.com/sgmap/mpal/issues/198
