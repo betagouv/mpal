@@ -60,7 +60,7 @@ feature "intervenant" do
       expect(page).to have_content(aide.libelle)
     end
 
-    scenario "upload d'un document", pending: true do
+    scenario "upload d'un document" do
       visit dossier_demande_path(projet)
       attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
       fill_in 'label_document', with: 'Titre de propriété'
