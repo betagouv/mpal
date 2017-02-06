@@ -59,8 +59,8 @@ date= l(Time.now.to_date)
 
 - if @projet_courant.documents.present?
   h4 Pièces jointes
-    ul.ctr-ope
-      - @projet_courant.documents.each do |document|
-        li
-          i.icon.file-dark
-          = link_to document.label, document.fichier_url, target: "_blank"
+  ul.ctr-ope.documents-list
+    - @projet_courant.documents.each do |document|
+      li
+        i.icon.file-dark
+        = link_to document.label, document.fichier_url, target: "_blank"

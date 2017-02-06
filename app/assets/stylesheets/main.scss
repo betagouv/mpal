@@ -879,6 +879,9 @@ input:-ms-input-placeholder {
         .edition-demande {
           margin-bottom: 15px;
         }
+        .page-projet .col-right .content-projet .block.projet-ope h4:not(:first-child) {
+          margin-top: 20px;
+        }
         .page-projet .col-right .content-projet .block.projet-ope fieldset {
           padding: 10px 15px 15px;
           border: 1px solid #dde3ef;
