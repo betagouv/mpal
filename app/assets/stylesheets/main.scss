@@ -1075,6 +1075,13 @@ input:-ms-input-placeholder {
   }
 }
 
+.documents-list {
+  line-height: 1.5em;
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
 /** FOOTER **/
 .main-footer {
   text-align: center;

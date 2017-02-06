@@ -3,11 +3,11 @@ section.content-projet
     h3.is-open Pièces jointes
     .content-block
       - if @projet_courant.documents
-        ul
-        - @projet_courant.documents.select{|document| document.persisted? }.each do |document|
-          li
-            i.file.icon
-            = link_to document.label, document.fichier_url, target: "_blank"
+        ul.documents-list
+          - @projet_courant.documents.select{|document| document.persisted? }.each do |document|
+            li
+              i.icon.file-dark
+              = link_to document.label, document.fichier_url, target: "_blank"
 
       p
         br

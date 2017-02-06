@@ -1,0 +1,13 @@
+.icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  vertical-align: -2px; /* aligning the icon slightly below the baseline
+                           gives the appearance of being centered vertically with the letters */
+
+  &.file-dark {
+    background-image: image-url("file-dark.svg");
+  }
+}

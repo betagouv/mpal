@@ -61,4 +61,6 @@ date= l(Time.now.to_date)
   h4 Pièces jointes
     ul.ctr-ope
       - @projet_courant.documents.each do |document|
-        li= link_to document.label, document.fichier_url, target: "_blank"
+        li
+          i.icon.file-dark
+          = link_to document.label, document.fichier_url, target: "_blank"
