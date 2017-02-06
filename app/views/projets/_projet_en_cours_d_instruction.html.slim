@@ -1,3 +1,9 @@
-- content_for :cta do
-  h2 En cours d'instruction
-= render 'projet_proposition_acceptee'
+article.block.recap-projet
+  h3.is-open Projet retenu par le demandeur
+  .content-block
+    .invoice
+      = render 'projets/projet_invoice'
+
+      h4 État de la demande
+      = message_projet_transmis
+      = yield (:cta)
