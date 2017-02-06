@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "intervenant" do
+feature "remplir la proposition de travaux" do
   let(:projet) {            create :projet, :en_cours }
   let!(:instructeur) {      create :instructeur, departements: [projet.departement] }
   let!(:pris) {             create :pris,        departements: [projet.departement] }
@@ -21,19 +21,6 @@ feature "intervenant" do
   let(:agent_instructeur) { create :agent, intervenant: instructeur }
   let(:agent_pris) {        create :agent, intervenant: pris }
   let(:agent_operateur) {   create :agent, intervenant: operateur }
-
-  context "en tant que PRIS" do
-    before { login_as agent_pris, scope: :agent }
-
-    scenario "visualisation d'un projet", pending: true do
-      visit dossier_path(invitation.projet)
-      expect(page).to have_content(projet.adresse)
-      click_link 'Intervenants'
-      within '.disponibles' do
-        expect(page).to have_content(operateur.raison_sociale)
-      end
-    end
-  end
 
   context "en tant qu'opérateur" do
     let(:document) { create :document, projet: projet }
@@ -90,7 +77,8 @@ feature "intervenant" do
     end
   end
 
-  context do
+  # TODO: déplacer ce test ailleurs
+  context "projet prospect" do
     let!(:projet_prospect) {     create :projet, :prospect }
     let!(:invitation_prospect) { create :invitation, intervenant: operateur, projet: projet_prospect }
     before { login_as agent_operateur, scope: :agent }
