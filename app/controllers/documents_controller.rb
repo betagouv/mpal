@@ -2,7 +2,7 @@ class DocumentsController < ApplicationController
   def create
     @document = @projet_courant.documents.build
     @document.fichier = params[:fichier_document]
-    @document.label = params[:label_document]
+    @document.label = if params[:label_document].present? then params[:label_document] else @document.fichier.filename end
     if @document.save
       redirect_to projet_demande_path(@projet_courant), notice: t('projets.demande.messages.succes_depot_document')
     else

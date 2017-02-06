@@ -60,7 +60,18 @@ feature "intervenant" do
       expect(page).to have_content(aide.libelle)
     end
 
-    scenario "upload d'un document" do
+    scenario "upload d'un document sans label" do
+      visit dossier_demande_path(projet)
+      attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
+      fill_in 'label_document', with: ''
+      click_button(I18n.t('projets.demande.action_depot_document'))
+
+      expect(projet.documents.count).to eq(1)
+      expect(page).to have_content(I18n.t('projets.demande.messages.succes_depot_document'))
+      expect(page).to have_link('mapiece.txt')
+    end
+
+    scenario "upload d'un document avec un label" do
       visit dossier_demande_path(projet)
       attach_file :fichier_document, Rails.root + "spec/fixtures/mapiece.txt"
       fill_in 'label_document', with: 'Titre de propriété'
