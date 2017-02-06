@@ -76,27 +76,4 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(I18n.t('projets.demande.messages.erreur_depot_document'))
     end
   end
-
-  # TODO: déplacer ce test ailleurs
-  context "projet prospect" do
-    let!(:projet_prospect) {     create :projet, :prospect }
-    let!(:invitation_prospect) { create :invitation, intervenant: operateur, projet: projet_prospect }
-    before { login_as agent_operateur, scope: :agent }
-
-    scenario "accès à un projet à partir du tableau de bord" do
-      visit dossiers_path
-      within "#projet_#{projet_prospect.id}" do
-        expect(page).to have_content(I18n.t("prospect", scope: "projets.statut"))
-        click_link projet_prospect.demandeur_principal
-        expect(page).to have_content(projet_prospect.demandeur_principal)
-      end
-
-      visit dossiers_path
-      within "#projet_#{projet.id}" do
-        expect(page).to have_content(I18n.t("en_cours", scope: "projets.statut"))
-        click_link projet.demandeur_principal
-        expect(page).to have_content(projet.demandeur_principal)
-      end
-    end
-  end
 end
