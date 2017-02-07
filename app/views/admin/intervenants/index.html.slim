@@ -1,0 +1,29 @@
+.main-content-block
+  h2.heading Intervenants
+  - if @intervenants.blank?
+    p Aucun intervenant.
+  - else
+    table.table.table-borders
+      thead
+        tr
+          th Id
+          th Raison sociale
+          th Email
+          th Adresse postale
+          th Départements
+          th Thèmes
+          th Roles
+          th Informations
+          th Service Clavis
+      tbody
+        - @intervenants.each do |intervenant|
+          tr id="intervenant_#{intervenant.id}"
+            td= intervenant.id
+            td= intervenant.raison_sociale
+            td= intervenant.email
+            td= intervenant.adresse_postale
+            td= intervenant.departements.join(', ')
+            td= intervenant.themes
+            td= intervenant.roles.join(', ')
+            td= intervenant.informations
+            td= intervenant.clavis_service_id

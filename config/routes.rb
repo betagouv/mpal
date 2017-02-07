@@ -61,6 +61,10 @@ Rails.application.routes.draw do
     resources :sessions, only: [:new, :create]
   end
 
+  namespace :admin do
+    resources :intervenants
+  end
+
   get  '/deconnexion', to: 'sessions#deconnexion'
   resources :dossiers, only: []
   get  '/informations/faq', to: 'informations#faq'
