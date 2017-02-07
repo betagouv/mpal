@@ -109,6 +109,31 @@ input:-ms-input-placeholder {
   background-image: image-url("logout.svg");
 }
 
+/** Tables */
+.table {
+  background-color: white;
+}
+
+.table-borders {
+  border-collapse: collapse;
+  border-spacing: 0;
+
+  &, th, td {
+    border: 1px solid #54869B;
+  }
+
+  th {
+    background-color: #D6EAF3;
+  }
+}
+
+/** Forms */
+fieldset {
+  border: 1px solid #54869B;
+  margin: 10px auto;
+  padding: 10px;
+}
+
 /** Main container **/
 .main-container {
   width: 100%;
