@@ -52,12 +52,10 @@ class Admin::IntervenantsController < AdminController
     intervenant = Intervenant.find_or_create_by(raison_sociale: row['raison_sociale'])
     intervenant.assign_attributes(row.to_hash)
     if row['roles']
-      intervenant.roles ||= []
-      intervenant.roles << row['roles'].split(',').map(&:strip)
+      intervenant.roles = row['roles'].split(',').map(&:strip)
     end
     if row['departements']
-      intervenant.departements ||= []
-      intervenant.departements << row['departements'].split(',').map(&:strip)
+      intervenant.departements = row['departements'].split(',').map(&:strip)
     end
     intervenant.save!
   end
