@@ -1,5 +1,5 @@
 class AdminController < ApplicationController
-  layout 'logged_in'
+  layout 'informations'
 
   before_action :assert_admin
   skip_before_action :assert_projet_courant
