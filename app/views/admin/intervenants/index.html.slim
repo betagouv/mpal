@@ -1,5 +1,10 @@
 .main-content-block
   h2.heading Intervenants
+  = form_tag({ action: :import }, multipart: true) do
+    fieldset.visible
+      legend Importer un fichier CSV
+      = file_field_tag 'csv_file'
+      = submit_tag "Importer le fichier", class: 'btn'
   - if @intervenants.blank?
     p Aucun intervenant.
   - else
@@ -23,7 +28,7 @@
             td= intervenant.email
             td= intervenant.adresse_postale
             td= intervenant.departements.join(', ')
-            td= intervenant.themes
+            td= intervenant.themes.try(:join, ', ')
             td= intervenant.roles.join(', ')
             td= intervenant.informations
             td= intervenant.clavis_service_id

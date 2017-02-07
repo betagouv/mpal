@@ -110,7 +110,6 @@ input:-ms-input-placeholder {
 }
 
 /** Tables */
-
 .table {
   background-color: white;
 }
@@ -126,6 +125,13 @@ input:-ms-input-placeholder {
   th {
     background-color: #D6EAF3;
   }
+}
+
+/** Forms */
+fieldset {
+  border: 1px solid #54869B;
+  margin: 10px auto;
+  padding: 10px;
 }
 
 /** Main container **/
