@@ -27,7 +27,7 @@ class Opal
 
   def convertit_projet_en_dossier(projet, agent_instructeur)
     {
-      "dosNumeroPlateforme": "#{projet.plateforme_id}",
+      "dosNumeroPlateforme": "#{projet.numero_plateforme}",
       "dosDateDepot": Time.now.strftime("%Y-%m-%d"),
       "utiIdClavis": agent_instructeur.clavis_id,
       "demandeur": {
