@@ -41,8 +41,8 @@ class ApplicationController < ActionController::Base
   end
 
   def assert_projet_courant
-    projet_id = params[:dossier_id] || params[:projet_id]
-    @projet_courant = Projet.find_by_id(projet_id) if projet_id
+    projet_locator = params[:dossier_id] || params[:projet_id]
+    @projet_courant = Projet.find_by_locator(projet_locator) if projet_locator
     unless @projet_courant
       return redirect_to root_path, alert: t('sessions.access_forbidden')
     end

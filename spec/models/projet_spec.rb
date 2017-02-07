@@ -39,6 +39,31 @@ describe Projet do
     end
   end
 
+  describe "#find_by_locator" do
+    let(:projet) { create :projet }
+
+
+    context "avec un id de dossier" do
+      let(:locator) { projet.id }
+      it { expect(Projet.find_by_locator(locator)).to eq(projet) }
+    end
+
+    context "avec un id de dossier passé en paramètre en tant que chaîne de caractères" do
+      let(:locator) { projet.id.to_s }
+      it { expect(Projet.find_by_locator(locator)).to eq(projet) }
+    end
+
+    context "avec un numéro de plateforme" do
+      let(:locator) { "#{projet.id}_#{projet.plateforme_id}" }
+      it { expect(Projet.find_by_locator(locator)).to eq(projet) }
+    end
+
+    context "avec un identifiant invalide" do
+      let(:locator) { "invalid-id" }
+      it { expect(Projet.find_by_locator(locator)).to be_nil }
+    end
+  end
+
   describe '#nb_occupants_a_charge' do
     let(:projet) { create :projet, nb_occupants_a_charge: 3 }
     let!(:occupant_2) { create :occupant, projet: projet }

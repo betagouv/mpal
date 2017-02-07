@@ -32,6 +32,18 @@ class Projet < ActiveRecord::Base
     joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
   }
 
+  def self.find_by_locator(locator)
+    is_numero_plateforme = locator.try(:include?, '_')
+
+    if is_numero_plateforme
+      id            = locator.split('_').first
+      plateforme_id = locator.split('_').last
+      self.find_by(id: id, plateforme_id: plateforme_id)
+    else
+      self.find_by(id: locator)
+    end
+  end
+
   def numero_plateforme
     "#{id}_#{plateforme_id}"
   end
