@@ -27,6 +27,8 @@ class Projet < ActiveRecord::Base
     self.plateforme_id = Time.now.to_i
   end
 
+  before_save :clean_numero_fiscal
+
   scope :for_agent, ->(agent) {
     next where(nil) if agent.instructeur?
     joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
@@ -46,6 +48,10 @@ class Projet < ActiveRecord::Base
 
   def accessible_for_agent?(agent)
     agent.instructeur? || intervenants.include?(agent.intervenant)
+  end
+
+  def clean_numero_fiscal
+    self.numero_fiscal.to_s.gsub(/[^\w]+/, '').upcase
   end
 
   def numero_plateforme
