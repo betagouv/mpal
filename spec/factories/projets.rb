@@ -52,6 +52,13 @@ FactoryGirl.define do
       end
     end
 
+    trait :proposition_enregistree do
+      statut :proposition_enregistree
+      after(:build) do |projet|
+        projet.operateur = create(:operateur, departements: [projet.departement])
+      end
+    end
+
     trait :transmis_pour_instruction do
       statut :transmis_pour_instruction
       after(:build) do |projet|
