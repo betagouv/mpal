@@ -63,7 +63,7 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.delivery_method = :mailjet
+  config.action_mailer.delivery_method = :mailjet_api
   Rails.application.config.middleware.use ExceptionNotification::Rack, email: {
     email_prefix: "[ERREUR][ANAH][#{ENV['ENV_NAME']}] ",
     sender_address: %{"Les aides de l'Anah" <#{ENV['EMAIL_SUPERVISION']}>},
