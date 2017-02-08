@@ -44,6 +44,10 @@ class Projet < ActiveRecord::Base
     end
   end
 
+  def accessible_for_agent?(agent)
+    agent.instructeur? || intervenants.include?(agent.intervenant)
+  end
+
   def numero_plateforme
     "#{id}_#{plateforme_id}"
   end

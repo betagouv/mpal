@@ -8,6 +8,7 @@ feature "J'ai accès aux données concernant mes dossiers" do
   let(:operateur)   { create :operateur,   departements: [projet.departement] }
   let(:instructeur) { create :instructeur, departements: [projet.departement] }
   let(:pris)        { create :pris,        departements: [projet.departement] }
+  let!(:invitation) { create :invitation, intervenant: operateur, projet: projet }
 
   before { login_as agent, scope: :agent }
 

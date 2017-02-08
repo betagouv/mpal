@@ -9,6 +9,7 @@ feature 'messagerie' do
   let(:projet)            { create :projet }
   let(:operateur)         { create :operateur, departements: [projet.departement] }
   let(:agent_operateur)   { create :agent, intervenant: operateur }
+  let!(:invitation)       { create :invitation, intervenant: operateur, projet: projet }
 
   context "en tant que demandeur" do
     before { signin(projet.numero_fiscal, projet.reference_avis) }

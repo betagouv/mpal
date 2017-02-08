@@ -7,10 +7,24 @@ class Agent < ActiveRecord::Base
   has_many   :projects
   validates :nom, presence: true
   validates :prenom, presence: true
+  validates :intervenant, presence: true
 
-  delegate :instructeur?, to: :intervenant
-  delegate :operateur?,   to: :intervenant
-  delegate :pris?,        to: :intervenant
+  #TODO
+  #delegate :instructeur?, to: :intervenant
+  #delegate :operateur?,   to: :intervenant
+  #delegate :pris?,        to: :intervenant
+
+  def instructeur?
+    intervenant && intervenant.instructeur?
+  end
+
+  def operateur?
+    intervenant && intervenant.operateur?
+  end
+
+  def pris?
+    intervenant && intervenant.pris?
+  end
 
   def cas_extra_attributes=(extra_attributes)
     extra_attributes.each do |cas_cle, valeur|
