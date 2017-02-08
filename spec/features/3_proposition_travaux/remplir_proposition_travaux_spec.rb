@@ -26,24 +26,11 @@ feature "Remplir la proposition de travaux" do
     let(:document) { create :document, projet: projet }
     before { login_as agent_operateur, scope: :agent }
 
-    scenario "visualisation de la demande de travaux" do
+    scenario "je m'affecte le projet et je visualise la proposition de travaux" do
       visit dossier_path(projet)
       click_link I18n.t('projets.visualisation.affecter_et_remplir_le_projet')
       expect(page).to have_content("Remplacement d'une baignoire par une douche")
       expect(page).to have_content("Plâtrerie")
-    end
-
-    scenario "modification de la demande" do
-      visit dossier_path(projet)
-      within 'article.projet-ope' do
-        click_link I18n.t('projets.visualisation.lien_edition')
-      end
-      expect(page.current_path).to eq(dossier_demande_path(projet))
-
-      fill_in 'projet_surface_habitable', with: '42'
-      click_on 'Enregistrer cette proposition'
-      expect(page.current_path).to eq(dossier_path(projet))
-      expect(page).to have_content('42')
     end
 
     scenario "visualisation de la demande de financement" do
@@ -79,6 +66,23 @@ feature "Remplir la proposition de travaux" do
       click_button(I18n.t('projets.demande.action_depot_document'))
 
       expect(page).to have_content(I18n.t('projets.demande.messages.erreur_depot_document'))
+    end
+
+    context "pour une demande déjà remplie" do
+      let(:projet) { create :projet, :proposition_enregistree }
+
+      scenario "je peux modifer la proposition" do
+        visit dossier_path(projet)
+        within 'article.projet-ope' do
+          click_link I18n.t('projets.visualisation.lien_edition')
+        end
+        expect(page.current_path).to eq(dossier_demande_path(projet))
+
+        fill_in 'projet_surface_habitable', with: '42'
+        click_on 'Enregistrer cette proposition'
+        expect(page.current_path).to eq(dossier_path(projet))
+        expect(page).to have_content('42')
+      end
     end
   end
 end
