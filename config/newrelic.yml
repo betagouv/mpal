@@ -42,6 +42,6 @@ test:
   monitor_mode: false
 
 production:
-  app_name: ANAH (<%= ENV['ENV_NAME'] %>)
   <<: *default_settings
+  app_name: ANAH (<%= ENV['ENV_NAME'] %>)
 
