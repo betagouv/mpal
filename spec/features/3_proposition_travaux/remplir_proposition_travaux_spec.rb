@@ -34,7 +34,12 @@ feature "Remplir la proposition de travaux" do
     end
 
     scenario "modification de la demande" do
-      visit dossier_demande_path(projet)
+      visit dossier_path(projet)
+      within 'article.projet-ope' do
+        click_link I18n.t('projets.visualisation.lien_edition')
+      end
+      expect(page.current_path).to eq(dossier_demande_path(projet))
+
       fill_in 'projet_surface_habitable', with: '42'
       click_on 'Enregistrer cette proposition'
       expect(page.current_path).to eq(dossier_path(projet))
