@@ -161,7 +161,7 @@ fr:
 
     transmissions:
       messages:
-        envoi_demande: "Signer et transmettre la demande de subvention"
+        envoi_demande: "Je dépose ma demande de subvention"
         succes: La demande a bien été transmise aux services instructeurs
         info_demandeur: "Votre projet a bien été envoyé au %{instructeur}. Vous serez informé par email de l'avancement de votre dossier."
 
