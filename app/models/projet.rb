@@ -117,7 +117,7 @@ class Projet < ActiveRecord::Base
     annee_imposition = annee_revenus ? annee_revenus + 1 : nil
     avis_impositions.where(annee: annee_imposition).each do |avis_imposition|
       contribuable = ApiParticulier.new.retrouve_contribuable(avis_imposition.numero_fiscal, avis_imposition.reference_avis)
-      total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference
+      total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference if contribuable
     end
     total_revenu_fiscal_reference
   end
