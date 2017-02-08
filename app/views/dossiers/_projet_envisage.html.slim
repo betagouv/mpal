@@ -15,7 +15,9 @@ article.block.projet
         - unless current_agent
           br
           br
-          | Vous pouvez à présent dialoguer avec le demandeur par la messagerie. Vous serez informé par email pour chaque réponse de sa part.
+          | Vous pouvez à présent dialoguer avec le demandeur par la
+          = link_to 'messagerie', '#messagerie'
+          | . Vous serez informé par email pour chaque réponse de sa part.
       - else
         p
           strong Aucun

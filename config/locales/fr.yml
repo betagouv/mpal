@@ -154,7 +154,7 @@ fr:
       action_depot_document: "Envoyer le document"
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
-        erreur_depot_document: "Une erreur est survenue. Votre document n'a été ajouté au projet"
+        erreur_depot_document: "Une erreur est survenue. Votre document n'a pas été ajouté au projet"
         succes_suppression_document: 'Votre document a été supprimé avec succès'
         erreur_label_manquant: "Veuillez ajouter un nom à votre document"
         erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
@@ -169,7 +169,7 @@ fr:
       titre_creation_opal: "Créer le dossier dans Opal"
       messages:
         succes: "Le dossier vient d'être créé dans OPAL avec l'identifiant %{id_opal}"
-        erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n'a pu être créé"
+        erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n'a pas pu être créé"
 
     intervenants:
       messages:
