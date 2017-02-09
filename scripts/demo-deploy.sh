@@ -67,8 +67,9 @@ function _perform_merge {
   git push "$remote_name" "$target_branch"
   git checkout -
 
+  echo
   echo "Les commits ont été mergées dans '${target_branch}'."
-  echo "CircleCI va maintenant tester et déployer '${target_branch}' sur l'environnement de démo."
+  echo "CircleCI va maintenant tester et déployer le commit sur l'environnement de démo."
   echo "Vous pouvez suivre la progression du déploiement sur https://circleci.com/gh/sgmap/mpal/tree/${target_branch}"
 }
 
