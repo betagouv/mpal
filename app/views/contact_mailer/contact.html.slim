@@ -1,0 +1,10 @@
+p Bonjour,
+p= "#{@contact.name} vous envoie ce message :"
+p= @contact.description
+p
+  | Coordonnées :
+  br/
+  = "- email : #{@contact.email}"
+  - if @contact.phone.present?
+    br/
+    = "- tél. : #{@contact.phone}"

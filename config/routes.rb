@@ -73,6 +73,8 @@ Rails.application.routes.draw do
   get  '/informations/cgu', to: 'informations#cgu'
   get  '/informations/mentions_legales', to: 'informations#mentions_legales'
 
+  resources :contacts, only: [:index, :new, :create]
+
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]

@@ -223,4 +223,11 @@ module ApplicationHelper
     instructeur = Intervenant.instructeur_pour(@projet_courant)
     html = content_tag(:p, t('projets.transmissions.messages.info_demandeur', :instructeur => instructeur)) if @projet_courant.statut = :transmis_pour_instruction
   end
+
+  def i18n_simple_form_label(model, key)
+    translation = I18n.t("simple_form.labels.#{model}.#{key}", default: "")
+    translation = I18n.t("simple_form.labels.defaults.#{key}", default: "") if translation.blank?
+    translation = I18n.t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
+    translation
+  end
 end
