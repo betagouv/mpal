@@ -153,8 +153,8 @@ module ApplicationHelper
     liste_message = {
       adresse: 'Adresse : ',
       annee_construction: 'Année de construction : ',
-      email: 'E-mail : ',
-      tel: 'N° de télephone : '
+      email: 'Email : ',
+      tel: 'Téléphone : '
     }
     projet.send(attribut).present? ? content_tag(:i, "", class: "checkmark box icon") + liste_message[attribut] : content_tag(:i, "", class: "square outline icon") + "#{liste_message[attribut] } Veuillez renseigner cette donnée"
   end
@@ -164,7 +164,7 @@ module ApplicationHelper
   end
 
   def icone_revenus(projet, annee)
-    calcul_revenu_fiscal_reference_total(annee) ? content_tag(:i, "", class: "checkmark box icon") + "Revenus #{annee} : " : content_tag(:i, "", class: "square outline icon") + "Revenus manquants"
+    calcul_revenu_fiscal_reference_total(annee) ? content_tag(:i, "", class: "checkmark box icon") + "Revenus #{annee} : " : content_tag(:i, "", class: "square outline icon") + "Revenus manquants"
   end
 
   def affiche_intervenants(projet)
@@ -209,7 +209,7 @@ module ApplicationHelper
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite
     ptz = demande.ptz ? "Oui": "Non"
     ptz_strong = content_tag(:strong, ptz)
-    complements << "#{t("demarrage_projet.etape2_description_projet.ptz")} : #{ptz_strong}"
+    complements << "#{t("demarrage_projet.etape2_description_projet.ptz")} : #{ptz_strong}"
     annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
     annee_construction_strong = content_tag(:strong, annee_construction)
     complements << "#{t("demarrage_projet.etape2_description_projet.annee_construction")} : #{annee_construction_strong}"
