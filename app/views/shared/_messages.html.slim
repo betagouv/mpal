@@ -4,7 +4,7 @@
     .alert.alert-info
       - title = flash[:notice_titre]
       - if title.present?
-        .header= title
+        h3= title
       p= notice
   - if alert
     .alert.alert-danger= alert

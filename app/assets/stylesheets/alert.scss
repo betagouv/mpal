@@ -73,6 +73,11 @@ $alert-danger-border:         $state-danger-border !default;
   margin-bottom: $alert-margin-bottom;
   border: $alert-border-width solid transparent;
   border-radius: $alert-border-radius;
+
+  h3 {
+    font-size: 1em;
+    font-weight: bold;
+  }
 }
 
 // Headings for larger alerts
