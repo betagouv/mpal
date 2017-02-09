@@ -1,9 +1,9 @@
 .login
   section.intro
     h1
-      = image_tag "logo-anah.png", alt: "Les aides de l'Anah - Agence Nationale de l'Habitat"
+      = image_tag "logo-anah.png", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat"
     h2
-      strong Avec nous, améliorez l'habitat !
+      strong Avec nous, améliorez l’habitat !
       | Le financement de mon projet prend vie en quelques minutes…
     p
       | Vous êtes propriétaire d’un appartement ou d’une maison et vous y habitez ou allez y
@@ -46,7 +46,7 @@
             abbr title=("Agence nationale de l’habitat") Anah
             |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon 
             abbr title=("Revenu fiscal de référence") RFR
-        = submit_tag t('sessions.nouvelle.action'), class:'btn'
+        = submit_tag t('sessions.nouvelle.action'), class: 'btn'
       .authentification-clavis
         = t('sessions.authentification_clavis', clavis: link_to('Clavis', new_agent_session_path)).html_safe
 
@@ -58,15 +58,15 @@
           | un demandeur habitant dans les Vosges :
           strong  88 / 1588
         li
-          | un demandeur habitant dans le Val d'Oise :
+          | un demandeur habitant dans le Val d’Oise :
           strong  95 / 1595
         li
-          | un autre demandeur habitant dans le Val d'Oise :
+          | un autre demandeur habitant dans le Val d’Oise :
           strong  952 / 15952
         li
           | un demandeur habitant dans les Vosges :
           strong  25 / 1525
-      p Pour accéder à la plate-forme en tant qu'opérateur, il est indispensable sur cette version béta de cliquer sur le lien reçu par email :
+      p Pour accéder à la plate-forme en tant qu’opérateur, il est indispensable sur cette version béta de cliquer sur le lien reçu par email :
       p= link_to t('accueil.lire_les_emails'), letter_opener_web_url, class: "btn btn-simple btn-test"
-      p Si les emails n'apparaissent pas, cliquez sur "Refresh" pour mettre à jour la page.
+      p Si les emails n’apparaissent pas, cliquez sur "Refresh" pour mettre à jour la page.
       p= link_to t('accueil.reinitialiser'), reset_path, class: "btn btn-simple btn-test"

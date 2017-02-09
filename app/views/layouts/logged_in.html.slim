@@ -9,7 +9,7 @@
           p.nom-agent
             span.firstname= current_agent.prenom
             span.lastname<= current_agent.nom
-          p.nom-intervenant= current_agent.intervenant
+          p.nom-intervenant= current_agent.intervenant.raison_sociale
       - if @projet_courant
         section.personal-information
           h2

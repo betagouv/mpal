@@ -18,7 +18,7 @@ describe ProjetMailer, type: :mailer do
     let(:email) { ProjetMailer.mise_en_relation_intervenant(mise_en_relation) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([mise_en_relation.intervenant_email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: mise_en_relation.intermediaire)) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: mise_en_relation.intermediaire.raison_sociale)) }
   end
 
   describe "l'opérateur reçoit un email lorsque le demandeur choisit un autre opérateur" do
@@ -51,7 +51,7 @@ describe ProjetMailer, type: :mailer do
     let(:email) { ProjetMailer.notification_choix_intervenant(projet) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([projet.operateur.email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: operateur, demandeur_principal: projet.demandeur_principal.fullname)) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: operateur.raison_sociale, demandeur_principal: projet.demandeur_principal.fullname)) }
     it { expect(email.body.encoded).to match(invitation.demandeur_principal.fullname) }
     it { expect(email.body.encoded).to include(dossier_url(projet)) }
    end

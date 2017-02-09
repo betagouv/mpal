@@ -15,7 +15,7 @@ article#messagerie.block.messagerie
             span.firstname= auteur.prenom
             span.lastname<= auteur.nom
             - if auteur.is_a?(Agent)
-              = " (#{commentaire.auteur.intervenant})"
+              = " (#{commentaire.auteur.intervenant.raison_sociale})"
           p
             = commentaire.corps_message
             date= l(commentaire.created_at, format: :short)

@@ -15,7 +15,7 @@ article.block.projet
       - operateur = @projet_courant.intervenants.pour_role(:operateur).first
       - if operateur.present?
         .description-operateur
-          strong= operateur
+          strong= operateur.raison_sociale
           p= operateur.adresse_postale
         - unless current_agent
           br

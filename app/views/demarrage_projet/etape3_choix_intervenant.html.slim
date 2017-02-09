@@ -34,7 +34,7 @@
           = radio_button_tag :intervenant, pris.id, pris.id == @operateur.try(:id)
           label for="intervenant_#{pris.id}"
             h3 Centre Information
-            p= pris
+            p= pris.raison_sociale
             div.btn= t('projets.visualisation.invitation_intervenant')
     - if @operateurs_disponibles.present?
       p.chapo
@@ -43,7 +43,7 @@
         - @operateurs_disponibles.each do |operateur|
           = radio_button_tag :intervenant, operateur.id, operateur.id == @operateur.try(:id)
           label for="intervenant_#{operateur.id}"
-            h3= operateur
+            h3= operateur.raison_sociale
             p= operateur.adresse_postale
             div.btn= t('projets.visualisation.invitation_intervenant')
 

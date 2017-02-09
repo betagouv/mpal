@@ -10,7 +10,7 @@ ul.demandeur-info
 - if @projet_courant.operateur
   ul.operateur-info
     li
-      strong= @projet_courant.operateur
+      strong= @projet_courant.operateur.raison_sociale
     li= @projet_courant.operateur.adresse_postale
 /TODO p.delegataire Délégataire : ?
 = render 'projets/projet_details'
