@@ -30,6 +30,8 @@
               p Ce dossier n'est pas encore affecté.
             - if current_agent.operateur? && current_agent != @projet_courant.agent
               p= link_to t('projets.visualisation.lien_affecter_agent'), dossier_affecter_agent_path(@projet_courant), class: 'btn btn-affecter-agent'
+            - if @projet_courant.opal_numero.present?
+              p Numéro OPAL : #{link_to @projet_courant.opal_numero, dossier_opal_url(@projet_courant.opal_numero), target: '_blank'}
     .col-right
       header.project-header
         section.top-bar.clearfix

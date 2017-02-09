@@ -230,4 +230,8 @@ module ApplicationHelper
     translation = I18n.t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
     translation
   end
+
+  def dossier_opal_url(numero)
+    "#{ENV['OPAL_API_BASE_URI']}sio/ctrl/accueil?FORM_DTO_ID=DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE&FORM_ACTION=RECHERCHER_RAPIDE_DOSSIER&$DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE$DOS_NUMERO=#{numero}"
+  end
 end
