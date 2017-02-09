@@ -46,7 +46,7 @@ fr:
     condition5: "Les aides sont liées aux conditions de ressources et au nombre d’occupants."
     condition_coche: "Je reconnais avoir pris connaissance de ces conditions"
     action: Je démarre mon projet
-    description_titre: ANAH rassemble autour de votre projet toutes les compétences pour le faire aboutir
+    description_titre: Anah rassemble autour de votre projet toutes les compétences pour le faire aboutir
     description: "Vous reculez devant un projet d’amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches pour obtenir une subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé sous des informations contradictoires, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra."
     lire_les_emails: "Lire les emails"
     reinitialiser: "Réinitialiser les données"
