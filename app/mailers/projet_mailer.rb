@@ -15,7 +15,7 @@ class ProjetMailer < ActionMailer::Base
     @invitation = invitation
     mail(
       to: invitation.projet_email,
-      subject: t('mailers.projet_mailer.notification_invitation_intervenant.sujet', intervenant: @invitation.intervenant.fullname)
+      subject: t('mailers.projet_mailer.notification_invitation_intervenant.sujet', intervenant: @invitation.intervenant.raison_sociale)
     )
   end
 
