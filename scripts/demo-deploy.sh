@@ -51,7 +51,7 @@ function _confirm_merge {
 function _perform_merge {
   git checkout "$target_branch"
   git reset --hard "$target_head"
-  git merge --no-edit --no-ff "$source_branch"
+  git merge --no-edit "$source_branch"
   git push "$remote_name" "$target_branch"
   git checkout -
 
