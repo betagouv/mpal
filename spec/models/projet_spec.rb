@@ -16,6 +16,22 @@ describe Projet do
     it { is_expected.to belong_to :operateur }
   end
 
+  describe '#clean_numero_fiscal' do
+    let(:projet) { build :projet }
+    it {
+      projet.numero_fiscal = " 123 456 A  "
+      expect(projet.clean_numero_fiscal).to eq("123456A")
+    }
+    it {
+      projet.numero_fiscal = "123t456a"
+      expect(projet.clean_numero_fiscal).to eq("123T456A")
+    }
+    it {
+      projet.numero_fiscal = "é=123ç456à'$"
+      expect(projet.clean_numero_fiscal).to eq("123456")
+    }
+  end
+
   describe '#for_agent' do
     context "en tant qu'operateur" do
       let(:instructeur) {       create :instructeur }

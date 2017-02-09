@@ -27,6 +27,8 @@ class Projet < ActiveRecord::Base
     self.plateforme_id = Time.now.to_i
   end
 
+  before_save :clean_numero_fiscal
+
   scope :for_agent, ->(agent) {
     next where(nil) if agent.instructeur?
     joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
@@ -42,6 +44,14 @@ class Projet < ActiveRecord::Base
     else
       self.find_by(id: locator)
     end
+  end
+
+  def accessible_for_agent?(agent)
+    agent.instructeur? || intervenants.include?(agent.intervenant)
+  end
+
+  def clean_numero_fiscal
+    self.numero_fiscal.to_s.gsub(/[^\w]+/, '').upcase
   end
 
   def numero_plateforme
@@ -107,7 +117,7 @@ class Projet < ActiveRecord::Base
     annee_imposition = annee_revenus ? annee_revenus + 1 : nil
     avis_impositions.where(annee: annee_imposition).each do |avis_imposition|
       contribuable = ApiParticulier.new.retrouve_contribuable(avis_imposition.numero_fiscal, avis_imposition.reference_avis)
-      total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference
+      total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference if contribuable
     end
     total_revenu_fiscal_reference
   end

@@ -24,6 +24,8 @@ class ApiParticulier
     logger.debug "Completed Api-Particuliers request (#{response.code})"
 
     response.code == 200 ? JSON.parse(response.body) : nil
+  rescue
+    nil
   end
 
   def uri(numero_fiscal, reference_avis)

@@ -20,6 +20,7 @@ deployment:
   demo:
     branch: master
     commands:
+      - git fetch --unshallow
       - git push -f git@scalingo.com:anah-staging.git $CIRCLE_SHA1:master
       - curl -LO https://github.com/Scalingo/cli/releases/download/1.3.1/scalingo_1.3.1_linux_amd64.tar.gz
       - tar xvf scalingo_1.3.1_linux_amd64.tar.gz
@@ -29,9 +30,9 @@ deployment:
     tag: /production-.*/
     owner: sgmap
     commands:
+      - git fetch --unshallow
       - git push -f git@scalingo.com:anah-production.git $CIRCLE_SHA1:master
       - curl -LO https://github.com/Scalingo/cli/releases/download/1.3.1/scalingo_1.3.1_linux_amd64.tar.gz
       - tar xvf scalingo_1.3.1_linux_amd64.tar.gz
       - scalingo_1.3.1_linux_amd64/scalingo -a anah-production login --ssh
       - scalingo_1.3.1_linux_amd64/scalingo -a anah-production run rake db:migrate
-

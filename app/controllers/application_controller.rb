@@ -41,10 +41,16 @@ class ApplicationController < ActionController::Base
   end
 
   def assert_projet_courant
-    projet_locator = params[:dossier_id] || params[:projet_id]
-    @projet_courant = Projet.find_by_locator(projet_locator) if projet_locator
-    unless @projet_courant
-      return redirect_to root_path, alert: t('sessions.access_forbidden')
+    if current_agent
+      @projet_courant = Projet.find_by_id(params[:dossier_id]) if params[:dossier_id]
+      unless @projet_courant && @projet_courant.accessible_for_agent?(current_agent)
+        return redirect_to dossiers_path, alert: t('sessions.access_forbidden')
+      end
+    else
+      @projet_courant = Projet.find_by_id(params[:projet_id]) if params[:projet_id]
+      unless @projet_courant
+        return redirect_to root_path, alert: t('sessions.access_forbidden')
+      end
     end
     true
   end

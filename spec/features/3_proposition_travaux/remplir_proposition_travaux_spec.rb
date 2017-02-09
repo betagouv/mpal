@@ -6,10 +6,11 @@ require 'support/api_ban_helper'
 feature "Remplir la proposition de travaux" do
   let(:projet) {            create :projet, :en_cours }
   let!(:instructeur) {      create :instructeur, departements: [projet.departement] }
-  let!(:pris) {             create :pris,        departements: [projet.departement] }
-  let!(:operateur) {        create :operateur,   departements: [projet.departement] }
-  let!(:invitation) {       create :invitation, intervenant: operateur, projet: projet }
-  let(:mise_en_relation) {  create :mise_en_relation, projet: projet, intermediaire: invitation.intervenant }
+  let(:pris) {              create :pris,        departements: [projet.departement] }
+  let(:operateur) {         create :operateur,   departements: [projet.departement] }
+  let!(:invitation_ope) {   create :invitation, intervenant: operateur, projet: projet }
+  let!(:invitation_pris) {  create :invitation, intervenant: pris,      projet: projet }
+  let(:mise_en_relation) {  create :mise_en_relation, projet: projet, intermediaire: invitation_ope.intervenant }
   let!(:chaudiere_s) {      create :prestation, libelle: 'Chaudière',      scenario: :souhaite,  projet: projet }
   let!(:chaudiere_r) {      create :prestation, libelle: 'Chaudière',      scenario: :retenu,    projet: projet }
   let!(:production_ecs_r) { create :prestation, libelle: 'Production ECS', scenario: :retenu,    projet: projet }
