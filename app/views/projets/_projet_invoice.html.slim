@@ -1,12 +1,14 @@
 ul.demandeur-info
   li
     strong= @projet_courant.demandeur_principal
-  li= @projet_courant.tel
-  li= @projet_courant.adresse
+  - if @projet_courant.tel.present?
+    li= @projet_courant.tel
+  - if @projet_courant.adresse.present?
+    li= @projet_courant.adresse
 - if @projet_courant.operateur
   ul.operateur-info
     li
       strong= @projet_courant.operateur
     li= @projet_courant.operateur.adresse_postale
-p.delegataire Délégataire : Conseil départemental de la Haute-Garonne
+/TODO p.delegataire Délégataire : ?
 = render 'projets/projet_details'
