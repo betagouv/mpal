@@ -9,6 +9,8 @@ class Agent < ActiveRecord::Base
   validates :prenom, presence: true
   validates :intervenant, presence: true
 
+  strip_fields :nom, :prenom
+
   #TODO
   #delegate :instructeur?, to: :intervenant
   #delegate :operateur?,   to: :intervenant
@@ -41,7 +43,7 @@ class Agent < ActiveRecord::Base
     end
   end
 
-  def to_s
-    "#{prenom.strip} #{nom.strip}".strip
+  def fullname
+    "#{prenom} #{nom}"
   end
 end

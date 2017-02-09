@@ -24,15 +24,14 @@ describe Agent do
   end
 
   describe '#to_s' do
-    let(:agent) { build :agent }
-    it { expect(agent.to_s).to eq('Joelle Dupont') }
-    context 'ne garde que les champs valides' do
-      before { agent.prenom = ' ' }
-      it { expect(agent.to_s).to eq('Dupont') }
-    end
+    let!(:agent) { build :agent }
+    it { expect(agent.fullname).to eq('Joelle Dupont') }
     context 'supprime les espaces inutiles' do
-      before { agent.prenom = ' Jean ' }
-      it { expect(agent.to_s).to eq('Jean Dupont') }
+      before {
+        agent.prenom = ' Jean '
+        agent.save!
+      }
+      it { expect(agent.fullname).to eq('Jean Dupont') }
     end
   end
 end
