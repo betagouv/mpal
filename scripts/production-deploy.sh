@@ -2,6 +2,16 @@
 # Tag le commit en cours comme étant déployable en production.
 # CircleCI déploie automatiquement en production les tags de la forme `production-*`.
 
+# Termine le script à la première commande en erreur
+set -e
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+if [ "$branch" != "master" ]; then
+  echo "Seuls les commits de la branche 'master' devraient être déployés en production – mais la branche actuelle est '$branch'."
+  echo "Placez-vous sur la branche 'master' pour continuer."
+  exit 1
+fi
+
 echo "Changements depuis le dernier tag:"
 GIT_PAGER=cat git log `git describe --tags --abbrev=0 HEAD^`..HEAD --oneline
 
