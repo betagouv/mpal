@@ -14,9 +14,9 @@ $state-success-text:             #3c763d !default;
 $state-success-bg:               #dff0d8 !default;
 $state-success-border:           darken($state-success-bg, 5%) !default;
 
-$state-info-text:                #31708f !default;
-$state-info-bg:                  #d9edf7 !default;
-$state-info-border:              darken($state-info-bg, 7%) !default;
+$state-info-text:                #002302 !default;
+$state-info-bg:                  #7fd88a !default;
+$state-info-border:              darken($state-info-bg, 5%) !default;
 
 $state-warning-text:             #8a6d3b !default;
 $state-warning-bg:               #fcf8e3 !default;
@@ -73,6 +73,11 @@ $alert-danger-border:         $state-danger-border !default;
   margin-bottom: $alert-margin-bottom;
   border: $alert-border-width solid transparent;
   border-radius: $alert-border-radius;
+
+  h3 {
+    font-size: 1em;
+    font-weight: bold;
+  }
 }
 
 // Headings for larger alerts
