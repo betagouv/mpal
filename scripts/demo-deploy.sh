@@ -20,14 +20,26 @@ function _assert_working_copy_clean {
   fi
 }
 
-# Vérifie que la branche cible est bien à jour avec le dépôt distant
-function _assert_target_up_to_date {
+# Récupère les changements distants
+function _fetch_remote_changes {
   git fetch "$remote_name"
-  local diverged_target_commits=$(git rev-list "${target_head}..${target_branch}" | wc -l)
-  if [ $diverged_target_commits -ne 0 ]; then
-    echo "Local branch '${target_branch}' is not up-to-date with '${target_head}':"
-    git log --boundary --graph --oneline "${target_head}..${target_branch}"
-    echo "Aborting..."
+}
+
+# Vérifie que la branche cible est bien à jour avec le dépôt distant
+function _assert_branch_up_to_date {
+  local branch="$1"
+  local commits_before=$(git rev-list "${remote_name}/${branch}..${branch}" | wc -l)
+  if [ $commits_before -ne 0 ]; then
+    echo "La branche locale '${branch}' n'est pas à jour avec '${remote_name}/${branch}':"
+    GIT_PAGER=cat git log --boundary --graph --oneline "${remote_name}/${branch}..${branch}"
+    echo "Mettez la branche à jour avant de continuer."
+    exit 1
+  fi
+  local commits_after=$(git rev-list "${branch}..${remote_name}/${branch}" | wc -l)
+  if [ $commits_after -ne 0 ] ; then
+    echo "La branche locale '${branch}' n'est pas à jour avec '${remote_name}/${branch}':"
+    GIT_PAGER=cat git log --boundary --graph --oneline "${branch}..${remote_name}/${branch}"
+    echo "Mettez la branche à jour avant de continuer."
     exit 1
   fi
 }
@@ -68,7 +80,9 @@ target_head="$remote_name/master"
 
 # Exécution du script
 _assert_working_copy_clean
-_assert_target_up_to_date
+_fetch_remote_changes
+_assert_branch_up_to_date "$source_branch"
+_assert_branch_up_to_date "$target_branch"
 _print_changelog
 _confirm_merge
 _perform_merge
