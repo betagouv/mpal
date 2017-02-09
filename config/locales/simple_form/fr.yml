@@ -1,0 +1,27 @@
+fr:
+  helpers:
+    submit:
+      defaults:
+        confirm: Confirmer
+        create: Créer
+        update: Mettre à jour
+        send: Envoyer
+        submit: Valider
+        upload: Envoyer
+        ok: OK
+  simple_form:
+    "yes": "Oui"
+    "no": "Non"
+    required:
+      text: "obligatoire"
+      mark: "*"
+    error_notification:
+      default_message: "Merci de corriger les problèmes suivants :"
+    labels:
+      defaults:
+        email: E-mail
+        name: Nom
+        phone: Téléphone
+      contact:
+        subject: Objet
+        description: Message

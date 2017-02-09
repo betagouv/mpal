@@ -20,7 +20,7 @@
               li= @projet_courant.ville
             - if @projet_courant.disponibilite.present?
               li= @projet_courant.disponibilite
-            li= "#{@projet_courant.nb_total_occupants} occupants"
+            li= t('projets.visualisation.occupants', count: @projet_courant.nb_total_occupants)
             li= "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"
         - if current_agent
           section.affectation

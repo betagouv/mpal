@@ -206,7 +206,7 @@ fr:
       lien_affecter_agent: "Je m'affecte ce projet"
       projet_affecte: "Ce projet vous est maintenant affecté"
       message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
-      titre_section_composition:
+      occupants:
         one: " 1 occupant"
         other: "%{count} occupants"
       occupants_a_charge:

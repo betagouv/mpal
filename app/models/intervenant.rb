@@ -5,7 +5,7 @@ class Intervenant < ActiveRecord::Base
   has_many :projets, through: :invitations
   has_many :agents
   validates :raison_sociale, presence: true
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
+  validates :email, email: true, allow_blank: true
 
   scope :pour_departement, ->(departement) { where("'#{departement}' = ANY (departements)") }
   scope :pour_role, ->(role) { where("'#{role}' = ANY (roles)") }
