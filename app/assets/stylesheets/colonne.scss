@@ -6,6 +6,10 @@
   height: calc(100% - 30px);
   a {
     color: white;
+    text-decoration: underline;
+  }
+  .btn {
+    text-decoration: none;
   }
   section {
     padding: 20px;
