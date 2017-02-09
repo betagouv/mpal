@@ -8,13 +8,14 @@ article#messagerie.block.messagerie
   .content-block
     - if 0 < commentaire_count
       - @projet_courant.commentaires.reverse.each do |commentaire|
-        - role_auteur = commentaire.auteur.is_a?(Occupant) ? "demandeur" : "intervenant"
+        - auteur = commentaire.auteur
+        - role_auteur = auteur.is_a?(Occupant) ? "demandeur" : "intervenant"
         article(class="chat chat-#{role_auteur}")
           h4
-            - if commentaire.auteur.is_a?(Agent)
-              = "#{commentaire.auteur} (#{commentaire.auteur.intervenant})"
-            - else
-              = commentaire.auteur
+            span.firstname= auteur.prenom
+            span.lastname<= auteur.nom
+            - if auteur.is_a?(Agent)
+              = " (#{commentaire.auteur.intervenant})"
           p
             = commentaire.corps_message
             date= l(commentaire.created_at, format: :short)

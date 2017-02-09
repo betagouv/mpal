@@ -8,13 +8,13 @@ fr:
         adresse: Adresse
         adresse_logement: "Adresse du logement à rénover si différente"
         tel: Téléphone
-        disponibilite: "A quel moment souhaitez-vous être contacté ?"
+        disponibilite: "A quel moment souhaitez-vous être contacté ?"
       personne:
         nom: 'Nom'
         prenom: Prénom
         tel: Téléphone
         email: Email
-        lien_avec_demandeur: 'Lien avec vous ?'
+        lien_avec_demandeur: 'Lien avec vous ?'
       demande:
         travaux_fenetres: "Fenêtres"
         froid: "Vous avez froid, votre logement est mal isolé"
@@ -22,7 +22,7 @@ fr:
         changement_chauffage: "Votre chauffage vous coûte trop cher"
         adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
         accessibilite: "Vous avez des difficultés dans les escaliers"
-        hospitalisation: "Vous rentrez d'hospitalisation ou de maison de retraite"
+        hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
         autre: "Autre, précisez"
         travaux_isolation: "Isolation"
         travaux_chauffage: "Chauffage"
@@ -31,23 +31,23 @@ fr:
         travaux_amenagement_ext: "Aménagement extérieur"
         travaux_autres: "Autre"
         complement: "Précisez votre projet"
-        date_achevement_15_ans: "Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?"
-        annee_construction: "Si vous la connaissez, indiquez l'année d'achèvement de votre logement :"
-        ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
+        date_achevement_15_ans: "Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?"
+        annee_construction: "Si vous la connaissez, indiquez l’année d’achèvement de votre logement :"
+        ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
 
-  # ----------------------- Page d'accueil ---------------------
+  # ----------------------- Page d’accueil ---------------------
   accueil:
-    promesse: "Avec nous, améliorez l'habitat !"
-    baseline: Le financement de mon projet prend vie en quelques minutes...
+    promesse: "Avec nous, améliorez l’habitat !"
+    baseline: Le financement de mon projet prend vie en quelques minutes…
     condition1: Je suis propriétaire occupant
-    condition2: Je n'ai pas encore commencé mes travaux
-    condition3: "Je m'engage à occuper mon logement pendant 6 ans si j'obtiens une subvention de l'ANAH"
-    condition4: "Je m'engage à faire faire mes travaux par un professionnel"
-    condition5: "Les aides sont liées aux conditions de ressources et au nombre d'occupants."
+    condition2: Je n’ai pas encore commencé mes travaux
+    condition3: "Je m’engage à occuper mon logement pendant 6 ans si j’obtiens une subvention de l’Anah"
+    condition4: "Je m’engage à faire faire mes travaux par un professionnel"
+    condition5: "Les aides sont liées aux conditions de ressources et au nombre d’occupants."
     condition_coche: "Je reconnais avoir pris connaissance de ces conditions"
     action: Je démarre mon projet
     description_titre: ANAH rassemble autour de votre projet toutes les compétences pour le faire aboutir
-    description: "Vous reculez devant un projet d'amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches pour obtenir une subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé sous des informations contradictoires, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra."
+    description: "Vous reculez devant un projet d’amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches pour obtenir une subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé sous des informations contradictoires, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra."
     lire_les_emails: "Lire les emails"
     reinitialiser: "Réinitialiser les données"
 
@@ -62,7 +62,7 @@ fr:
     faq: "Faq"
     mentions_legales: "Mentions légales"
 
-  # ----------------------- Initialisation d'un projet ---------------------
+  # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
     action: "Suivant"
     # ----------------------- Etape 1 ---------------------
@@ -71,7 +71,7 @@ fr:
       section_demandeur: "Demandeur"
       section_occupants: "Occupants"
       recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
-      personne_confiance: "Qui contacter pour les démarches à venir ?"
+      personne_confiance: "Qui contacter pour les démarches à venir ?"
       personne_confiance_choix1: Vous-même
       personne_confiance_choix2: "Une personne chargée du suivi du dossier(pour vous)"
       telephone: "Numéro de téléphone"
@@ -79,10 +79,10 @@ fr:
       civilite: "Civilite"
       personne_de_confiance_prenom: "Prénom"
       personne_de_confiance_nom: "Nom"
-      personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"
-      personne_de_confiance_placeholder: "Enfant, voisin..."
+      personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"
+      personne_de_confiance_placeholder: "Enfant, voisin…"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
-      nombre_occupant: "Nombre d’occupants :"
+      nombre_occupant: "Nombre d’occupants :"
       ajouter_occupant: "Ajouter un occupant"
       confirmer_occupants: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
       occupants: Occupants
@@ -92,11 +92,11 @@ fr:
     # ----------------------- Etape 2 ---------------------
     etape2_description_projet:
       erreurs:
-        besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
+        besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
       section_projet_envisage: "Projet envisagé"
-      titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
-      titre_travaux: "Quels travaux souhaitez-vous réaliser ?"
-      titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
+      titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
+      titre_travaux: "Quels travaux souhaitez-vous réaliser ?"
+      titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
     # ----------------------- Etape 3 ---------------------
     etape3_choix_intervenant:
       titre: "Choisissez votre opérateur"
@@ -114,35 +114,35 @@ fr:
       proposition_proposee: "Proposition proposée"
       proposition_acceptee: "Proposition acceptée"
       transmis_pour_instruction: "Transmis aux services instructeurs"
-      en_cours_d_instruction: "En cours d'instruction"
+      en_cours_d_instruction: "En cours d’instruction"
       bouton_accepter: "Accepter ce projet"
-    operateur_construit_proposition: "%{operateur}, l'opérateur chargé de vous accompagner, est en train de construire une proposition de projet."
+    operateur_construit_proposition: "%{operateur}, l’opérateur chargé de vous accompagner, est en train de construire une proposition de projet."
     edition_projet:
       messages:
-        erreur: "Le projet n'a pas pu être modifié"
+        erreur: "Le projet n’a pas pu être modifié"
         succes: "Projet modifié avec succès"
         erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
-        email_obligatoire: "L'email est obligatoire"
+        email_obligatoire: "L’email est obligatoire"
     composition_logement:
       avis_imposition:
         nouveau:
-          action: "J'ajoute un avis d'imposition"
+          action: "J’ajoute un avis d’imposition"
         supprimer:
           action: "Supprimer"
         creation:
-          action: "Je crée l'avis d'imposition"
+          action: "Je crée l’avis d’imposition"
         messages:
-          erreur: "Vous n'avez pas accès à cet avis d'imposition"
-          non_trouve: "Cet avis d'imposition n'existe pas"
+          erreur: "Vous n’avez pas accès à cet avis d’imposition"
+          non_trouve: "Cet avis d’imposition n’existe pas"
         visualisation:
           sections:
             declarants: "Déclarants"
             foyer_fiscal: "Foyer Fiscal"
       calcul_revenu_fiscal_reference_total:
-        action: "Je calcule le revenu fiscal de référence total pour l'année %{annee}"
+        action: "Je calcule le revenu fiscal de référence total pour l’année %{annee}"
       calcul_preeligibilite:
         calcul:
-          action: "Je calcule la préeligibilité pour l'année %{annee}"
+          action: "Je calcule la préeligibilité pour l’année %{annee}"
         modeste: "modeste"
         tres_modeste: "très modeste"
         plafond_depasse: "plafond dépassé"
@@ -157,7 +157,7 @@ fr:
       action_depot_document: "Envoyer le document"
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
-        erreur_depot_document: "Une erreur est survenue. Votre document n'a pas été ajouté au projet"
+        erreur_depot_document: "Une erreur est survenue. Votre document n’a pas été ajouté au projet"
         succes_suppression_document: 'Votre document a été supprimé avec succès'
         erreur_label_manquant: "Veuillez ajouter un nom à votre document"
         erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
@@ -166,13 +166,13 @@ fr:
       messages:
         envoi_demande: "Je dépose ma demande de subvention"
         succes: La demande a bien été transmise aux services instructeurs
-        info_demandeur: "Votre projet a bien été envoyé au %{instructeur}. Vous serez informé par email de l'avancement de votre dossier."
+        info_demandeur: "Votre projet a bien été envoyé à %{instructeur}. Vous serez informé par email de l’avancement de votre dossier."
 
     creation_opal:
       titre_creation_opal: "Créer le dossier dans Opal"
       messages:
-        succes: "Le dossier vient d'être créé dans OPAL avec l'identifiant %{id_opal}"
-        erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n'a pas pu être créé"
+        succes: "Le dossier vient d’être créé dans OPAL avec l’identifiant %{id_opal}"
+        erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n’a pas pu être créé"
 
     intervenants:
       messages:
@@ -182,22 +182,22 @@ fr:
     messages:
       creation:
         titre: 'Félicitations %{demandeur_principal}'
-        corps: Votre projet démarre aujourd'hui.
+        corps: Votre projet démarre aujourd’hui.
     visualisation:
       lien_edition_projet: 'Modifier le projet'
       lien_edition: 'Modifier'
       lien_edition_coordonnees: 'Modifier mes coordonnées'
       invitation_intervenant: "Sélectionner"
-      invitation_relance_intervenant: "Je relance l'intervenant"
+      invitation_relance_intervenant: "Je relance l’intervenant"
       mise_en_relation_intervenant: "Je mets en relation"
       choisir_intervenant: "Je choisis cet opérateur"
       changer_intervenant: "Changer d’opérateur"
       s_engager_avec_operateur: "S’engager avec cet opérateur"
       engagement_action: "Je m’engage avec cet opérateur"
-      affecter_et_remplir_le_projet: "Je m'affecte et je remplis le projet"
+      affecter_et_remplir_le_projet: "Je m’affecte et je remplis le projet"
       remplir_le_projet: "Je remplis le projet"
-      modifier_liste_occupant: "Modifier le nombre d'occupant à charge"
-      lien_ajout_occupant: "J'ajoute un occupant"
+      modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
+      lien_ajout_occupant: "J’ajoute un occupant"
       titre_infos_demandeur: "Mes infos"
       titre_identification_demandeur: "Identification du demandeur"
       titre_liste_occupants: "Liste des occupants"
@@ -206,7 +206,7 @@ fr:
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
       lien_ajout_commentaire: 'Envoyer un message'
-      lien_affecter_agent: "Je m'affecte ce projet"
+      lien_affecter_agent: "Je m’affecte ce projet"
       projet_affecte: "Ce projet vous est maintenant affecté"
       message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
       occupants:
@@ -224,27 +224,27 @@ fr:
   conversation:
     titre_section: "Chat"
 
-  # ----------------------- Choix d'un intervenant ---------------------
+  # ----------------------- Choix d’un intervenant ---------------------
   intervenant_projets:
     visualisation:
       invitation_intervenant: 'Je souhaite mettre en relation'
 
-  # ----------------------- Invitation d'un intervenant ---------------------
+  # ----------------------- Invitation d’un intervenant ---------------------
   invitations:
     nouvelle:
-      titre: "Je souhaite que %{intervenant} m'oriente pour avancer dans mon projet"
-      action: "J'envoie ma demande à %{intervenant}"
-      description_projet_suggestion: "Quelles difficultés rencontrez-vous dans votre logement ? Par exemple : j’ai froid, mon logement est mal isolé, je veux réaliser des économies d’énergies, j’ai du mal à me déplacer, un des occupants est handicapé, mon logement est globalement en très mauvais état et, ou quels travaux souhaitez-vous effectuer ? Par exemple : changer mon système de chauffage, isoler mon logement, adapter ma salle de bain, rendre plus accessible mon logement, réaliser d’importants travaux ou autres..."
+      titre: "Je souhaite que %{intervenant} m’oriente pour avancer dans mon projet"
+      action: "J’envoie ma demande à %{intervenant}"
+      description_projet_suggestion: "Quelles difficultés rencontrez-vous dans votre logement ? Par exemple : j’ai froid, mon logement est mal isolé, je veux réaliser des économies d’énergies, j’ai du mal à me déplacer, un des occupants est handicapé, mon logement est globalement en très mauvais état et, ou quels travaux souhaitez-vous effectuer ? Par exemple : changer mon système de chauffage, isoler mon logement, adapter ma salle de bain, rendre plus accessible mon logement, réaliser d’importants travaux ou autres…"
     messages:
       succes_titre: "Invitation envoyée"
       succes: "Une invitation avec la description de votre projet a été envoyée à %{intervenant}"
-      erreur: "L'invitation n'a pas pu être envoyée"
+      erreur: "L’invitation n’a pas pu être envoyée"
       email:
-        obligatoire: "L'email est obligatoire"
+        obligatoire: "L’email est obligatoire"
       description:
         obligatoire: "La description est obligatoire"
       adresse:
-        obligatoire: "L'adresse du logement à rénover est obligatoire"
+        obligatoire: "L’adresse du logement à rénover est obligatoire"
       telephone:
         obligatoire: "Le numéro de téléphone est obligatoire"
 
@@ -252,13 +252,13 @@ fr:
   occupants:
     nouveau:
       titre: "Ajoutez un nouvel occupant à votre logement"
-      action: "J'ajoute cet occupant"
+      action: "J’ajoute cet occupant"
     edition:
       titre: "Modifiez %{occupant}"
       action: "Je modifie %{occupant}"
     messages:
       nom:
-        obligatoire: "Le nom de l'occupant est obligatoire"
+        obligatoire: "Le nom de l’occupant est obligatoire"
     modification:
       composition_logement: "Composition du logement"
     civilite:
@@ -273,7 +273,7 @@ fr:
       notification_invitation_intervenant:
         sujet: "[ANAH] Invitation de %{intervenant} à consulter votre projet"
       notification_choix_intervenant:
-        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l'accompagner sur son projet"
+        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l’accompagner sur son projet"
       resiliation_operateur:
         sujet: "[ANAH] %{demandeur_principal} a changé d’opérateur pour son projet"
       resiliation_pris:
@@ -281,19 +281,19 @@ fr:
       mise_en_relation_intervenant:
         sujet: "[ANAH] Mise en relation par %{intermediaire}"
 
-  # ----------------------- Gestion d'évènements  ---------------------
+  # ----------------------- Gestion d’évènements  ---------------------
   evenements:
     creation_projet: 'Création du projet'
-    invitation_intervenant: "Invitation de l'intervenant %{intervenant}"
+    invitation_intervenant: "Invitation de l’intervenant %{intervenant}"
     mise_en_relation_intervenant: "Invitation de %{intervenant} par %{intermediaire}"
-    ajout_avis_imposition: "Ajout de l'avis d'imposition %{avis_imposition}"
+    ajout_avis_imposition: "Ajout de l’avis d’imposition %{avis_imposition}"
     transmis_instructeur: "Dossier transmis pour instruction à %{instructeur}"
-    choix_intervenant: "Choix de l'opérateur %{operateur} pour accompagner le projet"
+    choix_intervenant: "Choix de l’opérateur %{operateur} pour accompagner le projet"
   reinitialisation:
     succes: 'Réinitialisation effectuée'
   tableau_de_bord:
     titre_section: 'Mon tableau de bord'
   choix_intervenants:
     nouveau:
-      explication_html: "<b>Choisir un intervenant vous engage</b><p>L'opérateur est chargé de vous conseiller tout au long de la démarche. Il vous accompagne danss l'élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.</p><p>Lorsqu'une subvention vous est accordée, l'opérateur vous accompagne jusqu'au paiement de la subvention.</p><p>Cette prestation payante peut être totalement ou opartiellement couverte par le complément de subvention qui complète la subvention pour travaux"
+      explication_html: "<b>Choisir un intervenant vous engage</b><p>L’opérateur est chargé de vous conseiller tout au long de la démarche. Il vous accompagne danss l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.</p><p>Lorsqu’une subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de la subvention.</p><p>Cette prestation payante peut être totalement ou opartiellement couverte par le complément de subvention qui complète la subvention pour travaux"
       action: "Je choisis cet opérateur"

@@ -11,12 +11,12 @@ b Vous êtes non pré-éligible (Hors plafond)
 br
 | Les ressources communiquées ne permettent pas d’envisager une subvention
 br
-| Pour en savoir plus : contacter PRIS ou opérateur (en secteur programmé)
+| Pour en savoir plus : contacter PRIS ou opérateur (en secteur programmé)
 
 .ui.message.revenus
   h3
   - annee = #{annee_fiscale_reference}
-  = "Revenus total du ménage : #{revenu_fiscal_reference_total} euros" if revenu_fiscal_reference_total
+  = "Revenus total du ménage : #{revenu_fiscal_reference_total} euros" if revenu_fiscal_reference_total
 .ui.message.revenus
   h3
-  = "Plafond de ressources applicable du foyer : #{calcul_preeligibilite(annee)}" if revenu_fiscal_reference_total
+  = "Plafond de ressources applicable du foyer : #{calcul_preeligibilite(annee)}" if revenu_fiscal_reference_total

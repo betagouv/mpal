@@ -7,7 +7,7 @@ div class="ui"
   h3
     = t("projets.visualisation.occupants_a_charge", count: @projet_courant.nb_occupants_a_charge)
 
-  p Si le nombre de personne à charge et sans revenus a changé, veuillez le renseignez ci-dessous :
+  p Si le nombre de personne à charge et sans revenus a changé, veuillez le renseignez ci-dessous :
   = form_for @projet_courant, url: { action: "update" }, html: { class: 'ui form' } do |f|
     .field
       = f.label :nb_occupants_a_charge

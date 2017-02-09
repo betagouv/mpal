@@ -1,6 +1,6 @@
 p L’opérateur est un intervenant chargé de vous conseiller tout au long de la démarche. Il vous accompagne dans l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.
 p Si une subvention vous est accordée par l’Anah, l’opérateur vous accompagne jusqu’au paiement de la subvention.
-p En diffus, hors secteur programmé : Cette prestation est payante. Elle peut être totalement ou partiellement remboursée par le complément de subvention qui complète la subvention pour travaux.
+p En diffus, hors secteur programmé : cette prestation est payante. Elle peut être totalement ou partiellement remboursée par le complément de subvention qui complète la subvention pour travaux.
 p Les opérateurs suivants sont compétents pour vous accompagner. Vous pouvez demander à être mis en relation avec un ou plusieurs d’entre eux. Pour effectuer votre choix, l’opérateur doit vous indiquer un RDV pour examiner votre situation et une fourchette de prix de son intervention.
 
 p
@@ -8,7 +8,7 @@ p
 - if @projet_courant.intervenants.present?
   h2.ui.horizontal.divider.header Intervenants invités
 
-  h4 Tous ces intervenants peuvent consulter mon projet, jusqu'à ce que je choisisse un opérateur pour m'accompagner.
+  h4 Tous ces intervenants peuvent consulter mon projet, jusqu’à ce que je choisisse un opérateur pour m’accompagner.
   div.ui.cards.invites
     - @projet_courant.intervenants.each do |intervenant|
       = render partial: 'intervenant_demandeur', locals: {projet: @projet_courant, intervenant: intervenant, avec_invitation: false, avec_choix: true }
@@ -17,14 +17,14 @@ p
   h2.ui.horizontal.divider.header Intervenants disponibles
 
   - if @pris_disponibles.present?
-    h4 Je souhaite me renseigner gratuitement sur l'ensemble des aides pour la rénovation de mon logement
+    h4 Je souhaite me renseigner gratuitement sur l’ensemble des aides pour la rénovation de mon logement
     div.ui.cards
       - @pris_disponibles.each do |intervenant|
         = render partial: 'intervenant_demandeur', locals: {projet: @projet_courant, intervenant: intervenant, avec_invitation: true, avec_choix: false }
 p
 
 - if @operateurs_disponibles.present?
-  h4 Je connais déjà les aides disponibles, et je souhaite m'engager dans une demande de subvention à l'anah.
+  h4 Je connais déjà les aides disponibles, et je souhaite m'engager dans une demande de subvention à l’Anah.
 
 
   div.ui.cards.disponibles

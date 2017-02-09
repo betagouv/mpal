@@ -19,7 +19,7 @@ fr:
       default_message: "Merci de corriger les problèmes suivants :"
     labels:
       defaults:
-        email: E-mail
+        email: Email
         name: Nom
         phone: Téléphone
       contact:

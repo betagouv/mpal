@@ -6,22 +6,27 @@ section.content-projet
     .occupants-recap
       ul
         li
-          | Nombre d’occupants :
+          | Nombre d’occupants :
           span= " #{@projet_courant.nb_total_occupants}"
         li
-          | Total Revenu Fiscal de Référence #{annee_fiscale_reference} :
+          | Total Revenu Fiscal de Référence #{annee_fiscale_reference} :
           span= " #{revenu_fiscal_reference_total} €"
     .content-block
-      h4 Demandeur :
+      h4 Demandeur :
       p
-        strong= @projet_courant.demandeur_principal
-        br/
-        = @projet_courant.adresse
-        br/
-        = @projet_courant.tel
-        br/
-        = @projet_courant.email
-      h4 Occupants :
+        strong
+          span.firstname= @projet_courant.demandeur_principal.prenom
+          span.lastname<= @projet_courant.demandeur_principal.nom
+        - if @projet_courant.adresse.present?
+          br/
+          = @projet_courant.adresse
+        - if @projet_courant.tel.present?
+          br/
+          = @projet_courant.tel
+        - if @projet_courant.email.present?
+          br/
+          = @projet_courant.email
+      h4 Occupants :
       table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
         tbody
           tr
@@ -29,7 +34,9 @@ section.content-projet
             th scope="col"  Année de naissance
           - @projet_courant.occupants.each do |occupant|
             tr
-              td= occupant
+              td
+                span.firstname= occupant.prenom
+                span.lastname<= occupant.nom
               td= occupant.date_de_naissance.year
   = render "projet_envisage"
   - if @projet_courant.statut != "prospect"

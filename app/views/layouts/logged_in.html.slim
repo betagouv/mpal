@@ -6,11 +6,15 @@
         = image_tag "logo-anah-w.png", alt: "Agence Nationale de l’Habitat - ANAH", title: "Agence Nationale de l’Habitat - ANAH", class: "logo"
       - if current_agent
         section.agent-connecte
-          p.nom-agent= current_agent
+          p.nom-agent
+            span.firstname= current_agent.prenom
+            span.lastname<= current_agent.nom
           p.nom-intervenant= current_agent.intervenant
       - if @projet_courant
         section.personal-information
-          h2= @projet_courant.demandeur_principal
+          h2
+            span.firstname= @projet_courant.demandeur_principal.prenom
+            span.lastname<= @projet_courant.demandeur_principal.nom
           ul
             - if @projet_courant.tel.present?
               li= @projet_courant.tel
@@ -25,7 +29,10 @@
         - if current_agent
           section.affectation
             - if (agent = @projet_courant.agent)
-              p= "Ce dossier est affecté à #{agent.prenom} #{agent.nom}"
+              p
+                | Dossier affecté à
+                span.firstname<= agent.prenom
+                span.lastname<= agent.nom
             - else
               p Ce dossier n'est pas encore affecté.
             - if current_agent.operateur? && current_agent != @projet_courant.agent

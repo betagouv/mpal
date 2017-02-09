@@ -1,6 +1,8 @@
 ul.demandeur-info
   li
-    strong= @projet_courant.demandeur_principal
+    strong
+      span.firstname= @projet_courant.demandeur_principal.prenom
+      span.lastname<= @projet_courant.demandeur_principal.nom
   - if @projet_courant.tel.present?
     li= @projet_courant.tel
   - if @projet_courant.adresse.present?

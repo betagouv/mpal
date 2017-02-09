@@ -220,6 +220,10 @@ fieldset {
   font-weight: bold;
   z-index: 10; }
 
+.lastname {
+  text-transform: uppercase;
+}
+
 /** Login **/
 .login {
   background: #eef1f7;
@@ -820,8 +824,8 @@ fieldset {
         .page-projet .col-right .content-projet .block.messagerie .chat {
           margin-top: 20px; }
           .page-projet .col-right .content-projet .block.messagerie .chat p {
-            padding: 10px 15px 5px;
-            width: 70%;
+            padding: 0 5px;
+            width: 80%;
             border: 1px solid #56869a;
             border-radius: 3px;
             line-height: 22px;

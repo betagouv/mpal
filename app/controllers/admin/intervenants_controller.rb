@@ -10,7 +10,7 @@ class Admin::IntervenantsController < AdminController
     begin
       _import_csv!(params[:csv_file])
     rescue => e
-      return redirect_to admin_intervenants_path, alert: "Erreur lors de l'importation : #{e.message}"
+      return redirect_to admin_intervenants_path, alert: "Erreur lors de l’importation : #{e.message}"
     end
     redirect_to admin_intervenants_path, notice: "Les intervenants ont été importés."
   end
@@ -32,7 +32,7 @@ class Admin::IntervenantsController < AdminController
       begin
         _create_or_update_intervenant!(row)
       rescue => e
-        raise "La mise à jour de l'intervenant '#{row['raison_sociale']}' a échoué (#{e.message})."
+        raise "La mise à jour de l’intervenant '#{row['raison_sociale']}' a échoué (#{e.message})."
       end
     end
   end

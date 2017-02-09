@@ -1,42 +1,42 @@
 h4= current_agent ? 'Projet proposé' : 'Votre logement'
 ul.ctr-ope
   li
-    = "Type de logement : "
+    = "Type de logement : "
     span= @projet_courant.type_logement
   li
-    = "Etage : "
+    = "Étage : "
     span= @projet_courant.etage
   li
-    = "Nombre de pièces : "
+    = "Nombre de pièces : "
     span= @projet_courant.nb_pieces
   - if @projet_courant.annee_construction.present?
     li
-      = "Année de construction : "
+      = "Année de construction : "
       span= @projet_courant.annee_construction
   - if @projet_courant.surface_habitable.present?
     li
-      = "Surface avant travaux : "
+      = "Surface avant travaux : "
       span= "#{@projet_courant.surface_habitable} m2"
 
 h4 Votre évaluation
 ul.ctr-ope
   - if @projet_courant.note_degradation.present?
     li
-      = "Note de dégradation : "
+      = "Note de dégradation : "
       span= @projet_courant.note_degradation
   - if @projet_courant.note_insalubrite.present?
     li
-      = "Note d'insalubrité : "
+      = "Note d'insalubrité : "
       span= @projet_courant.note_insalubrite
   li
-    = "Ventilation adaptée : "
+    = "Ventilation adaptée : "
     span= @projet_courant.ventilation_adaptee ? "Oui" : "Non"
   li
-    = "Présence traces d'humidité : "
+    = "Présence traces d'humidité : "
     span= @projet_courant.presence_humidite ? "Oui" : "Non"
   - if @projet_courant.remarques_diagnostic.present?
     li
-      = "Autres remarques : "
+      = "Autres remarques : "
       span= @projet_courant.remarques_diagnostic
 
 h4 Travaux

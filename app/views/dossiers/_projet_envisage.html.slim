@@ -3,15 +3,16 @@ article.block.projet
   = link_to t('projets.visualisation.lien_edition'), etape2_description_projet_path(@projet_courant), class: 'edit'
   .content-block
     - if @projet_courant.demande.blank?
-      p Le demandeur n'a pas encore rempli le projet.
+      p Le demandeur n’a pas encore rempli le projet.
     - else
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/
-      h4 Organisme choisi pour accompagner le projet :
+      h4 Organisme choisi pour accompagner le projet :
       - operateur = @projet_courant.intervenants.pour_role(:operateur).first
       - if operateur.present?
-        p
+        .description-operateur
           strong= operateur
+          p= operateur.adresse_postale
         - unless current_agent
           br
           br

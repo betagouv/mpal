@@ -28,7 +28,7 @@
     hr/
     - if @pris_departement.present?
       p.chapo
-        strong Je souhaite me renseigner gratuitement, je choisis de prendre contact avec :
+        strong Je souhaite me renseigner gratuitement, je choisis de prendre contact avec :
       .choose-operator.choose-operator-pris
         - @pris_departement.each do |pris|
           = radio_button_tag :intervenant, pris.id, pris.id == @operateur.try(:id)

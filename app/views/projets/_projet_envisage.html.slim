@@ -4,14 +4,14 @@ article.block.projet
   .content-block
     - if @projet_courant.demande.blank?
       - if current_agent
-        p Le demandeur n'a pas encore rempli le projet.
+        p Le demandeur n’a pas encore rempli le projet.
       - else
         .button-group
           = link_to "Remplir le projet", etape2_description_projet_path(@projet_courant), class: 'btn pen'
     - else
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/
-      h4 Organisme qui vous accompagne pour la suite de votre projet :
+      h4 Organisme qui vous accompagne pour la suite de votre projet :
       - operateur = @projet_courant.intervenants.pour_role(:operateur).first
       - if operateur.present?
         .description-operateur
