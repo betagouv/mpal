@@ -108,8 +108,11 @@ fr:
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
     statut:
-      prospect: Prospect
-      en_cours: En cours
+      prospect: "En prospection"
+      en_cours: "En cours"
+      proposition_enregistree: "Proposition enregistrée"
+      proposition_proposee: "Proposition proposée"
+      proposition_acceptee: "Proposition acceptée"
       transmis_pour_instruction: "Transmis aux services instructeurs"
       en_cours_d_instruction: "En cours d'instruction"
       bouton_accepter: "Accepter ce projet"
