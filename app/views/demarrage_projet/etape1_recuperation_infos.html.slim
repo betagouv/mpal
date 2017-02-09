@@ -88,11 +88,15 @@
           th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants_modification')
         - @projet_courant.occupants.each do |occupant|
           tr
-            td= occupant
+            td
+              span.firstname= occupant.prenom
+              span.lastname<= occupant.nom
             td= occupant.date_de_naissance.year
         - @occupants_a_charge.each do |occupant|
           tr
-            td= occupant
+            td
+              span.firstname= occupant.prenom
+              span.lastname<= occupant.nom
             td
               input type="text" /
             td

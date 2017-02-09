@@ -10,7 +10,7 @@ feature "L'opérateur visualise les informations syntéthiques concernant le pro
     signin(projet.numero_fiscal, projet.reference_avis)
     visit projet_path(projet)
     within '.personal-information' do
-      expect(page).to have_content(projet.demandeur_principal)
+      expect(page).to have_content(projet.demandeur_principal.fullname)
       expect(page).to have_content(projet.tel)
       expect(page).to have_content(projet.email)
       expect(page).to have_content("très modeste")

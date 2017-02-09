@@ -15,7 +15,10 @@
         - @dossiers.each do |projet|
           tr id="projet_#{projet.id}"
             td= t(projet.statut, scope: "projets.statut")
-            td= link_to projet.demandeur_principal.to_s, dossier_path(projet)
+            td
+              = link_to dossier_path(projet)
+                span.firstname= projet.demandeur_principal.prenom
+                span.lastname<= projet.demandeur_principal.nom
             td= projet.adresse
             td= affiche_intervenants(projet)
             td= projet.opal_numero

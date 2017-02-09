@@ -20,9 +20,9 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         expect(page).to have_content(I18n.t("projets.statut.prospect"))
       end
 
-      click_link projet.demandeur_principal
+      click_link projet.demandeur_principal.fullname
       expect(page.current_path).to eq(dossier_path(projet))
-      expect(page).to have_content(projet.demandeur_principal)
+      expect(page).to have_content(projet.demandeur_principal.fullname)
     end
   end
 

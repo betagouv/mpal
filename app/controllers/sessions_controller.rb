@@ -31,7 +31,7 @@ class SessionsController < ApplicationController
     if projet.save
       EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')
-      flash[:notice_titre] = t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal)
+      flash[:notice_titre] = t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname)
       redirect_to etape1_recuperation_infos_demarrage_projet_path(projet), notice: notice
     else
       redirect_to new_session_path, alert: t('sessions.erreurs.creation_projet')

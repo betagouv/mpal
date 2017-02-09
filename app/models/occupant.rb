@@ -8,9 +8,11 @@ class Occupant < ActiveRecord::Base
 
   validates :nom, :prenom, :date_de_naissance, presence: true
 
+  strip_fields :nom, :prenom
+
   scope :sans_revenus, -> { where(revenus: nil) }
 
-  def to_s
+  def fullname
     "#{prenom} #{nom}"
   end
 end
