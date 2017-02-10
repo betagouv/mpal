@@ -31,6 +31,13 @@
   .nom-intervenant {
     margin-top: 0.5em;
   }
+  .nom-intervenant-error {
+    margin-top: 0.5em;
+    padding: 5px 10px;
+  }
+  .nom-intervenant-error a {
+    color: #6f3231;
+  }
 }
 .personal-information {
   background-color: #576f8c;

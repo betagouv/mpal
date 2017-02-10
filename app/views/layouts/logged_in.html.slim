@@ -9,7 +9,11 @@
           p.nom-agent
             span.firstname= current_agent.prenom
             span.lastname<= current_agent.nom
-          p.nom-intervenant= current_agent.intervenant.raison_sociale
+          - if current_agent.intervenant
+            p.nom-intervenant= current_agent.intervenant.raison_sociale
+          - else
+            p.nom-intervenant-error.alert.alert-danger
+              | Votre compte rencontre une erreur. Merci de contacter le #{link_to "support Anah", "mailto:#{ENV['EMAIL_CONTACT']}"}.
       - if @projet_courant
         section.personal-information
           h2

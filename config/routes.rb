@@ -21,6 +21,8 @@ Rails.application.routes.draw do
     get '/agents/signed_out', to: 'my_cas#signed_out'
   end
 
+  get '/fakeclavis', to: 'fake_clavis#index'
+
   root 'sessions#new'
   namespace :api, path: '/api/v1/projets/:projet_id' do
     get  '/', to: 'projets#show', as: 'projet'
