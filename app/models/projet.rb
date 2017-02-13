@@ -165,6 +165,28 @@ class Projet < ActiveRecord::Base
     save
   end
 
+  # TODO: replace this code with a `has_and_belongs_to_many prestation`
+  def select_prestation(prestation)
+    projet_prestation = ProjetPrestation.find_or_initialize_by(prestation: prestation, projet: self)
+    projet_prestation.preconise = true
+    projet_prestations << projet_prestation
+  end
+
+  def deselect_prestation(prestation)
+    raise "TODO"
+  end
+
+  def deselect_all_prestations
+    projet_prestations.destroy_all
+  end
+
+  def set_selected_prestations(prestation_ids)
+    deselect_all_prestations
+    (prestation_ids || []).each do |id|
+      select_prestation(Prestation.find_by_id(id))
+    end
+  end
+
   def transmettre!(instructeur)
     invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: instructeur)
     if invitation.save

@@ -30,7 +30,7 @@ feature "Remplir la proposition de travaux" do
     scenario "je m'affecte le projet et je visualise la proposition de travaux" do
       visit dossier_path(projet)
       click_link I18n.t('projets.visualisation.affecter_et_remplir_le_projet')
-      expect(page).to have_content("Remplacement d'une baignoire par une douche")
+      expect(page).to have_content("Remplacement d’une baignoire par une douche")
       expect(page).to have_content("Plâtrerie")
     end
 
@@ -58,6 +58,10 @@ feature "Remplir la proposition de travaux" do
       choose 'projet_auto_rehabilitation_true'
       fill_in 'projet_remarques_diagnostic', with: 'Le diagnostic est complet.'
 
+      # Section "Description des travaux proposés"
+      check 'Remplacement d’une baignoire par une douche'
+      check 'Lavabo adapté'
+
       click_on 'Enregistrer cette proposition'
 
       # Section "Logement"
@@ -83,6 +87,11 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.auto_rehabilitation'))
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.remarques_diagnostic'))
       expect(page).to have_content('Le diagnostic est complet.')
+
+      # Section "Description des travaux proposés"
+      expect(page).to have_content('Remplacement d’une baignoire par une douche')
+      expect(page).to have_content('Lavabo adapté')
+      expect(page).not_to have_content('Géothermie')
     end
 
     scenario "upload d'un document sans label" do
@@ -115,19 +124,24 @@ feature "Remplir la proposition de travaux" do
     end
 
     context "pour une demande déjà remplie" do
-      let(:projet) { create :projet, :proposition_enregistree }
+      let(:projet)     { create :projet, :proposition_enregistree }
+      let(:prestation) { projet.projet_prestations.first.prestation }
 
-      scenario "je peux modifer la proposition" do
+      scenario "je peux modifier la proposition" do
         visit dossier_path(projet)
         within 'article.projet-ope' do
           click_link I18n.t('projets.visualisation.lien_edition')
         end
         expect(page.current_path).to eq(dossier_demande_path(projet))
+        expect(find("#prestation_#{prestation.id}")).to be_checked
 
         fill_in 'projet_surface_habitable', with: '42'
+        uncheck prestation.libelle
+
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content('42')
+        expect(page).not_to have_content(prestation.libelle)
       end
     end
   end

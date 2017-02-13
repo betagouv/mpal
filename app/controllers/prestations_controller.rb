@@ -1,6 +1,7 @@
 class PrestationsController < ApplicationController
 
   def create
+    # TODO: use projet#select_prestation
     prestation = Prestation.find(params[:prestation_id])
     prestation_projet = ProjetPrestation.find_or_initialize_by(prestation: prestation, projet: @projet_courant)
     prestation_projet.send("#{params[:attributeName]}=", params[:value])

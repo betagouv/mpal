@@ -45,6 +45,7 @@ fr:
         auto_rehabilitation: "Ces travaux seront-ils réalisés en auto-réhabilitation ?"
         remarques_diagnostic: "Autres remarques"
 
+
   # ----------------------- Page d’accueil ---------------------
   accueil:
     promesse: "Avec nous, améliorez l’habitat !"

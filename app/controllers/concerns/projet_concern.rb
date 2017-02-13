@@ -63,6 +63,7 @@ module ProjetConcern
     def update
       @projet_courant.statut = :proposition_enregistree
       @projet_courant.assign_attributes(projet_params)
+      @projet_courant.set_selected_prestations(params[:projet][:prestation_ids])
       if projet_valide? && @projet_courant.save
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), notice: t('projets.edition_projet.messages.succes')
       end

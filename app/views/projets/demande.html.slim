@@ -90,9 +90,11 @@
                     th.tab-title colspan="3" scope="row" #{theme.libelle.capitalize}
                   - theme.prestations.each do |prestation|
                     tr(data-url=projet_prestations_url(@projet_courant))
-                      th scope="row" #{prestation.libelle.capitalize}
+                      th scope="row"
+                        label for="prestation_#{prestation.id}"
+                          = prestation.libelle.capitalize
                       td.plan_travaux(data-prestation-id=prestation.id)
-                        = projet_prestation_checkbox(@projet_courant, prestation, :preconise)
+                        = prestation_checkbox(@projet_courant, prestation, :preconise)
                 tr
                   th.tab-title colspan="3" scope="row"  Efficacité énergétique
                 tr
