@@ -18,10 +18,10 @@ class Projet < ActiveRecord::Base
   has_many :projet_aides, dependent: :destroy
   has_many :aides, through: :projet_aides
 
+  has_and_belongs_to_many :prestations, join_table: 'projet_prestations'
+
   validates :numero_fiscal, :reference_avis, :adresse_ligne1, presence: true
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
-
-  has_many :projet_prestations, dependent: :destroy
 
   before_create do
     self.plateforme_id = Time.now.to_i
@@ -165,26 +165,12 @@ class Projet < ActiveRecord::Base
     save
   end
 
-  # TODO: replace this code with a `has_and_belongs_to_many prestation`
   def select_prestation(prestation)
-    projet_prestation = ProjetPrestation.find_or_initialize_by(prestation: prestation, projet: self)
-    projet_prestation.preconise = true
-    projet_prestations << projet_prestation
-  end
-
-  def deselect_prestation(prestation)
-    raise "TODO"
-  end
-
-  def deselect_all_prestations
-    projet_prestations.destroy_all
+    prestations << prestation
   end
 
   def set_selected_prestations(prestation_ids)
-    deselect_all_prestations
-    (prestation_ids || []).each do |id|
-      select_prestation(Prestation.find_by_id(id))
-    end
+    self.prestation_ids = prestation_ids
   end
 
   def transmettre!(instructeur)

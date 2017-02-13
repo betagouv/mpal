@@ -59,10 +59,7 @@ FactoryGirl.define do
       end
 
       after(:build) do |projet, evaluator|
-        Prestation.take(evaluator.prestations_count).each do |prestation|
-          projet_prestation = ProjetPrestation.find_or_initialize_by(prestation: prestation, preconise: true)
-          projet.projet_prestations << projet_prestation
-        end
+        projet.prestations = Prestation.first(evaluator.prestations_count)
       end
     end
 

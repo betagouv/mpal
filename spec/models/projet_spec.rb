@@ -11,9 +11,9 @@ describe Projet do
     it { is_expected.to validate_presence_of :adresse_ligne1 }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
-    it { is_expected.to have_many :projet_prestations }
     it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
     it { is_expected.to belong_to :operateur }
+    it { is_expected.to have_and_belong_to_many :prestations }
   end
 
   describe '#clean_numero_fiscal' do

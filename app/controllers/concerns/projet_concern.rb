@@ -63,7 +63,6 @@ module ProjetConcern
     def update
       @projet_courant.statut = :proposition_enregistree
       @projet_courant.assign_attributes(projet_params)
-      @projet_courant.set_selected_prestations(params[:projet][:prestation_ids])
       if projet_valide? && @projet_courant.save
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), notice: t('projets.edition_projet.messages.succes')
       end
@@ -90,7 +89,9 @@ module ProjetConcern
               :gain_energetique, :etiquette_apres_travaux,
               :precisions_travaux, :precisions_financement,
               :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire, :reste_a_charge,
-              :documents_attributes)
+              :documents_attributes,
+              :prestation_ids => [])
+      attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?
       attributs = attributs.merge(adresse_complete) if adresse_complete
       attributs
     end

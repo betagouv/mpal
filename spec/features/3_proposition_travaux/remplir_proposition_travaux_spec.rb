@@ -140,7 +140,7 @@ feature "Remplir la proposition de travaux" do
 
     context "pour une demande déjà remplie" do
       let(:projet)     { create :projet, :proposition_enregistree }
-      let(:prestation) { projet.projet_prestations.first.prestation }
+      let(:prestation) { projet.prestations.first }
 
       scenario "je peux modifier la proposition" do
         visit dossier_path(projet)

@@ -76,8 +76,8 @@ module ApplicationHelper
     link_to 'Retour au projet', @projet_courant, class: "ui button"
   end
 
-  def prestation_checkbox(projet, prestation, niveau)
-    checked = projet.projet_prestations.find_by(prestation_id: prestation.id).try(niveau)
+  def prestation_checkbox(projet, prestation)
+    checked = projet.prestations.include?(prestation)
     check_box_tag 'projet[prestation_ids][]', prestation.id, checked, id: "prestation_#{prestation.id}"
   end
 

@@ -94,7 +94,7 @@
                         label for="prestation_#{prestation.id}"
                           = prestation.libelle.capitalize
                       td.plan_travaux(data-prestation-id=prestation.id)
-                        = prestation_checkbox(@projet_courant, prestation, :preconise)
+                        = prestation_checkbox(@projet_courant, prestation)
                 tr
                   th.tab-title colspan="3" scope="row" Efficacité énergétique
                 tr
