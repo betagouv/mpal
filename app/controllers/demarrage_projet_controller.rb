@@ -54,10 +54,13 @@ class DemarrageProjetController < ApplicationController
 
   def etape3_envoi_choix_intervenant
     begin
-      intervenant = Intervenant.find(params[:intervenant])
-      @projet_courant.invite_intervenant!(intervenant)
-      flash[:notice_titre] = t('invitations.messages.succes_titre')
-      redirect_to projet_path(@projet_courant), notice: t('invitations.messages.succes', intervenant: intervenant.raison_sociale)
+      intervenant = Intervenant.find_by_id(params[:intervenant])
+      unless @projet_courant.intervenants.include? intervenant
+        @projet_courant.invite_intervenant!(intervenant)
+        flash[:notice_titre] = t('invitations.messages.succes_titre')
+        flash[:notice] = t('invitations.messages.succes', intervenant: intervenant.raison_sociale)
+      end
+      redirect_to projet_path(@projet_courant)
     rescue => e
       logger.error e.message
       redirect_to etape3_choix_intervenant_path(@projet_courant), alert: "Une erreur s'est produite lors de l'enregistrement de l'intervenant."

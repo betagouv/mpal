@@ -127,7 +127,11 @@ class Projet < ActiveRecord::Base
   end
 
   def invite_intervenant!(intervenant)
-    raise "Cannot invite an operator: the projet is already committed with an operator (#{operateur.raison_sociale})" if intervenant.operateur? && operateur.present?
+    return if intervenants.include? intervenant
+
+    if intervenant.operateur? && operateur.present?
+      raise "Cannot invite an operator: the projet is already committed with an operator (#{operateur.raison_sociale})"
+    end
 
     previous_operateur = invited_operateur
     previous_pris = invited_pris
@@ -138,8 +142,8 @@ class Projet < ActiveRecord::Base
     ProjetMailer.notification_invitation_intervenant(invitation).deliver_later!
     EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
 
+    previous_invitation = invitations.where(intervenant: previous_operateur).first
     if previous_operateur
-      previous_invitation = invitations.where(intervenant: previous_operateur).first
       ProjetMailer.resiliation_operateur(previous_invitation).deliver_later!
       previous_invitation.destroy!
     end

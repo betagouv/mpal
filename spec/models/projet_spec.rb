@@ -134,7 +134,7 @@ describe Projet do
       end
     end
 
-    context "avec un opérateur invité auparavant" do
+    context "avec un opérateur (non engagé) différent de celui déjà invité" do
       let(:projet)             { create :projet, :with_invited_operateur }
       let(:previous_operateur) { projet.invited_operateur }
       let(:new_operateur)      { create :operateur }
@@ -145,6 +145,41 @@ describe Projet do
         projet.invite_intervenant!(new_operateur)
         expect(projet.invitations.count).to eq(1)
         expect(projet.invited_operateur).to eq(new_operateur)
+      end
+    end
+
+    context "avec le même opérateur (non engagé)" do
+      let(:projet)    { create :projet, :with_invited_operateur }
+      let(:operateur) { projet.invited_operateur }
+
+      it "ne change rien" do
+        projet.invite_intervenant!(operateur)
+        expect(projet.invitations.count).to eq(1)
+        expect(projet.invited_operateur).to eq(operateur)
+      end
+    end
+
+    context "avec un opérateur différent de celui déjà engagé" do
+      let(:projet)             { create :projet, :with_invited_operateur }
+      let(:previous_operateur) { projet.invited_operateur }
+      let(:new_operateur)      { create :operateur }
+
+      it "sélectionne le nouvel opérateur et notifie l'ancien opérateur" do
+        expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+        expect(ProjetMailer).to receive(:resiliation_operateur).and_call_original
+        projet.invite_intervenant!(new_operateur)
+        expect(projet.invitations.count).to eq(1)
+        expect(projet.invited_operateur).to eq(new_operateur)
+      end
+    end
+
+    context "avec le même opérateur (déjà engagé)" do
+      let(:projet)    { create :projet, :en_cours }
+      let(:operateur) { projet.operateur }
+
+      it "ne change rien" do
+        projet.invite_intervenant!(operateur)
+        expect(projet.operateur).to eq(operateur)
       end
     end
 

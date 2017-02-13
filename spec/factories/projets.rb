@@ -49,6 +49,7 @@ FactoryGirl.define do
       statut :en_cours
       after(:build) do |projet|
         projet.operateur = create(:operateur, departements: [projet.departement])
+        create(:invitation, projet: projet, intervenant: projet.operateur)
       end
     end
 
