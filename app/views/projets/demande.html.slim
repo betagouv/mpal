@@ -96,24 +96,25 @@
                       td.plan_travaux(data-prestation-id=prestation.id)
                         = prestation_checkbox(@projet_courant, prestation, :preconise)
                 tr
-                  th.tab-title colspan="3" scope="row"  Efficacité énergétique
+                  th.tab-title colspan="3" scope="row" Efficacité énergétique
                 tr
-                  th scope="row"  Gain energetique (%)
+                  th scope="row"= t('helpers.label.proposition.gain_energetique')
                   td
                     = f.text_field :gain_energetique
+                    = " %"
                 tr
-                  th scope="row"  Étiquette énergétique après travaux
+                  th scope="row"= t('helpers.label.proposition.etiquette_apres_travaux')
                   td
                     = f.text_field :etiquette_apres_travaux
                 tr
-                  th.tab-title colspan="3" scope="row"  Montant
+                  th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.montant')
                 tr
-                  th scope="row"  Montant total HT
+                  th scope="row"= t('helpers.label.proposition.montant_travaux_ht')
                   td
                     = f.text_field :montant_travaux_ht
                     = " €"
                 tr
-                  th scope="row"  Montant total TTC
+                  th scope="row"= t('helpers.label.proposition.montant_travaux_ttc')
                   td
                     = f.text_field :montant_travaux_ttc
                     = " €"
@@ -133,23 +134,23 @@
                           = text_field_tag aide.id, nil, class: "aide"
 
                 tr
-                  th.tab-title colspan="3" scope="row"  Financement personnel
+                  th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.financement_personnel')
                 tr
-                  th scope="row" Reste à charge
+                  th scope="row"= t('helpers.label.proposition.reste_a_charge')
                   td
                     = f.text_field :reste_a_charge
                     = " €"
                 tr
-                  th scope="row" Prêt bancaire
+                  th scope="row"= t('helpers.label.proposition.pret_bancaire')
                   td
                     = f.text_field :pret_bancaire
                     = " €"
           ul.ins-form
             li
-              = f.label :precisions_travaux, "Précisions travaux proposés"
+              = f.label :precisions_travaux, t('helpers.label.proposition.precisions_travaux')
               = f.text_area :precisions_travaux
             li
-              = f.label :precisions_financement, "Précisions financement"
+              = f.label :precisions_financement, t('helpers.label.proposition.precisions_financement')
               = f.text_area :precisions_financement
           = f.button "Enregistrer cette proposition", class: "btn btn-save"
 = render partial: 'documents/show'

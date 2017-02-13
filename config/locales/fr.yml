@@ -44,7 +44,17 @@ fr:
         presence_humidite: "Présence de traces d’humidité"
         auto_rehabilitation: "Ces travaux seront-ils réalisés en auto-réhabilitation ?"
         remarques_diagnostic: "Autres remarques"
-
+      proposition:
+        gain_energetique: "Gain énergétique"
+        etiquette_apres_travaux: "Étiquette énergétique après travaux"
+        montant: "Montant"
+        montant_travaux_ht: "Montant total HT"
+        montant_travaux_ttc: "Montant total TTC"
+        reste_a_charge: "Reste à charge"
+        financement_personnel: "Financement personnel"
+        pret_bancaire: "Prêt bancaire"
+        precisions_travaux: "Précisions travaux proposés"
+        precisions_financement: "Précisions financement"
 
   # ----------------------- Page d’accueil ---------------------
   accueil:

@@ -61,6 +61,13 @@ feature "Remplir la proposition de travaux" do
       # Section "Description des travaux proposés"
       check 'Remplacement d’une baignoire par une douche'
       check 'Lavabo adapté'
+      fill_in 'projet_gain_energetique', with: '31'
+      fill_in 'projet_etiquette_apres_travaux', with: 'A'
+      fill_in 'projet_montant_travaux_ht', with: '3333'
+      fill_in 'projet_montant_travaux_ttc', with: '4444'
+      fill_in 'projet_reste_a_charge', with: '1111'
+      fill_in 'projet_precisions_travaux', with: 'Il faudra casser un mur.'
+      fill_in 'projet_precisions_financement', with: 'Le prêt sera sans doute accordé.'
 
       click_on 'Enregistrer cette proposition'
 
@@ -75,23 +82,31 @@ feature "Remplir la proposition de travaux" do
 
       # Section "Diagnostic opérateur"
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.autonomie'))
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.niveau_gir'))
-      expect(page).to have_content('712')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.handicap'))
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_degradation'))
-      expect(page).to have_content('345')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_insalubrite'))
-      expect(page).to have_content('977')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.ventilation_adaptee'))
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.presence_humidite'))
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.auto_rehabilitation'))
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.remarques_diagnostic'))
-      expect(page).to have_content('Le diagnostic est complet.')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.niveau_gir') + ' : 712')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.handicap') + ' : Oui')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_degradation') + ' : 345')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_insalubrite') + ' : 977')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.ventilation_adaptee') + ' : Oui')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.presence_humidite') + ' : Oui')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.auto_rehabilitation') + ' Oui')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.remarques_diagnostic') + ' : Le diagnostic est complet.')
 
       # Section "Description des travaux proposés"
       expect(page).to have_content('Remplacement d’une baignoire par une douche')
       expect(page).to have_content('Lavabo adapté')
       expect(page).not_to have_content('Géothermie')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.gain_energetique'))
+      expect(page).to have_content('31')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.etiquette_apres_travaux'))
+      expect(page).to have_content('A')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.montant_travaux_ht'))
+      expect(page).to have_content('3333')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.montant_travaux_ht'))
+      expect(page).to have_content('4444')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.reste_a_charge'))
+      expect(page).to have_content('1111')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_travaux') + ' : Il faudra casser un mur.')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_financement') + ' : Le prêt sera sans doute accordé.')
     end
 
     scenario "upload d'un document sans label" do
