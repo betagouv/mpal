@@ -15,6 +15,14 @@ module ApplicationHelper
     demandeur? ? "demandeur" : "intervenant"
   end
 
+  def readable_bool(boolean)
+    boolean ? "Oui" : "Non"
+  end
+
+  def with_semicolon(string)
+    string + " : "
+  end
+
   def transmission_instructeur(projet)
     if @role_utilisateur  == :intervenant
       form_tag(projet_transmissions_path(projet_id: projet.id), method: 'post', class:'ui form' ) do

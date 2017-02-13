@@ -20,23 +20,36 @@ ul.ctr-ope
 
 h4 Votre évaluation
 ul.ctr-ope
+  li
+    = t('helpers.label.diagnostic.autonomie')
+    span=< readable_bool(@projet_courant.autonomie)
+  - if @projet_courant.niveau_gir.present?
+    li
+      = with_semicolon(t('helpers.label.diagnostic.niveau_gir'))
+      span= @projet_courant.niveau_gir
+  li
+    = with_semicolon(t('helpers.label.diagnostic.handicap'))
+    span= readable_bool(@projet_courant.handicap)
   - if @projet_courant.note_degradation.present?
     li
-      = "Note de dégradation : "
+      = with_semicolon(t('helpers.label.diagnostic.note_degradation'))
       span= @projet_courant.note_degradation
   - if @projet_courant.note_insalubrite.present?
     li
-      = "Note d'insalubrité : "
+      = with_semicolon(t('helpers.label.diagnostic.note_insalubrite'))
       span= @projet_courant.note_insalubrite
   li
-    = "Ventilation adaptée : "
-    span= @projet_courant.ventilation_adaptee ? "Oui" : "Non"
+    = with_semicolon(t('helpers.label.diagnostic.ventilation_adaptee'))
+    span= readable_bool(@projet_courant.ventilation_adaptee)
   li
-    = "Présence traces d'humidité : "
-    span= @projet_courant.presence_humidite ? "Oui" : "Non"
+    = with_semicolon(t('helpers.label.diagnostic.presence_humidite'))
+    span= readable_bool(@projet_courant.presence_humidite)
+  li
+    = t('helpers.label.diagnostic.auto_rehabilitation')
+    span=< readable_bool(@projet_courant.auto_rehabilitation)
   - if @projet_courant.remarques_diagnostic.present?
     li
-      = "Autres remarques : "
+      = with_semicolon(t('helpers.label.diagnostic.remarques_diagnostic'))
       span= @projet_courant.remarques_diagnostic
 
 h4 Travaux

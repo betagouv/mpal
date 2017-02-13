@@ -34,6 +34,16 @@ fr:
         date_achevement_15_ans: "Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?"
         annee_construction: "Si vous la connaissez, indiquez l’année d’achèvement de votre logement :"
         ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
+      diagnostic:
+        autonomie: "Ce projet concerne-t-il la perte d’autonomie ou le handicap ?"
+        niveau_gir: "Niveau GIR"
+        handicap: "MDPH / CDAPH"
+        note_degradation: "Note de dégradation"
+        note_insalubrite: "Note d’insalubrité"
+        ventilation_adaptee: "Ventilation adaptée"
+        presence_humidite: "Présence de traces d’humidité"
+        auto_rehabilitation: "Ces travaux seront-ils réalisés en auto-réhabilitation ?"
+        remarques_diagnostic: "Autres remarques"
 
   # ----------------------- Page d’accueil ---------------------
   accueil:

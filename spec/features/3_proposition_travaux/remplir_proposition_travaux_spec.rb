@@ -34,10 +34,55 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content("Plâtrerie")
     end
 
-    scenario "visualisation de la demande de financement" do
+    scenario "je remplis et j'enregistre une proposition de travaux'" do
       visit dossier_demande_path(projet)
       expect(page).to have_content('Plan de financement prévisionnel')
       expect(page).to have_content(aide.libelle)
+
+      # Section "Logement"
+      select 'Appartement', from: 'projet_type_logement'
+      select '2', from: 'projet_etage'
+      select 'Plus de 5', from: 'projet_nb_pieces'
+      fill_in 'projet_annee_construction', with: '1954'
+      fill_in 'projet_surface_habitable', with: '42'
+      fill_in 'projet_etiquette_avant_travaux', with: 'C'
+
+      # Section "Diagnostic opérateur"
+      choose 'projet_autonomie_true'
+      fill_in 'projet_niveau_gir', with: '712'
+      choose 'projet_handicap_true'
+      fill_in 'projet_note_degradation', with: '345'
+      fill_in 'projet_note_insalubrite', with: '977'
+      choose 'projet_ventilation_adaptee_true'
+      choose 'projet_presence_humidite_true'
+      choose 'projet_auto_rehabilitation_true'
+      fill_in 'projet_remarques_diagnostic', with: 'Le diagnostic est complet.'
+
+      click_on 'Enregistrer cette proposition'
+
+      # Section "Logement"
+      expect(page.current_path).to eq(dossier_path(projet))
+      expect(page).to have_content('Appartement')
+      expect(page).to have_content('2')
+      expect(page).to have_content('Plus de 5')
+      expect(page).to have_content('1954')
+      expect(page).to have_content('42')
+      expect(page).to have_content('C')
+
+      # Section "Diagnostic opérateur"
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.autonomie'))
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.niveau_gir'))
+      expect(page).to have_content('712')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.handicap'))
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_degradation'))
+      expect(page).to have_content('345')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_insalubrite'))
+      expect(page).to have_content('977')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.ventilation_adaptee'))
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.presence_humidite'))
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.auto_rehabilitation'))
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.remarques_diagnostic'))
+      expect(page).to have_content('Le diagnostic est complet.')
     end
 
     scenario "upload d'un document sans label" do
