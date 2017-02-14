@@ -16,6 +16,7 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
     within 'article.occupants' do
       click_link I18n.t('projets.visualisation.lien_edition')
     end
+    expect(find('#demandeur_principal_civilite_mr')).to be_checked
     fill_in :projet_tel, with: '01 10 20 30 40'
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content('01 10 20 30 40')

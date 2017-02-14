@@ -12,6 +12,8 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     Occupant.destroy_all
   end
 
+  let(:projet) { Projet.last }
+
   scenario "Depuis la page de connexion, je recupère mes informations principales" do
     signin(12,15)
     projet = Projet.last
@@ -29,10 +31,11 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   end
 
   scenario "je complète la civilité du demandeur principal" do
-    skip
     signin(12,15)
     projet = Projet.last
-    choose('occupant_civilite_mr')
+    within '.civilite' do
+      choose('Monsieur')
+    end
     click_button I18n.t('demarrage_projet.action')
     expect(projet.demandeur_principal.civilite).to eq("mr")
   end

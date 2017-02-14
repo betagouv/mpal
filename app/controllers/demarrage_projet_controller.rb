@@ -15,7 +15,7 @@ class DemarrageProjetController < ApplicationController
   def etape1_envoi_infos
     @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
     if @projet_courant.update_attributes(projet_contacts_params)
-      @demandeur_principal.update_attributes(demandeur_principal_civilite_params)
+      @demandeur_principal.update_attributes(demandeur_principal_params)
       etape1_redirect_to_next_step
     else
       render :etape1_recuperation_infos
@@ -74,7 +74,6 @@ class DemarrageProjetController < ApplicationController
   end
 
   def projet_contacts_params
-    # civilite n'est pas pris en compte
     params.require(:projet).permit(
       :tel,
       :email,
@@ -91,8 +90,8 @@ class DemarrageProjetController < ApplicationController
     )
   end
 
-  def demandeur_principal_civilite_params
-    params.fetch(:occupant, {}).permit(:civilite)
+  def demandeur_principal_params
+    params.fetch(:demandeur_principal, {}).permit(:civilite)
   end
 
   def demande_params
