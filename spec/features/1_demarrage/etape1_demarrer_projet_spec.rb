@@ -20,12 +20,17 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(page).to have_content("Pierre")
     expect(projet.demandeur_principal_nom).to eq("Martin")
     expect(projet.demandeur_principal_prenom).to eq("Pierre")
-    # attention j'ai fakeweb on dirait...
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_demandeur'))
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_occupants'))
     expect(find_field('projet_adresse', disabled: true).value).to eq('12 rue de la Mare, 75010 Paris')
     expect(page).to have_content(I18n.t('projets.messages.creation.corps'))
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
+  end
+
+  scenario "si je ne coche pas la case d'engagements je ne peut pas accéder à la page suivante" do
+    skip
+    signin(12,15)
+    expect(page).to have_content(I18n.t('agrements.attestation_communiquer_infos_occupants'))
   end
 
   scenario "je complète la civilité du demandeur principal" do
@@ -94,10 +99,6 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
   end
 
-  scenario "je peux supprimer un occupant" do
-    skip
-  end
-
   scenario "je vois la liste des personnes présentes dans l'avis d'imposition sous forme d'occupants" do
     signin(12,15)
     expect(projet.nb_total_occupants).to eq(3)
@@ -113,10 +114,9 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   scenario "je peux ajouter un occupant" do
     skip
   end
-  scenario "si je ne coche pas la case d'engagements je ne peut pas accéder à la page suivante" do
+
+  scenario "je peux supprimer un occupant" do
     skip
-    signin(12,15)
-    expect(page).to have_content(I18n.t('agrements.attestation_communiquer_infos_occupants'))
   end
 
   scenario "j'ai commencé une demande, j'ai quitté la page puis j'ai recommencé la démarche depuis la page d'accueil" do
@@ -124,5 +124,4 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     # actuellement une erreur
     # https://github.com/sgmap/mpal/issues/198
   end
-
 end
