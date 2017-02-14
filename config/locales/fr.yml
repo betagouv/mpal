@@ -131,9 +131,10 @@ fr:
       travaux_adaptation_sdb: "Travaux adaptation SDB"
       travaux_monte_escalier: "Travaux monte escalier"
       travaux_amenagement_ext: "Travaux aménagement extérieur"
-      travaux_autres: "Travaux autres"
+      travaux_autres: "Autre"
       ptz: "PTZ"
       annee_construction: "Année de construction"
+      precisions: "Précisions"
 
 
     # ----------------------- Etape 3 ---------------------

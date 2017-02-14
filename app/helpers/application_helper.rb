@@ -218,7 +218,9 @@ module ApplicationHelper
     annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
     annee_construction_strong = content_tag(:strong, annee_construction)
     complements << "#{t("demarrage_projet.etape2_description_projet.annee_construction")} : #{annee_construction_strong}"
-    complements << demande.complement if demande.complement.present?
+    if demande.complement.present?
+      complements << "#{t("demarrage_projet.etape2_description_projet.precisions")} : #{content_tag(:strong, demande.complement)}"
+    end
     html << content_tag(:ul) do
       complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe
     end
@@ -233,9 +235,5 @@ module ApplicationHelper
 
   def dossier_opal_url(numero)
     "#{ENV['OPAL_API_BASE_URI']}sio/ctrl/accueil?FORM_DTO_ID=DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE&FORM_ACTION=RECHERCHER_RAPIDE_DOSSIER&$DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE$DOS_NUMERO=#{numero}"
-  end
-
-  def log_as_path(agent)
-    ""
   end
 end
