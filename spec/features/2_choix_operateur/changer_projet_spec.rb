@@ -24,16 +24,6 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
     # TODO: tester la mise à jour des occupants
   end
 
-  scenario "l'ajout d'une adresse e-mail non conforme affiche un message d'erreur", pending: true do
-    signin(projet.numero_fiscal, projet.reference_avis)
-    within 'article.occupants' do
-      click_link I18n.t('projets.visualisation.lien_edition')
-    end
-    fill_in :projet_email, with: "lolo"
-    click_button I18n.t('projets.edition.action')
-    expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
-  end
-
   scenario "je ne peux pas modifier mon adresse", pending: true do
     # FIXME: l'adresse doit être décomposée en éléments individuels (rue, code postal, ville, etc.)
     signin(projet.numero_fiscal, projet.reference_avis)

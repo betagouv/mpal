@@ -40,13 +40,12 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   scenario "mon e-mail doit être valide et obligatoire" do
     skip
     signin(12,15)
-    projet = Projet.last
-    fill_in :projet_email, with: ""
+    fill_in :projet_email, with: "invalid-email"
     fill_in 'projet_tel', with: "06 06 06 06 06"
     click_button I18n.t('demarrage_projet.action')
+    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     expect(projet.tel).to eq("06 06 06 06 06")
-    # expect message d'erreur
-    # expect qu'on reste sur l'étape 1
+    expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
   end
 
   scenario "Les noms et prénom du demandeur principal ne peuvent pas être modifiés" do
