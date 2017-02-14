@@ -11,9 +11,10 @@ feature "En tant que demandeur, je peux préciser mes besoins pour ma demande de
     Occupant.destroy_all
   end
 
+  let(:projet) { Projet.last }
+
   scenario "je décris précisément mes besoins" do
     signin(12,15)
-    projet = Projet.last
     visit etape2_description_projet_path(projet)
     expect(page).to have_content(I18n.t('demarrage_projet.etape2_description_projet.section_projet_envisage'))
     # Liste des besoins
@@ -40,7 +41,7 @@ feature "En tant que demandeur, je peux préciser mes besoins pour ma demande de
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape3_choix_intervenant_path(projet))
 
-    projet = Projet.last
+    projet.reload
     expect(projet.demande.froid).to be_truthy
     expect(projet.demande.changement_chauffage).to be_truthy
     expect(projet.demande.date_achevement_15_ans).to be_truthy
@@ -63,7 +64,6 @@ feature "En tant que demandeur, je peux préciser mes besoins pour ma demande de
 
   scenario "je ne décris aucun besoin à l'étape 2 et je ne peux pas passer à l'étape suivante" do
     signin(12,15)
-    projet = Projet.last
     visit etape2_description_projet_path(projet)
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape2_description_projet_path(projet))
