@@ -23,7 +23,7 @@ fr:
         adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
         accessibilite: "Vous avez des difficultés dans les escaliers"
         hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
-        autre: "Autre, précisez"
+        autre: "Autre"
         travaux_isolation: "Isolation"
         travaux_chauffage: "Chauffage"
         travaux_adaptation_sdb: "Adaptation salle de bain"
