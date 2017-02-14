@@ -5,6 +5,22 @@ def signin(numero_fiscal, reference_avis)
   find('.form-login .btn').click
 end
 
+def authenticate_as_admin
+  # L'environnement est mocké car CircleCI ne permet pas d'exposer des
+  # variables d'environnement lors des builds de Pull requests.
+  allow(ENV).to receive(:[]).and_call_original
+  allow(ENV).to receive(:[]).with('ADMIN_TOKEN').and_return('admin-test-token')
+
+  if defined?(page) # Capybara
+    page.driver.browser.set_cookie("admin_token=#{ENV['ADMIN_TOKEN']}")
+    # Capybara will clear the cookies at the end of the scenario
+  end
+
+  if @request.present? && @request.cookies # Controller specs
+    @request.cookies['admin_token'] = ENV['ADMIN_TOKEN']
+  end
+end
+
 def json(body)
   JSON.parse(body, symbolize_names: true)
 end
