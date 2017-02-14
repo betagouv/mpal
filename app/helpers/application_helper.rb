@@ -15,6 +15,14 @@ module ApplicationHelper
     demandeur? ? "demandeur" : "intervenant"
   end
 
+  def readable_bool(boolean)
+    boolean ? "Oui" : "Non"
+  end
+
+  def with_semicolon(string)
+    string + " : "
+  end
+
   def transmission_instructeur(projet)
     if @role_utilisateur  == :intervenant
       form_tag(projet_transmissions_path(projet_id: projet.id), method: 'post', class:'ui form' ) do
@@ -68,12 +76,9 @@ module ApplicationHelper
     link_to 'Retour au projet', @projet_courant, class: "ui button"
   end
 
-  def projet_prestation_checkbox(projet, prestation, niveau)
-    if projet.projet_prestations.find_by(prestation_id: prestation.id).try(niveau)
-      check_box_tag :prestation, niveau, checked: 'checked'
-    else
-      check_box_tag :prestation, niveau
-    end
+  def prestation_checkbox(projet, prestation)
+    checked = projet.prestations.include?(prestation)
+    check_box_tag 'projet[prestation_ids][]', prestation.id, checked, id: "prestation_#{prestation.id}"
   end
 
   def bouton_ajout_occupant

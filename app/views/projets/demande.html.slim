@@ -36,46 +36,46 @@
             legend Diagnostic opérateur
             ul.ins-form
               li.radio
-                p.like-label Ce projet concerne-t-il la perte d'autonomie ou le handicap ?
+                p.like-label= t('helpers.label.diagnostic.autonomie')
                 = f.radio_button :autonomie, true
                 = f.label :autonomie, "Oui", value: "true"
                 = f.radio_button :autonomie, false
                 = f.label :autonomie, "Non", value: "false"
               li
-                = f.label :niveau_gir, "Niveau GIR"
+                = f.label :niveau_gir, t('helpers.label.diagnostic.niveau_gir')
                 = f.text_field :niveau_gir
               li.radio
-                p.like-label MDPH/CDAPH
+                p.like-label= t('helpers.label.diagnostic.handicap')
                 = f.radio_button :handicap, true
                 = f.label :handicap, "Oui", value: "true"
                 = f.radio_button :handicap, false
                 = f.label :handicap, "Non", value: "false"
               li
-                = f.label :note_degradation, "Note de dégradation"
+                = f.label :note_degradation, t('helpers.label.diagnostic.note_degradation')
                 = f.text_field :note_degradation
               li
-                = f.label :note_insalubrite, "Note d'insalubrité"
+                = f.label :note_insalubrite, t('helpers.label.diagnostic.note_insalubrite')
                 = f.text_field :note_insalubrite
               li.radio
-                p.like-label Ventilation adaptée
+                p.like-label= t('helpers.label.diagnostic.ventilation_adaptee')
                 = f.radio_button :ventilation_adaptee, true
                 = f.label :ventilation_adaptee, "Oui", value: "true"
                 = f.radio_button :ventilation_adaptee, false
                 = f.label :ventilation_adaptee, "Non", value: "false"
               li.radio
-                p.like-label Présence traces d'humidité
+                p.like-label= t('helpers.label.diagnostic.presence_humidite')
                 = f.radio_button :presence_humidite, true
                 = f.label :presence_humidite, "Oui", value: "true"
                 = f.radio_button :presence_humidite, false
                 = f.label :presence_humidite, "Non", value: "false"
               li.radio
-                p.like-label Ces travaux seront-ils réalisés en auto-réhabilitation ?
+                p.like-label= t('helpers.label.diagnostic.auto_rehabilitation')
                 = f.radio_button :auto_rehabilitation, true
                 = f.label :auto_rehabilitation, "Oui", value: "true"
                 = f.radio_button :auto_rehabilitation, false
                 = f.label :auto_rehabilitation, "Non", value: "false"
               li
-                = f.label :remarques_diagnostic, "Autres remarques"
+                = f.label :remarques_diagnostic, t('helpers.label.diagnostic.remarques_diagnostic')
                 = f.text_area :remarques_diagnostic
           fieldset
             legend Description des travaux proposés
@@ -90,28 +90,31 @@
                     th.tab-title colspan="3" scope="row" #{theme.libelle.capitalize}
                   - theme.prestations.each do |prestation|
                     tr(data-url=projet_prestations_url(@projet_courant))
-                      th scope="row" #{prestation.libelle.capitalize}
+                      th scope="row"
+                        label for="prestation_#{prestation.id}"
+                          = prestation.libelle.capitalize
                       td.plan_travaux(data-prestation-id=prestation.id)
-                        = projet_prestation_checkbox(@projet_courant, prestation, :preconise)
+                        = prestation_checkbox(@projet_courant, prestation)
                 tr
-                  th.tab-title colspan="3" scope="row"  Efficacité énergétique
+                  th.tab-title colspan="3" scope="row" Efficacité énergétique
                 tr
-                  th scope="row"  Gain energetique (%)
+                  th scope="row"= t('helpers.label.proposition.gain_energetique')
                   td
                     = f.text_field :gain_energetique
+                    = " %"
                 tr
-                  th scope="row"  Étiquette énergétique après travaux
+                  th scope="row"= t('helpers.label.proposition.etiquette_apres_travaux')
                   td
                     = f.text_field :etiquette_apres_travaux
                 tr
-                  th.tab-title colspan="3" scope="row"  Montant
+                  th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.montant')
                 tr
-                  th scope="row"  Montant total HT
+                  th scope="row"= t('helpers.label.proposition.montant_travaux_ht')
                   td
                     = f.text_field :montant_travaux_ht
                     = " €"
                 tr
-                  th scope="row"  Montant total TTC
+                  th scope="row"= t('helpers.label.proposition.montant_travaux_ttc')
                   td
                     = f.text_field :montant_travaux_ttc
                     = " €"
@@ -131,23 +134,23 @@
                           = text_field_tag aide.id, nil, class: "aide"
 
                 tr
-                  th.tab-title colspan="3" scope="row"  Financement personnel
+                  th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.financement_personnel')
                 tr
-                  th scope="row" Reste à charge
+                  th scope="row"= t('helpers.label.proposition.reste_a_charge')
                   td
                     = f.text_field :reste_a_charge
                     = " €"
                 tr
-                  th scope="row" Prêt bancaire
+                  th scope="row"= t('helpers.label.proposition.pret_bancaire')
                   td
                     = f.text_field :pret_bancaire
                     = " €"
           ul.ins-form
             li
-              = f.label :precisions_travaux, "Précisions travaux proposés"
+              = f.label :precisions_travaux, t('helpers.label.proposition.precisions_travaux')
               = f.text_area :precisions_travaux
             li
-              = f.label :precisions_financement, "Précisions financement"
+              = f.label :precisions_financement, t('helpers.label.proposition.precisions_financement')
               = f.text_area :precisions_financement
           = f.button "Enregistrer cette proposition", class: "btn btn-save"
 = render partial: 'documents/show'

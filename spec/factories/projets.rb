@@ -53,8 +53,20 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_prestations do
+      transient do
+        prestations_count 1
+      end
+
+      after(:build) do |projet, evaluator|
+        projet.prestations = Prestation.first(evaluator.prestations_count)
+      end
+    end
+
     trait :proposition_enregistree do
       statut :proposition_enregistree
+      with_prestations
+
       after(:build) do |projet|
         projet.operateur = create(:operateur, departements: [projet.departement])
       end
@@ -62,6 +74,8 @@ FactoryGirl.define do
 
     trait :transmis_pour_instruction do
       statut :transmis_pour_instruction
+      with_prestations
+
       after(:build) do |projet|
         projet.operateur = create(:operateur, departements: [projet.departement])
         projet.invitations << create(:invitation, intermediaire: projet.operateur, intervenant: create(:instructeur))

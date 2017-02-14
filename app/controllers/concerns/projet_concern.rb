@@ -89,7 +89,9 @@ module ProjetConcern
               :gain_energetique, :etiquette_apres_travaux,
               :precisions_travaux, :precisions_financement,
               :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire, :reste_a_charge,
-              :documents_attributes)
+              :documents_attributes,
+              :prestation_ids => [])
+      attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?
       attributs = attributs.merge(adresse_complete) if adresse_complete
       attributs
     end

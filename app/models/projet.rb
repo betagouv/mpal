@@ -18,10 +18,10 @@ class Projet < ActiveRecord::Base
   has_many :projet_aides, dependent: :destroy
   has_many :aides, through: :projet_aides
 
+  has_and_belongs_to_many :prestations, join_table: 'projet_prestations'
+
   validates :numero_fiscal, :reference_avis, :adresse_ligne1, presence: true
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
-
-  has_many :projet_prestations, dependent: :destroy
 
   before_create do
     self.plateforme_id = Time.now.to_i
@@ -163,6 +163,14 @@ class Projet < ActiveRecord::Base
     self.operateur = committed_operateur
     self.statut = :en_cours
     save
+  end
+
+  def select_prestation(prestation)
+    prestations << prestation
+  end
+
+  def set_selected_prestations(prestation_ids)
+    self.prestation_ids = prestation_ids
   end
 
   def transmettre!(instructeur)
