@@ -3,6 +3,6 @@ article.block.recap-projet
   .content-block
     .invoice
       = render 'projets/projet_invoice'
-      - if current_agent && current_agent.instructeur?
+      - if current_agent.instructeur?
         = form_for @projet_courant, url: dossier_dossiers_opal_path(dossier_id: @projet_courant.id), html: { method: :post } do |f|
           = f.button t('projets.creation_opal.titre_creation_opal'), class: 'btn'

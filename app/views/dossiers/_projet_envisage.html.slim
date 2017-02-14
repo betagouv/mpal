@@ -1,6 +1,7 @@
 article.block.projet
   h3 Projet envisagé
-  = link_to t('projets.visualisation.lien_edition'), etape2_description_projet_path(@projet_courant), class: 'edit'
+  - if demandeur? || (current_agent && current_agent.operateur?)
+    = link_to t('projets.visualisation.lien_edition'), etape2_description_projet_path(@projet_courant), class: 'edit'
   .content-block
     - if @projet_courant.demande.blank?
       p Le demandeur n’a pas encore rempli le projet.
@@ -22,7 +23,3 @@ article.block.projet
       - else
         p
           strong Aucun
-        - unless current_agent
-          br
-          br
-        = link_to "Choisir un opérateur", etape3_choix_intervenant_path(@projet_courant), class: 'btn'

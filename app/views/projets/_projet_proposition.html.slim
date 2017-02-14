@@ -1,7 +1,8 @@
 /! PROJET PROPOSE - vue operateur 2eme etape
 article.block.projet-ope
   h3.is-open Projet proposé
-  = link_to t('projets.visualisation.lien_edition'), dossier_demande_path(@projet_courant), class: "edit"
+  - if demandeur? || current_agent.operateur?
+    = link_to t('projets.visualisation.lien_edition'), dossier_demande_path(@projet_courant), class: "edit"
   .content-block
     = render 'projets/projet_details'
     = yield(:cta)

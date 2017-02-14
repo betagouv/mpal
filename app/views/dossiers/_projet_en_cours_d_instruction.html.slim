@@ -1,4 +1,5 @@
-- content_for :cta do
-  h2 En cours d'instruction
-  = "Dossier OPAL #{@projet_courant.opal_numero}" if @projet_courant.opal_numero.present?
-= render 'projet_proposition_acceptee'
+article.block.recap-projet
+  h3.is-open Projet retenu par le demandeur
+  .content-block
+    .invoice
+      = render 'projets/projet_invoice'
