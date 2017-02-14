@@ -81,5 +81,15 @@ FactoryGirl.define do
         projet.invitations << create(:invitation, intermediaire: projet.operateur, intervenant: create(:instructeur))
       end
     end
+
+    trait :en_cours_d_instruction do
+      statut :en_cours_d_instruction
+      with_prestations
+
+      after(:build) do |projet|
+        projet.operateur = create(:operateur, departements: [projet.departement])
+        projet.invitations << create(:invitation, intermediaire: projet.operateur, intervenant: create(:instructeur))
+      end
+    end
   end
 end
