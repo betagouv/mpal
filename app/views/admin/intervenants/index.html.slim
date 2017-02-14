@@ -27,8 +27,8 @@
             td= intervenant.raison_sociale
             td= intervenant.email
             td= intervenant.adresse_postale
-            td= intervenant.departements.join(', ')
+            td= intervenant.departements.try(:join, ', ')
             td= intervenant.themes.try(:join, ', ')
-            td= intervenant.roles.join(', ')
+            td= intervenant.roles.try(:join, ', ')
             td= intervenant.informations
             td= intervenant.clavis_service_id
