@@ -3,13 +3,13 @@
   section.demandeur
     h2.header-blk= t('demarrage_projet.etape1_demarrage_projet.section_demandeur')
     p.chapo= t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
-    ul.dem-info.ins-form
+    ul.dem-info.ins-form.civilite
       li.radio
-        = f.radio_button :demandeur_principal_civilite, Occupant.civilites.keys[1]
-        = f.label :demandeur_principal_civilite_mme, t(:"occupants.civilite.mme")
+        = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[1], (@demandeur_principal.civilite == Occupant.civilites.keys[1])
+        = label_tag 'demandeur_principal_civilite_mme', t(:"occupants.civilite.mme")
       li.radio
-        = f.radio_button :demandeur_principal_civilite, Occupant.civilites.keys[0]
-        = f.label :demandeur_principal_civilite_mr, t(:"occupants.civilite.mr")
+        = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[0], (@demandeur_principal.civilite == Occupant.civilites.keys[0])
+        = label_tag 'demandeur_principal_civilite_mr', t(:"occupants.civilite.mr")
     ul.dem-info.ins-form
       li
         = f.label :demandeur_principal_prenom
@@ -19,7 +19,7 @@
         = f.text_field :demandeur_principal_nom, disabled: true, class: 'disabled'
       li.full
         = f.label :adresse
-        = f.text_field :adresse
+        = f.text_field :adresse, disabled: true
       li.full
         label for="dem-address-diff"  Adresse du logement à rénover si différente :
         input#dem-address-diff type="text" /
