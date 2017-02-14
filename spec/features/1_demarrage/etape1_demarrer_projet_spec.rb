@@ -23,7 +23,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     # attention j'ai fakeweb on dirait...
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_demandeur'))
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_occupants'))
-    expect(find_field('projet_adresse').value).to eq('12 rue de la Mare, 75010 Paris')
+    expect(find_field('projet_adresse', disabled: true).value).to eq('12 rue de la Mare, 75010 Paris')
     expect(page).to have_content(I18n.t('projets.messages.creation.corps'))
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
   end
