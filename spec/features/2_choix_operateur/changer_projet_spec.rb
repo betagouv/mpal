@@ -33,7 +33,7 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
     expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
   end
 
-  scenario "je peux modifier mon adresse", pending: true do
+  scenario "je ne peux pas modifier mon adresse", pending: true do
     # FIXME: l'adresse doit être décomposée en éléments individuels (rue, code postal, ville, etc.)
     signin(projet.numero_fiscal, projet.reference_avis)
     within 'article.occupants' do
