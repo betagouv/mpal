@@ -85,21 +85,22 @@
         tr
           th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants')
           th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants_date_naissance')
-          th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants_modification')
+          /TODO th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants_modification')
         - @projet_courant.occupants.each do |occupant|
           tr
             td
               span.firstname= occupant.prenom
               span.lastname<= occupant.nom
             td= occupant.date_de_naissance.year
+            /TODO td
         - @occupants_a_charge.each do |occupant|
           tr
             td
               span.firstname= occupant.prenom
               span.lastname<= occupant.nom
             td
-              input type="text" /
-            td
+              /TODO input type="text" /
+            /TODO td
               a.btn href="#"  = t('demarrage_projet.etape1_demarrage_projet.occupants_supprimer')
     .checkbox-validation
       input#dif1 type="checkbox" class="engagement"
