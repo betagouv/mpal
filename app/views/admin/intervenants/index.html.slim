@@ -4,7 +4,7 @@
     fieldset.visible
       legend Importer un fichier CSV
       = file_field_tag 'csv_file'
-      = submit_tag "Importer le fichier", class: 'btn'
+      = submit_tag t('admin.intervenants.impoter_fichier'), class: 'btn'
   - if @intervenants.blank?
     p Aucun intervenant.
   - else
@@ -27,8 +27,8 @@
             td= intervenant.raison_sociale
             td= intervenant.email
             td= intervenant.adresse_postale
-            td= intervenant.departements.join(', ')
+            td= intervenant.departements.try(:join, ', ')
             td= intervenant.themes.try(:join, ', ')
-            td= intervenant.roles.join(', ')
+            td= intervenant.roles.try(:join, ', ')
             td= intervenant.informations
             td= intervenant.clavis_service_id

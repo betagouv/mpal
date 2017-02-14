@@ -12,7 +12,7 @@ class Admin::IntervenantsController < AdminController
     rescue => e
       return redirect_to admin_intervenants_path, alert: "Erreur lors de l’importation : #{e.message}"
     end
-    redirect_to admin_intervenants_path, notice: "Les intervenants ont été importés."
+    redirect_to admin_intervenants_path, notice: I18n.t('admin.intervenants.import_reussi')
   end
 
   private
