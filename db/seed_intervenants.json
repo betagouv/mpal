@@ -99,14 +99,6 @@
     "email": "betexergie@mailinator.com"
   },
   {
-    "raison_sociale": "EIE Lorraine",
-    "roles": ["pris"],
-    "departements": ["88"],
-    "themes": ["énergie"],
-    "adresse_postale": "1 rue du Souvenir, 88190 Golbey",
-    "email": "eie_lorraine@mailinator.com"
-  },
-  {
     "raison_sociale": "Direction Départementale des Territoires des Vosges",
     "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
     "roles": ["pris", "instructeur"],
