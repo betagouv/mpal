@@ -4,27 +4,13 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Remplir la proposition de travaux" do
-  let(:projet) {            create :projet, :en_cours }
-  let!(:instructeur) {      create :instructeur, departements: [projet.departement] }
-  let(:pris) {              create :pris,        departements: [projet.departement] }
-  let(:operateur) {         create :operateur,   departements: [projet.departement] }
-  let!(:invitation_ope) {   create :invitation, intervenant: operateur, projet: projet }
-  let!(:invitation_pris) {  create :invitation, intervenant: pris,      projet: projet }
-  let(:mise_en_relation) {  create :mise_en_relation, projet: projet, intermediaire: invitation_ope.intervenant }
-  let!(:chaudiere_s) {      create :prestation, libelle: 'Chaudière',      scenario: :souhaite,  projet: projet }
-  let!(:chaudiere_r) {      create :prestation, libelle: 'Chaudière',      scenario: :retenu,    projet: projet }
-  let!(:production_ecs_r) { create :prestation, libelle: 'Production ECS', scenario: :retenu,    projet: projet }
-  let!(:carrelage_s) {      create :prestation, libelle: 'Carrelage',      scenario: :souhaite,  projet: projet }
-  let!(:chaudiere_p) {      create :prestation, libelle: 'Chaudière',      scenario: :preconise, projet: projet }
-  let!(:production_ecs_p) { create :prestation, libelle: 'Production ECS', scenario: :preconise, projet: projet }
-  let!(:aide) {             create :aide, libelle: 'Subvention ANAH' }
-  let!(:subvention_anah) {  create :projet_aide, aide_id: aide.id, montant: 2305.10, projet: projet }
-  let(:agent_instructeur) { create :agent, intervenant: instructeur }
-  let(:agent_pris) {        create :agent, intervenant: pris }
-  let(:agent_operateur) {   create :agent, intervenant: operateur }
+  let(:projet)           { create :projet, :en_cours }
+  let(:operateur)        { projet.operateur }
+  let(:aide)             { create :aide, libelle: 'Subvention ANAH' }
+  let!(:subvention_anah) { create :projet_aide, aide_id: aide.id, montant: 2305.10, projet: projet }
+  let(:agent_operateur)  { create :agent, intervenant: operateur }
 
   context "en tant qu'opérateur" do
-    let(:document) { create :document, projet: projet }
     before { login_as agent_operateur, scope: :agent }
 
     scenario "je m'affecte le projet et je visualise la proposition de travaux" do
