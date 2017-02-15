@@ -53,8 +53,6 @@ end
 gem 'letter_opener_web'
 
 gem 'httparty'
-
-gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 gem 'gon'
 
 gem 'exception_notification'

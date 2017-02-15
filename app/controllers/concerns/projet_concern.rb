@@ -9,7 +9,7 @@ module ProjetConcern
       if @projet_courant.save
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant)
       end
-      render "projets/edit"
+      render "projets/show"
     end
 
     # ATTENTION à la confusion avec la table demandes qui correspond au projet envisagé
@@ -39,7 +39,7 @@ module ProjetConcern
       if @projet_courant.save
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant)
       end
-      render "projets/edit"
+      render "projets/show"
     end
 
     def show
@@ -54,19 +54,13 @@ module ProjetConcern
       render "projets/show"
     end
 
-    def suivi
-      @commentaire = Commentaire.new(projet: @projet_courant)
-      @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
-      render "projets/suivi"
-    end
-
     def update
       @projet_courant.statut = :proposition_enregistree
       @projet_courant.assign_attributes(projet_params)
       if projet_valide? && @projet_courant.save
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), notice: t('projets.edition_projet.messages.succes')
       end
-      render "projets/edit", alert: t('projets.edition_projet.messages.erreur')
+      render "projets/show", alert: t('projets.edition_projet.messages.erreur')
     end
 
     private
