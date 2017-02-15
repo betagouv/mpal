@@ -31,7 +31,7 @@ describe ProjetMailer, type: :mailer do
   end
 
   describe "le PRIS reçoit un email lorsque le demandeur choisit un opérateur" do
-    let(:projet)     { create :projet, :with_invited_operateur }
+    let(:projet)     { create :projet, :prospect, :with_invited_operateur }
     let(:operateur)  { projet.invited_operateur }
     let(:pris)       { create :pris }
     let(:invitation) { create :invitation, projet: projet, intervenant: pris }
