@@ -89,7 +89,7 @@
                   tr
                     th.tab-title colspan="3" scope="row" #{theme.libelle.capitalize}
                   - theme.prestations.each do |prestation|
-                    tr(data-url=projet_prestations_url(@projet_courant))
+                    tr
                       th scope="row"
                         label for="prestation_#{prestation.id}"
                           = prestation.libelle.capitalize
