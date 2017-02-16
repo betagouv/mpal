@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'temping'
 
 describe LocalizedModelConcern do
   describe "#localized_numeric_setter" do

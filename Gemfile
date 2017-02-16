@@ -20,7 +20,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'fakeweb'
   gem 'simplecov', :require => false
-  gem 'temping'
 end
 
 group :development do
@@ -44,6 +43,7 @@ group :test do
   gem 'rspec-activejob'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
+  gem 'temping'
   gem 'terminal-notifier-guard'
 end
 
