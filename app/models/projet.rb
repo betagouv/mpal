@@ -1,8 +1,11 @@
 class Projet < ActiveRecord::Base
+  include LocalizedModelConcern
 
   enum statut: [ :prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :proposition_acceptee, :transmis_pour_instruction, :en_cours_d_instruction ]
+
   has_one :personne_de_confiance, class_name: "Personne"
   accepts_nested_attributes_for :personne_de_confiance
+
   has_one :demande, dependent: :destroy
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
@@ -12,6 +15,7 @@ class Projet < ActiveRecord::Base
   has_many :occupants, -> { order "id" }, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
+
   has_many :documents, dependent: :destroy
   accepts_nested_attributes_for :documents
 
@@ -23,6 +27,10 @@ class Projet < ActiveRecord::Base
 
   validates :numero_fiscal, :reference_avis, :adresse_ligne1, presence: true
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
+
+  localized_numeric_setter :montant_travaux_ht
+  localized_numeric_setter :montant_travaux_ttc
+  localized_numeric_setter :reste_a_charge
 
   before_create do
     self.plateforme_id = Time.now.to_i

@@ -111,12 +111,13 @@
                 tr
                   th scope="row"= t('helpers.label.proposition.montant_travaux_ht')
                   td
-                    = f.text_field :montant_travaux_ht
+                    = text_field_tag "projet[montant_travaux_ht]", number_to_currency(@projet_courant.montant_travaux_ht, unit: '')
                     = " €"
+
                 tr
                   th scope="row"= t('helpers.label.proposition.montant_travaux_ttc')
                   td
-                    = f.text_field :montant_travaux_ttc
+                    = text_field_tag "projet[montant_travaux_ttc]", number_to_currency(@projet_courant.montant_travaux_ttc, unit: '')
                     = " €"
                 tr
                   th.tab-title colspan="3" scope="row"  Plan de financement prévisionnel
@@ -131,19 +132,20 @@
                         - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
                         = hidden_field_tag "#{field_name}[aide_id]", aide.id
                         = hidden_field_tag "#{field_name}[id]",      aide_courante.try(:id)
-                        = text_field_tag   "#{field_name}[montant]", aide_courante.try(:montant), class: "aide"
+                        = text_field_tag   "#{field_name}[montant]", number_to_currency(aide_courante.try(:montant), unit: ''), class: "aide"
+                        = " €"
 
                 tr
                   th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.financement_personnel')
                 tr
                   th scope="row"= t('helpers.label.proposition.reste_a_charge')
                   td
-                    = f.text_field :reste_a_charge
+                    = text_field_tag "projet[reste_a_charge]", number_to_currency(@projet_courant.reste_a_charge, unit: '')
                     = " €"
                 tr
                   th scope="row"= t('helpers.label.proposition.pret_bancaire')
                   td
-                    = f.text_field :pret_bancaire
+                    = text_field_tag "projet[pret_bancaire]", number_to_currency(@projet_courant.pret_bancaire, unit: '')
                     = " €"
           ul.ins-form
             li

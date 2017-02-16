@@ -20,6 +20,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'fakeweb'
   gem 'simplecov', :require => false
+  gem 'temping'
 end
 
 group :development do
