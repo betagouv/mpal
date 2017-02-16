@@ -18,11 +18,12 @@ class SessionsController < ApplicationController
       return render :new
     end
     session[:numero_fiscal] = param_numero_fiscal
-    projet = ProjetEntrepot.par_numero_fiscal(param_numero_fiscal)
-    unless projet
-      return create_projet_and_redirect
+    projet = Projet.find_by(numero_fiscal: param_numero_fiscal)
+    if projet
+      redirect_to projet
+    else
+      create_projet_and_redirect
     end
-    redirect_to projet
   end
 
   def create_projet_and_redirect
