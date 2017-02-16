@@ -92,19 +92,6 @@ $(document).ready(function() {
         return false;
     });
 
-    $(document).on('change', ".aide", function () {
-      console.log("Changement");
-      var aideId = $(this).attr('name');
-      var value = $(this).val();
-      var url = $(this).parent().parent().data('url');
-
-      $.post(url, {aide_id: aideId, montant: value}, function (data) {
-        console.log("ok");
-      }, function (data) {
-        console.log("ko ?");
-      });
-    });
-
     function updateSubmitButton() {
       var isChecked = $(".engagement").prop("checked");
       console.log("checked: ", isChecked);

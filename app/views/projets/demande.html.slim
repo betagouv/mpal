@@ -123,7 +123,7 @@
 
                 - TypeAide.all.each do |type_aide|
                   - type_aide.aides.each do |aide|
-                    tr(data-url=projet_aides_url(@projet_courant))
+                    tr
                       - field_name = "projet[projet_aides_attributes][#{aide.id}]"
                       th scope="row"
                         = label_tag "#{field_name}[montant]", "#{aide.libelle}"

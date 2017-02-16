@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     resource  :composition
     resources :avis_impositions
     resources :prestations,        only: [:create]
-    resources :aides,              only: [:create]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
     resources :choix_intervenants, only: [:new, :create]
