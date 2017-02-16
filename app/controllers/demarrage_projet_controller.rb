@@ -54,6 +54,7 @@ class DemarrageProjetController < ApplicationController
 
   def etape3_envoi_choix_intervenant
     begin
+      @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
       intervenant = Intervenant.find_by_id(params[:intervenant])
       unless @projet_courant.intervenants.include? intervenant
         @projet_courant.invite_intervenant!(intervenant)

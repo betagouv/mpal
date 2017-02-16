@@ -46,6 +46,18 @@ feature "En tant que demandeur, je peux changer d'opérateur" do
       expect(page).to have_content(pris.raison_sociale)
       expect(page).not_to have_content(previous_operateur.raison_sociale)
     end
+
+    scenario "je peux changer mes disponibilités" do
+      signin(projet.numero_fiscal, projet.reference_avis)
+      click_link I18n.t('projets.visualisation.changer_intervenant')
+
+      fill_in I18n.t('helpers.label.projet.disponibilite'), with: "Plutôt le soir"
+      check I18n.t('agrements.autorisation_acces_donnees_intervenants')
+      click_button I18n.t('projets.edition.action')
+
+      expect(page.current_path).to eq(projet_path(projet))
+      expect(page).to have_content("Plutôt le soir")
+    end
   end
 
   context "après m'être engagé avec un opérateur" do
