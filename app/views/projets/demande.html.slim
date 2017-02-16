@@ -89,7 +89,7 @@
                   tr
                     th.tab-title colspan="3" scope="row" #{theme.libelle.capitalize}
                   - theme.prestations.each do |prestation|
-                    tr(data-url=projet_prestations_url(@projet_courant))
+                    tr
                       th scope="row"
                         label for="prestation_#{prestation.id}"
                           = prestation.libelle.capitalize
@@ -123,15 +123,15 @@
 
                 - TypeAide.all.each do |type_aide|
                   - type_aide.aides.each do |aide|
-                    tr(data-url=projet_aides_url(@projet_courant))
-                      th scope="row" #{aide.libelle}
+                    tr
+                      - field_name = "projet[projet_aides_attributes][#{aide.id}]"
+                      th scope="row"
+                        = label_tag "#{field_name}[montant]", "#{aide.libelle}"
                       td
-                        label.masque(for=aide.id)
-                          = aide.libelle
-                        - if aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
-                          = text_field_tag aide.id, aide_courante.montant, class: "aide"
-                        - else
-                          = text_field_tag aide.id, nil, class: "aide"
+                        - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
+                        = hidden_field_tag "#{field_name}[aide_id]", aide.id
+                        = hidden_field_tag "#{field_name}[id]",      aide_courante.try(:id)
+                        = text_field_tag   "#{field_name}[montant]", aide_courante.try(:montant), class: "aide"
 
                 tr
                   th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.financement_personnel')

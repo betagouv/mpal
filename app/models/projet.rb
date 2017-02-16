@@ -17,6 +17,7 @@ class Projet < ActiveRecord::Base
 
   has_many :projet_aides, dependent: :destroy
   has_many :aides, through: :projet_aides
+  accepts_nested_attributes_for :projet_aides, reject_if: :all_blank, allow_destroy: true
 
   has_and_belongs_to_many :prestations, join_table: 'projet_prestations'
 

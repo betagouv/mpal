@@ -23,14 +23,7 @@ FactoryGirl.define do
       end
     end
 
-    # Project states
-
-    trait :prospect do
-      statut :prospect
-    end
-
     trait :with_invited_pris do
-      statut :prospect
       after(:build) do |projet|
         pris = create(:pris, departements: [projet.departement])
         create(:invitation, projet: projet, intervenant: pris)
@@ -38,15 +31,13 @@ FactoryGirl.define do
     end
 
     trait :with_invited_operateur do
-      statut :prospect
       after(:build) do |projet|
         operateur = create(:operateur, departements: [projet.departement])
         create(:invitation, projet: projet, intervenant: operateur)
       end
     end
 
-    trait :en_cours do
-      statut :en_cours
+    trait :with_committed_operateur do
       after(:build) do |projet|
         projet.operateur = create(:operateur, departements: [projet.departement])
         create(:invitation, projet: projet, intervenant: projet.operateur)
@@ -63,17 +54,26 @@ FactoryGirl.define do
       end
     end
 
+    # Project states
+
+    trait :prospect do
+      statut :prospect
+    end
+
+    trait :en_cours do
+      statut :en_cours
+      with_committed_operateur
+    end
+
     trait :proposition_enregistree do
       statut :proposition_enregistree
+      with_committed_operateur
       with_prestations
-
-      after(:build) do |projet|
-        projet.operateur = create(:operateur, departements: [projet.departement])
-      end
     end
 
     trait :transmis_pour_instruction do
       statut :transmis_pour_instruction
+      with_committed_operateur
       with_prestations
 
       after(:build) do |projet|
@@ -84,6 +84,7 @@ FactoryGirl.define do
 
     trait :en_cours_d_instruction do
       statut :en_cours_d_instruction
+      with_committed_operateur
       with_prestations
 
       after(:build) do |projet|

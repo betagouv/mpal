@@ -4,27 +4,12 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Remplir la proposition de travaux" do
-  let(:projet) {            create :projet, :en_cours }
-  let!(:instructeur) {      create :instructeur, departements: [projet.departement] }
-  let(:pris) {              create :pris,        departements: [projet.departement] }
-  let(:operateur) {         create :operateur,   departements: [projet.departement] }
-  let!(:invitation_ope) {   create :invitation, intervenant: operateur, projet: projet }
-  let!(:invitation_pris) {  create :invitation, intervenant: pris,      projet: projet }
-  let(:mise_en_relation) {  create :mise_en_relation, projet: projet, intermediaire: invitation_ope.intervenant }
-  let!(:chaudiere_s) {      create :prestation, libelle: 'Chaudière',      scenario: :souhaite,  projet: projet }
-  let!(:chaudiere_r) {      create :prestation, libelle: 'Chaudière',      scenario: :retenu,    projet: projet }
-  let!(:production_ecs_r) { create :prestation, libelle: 'Production ECS', scenario: :retenu,    projet: projet }
-  let!(:carrelage_s) {      create :prestation, libelle: 'Carrelage',      scenario: :souhaite,  projet: projet }
-  let!(:chaudiere_p) {      create :prestation, libelle: 'Chaudière',      scenario: :preconise, projet: projet }
-  let!(:production_ecs_p) { create :prestation, libelle: 'Production ECS', scenario: :preconise, projet: projet }
-  let!(:aide) {             create :aide, libelle: 'Subvention ANAH' }
-  let!(:subvention_anah) {  create :projet_aide, aide_id: aide.id, montant: 2305.10, projet: projet }
-  let(:agent_instructeur) { create :agent, intervenant: instructeur }
-  let(:agent_pris) {        create :agent, intervenant: pris }
-  let(:agent_operateur) {   create :agent, intervenant: operateur }
+  let(:projet)           { create :projet, :en_cours }
+  let(:operateur)        { projet.operateur }
+  let(:agent_operateur)  { create :agent, intervenant: operateur }
+  let(:aide)             { Aide.first }
 
   context "en tant qu'opérateur" do
-    let(:document) { create :document, projet: projet }
     before { login_as agent_operateur, scope: :agent }
 
     scenario "je m'affecte le projet et je visualise la proposition de travaux" do
@@ -63,9 +48,14 @@ feature "Remplir la proposition de travaux" do
       check 'Lavabo adapté'
       fill_in 'projet_gain_energetique', with: '31'
       fill_in 'projet_etiquette_apres_travaux', with: 'A'
+
+      # Section "Financement"
       fill_in 'projet_montant_travaux_ht', with: '3333'
       fill_in 'projet_montant_travaux_ttc', with: '4444'
       fill_in 'projet_reste_a_charge', with: '1111'
+      fill_in  aide.libelle, with: '5555'
+
+      # Section "Précisions"
       fill_in 'projet_precisions_travaux', with: 'Il faudra casser un mur.'
       fill_in 'projet_precisions_financement', with: 'Le prêt sera sans doute accordé.'
 
@@ -99,12 +89,16 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content('31')
       expect(page).to have_content(I18n.t('helpers.label.proposition.etiquette_apres_travaux'))
       expect(page).to have_content('A')
+
+      # Section "Financement"
       expect(page).to have_content(I18n.t('helpers.label.proposition.montant_travaux_ht'))
       expect(page).to have_content('3333')
       expect(page).to have_content(I18n.t('helpers.label.proposition.montant_travaux_ht'))
       expect(page).to have_content('4444')
       expect(page).to have_content(I18n.t('helpers.label.proposition.reste_a_charge'))
       expect(page).to have_content('1111')
+      expect(page).to have_content(aide.libelle)
+      expect(page).to have_content('5555')
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_travaux') + ' : Il faudra casser un mur.')
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_financement') + ' : Le prêt sera sans doute accordé.')
     end
@@ -152,11 +146,13 @@ feature "Remplir la proposition de travaux" do
 
         fill_in 'projet_surface_habitable', with: '42'
         uncheck prestation.libelle
+        fill_in aide.libelle, with: ''
 
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content('42')
         expect(page).not_to have_content(prestation.libelle)
+        expect(page).not_to have_content(aide.libelle)
       end
     end
   end

@@ -135,7 +135,7 @@ describe Projet do
     end
 
     context "avec un opérateur (non engagé) différent de celui déjà invité" do
-      let(:projet)             { create :projet, :with_invited_operateur }
+      let(:projet)             { create :projet, :prospect, :with_invited_operateur }
       let(:previous_operateur) { projet.invited_operateur }
       let(:new_operateur)      { create :operateur }
 
@@ -149,7 +149,7 @@ describe Projet do
     end
 
     context "avec le même opérateur (non engagé)" do
-      let(:projet)    { create :projet, :with_invited_operateur }
+      let(:projet)    { create :projet, :prospect, :with_invited_operateur }
       let(:operateur) { projet.invited_operateur }
 
       it "ne change rien" do
@@ -160,7 +160,7 @@ describe Projet do
     end
 
     context "avec un opérateur différent de celui déjà engagé" do
-      let(:projet)             { create :projet, :with_invited_operateur }
+      let(:projet)             { create :projet, :prospect, :with_invited_operateur }
       let(:previous_operateur) { projet.invited_operateur }
       let(:new_operateur)      { create :operateur }
 
@@ -184,7 +184,7 @@ describe Projet do
     end
 
     context "avec un PRIS invité auparavant" do
-      let(:projet)        { create :projet, :with_invited_pris }
+      let(:projet)        { create :projet, :prospect, :with_invited_pris }
       let(:new_operateur) { create :operateur }
 
       it "sélectionne le nouvel intervenant, et notifie le PRIS" do

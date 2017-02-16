@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 
 feature "En tant que demandeur, je peux m'engager avec un opérateur" do
-  let(:projet)    { create(:projet, :with_invited_operateur) }
+  let(:projet)    { create(:projet, :prospect, :with_invited_operateur) }
   let(:operateur) { projet.invited_operateur }
 
   scenario "je m'engage auprès d'un opérateur qui a été consulté" do
