@@ -16,14 +16,24 @@ describe LocalizedModelConcern do
 
     let(:model) { LocalizableModel.new }
 
-    it "convertit un nombre localisé en nombre US" do
+    it "convertit un séparateur de décimales localisé en séparateur de décimales US" do
       model.amount = "100,25"
       expect(model.read_attribute(:amount).to_s).to eq '100.25'
     end
 
-    it "ne convertit pas un nombre déjà au format US" do
-      model.amount = "100.25"
-      expect(model.read_attribute(:amount).to_s).to eq '100.25'
+    it "convertit un séparateur de milliers localisé en séparateur de milliers US" do
+      model.amount = "1 200,25"
+      expect(model.read_attribute(:amount).to_s).to eq '1200.25'
+    end
+
+    it "ne convertit pas une valeur déjà au format US" do
+      model.amount = "1200.25"
+      expect(model.read_attribute(:amount).to_s).to eq '1200.25'
+    end
+
+    it "ne convertit pas une valeur déjà sous forme numérique" do
+      model.amount = 1200.25
+      expect(model.read_attribute(:amount).to_s).to eq '1200.25'
     end
   end
 end

@@ -50,10 +50,10 @@ feature "Remplir la proposition de travaux" do
       fill_in 'projet_etiquette_apres_travaux', with: 'A'
 
       # Section "Financement"
-      fill_in 'projet_montant_travaux_ht', with: '3333,33'
-      fill_in 'projet_montant_travaux_ttc', with: '4444,44'
-      fill_in 'projet_reste_a_charge', with: '1111,11'
-      fill_in  aide.libelle, with: '5555,55'
+      fill_in 'projet_montant_travaux_ht', with: '3 333,33'
+      fill_in 'projet_montant_travaux_ttc', with: '4 444,44'
+      fill_in 'projet_reste_a_charge', with: '1 111,11'
+      fill_in  aide.libelle, with: '5 555,55'
 
       # Section "Précisions"
       fill_in 'projet_precisions_travaux', with: 'Il faudra casser un mur.'
