@@ -27,6 +27,7 @@ group :development do
   gem 'pry'
   gem 'pry-nav'
   gem 'quiet_assets'
+  gem 'rails-erd' # Use `bundle exec erd` to generate DB schema in PDF
   gem 'sextant'
   gem 'spring'
   gem 'spring-commands-rspec'
