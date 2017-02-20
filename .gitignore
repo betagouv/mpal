@@ -27,6 +27,7 @@
 /.ruby-gemset
 /doc
 .env
+.env.development
 .env.local
 .env.production
 # Fichiers générés par rubymine
