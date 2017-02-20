@@ -1,9 +1,9 @@
 class DossiersController < ApplicationController
   include ProjetConcern
 
-  skip_before_action :authentifie
   before_action :authenticate_agent!
-  skip_before_action :assert_projet_courant, only: [:index]
+  before_action :dossier_ou_projet
+  before_action :assert_projet_courant, except: [:index]
 
   def affecter_agent
     if @projet_courant.update_attribute(:agent, current_agent)

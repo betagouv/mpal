@@ -1,6 +1,10 @@
 class DemarrageProjetController < ApplicationController
   layout 'inscription'
 
+  before_action :dossier_ou_projet
+  before_action :assert_projet_courant
+  before_action :authentifie
+
   def etape1_recuperation_infos
     @projet_courant.personne_de_confiance = Personne.new
     nb_occupants = @projet_courant.occupants.count

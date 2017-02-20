@@ -1,6 +1,10 @@
 class ChoixIntervenantsController < ApplicationController
   layout 'inscription'
 
+  before_action :dossier_ou_projet
+  before_action :assert_projet_courant
+  before_action :authentifie
+
   def new
     @intervenant = Intervenant.find(params[:intervenant_id])
   end

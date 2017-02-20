@@ -2,8 +2,6 @@ class AdminController < ApplicationController
   layout 'informations'
 
   before_action :assert_admin
-  skip_before_action :assert_projet_courant
-  skip_before_action :authentifie
 
   private
 

@@ -2,9 +2,6 @@ class ApplicationController < ActionController::Base
   layout 'logged_in'
 
   protect_from_forgery with: :exception
-  before_action :dossier_ou_projet
-  before_action :assert_projet_courant
-  before_action :authentifie
 
   def authentifie_sans_redirection
     if agent_signed_in?
@@ -52,6 +49,10 @@ class ApplicationController < ActionController::Base
         return redirect_to root_path, alert: t('sessions.access_forbidden')
       end
     end
+    if @projet_courant
+      @page_heading = "Dossier : #{I18n.t(@projet_courant.statut, scope: "projets.statut").downcase}"
+    end
     true
   end
+
 end

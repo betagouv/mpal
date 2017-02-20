@@ -30,8 +30,8 @@ feature "Créer le dossier dans Opal" do
       let(:statut) { :en_cours_d_instruction }
 
       scenario "je peux accéder au dossier à partir du numéro envoyé à Opal" do
-        visit "/dossiers/#{projet.numero_plateforme}"
-        expect(page.current_path).to eq "/dossiers/#{projet.numero_plateforme}"
+        visit dossier_path(dossier_id: projet.numero_plateforme)
+        expect(page.current_path).to eq dossier_path(dossier_id: projet.numero_plateforme)
         expect(page).to have_content I18n.t('projets.statut.en_cours_d_instruction').downcase
       end
     end

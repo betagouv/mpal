@@ -2,8 +2,6 @@ module ProjetConcern
   extend ActiveSupport::Concern
 
   included do
-    before_action :set_heading
-
     def accepter
       @projet_courant.statut = :proposition_acceptee
       if @projet_courant.save
@@ -98,10 +96,6 @@ module ProjetConcern
       @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
       @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
       @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
-    end
-
-    def set_heading
-      @page_heading = "Dossier : #{I18n.t(@projet_courant.statut, scope: "projets.statut").downcase}" if @projet_courant
     end
   end
 end

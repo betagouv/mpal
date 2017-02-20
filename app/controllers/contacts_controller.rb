@@ -1,10 +1,6 @@
 class ContactsController < ApplicationController
   layout 'informations'
 
-  skip_before_action :dossier_ou_projet
-  skip_before_action :assert_projet_courant
-  skip_before_action :authentifie
-
   def index
     return redirect_to(new_contact_path)
   end
