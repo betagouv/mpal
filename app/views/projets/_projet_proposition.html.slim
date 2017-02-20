@@ -1,8 +1,11 @@
 /! PROJET PROPOSE - vue operateur 2eme etape
 article.block.projet-ope
   h3.is-open Projet proposé
-  - if demandeur? || current_agent.operateur?
+  - if demandeur?
+    = link_to t('projets.visualisation.lien_edition'), projet_proposition_path(@projet_courant), class: "edit"
+  - elsif current_agent.operateur?
     = link_to t('projets.visualisation.lien_edition'), dossier_proposition_path(@projet_courant), class: "edit"
   .content-block
-    = render 'projets/projet_details'
-    = yield(:cta)
+    .invoice
+      = render 'projets/projet_details'
+      = yield(:cta)
