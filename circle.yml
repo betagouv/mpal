@@ -14,7 +14,7 @@ database:
 
 deployment:
   staging:
-    branch: dev
+    branch: staging
     heroku:
       appname: aideanah-staging
   demo:
