@@ -10,9 +10,7 @@ module ProjetConcern
       render "projets/show"
     end
 
-    # ATTENTION à la confusion avec la table demandes qui correspond au projet envisagé
-    # par le demandeur lors des premières étapes voir demarrage_projet
-    def demande
+    def proposition
       if @projet_courant.prospect?
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), alert: t('sessions.access_forbidden')
       end
@@ -29,7 +27,7 @@ module ProjetConcern
       @projet_courant.documents.build(label: "Devis ou estimation de travaux")
       @projet_courant.documents.build(label: "Justificatif MDPH")
       @projet_courant.documents.build(label: "Justificatif CDAPH")
-      render "projets/demande"
+      render "projets/proposition"
     end
 
     def proposer

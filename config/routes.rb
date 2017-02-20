@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     resources :choix_intervenants, only: [:new, :create]
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
-    get       :demande
+    get       :proposition
     post      :transfert_csv, to: 'transfert_csv#create'
   end
 

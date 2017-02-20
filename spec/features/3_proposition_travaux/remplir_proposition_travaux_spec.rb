@@ -30,7 +30,7 @@ feature "Remplir la proposition de travaux" do
     end
 
     scenario "je remplis et j'enregistre une proposition de travaux'" do
-      visit dossier_demande_path(projet)
+      visit dossier_proposition_path(projet)
       expect(page).to have_content('Plan de financement prévisionnel')
       expect(page).to have_content(aide.libelle)
 
@@ -114,32 +114,32 @@ feature "Remplir la proposition de travaux" do
     end
 
     scenario "upload d'un document sans label" do
-      visit dossier_demande_path(projet)
+      visit dossier_proposition_path(projet)
       attach_file :fichier_document, Rails.root + "spec/fixtures/Ma pièce jointe.txt"
       fill_in 'label_document', with: ''
-      click_button(I18n.t('projets.demande.action_depot_document'))
+      click_button(I18n.t('projets.proposition.action_depot_document'))
 
       expect(projet.documents.count).to eq(1)
-      expect(page).to have_content(I18n.t('projets.demande.messages.succes_depot_document'))
+      expect(page).to have_content(I18n.t('projets.proposition.messages.succes_depot_document'))
       expect(page).to have_link('Ma_pi_ce_jointe.txt', href: "/uploads/projets/#{projet.id}/Ma_pi_ce_jointe.txt")
     end
 
     scenario "upload d'un document avec un label" do
-      visit dossier_demande_path(projet)
+      visit dossier_proposition_path(projet)
       attach_file :fichier_document, Rails.root + "spec/fixtures/Ma pièce jointe.txt"
       fill_in 'label_document', with: 'Titre de propriété'
-      click_button(I18n.t('projets.demande.action_depot_document'))
+      click_button(I18n.t('projets.proposition.action_depot_document'))
 
       expect(projet.documents.count).to eq(1)
-      expect(page).to have_content(I18n.t('projets.demande.messages.succes_depot_document'))
+      expect(page).to have_content(I18n.t('projets.proposition.messages.succes_depot_document'))
       expect(page).to have_link('Titre de propriété', href: "/uploads/projets/#{projet.id}/Ma_pi_ce_jointe.txt")
     end
 
     scenario "upload d'un document avec erreur" do
-      visit dossier_demande_path(projet)
-      click_button(I18n.t('projets.demande.action_depot_document'))
+      visit dossier_proposition_path(projet)
+      click_button(I18n.t('projets.proposition.action_depot_document'))
 
-      expect(page).to have_content(I18n.t('projets.demande.messages.erreur_depot_document'))
+      expect(page).to have_content(I18n.t('projets.proposition.messages.erreur_depot_document'))
     end
 
     context "pour une demande déjà remplie" do
@@ -151,7 +151,7 @@ feature "Remplir la proposition de travaux" do
         within 'article.projet-ope' do
           click_link I18n.t('projets.visualisation.lien_edition')
         end
-        expect(page.current_path).to eq(dossier_demande_path(projet))
+        expect(page.current_path).to eq(dossier_proposition_path(projet))
         expect(find("#prestation_#{prestation.id}")).to be_checked
 
         fill_in 'projet_surface_habitable', with: '42'

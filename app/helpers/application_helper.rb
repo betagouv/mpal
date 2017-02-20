@@ -18,7 +18,7 @@ module ApplicationHelper
   def transmission_instructeur(projet)
     if @role_utilisateur  == :intervenant
       form_tag(projet_transmissions_path(projet_id: projet.id), method: 'post', class:'ui form' ) do
-        submit_tag t('projets.demande.action', instructeur: Intervenant.instructeur_pour(projet).to_s), class:'ui primary button'
+        submit_tag t('projets.proposition.action', instructeur: Intervenant.instructeur_pour(projet).to_s), class:'ui primary button'
       end
     end
   end

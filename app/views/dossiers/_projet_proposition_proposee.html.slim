@@ -1,7 +1,7 @@
 article.block.projet-ope
   h3.is-open Projet proposé
   - if current_agent.operateur?
-    = link_to t('projets.visualisation.lien_edition'), dossier_demande_path(@projet_courant), class: "edit"
+    = link_to t('projets.visualisation.lien_edition'), dossier_proposition_path(@projet_courant), class: "edit"
   .content-block
     .invoice
       = render 'projets/projet_invoice'
