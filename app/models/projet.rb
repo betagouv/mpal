@@ -83,8 +83,12 @@ class Projet < ActiveRecord::Base
     intervenants.pour_role(:pris).first
   end
 
+  def can_choose_operateur?
+    statut.to_sym == :prospect
+  end
+
   def can_switch_operateur?
-    invited_operateur.present? && operateur.blank?
+    statut.to_sym == :prospect && invited_operateur.present?
   end
 
   def can_validate_operateur?

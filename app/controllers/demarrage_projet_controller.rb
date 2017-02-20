@@ -38,17 +38,23 @@ class DemarrageProjetController < ApplicationController
   end
 
   def etape3_choix_intervenant
-    @demande = projet_demande
-    @is_updating = @projet_courant.intervenants.present? || @projet_courant.operateur.present?
-    @action_label = if @is_updating then action_label_update else action_label_create end
-    @operateur = @projet_courant.invited_operateur
-    if @projet_courant.prospect?
-      @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
-      @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
+    unless @projet_courant.can_choose_operateur? || @projet_courant.can_switch_operateur?
+      return redirect_to projet_path(@projet_courant), alert: t('demarrage_projet.etape3_choix_intervenant.erreurs.changement_operateur_non_autorise')
+    end
 
-      if @is_updating && @operateur.present?
+    @demande = projet_demande
+    @is_updating = @projet_courant.intervenants.present?
+
+    if @is_updating
+      @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
+      @operateur = @projet_courant.invited_operateur
+      if @operateur.present?
         @operateurs_disponibles << @operateur
       end
+      @action_label = action_label_update
+    else
+      @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
+      @action_label = action_label_create
     end
   end
 
@@ -64,7 +70,7 @@ class DemarrageProjetController < ApplicationController
       redirect_to projet_path(@projet_courant)
     rescue => e
       logger.error e.message
-      redirect_to etape3_choix_intervenant_path(@projet_courant), alert: "Une erreur s'est produite lors de l'enregistrement de l'intervenant."
+      redirect_to etape3_choix_intervenant_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     end
   end
 
@@ -127,7 +133,7 @@ class DemarrageProjetController < ApplicationController
   end
 
   def needs_etape3?
-    @projet_courant.invited_operateur.blank?
+    @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
   end
 
   def etape1_redirect_to_next_step

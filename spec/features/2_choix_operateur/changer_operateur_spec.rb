@@ -3,8 +3,8 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "En tant que demandeur, je peux changer d'opérateur" do
-  context "avant de m'être engagé avec un opérateur" do
+feature "Changer d'opérateur:" do
+  context "en tant que demandeur, avant de m'être engagé avec un opérateur" do
     let(:projet) { create(:projet, :prospect, :with_intervenants_disponibles, :with_invited_operateur) }
 
     scenario "je peux choisir un autre opérateur" do
@@ -12,7 +12,6 @@ feature "En tant que demandeur, je peux changer d'opérateur" do
       click_link I18n.t('projets.visualisation.changer_intervenant')
 
       expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.section_eligibilite'))
-      expect(page).to have_selector('.choose-operator.choose-operator-pris')
       expect(page).to have_selector('.choose-operator.choose-operator-intervenant')
       expect(page).to have_selector("#intervenant_#{projet.invited_operateur.id}[checked]")
 
@@ -24,26 +23,6 @@ feature "En tant que demandeur, je peux changer d'opérateur" do
       click_button I18n.t('projets.edition.action')
 
       expect(page).to have_content(new_operateur.raison_sociale)
-      expect(page).not_to have_content(previous_operateur.raison_sociale)
-    end
-
-    scenario "je peux passer d'un opérateur à un PRIS" do
-      signin(projet.numero_fiscal, projet.reference_avis)
-      click_link I18n.t('projets.visualisation.changer_intervenant')
-
-      expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.section_eligibilite'))
-      expect(page).to have_selector('.choose-operator.choose-operator-pris')
-      expect(page).to have_selector('.choose-operator.choose-operator-intervenant')
-      expect(page).to have_selector("#intervenant_#{projet.invited_operateur.id}[checked]")
-
-      previous_operateur = projet.invited_operateur
-      pris = projet.intervenants_disponibles(role: :pris).last
-
-      choose pris.raison_sociale
-      check I18n.t('agrements.autorisation_acces_donnees_intervenants')
-      click_button I18n.t('projets.edition.action')
-
-      expect(page).to have_content(pris.raison_sociale)
       expect(page).not_to have_content(previous_operateur.raison_sociale)
     end
 
@@ -60,7 +39,7 @@ feature "En tant que demandeur, je peux changer d'opérateur" do
     end
   end
 
-  context "après m'être engagé avec un opérateur" do
+  context "en tant que demandeur, après m'être engagé avec un opérateur" do
     let(:projet) { create(:projet, :en_cours) }
 
     scenario "je ne peux plus changer d'opérateur depuis la page du projet" do
@@ -71,8 +50,8 @@ feature "En tant que demandeur, je peux changer d'opérateur" do
     scenario "je ne peux plus changer d'opérateur en allant directement sur la page d'édition" do
       signin(projet.numero_fiscal, projet.reference_avis)
       visit etape3_choix_intervenant_path(projet)
-      expect(page).not_to have_selector('.choose-operator.choose-operator-pris')
-      expect(page).not_to have_selector('.choose-operator.choose-operator-intervenant')
+      expect(page.current_path).to eq projet_path(projet)
+      expect(page).to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.erreurs.changement_operateur_non_autorise'))
     end
   end
 end
