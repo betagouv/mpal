@@ -59,24 +59,10 @@ bin/rspec
 
 # Déployer
 
-## Sur l’environnement de TEST
+* `scripts/demo-deploy.sh`
+* `scripts/production-deploy.sh`
 
-- Se placer localement sur la branche `dev`
-- Lancer `git push`
-
-## Sur l’environnement de DEMO
-
-- Se placer localement sur la branche `master`
-- Lancer `git push`
-
-
-# Notes
-
-Kanban Zenhub sur ce projet
-
-# UX / UI
-
-https://projects.invisionapp.com/share/DK96M9YUB#/screens
+Voir la page [Intégration et déploiement continu](https://github.com/sgmap/mpal/wiki/Int%C3%A9gration-et-d%C3%A9ploiement-continu) sur le wiki.
 
 # Wiki
 
