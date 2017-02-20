@@ -1,5 +1,5 @@
 #!/bin/bash
-# Merge la branche `dev` dans la branche `master`.
+# Merge la branche `staging` dans la branche `master`.
 # CircleCI déploie automatiquement la branche `master` sur l'environnement de démo.
 
 # Termine le script à la première commande en erreur
@@ -74,7 +74,7 @@ function _perform_merge {
 }
 
 # Configuration des branches
-source_branch="dev"
+source_branch="staging"
 target_branch="master"
 remote_name=$(_remote_name)
 target_head="$remote_name/master"
