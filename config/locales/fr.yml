@@ -212,8 +212,8 @@ fr:
         erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
 
     transmissions:
+      envoi_demande: "Je dépose ma demande de subvention"
       messages:
-        envoi_demande: "Je dépose ma demande de subvention"
         succes: La demande a bien été transmise aux services instructeurs
         info_demandeur: "Votre projet a bien été envoyé à %{instructeur}. Vous serez informé par email de l’avancement de votre dossier."
 

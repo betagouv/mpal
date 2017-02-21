@@ -87,6 +87,12 @@ FactoryGirl.define do
       with_prestations
     end
 
+    trait :proposition_acceptee do
+      statut :proposition_acceptee
+      with_committed_operateur
+      with_prestations
+    end
+
     trait :transmis_pour_instruction do
       statut :transmis_pour_instruction
       with_committed_operateur
