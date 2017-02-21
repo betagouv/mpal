@@ -1,0 +1,14 @@
+/* ------------------ Intervenants ---------------------*/
+.import-csv {
+  a:hover {
+    text-decoration: underline;
+  }
+
+  p:not(:last-child), input:not(:last-child) {
+    margin-bottom: 10px;
+  }
+
+  input[type=submit] {
+    display: block;
+  }
+}

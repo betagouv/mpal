@@ -24,7 +24,7 @@ feature "Administration des intervenants" do
     authenticate_as_admin
     visit admin_intervenants_path
     attach_file :csv_file, Rails.root + "spec/fixtures/Import intervenants.csv"
-    click_button I18n.t('admin.intervenants.impoter_fichier')
+    click_button I18n.t('admin.intervenants.importer_fichier')
     expect(page.current_path).to eq(admin_intervenants_path)
     expect(page).to have_content "Les intervenants ont été importés."
     expect(page).to have_content "Maison de L'Emploi de la Déodatie"
