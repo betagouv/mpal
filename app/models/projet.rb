@@ -178,14 +178,6 @@ class Projet < ActiveRecord::Base
     save
   end
 
-  def select_prestation(prestation)
-    prestations << prestation
-  end
-
-  def set_selected_prestations(prestation_ids)
-    self.prestation_ids = prestation_ids
-  end
-
   def transmettre!(instructeur)
     invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: instructeur)
     if invitation.save
