@@ -99,7 +99,6 @@ FactoryGirl.define do
       with_prestations
 
       after(:build) do |projet|
-        projet.operateur = create(:operateur, departements: [projet.departement])
         projet.invitations << create(:invitation, intermediaire: projet.operateur, intervenant: create(:instructeur))
       end
     end
