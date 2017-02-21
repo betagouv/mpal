@@ -5,9 +5,9 @@ feature "Administration des intervenants" do
   let!(:intervenant1) { create :operateur }
   let!(:intervenant2) { create :instructeur }
   let!(:intervenant3) { create :pris }
+  before { authenticate_with_admin_token }
 
   scenario "en tant qu'administrateur je peux lister tous les intervenants du site" do
-    authenticate_as_admin
     visit admin_intervenants_path
     expect(page.current_path).to eq(admin_intervenants_path)
     expect(page).to have_content intervenant1.raison_sociale
@@ -15,13 +15,7 @@ feature "Administration des intervenants" do
     expect(page).to have_content intervenant3.raison_sociale
   end
 
-  scenario "je ne peux pas accéder aux intervenants si je ne suis pas administrateur" do
-    visit admin_intervenants_path
-    expect(page.current_path).to eq(new_session_path)
-  end
-
   scenario "je peux importer des opérateurs contenus dans un fichier CSV" do
-    authenticate_as_admin
     visit admin_intervenants_path
     attach_file :csv_file, Rails.root + "spec/fixtures/Import intervenants.csv"
     click_button I18n.t('admin.intervenants.importer_fichier')

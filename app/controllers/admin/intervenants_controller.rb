@@ -1,6 +1,6 @@
 require 'csv'
 
-class Admin::IntervenantsController < AdminController
+class Admin::IntervenantsController < Admin::BaseController
 
   def index
     @intervenants = Intervenant.all
@@ -15,7 +15,7 @@ class Admin::IntervenantsController < AdminController
     redirect_to admin_intervenants_path, notice: I18n.t('admin.intervenants.import_reussi')
   end
 
-  private
+private
 
   def _import_csv!(file)
     if file.blank?

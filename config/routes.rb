@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
+    root to: 'base#index'
     resources :intervenants do
       post 'import', on: :collection
     end

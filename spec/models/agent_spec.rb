@@ -23,7 +23,7 @@ describe Agent do
     end
   end
 
-  describe '#to_s' do
+  describe '#fullname' do
     let!(:agent) { build :agent }
     it { expect(agent.fullname).to eq('Joelle Dupont') }
     context 'supprime les espaces inutiles' do
