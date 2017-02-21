@@ -1,7 +1,7 @@
 class TransmissionsController < ApplicationController
-  before_action :authenticate_agent!
   before_action :dossier_ou_projet
   before_action :assert_projet_courant
+  before_action :authentifie
 
   def create
     instructeur = Intervenant.instructeur_pour(@projet_courant)

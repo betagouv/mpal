@@ -38,4 +38,4 @@ article.block.recap-projet
       | - toute fraude ou fausse déclaration expose également à des sanctions pécuniaires, à des sanctions administratives (interdiction de bénéficier d’une subvention pendant un délai pouvant atteindre cinq années), et à des poursuites judiciaires.
       .button-group
         = form_tag(projet_transmissions_path(projet_id: @projet_courant.id), method: :post, class: 'ui form' ) do
-          = submit_tag t('projets.transmissions.messages.envoi_demande'), class: 'btn'
+          = submit_tag t('projets.transmissions.envoi_demande'), class: 'btn'
