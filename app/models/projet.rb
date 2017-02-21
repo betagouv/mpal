@@ -24,6 +24,7 @@ class Projet < ActiveRecord::Base
   accepts_nested_attributes_for :projet_aides, reject_if: :all_blank, allow_destroy: true
 
   has_and_belongs_to_many :prestations, join_table: 'projet_prestations'
+  has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
 
   validates :numero_fiscal, :reference_avis, :adresse_ligne1, presence: true
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
@@ -139,6 +140,16 @@ class Projet < ActiveRecord::Base
     Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee_revenus), self.departement, self.nb_total_occupants)
   end
 
+  def suggest_operateurs!(operateur_ids)
+    self.suggested_operateur_ids = operateur_ids
+    if validate_suggested_operateurs && save
+      ProjetMailer.recommandation_operateurs(self).deliver_later!
+      true
+    else
+      false
+    end
+  end
+
   def invite_intervenant!(intervenant)
     return if intervenants.include? intervenant
 
@@ -199,5 +210,13 @@ class Projet < ActiveRecord::Base
 
   def prenom_occupants
     occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
+  end
+
+  def validate_suggested_operateurs
+    if suggested_operateurs.blank?
+      errors[:base] << I18n.t('recommander_operateurs.errors.blank')
+      return false
+    end
+    valid?
   end
 end

@@ -81,10 +81,13 @@ module ProjetConcern
               :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire, :reste_a_charge,
               :documents_attributes,
               :prestation_ids => [],
+              :suggested_operateur_ids => [],
               :projet_aides_attributes => [:id, :aide_id, :montant])
       attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?
-      attributs[:projet_aides_attributes].values.each do |projet_aide|
-        projet_aide[:_destroy] = true if projet_aide[:montant].blank?
+      if attributs[:projet_aides_attributes].present?
+        attributs[:projet_aides_attributes].values.each do |projet_aide|
+          projet_aide[:_destroy] = true if projet_aide[:montant].blank?
+        end
       end
       attributs = attributs.merge(adresse_complete) if adresse_complete
       attributs

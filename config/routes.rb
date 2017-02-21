@@ -27,6 +27,8 @@ Rails.application.routes.draw do
     resources :dossiers, only: [], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
       get  :affecter_agent
+      get  :recommander_operateurs
+      post :recommander_operateurs
       get  :proposer
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
