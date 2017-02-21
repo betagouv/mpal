@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170215171607) do
+ActiveRecord::Schema.define(version: 20170220160351) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -294,6 +294,14 @@ ActiveRecord::Schema.define(version: 20170215171607) do
     t.string  "code"
     t.text    "libelle"
   end
+
+  create_table "suggested_operateurs", id: false, force: :cascade do |t|
+    t.integer "projet_id"
+    t.integer "intervenant_id"
+  end
+
+  add_index "suggested_operateurs", ["intervenant_id"], name: "index_suggested_operateurs_on_intervenant_id", using: :btree
+  add_index "suggested_operateurs", ["projet_id"], name: "index_suggested_operateurs_on_projet_id", using: :btree
 
   create_table "themes", force: :cascade do |t|
     t.string "libelle"

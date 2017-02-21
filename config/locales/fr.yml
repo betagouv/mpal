@@ -194,6 +194,12 @@ fr:
       messages:
         succes: "La composition du logement a bien été mise à jour."
 
+    envisage:
+      pas_encore_rempli: "Le demandeur n’a pas encore rempli le projet"
+      operateur:
+        aucun: "Aucun pour l’instant"
+      operateurs_recommandes: "Opérateurs recommandés"
+
     proposition:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
@@ -267,6 +273,17 @@ fr:
   conversation:
     titre_section: "Chat"
 
+  # ----------------------- Recommander des opérateurs -----------------
+  recommander_operateurs:
+    recommander: "Recommander des opérateurs"
+    modifier: "Modifier les opérateurs recommandés"
+    valider: "Recommander ces opérateurs"
+    succes:
+      one: "L’opérateur sélectionné a été recommandé à %{demandeur}."
+      other: "Les opérateurs sélectionnés ont été recommandés à %{demandeur}."
+    errors:
+      blank: "Choisissez au moins un opérateur à recommander."
+
   # ----------------------- Choix d’un intervenant ---------------------
   intervenant_projets:
     visualisation:
@@ -311,6 +328,8 @@ fr:
   # ----------------------- Mailers ---------------------
   mailers:
     projet_mailer:
+      recommandation_operateurs:
+        sujet: "[ANAH] Voici nos recommandations pour votre projet de rénovation"
       invitation_intervenant:
         sujet: "[ANAH] Invitation de %{demandeur_principal} à consulter son projet"
       notification_invitation_intervenant:

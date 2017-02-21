@@ -22,4 +22,12 @@ article.block.projet
           | . Vous serez informé par email pour chaque réponse de sa part.
       - else
         p
-          strong Aucun
+          = t('projets.envisage.operateur.aucun')
+        - if @projet_courant.suggested_operateurs.present?
+          h4 = t('projets.envisage.operateurs_recommandes')
+          ul
+          - @projet_courant.suggested_operateurs.each do |operateur|
+            li = operateur.raison_sociale
+          = link_to t('recommander_operateurs.modifier'), dossier_recommander_operateurs_path(@projet_courant), class: "btn"
+        - else
+          = link_to t('recommander_operateurs.recommander'), dossier_recommander_operateurs_path(@projet_courant), class: "btn"

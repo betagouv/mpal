@@ -36,6 +36,16 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_suggested_operateurs do
+      after(:build) do |projet|
+        operateurA = create(:operateur, departements: [projet.departement])
+        operateurB = create(:operateur, departements: [projet.departement])
+        operateurC = create(:operateur, departements: [projet.departement])
+        projet.suggested_operateurs = [operateurA, operateurC]
+        # B is available but not suggested
+      end
+    end
+
     trait :with_invited_operateur do
       after(:build) do |projet|
         operateur = create(:operateur, departements: [projet.departement])
