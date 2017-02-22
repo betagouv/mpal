@@ -72,3 +72,6 @@ gem 'fog-openstack'
 gem 'devise'
 gem 'devise_cas_authenticatable'
 gem 'newrelic_rpm'
+
+gem 'charlock_holmes'
+gem 'acsv'

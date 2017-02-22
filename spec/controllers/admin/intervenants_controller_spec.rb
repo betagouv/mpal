@@ -4,9 +4,9 @@ require 'support/mpal_helper'
 describe Admin::IntervenantsController do
 
   # Génère un fichier CSV à partir d'un tableau de hashes
-  def uploaded_csv(records, separator=',')
-    tmp_file = Tempfile.new('import-test.csv')
-    CSV.open(tmp_file, "wb", { col_sep: separator }) do |csv|
+  def uploaded_csv(records, separator=',', encoding='utf-8')
+    tmp_file = Tempfile.new('import-test.csv', encoding: encoding)
+    CSV.open(tmp_file, "w:#{encoding}", { col_sep: separator }) do |csv|
       csv << records.first.keys # header row
       records.each do |hash|
         csv << hash.values
@@ -52,6 +52,16 @@ describe Admin::IntervenantsController do
       post :import, { csv_file: uploaded_csv(data, ';') }
       expect(operateur1).not_to be_nil
       expect(operateur1.email).to eq 'contact@operateur1.fr'
+    end
+
+    it "import un fichier CSV encodé en UTF-8" do
+      post :import, { csv_file: uploaded_csv(data, ',', 'utf-8') }
+      expect(operateur1.raison_sociale).to eq 'Opérateur1'
+    end
+
+    it "importe un fichier CSV encodé en ISO-8859-1" do
+      post :import, { csv_file: uploaded_csv(data, ',', 'iso-8859-1') }
+      expect(operateur1.raison_sociale).to eq 'Opérateur1'
     end
 
     it "redirige vers la liste des intervenants en cas de succès" do
