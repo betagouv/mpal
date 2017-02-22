@@ -8,22 +8,23 @@ module Tools
   end
 
   def self.calcule_preeligibilite(revenu_global, departement, nb_occupants)
-    plafond_ressources = { 
+    # Source : http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/
+    plafond_ressources = {
       idf: {
-        1 => { tres_modeste: 19803, modeste: 24107 }, 
-        2 => { tres_modeste: 29066, modeste: 35382 }, 
-        3 => { tres_modeste: 34906, modeste: 42495 }, 
-        4 => { tres_modeste: 40758, modeste: 49620 }, 
-        5 => { tres_modeste: 46630, modeste: 56765 }, 
-        par_personne_supplementaire: { tres_modeste: 5860, modeste: 7136 }
+        1 => { tres_modeste: 19875, modeste: 24194 },
+        2 => { tres_modeste: 29171, modeste: 35510 },
+        3 => { tres_modeste: 35032, modeste: 42648 },
+        4 => { tres_modeste: 40905, modeste: 49799 },
+        5 => { tres_modeste: 46798, modeste: 56970 },
+        par_personne_supplementaire: { tres_modeste: 5882, modeste: 7162 }
       },
       province: {
-        1 => { tres_modeste: 14308, modeste: 18342 },
-        2 => { tres_modeste: 20925, modeste: 26826 }, 
-        3 => { tres_modeste: 25166, modeste: 32260 }, 
-        4 => { tres_modeste: 29400, modeste: 37690 }, 
-        5 => { tres_modeste: 33652, modeste: 43141 }, 
-        par_personne_supplementaire: { tres_modeste: 4241, modeste: 5434 }
+        1 => { tres_modeste: 14360, modeste: 18409 },
+        2 => { tres_modeste: 21001, modeste: 26923 },
+        3 => { tres_modeste: 25257, modeste: 32377 },
+        4 => { tres_modeste: 29506, modeste: 37826 },
+        5 => { tres_modeste: 33774, modeste: 43297 },
+        par_personne_supplementaire: { tres_modeste: 4257, modeste: 5454 }
       }
     }
 
@@ -39,7 +40,7 @@ module Tools
         multiplicateur = nb_occupants - limite
         offset = plafond_ressources[zone][limite][type]
       end
-      
+
       return type if revenu_global <= (offset + multiplicateur * plafond_ressources[zone][key][type])
     end
     :plafond_depasse
