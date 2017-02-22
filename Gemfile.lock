@@ -409,7 +409,6 @@ DEPENDENCIES
   sidekiq
   simple_form
   simplecov
-  sinatra
   slim
   spring
   spring-commands-rspec
