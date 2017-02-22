@@ -73,7 +73,7 @@ feature "Choisir un opérateur:" do
         signin(projet.numero_fiscal, projet.reference_avis)
         click_link I18n.t('projets.visualisation.choisir_intervenant')
 
-        expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.section_eligibilite'))
+        expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_mise_en_relation.section_eligibilite'))
         expect(page).to have_selector('.choose-operator.choose-operator-intervenant')
 
         invited_pris = projet.invited_pris

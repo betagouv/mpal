@@ -41,9 +41,9 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
-  def etape3_choix_intervenant
+  def etape3_mise_en_relation
     unless @projet_courant.can_choose_operateur? || @projet_courant.can_switch_operateur?
-      return redirect_to projet_path(@projet_courant), alert: t('demarrage_projet.etape3_choix_intervenant.erreurs.changement_operateur_non_autorise')
+      return redirect_to projet_path(@projet_courant), alert: t('demarrage_projet.etape3_mise_en_relation.erreurs.changement_operateur_non_autorise')
     end
 
     @demande = projet_demande
@@ -62,7 +62,7 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
-  def etape3_envoi_choix_intervenant
+  def etape3_envoi_mise_en_relation
     begin
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
       intervenant = Intervenant.find_by_id(params[:intervenant])
@@ -74,7 +74,7 @@ class DemarrageProjetController < ApplicationController
       redirect_to projet_path(@projet_courant)
     rescue => e
       logger.error e.message
-      redirect_to etape3_choix_intervenant_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+      redirect_to etape3_mise_en_relation_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     end
   end
 
@@ -150,7 +150,7 @@ class DemarrageProjetController < ApplicationController
 
   def etape2_redirect_to_next_step
     if needs_etape3?
-      redirect_to etape3_choix_intervenant_path(@projet_courant)
+      redirect_to etape3_mise_en_relation_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end

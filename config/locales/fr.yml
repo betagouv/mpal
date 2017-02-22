@@ -136,7 +136,7 @@ fr:
       annee_construction: "Année de construction"
       precisions: "Précisions"
     # ----------------------- Etape 3 ---------------------
-    etape3_choix_intervenant:
+    etape3_mise_en_relation:
       erreurs:
         changement_operateur_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur."
       votre_projet_est_eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."

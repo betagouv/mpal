@@ -11,7 +11,7 @@ feature "Changer d'opérateur:" do
       signin(projet.numero_fiscal, projet.reference_avis)
       click_link I18n.t('projets.visualisation.changer_intervenant')
 
-      expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.section_eligibilite'))
+      expect(page).not_to have_content(I18n.t('demarrage_projet.etape3_mise_en_relation.section_eligibilite'))
       expect(page).to have_selector('.choose-operator.choose-operator-intervenant')
       expect(page).to have_selector("#intervenant_#{projet.invited_operateur.id}[checked]")
 
@@ -49,9 +49,9 @@ feature "Changer d'opérateur:" do
 
     scenario "je ne peux plus changer d'opérateur en allant directement sur la page d'édition" do
       signin(projet.numero_fiscal, projet.reference_avis)
-      visit etape3_choix_intervenant_path(projet)
+      visit etape3_mise_en_relation_path(projet)
       expect(page.current_path).to eq projet_path(projet)
-      expect(page).to have_content(I18n.t('demarrage_projet.etape3_choix_intervenant.erreurs.changement_operateur_non_autorise'))
+      expect(page).to have_content(I18n.t('demarrage_projet.etape3_mise_en_relation.erreurs.changement_operateur_non_autorise'))
     end
   end
 end

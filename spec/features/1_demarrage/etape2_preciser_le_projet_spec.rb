@@ -39,7 +39,7 @@ feature "En tant que demandeur, je peux préciser mes besoins pour ma demande de
     fill_in :demande_travaux_autres, with: "Aménager une chambre au RDC"
 
     click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape3_choix_intervenant_path(projet))
+    expect(page.current_path).to eq(etape3_mise_en_relation_path(projet))
 
     projet.reload
     expect(projet.demande.froid).to be_truthy
