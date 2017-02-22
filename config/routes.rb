@@ -6,10 +6,11 @@ Rails.application.routes.draw do
     resources :avis_impositions
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
-    resources :choix_intervenants, only: [:new, :create]
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       :proposition
+    get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
+    post      :engagement_operateur, action: :create, controller: 'engagement_operateur'
   end
 
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
