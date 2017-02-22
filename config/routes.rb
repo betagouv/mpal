@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       :proposition
-    post      :transfert_csv, to: 'transfert_csv#create'
   end
 
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }

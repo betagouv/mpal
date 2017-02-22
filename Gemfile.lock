@@ -70,8 +70,6 @@ GEM
     coderay (1.1.1)
     concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
-    csv2json (0.3.0)
-      json
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     devise (4.2.0)
@@ -362,7 +360,6 @@ DEPENDENCIES
   capybara-screenshot
   carrierwave
   charlock_holmes
-  csv2json
   database_cleaner
   devise
   devise_cas_authenticatable

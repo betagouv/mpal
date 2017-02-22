@@ -5,7 +5,6 @@ gem 'acsv'
 gem 'active_model_serializers'
 gem 'carrierwave'
 gem 'charlock_holmes'
-gem 'csv2json' # TODO: still needed?
 gem 'devise'
 gem 'devise_cas_authenticatable'
 gem 'exception_notification'
