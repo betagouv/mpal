@@ -29,7 +29,7 @@ class DossiersController < ApplicationController
       end
     end
 
-    @available_operateurs = @projet_courant.intervenants_disponibles(role: :operateur)
+    @available_operateurs = @projet_courant.intervenants_disponibles(role: :operateur).to_a
     if @projet_courant.suggested_operateurs.blank? && !request.post?
       @available_operateurs.shuffle!
     end
