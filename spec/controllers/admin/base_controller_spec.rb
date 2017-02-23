@@ -18,7 +18,7 @@ describe Admin::BaseController do
 
     context "si authentifié par clavis" do
       let(:agent) { create :agent }
-      before { authenticate_with_agent agent }
+      before { authenticate_as_agent agent }
 
       context "avec un agent non admin," do
         it "redirige vers " do
@@ -38,7 +38,7 @@ describe Admin::BaseController do
     end
 
     context "si authentifié par token," do
-      before { authenticate_with_admin_token }
+      before { authenticate_as_admin_with_token }
 
       it "affiche la page" do
         get :index
