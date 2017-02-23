@@ -13,4 +13,3 @@ describe DossiersController do
     end
   end
 end
-
