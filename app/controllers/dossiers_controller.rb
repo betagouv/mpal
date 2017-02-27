@@ -22,14 +22,14 @@ class DossiersController < ApplicationController
   def recommander_operateurs
     if request.post?
       if @projet_courant.suggest_operateurs!(suggested_operateurs_params[:suggested_operateur_ids])
-        redirect_to(dossier_path(@projet_courant),
-                    notice: I18n.t('recommander_operateurs.succes',
-                                   count:     @projet_courant.suggested_operateurs.count,
-                                   demandeur: @projet_courant.demandeur_principal.fullname))
+        message = I18n.t('recommander_operateurs.succes',
+                          count:     @projet_courant.suggested_operateurs.count,
+                          demandeur: @projet_courant.demandeur_principal.fullname)
+        redirect_to(dossier_path(@projet_courant), notice: message)
       end
     end
 
-    @available_operateurs = @projet_courant.intervenants_disponibles(role: :operateur)
+    @available_operateurs = @projet_courant.intervenants_disponibles(role: :operateur).to_a
     if @projet_courant.suggested_operateurs.blank? && !request.post?
       @available_operateurs.shuffle!
     end

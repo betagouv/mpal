@@ -4,6 +4,7 @@ class ProjetMailer < ActionMailer::Base
   default from: ENV["NO_REPLY_FROM"]
 
   def recommandation_operateurs(projet)
+    @projet = projet
     @demandeur = projet.demandeur_principal
     @pris = projet.invited_pris
     mail(

@@ -73,7 +73,7 @@ class Projet < ActiveRecord::Base
   end
 
   def intervenants_disponibles(role: nil)
-    Intervenant.pour_departement(departement).pour_role(role) - intervenants
+    Intervenant.pour_departement(departement).pour_role(role)
   end
 
   def invited_operateur

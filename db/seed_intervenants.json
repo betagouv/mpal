@@ -103,7 +103,8 @@
     "adresse_postale": "22-26 avenue Dutac, 88000 Epinal",
     "roles": ["pris", "instructeur"],
     "departements": ["88"],
-    "email": "ddt88@mailinator.com"
+    "email": "ddt88@mailinator.com",
+    "clavis_service_id": "5264"
   },
   {
     "raison_sociale": "Soliha 25-90",

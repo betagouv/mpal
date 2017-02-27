@@ -6,7 +6,6 @@ Rails.application.routes.draw do
     resources :avis_impositions
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
-    resources :choix_intervenants, only: [:new, :create]
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       :proposition
@@ -34,7 +33,11 @@ Rails.application.routes.draw do
 
     resources :projets, only: [], concerns: :projectable do
       resources :transmissions, only: [:create]
-      get  :accepter
+      get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
+      patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'
+      get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
+      post      :engagement_operateur, action: :create, controller: 'engagement_operateur'
+      get       :accepter
     end
     resources :projets, only: [:show, :edit, :update], param: :projet_id
 
@@ -44,8 +47,8 @@ Rails.application.routes.draw do
     get   '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_description_projet', as: 'etape2_description_projet'
     patch '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_envoi_description_projet'
 
-    get   '/projets/:projet_id/choix_operateur', to: 'demarrage_projet#etape3_choix_intervenant', as: 'etape3_choix_intervenant'
-    patch '/projets/:projet_id/choix_operateur', to: 'demarrage_projet#etape3_envoi_choix_intervenant'
+    get   '/projets/:projet_id/mise_en_relation', to: 'demarrage_projet#etape3_mise_en_relation', as: 'etape3_mise_en_relation'
+    patch '/projets/:projet_id/mise_en_relation', to: 'demarrage_projet#etape3_envoi_mise_en_relation'
 
     get   '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post  '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'

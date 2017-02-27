@@ -1,0 +1,15 @@
+= form_for @demande, url: {controller: 'demarrage_projet', action: 'etape3_envoi_mise_en_relation'}, method: 'patch', html: { class:'ui form'}  do |f|
+    <div>
+      /! Eligibilite
+      section.eligibilite
+        h2 = t('demarrage_projet.etape3_mise_en_relation.section_eligibilite')
+        p.chapo = t('demarrage_projet.etape3_mise_en_relation.votre_projet_est_eligible')
+      /! Auto-assignation d'un PRIS
+      section.assignement-pris
+        h2 = t('demarrage_projet.etape3_mise_en_relation.assignement_pris_titre')
+        p.chapo = t('demarrage_projet.etape3_mise_en_relation.un_pris_va_vous_contacter', { pris: @pris_departement.raison_sociale})
+        p.chapo Il pourra vous recommander un opérateur chargé de vous accompagner tout au long de votre démarche.
+        = hidden_field_tag :intervenant, @pris_departement.id
+        = render 'etape3_disponibilite_form'
+      = f.submit @action_label, class: 'validate btn'
+    </div><!-- Workaround for allowing slim to honor the scope of the submit tag -->

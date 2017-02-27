@@ -10,9 +10,9 @@ feature "En tant que demandeur, un PRIS est automatiquement assigné à mon proj
   scenario "je valide ma mise en relation avec le PRIS" do
     signin(projet.numero_fiscal, projet.reference_avis)
 
-    visit etape3_choix_intervenant_path(projet)
-    expect(page).to have_content I18n.t('demarrage_projet.etape3_choix_intervenant.votre_projet_est_eligible')
-    expect(page).to have_content I18n.t('demarrage_projet.etape3_choix_intervenant.assignement_pris_titre')
+    visit etape3_mise_en_relation_path(projet)
+    expect(page).to have_content I18n.t('demarrage_projet.etape3_mise_en_relation.votre_projet_est_eligible')
+    expect(page).to have_content I18n.t('demarrage_projet.etape3_mise_en_relation.assignement_pris_titre')
     expect(page).to have_content pris.raison_sociale
     check I18n.t('agrements.autorisation_acces_donnees_intervenants')
     click_button I18n.t('demarrage_projet.action')
@@ -24,7 +24,7 @@ feature "En tant que demandeur, un PRIS est automatiquement assigné à mon proj
   scenario "je renseigne mes disponibilités" do
     signin(projet.numero_fiscal, projet.reference_avis)
 
-    visit etape3_choix_intervenant_path(projet)
+    visit etape3_mise_en_relation_path(projet)
     fill_in I18n.t('helpers.label.projet.disponibilite'), with: "Plutôt le matin"
     check I18n.t('agrements.autorisation_acces_donnees_intervenants')
     click_button I18n.t('demarrage_projet.action')

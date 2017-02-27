@@ -16,7 +16,7 @@ describe Admin::IntervenantsController do
   end
 
   before(:each) do
-    authenticate_with_admin_token
+    authenticate_as_admin_with_token
   end
 
   describe "GET index" do

@@ -5,7 +5,11 @@ def signin(numero_fiscal, reference_avis)
   find('.form-login .btn').click
 end
 
-def authenticate_with_agent(agent)
+def authenticate_as_particulier(numero_fiscal)
+  session[:numero_fiscal] = numero_fiscal
+end
+
+def authenticate_as_agent(agent)
   if agent.nil?
     allow(request.env['warden']).to receive(:authenticate!).and_throw(:warden, {:scope => :agent})
     allow(controller).to receive(:current_agent).and_return(nil)
@@ -15,7 +19,7 @@ def authenticate_with_agent(agent)
   end
 end
 
-def authenticate_with_admin_token
+def authenticate_as_admin_with_token
   # L'environnement est mocké car CircleCI ne permet pas d'exposer des
   # variables d'environnement lors des builds de Pull requests.
   allow(ENV).to receive(:[]).and_call_original
