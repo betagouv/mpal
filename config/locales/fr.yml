@@ -137,16 +137,12 @@ fr:
       precisions: "Précisions"
     # ----------------------- Etape 3 ---------------------
     etape3_mise_en_relation:
-      erreurs:
-        changement_operateur_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur."
       votre_projet_est_eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
       titre: "Choisissez votre opérateur"
       section_eligibilite: "Accompagnement"
       assignement_pris_titre: "Un contact pour vous aider"
       un_pris_va_vous_contacter: "Le Point Rénovation Info Service de votre département, « %{pris} », va vous contacter prochainement."
-      section_intervenants: "Intervenants disponibles"
       disponibilite_placeholder: "Le matin, entre 8h et 11h"
-
 
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
@@ -238,8 +234,11 @@ fr:
       lien_edition_coordonnees: 'Modifier mes coordonnées'
       invitation_intervenant: "Sélectionner"
       invitation_relance_intervenant: "Je relance l’intervenant"
+      le_pris_selectionne_des_operateurs: "Le Point Rénovation Info-Service de votre département est en train de faire une sélection d’opérateurs recommandés pour votre projet."
+      le_pris_a_recommande_des_operateurs: "Le Point Rénovation Info-Service de votre département vous a recommandé des opérateurs pour vous accompagner dans votre projet."
       mise_en_relation_intervenant: "Je mets en relation"
-      choisir_intervenant: "Choisir un opérateur"
+      choisir_operateur: "Contacter un opérateur"
+      choisir_operateur_recommande: "Choisir un des opérateurs recommandés"
       changer_intervenant: "Changer d’opérateur"
       s_engager_avec_operateur: "S’engager avec cet opérateur"
       engagement_action: "Je m’engage avec cet opérateur"
@@ -284,10 +283,14 @@ fr:
     errors:
       blank: "Choisissez au moins un opérateur à recommander."
 
-  # ----------------------- Choix d’un intervenant ---------------------
-  intervenant_projets:
-    visualisation:
-      invitation_intervenant: 'Je souhaite mettre en relation'
+  # ----------------------- Choix d’un opérateur ---------------------
+  choix_operateur:
+    title: "Contacter un opérateur"
+    actions:
+      contacter: 'Contacter cet opérateur'
+      changer: 'Contacter cet autre opérateur'
+    erreurs:
+      changement_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur."
 
   # ----------------------- Invitation d’un intervenant ---------------------
   invitations:

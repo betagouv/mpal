@@ -9,8 +9,6 @@ Rails.application.routes.draw do
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       :proposition
-    get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
-    post      :engagement_operateur, action: :create, controller: 'engagement_operateur'
   end
 
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
@@ -35,7 +33,11 @@ Rails.application.routes.draw do
 
     resources :projets, only: [], concerns: :projectable do
       resources :transmissions, only: [:create]
-      get  :accepter
+      get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
+      patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'
+      get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
+      post      :engagement_operateur, action: :create, controller: 'engagement_operateur'
+      get       :accepter
     end
     resources :projets, only: [:show, :edit, :update], param: :projet_id
 

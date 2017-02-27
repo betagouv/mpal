@@ -27,10 +27,13 @@ article.block.projet
           - if @projet_courant.can_validate_operateur?
             = link_to t('projets.visualisation.s_engager_avec_operateur'), projet_engagement_operateur_path(@projet_courant, operateur_id: @projet_courant.invited_operateur), class: 'btn'
           - if @projet_courant.can_switch_operateur?
-            = link_to t('projets.visualisation.changer_intervenant'), etape3_mise_en_relation_path(@projet_courant), class: 'btn btn-edit'
-      - else
-        p
-          strong Aucun
+            = link_to t('projets.visualisation.changer_intervenant'), projet_choix_operateur_path(@projet_courant), class: 'btn btn-edit'
+      - elsif @projet_courant.suggested_operateurs.present?
+        p= t('projets.visualisation.le_pris_a_recommande_des_operateurs')
         - unless current_agent
           .button-group
-            = link_to "Choisir un opérateur", etape3_mise_en_relation_path(@projet_courant), class: 'btn'
+            = link_to t('projets.visualisation.choisir_operateur_recommande'), projet_choix_operateur_path(@projet_courant), class: 'btn'
+      - else
+        p= t('projets.visualisation.le_pris_selectionne_des_operateurs')
+        - unless current_agent
+          = link_to t('projets.visualisation.choisir_operateur'), projet_choix_operateur_path(@projet_courant), class: 'btn'

@@ -8,6 +8,7 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.recommandation_operateurs.sujet')) }
     it { expect(email.body.encoded).to match(projet.demandeur_principal.fullname) }
+    it { expect(email.body.encoded).to match(projet_choix_operateur_url(projet)) }
   end
 
   describe "invitation intervenant" do

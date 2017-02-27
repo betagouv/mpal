@@ -42,24 +42,9 @@ class DemarrageProjetController < ApplicationController
   end
 
   def etape3_mise_en_relation
-    unless @projet_courant.can_choose_operateur? || @projet_courant.can_switch_operateur?
-      return redirect_to projet_path(@projet_courant), alert: t('demarrage_projet.etape3_mise_en_relation.erreurs.changement_operateur_non_autorise')
-    end
-
     @demande = projet_demande
-    @is_updating = @projet_courant.intervenants.present?
-
-    if @is_updating
-      @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
-      @operateur = @projet_courant.invited_operateur
-      if @operateur.present?
-        @operateurs_disponibles << @operateur
-      end
-      @action_label = action_label_update
-    else
-      @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
-      @action_label = action_label_create
-    end
+    @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
+    @action_label = if needs_etape3? then action_label_create else action_label_update end
   end
 
   def etape3_envoi_mise_en_relation

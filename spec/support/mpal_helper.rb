@@ -5,6 +5,10 @@ def signin(numero_fiscal, reference_avis)
   find('.form-login .btn').click
 end
 
+def authenticate_as_particulier(numero_fiscal)
+  session[:numero_fiscal] = numero_fiscal
+end
+
 def authenticate_as_agent(agent)
   if agent.nil?
     allow(request.env['warden']).to receive(:authenticate!).and_throw(:warden, {:scope => :agent})
