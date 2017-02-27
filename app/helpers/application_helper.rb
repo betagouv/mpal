@@ -203,7 +203,7 @@ module ApplicationHelper
     end
     html << content_tag(:h4, "Informations supplémentaires")
     complements = []
-    complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite
+    complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite.present?
     ptz = demande.ptz ? "Oui": "Non"
     ptz_strong = content_tag(:strong, ptz)
     complements << "#{t("demarrage_projet.etape2_description_projet.ptz")} : #{ptz_strong}"
