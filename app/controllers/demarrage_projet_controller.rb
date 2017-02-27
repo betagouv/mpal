@@ -41,28 +41,13 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
-  def etape3_choix_intervenant
-    unless @projet_courant.can_choose_operateur? || @projet_courant.can_switch_operateur?
-      return redirect_to projet_path(@projet_courant), alert: t('demarrage_projet.etape3_choix_intervenant.erreurs.changement_operateur_non_autorise')
-    end
-
+  def etape3_mise_en_relation
     @demande = projet_demande
-    @is_updating = @projet_courant.intervenants.present?
-
-    if @is_updating
-      @operateurs_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
-      @operateur = @projet_courant.invited_operateur
-      if @operateur.present?
-        @operateurs_disponibles << @operateur
-      end
-      @action_label = action_label_update
-    else
-      @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
-      @action_label = action_label_create
-    end
+    @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
+    @action_label = if needs_etape3? then action_label_create else action_label_update end
   end
 
-  def etape3_envoi_choix_intervenant
+  def etape3_envoi_mise_en_relation
     begin
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
       intervenant = Intervenant.find_by_id(params[:intervenant])
@@ -74,7 +59,7 @@ class DemarrageProjetController < ApplicationController
       redirect_to projet_path(@projet_courant)
     rescue => e
       logger.error e.message
-      redirect_to etape3_choix_intervenant_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+      redirect_to etape3_mise_en_relation_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     end
   end
 
@@ -150,7 +135,7 @@ class DemarrageProjetController < ApplicationController
 
   def etape2_redirect_to_next_step
     if needs_etape3?
-      redirect_to etape3_choix_intervenant_path(@projet_courant)
+      redirect_to etape3_mise_en_relation_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end

@@ -1152,6 +1152,31 @@ fieldset {
   }
 }
 
+/** RECOMMANDER OPERATEUR */
+.recommander_operateurs {
+  p:not(:last-child) {
+    margin: 10px 0;
+  }
+
+  ul {
+    margin: 20px;
+  }
+
+  input[type=submit] {
+    margin-top: 10px;
+  }
+}
+
+.checkboxes-list {
+  input[type=checkbox] {
+    margin-right: 5px;
+  }
+  label {
+    display: inline-block;
+    padding: 5px 0;
+  }
+}
+
 /** FOOTER **/
 .main-footer {
   text-align: center;

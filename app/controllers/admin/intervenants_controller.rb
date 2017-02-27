@@ -1,6 +1,7 @@
-require 'csv'
+require 'charlock_holmes'
+require 'acsv'
 
-class Admin::IntervenantsController < AdminController
+class Admin::IntervenantsController < Admin::BaseController
 
   def index
     @intervenants = Intervenant.all
@@ -15,7 +16,7 @@ class Admin::IntervenantsController < AdminController
     redirect_to admin_intervenants_path, notice: I18n.t('admin.intervenants.import_reussi')
   end
 
-  private
+private
 
   def _import_csv!(file)
     if file.blank?
@@ -23,7 +24,8 @@ class Admin::IntervenantsController < AdminController
     end
 
     begin
-      @csv = _parse_csv(file)
+      # Use ACSV to auto-detect the file encoding and column separator
+      @csv = ACSV::CSV.read(file.tempfile.path, headers: true)
     rescue => e
       raise "Le fichier CSV ne peut être lu (#{e.message})."
     end
@@ -35,17 +37,6 @@ class Admin::IntervenantsController < AdminController
         raise "La mise à jour de l’intervenant '#{row['raison_sociale']}' a échoué (#{e.message})."
       end
     end
-  end
-
-  def _parse_csv(file)
-    csv_content = file.read
-    col_separators = [',', ';', '\t']
-    best_separator = col_separators
-      .max_by { |separator|
-        csv = CSV.parse(csv_content, headers: true, col_sep: separator)
-        csv.headers.count
-      }
-    CSV.parse(csv_content, headers: true, col_sep: best_separator)
   end
 
   def _create_or_update_intervenant!(row)

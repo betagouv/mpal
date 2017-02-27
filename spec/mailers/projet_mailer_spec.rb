@@ -1,6 +1,16 @@
 require 'rails_helper'
 
 describe ProjetMailer, type: :mailer do
+  describe "recommandation operateurs" do
+    let(:projet) { create :projet, :with_suggested_operateurs, :with_invited_pris }
+    let(:email) { ProjetMailer.recommandation_operateurs(projet) }
+    it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
+    it { expect(email.to).to eq([projet.email]) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.recommandation_operateurs.sujet')) }
+    it { expect(email.body.encoded).to match(projet.demandeur_principal.fullname) }
+    it { expect(email.body.encoded).to match(projet_choix_operateur_url(projet)) }
+  end
+
   describe "invitation intervenant" do
     let(:invitation) { create :invitation }
     let(:email) { ProjetMailer.invitation_intervenant(invitation) }

@@ -1,0 +1,5 @@
+clavis_service_id;raison_sociale;email;departements;roles;adresse_postale;informations
+9111;Direction Départementale des Territoires des Vosges;ddt@vosges.anah.exemple.com;88;instructeur;;Expérimentation prévue le 2
+2871;PRIS DDT 88;admin@anah.beta.gouv.fr;88;operateur,pris;9 avenue Jean-Jaurès, 88 000 Épinal;
+2376;Communauté de Communes de Brest;cc@finistere.anah.exemple.com;29,22;operateur;;
+8633;Association IPAHD;contact@ipahd.exemple.org;13;operateur;;

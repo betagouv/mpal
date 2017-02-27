@@ -35,6 +35,7 @@
 /config/database.yml
 
 dump.rdb
+erd.pdf
 
 # Ignore les documents uploades en dev
 /public/uploads/

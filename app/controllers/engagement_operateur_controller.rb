@@ -1,4 +1,4 @@
-class ChoixIntervenantsController < ApplicationController
+class EngagementOperateurController < ApplicationController
   layout 'inscription'
 
   before_action :dossier_ou_projet
@@ -6,11 +6,11 @@ class ChoixIntervenantsController < ApplicationController
   before_action :authentifie
 
   def new
-    @intervenant = Intervenant.find(params[:intervenant_id])
+    @operateur = Intervenant.find(params[:operateur_id])
   end
 
   def create
-    operateur = Intervenant.find(params[:intervenant_id])
+    operateur = Intervenant.find(params[:operateur_id])
     if @projet_courant.commit_with_operateur!(operateur)
       flash[:notice_titre] = t('projets.intervenants.messages.succes_choix_intervenant_titre')
       ProjetMailer.notification_choix_intervenant(@projet_courant).deliver_later!

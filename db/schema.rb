@@ -11,24 +11,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170215171607) do
+ActiveRecord::Schema.define(version: 20170220165043) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "agents", force: :cascade do |t|
-    t.string   "username",                       null: false
-    t.integer  "sign_in_count",      default: 0, null: false
+    t.string   "username",                           null: false
+    t.integer  "sign_in_count",      default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.string   "nom"
     t.string   "prenom"
     t.integer  "intervenant_id"
     t.string   "clavis_id"
+    t.boolean  "admin",              default: false, null: false
   end
 
   add_index "agents", ["clavis_id"], name: "index_agents_on_clavis_id", using: :btree
@@ -289,11 +290,13 @@ ActiveRecord::Schema.define(version: 20170215171607) do
   add_index "projets", ["personne_id"], name: "index_projets_on_personne_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
-  create_table "qdm_references", force: :cascade do |t|
-    t.integer "opal_id"
-    t.string  "code"
-    t.text    "libelle"
+  create_table "suggested_operateurs", id: false, force: :cascade do |t|
+    t.integer "projet_id"
+    t.integer "intervenant_id"
   end
+
+  add_index "suggested_operateurs", ["intervenant_id"], name: "index_suggested_operateurs_on_intervenant_id", using: :btree
+  add_index "suggested_operateurs", ["projet_id"], name: "index_suggested_operateurs_on_projet_id", using: :btree
 
   create_table "themes", force: :cascade do |t|
     t.string "libelle"

@@ -121,7 +121,27 @@ describe Projet do
     it { expect(projet.numero_plateforme).to eq("42_1234") }
   end
 
-  describe "invite_intervenant!" do
+  describe "#suggest_operateurs!" do
+    let(:projet)     { create :projet, :with_suggested_operateurs }
+    let(:operateurA) { create :operateur }
+    let(:operateurB) { create :operateur }
+
+    it "ajoute les opérateurs aux opérateurs suggérés" do
+      expect(ProjetMailer).to receive(:recommandation_operateurs).and_call_original
+      result = projet.suggest_operateurs!([operateurA.id, operateurB.id])
+      expect(result).to be true
+      expect(projet.suggested_operateurs.count).to eq 2
+      expect(projet.errors).to be_empty
+    end
+
+    it "signale une erreur si aucun opérateur n'est suggéré" do
+      result = projet.suggest_operateurs!([])
+      expect(result).to be false
+      expect(projet.errors).to be_present
+    end
+  end
+
+  describe "#invite_intervenant!" do
     context "sans intervenant invité au préalable" do
       let(:projet)    { create :projet }
       let(:operateur) { create :operateur }
@@ -198,7 +218,7 @@ describe Projet do
     end
   end
 
-  describe "commit_to_operateur!" do
+  describe "#commit_to_operateur!" do
     let(:projet)    { create :projet, :prospect }
     let(:operateur) { create :operateur }
 

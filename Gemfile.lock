@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    acsv (0.0.1)
     actionmailer (4.2.6)
       actionpack (= 4.2.6)
       actionview (= 4.2.6)
@@ -64,18 +65,11 @@ GEM
       json (>= 1.7)
       mime-types (>= 1.16)
       mimemagic (>= 0.3.0)
+    charlock_holmes (0.7.3)
+    choice (0.2.0)
     coderay (1.1.1)
-    coffee-rails (4.1.1)
-      coffee-script (>= 2.2.0)
-      railties (>= 4.0.0, < 5.1.x)
-    coffee-script (2.4.1)
-      coffee-script-source
-      execjs
-    coffee-script-source (1.10.0)
     concurrent-ruby (1.0.2)
     connection_pool (2.2.0)
-    csv2json (0.3.0)
-      json
     database_cleaner (1.5.3)
     debug_inspector (0.0.2)
     devise (4.2.0)
@@ -225,6 +219,11 @@ GEM
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
+    rails-erd (1.5.0)
+      activerecord (>= 3.2)
+      activesupport (>= 3.2)
+      choice (~> 0.2.0)
+      ruby-graphviz (~> 1.2)
     rails-html-sanitizer (1.0.3)
       loofah (~> 2.0)
     rails_12factor (0.0.3)
@@ -275,6 +274,7 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    ruby-graphviz (1.2.2)
     ruby_dep (1.4.0)
     rubycas-client (2.3.9)
       activesupport
@@ -353,13 +353,13 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  acsv
   active_model_serializers
   byebug
   capybara
   capybara-screenshot
   carrierwave
-  coffee-rails (~> 4.1.0)
-  csv2json
+  charlock_holmes
   database_cleaner
   devise
   devise_cas_authenticatable
@@ -385,6 +385,7 @@ DEPENDENCIES
   pry-nav
   quiet_assets
   rails (= 4.2.6)
+  rails-erd
   rails_12factor
   redis-namespace
   rest-client (~> 1.6.9)
@@ -397,7 +398,6 @@ DEPENDENCIES
   sidekiq
   simple_form
   simplecov
-  sinatra
   slim
   spring
   spring-commands-rspec

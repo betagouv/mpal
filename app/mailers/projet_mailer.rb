@@ -3,6 +3,16 @@ class ProjetMailer < ActionMailer::Base
   default delivery_method: Proc.new { Rails.env.production? && !Tools.demo? ? :smtp : :letter_opener_web }
   default from: ENV["NO_REPLY_FROM"]
 
+  def recommandation_operateurs(projet)
+    @projet = projet
+    @demandeur = projet.demandeur_principal
+    @pris = projet.invited_pris
+    mail(
+      to: projet.email,
+      subject: t('mailers.projet_mailer.recommandation_operateurs.sujet')
+    )
+  end
+
   def invitation_intervenant(invitation)
     @invitation = invitation
     mail(
