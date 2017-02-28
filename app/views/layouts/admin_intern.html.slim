@@ -1,7 +1,7 @@
 = content_for :content do
   nav#menu.container.navbar.navbar-inverse role="navigation"
     .row
-      .col-sm-12
+      .col-12
         = render "admin/shared/horizontal_menu", menu: @menu
   #header.container
     .row
@@ -15,9 +15,9 @@
   .container
     .row
       - if @display_sidebar
-        .col-sm-3
+        .col-md-3
           = yield :sidebar
-      div class="col-sm-#{@display_sidebar ? 9 : 12}"
+      div class="col-md-#{@display_sidebar ? 9 : 12}"
         = render "admin/shared/flashes"
         #main
           = content_for?(:content) ? yield(:content) : yield

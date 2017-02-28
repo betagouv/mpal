@@ -3,13 +3,12 @@
 - if resource && resource.errors.present?
   - model = resource.class.to_s.underscore
   .row
-    .col-xxs-12
+    .col-12
       div.form-errors.alert.alert-danger
         button.close data-dismiss="alert" type="button" &times;
-        strong
-          = %(#{pluralize resource.errors.count, "erreur"} sur :)
-          ul
-            - resource.errors.each do |error|
-              li
-                label for="#{model}_#{error}"
-                  = i18n_simple_form_label(model, error)
+        strong= %(#{pluralize resource.errors.count, "erreur"} sur :)
+        ul
+          - resource.errors.each do |error|
+            li
+              label for="#{model}_#{error}"
+                = i18n_simple_form_label(model, error)
