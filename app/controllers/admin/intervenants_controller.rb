@@ -2,6 +2,7 @@ require 'charlock_holmes'
 require 'acsv'
 
 class Admin::IntervenantsController < Admin::BaseController
+  layout 'informations'
 
   def index
     @intervenants = Intervenant.all

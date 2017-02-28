@@ -1,0 +1,11 @@
+- init_class_infos
+- content_for :sidebar do
+  = render "admin/shared/sidebar_tabs", tabs: @tabs
+  = render "search_form"
+
+.tab-content
+  = tab @tabs, :general do
+    - url = [[@__namespaces], @item].flatten.reject(&:blank?)
+    = simple_form_for url, html: { class: simple_form_classes } do |f|
+      = render f
+      = submit_button f

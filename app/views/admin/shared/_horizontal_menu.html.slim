@@ -1,0 +1,49 @@
+- @_bck = @breadcrumbs.map { |x| x[:key] }
+- @_bck = @_bck[1..-1] if 1 < @_bck.size
+ul#nav-menu.nav.nav-pills
+  - menu.each do |key1, item1|
+    - next if item1[:condition].present? && !eval(item1[:condition])
+    - url = item1[:url].blank? ? "#" : (item1[:params].blank? ? send(item1[:url]) : send(item1[:url], *[item1[:params]].flatten))
+    - name = item1[:render_name] ? eval(item1[:name]) : item1[:name]
+    - attr = item1[:children].present? ? { :class => "dropdown-toggle", :"data-toggle" => "dropdown" } : nil
+    - classes = ["dropdown"]
+    - classes << "inactive" if item1[:url].blank?
+    - classes << "active" if item1[:url].present? && @_bck.include?(key1)
+    li class=classes
+      = link_to url, attr do
+        = name
+        - if item1[:badge].present? && (count = instance_variable_get(item1[:badge]).to_i) && 0 < count
+          - classes = ["badge"]
+          - classes << "badge-#{item1[:badge_kind]}" if item1[:badge_kind].present?
+          | &nbsp;
+          span.badge class=classes = count
+        - if item1[:children].present?
+          b.caret
+      - if item1[:children].present?
+        ul.dropdown-menu
+          - item1[:children].each do |key2, item2|
+            - next if item2[:condition].present? && !eval(item2[:condition])
+            - if item2[:divider].present?
+              li.divider
+            - if item2[:header].present?
+              li.dropdown-header= item2[:header]
+            - url = item2[:url].blank? ? "#" : (item2[:params].blank? ? send(item2[:url]) : send(item2[:url], *[item2[:params]].flatten))
+            - name = item2[:render_name] ? eval(item2[:name]) : item2[:name]
+            - classes = []
+            - classes << "inactive" if item2[:url].blank?
+            - classes << "active" if item2[:url].present? && @_bck.include?(key2)
+            li class=classes
+              = link_to url do
+                = name
+                - if item2[:badge].present? && (count = instance_variable_get(item2[:badge]).to_i) && 0 < count
+                  - classes = ["badge"]
+                  - classes << "badge-#{item2[:badge_kind]}" if item2[:badge_kind].present?
+                  | &nbsp;
+                  span.badge class=classes = count
+  li.dropdown.li-last
+    /TODO = link_to edit_admin_admins_admin_path(current_admin.id), class: "dropdown-toggle", data: { toggle: "dropdown" } do
+      = current_admin.first_name.present? ? current_admin.first_name : "Anonyme"
+      b.caret
+    /TODO ul.dropdown-menu
+      li= link_to "Mon compte", edit_admin_admins_admin_path(current_admin.id)
+      li= link_to "Déconnexion", destroy_agent_session_path

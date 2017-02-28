@@ -7,6 +7,13 @@ fr:
         restrict_dependent_destroy:
           has_one: "Vous ne pouvez pas supprimer l’enregistrement car une personne à charge% {record} existe"
           has_many: "Vous ne pouvez pas supprimer l’enregistrement parce que les %{record} dépendants existent"
+    models:
+      defaults:
+        one: "élément"
+        other: "éléments"
+      theme:
+        one: "thème"
+        other: "thèmes"
   date:
     abbr_day_names:
     - dim
@@ -208,3 +215,18 @@ fr:
       long: "%A %d %B %Y %Hh%M"
       short: "%d %b %Hh%M"
     pm: pm
+  will_paginate:
+    previous_label: "&laquo; Précédent"
+    next_label: "Suivant &raquo;"
+    page_gap: "&hellip;"
+    page_entries_info:
+      single_page:
+        zero:  "Aucun résultat"
+        one:   "1 résultat"
+        other: "%{count} résultats"
+      single_page_html:
+        zero:  "Aucun résultat"
+        one:   "<strong>1</strong> résultat"
+        other: "<strong>%{count}</strong> résultats"
+      multi_page: "Résultats %{from} à %{to} sur %{count}"
+      multi_page_html: "Résultats <strong>%{from}&nbsp;à&nbsp;%{to}</strong> sur <strong>%{count}</strong>"

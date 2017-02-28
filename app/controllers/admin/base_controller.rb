@@ -1,11 +1,14 @@
 class Admin::BaseController < ApplicationController
-  layout 'informations'
+  include AdminLayout   # See /app/controller/concerns/admin_layout.rb
+
+  layout 'admin_intern'
 
   before_action :assert_admin
 
-  def index
-    redirect_to admin_intervenants_path
-  end
+  MENU = {
+    home:   { name: "Accueil", url: "admin_root_path" },
+    themes: { name: "Thèmes",  url: "admin_themes_path" },
+  }
 
 private
 

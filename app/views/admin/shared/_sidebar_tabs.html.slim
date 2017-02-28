@@ -1,0 +1,18 @@
+- unless defined?(single_tab)
+  - single_tab = false
+- if defined?(tabs) && tabs.present?
+  .sidebar.sidebar-tabs
+    p.sidebar-heading Onglets
+    #sidebar-tabs.list-group
+      - tabs.each_with_index do |tab, index|
+        - key, value = tab
+        - next if value[:disabled]
+        - classes = ["list-group-item"]
+        - classes << "active" if key == @active_tab
+        = link_to (single_tab && value[:url].present? ? send(value[:url]) : "#tab-#{key}"), class: classes, data: (single_tab ? {} : { toggle: :tab }) do
+          = icon value[:icon] if value[:icon]
+          span.inline-text= value[:text]
+          = icon "chevron-right"
+          - if (qty = value[:issues].to_i) > 0
+            span.pull-right
+              span.badge.badge-important= qty

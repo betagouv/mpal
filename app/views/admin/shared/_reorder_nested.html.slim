@@ -1,0 +1,6 @@
+ol
+  - items.each do |item|
+    li id="list_#{item.id}"
+      div= item.name
+      - if nested && item.respond_to?(:children)
+        = render "admin/shared/reorder_nested", items: item.children, nested: true

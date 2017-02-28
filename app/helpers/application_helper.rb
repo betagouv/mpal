@@ -1,4 +1,21 @@
 module ApplicationHelper
+  APP_NAME = "Les aides de l’Anah"
+  COMPANY_NAME = "Anah"
+  SITE_START_YEAR = 2017
+
+  def app_name
+    APP_NAME
+  end
+
+  def company_name
+    COMPANY_NAME
+  end
+
+  def copyright_years
+    year = Time.now.year
+    year > SITE_START_YEAR ? "#{SITE_START_YEAR}&ndash;#{year}".html_safe : year.to_s
+  end
+
   def demandeur?
     @role_utilisateur && @role_utilisateur.to_sym == :demandeur
   end

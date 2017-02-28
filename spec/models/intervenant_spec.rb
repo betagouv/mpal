@@ -7,12 +7,12 @@ describe Intervenant do
 
   let!(:urbanos) { FactoryGirl.create(:intervenant, raison_sociale: 'Urbanos', departements: ['93', '75', '91'], roles:[:operateur]) }
   let!(:soliho) { FactoryGirl.create(:intervenant, raison_sociale: 'Soliho', departements: ['91', '77'], roles: [:operateur]) }
+  let!(:ddt95) { FactoryGirl.create(:intervenant, raison_sociale: 'DDT95', departements: ['95'], roles: [:pris]) }
 
   it "renvoie la liste des opérateurs des départements à partir d'une adresse" do
-    expect(Intervenant.pour_departement(91).pour_role(:operateur)).to eq([urbanos, soliho])
+    expect(Intervenant.pour_departement(91).pour_role(:operateur)).to contain_exactly(urbanos, soliho)
   end
 
-  let!(:ddt95) { FactoryGirl.create(:intervenant, raison_sociale: 'DDT95', departements: ['95'], roles: [:pris]) }
   it "renvoie le PRIS à partir d'une adresse" do
     expect(Intervenant.pour_departement(95).pour_role(:pris)).to include(ddt95)
   end
