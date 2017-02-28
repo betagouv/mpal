@@ -63,6 +63,7 @@ feature "Remplir la proposition de travaux" do
       fill_in 'projet_montant_travaux_ht', with: '3 333,33'
       fill_in 'projet_montant_travaux_ttc', with: '4 444,44'
       fill_in 'projet_reste_a_charge', with: '1 111,11'
+      fill_in 'projet_pret_bancaire', with: '2 222,22'
       fill_in  aide.libelle, with: '5 555,55'
 
       # Section "Précisions"
@@ -107,6 +108,8 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content('4 444,44 €')
       expect(page).to have_content(I18n.t('helpers.label.proposition.reste_a_charge'))
       expect(page).to have_content('1 111,11 €')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.pret_bancaire'))
+      expect(page).to have_content('2 222,22 €')
       expect(page).to have_content(aide.libelle)
       expect(page).to have_content('5 555,55 €')
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_travaux') + ' : Il faudra casser un mur.')

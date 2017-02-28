@@ -32,6 +32,7 @@ class Projet < ActiveRecord::Base
   localized_numeric_setter :montant_travaux_ht
   localized_numeric_setter :montant_travaux_ttc
   localized_numeric_setter :reste_a_charge
+  localized_numeric_setter :pret_bancaire
 
   before_create do
     self.plateforme_id = Time.now.to_i
