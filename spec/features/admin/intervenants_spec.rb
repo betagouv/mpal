@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/mpal_helper'
+require 'support/mpal_features_helper'
 
 feature "Administration des intervenants" do
   let!(:intervenant1) { create :operateur }

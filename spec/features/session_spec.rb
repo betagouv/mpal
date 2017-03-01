@@ -1,28 +1,18 @@
 require 'rails_helper'
+require 'support/mpal_features_helper'
+require 'support/api_ban_helper'
 require 'support/api_particulier_helper'
-require 'support/mpal_helper'
 
-describe "identification", type: :feature do
-  scenario "je démarre mon projet", focus: true do
-    signin(12,15)
-    expect(page).to have_content("Martin")
-  end
-
-  scenario "je dois cocher la case des engagements pour pouvoir me connecter" do
-    skip
-    visit new_session_path
-    fill_in :numero_fiscal, with: '12'
-    fill_in :reference_avis, with: '15'
-    check 'autorisation'
-    sleep 1
-    # Piste : capybara clique sur le bouton se connecter avant que le js ai activé le bouton...
-    # field_labeled('autorisation', disabled: false)
-    # find_field I18n.t('sessions.nouvelle.action'), disabled: false
-    # click_on I18n.t('sessions.nouvelle.action')
+feature "Identification :" do
+  context "en tant que demandeur" do
+    scenario "je démarre un nouveau projet" do
+      signin_for_new_projet
+      expect(page).to have_current_path etape1_recuperation_infos_demarrage_projet_path(Projet.last)
+    end
   end
 end
 
-feature "Réinitialisation de la session" do
+feature "Réinitialisation de la session :" do
   let(:projet) {          create :projet }
   let(:invitation) {      create :invitation }
   let(:operateur) {       create :operateur, departements: [projet.departement] }

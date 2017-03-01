@@ -1,20 +1,13 @@
 require 'rails_helper'
-require 'support/mpal_helper'
+require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "En tant que demandeur, je peux préciser mes besoins pour ma demande de travaux" do
-  before do
-    Projet.destroy_all
-    Demande.destroy_all
-    Invitation.destroy_all
-    Occupant.destroy_all
-  end
-
   let(:projet) { Projet.last }
 
   scenario "je décris précisément mes besoins" do
-    signin(12,15)
+    signin_for_new_projet
     visit etape2_description_projet_path(projet)
     expect(page).to have_content(I18n.t('demarrage_projet.etape2_description_projet.section_projet_envisage'))
     # Liste des besoins
@@ -63,7 +56,7 @@ feature "En tant que demandeur, je peux préciser mes besoins pour ma demande de
   end
 
   scenario "je ne décris aucun besoin à l'étape 2 et je ne peux pas passer à l'étape suivante" do
-    signin(12,15)
+    signin_for_new_projet
     visit etape2_description_projet_path(projet)
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape2_description_projet_path(projet))
