@@ -16,10 +16,7 @@ module Administrable
   end
 
   def tabs
-    model = model_name.constantize
-    h = { general: { text: "Général", icon: "th-list" } }
-    @active_tab = (tab = params[:tab]).present? && h.has_key?(tab.to_sym) ? tab.to_sym : h.first.first
-    h
+    { general: { text: "Général", icon: "th-list" } }
   end
 
   def item_name(name = nil)
@@ -198,22 +195,20 @@ protected
     @breadcrumbs ||= []
     @breadcrumbs << { key: model_name.tableize.to_sym, name: translate_model_name(:other).mb_chars.capitalize, url: send("#{namespaces_}#{model_name.tableize}_path") }
     @body_id = model_name.tableize
+    @tabs = tabs.dup
+    @active_tab = params[:tab].present? && @tabs.has_key?(params[:tab].to_sym) ? params[:tab].to_sym : @tabs.first.first
     case params[:action].to_sym
       when :new, :create
         page_heading = "Nouveau"
         @page_title = "#{page_heading} • #{@page_title}"
         @breadcrumbs << { key: "#{model_name.tableize}_new".to_sym, name: page_heading, url: send("new_#{namespaces_}#{model_name.tableize.singularize}_path") }
       when :edit, :update
-        @tabs = tabs.dup
-        @active_tab = params[:tab].present? && @tabs.has_key?(params[:tab].to_sym) ? params[:tab].to_sym : @tabs.first.first
         page_heading = item_name
         if page_heading.present?
           @page_title = "#{page_heading} • #{@page_title}"
           @breadcrumbs << { key: "#{model_name.tableize}_edit".to_sym, name: page_heading, url: send("edit_#{namespaces_}#{model_name.tableize.singularize}_path", { id: @item.id }) }
         end
       when :show
-        @tabs = tabs.dup
-        @active_tab = params[:tab].present? && @tabs.has_key?(params[:tab].to_sym) ? params[:tab].to_sym : @tabs.first.first
         page_heading = item_name
         if page_heading.present?
           @page_title = "#{page_heading} • #{@page_title}"

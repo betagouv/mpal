@@ -5,7 +5,5 @@ class Theme < ActiveRecord::Base
 
   scope :ordered, -> { order("themes.libelle, themes.id") }
 
-  def name
-    self.libelle
-  end
+  alias_attribute :name, :libelle
 end

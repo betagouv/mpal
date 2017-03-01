@@ -29,6 +29,12 @@ module Admin::BaseHelper
     "export_#{prefix}_#{Time.now.strftime('%Y-%m-%d_%H-%M-%s')}.csv"
   end
 
+  def format_date(date, format = :default)
+    return '' if date.blank?
+    date = date.to_date unless date.is_a?(Date)
+    I18n.localize(date, format: format)
+  end
+
   def has_flashes?
     flash.present? && (arr = [:error, :alert, :notice] & flash.keys.map(&:to_sym)).present? && (arr.detect { |x| flash[x].present? })
   end
@@ -110,7 +116,7 @@ module Admin::BaseHelper
     classes = ["tab-pane"]
     classes << "active" if force || @active_tab == name
     capture do
-      content_tag :div, id: "tab-#{name}", class: classes do
+      content_tag :div, id: "tab-#{name}", class: classes, role: "tabpanel" do
         if block_given?
           yield
         end
@@ -137,6 +143,6 @@ module Admin::BaseHelper
   end
 
   def trunc(text, length = 20)
-    truncate(text, length: length, omission: '…')
+    truncate(text.to_s, length: length, omission: '…')
   end
 end

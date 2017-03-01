@@ -1,0 +1,42 @@
+- unless defined?(:deleters)
+  - deleters = false
+- init_class_infos
+- if items.present?
+  - some_item = items.first
+  - has_active = some_item.respond_to?(:active)
+  table.listing.table.table-striped.table-hover.parent-lightbox
+    thead
+      tr
+        th.col-1 Actions
+        th.col Raison sociale
+        th.col-1.hidden-lg-down Email
+        th.col-1
+          abbr> title="Départements" Dép.
+        th.col-1 Rôles
+        th.col-1.hidden-lg-down
+          abbr> title="Identifiant" ID
+          | Clavis
+        - if deleters
+          th.col-1
+            abbr title="Supprimer" Suppr.
+    tbody
+      - items.each do |item|
+        - url = "edit_#{@__namespaces_}#{@__model_name_singular}_path"
+        - url = "#{@__namespaces_}#{@__model_name_singular}_path" unless self.respond_to?(url)
+        - edit_url = send(url, { id: item.id })
+        - edit_label = "Éditer"
+        - classes = []
+        - classes << "inactive" if has_active && !item.active
+        tr class=classes
+          td.buttons-group
+            .btn-group
+              = link_to_icon "edit", edit_url, title: edit_label
+          td.link= link_to trunc(item.name, 40), edit_url, title: item.name
+          td.link.hidden-lg-down= mail_to item.email, item.name
+          td.link= link_to (item.departements || []).join(', '), edit_url
+          td.link= link_to (item.roles || []).join(', '), edit_url
+          td.link.hidden-lg-down= link_to item.clavis_service_id.to_s, edit_url
+          - if deleters
+            td.buttons-group
+              .btn-group
+                = delete_link send("#{@__namespaces_}#{@__model_name_singular}_path", { id: item.id }), item.name

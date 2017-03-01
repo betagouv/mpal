@@ -18,6 +18,9 @@
   }
 }
 
+.form-group {
+  @extend .clearfix;
+}
 .form-group.hidden {
   margin: 0;
 }
@@ -48,6 +51,7 @@
   .form-control-label {
     padding-top: calc(.5rem - 1px * 2);
     padding-bottom: calc(.5rem - 1px * 2);
+    padding-right: 1em;
     margin-bottom: 0;
   }
   p.form-field {
@@ -57,7 +61,7 @@
     text-align: right;
   }
   @include media-breakpoint-up(480px) {
-    .form-control-label { width: percentage((4 / $grid-columns)); }
+    .form-control-label { width: percentage((4 / $grid-columns)); text-align: right; }
     .form-field         { width: percentage((8 / $grid-columns)); }
     .form-field-label   { margin-left: percentage((4 / $grid-columns)); }
   }
