@@ -14,7 +14,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   let(:projet) { Projet.last }
 
   scenario "Depuis la page de connexion, je recupère mes informations principales" do
-    signin(12,15)
+    signin_for_new_projet
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     expect(page).to have_content("Martin")
     expect(page).to have_content("Pierre")
@@ -28,7 +28,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   end
 
   scenario "je complète la civilité du demandeur principal" do
-    signin(12,15)
+    signin_for_new_projet
     within '.civilite' do
       choose('Monsieur')
     end
@@ -38,7 +38,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "mon e-mail doit être valide et obligatoire" do
     skip
-    signin(12,15)
+    signin_for_new_projet
     fill_in :projet_email, with: "invalid-email"
     fill_in 'projet_tel', with: "06 06 06 06 06"
     click_button I18n.t('demarrage_projet.action')
@@ -52,7 +52,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     # attention, pour le moment l'adresse récupérée est celle de l'avis d'imposition.
     # l'adresse du logement à rénover peut être différente, l'adresse postale également !
     # l'adresse est transmise à opal
-    signin(12,15)
+    signin_for_new_projet
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     fill_in :projet_adresse, with: "1 place Vendôme, 75001 Paris"
     fill_in :projet_email, with: "jean@jean.com"
@@ -65,7 +65,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   end
 
   scenario "j'ajoute une personne de confiance" do
-    signin(12,15)
+    signin_for_new_projet
     within '.dem-diff.ins-form' do
       page.choose('Monsieur')
       fill_in 'projet_personne_de_confiance_attributes_prenom', with: "Frank"
@@ -86,7 +86,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   end
 
   scenario "je vois la liste des personnes présentes dans l'avis d'imposition sous forme d'occupants" do
-    signin(12,15)
+    signin_for_new_projet
     expect(projet.nb_total_occupants).to eq(3)
     expect(projet.occupants.count).to eq(1)
     expect(page).to have_content("Occupant 2")

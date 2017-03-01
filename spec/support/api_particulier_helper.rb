@@ -1,4 +1,5 @@
 require 'dotenv'
+
 RSpec.configure do |config|
   config.before(:each) do
     FakeWeb.register_uri(

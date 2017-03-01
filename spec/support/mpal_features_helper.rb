@@ -5,6 +5,13 @@ def signin(numero_fiscal, reference_avis)
   find('.form-login .btn').click
 end
 
+FAKEWEB_API_PARTICULIER_NUMERO_FISCAL  = 12
+FAKEWEB_API_PARTICULIER_REFERENCE_AVIS = 15
+
+def signin_for_new_projet
+  signin(FAKEWEB_API_PARTICULIER_NUMERO_FISCAL, FAKEWEB_API_PARTICULIER_REFERENCE_AVIS)
+end
+
 def authenticate_as_admin_with_token
   # L'environnement est mocké car CircleCI ne permet pas d'exposer des
   # variables d'environnement lors des builds de Pull requests.
