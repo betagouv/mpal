@@ -27,12 +27,6 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
   end
 
-  scenario "si je ne coche pas la case d'engagements je ne peut pas accéder à la page suivante" do
-    skip
-    signin(12,15)
-    expect(page).to have_content(I18n.t('agrements.attestation_communiquer_infos_occupants'))
-  end
-
   scenario "je complète la civilité du demandeur principal" do
     signin(12,15)
     within '.civilite' do
@@ -51,14 +45,6 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     expect(projet.tel).to eq("06 06 06 06 06")
     expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
-  end
-
-  scenario "Les noms et prénom du demandeur principal ne peuvent pas être modifiés" do
-    skip
-  end
-
-  scenario "Je peux modifier l'adresse du logement à rénover si elle est différente de l'adresse fiscale" do
-    skip
   end
 
   scenario "Je modifie l'adresse du logement à rénover" do
@@ -105,23 +91,5 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(projet.occupants.count).to eq(1)
     expect(page).to have_content("Occupant 2")
     expect(page).to have_content("Occupant 3")
-  end
-
-  scenario "je vois les informations fiscales concernant le demandeur principal" do
-    skip
-  end
-
-  scenario "je peux ajouter un occupant" do
-    skip
-  end
-
-  scenario "je peux supprimer un occupant" do
-    skip
-  end
-
-  scenario "j'ai commencé une demande, j'ai quitté la page puis j'ai recommencé la démarche depuis la page d'accueil" do
-    skip
-    # actuellement une erreur
-    # https://github.com/sgmap/mpal/issues/198
   end
 end
