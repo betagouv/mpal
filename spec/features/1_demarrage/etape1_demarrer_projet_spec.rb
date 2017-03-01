@@ -4,13 +4,6 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "En tant que demandeur, je peux vérifier et corriger mes informations personnelles" do
-  before do
-    Projet.destroy_all
-    Demande.destroy_all
-    Invitation.destroy_all
-    Occupant.destroy_all
-  end
-
   let(:projet) { Projet.last }
 
   scenario "Depuis la page de connexion, je recupère mes informations principales" do
