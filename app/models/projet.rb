@@ -167,15 +167,14 @@ class Projet < ActiveRecord::Base
     ProjetMailer.notification_invitation_intervenant(invitation).deliver_later!
     EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
 
-    previous_invitation = invitations.where(intervenant: previous_operateur).first
     if previous_operateur
+      previous_invitation = invitations.where(intervenant: previous_operateur).first
       ProjetMailer.resiliation_operateur(previous_invitation).deliver_later!
       previous_invitation.destroy!
     end
 
     if previous_pris
       previous_invitation = invitations.where(intervenant: previous_pris).first
-      ProjetMailer.resiliation_pris(previous_invitation, intervenant).deliver_later!
       previous_invitation.destroy!
     end
   end

@@ -40,20 +40,6 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.body.encoded).to match(invitation.demandeur_principal.fullname) }
   end
 
-  describe "le PRIS reçoit un email lorsque le demandeur choisit un opérateur" do
-    let(:projet)     { create :projet, :prospect, :with_invited_operateur }
-    let(:operateur)  { projet.invited_operateur }
-    let(:pris)       { create :pris }
-    let(:invitation) { create :invitation, projet: projet, intervenant: pris }
-    let(:email) { ProjetMailer.resiliation_pris(invitation, operateur) }
-    it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
-    it { expect(email.to).to eq([pris.email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.resiliation_pris.sujet', demandeur_principal: invitation.demandeur_principal.fullname)) }
-    it { expect(email.body.encoded).to match(invitation.demandeur_principal.fullname) }
-    it { expect(email.body.encoded).to match(operateur.raison_sociale) }
-    it { expect(email.body.encoded).to include(dossier_url(projet)) }
-  end
-
   describe "l'intervenant reçoit un email lorsqu'il a été choisi par le demandeur" do
     let(:operateur) { create :operateur }
     let(:projet) { create :projet, operateur: operateur }
