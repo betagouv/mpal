@@ -37,15 +37,6 @@ class ProjetMailer < ActionMailer::Base
     )
   end
 
-  def resiliation_pris(invitation, operateur)
-    @invitation = invitation
-    @operateur = operateur
-    mail(
-      to: invitation.intervenant_email,
-      subject: t('mailers.projet_mailer.resiliation_pris.sujet', demandeur_principal: @invitation.demandeur_principal.fullname)
-    )
-  end
-
   def notification_choix_intervenant(projet)
     @projet = projet
     @invitation = @projet.invitations.find_by_intervenant_id(projet.operateur_id)

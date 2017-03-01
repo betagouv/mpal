@@ -158,9 +158,7 @@ describe Projet do
       let(:projet)        { create :projet, :prospect, :with_invited_pris }
       let(:new_operateur) { create :operateur }
 
-      it "sélectionne le nouvel intervenant, et notifie le PRIS" do
-        expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
-        expect(ProjetMailer).to receive(:resiliation_pris).and_call_original
+      it "sélectionne le nouvel intervenant" do
         projet.invite_intervenant!(new_operateur)
         expect(projet.invitations.count).to eq(1)
         expect(projet.invited_operateur).to eq(new_operateur)
