@@ -21,7 +21,7 @@ deployment:
     branch: master
     commands:
       - git fetch --unshallow
-      - git push -f git@scalingo.com:anah-staging.git $CIRCLE_SHA1:master
+      - git push -f git@scalingo.com:anah-demo.git $CIRCLE_SHA1:master
   production:
     tag: /production-.*/
     owner: sgmap
