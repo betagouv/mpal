@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/mpal_helper'
+require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 

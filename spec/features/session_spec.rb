@@ -1,6 +1,6 @@
 require 'rails_helper'
 require 'support/api_particulier_helper'
-require 'support/mpal_helper'
+require 'support/mpal_features_helper'
 
 describe "identification", type: :feature do
   scenario "je démarre mon projet", focus: true do
