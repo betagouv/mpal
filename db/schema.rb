@@ -290,6 +290,12 @@ ActiveRecord::Schema.define(version: 20170220165043) do
   add_index "projets", ["personne_id"], name: "index_projets_on_personne_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
+  create_table "qdm_references", force: :cascade do |t|
+    t.integer "opal_id"
+    t.string  "code"
+    t.text    "libelle"
+  end
+
   create_table "suggested_operateurs", id: false, force: :cascade do |t|
     t.integer "projet_id"
     t.integer "intervenant_id"
