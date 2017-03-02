@@ -2,10 +2,7 @@ require 'charlock_holmes'
 require 'acsv'
 
 class Admin::IntervenantsController < Admin::BaseController
-
-  def index
-    @intervenants = Intervenant.all
-  end
+  include Administrable # See /app/controller/concerns/administrable.rb
 
   def import
     begin
@@ -49,5 +46,15 @@ private
       intervenant.departements = row['departements'].split(',').map(&:strip)
     end
     intervenant.save!
+  end
+
+  def strong_params
+    %w(raison_sociale adresse_postale clavis_service_id informations email)
+  end
+
+  def tabs
+    h = super
+    h[:agents] = { text: "Agents", icon: "user" }
+    h
   end
 end

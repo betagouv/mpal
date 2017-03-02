@@ -4,7 +4,7 @@ module SimpleForm
       def feedback(wrapped_options)
         @feedback ||= begin
           if has_feedback?
-            template.content_tag(:span, '', class: "glyphicon glyphicon-remove form-control-feedback")
+            template.content_tag(:span, '', class: "glyphicon glyphicon-remove form-control-icon")
           end
         end
       end

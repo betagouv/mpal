@@ -1,0 +1,129 @@
+@import "variables";
+@import "mixins";
+
+.form-errors {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    display: list-item;
+    list-style-type: square;
+    margin-left: 2em;
+  }
+  label {
+    margin-bottom: 0;
+  }
+}
+
+.form-group {
+  @extend .clearfix;
+}
+.form-group.hidden {
+  margin: 0;
+}
+.btn-submit {
+  width: 250px;
+}
+
+.form-regular {
+  margin-bottom: 4em;
+  label {
+    cursor: pointer;
+    font-weight: normal;
+    &.required {
+      font-weight: bold;
+      > abbr {
+        color: #888;
+      }
+    }
+  }
+  .form-control-label, .form-field {
+    float: left;
+    position: relative;
+    // Prevent columns from collapsing when empty
+    min-height: 1px;
+    // Default xxs
+    width: 100%;
+  }
+  .form-control-label {
+    padding-top: calc(.5rem - 1px * 2);
+    padding-bottom: calc(.5rem - 1px * 2);
+    padding-right: 1em;
+    margin-bottom: 0;
+  }
+  p.form-field {
+    padding-top: em(7px);
+  }
+  .form-group.price .form-control {
+    text-align: right;
+  }
+  @include media-breakpoint-up(480px) {
+    .form-control-label { width: percentage((4 / $grid-columns)); text-align: right; }
+    .form-field         { width: percentage((8 / $grid-columns)); }
+    .form-field-label   { margin-left: percentage((4 / $grid-columns)); }
+  }
+  @include media-breakpoint-up(md) {
+    .size-xs .form-field { max-width: em(130px); }
+    .size-s  .form-field { max-width: em(230px); }
+    .size-m  .form-field { max-width: em(330px); }
+  }
+  .has-error .form-field-label {
+    padding-bottom: em(7px);
+  }
+  .form-control-icon {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 38px;
+    height: 38px;
+    line-height: 38px;
+    text-align: center;
+    margin: 0;
+    color: #d9534f;
+  }
+  .form-control {
+    padding-right: (38px * 1.25);
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  .heading {
+    font-size: em(20px);
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+  .btn-submit {
+    float: left;
+    width: em(200px);
+    margin-right: 2em;
+  }
+  .form-submit-inline {
+    display: inline-block;
+    float: left;
+  }
+  .form-devise-links {
+    padding-top: 1em;
+    margin-bottom: 4em;
+  }
+  .radio_buttons {
+    .radio {
+      display: inline-block;
+      margin-right: 2em;
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+  .form-field-label {
+    .form-control-label {
+      width: auto;
+      padding-left: 20px;
+    }
+  }
+  .form-control-text {
+    padding-top: 0.5em;
+  }
+}

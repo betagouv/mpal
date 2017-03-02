@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/mpal_helper'
+require 'support/mpal_features_helper'
 
 feature "En tant que demandeur, j'ai accès aux données concernant mon projet" do
   let(:projet) { create(:projet, :prospect, :with_invited_operateur) }

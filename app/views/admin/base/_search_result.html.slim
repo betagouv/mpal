@@ -1,0 +1,33 @@
+- unless defined?(:deleters)
+  - deleters = false
+- init_class_infos
+- if items.present?
+  - some_item = items.first
+  - has_active = some_item.respond_to?(:active)
+  table.listing.table.table-striped.table-hover.parent-lightbox
+    thead
+      tr
+        th.col-1 Actions
+        /th.col-sm-1 ID
+        th.col Nom
+        - if deleters
+          th.col-1
+            abbr title="Supprimer" Suppr.
+    tbody
+      - items.each do |item|
+        - url = "edit_#{@__namespaces_}#{@__model_name_singular}_path"
+        - url = "#{@__namespaces_}#{@__model_name_singular}_path" unless self.respond_to?(url)
+        - edit_url = send(url, { id: item.id })
+        - edit_label = "Éditer"
+        - classes = []
+        - classes << "inactive" if has_active && !item.active
+        tr class=classes
+          td.buttons-group
+            .btn-group
+              = link_to_icon "edit", edit_url, title: edit_label
+          /td.link= link_to "##{item.id}", edit_url
+          td.link= link_to item.name, edit_url
+          - if deleters
+            td.buttons-group
+              .btn-group
+                = delete_link send("#{@__namespaces_}#{@__model_name_singular}_path", { id: item.id }), item.name

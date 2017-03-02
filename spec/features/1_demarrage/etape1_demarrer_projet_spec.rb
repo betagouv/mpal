@@ -1,20 +1,13 @@
 require 'rails_helper'
-require 'support/mpal_helper'
+require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "En tant que demandeur, je peux vérifier et corriger mes informations personnelles" do
-  before do
-    Projet.destroy_all
-    Demande.destroy_all
-    Invitation.destroy_all
-    Occupant.destroy_all
-  end
-
   let(:projet) { Projet.last }
 
   scenario "Depuis la page de connexion, je recupère mes informations principales" do
-    signin(12,15)
+    signin_for_new_projet
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     expect(page).to have_content("Martin")
     expect(page).to have_content("Pierre")
@@ -27,14 +20,8 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
   end
 
-  scenario "si je ne coche pas la case d'engagements je ne peut pas accéder à la page suivante" do
-    skip
-    signin(12,15)
-    expect(page).to have_content(I18n.t('agrements.attestation_communiquer_infos_occupants'))
-  end
-
   scenario "je complète la civilité du demandeur principal" do
-    signin(12,15)
+    signin_for_new_projet
     within '.civilite' do
       choose('Monsieur')
     end
@@ -44,7 +31,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "mon e-mail doit être valide et obligatoire" do
     skip
-    signin(12,15)
+    signin_for_new_projet
     fill_in :projet_email, with: "invalid-email"
     fill_in 'projet_tel', with: "06 06 06 06 06"
     click_button I18n.t('demarrage_projet.action')
@@ -53,20 +40,12 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
   end
 
-  scenario "Les noms et prénom du demandeur principal ne peuvent pas être modifiés" do
-    skip
-  end
-
-  scenario "Je peux modifier l'adresse du logement à rénover si elle est différente de l'adresse fiscale" do
-    skip
-  end
-
   scenario "Je modifie l'adresse du logement à rénover" do
     skip
     # attention, pour le moment l'adresse récupérée est celle de l'avis d'imposition.
     # l'adresse du logement à rénover peut être différente, l'adresse postale également !
     # l'adresse est transmise à opal
-    signin(12,15)
+    signin_for_new_projet
     expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
     fill_in :projet_adresse, with: "1 place Vendôme, 75001 Paris"
     fill_in :projet_email, with: "jean@jean.com"
@@ -79,7 +58,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   end
 
   scenario "j'ajoute une personne de confiance" do
-    signin(12,15)
+    signin_for_new_projet
     within '.dem-diff.ins-form' do
       page.choose('Monsieur')
       fill_in 'projet_personne_de_confiance_attributes_prenom', with: "Frank"
@@ -100,28 +79,10 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   end
 
   scenario "je vois la liste des personnes présentes dans l'avis d'imposition sous forme d'occupants" do
-    signin(12,15)
+    signin_for_new_projet
     expect(projet.nb_total_occupants).to eq(3)
     expect(projet.occupants.count).to eq(1)
     expect(page).to have_content("Occupant 2")
     expect(page).to have_content("Occupant 3")
-  end
-
-  scenario "je vois les informations fiscales concernant le demandeur principal" do
-    skip
-  end
-
-  scenario "je peux ajouter un occupant" do
-    skip
-  end
-
-  scenario "je peux supprimer un occupant" do
-    skip
-  end
-
-  scenario "j'ai commencé une demande, j'ai quitté la page puis j'ai recommencé la démarche depuis la page d'accueil" do
-    skip
-    # actuellement une erreur
-    # https://github.com/sgmap/mpal/issues/198
   end
 end

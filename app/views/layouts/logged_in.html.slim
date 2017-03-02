@@ -26,10 +26,9 @@
               li= @projet_courant.email
             - if @projet_courant.ville.present?
               li= @projet_courant.ville
-            - if @projet_courant.disponibilite.present?
-              li= @projet_courant.disponibilite
             li= t('projets.visualisation.occupants', count: @projet_courant.nb_total_occupants)
-            li= "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"
+            - if current_agent
+              li= "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"
         - if current_agent
           section.affectation
             - if (agent = @projet_courant.agent)

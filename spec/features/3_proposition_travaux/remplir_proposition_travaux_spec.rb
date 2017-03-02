@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/mpal_helper'
+require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
@@ -12,21 +12,11 @@ feature "Remplir la proposition de travaux" do
   context "en tant qu'opérateur" do
     before { login_as agent_operateur, scope: :agent }
 
-    scenario "je m'affecte le projet" do
+    scenario "je visualise la proposition de travaux pour m'affecter le projet" do
       visit dossier_path(projet)
-      click_link I18n.t('projets.visualisation.lien_affecter_agent')
-      expect(page.current_path).to eq dossier_path(projet)
+      click_link I18n.t('projets.visualisation.remplir_le_projet')
+      expect(page).to have_current_path(dossier_proposition_path(projet))
       expect(page).to have_content I18n.t('projets.visualisation.projet_affecte')
-      expect(page).to have_link I18n.t('projets.visualisation.remplir_le_projet')
-      expect(page).not_to have_link I18n.t('projets.visualisation.lien_affecter_agent')
-      expect(page).not_to have_link I18n.t('projets.visualisation.affecter_et_remplir_le_projet')
-    end
-
-    scenario "je m'affecte le projet et je visualise la proposition de travaux" do
-      visit dossier_path(projet)
-      click_link I18n.t('projets.visualisation.affecter_et_remplir_le_projet')
-      expect(page).to have_content("Remplacement d’une baignoire par une douche")
-      expect(page).to have_content("Plâtrerie")
     end
 
     scenario "je remplis et j'enregistre une proposition de travaux'" do

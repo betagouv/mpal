@@ -19,9 +19,32 @@ fr:
       default_message: "Merci de corriger les problèmes suivants :"
     labels:
       defaults:
+        active: Actif
+        address: Adresse
+        birthday: "Date de naissance"
+        building: Bâtiment
+        city: Ville
+        civility: "Civilité"
+        country: Pays
+        created_at: "Créé le"
+        description: Description
         email: Email
+        first_name: "Prénom"
+        last_name: Nom
+        login: Identifiant
         name: Nom
+        password: "Mot de passe"
         phone: Téléphone
+        result_per_page: Résultats
+        updated_at: "Dernière modification le"
+        zip_code: Code postal
       contact:
         subject: Objet
         description: Message
+    placeholders:
+      defaults:
+        birthday: jj/mm/aaaa
+        email: Adresse email
+        first_name: Prénom
+        last_name: Nom
+        url: http://…

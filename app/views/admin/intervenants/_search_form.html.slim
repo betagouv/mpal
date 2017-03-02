@@ -1,0 +1,29 @@
+- init_class_infos
+.sidebar
+  p.sidebar-heading Actions
+  .table-links
+    - if (url = "new_#{@__namespaces_}#{@__model_name_singular}_path") && self.respond_to?(url)
+      = link_to send(url), class: "btn btn-block btn-primary btn-deco", role: "tab" do
+        = icon "plus"
+        | Nouveau
+    - if (url = "reorder_#{@__namespaces_}#{@__model_name_plural}_path") && self.respond_to?(url)
+      = link_to send(url), label: "Réordonner", class: "btn btn-block btn-secondary btn-deco", role: "tab" do
+        = icon "random"
+        | Réordonner
+    - if @__model_name_plural.classify.constantize.respond_to?(:to_csv)
+      = link_to(send("#{@__namespaces_}#{@__model_name_plural}_path", { format: :csv }), class: "btn btn-block btn-secondary btn-deco btn-export popover-target", rel: "popover", data: { "content" => "L’export peut prendre plusieurs secondes", "original-title" => "Export Excel (CSV)", "placement" => "right", "trigger" => "hover" }, role: "tab") do
+        = icon "download-alt"
+        | Export Excel (CSV)
+- if @__model_name_plural.classify.constantize.respond_to?(:admin_for_text)
+  .sidebar
+    - search = params[:search] || {}
+    = simple_form_for :search, url: send("#{@__namespaces_}#{@__model_name_plural}_path"), html: { class: "form-sidebar-search" }, method: "get" do |f|
+      p.sidebar-heading Rechercher
+      .row
+        .col-sm-12
+          = f.input :text, label: false, required: false, input_html: { class: "input-block-level", value: search[:text] }
+      .row
+        .col-sm-6
+          = f.input :per_page, label: false, collection: @per_page_values, selected: @per_page, include_blank: false, required: false, input_html: { class: "input-block-level" }
+        .col-sm-6
+          = f.button :button, icon("search"), class: "btn btn-primary input-block-level"

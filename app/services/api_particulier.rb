@@ -61,7 +61,7 @@ class Contribuable
     @declarants = []
     @declarants << attributs_declarant(params['declarant1']) if params['declarant1'] && params['declarant1']['nom'].present?
     @declarants << attributs_declarant(params['declarant2']) if params['declarant2'] && params['declarant2']['nom'].present?
-    @adresse = params["foyerFiscal"]["adresse"]
+    @adresse = (params["foyerFiscal"] || {} )["adresse"]
     @date_recouvrement = params["dateRecouvrement"]
     @date_etablissement = params["dateEtablissement"]
     @nombre_parts = params["nombreParts"]

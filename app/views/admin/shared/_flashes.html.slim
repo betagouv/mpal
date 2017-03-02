@@ -1,0 +1,15 @@
+- is_not_layout = local_assigns[:is_not_layout]
+- if (!@flash_not_in_layout || is_not_layout) && has_flashes?
+  #flashes
+    - [:error, :alert, :notice].each do |key|
+      - if flash[key].present?
+        div class="alert alert-#{alert_for key}"
+          button.close data-dismiss="alert" type="button" &times;
+          = flash[key]
+        - flash[key] = nil # Ensure flash cleanup
+    - [:h_alert, :h_notice].each do |key|
+      - if flash[key].present?
+        div class="alert alert-#{alert_for key}"
+          button.close data-dismiss="alert" type="button" &times;
+          = flash[key].html_safe
+        - flash[key] = nil # Ensure flash cleanup

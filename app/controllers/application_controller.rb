@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  include ApplicationHelper
+
   layout 'logged_in'
 
   protect_from_forgery with: :exception
@@ -33,6 +35,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def current_ability
+    #TODO add user management?
+    @current_ability ||= Ability.new(current_agent)
+  end
+
   def dossier_ou_projet
     @dossier_ou_projet = current_agent ? "dossier" : "projet"
   end
@@ -54,5 +61,4 @@ class ApplicationController < ActionController::Base
     end
     true
   end
-
 end

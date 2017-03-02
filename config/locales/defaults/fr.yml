@@ -242,7 +242,6 @@ fr:
       changer_intervenant: "Changer d’opérateur"
       s_engager_avec_operateur: "S’engager avec cet opérateur"
       engagement_action: "Je m’engage avec cet opérateur"
-      affecter_et_remplir_le_projet: "Je m’affecte et je remplis le projet"
       remplir_le_projet: "Je remplis le projet"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
@@ -254,7 +253,6 @@ fr:
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
       lien_ajout_commentaire: 'Envoyer un message'
-      lien_affecter_agent: "Je m’affecte ce projet"
       projet_affecte: "Ce projet vous est maintenant affecté"
       message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
       occupants:
@@ -341,8 +339,6 @@ fr:
         sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l’accompagner sur son projet"
       resiliation_operateur:
         sujet: "[ANAH] %{demandeur_principal} a changé d’opérateur pour son projet"
-      resiliation_pris:
-        sujet: "[ANAH] %{demandeur_principal} a choisi un opérateur pour son projet"
       mise_en_relation_intervenant:
         sujet: "[ANAH] Mise en relation par %{intermediaire}"
 

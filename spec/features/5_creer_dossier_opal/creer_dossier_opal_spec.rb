@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/mpal_helper'
+require 'support/mpal_features_helper'
 require 'support/opal_helper'
 
 feature "Créer le dossier dans Opal" do

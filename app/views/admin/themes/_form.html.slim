@@ -1,0 +1,7 @@
+- item = form.object
+= render "admin/shared/errors", item: item
+fieldset.row
+  .col-12
+    legend Informations générales
+  .col-12
+    = form.input :libelle, wrapper_html: { class: "size-m" }, autofocus: true

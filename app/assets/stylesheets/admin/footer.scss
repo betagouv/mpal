@@ -1,0 +1,25 @@
+@import "variables";
+@import "mixins";
+
+#footer {
+  font-size: 12px;
+  margin: 2em 0 1em;
+  text-align: center;
+  color: #aaa;
+  a {
+    color: #aaa;
+    text-decoration: underline;
+  }
+  &.fixed-bottom {
+    border-top: 1px solid #ddd;
+    margin-bottom: 0;
+    height: 3em;
+    line-height: 3em;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 0.9;
+    background: white;
+  }
+}

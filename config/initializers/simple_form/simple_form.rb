@@ -42,7 +42,7 @@ SimpleForm.setup do |config|
     ## Inputs
     b.use :label_input
     b.use :hint,  wrap_with: { tag: :span, class: "has-hint" }
-    b.use :error, wrap_with: { tag: :span, class: "has-feedback has-error" }
+    b.use :error, wrap_with: { tag: :span, class: "has-feedback has-danger" }
 
     ## full_messages_for
     # If you want to display the full error message for the attribute, you can
@@ -100,11 +100,11 @@ SimpleForm.setup do |config|
   # config.label_text = lambda { |label, required, explicit_label| "#{required} #{label}" }
 
   # You can define the class to use on all labels. Default is nil.
-  config.label_class = 'control-label'
+  config.label_class = 'form-control-label'
 
   # You can define the default class to be used on forms. Can be overriden
   # with `html: { :class }`. Defaulting to none.
-  config.default_form_class = 'form-horizontal'
+  #config.default_form_class = 'form-horizontal'
 
   # You can define which elements should obtain additional classes
   # config.generate_additional_classes_for = [:wrapper, :label, :input]
