@@ -20,6 +20,12 @@ module ApplicationHelper
     @role_utilisateur && @role_utilisateur.to_sym == :demandeur
   end
 
+  def format_date(date, format = :default)
+    return '' if date.blank?
+    date = date.to_date unless date.is_a?(Date)
+    I18n.localize(date, format: format)
+  end
+
   def projet_suffix
     demandeur? ? "demandeur" : "intervenant"
   end

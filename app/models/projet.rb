@@ -77,6 +77,10 @@ class Projet < ActiveRecord::Base
     Intervenant.pour_departement(departement).pour_role(role)
   end
 
+  def invited_instructeur
+    intervenants.pour_role(:instructeur).first
+  end
+
   def invited_operateur
     intervenants.pour_role(:operateur).first
   end

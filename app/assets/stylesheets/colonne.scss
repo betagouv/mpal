@@ -1,9 +1,8 @@
 .page-projet .col-left {
-  position: absolute;
+  flex: 0 0 300px;
+  margin-right: 15px;
   background: #56869a;
   color: white;
-  width: 27%;
-  height: calc(100% - 30px);
   a {
     color: white;
     text-decoration: underline;

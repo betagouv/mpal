@@ -353,7 +353,7 @@ fr:
   reinitialisation:
     succes: 'Réinitialisation effectuée'
   tableau_de_bord:
-    titre_section: 'Mon tableau de bord'
+    titre_section: 'Tableau de bord'
   engagement_operateur:
     nouveau:
       explication_html: "<b>Choisir un intervenant vous engage</b><p>L’opérateur est chargé de vous conseiller tout au long de la démarche. Il vous accompagne danss l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.</p><p>Lorsqu’une subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de la subvention.</p><p>Cette prestation payante peut être totalement ou opartiellement couverte par le complément de subvention qui complète la subvention pour travaux"

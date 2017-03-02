@@ -99,6 +99,14 @@ input:-ms-input-placeholder {
     border-color: #4cae4c;
   }
 }
+.btn-secondary {
+  background-color: #888;
+  border-color: #777;
+  &:hover {
+    background-color: #666;
+    border-color: #555;
+  }
+}
 .btn-edit {
   background-image: image-url("edit-white.svg");
 }
@@ -670,6 +678,7 @@ fieldset {
 
 /** Page projet **/
 .page-projet {
+  display: flex;
   width: 1080px;
   height: 100%;
   position: relative;
@@ -677,28 +686,36 @@ fieldset {
   margin: 0 auto;
   box-sizing: border-box;
 }
-.page-projet .col-right {
-  display: inline-block;
-  width: 73%;
-  margin-left: 27%;
-}
 
+.logo-anah {
+  display: block;
+  width: 123px;
+}
 .project-header {
   position: relative;
   background-color: #eef1f7;
+  padding: 15px;
   margin-bottom: 15px;
+  color: #3f5f74;
+  .logo-anah {
+    float: left;
+    width: 93px;
+  }
   .heading {
     float: left;
     font-size: 26px;
     font-weight: bold;
-    line-height: 65px;
-    color: #56869a;
+    line-height: 80px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.68);
-    margin-left: 15px;
+    margin-left: 50px;
   }
-  .btn {
+  .connection {
     float: right;
-    margin: 20px 20px 0 0;
+    text-align: right;
+  }
+  .nom-agent {
+    font-weight: bold;
+    margin-bottom: 1em;
   }
   .notification {
     padding-left: 25px;
@@ -722,7 +739,6 @@ fieldset {
 
 .main-content {
   position: relative;
-  margin-left: 15px;
 }
 .main-content-block {
   position: relative;
