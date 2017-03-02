@@ -39,8 +39,17 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  #
+
+  # Only log warnings and errors during tests
   config.log_level = :warn
+
+  # Debug mode disables concatenation and preprocessing of assets.
+  # This option may cause significant delays in view rendering with a large
+  # number of complex assets.
+  config.assets.debug = false
+
+  # Live compilation uses more memory, performs more poorly than the default and is not recommended.
+  config.assets.compile = false
 
   # Allow Capybara snapshots to reference non-fingerprinted assets.
   config.assets.digest = false
