@@ -33,9 +33,6 @@ $(document).ready(function() {
     // Open by defaut last block
     $(".block").last().children().addClass("is-open").slideDown(0);
 
-    // Layout
-    $(".col-left").css("min-height", $(window).height()-30);
-
     // Smouth scroll anchor
     $('a[href*="#"]:not([href="#"])').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
