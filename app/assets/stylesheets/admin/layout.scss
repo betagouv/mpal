@@ -51,11 +51,11 @@ fieldset {
 }
 .visible-xl {
   display: none !important;
-  @media (min-width: mem(1380px)) {
+  @media (min-width: 1380px) {
     display: block !important;
   }
 }
-@media (min-width: mem(1380px)) {
+@media (min-width: 1380px) {
   th.visible-xl, td.visible-xl {
     display: table-cell !important;
   }
@@ -97,10 +97,10 @@ fieldset {
 // Pagination
 .pagination-wrapper {
   position: relative;
-  min-height: em(40px); // line-height + padding
-  line-height: em(30px);
+  min-height: 40px; // line-height + padding
+  line-height: 30px;
   text-align: center;
-  padding-bottom: em(10px);
+  padding-bottom: 10px;
   .page-entries {
     position: absolute;
     top: 0;
@@ -109,21 +109,21 @@ fieldset {
   }
   .pagination {
     display: inline-block;
-    margin: em(35px) 0 0;
+    margin: 35px 0 0;
     border-radius: 0;
-    @media (min-width: mem(640px)) {
+    @media (min-width: 640px) {
       margin-top: 0;
     }
     li {
       display: inline-block;
-      margin-top: em(5px);
-      @media (min-width: mem(640px)) {
+      margin-top: 5px;
+      @media (min-width: 640px) {
         margin-top: 0;
       }
     }
     a {
       display: inline-block;
-      width: em(30px);
+      width: 30px;
       color: #111;
       background-color: #eee;
     }
@@ -149,7 +149,7 @@ fieldset {
       display: none;
     }
     .previous_page a, .next_page a {
-      width: em(100px);
+      width: 100px;
       padding: 0;
     }
   }
@@ -271,7 +271,7 @@ fieldset {
 
 // Description
 #main .formatted-text {
-  font-size: em(16px);
+  font-size: 16px;
   h1, h2, h3 {
     margin: 0.5em 0;
   }
@@ -297,7 +297,7 @@ fieldset {
   }
   .modal-body {
     .image {
-      margin-bottom: em(20px);
+      margin-bottom: 20px;
     }
   }
   .form-regular {

@@ -85,6 +85,7 @@
                   th.empty scope="col"  &nbsp;
                   th.top-tab scope="col"  Proposition
                 - Theme.all.each do |theme|
+                  - next if theme.prestations.blank?
                   tr
                     th.tab-title colspan="3" scope="row" #{theme.libelle.capitalize}
                   - theme.prestations.each do |prestation|
