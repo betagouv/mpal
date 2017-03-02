@@ -14,7 +14,7 @@ RSpec.configure do |config|
         "anneeImpots": "2015",
         "nombrePersonnesCharge": 2,
         "foyerFiscal": {
-          "adresse": "12 rue de la mare, 75010 Paris"
+          "adresse": "12 rue de la Mare, 75010 Paris"
         },
         "revenuFiscalReference": 29880
       }),

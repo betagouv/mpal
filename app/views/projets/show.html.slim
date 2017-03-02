@@ -3,7 +3,7 @@ section.content-projet
   article.block.occupants
     h3 Détails des occupants
     - if demandeur? || current_agent.operateur?
-      = link_to t('projets.visualisation.lien_edition'), etape1_recuperation_infos_demarrage_projet_path(@projet_courant), class: 'edit'
+      = link_to t('projets.visualisation.lien_edition'), etape1_recuperation_infos_path(@projet_courant), class: 'edit'
     .occupants-recap
       ul
         li

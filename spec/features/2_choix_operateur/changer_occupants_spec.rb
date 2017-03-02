@@ -10,7 +10,7 @@ feature "Renseigner et modifier des occupants" do
 
     scenario "je peux ajouter un occupant", pending: true do
       signin(projet.numero_fiscal, projet.reference_avis)
-      visit etape1_recuperation_infos_demarrage_projet_path(projet)
+      visit etape1_recuperation_infos_path(projet)
       click_link I18n.t('projets.visualisation.lien_ajout_occupant')
       fill_in :occupant_nom,                  with: 'Marielle'
       fill_in :occupant_prenom,               with: 'Jean-Pierre'

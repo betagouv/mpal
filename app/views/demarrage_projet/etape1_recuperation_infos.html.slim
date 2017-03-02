@@ -1,5 +1,6 @@
 /! Demandeur
-= form_for @projet_courant, url: { controller: 'demarrage_projet', action: 'etape1_envoi_infos' }, method: 'post', html: { class: 'form' }  do |f|
+= form_for @projet_courant, url: { controller: 'demarrage_projet', action: 'etape1_recuperation_infos' }, method: 'post', html: { class: 'form' }  do |f|
+  = render 'shared/errors', resource: @projet_courant
   section.demandeur
     h2.header-blk= t('demarrage_projet.etape1_demarrage_projet.section_demandeur')
     p.chapo= t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
@@ -19,7 +20,7 @@
         = f.text_field :demandeur_principal_nom, disabled: true, class: 'disabled'
       li.full
         = f.label :adresse
-        = f.text_field :adresse, disabled: true
+        = f.text_field :adresse
       li.full
         label for="dem-address-diff"  Adresse du logement à rénover si différente :
         input#dem-address-diff type="text" /

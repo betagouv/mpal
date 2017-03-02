@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/mpal_helper'
+require 'support/api_ban_helper'
 
 describe DemarrageProjetController do
   let(:projet) { create :projet, :prospect }
@@ -8,17 +9,18 @@ describe DemarrageProjetController do
     authenticate_as_particulier(projet.numero_fiscal)
   end
 
-  describe "#etape1_envoi_infos" do
-    let(:projet_params) { Hash.new }
+  describe "#etape1_recuperation_infos" do
+    let(:projet_params) do {} end
     let(:params) do
+      default_params = { adresse: projet.adresse }
       {
         projet_id: projet.id,
-        projet:    projet_params
+        projet:    default_params.merge(projet_params)
       }
     end
 
     before(:each) do
-      post :etape1_envoi_infos, params
+      post :etape1_recuperation_infos, params
       projet.reload
     end
 
@@ -30,7 +32,7 @@ describe DemarrageProjetController do
       end
 
       it "enregistre les informations modifiées" do
-        assert_redirected_to projet_path(projet)
+        expect(response).to redirect_to projet_path(projet)
         expect(projet.tel).to eq   '01 02 03 04 05'
         expect(projet.email).to eq 'particulier@exemple.fr'
       end
@@ -47,38 +49,59 @@ describe DemarrageProjetController do
         }
       }
       end
-      let(:subject) { projet.personne_de_confiance }
 
       it "enregistre la personne de confiance" do
-        assert_redirected_to projet_path(projet)
-        expect(subject.civilite).to            eq 'mr'
-        expect(subject.prenom).to              eq 'Tyrone'
-        expect(subject.nom).to                 eq 'Meehan'
-        expect(subject.tel).to                 eq '01 02 03 04 05'
-        expect(subject.lien_avec_demandeur).to eq 'ami'
+        expect(response).to redirect_to projet_path(projet)
+        expect(projet.personne_de_confiance.civilite).to            eq 'mr'
+        expect(projet.personne_de_confiance.prenom).to              eq 'Tyrone'
+        expect(projet.personne_de_confiance.nom).to                 eq 'Meehan'
+        expect(projet.personne_de_confiance.tel).to                 eq '01 02 03 04 05'
+        expect(projet.personne_de_confiance.lien_avec_demandeur).to eq 'ami'
       end
     end
 
-    # context "lorsque l'adresse est vide" do
-    #   it "affiche une erreur" do
-    #   end
-    # end
+    context "lorsque l'adresse est vide" do
+      let(:projet_params) do { adresse: '' } end
 
-    # context "lorsque l'adresse est identique" do
-    #   it "conserve l'adresse existante" do
-    #   end
-    # end
+      it "affiche une erreur" do
+        expect(response).to render_template(:etape1_recuperation_infos)
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
+      end
+    end
 
-    # context "lorsque l'adresse change" do
-    #   context "et est disponible dans la BAN" do
-    #     it "enregistre l'adresse précisée" do
-    #     end
-    #   end
+    context "lorsque l'adresse est identique" do
+      let!(:adresse_initiale) { projet.adresse }
+      let(:projet_params) do { adresse: projet.adresse } end
 
-    #   context "et n'est pas disponible dans la BAN" do
-    #     it "affiche une erreur" do
-    #     end
-    #   end
-    # end
+      it "conserve l'adresse existante" do
+        expect_any_instance_of(ApiBan).not_to receive(:precise)
+        expect(projet.adresse).to eq adresse_initiale
+      end
+    end
+
+    context "lorsque l'adresse change" do
+      context "et est disponible dans la BAN" do
+        let(:projet_params) do { adresse: FAKEWEB_API_BAN_ADDRESS_ROME } end
+
+        it "enregistre l'adresse précisée", focus: true do
+          expect(projet.adresse_ligne1).to eq "65 rue de Rome"
+          expect(projet.code_insee).to     eq "75008"
+          expect(projet.code_postal).to    eq "75008"
+          expect(projet.ville).to          eq "Paris"
+          expect(projet.departement).to    eq "75"
+          expect(projet.latitude).to       be_within(0.1).of 57.9
+          expect(projet.longitude).to      be_within(0.1).of 5.8
+          expect(projet.adresse).to        eq FAKEWEB_API_BAN_ADDRESS_ROME
+        end
+      end
+
+      context "et n'est pas disponible dans la BAN" do
+        let(:projet_params) do { adresse: FAKEWEB_API_BAN_ADDRESS_UNKNOWN } end
+        it "affiche une erreur" do
+          expect(response).to render_template(:etape1_recuperation_infos)
+          expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
+        end
+      end
+    end
   end
 end

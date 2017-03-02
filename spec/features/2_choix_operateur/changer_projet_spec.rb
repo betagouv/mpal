@@ -24,12 +24,12 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
     # TODO: tester la mise à jour des occupants
   end
 
-  scenario "je ne peux pas modifier mon adresse" do
+  scenario "je peux modifier mon adresse" do
     signin(projet.numero_fiscal, projet.reference_avis)
     within 'article.occupants' do
       click_link I18n.t('projets.visualisation.lien_edition')
     end
-    expect(find_field(:projet_adresse, :disabled => :all)).to be_disabled
+    # TODO
   end
 
   scenario "je peux modifier les données concernant mon habitation et mon projet" do

@@ -8,14 +8,14 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "Depuis la page de connexion, je recupère mes informations principales" do
     signin_for_new_projet
-    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
+    expect(page.current_path).to eq(etape1_recuperation_infos_path(projet))
     expect(page).to have_content("Martin")
     expect(page).to have_content("Pierre")
     expect(projet.demandeur_principal_nom).to eq("Martin")
     expect(projet.demandeur_principal_prenom).to eq("Pierre")
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_demandeur'))
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_occupants'))
-    expect(find_field('projet_adresse', disabled: true).value).to eq('12 rue de la Mare, 75010 Paris')
+    expect(find_field('projet_adresse').value).to eq('12 rue de la Mare, 75010 Paris')
     expect(page).to have_content(I18n.t('projets.messages.creation.corps'))
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
   end
@@ -35,25 +35,28 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     fill_in :projet_email, with: "invalid-email"
     fill_in 'projet_tel', with: "06 06 06 06 06"
     click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
+    expect(page).to have_current_path etape1_recuperation_infos_path(projet)
     expect(projet.tel).to eq("06 06 06 06 06")
     expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
   end
 
-  scenario "Je modifie l'adresse du logement à rénover" do
-    skip
-    # attention, pour le moment l'adresse récupérée est celle de l'avis d'imposition.
-    # l'adresse du logement à rénover peut être différente, l'adresse postale également !
-    # l'adresse est transmise à opal
+  scenario "je dois rentrer une adresse" do
     signin_for_new_projet
-    expect(page.current_path).to eq(etape1_recuperation_infos_demarrage_projet_path(projet))
-    fill_in :projet_adresse, with: "1 place Vendôme, 75001 Paris"
-    fill_in :projet_email, with: "jean@jean.com"
+    fill_in :projet_adresse, with: nil
     click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape2_description_projet_path(projet))
+    expect(page).to have_current_path(etape1_recuperation_infos_path(projet))
+    expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide'))
+  end
+
+  scenario "je peux modifier mon adresse" do
+    signin_for_new_projet
+    fill_in :projet_adresse, with: FAKEWEB_API_BAN_ADDRESS_ROME
+    click_button I18n.t('demarrage_projet.action')
+
     projet.reload
-    expect(projet.adresse_ligne1).to eq("12 rue de la Mare")
-    expect(projet.code_postal).to eq("75010")
+    expect(page).to have_current_path etape2_description_projet_path(projet)
+    expect(projet.adresse_ligne1).to eq("65 rue de Rome")
+    expect(projet.code_postal).to eq("75008")
     expect(projet.ville).to eq("Paris")
   end
 

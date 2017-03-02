@@ -41,8 +41,8 @@ Rails.application.routes.draw do
     end
     resources :projets, only: [:show, :edit, :update], param: :projet_id
 
-    get   '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos', as: 'etape1_recuperation_infos_demarrage_projet'
-    post  '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_envoi_infos'
+    get   '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos', as: 'etape1_recuperation_infos'
+    post  '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos'
 
     get   '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_description_projet', as: 'etape2_description_projet'
     patch '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_envoi_description_projet'

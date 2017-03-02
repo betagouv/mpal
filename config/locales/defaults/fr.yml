@@ -88,6 +88,9 @@ fr:
     action: "Suivant"
     # ----------------------- Etape 1 ---------------------
     etape1_demarrage_projet:
+      erreurs:
+        adresse_vide: "Votre adresse doit être renseignée"
+        adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
       erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
       section_demandeur: "Demandeur"
       section_occupants: "Occupants"
