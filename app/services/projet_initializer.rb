@@ -1,15 +1,13 @@
-class ProjetConstructeur
-
-  def initialize(service, service_adresse)
-    @service = service
-    @service_adresse = service_adresse
+class ProjetInitializer
+  def initialize(service_particulier = nil, service_adresse = nil)
+    @service_particulier = service_particulier || ApiParticulier.new
+    @service_adresse = service_adresse || ApiBan.new
   end
 
-  def initialise_projet(numero_fiscal, reference_avis)
+  def initialize_projet(numero_fiscal, reference_avis)
     projet = Projet.new
 
-
-    contribuable = @service.retrouve_contribuable(numero_fiscal, reference_avis)
+    contribuable = @service_particulier.retrouve_contribuable(numero_fiscal, reference_avis)
 
     projet.reference_avis = reference_avis
     projet.numero_fiscal = numero_fiscal

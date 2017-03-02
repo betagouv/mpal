@@ -25,8 +25,7 @@ class SessionsController < ApplicationController
   end
 
   def create_projet_and_redirect
-    constructeur = ProjetConstructeur.new(ApiParticulier.new, ApiBan.new)
-    projet = constructeur.initialise_projet(param_numero_fiscal, param_reference_avis)
+    projet = ProjetInitializer.new.initialize_projet(param_numero_fiscal, param_reference_avis)
     if projet.save
       EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')
