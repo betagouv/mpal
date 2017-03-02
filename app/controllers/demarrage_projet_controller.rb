@@ -84,8 +84,7 @@ private
         :tel,
         :email,
         :lien_avec_demandeur,
-        :civilite,
-        :disponibilite
+        :civilite
       ]
     )
   end
