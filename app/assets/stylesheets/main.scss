@@ -416,6 +416,7 @@ fieldset {
       float: left;
       line-height: 80px;
       margin-left: 50px;
+      padding-top: 0;
     }
   }
   .connection {
@@ -827,7 +828,7 @@ fieldset {
     text-align: center;
   }
   .recap-projet-table {
-    width: 70%;
+    min-width: 70%;
     margin: 0 auto;
     border-collapse: collapse;
   }
