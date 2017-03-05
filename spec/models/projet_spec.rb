@@ -14,6 +14,8 @@ describe Projet do
     it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
     it { is_expected.to belong_to :operateur }
     it { is_expected.to have_and_belong_to_many :prestations }
+    it { is_expected.to belong_to :agent_operateur }
+    it { is_expected.to belong_to :agent_instructeur }
   end
 
   describe '#clean_numero_fiscal' do

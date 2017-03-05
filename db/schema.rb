@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220165043) do
+ActiveRecord::Schema.define(version: 20170303151930) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -282,19 +282,15 @@ ActiveRecord::Schema.define(version: 20170220165043) do
     t.boolean  "autonomie"
     t.string   "plateforme_id"
     t.float    "reste_a_charge"
-    t.integer  "agent_id"
+    t.integer  "agent_operateur_id"
+    t.integer  "agent_instructeur_id"
   end
 
-  add_index "projets", ["agent_id"], name: "index_projets_on_agent_id", using: :btree
+  add_index "projets", ["agent_instructeur_id"], name: "index_projets_on_agent_instructeur_id", using: :btree
+  add_index "projets", ["agent_operateur_id"], name: "index_projets_on_agent_operateur_id", using: :btree
   add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
   add_index "projets", ["personne_id"], name: "index_projets_on_personne_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
-
-  create_table "qdm_references", force: :cascade do |t|
-    t.integer "opal_id"
-    t.string  "code"
-    t.text    "libelle"
-  end
 
   create_table "suggested_operateurs", id: false, force: :cascade do |t|
     t.integer "projet_id"
@@ -328,7 +324,8 @@ ActiveRecord::Schema.define(version: 20170220165043) do
   add_foreign_key "projet_aides", "projets"
   add_foreign_key "projet_prestations", "prestations"
   add_foreign_key "projet_prestations", "projets"
-  add_foreign_key "projets", "agents"
+  add_foreign_key "projets", "agents", column: "agent_instructeur_id"
+  add_foreign_key "projets", "agents", column: "agent_operateur_id"
   add_foreign_key "projets", "intervenants", column: "operateur_id"
   add_foreign_key "projets", "personnes"
 end

@@ -4,6 +4,7 @@ class DemarrageProjetController < ApplicationController
   before_action :dossier_ou_projet
   before_action :assert_projet_courant
   before_action :authentifie
+  before_action :init_view
 
   def etape1_recuperation_infos
     @projet_courant.personne_de_confiance = Personne.new
@@ -63,7 +64,10 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
-  private
+private
+  def init_view
+    @page_heading = 'Inscription'
+  end
 
   def projet_demande
     @projet_courant.demande || @projet_courant.build_demande

@@ -9,13 +9,12 @@ html lang="fr"
     link rel="icon" type="image/png" href="#{image_path('favicon.png')}" /
     = stylesheet_link_tag    'application', media: 'all'
     = csrf_meta_tag
-    /![if lt IE 9]
-      | <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script
-    = javascript_include_tag 'application'
+    = javascript_include_tag 'application', async: Rails.env.production?
   body
     .main-container
-      = yield :header
+      #beta-ribbon
       .centered-page
+        = yield :header
         = render 'shared/messages'
         = content_for?(:content) ? yield(:content) : yield
         footer.main-footer
@@ -28,4 +27,4 @@ html lang="fr"
           /= link_to t('menu_bas.faq'), informations_faq_path
           /|  - 
           = link_to t('menu_bas.mentions_legales'), informations_mentions_legales_path
-    #beta-ribbon Beta
+

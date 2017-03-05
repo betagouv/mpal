@@ -10,7 +10,8 @@ class Projet < ActiveRecord::Base
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
   belongs_to :operateur, class_name: 'Intervenant'
-  belongs_to :agent
+  belongs_to :agent_operateur, class_name: "Agent"
+  belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
   has_many :occupants, -> { order "id" }, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy

@@ -41,20 +41,25 @@ a {
   width: 1px; }
 
 .vnone {
-  visibility: hidden; }
+  visibility: hidden;
+}
 
 /* Placeholder */
 input::-webkit-input-placeholder {
-  color: #bbb; }
+  color: #bbb;
+}
 
 input:-moz-placeholder {
-  color: #bbb; }
+  color: #bbb;
+}
 
 input::-moz-placeholder {
-  color: #bbb; }
+  color: #bbb;
+}
 
 input:-ms-input-placeholder {
-  color: #bbb; }
+  color: #bbb;
+}
 
 @at-root {
   @-ms-viewport { width: device-width; }
@@ -144,17 +149,19 @@ fieldset {
 
 /** Main container **/
 .main-container {
+  position: relative;
   width: 100%;
   min-height: 100%;
-  position: relative;
+  overflow: hidden;
   background: image-url("background.jpg") 0 0 no-repeat;
-  background-size: cover; }
+  background-size: cover;
+}
 
 .centered-page {
   position: relative;
   margin: 0 auto;
-  max-width: 1080px;
-  @media screen and (min-width: 820px) {
+  max-width: 1200px;
+  @media screen and (min-width: 1200px) {
     padding-top: 30px;
   }
 }
@@ -212,21 +219,30 @@ fieldset {
     vertical-align: middle; }
 
 /** RIBBON **/
-#beta-ribbon {
+#beta-ribbon:before {
+  display: block;
+  content: "Beta";
+  width: 100%;
+  height: 30px;
   text-align: center;
   text-transform: uppercase;
-  position: fixed;
-  top: 26px;
-  right: -35px;
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  width: 150px;
   background-color: #008cba;
   color: white;
   padding: 5px;
   font-size: 15px;
   font-weight: bold;
-  z-index: 10; }
+  margin-bottom: 15px;
+  @media screen and (min-width: 1200px) {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    top: 26px;
+    right: -35px;
+    width: 150px;
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+}
 
 .lastname {
   text-transform: uppercase;
@@ -361,330 +377,14 @@ fieldset {
   }
 }
 
-/** Inscription **/
-.inscription {
-  input[type="text"], input[type="tel"], textarea {
-    border-radius: 3px;
-    background-color: #f2f6fa;
-    box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    border: solid 1px #909eaf;
-    padding: 9px 10px 8px;
-    width: 80%;
-    &.disabled, &[disabled] {
-      background-color: #f2f6fa;
-      box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-      border: solid 1px #f2f6fa;
-      color: #909eaf;
-    }
-  }
-}
-
-.inscription textarea {
-  padding: 10px;
-  margin: 10px 30px;
-  height: 90px; }
-
-.inscription-header {
-  background-color: #eef1f7;
-  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2);
-  .logo {
-    position: absolute;
-    width: 70px;
-    top: 14px;
-    left: 30px;
-  }
-  .heading {
-    font-size: 26px;
-    line-height: 65px;
-    font-weight: bold;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-    padding: 25px 0 25px 150px;
-  }
-}
-
-.inscription section {
-  position: relative;
-  max-width: 768px;
-  margin: 30px auto 0;
-  padding: 0 0 30px;
-  background-color: #ffffff;
-  box-shadow: 0 1px 2px 0 rgba(95, 121, 150, 0.2);
-  border: solid 1px #f2f6fa;
-  border-radius: 4px;
-
-  &.demandeur, &.projet, &.eligibilite {
-    margin-top: 0;
-  }
-
-  h2 {
-    background-color: #eef1f7;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-    font-size: 18px;
-    font-weight: bold;
-    color: #56869a;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-    padding: 15px 30px;
-  }
-
-  p.chapo {
-    padding: 20px 30px 0;
-    font-weight: 600;
-  }
-}
-
-  .inscription .ins-form-civilite {
-    margin: 10px 30px; }
-    .inscription .ins-form-civilite li {
-      display: inline-block;
-      margin-right: -4px;
-      width: 50%;
-      padding: 10px 0 10px; }
-      .inscription .ins-form-civilite li.full {
-        width: 100%; }
-        .inscription .ins-form-civilite li.full input[type="text"] {
-          width: 90%; }
-      .inscription .ins-form-civilite li.radio, .inscription .ins-form-civilite li.checkbox {
-        width: 200px;
-        padding-bottom: 0; }
-        .inscription .ins-form-civilite li.radio input, .inscription .ins-form-civilite li.checkbox input {
-          display: inline-block;
-          vertical-align: middle; }
-        .inscription .ins-form-civilite li.radio label, .inscription .ins-form-civilite li.checkbox label {
-          display: inline-block;
-          width: auto;
-          margin-left: 5px;
-          vertical-align: middle; }
-      .inscription .ins-form-civilite li.checkbox {
-        width: 50%; }
-        .inscription .ins-form-civilite li.checkbox.full {
-          width: 100%; }
-      .inscription .ins-form-civilite li label {
-        display: block;
-        padding: 5px 0; }
-
-
-.inscription .ins-form {
-  margin: 10px 30px; }
-  .inscription .ins-form li {
-    display: inline-block;
-    margin-right: -4px;
-    width: 50%;
-    padding: 10px 0 10px; }
-    .inscription .ins-form li.full {
-      width: 100%; }
-      .inscription .ins-form li.full input[type="text"] {
-        width: 90%; }
-    .inscription .ins-form li.radio, .inscription .ins-form li.checkbox {
-      width: 200px;
-      padding-bottom: 0; }
-      .inscription .ins-form li.radio input, .inscription .ins-form li.checkbox input {
-        display: inline-block;
-        vertical-align: middle; }
-      .inscription .ins-form li.radio label, .inscription .ins-form li.checkbox label {
-        display: inline-block;
-        width: auto;
-        margin-left: 5px;
-        vertical-align: middle; }
-    .inscription .ins-form li.checkbox {
-      width: 50%; }
-      .inscription .ins-form li.checkbox.full {
-        width: 100%; }
-    .inscription .ins-form li label {
-      display: block;
-      padding: 5px 0; }
-
-.dem-contact-wrapper {
-  .dem-contact {
-    li.radio {
-      display: block;
-      width: auto;
-      padding: 0;
-      input {
-        margin-right: 10px;
-      }
-    }
-  }
-}
-
-.checkbox-validation {
-  margin: 30px 30px 0;
-  input {
-    margin-right: 10px;
-  }
-  label {
-    font-weight: bold;
-  }
-}
-
-.inscription .dem-diff {
-  width: 80%;
-  padding: 10px 0 15px 6%;
-  background: #eef1f7; }
-
-.inscription .popin-form .ins-form li.checkbox {
-  width: 100%; }
-  .inscription .popin-form .ins-form li.checkbox label {
-    width: 90%;
-    vertical-align: top;
-    padding-top: 0; }
-
-.inscription .popin-form .btn {
-  display: table;
-  margin: 0 auto; }
-
-.inscription .occupants .occupants-heading {
-  border-bottom: 1px solid white;
-}
-.inscription .occupants .occupants-recap {
-  background: #eef1f7;
-  padding: 15px 30px;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-  margin: 0; }
-  .inscription .occupants .occupants-recap li {
-    display: inline-block;
-    margin-right: 20px; }
-    .inscription .occupants .occupants-recap li span {
-      color: #5ab0ee; }
-
-.inscription .occupants .btn {
-  position: absolute;
-  right: 20px;
-  top: 10px; }
-
-.inscription .occ-table {
-  border-collapse: collapse;
-  width: 80%;
-  margin: 20px auto 0; }
-  .inscription .occ-table th {
-    padding: 10px; }
-  .inscription .occ-table td {
-    border: 1px solid #eef1f7;
-    padding: 10px;
-    text-align: center; }
-    .inscription .occ-table td input {
-      padding: 2px 0;
-      font-size: 14px;
-      width: 50px;
-      text-align: center; }
-    .inscription .occ-table td .btn {
-      background-image: image-url("delete.svg");
-      position: static;
-      font-size: 12px;
-      padding: 4px 10px 4px 30px; }
-
-.inscription .projet .chapo {
-  display: inline-block;
-  padding-right: 5px; }
-
-.inscription .projet .ct-years {
-  display: inline-block;
-  width: 70px;
-}
-
-.inscription .intervenant .chapo {
-  font-weight: 400; }
-
-.inscription .intervenant hr {
-  width: 80%;
-  margin: 25px auto 0; }
-
-.inscription .intervenant .ins-form li {
-  width: 100%;
-  margin: 10px 0; }
-  .inscription .intervenant .ins-form li label {
-    width: 95%;
-    vertical-align: top;
-    padding-top: 0; }
-
-.choose-operator {
-  padding: 20px 30px;
-  text-align: center;
-  @extend .clearfix;
-
-  input[type="radio"] {
-    display: none;
-  }
-  input[type="radio"]:checked + label {
-    border-color: #56869a;
-    background-color: #eef1f7;
-  }
-  label {
-    position: relative;
-    float: left;
-    width: 215px;
-    height: 160px;
-    margin-left: 30px;
-    margin-bottom: 30px;
-    border: 1px solid #d2daea;
-    border-radius: 10px;
-    text-align: center;
-    transition: all 200ms ease;
-    &:nth-child(6n + 2) {
-      margin-left: 0;
-    }
-    h3 {
-      margin-bottom: 10px;
-      padding: 5px 20px;
-      background-color: #eef1f7;
-      border-radius: 10px 10px 0 0;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-    }
-    p {
-      margin: 0 5px;
-    }
-    .btn {
-      position: absolute;
-      bottom: 20px;
-      left: 50%;
-      width: 160px;
-      margin-left: -80px;
-    }
-  }
-}
-
-.inscription .erreur {
-  border: 1px solid #e7235a;
-  width: 70%;
-  margin: 30px auto 0;
-  padding: 20px; }
-  .inscription .erreur p {
-    background: image-url("erreur.svg") 0 0 no-repeat;
-    font-weight: 600;
-    color: #e7235a;
-    padding: 5px 0 5px 35px; }
-  .inscription .erreur ul {
-    margin: 10px 40px 0; }
-  .inscription .erreur li {
-    list-style: disc outside;
-    padding: 2px 0;
-    line-height: 20px;
-    color: #e7235a; }
-
-.inscription .validate {
-  display: inline-block;
-  position: relative;
-  left: 50%;
-  margin: 30px auto;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  background-color: #5ab0ee;
-  font-size: 16px;
-  padding: 16px 20px 16px 45px;
-  border: 1px solid #1580cd;
-  background-image: image-url("validate.svg");
-  background-position: 15px 50%; }
-  .inscription .validate:hover {
-    background-color: #43a5ec; }
-
 /** Page projet **/
 .page-projet {
-  display: flex;
-  width: 1080px;
-  height: 100%;
   position: relative;
-  left: 0;
   margin: 0 auto;
-  box-sizing: border-box;
+  @media screen and (min-width: 600px) {
+    display: flex;
+    height: 100%;
+  }
 }
 
 .logo-anah {
@@ -697,20 +397,31 @@ fieldset {
   padding: 15px;
   margin-bottom: 15px;
   color: #3f5f74;
-  .logo-anah {
+  .logo-link {
     float: left;
+  }
+  .logo-anah {
     width: 93px;
   }
   .heading {
-    float: left;
+    display: block;
+    clear: both;
     font-size: 26px;
+    padding-top: 15px;
     font-weight: bold;
-    line-height: 80px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.68);
-    margin-left: 50px;
+    text-align: center;
+    @media screen and (min-width: 700px) {
+      clear: none;
+      float: left;
+      line-height: 80px;
+      margin-left: 50px;
+    }
   }
   .connection {
-    float: right;
+    position: absolute;
+    right: 15px;
+    top: 15px;
     text-align: right;
   }
   .nom-agent {

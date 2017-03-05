@@ -4,6 +4,7 @@ class ChoixOperateurController < ApplicationController
   before_action :dossier_ou_projet
   before_action :assert_projet_courant
   before_action :authentifie
+  before_action :init_view
 
   def new
     @suggested_operateurs = @projet_courant.suggested_operateurs.shuffle
@@ -32,4 +33,10 @@ class ChoixOperateurController < ApplicationController
       redirect_to projet_choix_operateur_path(@projet_courant), alert: "Une erreur s’est produite lors du choix de l’opérateur."
     end
   end
+
+private
+  def init_view
+    @page_heading = 'Inscription'
+  end
 end
+

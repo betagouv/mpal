@@ -31,8 +31,18 @@
             td
             td= projet.departement
             td= projet.ville
-            td= projet.invited_instructeur.raison_sociale rescue ''
             td
-            td= projet.invited_operateur.raison_sociale rescue ''
+              = projet.invited_instructeur.raison_sociale rescue ''
+              - if projet.agent_instructeur
+                br/
+                span.firstname= projet.agent_instructeur.prenom
+                span.lastname<= projet.agent_instructeur.nom
+            td
+            td
+              = projet.invited_operateur.raison_sociale rescue ''
+              - if projet.agent_operateur
+                br/
+                span.firstname= projet.agent_operateur.prenom
+                span.lastname<= projet.agent_operateur.nom
             td= t(projet.statut, scope: "projets.statut")
             td= format_date projet.updated_at
