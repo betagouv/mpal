@@ -6,7 +6,7 @@ install: ## Install or update dependencies
 	bundle exec rake db:migrate
 
 run: ## Start the app server
-	bin/rails server
+	foreman start -f Procfile.dev
 
 test: ## Run the tests
 	bin/rspec
