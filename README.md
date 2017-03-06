@@ -37,12 +37,11 @@ Pré-requis : ce projet nécessite un serveur PostgreSQL et un serveur Redis lan
 # Création de l'utilisateur de la base de données
 # (mot de passe : `mpal`)
 createuser --superuser --pwprompt --createdb mpal
-# Création de la base de données
+# Création des bases de données
 rake db:setup
-# Initialisation des dépendances et de la base de données
+RAILS_ENV=test rake db:setup
+# Installation et mise à jour des dépendances
 make install
-# Remplissage des données initiales
-rake db:seed
 ```
 
 ## Lancer le projet
