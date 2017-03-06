@@ -7,7 +7,7 @@ article.block.projet
         p Le demandeur n’a pas encore rempli le projet.
       - else
         .button-group
-          = link_to "Remplir le projet", etape2_description_projet_path(@projet_courant), class: 'btn pen'
+          = btn name: 'Remplir le projet', href: etape2_description_projet_path(@projet_courant), icon: 'edit'
     - else
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/
@@ -25,15 +25,15 @@ article.block.projet
           |. Vous serez informé par email pour chaque réponse de sa part.
         .button-group
           - if @projet_courant.can_validate_operateur?
-            = link_to t('projets.visualisation.s_engager_avec_operateur'), projet_engagement_operateur_path(@projet_courant, operateur_id: @projet_courant.invited_operateur), class: 'btn'
+            = btn name: t('projets.visualisation.s_engager_avec_operateur'), href: projet_engagement_operateur_path(@projet_courant, operateur_id: @projet_courant.invited_operateur)
           - if @projet_courant.can_switch_operateur?
-            = link_to t('projets.visualisation.changer_intervenant'), projet_choix_operateur_path(@projet_courant), class: 'btn btn-edit'
+            = btn name: t('projets.visualisation.changer_intervenant'), href: projet_choix_operateur_path(@projet_courant)
       - elsif @projet_courant.suggested_operateurs.present?
         p= t('projets.visualisation.le_pris_a_recommande_des_operateurs')
         - unless current_agent
           .button-group
-            = link_to t('projets.visualisation.choisir_operateur_recommande'), projet_choix_operateur_path(@projet_courant), class: 'btn'
+            = btn name: t('projets.visualisation.choisir_operateur_recommande'), href: projet_choix_operateur_path(@projet_courant)
       - else
         p= t('projets.visualisation.le_pris_selectionne_des_operateurs')
         - unless current_agent
-          = link_to t('projets.visualisation.choisir_operateur'), projet_choix_operateur_path(@projet_courant), class: 'btn'
+          = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)

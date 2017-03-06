@@ -12,4 +12,4 @@
                             @projet_courant.suggested_operateur_ids.include?(operateur.id),
                             { id: "operateur_#{operateur.id}" }
             = operateur.raison_sociale
-    = f.submit t('recommander_operateurs.valider'), class: 'btn'
+    = btn name: t('recommander_operateurs.valider')

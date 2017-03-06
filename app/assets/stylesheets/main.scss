@@ -67,6 +67,7 @@ input:-ms-input-placeholder {
 
 /** Buttons **/
 .btn {
+  position: relative;
   display: inline-block;
   border-radius: 3px;
   box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.5);
@@ -74,27 +75,37 @@ input:-ms-input-placeholder {
   font-size: 14px;
   color: white;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
-  padding: 5px 15px 5px 37px;
+  padding: 5px 15px;
   background-color: #e7235a;
-  background-position: 10px 50%;
-  background-repeat: no-repeat;
-  background-image: image-url("add-user.svg");
   transition: all 200ms ease;
   &:hover {
     background-color: #d9184e;
   }
-}
-.btn-simple {
-  padding-left: 15px;
-  background-image: none;
-}
-.btn-info {
-  background-color: #337ab7;
-  border-color: #2e6da4;
-  &:hover {
-    background-color: #286090;
-    border-color: #204d74;
+  .glyphicon {
+    position: absolute;
+    top: 6px;
+    left: 11px;
+    width: 15px;
+    height: 15px;
+    font-size: 16px;
   }
+}
+.btn-icon {
+  padding-left: 37px;
+}
+.btn-large {
+  font-size: 20px;
+  height: 50px;
+  .glyphicon {
+    font-size: 20px;
+    top: 12px;
+    left: 22px;
+  }
+}
+.btn-centered {
+  display: block;
+  width: 200px;
+  margin: 15px auto 0;
 }
 .btn-test {
   background-color: #449d44;
@@ -111,15 +122,6 @@ input:-ms-input-placeholder {
     background-color: #666;
     border-color: #555;
   }
-}
-.btn-edit {
-  background-image: image-url("edit-white.svg");
-}
-.btn-create-opal {
-  background-image: image-url("add-user.svg");
-}
-.btn-logout {
-  background-image: image-url("logout.svg");
 }
 
 /** Tables */
@@ -166,59 +168,6 @@ fieldset {
   }
 }
 
-.layer {
-  display: none;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  z-index: 5; }
-
-.popin {
-  display: none;
-  top: 25%;
-  position: fixed;
-  background: #fff;
-  left: 50%;
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-  z-index: 6;
-  border-radius: 3px 3px 0 0; }
-  .popin .close {
-    position: absolute;
-    top: 18px;
-    right: 18px;
-    width: 20px;
-    height: 20px;
-    background: image-url("close.svg") 50% 50% no-repeat; }
-  .popin h2 {
-    background-color: #eef1f7;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-    font-size: 18px;
-    font-weight: bold;
-    color: #56869a;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-    padding: 15px 30px;
-    border-radius: 3px 3px 0 0; }
-  .popin .popin-content {
-    padding: 20px; }
-  .popin .btn {
-    background-image: image-url("validate.svg");
-    display: table;
-    margin: 30px auto 0;
-  }
-  .popin label {
-    display: inline-block;
-    width: 90%;
-    margin-left: 5px;
-    vertical-align: top; }
-  .popin input {
-    display: inline-block;
-    vertical-align: middle; }
-
-/** RIBBON **/
 #beta-ribbon:before {
   display: block;
   content: "Beta";
@@ -429,24 +378,6 @@ fieldset {
     font-weight: bold;
     margin-bottom: 1em;
   }
-  .notification {
-    padding-left: 25px;
-    .btn-notif {
-      display: inline-block;
-      border-radius: 34px;
-      background-color: #5ab0ee;
-      font-size: 12px;
-      font-weight: 600;
-      color: #fff;
-      text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
-      padding: 5px 16px 4px;
-      margin: 15px 3px;
-    }
-    .bacon {
-      font-size: 13px;
-      padding: 10px 5px 15px;
-    }
-  }
 }
 
 .main-content {
@@ -513,9 +444,6 @@ fieldset {
   .btn {
     float: right;
     margin: 10px 0 0 30px;
-  }
-  .btn-message {
-    background-image: image-url("message.svg");
   }
   h4 {
     font-weight: 600;
@@ -785,33 +713,12 @@ fieldset {
             outline: none; }
           .page-projet .col-right .content-projet .block.projet-ope .file-input:hover {
             cursor: pointer; }
-        .page-projet .col-right .content-projet .block.projet-ope .btn-save {
-          display: block;
-          float: none;
-          margin: 50px auto 15px;
-          background-image: image-url("save.svg");
-          background-position: 12px 50%;
-        }
         .page-projet .col-right .content-projet .block .ctr-ope {
           margin-bottom: 20px; }
           .page-projet .col-right .content-projet .block .ctr-ope li {
             padding: 5px 0; }
             .page-projet .col-right .content-projet .block .ctr-ope li span {
               color: #5ab0ee; }
-        .page-projet .col-right .content-projet .block .pen {
-          background-image: image-url("pen.svg"); }
-        .page-projet .col-right .content-projet .block .content-block .proposal,
-        .page-projet .col-right .content-projet .block .content-block .validate {
-          background-image: image-url("file.svg");
-          display: block;
-          margin: 20px auto;
-          width: 220px;
-          float: none;
-          padding: 10px 15px 10px 37px; }
-        .page-projet .col-right .content-projet .block .content-block .validate {
-          background-image: image-url("validate.svg");
-          width: 130px;
-          margin: 20px auto 0; }
         .page-projet .col-right .content-projet .block .incomplet {
           display: block;
           color: #e7235a;
@@ -850,9 +757,6 @@ fieldset {
     text-align: right;
     display: block;
     margin-top: 50px;
-  }
-  .btn {
-    background-image: image-url("pen.svg");
   }
 }
 .recap-projet .invoice {

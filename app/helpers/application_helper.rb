@@ -7,6 +7,36 @@ module ApplicationHelper
     APP_NAME
   end
 
+  # Samples:
+  #   = btn name: 'A button'
+  #   = btn name: 'A link', href: '#'
+  #   = btn name: 'A button with stuff', class: 'btn-large', icon: 'ok'
+  #
+  # Arguments should be an hash:
+  # * name: mandatory, text to render
+  # * tag: optional, default to `button`, `a` if `href` is present
+  # * href: optional, URL to link to, if present change default `tag` to `a`
+  # * class: optional, CSS classes to append
+  # * icon: optional, glyphicon to use (without prefix), cf http://getbootstrap.com/components/#glyphicons-glyphs
+  def btn(opts = {})
+    p = {}
+    p[:class] = ['btn']
+    p[:class] += opts[:class].split if opts[:class].present?
+    p[:class] << 'btn-icon' if opts[:icon].present?
+    p[:class] = p[:class].flatten
+    p[:href] = opts[:href] if opts[:href].present?
+    opts[:tag] ||= :a if opts[:href].present?
+    capture do
+      content_tag (opts[:tag] || :button), p do
+        if opts[:icon].present?
+          content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}") + opts[:name]
+        else
+          opts[:name]
+        end
+      end
+    end
+  end
+
   def company_name
     COMPANY_NAME
   end

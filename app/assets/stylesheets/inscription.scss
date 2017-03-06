@@ -122,44 +122,6 @@
       padding: 5px 0;
     }
   }
-  .erreur {
-    border: 1px solid #e7235a;
-    width: 70%;
-    margin: 30px auto 0;
-    padding: 20px;
-    p {
-      background: image-url("erreur.svg") 0 0 no-repeat;
-      font-weight: 600;
-      color: #e7235a;
-      padding: 5px 0 5px 35px;
-    }
-    ul {
-      margin: 10px 40px 0;
-    }
-    li {
-      list-style: disc outside;
-      padding: 2px 0;
-      line-height: 20px;
-      color: #e7235a;
-    }
-  }
-  .validate {
-    display: inline-block;
-    position: relative;
-    left: 50%;
-    margin: 30px auto;
-    -ms-transform: translateX(-50%);
-    transform: translateX(-50%);
-    background-color: #5ab0ee;
-    font-size: 16px;
-    padding: 16px 20px 16px 45px;
-    border: 1px solid #1580cd;
-    background-image: image-url("validate.svg");
-    background-position: 15px 50%;
-    &:hover {
-      background-color: #43a5ec;
-    }
-  }
 }
 
 .dem-contact-wrapper {
@@ -191,21 +153,6 @@
     padding: 10px 0 15px 6%;
     background: #eef1f7;
   }
-  .popin-form {
-    .ins-form li.checkbox {
-      width: 100%;
-      label {
-        width: 90%;
-        vertical-align: top;
-        padding-top: 0;
-      }
-    }
-    .btn {
-      display: table;
-      margin: 0 auto;
-    }
-  }
-
   .occupants .occupants-heading {
     border-bottom: 1px solid white;
   }
@@ -244,12 +191,6 @@
         font-size: 14px;
         width: 50px;
         text-align: center;
-      }
-      .btn {
-        background-image: image-url("delete.svg");
-        position: static;
-        font-size: 12px;
-        padding: 4px 10px 4px 30px;
       }
     }
   }

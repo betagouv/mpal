@@ -14,9 +14,7 @@ header.project-header.clearfix
         p.nom-agent
           span.firstname= current_agent.prenom
           span.lastname<= current_agent.nom
-        = link_to t('sessions.lien_deconnexion'), destroy_agent_session_path, class: 'btn btn-secondary btn-logout'
+        = btn name: t('sessions.lien_deconnexion'), href: destroy_agent_session_path, class: 'btn-secondary', icon: 'off'
       - else
-        = link_to t('sessions.lien_deconnexion'), deconnexion_path, class: 'btn btn-secondary btn-logout'
-  /section.notification
-    hr/
+        = btn name: t('sessions.lien_deconnexion'), href: deconnexion_path, class: 'btn-secondary', icon: 'off'
 
