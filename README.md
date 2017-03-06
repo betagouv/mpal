@@ -34,14 +34,12 @@ Pré-requis : ce projet nécessite un serveur PostgreSQL et un serveur Redis lan
 ## Configurer l’environnement
 
 ```shell
-# Création des fichiers de configuration
-cp .env.sample .env
-cp config/database.yml.sample config/database.yml
 # Création de l'utilisateur de la base de données
 # (mot de passe : `mpal`)
 createuser --superuser --createdb mpal
-# Création de la base de données
-rake db:setup
+# Initialisation des dépendances et de la base de données
+make install
+# Remplissage des données initiales
 rake db:seed
 ```
 
