@@ -47,7 +47,7 @@ make install
 ## Lancer le projet
 
 ```shell
-foreman start
+foreman start -f Procfile.dev
 ```
 
 ## Lancer les tests
