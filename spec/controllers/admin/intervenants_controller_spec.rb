@@ -86,7 +86,7 @@ describe Admin::IntervenantsController do
       end
     end
 
-    context "avec des intervenants qui existent déjà" do
+    context "avec des intervenants dont la raison sociale existe déjà" do
       before do
         create :operateur, raison_sociale: 'Opérateur1', email: 'previous-email@operateur1.fr'
       end
@@ -99,6 +99,40 @@ describe Admin::IntervenantsController do
         operateur1.reload
         expect(operateur1).not_to be_nil
         expect(operateur1.email).to eq 'contact@operateur1.fr'
+      end
+
+      describe "la raison sociale n'est pas sensible à la casse" do
+        let(:data) do [{
+            raison_sociale: 'opérateur1',
+            email:          'contact@operateur1.fr',
+          }]
+        end
+
+        it do
+          expect(operateur1).not_to be_nil
+          expect(operateur1.email).to eq 'previous-email@operateur1.fr'
+
+          post :import, { csv_file: uploaded_csv(data) }
+          operateur1.reload
+          expect(operateur1.email).to eq 'contact@operateur1.fr'
+        end
+      end
+
+      describe "la raison sociale n'est pas sensible aux espaces en début ou en fin de chaîne" do
+        let(:data) do [{
+            raison_sociale: ' Opérateur1 ',
+            email:          'contact@operateur1.fr',
+          }]
+        end
+
+        it do
+          expect(operateur1).not_to be_nil
+          expect(operateur1.email).to eq 'previous-email@operateur1.fr'
+
+          post :import, { csv_file: uploaded_csv(data) }
+          operateur1.reload
+          expect(operateur1.email).to eq 'contact@operateur1.fr'
+        end
       end
 
       it "crée les intervenants qui n'existent pas" do
