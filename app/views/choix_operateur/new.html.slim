@@ -25,7 +25,7 @@
               label for="operateur_id_#{operateur.id}"
                 h3= operateur.raison_sociale
                 p= operateur.adresse_postale
-                div.btn= t('projets.visualisation.invitation_intervenant')
+                = btn tag: :div, name: t('projets.visualisation.invitation_intervenant')
         - else
           p.chapo
             strong Le Point Rénovation Info-Service de votre département n’a pas encore recommandé d’opérateurs pour vous accompagner dans votre démarche.
@@ -39,8 +39,8 @@
                 label for="operateur_id_#{operateur.id}"
                   h3= operateur.raison_sociale
                   p= operateur.adresse_postale
-                  div.btn= t('projets.visualisation.invitation_intervenant')
+                  = btn tag: :a, name: t('projets.visualisation.invitation_intervenant')
           hr/
         = render 'demarrage_projet/etape3_disponibilite_form'
-        = f.submit @action_label, class: 'validate btn'
+        = btn name: @action_label, class: 'btn-large btn-centered', icon: 'ok'
     </div><!-- Workaround for allowing slim to honor the scope of the submit tag -->

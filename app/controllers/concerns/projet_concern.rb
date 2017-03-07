@@ -14,8 +14,8 @@ module ProjetConcern
       if @projet_courant.prospect?
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), alert: t('sessions.access_forbidden')
       end
-      if !@projet_courant.agent && current_agent
-        if @projet_courant.update_attribute(:agent, current_agent)
+      if !@projet_courant.agent_operateur && current_agent
+        if @projet_courant.update_attribute(:agent_operateur, current_agent)
           flash[:notice] = t('projets.visualisation.projet_affecte')
         end
       end

@@ -1,0 +1,26 @@
+.table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1em;
+  border: 1px solid #ddd;
+  th, td {
+    padding: 3px;
+    vertical-align: top;
+    border: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  thead {
+    th, td {
+      padding: 3px 5px;
+      vertical-align: bottom;
+      border-bottom: 2px solid #ddd;
+      text-align: left;
+    }
+  }
+  tbody tr:nth-of-type(odd) {
+    background-color: #eee;
+  }
+}
+

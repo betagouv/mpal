@@ -1,29 +1,20 @@
-class ProjetConstructeur
-
-  def initialize(service, service_adresse)
-    @service = service
-    @service_adresse = service_adresse
+class ProjetInitializer
+  def initialize(service_particulier = nil, service_adresse = nil)
+    @service_particulier = service_particulier || ApiParticulier.new
+    @service_adresse = service_adresse || ApiBan.new
   end
 
-  def initialise_projet(numero_fiscal, reference_avis)
+  def initialize_projet(numero_fiscal, reference_avis)
     projet = Projet.new
 
-
-    contribuable = @service.retrouve_contribuable(numero_fiscal, reference_avis)
+    contribuable = @service_particulier.retrouve_contribuable(numero_fiscal, reference_avis)
 
     projet.reference_avis = reference_avis
     projet.numero_fiscal = numero_fiscal
 
     projet.nb_occupants_a_charge = contribuable.nombre_personnes_charge
 
-    adresse = @service_adresse.precise(contribuable.adresse)
-    projet.longitude = adresse[:longitude]
-    projet.latitude = adresse[:latitude]
-    projet.departement = adresse[:departement]
-    projet.adresse_ligne1 = adresse[:adresse_ligne1]
-    projet.code_insee = adresse[:code_insee]
-    projet.code_postal = adresse[:code_postal]
-    projet.ville = adresse[:ville]
+    precise_adresse(projet, contribuable.adresse)
 
     contribuable.declarants.each do |declarant|
       projet.occupants.build(
@@ -43,4 +34,17 @@ class ProjetConstructeur
     projet
   end
 
+  def precise_adresse(projet, adresse)
+    adresse = @service_adresse.precise(adresse)
+    if adresse.present?
+      projet.longitude = adresse[:longitude]
+      projet.latitude = adresse[:latitude]
+      projet.departement = adresse[:departement]
+      projet.adresse_ligne1 = adresse[:adresse_ligne1]
+      projet.code_insee = adresse[:code_insee]
+      projet.code_postal = adresse[:code_postal]
+      projet.ville = adresse[:ville]
+    end
+    adresse
+  end
 end

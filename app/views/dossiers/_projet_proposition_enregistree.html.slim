@@ -1,4 +1,4 @@
 - content_for :cta do
   - if current_agent.operateur?
-    = link_to "Proposer le projet au demandeur", dossier_proposer_path(@projet_courant), class: "btn proposal"
+    = btn name: "Proposer le projet au demandeur", href: dossier_proposer_path(@projet_courant), class: 'proposal'
 = render 'projets/projet_proposition'

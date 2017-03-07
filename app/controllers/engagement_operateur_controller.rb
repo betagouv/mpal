@@ -4,6 +4,7 @@ class EngagementOperateurController < ApplicationController
   before_action :dossier_ou_projet
   before_action :assert_projet_courant
   before_action :authentifie
+  before_action :init_view
 
   def new
     @operateur = Intervenant.find(params[:operateur_id])
@@ -20,4 +21,10 @@ class EngagementOperateurController < ApplicationController
       redirect_to projet_path(@projet_courant), alert: t('projets.intervenants.messages.erreur_choix_intervenant')
     end
   end
+
+private
+  def init_view
+    @page_heading = 'Inscription'
+  end
 end
+

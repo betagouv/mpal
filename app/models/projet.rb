@@ -10,7 +10,8 @@ class Projet < ActiveRecord::Base
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
   belongs_to :operateur, class_name: 'Intervenant'
-  belongs_to :agent
+  belongs_to :agent_operateur, class_name: "Agent"
+  belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
   has_many :occupants, -> { order "id" }, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
@@ -26,7 +27,8 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :prestations, join_table: 'projet_prestations'
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
 
-  validates :numero_fiscal, :reference_avis, :adresse_ligne1, presence: true
+  validates :numero_fiscal, :reference_avis, presence: true
+  validates :adresse_ligne1, presence: true, on: :update
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
 
   localized_numeric_setter :montant_travaux_ht
@@ -75,6 +77,10 @@ class Projet < ActiveRecord::Base
 
   def intervenants_disponibles(role: nil)
     Intervenant.pour_departement(departement).pour_role(role)
+  end
+
+  def invited_instructeur
+    intervenants.pour_role(:instructeur).first
   end
 
   def invited_operateur
@@ -201,7 +207,9 @@ class Projet < ActiveRecord::Base
   end
 
   def adresse
-    "#{adresse_ligne1}, #{code_postal} #{ville}"
+    if adresse_ligne1.present?
+      "#{adresse_ligne1}, #{code_postal} #{ville}"
+    end
   end
 
   def nom_occupants

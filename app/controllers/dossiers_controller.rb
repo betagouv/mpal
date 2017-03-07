@@ -7,7 +7,7 @@ class DossiersController < ApplicationController
 
   def index
     @dossiers = Projet.for_agent(current_agent)
-    @page_heading = "Dossiers"
+    @page_heading = I18n.t('tableau_de_bord.titre_section')
   end
 
   def affecter_agent

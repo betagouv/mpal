@@ -22,7 +22,7 @@ private
 
     begin
       # Use ACSV to auto-detect the file encoding and column separator
-      @csv = ACSV::CSV.read(file.tempfile.path, headers: true)
+      @csv = ACSV::CSV.read(file.tempfile.path, headers: true, converters: ->(f) { f.try(:strip) })
     rescue => e
       raise "Le fichier CSV ne peut être lu (#{e.message})."
     end
@@ -37,7 +37,8 @@ private
   end
 
   def _create_or_update_intervenant!(row)
-    intervenant = Intervenant.find_or_create_by(raison_sociale: row['raison_sociale'])
+    raison_sociale = row['raison_sociale']
+    intervenant = Intervenant.where('lower(raison_sociale) = lower(?)', raison_sociale).first_or_create(raison_sociale: raison_sociale)
     intervenant.assign_attributes(row.to_hash)
     if row['roles']
       intervenant.roles = row['roles'].split(',').map(&:strip)

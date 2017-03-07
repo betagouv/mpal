@@ -33,9 +33,6 @@ $(document).ready(function() {
     // Open by defaut last block
     $(".block").last().children().addClass("is-open").slideDown(0);
 
-    // Layout
-    $(".col-left").css("min-height", $(window).height()-30);
-
     // Smouth scroll anchor
     $('a[href*="#"]:not([href="#"])').click(function() {
         if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
@@ -48,20 +45,6 @@ $(document).ready(function() {
                 return false;
             }
         }
-    });
-
-    // Popin confirm operator
-    $(".open-popin").click(function(){
-        var cible = $(this).attr("name");
-        $("html").css("overflow", "hidden");
-        $(".layer").fadeIn("fast");
-        $("#"+cible).fadeIn("fast");
-        return false;
-    });
-    $(".layer, .popin .close").click(function(){
-        $("html").attr("style", "");
-        $(".layer, .popin").fadeOut("fast");
-        return false;
     });
 
     // Input file custom
@@ -95,7 +78,7 @@ $(document).ready(function() {
     function updateSubmitButton() {
       var isChecked = $(".engagement").prop("checked");
       console.log("checked: ", isChecked);
-      var submit_btn = $('input[type="submit"]');
+      var submit_btn = $('button');
       if (isChecked) {
         submit_btn.removeProp('disabled');
       } else {

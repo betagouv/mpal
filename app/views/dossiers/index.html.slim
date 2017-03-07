@@ -1,24 +1,48 @@
 .main-content-block.dashboard-dossiers
-  h2.heading= t('tableau_de_bord.titre_section')
   - if @dossiers.blank?
     p Aucun dossier.
   - else
     table.table
       thead
         tr
-          th État
+          th
+            abbr title="Identifiant plateforme" ID PF
+          th
+            abbr title="Identifiant OPAL" ID OPAL
           th Demandeur
-          th Adresse
-          th Intervenant(s)
-          th Numéro dossier Opal
+          th Région
+          th
+            abbr title="Département" Dép.
+          th Ville
+          th Instructeur
+          th Thèmes
+          th Opérateur
+          th État
+          th Depuis
       tbody
         - @dossiers.each do |projet|
           tr id="projet_#{projet.id}"
-            td= t(projet.statut, scope: "projets.statut")
+            td= projet.numero_plateforme
+            td= projet.opal_numero
             td
               = link_to dossier_path(projet)
                 span.firstname= projet.demandeur_principal.prenom
                 span.lastname<= projet.demandeur_principal.nom
-            td= projet.adresse
-            td= affiche_intervenants(projet)
-            td= projet.opal_numero
+            td
+            td= projet.departement
+            td= projet.ville
+            td
+              = projet.invited_instructeur.raison_sociale rescue ''
+              - if projet.agent_instructeur
+                br/
+                span.firstname= projet.agent_instructeur.prenom
+                span.lastname<= projet.agent_instructeur.nom
+            td
+            td
+              = projet.invited_operateur.raison_sociale rescue ''
+              - if projet.agent_operateur
+                br/
+                span.firstname= projet.agent_operateur.prenom
+                span.lastname<= projet.agent_operateur.nom
+            td= t(projet.statut, scope: "projets.statut")
+            td= format_date projet.updated_at

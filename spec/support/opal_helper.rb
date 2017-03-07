@@ -2,7 +2,7 @@ require 'dotenv'
 RSpec.configure do |config|
   config.before(:each) do
     FakeWeb.register_uri(
-      :post,  %r|#{ENV['OPAL_API_BASE_URI']}sio/json/createDossier|,
+      :post, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/createDossier|,
       content_type: 'application/json',
       body: JSON.generate({
         "dosNumero": "09500840",
@@ -12,3 +12,4 @@ RSpec.configure do |config|
     )
   end
 end
+

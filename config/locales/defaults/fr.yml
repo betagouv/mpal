@@ -88,6 +88,9 @@ fr:
     action: "Suivant"
     # ----------------------- Etape 1 ---------------------
     etape1_demarrage_projet:
+      erreurs:
+        adresse_vide: "Votre adresse doit être renseignée"
+        adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
       erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
       section_demandeur: "Demandeur"
       section_occupants: "Occupants"
@@ -353,7 +356,7 @@ fr:
   reinitialisation:
     succes: 'Réinitialisation effectuée'
   tableau_de_bord:
-    titre_section: 'Mon tableau de bord'
+    titre_section: 'Tableau de bord'
   engagement_operateur:
     nouveau:
       explication_html: "<b>Choisir un intervenant vous engage</b><p>L’opérateur est chargé de vous conseiller tout au long de la démarche. Il vous accompagne danss l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.</p><p>Lorsqu’une subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de la subvention.</p><p>Cette prestation payante peut être totalement ou opartiellement couverte par le complément de subvention qui complète la subvention pour travaux"

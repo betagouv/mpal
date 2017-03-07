@@ -8,6 +8,7 @@ class Opal
     if response.code == 201
       ajoute_id_opal(projet, response.body)
       met_a_jour_statut(projet)
+      projet.agent_instructeur = agent_instructeur
       projet.save
     else
       puts "ERREUR: #{response}"

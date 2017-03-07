@@ -1,44 +1,7 @@
 section.content-projet
   = render "projets/messagerie"
-  article.block.occupants
-    h3 Détails des occupants
-    - if demandeur? || current_agent.operateur?
-      = link_to t('projets.visualisation.lien_edition'), etape1_recuperation_infos_demarrage_projet_path(@projet_courant), class: 'edit'
-    .occupants-recap
-      ul
-        li
-          | Nombre d’occupants :
-          span= " #{@projet_courant.nb_total_occupants}"
-        li
-          | Total Revenu Fiscal de Référence #{annee_fiscale_reference} :
-          span= " #{revenu_fiscal_reference_total} €"
-    .content-block
-      h4 Demandeur :
-      p
-        strong
-          span.firstname= @projet_courant.demandeur_principal.prenom
-          span.lastname<= @projet_courant.demandeur_principal.nom
-        - if @projet_courant.adresse.present?
-          br/
-          = @projet_courant.adresse
-        - if @projet_courant.tel.present?
-          br/
-          = @projet_courant.tel
-        - if @projet_courant.email.present?
-          br/
-          = @projet_courant.email
-      h4 Occupants :
-      table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
-        tbody
-          tr
-            th scope="col"  Occupants
-            th scope="col"  Année de naissance
-          - @projet_courant.occupants.each do |occupant|
-            tr
-              td
-                span.firstname= occupant.prenom
-                span.lastname<= occupant.nom
-              td= occupant.date_de_naissance.year
+  = render "projets/occupants"
   = render "projet_envisage"
   - if @projet_courant.statut != "prospect"
     = render "projet_#{@projet_courant.statut}"
+

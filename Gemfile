@@ -33,7 +33,6 @@ gem 'simple_form'
 gem 'slim'
 gem 'select2-rails'
 gem 'tether-rails'
-gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate'
 

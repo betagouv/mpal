@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'support/api_ban_helper'
 
 class MonServiceContribuable
   attr_reader :adresse, :declarants, :annee_impots, :nombre_personnes_charge
@@ -30,7 +29,7 @@ class MonServiceAdresse
   end
 end
 
-describe ProjetConstructeur do
+describe ProjetInitializer do
   it "renvoie un projet qui contient l'adresse" do
     adresse_ligne1 = "12 rue de la Mare"
     code_postal = "75010"
@@ -42,9 +41,9 @@ describe ProjetConstructeur do
     nombre_personnes_charge = 3
     mon_service_contribuable = MonServiceContribuable.new(adresse: adresse, declarants: declarants, annee_impots: annee_impots, nombre_personnes_charge: nombre_personnes_charge)
     mon_service_adresse = MonServiceAdresse.new(adresse_ligne1: adresse_ligne1, code_postal: code_postal, ville: ville, latitude: '46', longitude: '6', departement: '92')
-    constructeur = ProjetConstructeur.new(mon_service_contribuable, mon_service_adresse)
+    projet_initializer = ProjetInitializer.new(mon_service_contribuable, mon_service_adresse)
 
-    projet = constructeur.initialise_projet(12, 15)
+    projet = projet_initializer.initialize_projet(12, 15)
     projet.save
 
     expect(projet.adresse).to eq(adresse)

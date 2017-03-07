@@ -7,7 +7,7 @@ feature "Identification :" do
   context "en tant que demandeur" do
     scenario "je démarre un nouveau projet" do
       signin_for_new_projet
-      expect(page).to have_current_path etape1_recuperation_infos_demarrage_projet_path(Projet.last)
+      expect(page).to have_current_path etape1_recuperation_infos_path(Projet.last)
     end
   end
 end
@@ -38,7 +38,7 @@ feature "Réinitialisation de la session :" do
   end
 
   context "en tant qu'intervenant" do
-    scenario "j'ai une notification de deconnexion" do
+    scenario "j'ai une notification de déconnexion" do
       visit agents_signed_out_path
       expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion_clavis'))
     end

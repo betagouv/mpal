@@ -1,5 +1,6 @@
 /! Demandeur
-= form_for @projet_courant, url: { controller: 'demarrage_projet', action: 'etape1_envoi_infos' }, method: 'post', html: { class: 'form' }  do |f|
+= form_for @projet_courant, url: { controller: 'demarrage_projet', action: 'etape1_recuperation_infos' }, method: 'post', html: { class: 'form' }  do |f|
+  = render 'shared/errors', resource: @projet_courant
   section.demandeur
     h2.header-blk= t('demarrage_projet.etape1_demarrage_projet.section_demandeur')
     p.chapo= t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
@@ -19,7 +20,7 @@
         = f.text_field :demandeur_principal_nom, disabled: true, class: 'disabled'
       li.full
         = f.label :adresse
-        = f.text_field :adresse, disabled: true
+        = f.text_field :adresse
       li.full
         label for="dem-address-diff"  Adresse du logement à rénover si différente :
         input#dem-address-diff type="text" /
@@ -67,8 +68,8 @@
   section.occupants
     h2.occupants-heading
       = t('demarrage_projet.etape1_demarrage_projet.section_occupants')
-      /TODO a.btn href="#"
-        = t('demarrage_projet.etape1_demarrage_projet.ajouter_occupant')
+      /TODO
+        = btn name: t('demarrage_projet.etape1_demarrage_projet.ajouter_occupant'), href: '#'
 
     .occupants-recap
       ul
@@ -101,9 +102,9 @@
             td
               /TODO input type="text" /
             /TODO td
-              a.btn href="#"  = t('demarrage_projet.etape1_demarrage_projet.occupants_supprimer')
+              = btn name: t('demarrage_projet.etape1_demarrage_projet.occupants_supprimer'), href: '#'
     .checkbox-validation
       input#dif1 type="checkbox" class="engagement"
       label for="dif1" = t('agrements.attestation_communiquer_infos_occupants')
 
-  = submit_tag @action_label, class: 'validate btn'
+  = btn name: @action_label, class: 'btn-large btn-centered', icon: 'ok'

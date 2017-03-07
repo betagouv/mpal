@@ -1,20 +1,12 @@
+- content_for :header do
+  = render 'shared/header'
 - content_for :content do
   .page-projet.clearfix
-    aside.col-left
-      - logo_path = current_agent ? dossiers_path : root_path
-      = link_to logo_path, class: "logo-link" do
-        = image_tag "logo-anah-w.png", alt: "Agence Nationale de l’Habitat - Anah", title: "Agence Nationale de l’Habitat - Anah", class: "logo"
-      - if current_agent
-        section.agent-connecte
-          p.nom-agent
-            span.firstname= current_agent.prenom
-            span.lastname<= current_agent.nom
-          - if current_agent.intervenant
-            p.nom-intervenant= current_agent.intervenant.raison_sociale
-          - else
-            p.nom-intervenant-error.alert.alert-danger
-              | Votre compte rencontre une erreur. Merci de contacter le #{link_to "support Anah", "mailto:#{ENV['EMAIL_CONTACT']}"}.
-      - if @projet_courant
+    - if @projet_courant
+      aside.col.col-left
+        - if current_agent
+          section
+            = link_to t('tableau_de_bord.titre_section'), dossiers_path
         section.personal-information
           h2
             span.firstname= @projet_courant.demandeur_principal.prenom
@@ -31,26 +23,18 @@
               li= "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"
         - if current_agent
           section.affectation
-            - if (agent = @projet_courant.agent)
+            - if (agent_operateur = @projet_courant.agent_operateur)
               p
                 | Dossier affecté à
-                span.firstname<= agent.prenom
-                span.lastname<= agent.nom
+                span.firstname<= agent_operateur.prenom
+                span.lastname<= agent_operateur.nom
             - else
               p Ce dossier n'est pas encore affecté.
             - if @projet_courant.opal_numero.present?
               p Numéro OPAL : #{link_to @projet_courant.opal_numero, dossier_opal_url(@projet_courant.opal_numero), target: '_blank'}
-    .col-right
-      header.project-header
-        section.top-bar.clearfix
-          h1.heading= @page_heading || "Bonjour"
-          - if current_agent
-            = link_to t('sessions.lien_deconnexion'), destroy_agent_session_path, class: 'btn btn-logout'
-          - else
-            = link_to t('sessions.lien_deconnexion'), deconnexion_path, class: 'btn btn-logout'
-        /section.notification
-          hr/
+    .col.col-right
       section.main-content
         = render 'shared/messages'
         = yield
 = render template: "layouts/application"
+
