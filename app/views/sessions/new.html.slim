@@ -50,22 +50,4 @@
         = t('sessions.authentification_clavis', clavis: link_to('Clavis', new_agent_session_path)).html_safe
 
   - if Tools.demo?
-    section.exemples
-      h3 Jeu de données disponibles pour la version de démonstration, pour simuler :
-      ul
-        li
-          | un demandeur habitant dans les Vosges :
-          strong  88 / 1588
-        li
-          | un demandeur habitant dans le Val d’Oise :
-          strong  95 / 1595
-        li
-          | un autre demandeur habitant dans le Val d’Oise :
-          strong  952 / 15952
-        li
-          | un demandeur habitant dans le Doubs :
-          strong  25 / 1525
-      p Pour accéder à la plate-forme en tant qu’opérateur, il est indispensable sur cette version béta de cliquer sur le lien reçu par email :
-      p= btn name: t('accueil.lire_les_emails'), href: letter_opener_web_url, class: 'btn-test', icon: 'envelope'
-      p Si les emails n’apparaissent pas, cliquez sur "Refresh" pour mettre à jour la page.
-      p= btn name: t('accueil.reinitialiser'), href: reset_path, class: 'btn-test', icon: 'remove'
+    = render 'demo'
