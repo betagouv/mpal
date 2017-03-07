@@ -70,6 +70,27 @@ module Fakeweb
         })
       )
     end
+
+    def self.register_all_unavailable
+      FakeWeb.clean_registry
+      FakeWeb.register_uri(
+        :get, %r|http://#{ENV['API_BAN_DOMAIN']}|,
+        content_type: 'application/json',
+        status: ['503', 'Service Unavailable'],
+        body: nil
+      )
+    end
+
+    def self.register_all_unknown
+      FakeWeb.clean_registry
+      FakeWeb.register_uri(
+        :get, %r|http://#{ENV['API_BAN_DOMAIN']}|,
+        content_type: 'application/json',
+        body: JSON.generate({
+          "features": []
+        })
+      )
+    end
   end
 end
 

@@ -27,7 +27,8 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :prestations, join_table: 'projet_prestations'
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
 
-  validates :numero_fiscal, :reference_avis, :adresse_ligne1, presence: true
+  validates :numero_fiscal, :reference_avis, presence: true
+  validates :adresse_ligne1, presence: true, on: :update
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
 
   localized_numeric_setter :montant_travaux_ht
@@ -206,7 +207,9 @@ class Projet < ActiveRecord::Base
   end
 
   def adresse
-    "#{adresse_ligne1}, #{code_postal} #{ville}"
+    if adresse_ligne1.present?
+      "#{adresse_ligne1}, #{code_postal} #{ville}"
+    end
   end
 
   def nom_occupants
