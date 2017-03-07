@@ -116,11 +116,6 @@ private
   end
 
   def etape1_save
-    @projet_courant.assign_attributes(projet_contacts_params)
-    if ! @projet_courant.valid?
-      return false
-    end
-
     if params[:projet][:adresse].blank?
       flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
       return false
