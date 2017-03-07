@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/mpal_features_helper'
+require 'support/api_ban_helper'
 
 feature "En tant que demandeur, j'ai accès aux données concernant mon projet" do
   let(:projet) { create(:projet, :prospect, :with_invited_operateur) }
@@ -11,25 +12,18 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
     expect(page).to have_content("Total Revenu Fiscal de Référence")
   end
 
-  scenario "je peux modifier mes données personnelles et celles des occupants du logement" do
+  scenario "je peux modifier mes données personnelles" do
     signin(projet.numero_fiscal, projet.reference_avis)
     within 'article.occupants' do
       click_link I18n.t('projets.visualisation.lien_edition')
     end
     expect(find('#demandeur_principal_civilite_mr')).to be_checked
+    fill_in :projet_adresse, with: Fakeweb::ApiBan::ADDRESS_ROME
     fill_in :projet_tel, with: '01 10 20 30 40'
     click_button I18n.t('projets.edition.action')
     expect(page).to have_content('01 10 20 30 40')
-    # TODO: tester les autres données personnelles
-    # TODO: tester la mise à jour des occupants
-  end
-
-  scenario "je peux modifier mon adresse" do
-    signin(projet.numero_fiscal, projet.reference_avis)
-    within 'article.occupants' do
-      click_link I18n.t('projets.visualisation.lien_edition')
-    end
-    # TODO
+    expect(page).to have_current_path projet_path(projet)
+    expect(page).to have_content Fakeweb::ApiBan::ADDRESS_ROME
   end
 
   scenario "je peux modifier les données concernant mon habitation et mon projet" do
