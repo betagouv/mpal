@@ -14,7 +14,7 @@ describe ApiParticulier do
       expect(contribuable.declarants[0][:nom]).to eq('Martin')
       expect(contribuable.annee_impots).to eq('2015')
       expect(contribuable.nombre_personnes_charge).to eq(2)
-      expect(contribuable.adresse).to eq('12 rue de la mare, 75010 Paris')
+      expect(contribuable.adresse).to eq('12 rue de la Mare, 75010 Paris')
       expect(contribuable.revenu_fiscal_reference).to eq(29880)
     end
 

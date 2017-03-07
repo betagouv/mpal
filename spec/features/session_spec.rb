@@ -7,7 +7,7 @@ feature "Identification :" do
   context "en tant que demandeur" do
     scenario "je démarre un nouveau projet" do
       signin_for_new_projet
-      expect(page).to have_current_path etape1_recuperation_infos_demarrage_projet_path(Projet.last)
+      expect(page).to have_current_path etape1_recuperation_infos_path(Projet.last)
     end
   end
 end

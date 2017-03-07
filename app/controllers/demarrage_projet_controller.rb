@@ -7,6 +7,11 @@ class DemarrageProjetController < ApplicationController
   before_action :init_view
 
   def etape1_recuperation_infos
+    if request.post?
+      success = etape1_save
+      return etape1_redirect_to_next_step if success
+    end
+
     @projet_courant.personne_de_confiance = Personne.new
     nb_occupants = @projet_courant.occupants.count
     @occupants_a_charge = []
@@ -15,16 +20,6 @@ class DemarrageProjetController < ApplicationController
     end
     @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
     @action_label = if needs_etape2? then action_label_create else action_label_update end
-  end
-
-  def etape1_envoi_infos
-    @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
-    if @projet_courant.update_attributes(projet_contacts_params)
-      @demandeur_principal.update_attributes(demandeur_principal_params)
-      etape1_redirect_to_next_step
-    else
-      render :etape1_recuperation_infos
-    end
   end
 
   def etape2_description_projet
@@ -84,8 +79,7 @@ private
         :tel,
         :email,
         :lien_avec_demandeur,
-        :civilite,
-        :disponibilite
+        :civilite
       ]
     )
   end
@@ -119,6 +113,40 @@ private
 
   def demande_params_valid?
     demande_params.values.include?('1')
+  end
+
+  def etape1_save
+    @projet_courant.assign_attributes(projet_contacts_params)
+    if ! @projet_courant.valid?
+      return false
+    end
+
+    if params[:projet][:adresse].blank?
+      flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
+      return false
+    end
+
+    if params[:projet][:adresse] != @projet_courant.adresse
+      adresse_found = ProjetInitializer.new.precise_adresse(@projet_courant, params[:projet][:adresse])
+      if !adresse_found
+        flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
+        return false
+      end
+    end
+
+    @projet_courant.assign_attributes(projet_contacts_params)
+    if ! @projet_courant.save
+      return false
+    end
+
+    demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
+    demandeur_principal.assign_attributes(demandeur_principal_params)
+    if ! demandeur_principal.save
+      flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
+      return false
+    end
+
+    true
   end
 
   def needs_etape2?

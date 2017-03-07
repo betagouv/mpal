@@ -25,13 +25,12 @@ class SessionsController < ApplicationController
   end
 
   def create_projet_and_redirect
-    constructeur = ProjetConstructeur.new(ApiParticulier.new, ApiBan.new)
-    projet = constructeur.initialise_projet(param_numero_fiscal, param_reference_avis)
+    projet = ProjetInitializer.new.initialize_projet(param_numero_fiscal, param_reference_avis)
     if projet.save
       EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')
       flash[:notice_titre] = t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname)
-      redirect_to etape1_recuperation_infos_demarrage_projet_path(projet), notice: notice
+      redirect_to etape1_recuperation_infos_path(projet), notice: notice
     else
       redirect_to new_session_path, alert: t('sessions.erreurs.creation_projet')
     end

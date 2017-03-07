@@ -8,10 +8,11 @@ describe Projet do
     it { expect(projet).to be_valid }
     it { is_expected.to validate_presence_of :numero_fiscal }
     it { is_expected.to validate_presence_of :reference_avis }
-    it { is_expected.to validate_presence_of :adresse_ligne1 }
+    it { is_expected.not_to validate_presence_of(:adresse_ligne1).on(:create) }
+    it { is_expected.to     validate_presence_of(:adresse_ligne1).on(:update) }
+    it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
-    it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
     it { is_expected.to belong_to :operateur }
     it { is_expected.to have_and_belong_to_many :prestations }
     it { is_expected.to belong_to :agent_operateur }
@@ -121,6 +122,17 @@ describe Projet do
   describe "#numero_plateforme" do
     let(:projet) { build :projet, id: 42, plateforme_id: 1234 }
     it { expect(projet.numero_plateforme).to eq("42_1234") }
+  end
+
+  describe "#adresse" do
+    context "avec une adresse" do
+      let(:projet) do build :projet, adresse_ligne1: "12 rue de la Mare", code_postal: "75 010", ville: "Paris" end
+      it { expect(projet.adresse).to eq("12 rue de la Mare, 75 010 Paris") }
+    end
+    context "sans adresse" do
+      let(:projet) do build :projet, adresse_ligne1: nil, code_postal: nil, ville: nil end
+      it { expect(projet.adresse).to be nil }
+    end
   end
 
   describe "#suggest_operateurs!" do
