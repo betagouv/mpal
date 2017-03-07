@@ -101,10 +101,13 @@ input:-ms-input-placeholder {
     top: 12px;
     left: 22px;
   }
+  &.btn-icon {
+    padding-left: 60px;
+    padding-right: 25px;
+  }
 }
 .btn-centered {
   display: block;
-  width: 200px;
   margin: 15px auto 0;
 }
 .btn-test {

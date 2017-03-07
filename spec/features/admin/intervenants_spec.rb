@@ -16,8 +16,6 @@ feature "Administration des intervenants" do
   end
 
   scenario "je peux importer des opérateurs contenus dans un fichier CSV" do
-    #NOTE: création de l’admin en cours, voir si on porte ou on enlève cette feature
-    pending
     visit admin_intervenants_path
     attach_file :csv_file, Rails.root + "spec/fixtures/Import intervenants.csv"
     click_button I18n.t('admin.intervenants.importer_fichier')
