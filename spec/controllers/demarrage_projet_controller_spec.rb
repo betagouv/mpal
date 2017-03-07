@@ -81,7 +81,7 @@ describe DemarrageProjetController do
 
     context "lorsque l'adresse change" do
       context "et est disponible dans la BAN" do
-        let(:projet_params) do { adresse: FAKEWEB_API_BAN_ADDRESS_ROME } end
+        let(:projet_params) do { adresse: Fakeweb::ApiBan::ADDRESS_ROME } end
 
         it "enregistre l'adresse précisée", focus: true do
           expect(projet.adresse_ligne1).to eq "65 rue de Rome"
@@ -91,12 +91,12 @@ describe DemarrageProjetController do
           expect(projet.departement).to    eq "75"
           expect(projet.latitude).to       be_within(0.1).of 57.9
           expect(projet.longitude).to      be_within(0.1).of 5.8
-          expect(projet.adresse).to        eq FAKEWEB_API_BAN_ADDRESS_ROME
+          expect(projet.adresse).to        eq Fakeweb::ApiBan::ADDRESS_ROME
         end
       end
 
       context "et n'est pas disponible dans la BAN" do
-        let(:projet_params) do { adresse: FAKEWEB_API_BAN_ADDRESS_UNKNOWN } end
+        let(:projet_params) do { adresse: Fakeweb::ApiBan::ADDRESS_UNKNOWN } end
         it "affiche une erreur" do
           expect(response).to render_template(:etape1_recuperation_infos)
           expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')

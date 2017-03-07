@@ -50,7 +50,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "je peux modifier mon adresse" do
     signin_for_new_projet
-    fill_in :projet_adresse, with: FAKEWEB_API_BAN_ADDRESS_ROME
+    fill_in :projet_adresse, with: Fakeweb::ApiBan::ADDRESS_ROME
     click_button I18n.t('demarrage_projet.action')
 
     projet.reload
