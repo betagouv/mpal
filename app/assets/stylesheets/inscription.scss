@@ -224,6 +224,21 @@
   }
 }
 
+.popin-form {
+  .ins-form li.checkbox {
+    width: 100%;
+    label {
+      width: 90%;
+      vertical-align: top;
+      padding-top: 0;
+    }
+  }
+  .btn {
+    display: table;
+    margin: 0 auto;
+  }
+}
+
 .choose-operator {
   padding: 20px 30px;
   text-align: center;
