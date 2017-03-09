@@ -40,6 +40,9 @@ class DemarrageProjetController < ApplicationController
   def etape3_mise_en_relation
     @demande = projet_demande
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
+    if @pris_departement.blank?
+      raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
+    end
     @action_label = if needs_etape3? then action_label_create else action_label_update end
   end
 
