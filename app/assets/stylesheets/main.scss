@@ -252,6 +252,17 @@ fieldset {
     font-weight: bold;
     margin-bottom: 1em;
   }
+  .nom-intervenant-error {
+    color: #bf0000;
+    a {
+      color: #bf0000;
+      font-weight: bold;
+      text-decoration: underline;
+      &:hover {
+        color: #900;
+      }
+    }
+  }
 }
 
 .main-content {
