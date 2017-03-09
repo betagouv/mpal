@@ -60,7 +60,7 @@ describe DemarrageProjetController do
       end
     end
 
-    context "lorsque l'adresse est vide" do
+    context "lorsque l'adresse postale est vide" do
       let(:projet_params) do { adresse_postale: '' } end
 
       it "affiche une erreur" do
@@ -69,7 +69,7 @@ describe DemarrageProjetController do
       end
     end
 
-    context "lorsque l'adresse est identique" do
+    context "lorsque l'adresse postale n'a pas changée" do
       let!(:adresse_initiale) { projet.adresse_postale }
       let(:projet_params) do { adresse_postale: projet.adresse_postale.description } end
 
@@ -79,7 +79,7 @@ describe DemarrageProjetController do
       end
     end
 
-    context "lorsque l'adresse change" do
+    context "lorsque l'adresse postale est mise à jour" do
       context "et est disponible dans la BAN" do
         let(:projet_params) do { adresse_postale: Fakeweb::ApiBan::ADDRESS_ROME } end
 
@@ -102,6 +102,39 @@ describe DemarrageProjetController do
           expect(response).to render_template(:etape1_recuperation_infos)
           expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
         end
+      end
+    end
+
+    context "lorsque l'adresse à rénover est renseignée" do
+      let(:projet_params) do
+        {
+          adresse_postale:   Fakeweb::ApiBan::ADDRESS_MARE,
+          adresse_a_renover: Fakeweb::ApiBan::ADDRESS_ROME
+        }
+      end
+      it "enregistre l'adresse à rénover" do
+        expect(projet.adresse_a_renover).to be_present
+        expect(projet.adresse_a_renover.ligne_1).to     eq "65 rue de Rome"
+        expect(projet.adresse_a_renover.code_insee).to  eq "75008"
+        expect(projet.adresse_a_renover.code_postal).to eq "75008"
+        expect(projet.adresse_a_renover.ville).to       eq "Paris"
+        expect(projet.adresse_a_renover.departement).to eq "75"
+        expect(projet.adresse_a_renover.latitude).to    be_within(0.1).of 57.9
+        expect(projet.adresse_a_renover.longitude).to   be_within(0.1).of 5.8
+        expect(projet.adresse_a_renover.description).to eq Fakeweb::ApiBan::ADDRESS_ROME
+      end
+    end
+
+    context "lorsque l'adresse à rénover est supprimée" do
+      let(:projet) { create :projet, :prospect, adresse_a_renover: create(:adresse) }
+      let(:projet_params) do
+        {
+          adresse_postale:   Fakeweb::ApiBan::ADDRESS_MARE,
+          adresse_a_renover: nil
+        }
+      end
+      it "supprime l'adresse à rénover" do
+        expect(projet.adresse_a_renover).to be_nil
       end
     end
   end

@@ -127,14 +127,23 @@ describe Projet do
   end
 
   describe "#adresse" do
+    let(:projet) { build :projet, adresse_postale: adresse_postale, adresse_a_renover: adresse_a_renover }
+    context "sans adresse" do
+      let(:adresse_postale)   { nil }
+      let(:adresse_a_renover) { nil }
+      it { expect(projet.adresse).to be nil }
+    end
     context "avec une adresse postale" do
-      let(:adresse_postale) { build :adresse }
-      let(:projet) { build :projet, adresse_postale: adresse_postale }
+      let(:adresse_postale)   { build :adresse }
+      let(:adresse_a_renover) { nil }
       it { expect(projet.adresse).to eq adresse_postale }
     end
-    context "sans adresse postale" do
-      let(:projet) { build :projet, adresse_postale: nil }
-      it { expect(projet.adresse).to be nil }
+    context "avec une adresse postale et une adresse à rénover" do
+      let(:adresse_postale)   { build :adresse, :rue_de_la_mare }
+      let(:adresse_a_renover) { build :adresse, :rue_de_rome }
+      it "l'adresse utilisée est celle du logement à rénover" do
+        expect(projet.adresse).to eq adresse_a_renover
+      end
     end
   end
 
@@ -147,6 +156,15 @@ describe Projet do
     context "quand l'adresse est vide" do
       let(:projet) { build :projet, adresse_postale: nil }
       it { expect(projet.description_adresse).to be nil }
+    end
+  end
+
+  describe "#departement" do
+    let(:adresse_postale)   { build :adresse, :rue_de_la_mare }
+    let(:adresse_a_renover) { build :adresse, :rue_de_rome }
+    let(:projet) { build :projet, adresse_postale: adresse_postale, adresse_a_renover: adresse_a_renover }
+    it "renvoie le département du logement à rénover (ou de l'adresse postale le cas échéant" do
+      expect(projet.departement).to eq adresse_a_renover.departement
     end
   end
 

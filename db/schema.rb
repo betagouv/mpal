@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170309093830) do
+ActiveRecord::Schema.define(version: 20170309134222) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -297,8 +297,10 @@ ActiveRecord::Schema.define(version: 20170309093830) do
     t.integer  "agent_operateur_id"
     t.integer  "agent_instructeur_id"
     t.integer  "adresse_postale_id"
+    t.integer  "adresse_a_renover_id"
   end
 
+  add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
   add_index "projets", ["adresse_postale_id"], name: "index_projets_on_adresse_postale_id", using: :btree
   add_index "projets", ["agent_instructeur_id"], name: "index_projets_on_agent_instructeur_id", using: :btree
   add_index "projets", ["agent_operateur_id"], name: "index_projets_on_agent_operateur_id", using: :btree
@@ -338,6 +340,7 @@ ActiveRecord::Schema.define(version: 20170309093830) do
   add_foreign_key "projet_aides", "projets"
   add_foreign_key "projet_prestations", "prestations"
   add_foreign_key "projet_prestations", "projets"
+  add_foreign_key "projets", "adresses", column: "adresse_a_renover_id"
   add_foreign_key "projets", "adresses", column: "adresse_postale_id"
   add_foreign_key "projets", "agents", column: "agent_instructeur_id"
   add_foreign_key "projets", "agents", column: "agent_operateur_id"

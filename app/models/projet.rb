@@ -7,7 +7,8 @@ class Projet < ActiveRecord::Base
   accepts_nested_attributes_for :personne_de_confiance
 
   has_one :demande, dependent: :destroy
-  belongs_to :adresse_postale, class_name: "Adresse", dependent: :destroy
+  belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
+  belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
@@ -209,7 +210,7 @@ class Projet < ActiveRecord::Base
   end
 
   def adresse
-    adresse_postale
+    adresse_a_renover || adresse_postale
   end
 
   def description_adresse

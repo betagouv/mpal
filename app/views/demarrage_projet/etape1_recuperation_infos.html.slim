@@ -22,8 +22,8 @@
         = f.label :adresse_postale
         = text_field_tag "projet[adresse_postale]", @projet_courant.adresse_postale.try(:description)
       li.full
-        label for="dem-address-diff"  Adresse du logement à rénover si différente :
-        input#dem-address-diff type="text" /
+        = f.label :adresse_a_renover, "Adresse du logement à rénover si différente"
+        = text_field_tag "projet[adresse_a_renover]", @projet_courant.adresse_a_renover.try(:description)
       li
         = f.label :tel
         = f.telephone_field :tel

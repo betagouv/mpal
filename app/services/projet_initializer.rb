@@ -11,10 +11,13 @@ class ProjetInitializer
 
     projet.reference_avis = reference_avis
     projet.numero_fiscal = numero_fiscal
-
     projet.nb_occupants_a_charge = contribuable.nombre_personnes_charge
 
-    precise_adresse_postale(projet, contribuable.adresse)
+    begin
+      projet.adresse_postale = self.precise_adresse(contribuable.adresse)
+    rescue => e
+      logger.info "ProjetInitializer: l'adresse n'a pas pu être localisée (#{e})"
+    end
 
     contribuable.declarants.each do |declarant|
       projet.occupants.build(
@@ -34,11 +37,30 @@ class ProjetInitializer
     projet
   end
 
-  def precise_adresse_postale(projet, adresse)
-    adresse_localisee = @service_adresse.precise(adresse)
-    if adresse_localisee.present?
-      projet.adresse_postale = adresse_localisee
+  def precise_adresse(adresse, previous_value: nil, required: false)
+    if adresse.blank?
+      if required
+        raise I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
+      else
+        return nil
+      end
     end
+
+    if previous_value && adresse == previous_value.description
+      return previous_value
+    end
+
+    adresse_localisee = @service_adresse.precise(adresse)
+    if !adresse_localisee
+      raise I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
+    end
+
     adresse_localisee
+  end
+
+private
+
+  def logger
+    Rails.logger
   end
 end

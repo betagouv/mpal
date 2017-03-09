@@ -230,7 +230,9 @@ module ApplicationHelper
   end
 
   def affiche_demande_souhaitee(demande)
-    html = content_tag(:h4, "Difficultés rencontrées dans le logement")
+    html = content_tag(:h4, "Adresse du logement")
+    html << content_tag(:p, demande.projet.adresse.description)
+    html << content_tag(:h4, "Difficultés rencontrées dans le logement")
     besoins = []
     besoins << t("demarrage_projet.etape2_description_projet.changement_chauffage") if demande.changement_chauffage
     besoins << t("demarrage_projet.etape2_description_projet.froid") if demande.froid
