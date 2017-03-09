@@ -138,6 +138,18 @@ describe Projet do
     end
   end
 
+  describe "#description_adresse" do
+    context "quand l'adresse est renseignée" do
+      let(:adresse) { build :adresse }
+      let(:projet)  { build :projet, adresse_postale: adresse }
+      it { expect(projet.description_adresse).to eq adresse.description }
+    end
+    context "quand l'adresse est vide" do
+      let(:projet) { build :projet, adresse_postale: nil }
+      it { expect(projet.description_adresse).to be nil }
+    end
+  end
+
   describe "#suggest_operateurs!" do
     let(:projet)     { create :projet, :with_suggested_operateurs }
     let(:operateurA) { create :operateur }

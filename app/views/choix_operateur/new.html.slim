@@ -24,7 +24,7 @@
               = radio_button_tag :operateur_id, operateur.id, operateur.id == @operateur.try(:id)
               label for="operateur_id_#{operateur.id}"
                 h3= operateur.raison_sociale
-                p= operateur.adresse_postale
+                p= operateur.description_adresse
                 = btn tag: :div, name: t('projets.visualisation.invitation_intervenant')
         - else
           p.chapo
@@ -38,7 +38,7 @@
                 = radio_button_tag :operateur_id, operateur.id, operateur.id == @operateur.try(:id)
                 label for="operateur_id_#{operateur.id}"
                   h3= operateur.raison_sociale
-                  p= operateur.adresse_postale
+                  p= operateur.description_adresse
                   = btn tag: :a, name: t('projets.visualisation.invitation_intervenant')
           hr/
         = render 'demarrage_projet/etape3_disponibilite_form'

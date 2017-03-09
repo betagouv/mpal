@@ -4,7 +4,7 @@ class ProjetSerializer < ActiveModel::Serializer
   has_many :evenements
 
   def adresse
-    object.adresse.try(:description)
+    object.description_adresse
   end
 
   class OccupantSerializer < ActiveModel::Serializer

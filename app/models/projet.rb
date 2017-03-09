@@ -212,6 +212,10 @@ class Projet < ActiveRecord::Base
     adresse_postale
   end
 
+  def description_adresse
+    adresse.try(:description)
+  end
+
   def departement
     adresse.try(:departement)
   end
