@@ -23,7 +23,7 @@ describe API::ProjetsController do
     it { expect(response.content_type).to eq(Mime::JSON) }
     it 'renvoie un json avec la bonne adresse' do
       projet_reponse = json(response.body)
-      expect(projet_reponse[:adresse]).to eq(projet.adresse)
+      expect(projet_reponse[:adresse]).to eq(projet.adresse.description)
     end
   end
 end

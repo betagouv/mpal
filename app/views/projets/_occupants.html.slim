@@ -18,7 +18,7 @@ article.block.occupants
         span.lastname<= @projet_courant.demandeur_principal.nom
       - if @projet_courant.adresse.present?
         br/
-        = @projet_courant.adresse
+        = @projet_courant.adresse.description
       - if @projet_courant.tel.present?
         br/
         = @projet_courant.tel

@@ -119,13 +119,13 @@ private
   end
 
   def etape1_save
-    if params[:projet][:adresse].blank?
+    if params[:projet][:adresse_postale].blank?
       flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
       return false
     end
 
-    if params[:projet][:adresse] != @projet_courant.adresse
-      adresse_found = ProjetInitializer.new.precise_adresse(@projet_courant, params[:projet][:adresse])
+    if params[:projet][:adresse_postale] != @projet_courant.adresse_postale.try(:description)
+      adresse_found = ProjetInitializer.new.precise_adresse_postale(@projet_courant, params[:projet][:adresse_postale])
       if !adresse_found
         flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
         return false

@@ -14,7 +14,7 @@ class ProjetInitializer
 
     projet.nb_occupants_a_charge = contribuable.nombre_personnes_charge
 
-    precise_adresse(projet, contribuable.adresse)
+    precise_adresse_postale(projet, contribuable.adresse)
 
     contribuable.declarants.each do |declarant|
       projet.occupants.build(
@@ -34,17 +34,11 @@ class ProjetInitializer
     projet
   end
 
-  def precise_adresse(projet, adresse)
-    adresse = @service_adresse.precise(adresse)
-    if adresse.present?
-      projet.longitude = adresse[:longitude]
-      projet.latitude = adresse[:latitude]
-      projet.departement = adresse[:departement]
-      projet.adresse_ligne1 = adresse[:adresse_ligne1]
-      projet.code_insee = adresse[:code_insee]
-      projet.code_postal = adresse[:code_postal]
-      projet.ville = adresse[:ville]
+  def precise_adresse_postale(projet, adresse)
+    adresse_localisee = @service_adresse.precise(adresse)
+    if adresse_localisee.present?
+      projet.adresse_postale = adresse_localisee
     end
-    adresse
+    adresse_localisee
   end
 end

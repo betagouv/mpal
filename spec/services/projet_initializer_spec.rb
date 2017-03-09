@@ -19,34 +19,34 @@ class MonServiceAdresse
     @latitude = params[:latitude]
     @longitude = params[:longitude]
     @departement = params[:departement]
-    @adresse = params[:adresse_ligne1]
+    @ligne_1 = params[:ligne_1]
     @code_postal = params[:code_postal]
     @ville = params[:ville]
   end
 
   def precise(adresse)
-    { latitude: @latitude, longitude: @longitude, departement: @departement, adresse_ligne1: @adresse, code_postal: @code_postal, ville: @ville }
+    Adresse.new({ latitude: @latitude, longitude: @longitude, departement: @departement, ligne_1: @ligne_1, code_postal: @code_postal, ville: @ville })
   end
 end
 
 describe ProjetInitializer do
   it "renvoie un projet qui contient l'adresse" do
-    adresse_ligne1 = "12 rue de la Mare"
+    ligne_1 = "12 rue de la Mare"
     code_postal = "75010"
     ville = "Paris"
-    adresse = "#{adresse_ligne1}, #{code_postal} #{ville}"
+    description_adresse = "#{ligne_1}, #{code_postal} #{ville}"
 
     declarants = [ {prenom: 'Jean', nom: 'Martin', date_de_naissance: '19/04/1980'}]
     annee_impots = "2015"
     nombre_personnes_charge = 3
-    mon_service_contribuable = MonServiceContribuable.new(adresse: adresse, declarants: declarants, annee_impots: annee_impots, nombre_personnes_charge: nombre_personnes_charge)
-    mon_service_adresse = MonServiceAdresse.new(adresse_ligne1: adresse_ligne1, code_postal: code_postal, ville: ville, latitude: '46', longitude: '6', departement: '92')
+    mon_service_contribuable = MonServiceContribuable.new(adresse: description_adresse, declarants: declarants, annee_impots: annee_impots, nombre_personnes_charge: nombre_personnes_charge)
+    mon_service_adresse = MonServiceAdresse.new(ligne_1: ligne_1, code_postal: code_postal, ville: ville, latitude: '46', longitude: '6', departement: '92')
     projet_initializer = ProjetInitializer.new(mon_service_contribuable, mon_service_adresse)
 
     projet = projet_initializer.initialize_projet(12, 15)
     projet.save
 
-    expect(projet.adresse).to eq(adresse)
+    expect(projet.adresse.description).to eq(description_adresse)
     expect(projet.numero_fiscal).to eq('12')
     expect(projet.reference_avis).to eq('15')
     expect(projet.occupants.any?).to be_truthy

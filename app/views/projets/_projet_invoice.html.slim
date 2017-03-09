@@ -6,7 +6,7 @@ ul.demandeur-info
   - if @projet_courant.tel.present?
     li= @projet_courant.tel
   - if @projet_courant.adresse.present?
-    li= @projet_courant.adresse
+    li= @projet_courant.adresse.description
 - if @projet_courant.operateur
   ul.operateur-info
     li

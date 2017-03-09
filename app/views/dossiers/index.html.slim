@@ -30,7 +30,7 @@
                 span.lastname<= projet.demandeur_principal.nom
             td
             td= projet.departement
-            td= projet.ville
+            td= projet.adresse.try(:ville)
             td
               = projet.invited_instructeur.raison_sociale rescue ''
               - if projet.agent_instructeur

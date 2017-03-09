@@ -19,8 +19,8 @@
         = f.label :demandeur_principal_nom
         = f.text_field :demandeur_principal_nom, disabled: true, class: 'disabled'
       li.full
-        = f.label :adresse
-        = f.text_field :adresse
+        = f.label :adresse_postale
+        = text_field_tag "projet[adresse_postale]", @projet_courant.adresse_postale.try(:description)
       li.full
         label for="dem-address-diff"  Adresse du logement à rénover si différente :
         input#dem-address-diff type="text" /

@@ -12,7 +12,7 @@ describe DemarrageProjetController do
   describe "#etape1_recuperation_infos" do
     let(:projet_params) do {} end
     let(:params) do
-      default_params = { adresse: projet.adresse }
+      default_params = { adresse_postale: projet.adresse_postale.description }
       {
         projet_id: projet.id,
         projet:    default_params.merge(projet_params)
@@ -61,7 +61,7 @@ describe DemarrageProjetController do
     end
 
     context "lorsque l'adresse est vide" do
-      let(:projet_params) do { adresse: '' } end
+      let(:projet_params) do { adresse_postale: '' } end
 
       it "affiche une erreur" do
         expect(response).to render_template(:etape1_recuperation_infos)
@@ -70,33 +70,34 @@ describe DemarrageProjetController do
     end
 
     context "lorsque l'adresse est identique" do
-      let!(:adresse_initiale) { projet.adresse }
-      let(:projet_params) do { adresse: projet.adresse } end
+      let!(:adresse_initiale) { projet.adresse_postale }
+      let(:projet_params) do { adresse_postale: projet.adresse_postale.description } end
 
       it "conserve l'adresse existante" do
         expect_any_instance_of(ApiBan).not_to receive(:precise)
-        expect(projet.adresse).to eq adresse_initiale
+        expect(projet.adresse_postale).to eq adresse_initiale
       end
     end
 
     context "lorsque l'adresse change" do
       context "et est disponible dans la BAN" do
-        let(:projet_params) do { adresse: Fakeweb::ApiBan::ADDRESS_ROME } end
+        let(:projet_params) do { adresse_postale: Fakeweb::ApiBan::ADDRESS_ROME } end
 
-        it "enregistre l'adresse précisée", focus: true do
-          expect(projet.adresse_ligne1).to eq "65 rue de Rome"
-          expect(projet.code_insee).to     eq "75008"
-          expect(projet.code_postal).to    eq "75008"
-          expect(projet.ville).to          eq "Paris"
-          expect(projet.departement).to    eq "75"
-          expect(projet.latitude).to       be_within(0.1).of 57.9
-          expect(projet.longitude).to      be_within(0.1).of 5.8
-          expect(projet.adresse).to        eq Fakeweb::ApiBan::ADDRESS_ROME
+        it "enregistre l'adresse précisée" do
+          expect(projet.adresse_postale).to be_present
+          expect(projet.adresse_postale.ligne_1).to     eq "65 rue de Rome"
+          expect(projet.adresse_postale.code_insee).to  eq "75008"
+          expect(projet.adresse_postale.code_postal).to eq "75008"
+          expect(projet.adresse_postale.ville).to       eq "Paris"
+          expect(projet.adresse_postale.departement).to eq "75"
+          expect(projet.adresse_postale.latitude).to    be_within(0.1).of 57.9
+          expect(projet.adresse_postale.longitude).to   be_within(0.1).of 5.8
+          expect(projet.adresse_postale.description).to eq Fakeweb::ApiBan::ADDRESS_ROME
         end
       end
 
       context "et n'est pas disponible dans la BAN" do
-        let(:projet_params) do { adresse: Fakeweb::ApiBan::ADDRESS_UNKNOWN } end
+        let(:projet_params) do { adresse_postale: Fakeweb::ApiBan::ADDRESS_UNKNOWN } end
         it "affiche une erreur" do
           expect(response).to render_template(:etape1_recuperation_infos)
           expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')

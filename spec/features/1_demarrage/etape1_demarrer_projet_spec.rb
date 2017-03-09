@@ -15,7 +15,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(projet.demandeur_principal_prenom).to eq("Pierre")
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_demandeur'))
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_occupants'))
-    expect(find_field('projet_adresse').value).to eq('12 rue de la Mare, 75010 Paris')
+    expect(find_field('projet_adresse_postale').value).to eq('12 rue de la Mare, 75010 Paris')
     expect(page).to have_content(I18n.t('projets.messages.creation.corps'))
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
   end
@@ -42,7 +42,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "je dois rentrer une adresse" do
     signin_for_new_projet
-    fill_in :projet_adresse, with: nil
+    fill_in :projet_adresse_postale, with: nil
     click_button I18n.t('demarrage_projet.action')
     expect(page).to have_current_path(etape1_recuperation_infos_path(projet))
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide'))
@@ -50,14 +50,14 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "je peux modifier mon adresse" do
     signin_for_new_projet
-    fill_in :projet_adresse, with: Fakeweb::ApiBan::ADDRESS_ROME
+    fill_in :projet_adresse_postale, with: Fakeweb::ApiBan::ADDRESS_ROME
     click_button I18n.t('demarrage_projet.action')
 
     projet.reload
     expect(page).to have_current_path etape2_description_projet_path(projet)
-    expect(projet.adresse_ligne1).to eq("65 rue de Rome")
-    expect(projet.code_postal).to eq("75008")
-    expect(projet.ville).to eq("Paris")
+    expect(projet.adresse_postale.ligne_1).to eq("65 rue de Rome")
+    expect(projet.adresse.code_postal).to eq("75008")
+    expect(projet.adresse_postale.ville).to eq("Paris")
   end
 
   scenario "j'ajoute une personne de confiance" do
