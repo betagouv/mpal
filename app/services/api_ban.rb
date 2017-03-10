@@ -8,14 +8,16 @@ class ApiBan
       return nil
     end
 
-    coords = json_adresse['features'][0]['geometry']['coordinates']
-    longitude = coords[0]
-    latitude = coords[1]
-    ligne_1 = json_adresse['features'][0]['properties']['name']
-    code_postal = json_adresse['features'][0]['properties']['postcode']
-    code_insee = json_adresse['features'][0]['properties']['citycode']
-    ville = json_adresse['features'][0]['properties']['city']
+    coords      = json_adresse['features'][0]['geometry']['coordinates']
+    longitude   = coords[0]
+    latitude    = coords[1]
+    properties  = json_adresse['features'][0]['properties']
+    ligne_1     = properties['name']
+    code_postal = properties['postcode']
+    code_insee  = properties['citycode']
+    ville       = properties['city']
     departement = code_postal[0,2]
+    region      = parse_context(properties['context'])
 
     Adresse.new({
       latitude:    latitude,
@@ -24,7 +26,8 @@ class ApiBan
       code_postal: code_postal,
       code_insee:  code_insee,
       ville:       ville,
-      departement: departement
+      departement: departement,
+      region:      region,
     })
   end
 
@@ -46,5 +49,9 @@ class ApiBan
 
   def logger
     Rails.logger
+  end
+
+  def parse_context(context)
+    /, ([^,(]+)(| \(.*\))$/.match(context)[1]
   end
 end

@@ -28,7 +28,7 @@
               = link_to dossier_path(projet)
                 span.firstname= projet.demandeur_principal.prenom
                 span.lastname<= projet.demandeur_principal.nom
-            td
+            td= projet.adresse.try(:region)
             td= projet.departement
             td= projet.adresse.try(:ville)
             td

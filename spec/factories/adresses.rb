@@ -5,6 +5,7 @@ FactoryGirl.define do
     code_postal '75010'
     ville       'Paris'
     departement '75'
+    region      'Île-de-France'
 
     trait :rue_de_la_mare do
       ligne_1     '12 rue de la Mare'
@@ -12,6 +13,7 @@ FactoryGirl.define do
       code_postal '75010'
       ville       'Paris'
       departement '75'
+      region      'Île-de-France'
     end
 
     trait :rue_de_rome do
@@ -20,6 +22,7 @@ FactoryGirl.define do
       code_postal '75008'
       ville       'Paris'
       departement '75'
+      region      'Île-de-France'
     end
   end
 end
