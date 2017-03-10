@@ -50,14 +50,14 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "je peux ajouter l'adresse du logement à rénover" do
     signin_for_new_projet
-    fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_ROME
+    fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_PORT
     click_button I18n.t('demarrage_projet.action')
 
     projet.reload
     expect(page).to have_current_path etape2_description_projet_path(projet)
-    expect(projet.adresse_a_renover.ligne_1).to eq("65 rue de Rome")
-    expect(projet.adresse_a_renover.code_postal).to eq("75008")
-    expect(projet.adresse_a_renover.ville).to eq("Paris")
+    expect(projet.adresse_a_renover.ligne_1).to eq("8 Boulevard du Port")
+    expect(projet.adresse_a_renover.code_postal).to eq("80000")
+    expect(projet.adresse_a_renover.ville).to eq("Amiens")
   end
 
   scenario "j'ajoute une personne de confiance" do

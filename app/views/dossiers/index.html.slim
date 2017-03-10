@@ -28,7 +28,7 @@
               = link_to dossier_path(projet)
                 span.firstname= projet.demandeur_principal.prenom
                 span.lastname<= projet.demandeur_principal.nom
-            td
+            td= projet.adresse.try(:region)
             td= projet.departement
             td= projet.adresse.try(:ville)
             td
@@ -44,5 +44,5 @@
                 br/
                 span.firstname= projet.agent_operateur.prenom
                 span.lastname<= projet.agent_operateur.nom
-            td= t(projet.statut, scope: "projets.statut")
+            td= t(status_for_operateur(projet.statut), scope: "projets.statut")
             td= format_date projet.updated_at

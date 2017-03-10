@@ -150,14 +150,16 @@ fr:
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
     statut:
-      prospect: "En prospection"
+      bouton_accepter: "Accepter ce projet"
+      depose: "Déposé par le demandeur"
       en_cours: "En cours"
+      en_cours_d_instruction: "En cours d’instruction"
+      en_cours_de_montage: "En cours de montage"
+      prospect: "En prospection"
+      proposition_acceptee: "Proposition acceptée"
       proposition_enregistree: "Proposition enregistrée"
       proposition_proposee: "Proposition proposée"
-      proposition_acceptee: "Proposition acceptée"
       transmis_pour_instruction: "Transmis aux services instructeurs"
-      en_cours_d_instruction: "En cours d’instruction"
-      bouton_accepter: "Accepter ce projet"
     operateur_construit_proposition: "%{operateur}, l’opérateur chargé de vous accompagner, est en train de construire une proposition de projet."
     edition_projet:
       messages:
