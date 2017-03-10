@@ -3,6 +3,10 @@ class ProjetSerializer < ActiveModel::Serializer
   has_many :occupants
   has_many :evenements
 
+  def adresse
+    object.description_adresse
+  end
+
   class OccupantSerializer < ActiveModel::Serializer
     attributes :prenom, :nom, :demandeur
   end

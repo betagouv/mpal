@@ -40,8 +40,8 @@ module ProjetConcern
 
     def show
       gon.push({
-        latitude: @projet_courant.latitude,
-        longitude: @projet_courant.longitude
+        latitude:  @projet_courant.adresse.try(:latitude),
+        longitude: @projet_courant.adresse.try(:longitude)
       })
       @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
       @commentaire = Commentaire.new(projet: @projet_courant)
@@ -65,11 +65,6 @@ module ProjetConcern
     end
 
     def projet_params
-      adresse = params[:projet][:adresse]
-      if adresse
-        service_adresse = ApiBan.new
-        adresse_complete = service_adresse.precise(adresse)
-      end
       attributs = params.require(:projet)
       .permit(:disponibilite, :description, :email, :tel, :annee_construction, :nb_occupants_a_charge,
               :type_logement, :etage, :nb_pieces, :surface_habitable, :etiquette_avant_travaux,
@@ -89,7 +84,6 @@ module ProjetConcern
           projet_aide[:_destroy] = true if projet_aide[:montant].blank?
         end
       end
-      attributs = attributs.merge(adresse_complete) if adresse_complete
       attributs
     end
 

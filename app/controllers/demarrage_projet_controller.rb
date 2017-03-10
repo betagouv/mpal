@@ -40,6 +40,9 @@ class DemarrageProjetController < ApplicationController
   def etape3_mise_en_relation
     @demande = projet_demande
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
+    if @pris_departement.blank?
+      raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
+    end
     @action_label = if needs_etape3? then action_label_create else action_label_update end
   end
 
@@ -116,17 +119,21 @@ private
   end
 
   def etape1_save
-    if params[:projet][:adresse].blank?
-      flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
-      return false
-    end
+    begin
+      @projet_courant.adresse_postale = ProjetInitializer.new.precise_adresse(
+        params[:projet][:adresse_postale],
+        previous_value: @projet_courant.adresse_postale,
+        required: true
+      )
 
-    if params[:projet][:adresse] != @projet_courant.adresse
-      adresse_found = ProjetInitializer.new.precise_adresse(@projet_courant, params[:projet][:adresse])
-      if !adresse_found
-        flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
-        return false
-      end
+      @projet_courant.adresse_a_renover = ProjetInitializer.new.precise_adresse(
+        params[:projet][:adresse_a_renover],
+        previous_value: @projet_courant.adresse_a_renover,
+        required: false
+      )
+    rescue => e
+      flash[:alert] = e.message
+      return false
     end
 
     @projet_courant.assign_attributes(projet_contacts_params)

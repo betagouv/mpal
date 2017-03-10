@@ -16,8 +16,8 @@
               li= @projet_courant.tel
             - if @projet_courant.email.present?
               li= @projet_courant.email
-            - if @projet_courant.ville.present?
-              li= @projet_courant.ville
+            - if @projet_courant.adresse.present?
+              li= @projet_courant.adresse.ville
             li= t('projets.visualisation.occupants', count: @projet_courant.nb_total_occupants)
             - if current_agent
               li= "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"

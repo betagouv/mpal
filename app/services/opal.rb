@@ -42,9 +42,9 @@ class Opal
           "pphPrenom": projet.prenom_occupants,
           "adressePostale": {
             "payId": 1,
-            "adpLigne1": projet.adresse_ligne1,
-            "adpLocalite": projet.ville,
-            "adpCodePostal": projet.code_postal
+            "adpLigne1": projet.adresse.ligne_1,
+            "adpLocalite": projet.adresse.ville,
+            "adpCodePostal": projet.adresse.code_postal
           }
         }
       },
@@ -57,16 +57,16 @@ class Opal
         "immSiDejaSubventionne": false,
         "immSiProcedureInsalubrite": false,
         "adresseGeographique": {
-          "adgLigne1": projet.adresse_ligne1,
-          "cdpCodePostal": projet.code_postal,
-          "comCodeInsee": recupere_com_code_insee(projet),
-          "dptNumero": projet.departement
+          "adgLigne1": projet.adresse.ligne_1,
+          "cdpCodePostal": projet.adresse.code_postal,
+          "comCodeInsee": code_insee_suffix(projet.adresse.code_insee),
+          "dptNumero": projet.adresse.departement
         }
       }
     }
   end
 
-  def recupere_com_code_insee(projet)
-    projet.code_insee[2, projet.code_insee.length]
+  def code_insee_suffix(code_insee)
+    code_insee[2, code_insee.length]
   end
 end

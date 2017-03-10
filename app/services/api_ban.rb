@@ -11,21 +11,21 @@ class ApiBan
     coords = json_adresse['features'][0]['geometry']['coordinates']
     longitude = coords[0]
     latitude = coords[1]
-    adresse_ligne1 = json_adresse['features'][0]['properties']['name']
-    code_insee = json_adresse['features'][0]['properties']['citycode']
+    ligne_1 = json_adresse['features'][0]['properties']['name']
     code_postal = json_adresse['features'][0]['properties']['postcode']
+    code_insee = json_adresse['features'][0]['properties']['citycode']
     ville = json_adresse['features'][0]['properties']['city']
     departement = code_postal[0,2]
 
-    {
-      latitude: latitude,
-      longitude: longitude,
-      departement: departement,
-      adresse_ligne1: adresse_ligne1,
-      code_insee: code_insee,
+    Adresse.new({
+      latitude:    latitude,
+      longitude:   longitude,
+      ligne_1:     ligne_1,
       code_postal: code_postal,
-      ville: ville
-    }
+      code_insee:  code_insee,
+      ville:       ville,
+      departement: departement
+    })
   end
 
   def self.uri(adresse)
