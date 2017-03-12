@@ -35,7 +35,7 @@
       - has_personne = params[:contact].present? ? "1" == params[:contact] : @projet_courant.personne_id.present?
       ul.dem-contact.ins-form
         li.radio
-          label for="contact-idem" value="0"
+          label for="contact-idem"
             input#contact-idem name="contact" type="radio" value="0" checked=(has_personne ? false : 'checked') /
             = t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix1')
         li.radio
