@@ -62,23 +62,24 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "j'ajoute une personne de confiance" do
     signin_for_new_projet
+    page.choose I18n.t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix2')
     within '.dem-diff.ins-form' do
       page.choose('Monsieur')
-      fill_in 'projet_personne_de_confiance_attributes_prenom', with: "Frank"
-      fill_in 'projet_personne_de_confiance_attributes_nom', with: "Strazzeri"
-      fill_in 'projet_personne_de_confiance_attributes_tel', with: "0130201040"
-      fill_in 'projet_personne_de_confiance_attributes_email', with: "frank@strazzeri.com"
-      fill_in 'projet_personne_de_confiance_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
+      fill_in 'projet_personne_attributes_prenom', with: "Frank"
+      fill_in 'projet_personne_attributes_nom', with: "Strazzeri"
+      fill_in 'projet_personne_attributes_tel', with: "0130201040"
+      fill_in 'projet_personne_attributes_email', with: "frank@strazzeri.com"
+      fill_in 'projet_personne_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
     end
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(etape2_description_projet_path(projet))
     projet.reload
-    expect(projet.personne_de_confiance.civilite).to eq('Mr')
-    expect(projet.personne_de_confiance.prenom).to eq("Frank")
-    expect(projet.personne_de_confiance.nom).to eq("Strazzeri")
-    expect(projet.personne_de_confiance.tel).to eq("0130201040")
-    expect(projet.personne_de_confiance.email).to eq("frank@strazzeri.com")
-    expect(projet.personne_de_confiance.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
+    expect(projet.personne.civilite).to eq('Mr')
+    expect(projet.personne.prenom).to eq("Frank")
+    expect(projet.personne.nom).to eq("Strazzeri")
+    expect(projet.personne.tel).to eq("0130201040")
+    expect(projet.personne.email).to eq("frank@strazzeri.com")
+    expect(projet.personne.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
   end
 
   scenario "je vois la liste des personnes présentes dans l'avis d'imposition sous forme d'occupants" do
