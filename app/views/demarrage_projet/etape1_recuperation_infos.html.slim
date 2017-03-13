@@ -32,16 +32,17 @@
         = f.text_field :email
     .dem-contact-wrapper
       p.chapo= t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
+      - has_personne = params[:contact].present? ? "1" == params[:contact] : @projet_courant.personne_id.present?
       ul.dem-contact.ins-form
         li.radio
           label for="contact-idem"
-            input#contact-idem checked="checked" name="contact" type="radio" /
+            input#contact-idem name="contact" type="radio" value="0" checked=(has_personne ? false : 'checked') /
             = t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix1')
         li.radio
           label for="contact-diff"
-            input#contact-diff name="contact" type="radio" /
+            input#contact-diff name="contact" type="radio" value="1" checked=(has_personne ? 'checked' : false) /
             = t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix2')
-      = f.fields_for :personne_de_confiance do |ff|
+      = f.fields_for :personne do |ff|
           ul.dem-diff.ins-form
             li.radio
               = ff.radio_button :civilite, "Mme", :value => "madame"

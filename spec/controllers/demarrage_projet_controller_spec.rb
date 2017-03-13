@@ -14,6 +14,7 @@ describe DemarrageProjetController do
     let(:params) do
       default_params = { adresse_postale: projet.adresse_postale.description }
       {
+        contact: "1",
         projet_id: projet.id,
         projet:    default_params.merge(projet_params)
       }
@@ -25,10 +26,11 @@ describe DemarrageProjetController do
     end
 
     context "lorsque les informations changent" do
-      let(:projet_params) do {
-        tel:   '01 02 03 04 05',
-        email: 'particulier@exemple.fr'
-      }
+      let(:projet_params) do
+        {
+          tel:   '01 02 03 04 05',
+          email: 'particulier@exemple.fr'
+        }
       end
 
       it "enregistre les informations modifiées" do
@@ -38,25 +40,26 @@ describe DemarrageProjetController do
       end
     end
 
-    context "lorsque la personne de confiance change" do
-      let(:projet_params) do {
-        personne_de_confiance_attributes: {
-          civilite:            'mr',
-          prenom:              'Tyrone',
-          nom:                 'Meehan',
-          tel:                 '01 02 03 04 05',
-          lien_avec_demandeur: 'ami'
+    context "lorsque la personne de confiance est renseignée" do
+      let(:projet_params) do
+        {
+          personne_attributes: {
+            civilite:            'mr',
+            prenom:              'Tyrone',
+            nom:                 'Meehan',
+            tel:                 '01 02 03 04 05',
+            lien_avec_demandeur: 'ami'
+          }
         }
-      }
       end
 
       it "enregistre la personne de confiance" do
         expect(response).to redirect_to projet_path(projet)
-        expect(projet.personne_de_confiance.civilite).to            eq 'mr'
-        expect(projet.personne_de_confiance.prenom).to              eq 'Tyrone'
-        expect(projet.personne_de_confiance.nom).to                 eq 'Meehan'
-        expect(projet.personne_de_confiance.tel).to                 eq '01 02 03 04 05'
-        expect(projet.personne_de_confiance.lien_avec_demandeur).to eq 'ami'
+        expect(projet.personne.civilite).to            eq 'mr'
+        expect(projet.personne.prenom).to              eq 'Tyrone'
+        expect(projet.personne.nom).to                 eq 'Meehan'
+        expect(projet.personne.tel).to                 eq '01 02 03 04 05'
+        expect(projet.personne.lien_avec_demandeur).to eq 'ami'
       end
     end
 

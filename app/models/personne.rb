@@ -1,3 +1,5 @@
 class Personne < ActiveRecord::Base
-  belongs_to :projet
+  has_one :projet
+
+  validates :civilite, :prenom, :nom, :lien_avec_demandeur, presence: true
 end

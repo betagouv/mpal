@@ -3,8 +3,9 @@ class Projet < ActiveRecord::Base
 
   enum statut: [ :prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :proposition_acceptee, :transmis_pour_instruction, :en_cours_d_instruction ]
 
-  has_one :personne_de_confiance, class_name: "Personne"
-  accepts_nested_attributes_for :personne_de_confiance
+  # Personne de confiance
+  belongs_to :personne, dependent: :destroy
+  accepts_nested_attributes_for :personne
 
   has_one :demande, dependent: :destroy
   belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
