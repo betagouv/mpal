@@ -33,6 +33,7 @@ class Projet < ActiveRecord::Base
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :email, email: true, allow_blank: true, on: :update
+  validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true

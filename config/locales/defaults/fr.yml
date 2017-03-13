@@ -373,6 +373,7 @@ fr:
     attributes:
       projet:
         email: "L’adresse email"
+        tel: "Le numéro de téléphone"
         note_degradation: "La note de dégradation"
         note_insalubrite: "La note d’insalubrité"
     errors:
