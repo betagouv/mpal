@@ -5,7 +5,7 @@ class EmailValidator < ActiveModel::EachValidator
       '@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$', 'i')
 
   def validate_each(record, attribute, value)
-    unless value =~ REG_EMAIL
+    unless value.blank? || value =~ REG_EMAIL
       record.errors.add(attribute, options[:message] || :invalid)
     end
   end

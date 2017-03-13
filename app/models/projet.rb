@@ -32,7 +32,7 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
 
   validates :numero_fiscal, :reference_avis, presence: true
-  validates :email, email: true, allow_blank: true, on: :update
+  validates :email, email: true, allow_blank: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true

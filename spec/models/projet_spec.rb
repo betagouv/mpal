@@ -26,13 +26,13 @@ describe Projet do
 
     it "accepte les emails valides" do
       projet.email = "email@exemple.fr"
-      projet.valid?(:update)
+      projet.valid?
       expect(projet.errors[:email]).to be_empty
     end
 
     it "rejete les emails invalides" do
       projet.email = "invalid-email@lol"
-      projet.valid?(:update)
+      projet.valid?
       expect(projet.errors[:email]).to be_present
     end
 
