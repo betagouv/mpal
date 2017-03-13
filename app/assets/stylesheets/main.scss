@@ -204,6 +204,8 @@ fieldset {
 .page-projet {
   position: relative;
   margin: 0 auto;
+}
+.page-projet-2-cols {
   @media screen and (min-width: 600px) {
     display: flex;
     height: 100%;

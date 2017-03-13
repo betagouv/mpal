@@ -1,3 +1,6 @@
+.dashboard-dossiers {
+  min-height: 200px;
+}
 .table {
   width: 100%;
   max-width: 100%;
@@ -10,8 +13,22 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    height: 100%;
+    > a {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      color: #56869a;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
   thead {
+    th {
+      background-color: #ccc;
+      color: #353940;
+    }
     th, td {
       padding: 3px 5px;
       vertical-align: bottom;
@@ -19,8 +36,11 @@
       text-align: left;
     }
   }
-  tbody tr:nth-of-type(odd) {
+  tbody tr:nth-of-type(even) {
     background-color: #eee;
+  }
+  tbody tr:hover {
+    background-color: #ffc;
   }
 }
 

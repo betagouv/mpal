@@ -36,6 +36,14 @@
     line-height: 1.5em;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   }
+  .personne {
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px dotted white;
+    .personne-titre {
+      text-decoration: underline;
+    }
+  }
 }
 .affectation {
   padding: 20px;
