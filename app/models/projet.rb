@@ -34,6 +34,7 @@ class Projet < ActiveRecord::Base
   validates :numero_fiscal, :reference_avis, presence: true
   validates :adresse_postale, presence: true, on: :update
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
+  validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
@@ -198,6 +199,12 @@ class Projet < ActiveRecord::Base
 
     self.operateur = committed_operateur
     self.statut = :en_cours
+    save
+  end
+
+  def save_proposition!(attributes)
+    assign_attributes(attributes)
+    self.statut = :proposition_enregistree
     save
   end
 

@@ -11,6 +11,8 @@ describe Projet do
     it { is_expected.not_to validate_presence_of(:adresse_postale).on(:create) }
     it { is_expected.to validate_presence_of(:adresse_postale).on(:update) }
     it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_inclusion_of(:note_degradation).in_range(0..1) }
+    it { is_expected.to validate_inclusion_of(:note_insalubrite).in_range(0..1) }
     it { is_expected.to have_one :demande }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
