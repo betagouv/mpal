@@ -1,12 +1,15 @@
 class Seeder
+  def initialize(verbose: false)
+    @verbose = verbose
+  end
 
 private
   def ahead!(mark = '.')
     if (@progress += 1).multiple_of?(100)
-      print mark unless '.' == mark
-      puts @progress
+      log mark unless '.' == mark
+      log_line @progress
     else
-      print mark || '.'; STDOUT.flush
+      log mark || '.'; STDOUT.flush
     end
   end
 
@@ -24,24 +27,39 @@ private
   def progress(&block)
     @progress = 0
     block.call
-    puts unless @progress.multiple_of?(100)
-    puts "--> #{@progress} item(s) processed"
+    log_line unless @progress.multiple_of?(100)
+    log_line "--> #{@progress} item(s) processed"
   end
 
   def say(what)
-    puts "-- #{what}"
+    log_line "-- #{what}"
   end
 
   def seeding(what)
-    puts "== SEEDING #{what.to_s.upcase} ".ljust(70, '=')
+    log_line "Seeding #{what.to_s} "
+  end
+
+  def log(message)
+    if @verbose
+      print message
+    end
+  end
+
+  def log_line(message = "")
+    if @verbose
+      puts message
+    end
   end
 end
 
 start = Time.now
 seeds = Dir[File.expand_path('../seeds/*.rb', __FILE__)].sort
 filter = (ENV['SEEDS'] || ENV['SEED']).to_s.downcase.split(',').reject(&:blank?).sort.uniq
+verbose = (ENV['RAILS_ENV'] == 'development')
 
-seeder = Seeder.new
+print "Seeding database… "
+
+seeder = Seeder.new(verbose: verbose)
 seeds.each do |seed|
   seed_name = File.basename(seed, '.rb').sub(/^\d+_/, '')
   next unless filter.blank? || filter.include?(seed_name)
@@ -50,8 +68,13 @@ seeds.each do |seed|
     STDERR.puts "-- Skipping #{seed_name}: no matching method loaded into Seeder."
     next
   end
+  puts if verbose
   seeder.send "seed_#{seed_name}"
-  puts
 end
-puts "Finished seeding in #{Time.now - start} second(s)."
 
+if verbose
+  puts
+  puts "Finished seeding in #{Time.now - start} second(s)."
+else
+  puts "Done"
+end
