@@ -91,7 +91,6 @@ fr:
       erreurs:
         adresse_vide: "Votre adresse doit être renseignée"
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
-      erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
       section_demandeur: "Demandeur"
       section_occupants: "Occupants"
       recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
@@ -373,6 +372,7 @@ fr:
   activerecord:
     attributes:
       projet:
+        email: "L’adresse email"
         note_degradation: "La note de dégradation"
         note_insalubrite: "La note d’insalubrité"
     errors:
