@@ -106,6 +106,16 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_financement') + ' : Le prêt sera sans doute accordé.')
     end
 
+    context "quand je rentre des données invalides" do
+      scenario "je vois un message d'erreur" do
+        visit dossier_proposition_path(projet)
+        fill_in 'projet_note_degradation', with: '9999'
+        click_on 'Enregistrer cette proposition'
+        expect(page).to have_current_path dossier_proposition_path(projet)
+        expect(page).to have_content "La note de dégradation doit être comprise entre zéro et un"
+      end
+    end
+
     scenario "upload d'un document sans label" do
       visit dossier_proposition_path(projet)
       attach_file :fichier_document, Rails.root + "spec/fixtures/Ma pièce jointe.txt"

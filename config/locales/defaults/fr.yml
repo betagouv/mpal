@@ -368,3 +368,18 @@ fr:
     intervenants:
       importer_fichier: "Importer le fichier"
       import_reussi: "Les intervenants ont été importés."
+
+  # ---------------------- Active Record -----------------------------
+  activerecord:
+    attributes:
+      projet:
+        note_degradation: "La note de dégradation"
+        note_insalubrite: "La note d’insalubrité"
+    errors:
+      models:
+        projet:
+          attributes:
+            note_degradation:
+              inclusion: "doit être comprise entre zéro et un."
+            note_insalubrite:
+              inclusion: "doit être comprise entre zéro et un."
