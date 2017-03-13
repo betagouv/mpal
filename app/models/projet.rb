@@ -35,6 +35,8 @@ class Projet < ActiveRecord::Base
   validates :adresse_postale, presence: true, on: :update
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
 
+  localized_numeric_setter :note_degradation
+  localized_numeric_setter :note_insalubrite
   localized_numeric_setter :montant_travaux_ht
   localized_numeric_setter :montant_travaux_ttc
   localized_numeric_setter :reste_a_charge
