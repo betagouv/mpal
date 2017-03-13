@@ -10,12 +10,14 @@
           th
             abbr title="Identifiant OPAL" ID OPAL
           th Demandeur
-          th Région
-          th
-            abbr title="Département" Dép.
+          - if current_agent.operateur?
+            th Région
+            th
+              abbr title="Département" Dép.
           th Ville
           th Instructeur
-          th Thèmes
+          - if current_agent.operateur?
+            th Thèmes
           th Opérateur
           th État
           th Depuis
@@ -28,8 +30,9 @@
               = link_to dossier_path(projet)
                 span.firstname= projet.demandeur_principal.prenom
                 span.lastname<= projet.demandeur_principal.nom
-            td= projet.adresse.try(:region)
-            td= projet.departement
+            - if current_agent.operateur?
+              td= projet.adresse.try(:region)
+              td= projet.departement
             td= projet.adresse.try(:ville)
             td
               = projet.invited_instructeur.raison_sociale rescue ''
@@ -37,7 +40,8 @@
                 br/
                 span.firstname= projet.agent_instructeur.prenom
                 span.lastname<= projet.agent_instructeur.nom
-            td
+            - if current_agent.operateur?
+              td
             td
               = projet.invited_operateur.raison_sociale rescue ''
               - if projet.agent_operateur
