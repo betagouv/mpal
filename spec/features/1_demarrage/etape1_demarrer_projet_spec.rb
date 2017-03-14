@@ -20,24 +20,32 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
   end
 
-  scenario "je complète la civilité du demandeur principal" do
+  scenario "je remplis mes informations personnelles" do
     signin_for_new_projet
     within '.civilite' do
       choose('Monsieur')
     end
+    fill_in :projet_email, with: "demandeur@exemple.fr"
+    fill_in :projet_tel,   with: "01 02 03 04 05"
     click_button I18n.t('demarrage_projet.action')
     expect(projet.demandeur_principal.civilite).to eq("mr")
+    expect(projet.email).to eq("demandeur@exemple.fr")
+    expect(projet.tel).to eq("01 02 03 04 05")
   end
 
-  scenario "mon e-mail doit être valide et obligatoire" do
-    skip
-    signin_for_new_projet
-    fill_in :projet_email, with: "invalid-email"
-    fill_in 'projet_tel', with: "06 06 06 06 06"
-    click_button I18n.t('demarrage_projet.action')
-    expect(page).to have_current_path etape1_recuperation_infos_path(projet)
-    expect(projet.tel).to eq("06 06 06 06 06")
-    expect(page).to have_content(I18n.t('projets.edition_projet.messages.erreur_email_invalide'))
+  context "quand je rentre des données invalides" do
+    scenario "je vois un message d'erreur" do
+      signin_for_new_projet
+      fill_in :projet_email, with: "invalid-email@lol"
+      fill_in 'projet_tel', with: "999"
+      click_button I18n.t('demarrage_projet.action')
+
+      expect(page).to have_current_path etape1_recuperation_infos_path(projet)
+      expect(page).to have_content("L’adresse email n’est pas valide")
+      expect(page).to have_field("Email", with: "invalid-email@lol")
+      expect(page).to have_content("Le numéro de téléphone est trop court")
+      expect(page).to have_field("Téléphone", with: "999")
+    end
   end
 
   scenario "je dois rentrer une adresse" do
@@ -50,6 +58,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "je peux ajouter l'adresse du logement à rénover" do
     signin_for_new_projet
+    fill_in :projet_email, with: "demandeur@exemple.fr"
     fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_PORT
     click_button I18n.t('demarrage_projet.action')
 
@@ -62,6 +71,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "j'ajoute une personne de confiance" do
     signin_for_new_projet
+    fill_in :projet_email, with: "demandeur@exemple.fr"
     page.choose I18n.t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix2')
     within '.dem-diff.ins-form' do
       page.choose('Monsieur')
