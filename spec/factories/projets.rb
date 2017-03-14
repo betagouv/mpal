@@ -10,12 +10,11 @@ FactoryGirl.define do
 
     after(:create) do |projet, evaluator|
       create_list(:demandeur, 1, projet: projet)
-      create(:demande, projet: projet)
     end
 
     trait :with_demande do
       after(:build) do |projet|
-        projet.build_demande
+        create(:demande, projet: projet)
       end
     end
 
@@ -86,27 +85,32 @@ FactoryGirl.define do
 
     trait :prospect do
       statut :prospect
+      with_demande
     end
 
     trait :en_cours do
       statut :en_cours
+      with_demande
       with_committed_operateur
     end
 
     trait :proposition_enregistree do
       statut :proposition_enregistree
+      with_demande
       with_committed_operateur
       with_prestations
     end
 
     trait :proposition_acceptee do
       statut :proposition_acceptee
+      with_demande
       with_committed_operateur
       with_prestations
     end
 
     trait :transmis_pour_instruction do
       statut :transmis_pour_instruction
+      with_demande
       with_committed_operateur
       with_prestations
 
@@ -118,6 +122,7 @@ FactoryGirl.define do
     trait :en_cours_d_instruction do
       statut :en_cours_d_instruction
       opal_numero 4567
+      with_demande
       with_committed_operateur
       with_invited_instructeur
       with_invited_pris
