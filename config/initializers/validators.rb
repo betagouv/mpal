@@ -5,8 +5,26 @@ class EmailValidator < ActiveModel::EachValidator
       '@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$', 'i')
 
   def validate_each(record, attribute, value)
-    unless value =~ REG_EMAIL
-      record.errors[attribute] << (options[:message] || I18n.t('errors.messages.invalid'))
+    unless value.blank? || value =~ REG_EMAIL
+      record.errors.add(attribute, options[:message] || :invalid)
+    end
+  end
+end
+
+class PhoneValidator < ActiveModel::EachValidator
+  # This validator loosely checks if the phone number contains the required number of digits.
+  # It doesn't attempt to normalize or format the phone number.
+  def validate_each(record, attribute, value)
+    numbers = value.gsub(/[^0-9]/, '')
+    minimum_numbers = options[:minimum] || 10
+    maximum_numbers = options[:maximum] || 12
+
+    if value.present?
+      if numbers.length < minimum_numbers
+        record.errors.add(attribute, options[:message] || :too_short, { count: minimum_numbers })
+      elsif numbers.length > maximum_numbers
+        record.errors.add(attribute, options[:message] || :too_long, { count: maximum_numbers })
+      end
     end
   end
 end

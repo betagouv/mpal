@@ -1,5 +1,5 @@
 class DossiersController < ApplicationController
-  include ProjetConcern
+  include ProjetConcern, CsvProperties
 
   before_action :authenticate_agent!
   before_action :dossier_ou_projet
@@ -7,7 +7,16 @@ class DossiersController < ApplicationController
 
   def index
     @dossiers = Projet.for_agent(current_agent)
-    @page_heading = I18n.t('tableau_de_bord.titre_section')
+    respond_to do |format|
+      format.html {
+        @page_heading = I18n.t('tableau_de_bord.titre_section')
+      }
+      format.csv {
+        response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
+        response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
+        render text: Projet.to_csv(current_agent)
+      }
+    end
   end
 
   def affecter_agent
@@ -36,6 +45,10 @@ class DossiersController < ApplicationController
   end
 
 private
+
+  def export_filename
+    "dossiers_#{Time.now.strftime('%Y-%m-%d_%H-%M')}.csv"
+  end
 
   def suggested_operateurs_params
     attributes = params

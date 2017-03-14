@@ -2,6 +2,7 @@
   - if @dossiers.blank?
     p Aucun dossier.
   - else
+    = btn name: "Export CSV", href: dossiers_path(format: :csv), icon: "download", class: "btn-export"
     table.table
       thead
         tr
@@ -54,6 +55,6 @@
                 br/
                 span.firstname= projet.agent_operateur.prenom
                 span.lastname<= projet.agent_operateur.nom
-            td= link_to t(status_for_operateur(projet.statut), scope: "projets.statut"), edit_url
+            td= link_to t(projet.status_for_operateur, scope: "projets.statut"), edit_url
             /TODO Status Updated At
             td= link_to ' ', edit_url

@@ -57,10 +57,6 @@ module ProjetConcern
 
 private
 
-    def email_valide?(email)
-      email.match(/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i) || email.empty?
-    end
-
     def projet_params
       attributs = params.require(:projet)
       .permit(:disponibilite, :description, :email, :tel, :annee_construction, :nb_occupants_a_charge,

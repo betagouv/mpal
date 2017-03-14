@@ -13,7 +13,7 @@ class CopyAdressesToModel < ActiveRecord::Migration
             code_postal: projet.code_postal,
             code_insee:  projet.code_insee,
             ville:       projet.ville,
-            departement: projet.departement
+            departement: projet.read_attribute(:departement)
           })
           projet.save!
           print "."

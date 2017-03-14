@@ -10,6 +10,8 @@ describe Projet do
     it { is_expected.to validate_presence_of :reference_avis }
     it { is_expected.not_to validate_presence_of(:adresse_postale).on(:create) }
     it { is_expected.to validate_presence_of(:adresse_postale).on(:update) }
+    it { is_expected.not_to validate_presence_of(:email) }
+    it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
     it { is_expected.to validate_inclusion_of(:note_degradation).in_range(0..1) }
     it { is_expected.to validate_inclusion_of(:note_insalubrite).in_range(0..1) }
@@ -21,6 +23,30 @@ describe Projet do
     it { is_expected.to have_and_belong_to_many :prestations }
     it { is_expected.to belong_to :agent_operateur }
     it { is_expected.to belong_to :agent_instructeur }
+
+    it "accepte les emails valides" do
+      projet.email = "email@exemple.fr"
+      projet.valid?
+      expect(projet.errors[:email]).to be_empty
+    end
+
+    it "rejete les emails invalides" do
+      projet.email = "invalid-email@lol"
+      projet.valid?
+      expect(projet.errors[:email]).to be_present
+    end
+
+    it "accepte les numéros de téléphone valides" do
+      projet.tel = "01 02 03 04 05 06"
+      projet.valid?
+      expect(projet.errors[:tel]).to be_empty
+    end
+
+    it "rejete les numéros de téléphone invalides" do
+      projet.tel = "111"
+      projet.valid?
+      expect(projet.errors[:tel]).to be_present
+    end
   end
 
   describe '#clean_numero_fiscal' do
@@ -276,6 +302,46 @@ describe Projet do
       expect(projet.operateur).to eq(operateur)
       expect(projet.statut).to eq(:en_cours.to_s)
     end
+  end
+
+  describe "#status_for_operateur" do
+    let(:projet) { build :projet }
+    it {
+      projet.statut = :prospect
+      expect(projet.status_for_operateur).to eq :prospect
+    }
+    it {
+      projet.statut = "prospect"
+      expect(projet.status_for_operateur).to eq :prospect
+    }
+    it {
+      projet.statut = nil
+      expect(projet.status_for_operateur).to eq nil
+    }
+    it {
+      projet.statut = :en_cours
+      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+    }
+    it {
+      projet.statut = :proposition_enregistree
+      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+    }
+    it {
+      projet.statut = :proposition_proposee
+      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+    }
+    it {
+      projet.statut = :proposition_acceptee
+      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+    }
+    it {
+      projet.statut = :transmis_pour_instruction
+      expect(projet.status_for_operateur).to eq :depose
+    }
+    it {
+      projet.statut = :en_cours_d_instruction
+      expect(projet.status_for_operateur).to eq :en_cours_d_instruction
+    }
   end
 
   describe "#transmettre!" do

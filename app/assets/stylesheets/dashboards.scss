@@ -1,5 +1,8 @@
 .dashboard-dossiers {
   min-height: 200px;
+  .btn-export {
+    margin-bottom: 1em;
+  }
 }
 .table {
   width: 100%;
@@ -10,7 +13,8 @@
     padding: 3px;
     vertical-align: top;
     border: 1px solid #ddd;
-    white-space: nowrap;
+    // "Ça dépasse"
+    //white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     height: 100%;
