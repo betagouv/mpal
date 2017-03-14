@@ -92,6 +92,7 @@ fr:
       erreurs:
         adresse_vide: "Votre adresse doit être renseignée"
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
+        enregistrement_demandeur: "Une erreur s’est produite lors de l’enregistrement de vos informations personnelles."
       section_demandeur: "Demandeur"
       section_occupants: "Occupants"
       recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
@@ -377,6 +378,8 @@ fr:
         tel: "Le numéro de téléphone"
         note_degradation: "La note de dégradation"
         note_insalubrite: "La note d’insalubrité"
+      occupant:
+        civilite: "La civilité"
     errors:
       models:
         projet:
@@ -385,3 +388,7 @@ fr:
               inclusion: "doit être comprise entre zéro et un."
             note_insalubrite:
               inclusion: "doit être comprise entre zéro et un."
+        occupant:
+          attributes:
+            civilite:
+              blank: "doit être renseignée."

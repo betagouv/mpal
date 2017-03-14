@@ -21,9 +21,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "je remplis mes informations personnelles" do
     signin_for_new_projet
-    within '.civilite' do
-      choose('Monsieur')
-    end
+    within '.civilite' do choose('Monsieur') end
     fill_in :projet_email, with: "demandeur@exemple.fr"
     fill_in :projet_tel,   with: "01 02 03 04 05"
     click_button I18n.t('demarrage_projet.action')
@@ -57,6 +55,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "je peux ajouter l'adresse du logement à rénover" do
     signin_for_new_projet
+    within '.civilite' do choose('Monsieur') end
     fill_in :projet_email, with: "demandeur@exemple.fr"
     fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_PORT
     click_button I18n.t('demarrage_projet.action')
@@ -70,6 +69,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "j'ajoute une personne de confiance" do
     signin_for_new_projet
+    within '.civilite' do choose('Monsieur') end
     fill_in :projet_email, with: "demandeur@exemple.fr"
     page.choose I18n.t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix2')
     within '.dem-diff.ins-form' do
