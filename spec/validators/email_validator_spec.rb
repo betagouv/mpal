@@ -40,4 +40,14 @@ describe EmailValidator do
     let(:email) { "contact@exemple.paris" }
     it { is_expected.to be_valid }
   end
+
+  context "l'email contient des accents" do
+    let(:email) { "contact@liberté.fr" }
+    it { is_expected.to be_valid }
+  end
+
+  context "l'email contient des caractères non-ASCII" do
+    let(:email) { "чебурашка@ящик-с-апельсинами.рф" }
+    it { is_expected.to be_valid }
+  end
 end
