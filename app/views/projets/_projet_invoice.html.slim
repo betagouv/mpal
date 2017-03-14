@@ -5,12 +5,12 @@ ul.demandeur-info
       span.lastname<= @projet_courant.demandeur_principal.nom
   - if @projet_courant.tel.present?
     li= @projet_courant.tel
-  - if @projet_courant.adresse.present?
-    li= @projet_courant.adresse
+  - if @projet_courant.description_adresse.present?
+    li= @projet_courant.description_adresse
 - if @projet_courant.operateur
   ul.operateur-info
     li
       strong= @projet_courant.operateur.raison_sociale
-    li= @projet_courant.operateur.adresse_postale
+    li= @projet_courant.operateur.description_adresse
 /TODO p.delegataire Délégataire : ?
 = render 'projets/projet_details'

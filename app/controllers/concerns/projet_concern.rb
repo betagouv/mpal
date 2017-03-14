@@ -14,11 +14,16 @@ module ProjetConcern
       if @projet_courant.prospect?
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), alert: t('sessions.access_forbidden')
       end
-      if !@projet_courant.agent_operateur && current_agent
-        if @projet_courant.update_attribute(:agent_operateur, current_agent)
-          flash[:notice] = t('projets.visualisation.projet_affecte')
+
+      if request.put?
+        if @projet_courant.save_proposition!(projet_params)
+          return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), notice: t('projets.edition_projet.messages.succes')
+        else
+          flash[:alert] = t('projets.edition_projet.messages.erreur')
         end
       end
+
+      assign_projet_if_needed
       @projet_courant.documents.build(label: "Evaluation énergétique")
       @projet_courant.documents.build(label: "Decision CDAPH ou GIR")
       @projet_courant.documents.build(label: "Rapport d'ergotherpeute ou diagnostic autonomie")
@@ -40,8 +45,8 @@ module ProjetConcern
 
     def show
       gon.push({
-        latitude: @projet_courant.latitude,
-        longitude: @projet_courant.longitude
+        latitude:  @projet_courant.adresse.try(:latitude),
+        longitude: @projet_courant.adresse.try(:longitude)
       })
       @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
       @commentaire = Commentaire.new(projet: @projet_courant)
@@ -50,26 +55,13 @@ module ProjetConcern
       render "projets/show"
     end
 
-    def update
-      @projet_courant.statut = :proposition_enregistree
-      @projet_courant.assign_attributes(projet_params)
-      if projet_valide? && @projet_courant.save
-        return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), notice: t('projets.edition_projet.messages.succes')
-      end
-      render "projets/show", alert: t('projets.edition_projet.messages.erreur')
-    end
+private
 
-    private
     def email_valide?(email)
       email.match(/\A([\w+\-].?)+@[a-z\d\-]+(\.[a-z]+)*\.[a-z]+\z/i) || email.empty?
     end
 
     def projet_params
-      adresse = params[:projet][:adresse]
-      if adresse
-        service_adresse = ApiBan.new
-        adresse_complete = service_adresse.precise(adresse)
-      end
       attributs = params.require(:projet)
       .permit(:disponibilite, :description, :email, :tel, :annee_construction, :nb_occupants_a_charge,
               :type_logement, :etage, :nb_pieces, :surface_habitable, :etiquette_avant_travaux,
@@ -89,14 +81,15 @@ module ProjetConcern
           projet_aide[:_destroy] = true if projet_aide[:montant].blank?
         end
       end
-      attributs = attributs.merge(adresse_complete) if adresse_complete
       attributs
     end
 
-    def projet_valide?
-      @projet_courant.errors[:adresse] = t('invitations.messages.adresse.obligatoire') unless @projet_courant.adresse.present?
-      @projet_courant.errors[:email] = t('projets.edition_projet.messages.erreur_email_invalide') unless email_valide?(@projet_courant.email)
-      @projet_courant.adresse.present? && email_valide?(@projet_courant.email)
+    def assign_projet_if_needed
+      if !@projet_courant.agent_operateur && current_agent
+        if @projet_courant.update_attribute(:agent_operateur, current_agent)
+          flash[:notice] = t('projets.visualisation.projet_affecte')
+        end
+      end
     end
   end
 end

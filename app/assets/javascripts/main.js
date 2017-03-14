@@ -1,9 +1,11 @@
 $(document).ready(function() {
 
-    // show/hide different demandeur
-    $(".dem-diff").hide();
-    $(".dem-contact input:radio").change(function(){
-        if ($("#contact-diff").is(':checked')){
+    // show/hide personne de confiance
+    if (!$("#contact-diff").is(':checked')) {
+      $(".dem-diff").hide();
+    }
+    $(".dem-contact input:radio").change(function() {
+        if ($("#contact-diff").is(':checked')) {
             $(".dem-diff").slideDown("fast");
         } else {
             $(".dem-diff").slideUp("fast");

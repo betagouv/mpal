@@ -33,11 +33,11 @@ ul.ctr-ope
   - if @projet_courant.note_degradation.present?
     li
       = with_semicolon(t('helpers.label.diagnostic.note_degradation'))
-      span= @projet_courant.note_degradation
+      span= number_with_delimiter(@projet_courant.note_degradation)
   - if @projet_courant.note_insalubrite.present?
     li
       = with_semicolon(t('helpers.label.diagnostic.note_insalubrite'))
-      span= @projet_courant.note_insalubrite
+      span= number_with_delimiter(@projet_courant.note_insalubrite)
   li
     = with_semicolon(t('helpers.label.diagnostic.ventilation_adaptee'))
     span= readable_bool(@projet_courant.ventilation_adaptee)

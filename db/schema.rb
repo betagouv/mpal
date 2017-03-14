@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303151930) do
+ActiveRecord::Schema.define(version: 20170313093933) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "adresses", force: :cascade do |t|
+    t.decimal  "latitude",               precision: 10, scale: 6
+    t.decimal  "longitude",              precision: 10, scale: 6
+    t.string   "ligne_1",                                         null: false
+    t.string   "code_insee",                                      null: false
+    t.string   "code_postal",                                     null: false
+    t.string   "ville",                                           null: false
+    t.string   "departement", limit: 10,                          null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
+    t.string   "region"
+  end
 
   create_table "agents", force: :cascade do |t|
     t.string   "username",                           null: false
@@ -185,16 +198,13 @@ ActiveRecord::Schema.define(version: 20170303151930) do
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
 
   create_table "personnes", force: :cascade do |t|
-    t.string  "prenom"
-    t.string  "nom"
-    t.string  "tel"
-    t.string  "email"
-    t.string  "lien_avec_demandeur"
-    t.integer "projet_id"
-    t.string  "civilite"
+    t.string "prenom"
+    t.string "nom"
+    t.string "tel"
+    t.string "email"
+    t.string "lien_avec_demandeur"
+    t.string "civilite"
   end
-
-  add_index "personnes", ["projet_id"], name: "index_personnes_on_projet_id", using: :btree
 
   create_table "prestations", force: :cascade do |t|
     t.string   "libelle"
@@ -266,8 +276,8 @@ ActiveRecord::Schema.define(version: 20170303151930) do
     t.boolean  "handicap"
     t.boolean  "demandeur_salarie"
     t.boolean  "entreprise_plus_10_personnes"
-    t.integer  "note_degradation"
-    t.integer  "note_insalubrite"
+    t.decimal  "note_degradation",             precision: 10, scale: 6
+    t.decimal  "note_insalubrite",             precision: 10, scale: 6
     t.boolean  "ventilation_adaptee"
     t.boolean  "presence_humidite"
     t.boolean  "auto_rehabilitation"
@@ -284,8 +294,12 @@ ActiveRecord::Schema.define(version: 20170303151930) do
     t.float    "reste_a_charge"
     t.integer  "agent_operateur_id"
     t.integer  "agent_instructeur_id"
+    t.integer  "adresse_postale_id"
+    t.integer  "adresse_a_renover_id"
   end
 
+  add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
+  add_index "projets", ["adresse_postale_id"], name: "index_projets_on_adresse_postale_id", using: :btree
   add_index "projets", ["agent_instructeur_id"], name: "index_projets_on_agent_instructeur_id", using: :btree
   add_index "projets", ["agent_operateur_id"], name: "index_projets_on_agent_operateur_id", using: :btree
   add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
@@ -317,13 +331,14 @@ ActiveRecord::Schema.define(version: 20170303151930) do
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
-  add_foreign_key "personnes", "projets"
   add_foreign_key "prestations", "projets"
   add_foreign_key "prestations", "themes"
   add_foreign_key "projet_aides", "aides"
   add_foreign_key "projet_aides", "projets"
   add_foreign_key "projet_prestations", "prestations"
   add_foreign_key "projet_prestations", "projets"
+  add_foreign_key "projets", "adresses", column: "adresse_a_renover_id"
+  add_foreign_key "projets", "adresses", column: "adresse_postale_id"
   add_foreign_key "projets", "agents", column: "agent_instructeur_id"
   add_foreign_key "projets", "agents", column: "agent_operateur_id"
   add_foreign_key "projets", "intervenants", column: "operateur_id"

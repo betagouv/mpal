@@ -230,7 +230,9 @@ module ApplicationHelper
   end
 
   def affiche_demande_souhaitee(demande)
-    html = content_tag(:h4, "Difficultés rencontrées dans le logement")
+    html = content_tag(:h4, "Adresse du logement")
+    html << content_tag(:p, demande.projet.adresse.description)
+    html << content_tag(:h4, "Difficultés rencontrées dans le logement")
     besoins = []
     besoins << t("demarrage_projet.etape2_description_projet.changement_chauffage") if demande.changement_chauffage
     besoins << t("demarrage_projet.etape2_description_projet.froid") if demande.froid
@@ -280,5 +282,13 @@ module ApplicationHelper
 
   def dossier_opal_url(numero)
     "#{ENV['OPAL_API_BASE_URI']}sio/ctrl/accueil?FORM_DTO_ID=DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE&FORM_ACTION=RECHERCHER_RAPIDE_DOSSIER&$DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE$DOS_NUMERO=#{numero}"
+  end
+
+  def status_for_operateur(status)
+    return if status.blank?
+    status_sym = status.to_sym
+    return :en_cours_de_montage if [:en_cours, :proposition_enregistree, :proposition_proposee, :proposition_acceptee].include? status_sym
+    return status_sym if [:prospect, :en_cours_d_instruction].include? status_sym
+    :depose
   end
 end

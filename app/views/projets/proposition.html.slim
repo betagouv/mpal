@@ -1,4 +1,5 @@
-= form_for @projet_courant, url: send("#{@dossier_ou_projet}_path", @projet_courant), html: { method: :put, class: "edition-demande" } do |f|
+= form_for @projet_courant, url: send("#{@dossier_ou_projet}_proposition_path", @projet_courant), html: { method: :put, class: "edition-demande" } do |f|
+  = render "shared/errors", resource: @projet_courant
   section.content-projet
     article.block.projet-ope
       h3.is-open Projet proposé par l’opérateur
@@ -52,10 +53,10 @@
                 = f.label :handicap, "Non", value: "false"
               li
                 = f.label :note_degradation, t('helpers.label.diagnostic.note_degradation')
-                = f.text_field :note_degradation
+                = text_field_tag "projet[note_degradation]", number_with_delimiter(@projet_courant.note_degradation)
               li
                 = f.label :note_insalubrite, t('helpers.label.diagnostic.note_insalubrite')
-                = f.text_field :note_insalubrite
+                = text_field_tag "projet[note_insalubrite]", number_with_delimiter(@projet_courant.note_insalubrite)
               li.radio
                 p.like-label= t('helpers.label.diagnostic.ventilation_adaptee')
                 = f.radio_button :ventilation_adaptee, true

@@ -9,8 +9,8 @@ header.project-header.clearfix
         - if current_agent.intervenant
           p.nom-intervenant= current_agent.intervenant.raison_sociale
         - else
-          p.nom-intervenant-error.alert.alert-danger
-            | Votre compte rencontre une erreur. Merci de contacter le #{link_to "support Anah", "mailto:#{ENV['EMAIL_CONTACT']}"}.
+          p.nom-intervenant-error
+            | Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", "mailto:#{ENV['EMAIL_CONTACT']}"}
         p.nom-agent
           span.firstname= current_agent.prenom
           span.lastname<= current_agent.nom

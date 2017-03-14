@@ -97,7 +97,7 @@ fr:
       recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
       personne_confiance: "Qui contacter pour les démarches à venir ?"
       personne_confiance_choix1: Vous-même
-      personne_confiance_choix2: "Une personne chargée du suivi du dossier(pour vous)"
+      personne_confiance_choix2: "Une personne chargée du suivi du dossier (pour vous)"
       telephone: "Numéro de téléphone"
       email: "Votre adresse e-mail"
       civilite: "Civilite"
@@ -150,14 +150,16 @@ fr:
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
     statut:
-      prospect: "En prospection"
+      bouton_accepter: "Accepter ce projet"
+      depose: "Déposé par le demandeur"
       en_cours: "En cours"
+      en_cours_d_instruction: "En cours d’instruction"
+      en_cours_de_montage: "En cours de montage"
+      prospect: "En prospection"
+      proposition_acceptee: "Proposition acceptée"
       proposition_enregistree: "Proposition enregistrée"
       proposition_proposee: "Proposition proposée"
-      proposition_acceptee: "Proposition acceptée"
       transmis_pour_instruction: "Transmis aux services instructeurs"
-      en_cours_d_instruction: "En cours d’instruction"
-      bouton_accepter: "Accepter ce projet"
     operateur_construit_proposition: "%{operateur}, l’opérateur chargé de vous accompagner, est en train de construire une proposition de projet."
     edition_projet:
       messages:
@@ -366,3 +368,18 @@ fr:
     intervenants:
       importer_fichier: "Importer le fichier"
       import_reussi: "Les intervenants ont été importés."
+
+  # ---------------------- Active Record -----------------------------
+  activerecord:
+    attributes:
+      projet:
+        note_degradation: "La note de dégradation"
+        note_insalubrite: "La note d’insalubrité"
+    errors:
+      models:
+        projet:
+          attributes:
+            note_degradation:
+              inclusion: "doit être comprise entre zéro et un."
+            note_insalubrite:
+              inclusion: "doit être comprise entre zéro et un."

@@ -1,5 +1,5 @@
 p Bonjour,
-p= "#{@invitation.demandeur_principal.fullname} souhaite effectuer des travaux dans son logement (#{@invitation.adresse})"
+p= "#{@invitation.demandeur_principal.fullname} souhaite effectuer des travaux dans son logement (#{@invitation.description_adresse})"
 p Voici une description des travaux qu’il souhaite effectuer :
 br
 p= affiche_demande_souhaitee(@invitation.projet.demande)

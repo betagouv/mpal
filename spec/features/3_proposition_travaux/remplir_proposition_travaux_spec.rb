@@ -36,8 +36,8 @@ feature "Remplir la proposition de travaux" do
       choose 'projet_autonomie_true'
       fill_in 'projet_niveau_gir', with: '712'
       choose 'projet_handicap_true'
-      fill_in 'projet_note_degradation', with: '345'
-      fill_in 'projet_note_insalubrite', with: '977'
+      fill_in 'projet_note_degradation', with: '0,1'
+      fill_in 'projet_note_insalubrite', with: '0,2'
       choose 'projet_ventilation_adaptee_true'
       choose 'projet_presence_humidite_true'
       choose 'projet_auto_rehabilitation_true'
@@ -75,8 +75,8 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.autonomie'))
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.niveau_gir') + ' : 712')
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.handicap') + ' : Oui')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_degradation') + ' : 345')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_insalubrite') + ' : 977')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_degradation') + ' : 0,1')
+      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_insalubrite') + ' : 0,2')
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.ventilation_adaptee') + ' : Oui')
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.presence_humidite') + ' : Oui')
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.auto_rehabilitation') + ' Oui')
@@ -104,6 +104,16 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content('5 555,55 €')
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_travaux') + ' : Il faudra casser un mur.')
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_financement') + ' : Le prêt sera sans doute accordé.')
+    end
+
+    context "quand je rentre des données invalides" do
+      scenario "je vois un message d'erreur" do
+        visit dossier_proposition_path(projet)
+        fill_in 'projet_note_degradation', with: '9999'
+        click_on 'Enregistrer cette proposition'
+        expect(page).to have_current_path dossier_proposition_path(projet)
+        expect(page).to have_content "La note de dégradation doit être comprise entre zéro et un"
+      end
     end
 
     scenario "upload d'un document sans label" do

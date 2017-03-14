@@ -3,7 +3,7 @@ require 'dotenv'
 module Fakeweb
   class ApiBan
     ADDRESS_MARE = "12 rue de la Mare, 75010 Paris"
-    ADDRESS_ROME = "65 rue de Rome, 75008 Paris"
+    ADDRESS_PORT = "8 Boulevard du Port, 80000 Amiens"
     ADDRESS_UNKNOWN = "Route de nulle-part, Ailleurs"
 
     def self.register_mare_uri
@@ -14,6 +14,7 @@ module Fakeweb
           "features": [
             {
               "properties": {
+                "context": "75, Île-de-France",
                 "label": ADDRESS_MARE,
                 "postcode": "75010",
                 "citycode": "75010",
@@ -33,26 +34,27 @@ module Fakeweb
       )
     end
 
-    def self.register_rome_uri
+    def self.register_port_uri
       FakeWeb.register_uri(
-        :get, ::ApiBan.uri(ADDRESS_ROME),
+        :get, ::ApiBan.uri(ADDRESS_PORT),
         content_type: 'application/json',
         body: JSON.generate({
           "features": [
             {
               "properties": {
-                "label": ADDRESS_ROME,
-                "postcode": "75008",
-                "citycode": "75008",
-                "name": "65 rue de Rome",
-                "city": "Paris",
-                "departement": "75"
+                "context": "80, Somme, Hauts-de-France (Picardie)",
+                "label": ADDRESS_PORT,
+                "postcode": "80000",
+                "citycode": "80021",
+                "name": "8 Boulevard du Port",
+                "city": "Amiens",
+                "departement": "80"
 
               },
               "geometry": {
                 "coordinates": [
-                  5.8,
-                  57.9
+                  2.290084,
+                  49.897443
                 ]
               }
             }
@@ -97,7 +99,7 @@ end
 RSpec.configure do |config|
   config.before(:each) do
     Fakeweb::ApiBan.register_mare_uri
-    Fakeweb::ApiBan.register_rome_uri
+    Fakeweb::ApiBan.register_port_uri
     Fakeweb::ApiBan.register_unknown_uri
   end
 end

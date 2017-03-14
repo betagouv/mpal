@@ -12,7 +12,7 @@ class DemarrageProjetController < ApplicationController
       return etape1_redirect_to_next_step if success
     end
 
-    @projet_courant.personne_de_confiance = Personne.new
+    @projet_courant.personne ||= Personne.new
     nb_occupants = @projet_courant.occupants.count
     @occupants_a_charge = []
     @projet_courant.nb_occupants_a_charge.times.each do |index|
@@ -40,6 +40,9 @@ class DemarrageProjetController < ApplicationController
   def etape3_mise_en_relation
     @demande = projet_demande
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
+    if @pris_departement.blank?
+      raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
+    end
     @action_label = if needs_etape3? then action_label_create else action_label_update end
   end
 
@@ -70,9 +73,15 @@ private
 
   def projet_contacts_params
     params.require(:projet).permit(
+      :civilite,
       :tel,
       :email,
-      personne_de_confiance_attributes: [
+    )
+  end
+
+  def projet_personne_params
+    params.require(:projet).permit(
+      personne_attributes: [
         :id,
         :prenom,
         :nom,
@@ -116,27 +125,42 @@ private
   end
 
   def etape1_save
-    if params[:projet][:adresse].blank?
-      flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
+    begin
+      @projet_courant.adresse_postale = ProjetInitializer.new.precise_adresse(
+        params[:projet][:adresse_postale],
+        previous_value: @projet_courant.adresse_postale,
+        required: true
+      )
+
+      @projet_courant.adresse_a_renover = ProjetInitializer.new.precise_adresse(
+        params[:projet][:adresse_a_renover],
+        previous_value: @projet_courant.adresse_a_renover,
+        required: false
+      )
+    rescue => e
+      flash[:alert] = e.message
       return false
     end
 
-    if params[:projet][:adresse] != @projet_courant.adresse
-      adresse_found = ProjetInitializer.new.precise_adresse(@projet_courant, params[:projet][:adresse])
-      if !adresse_found
-        flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
-        return false
+    @projet_courant.assign_attributes(projet_contacts_params)
+    if "1" == params[:contact]
+      @projet_courant.assign_attributes(projet_personne_params)
+    else
+      if @projet_courant.personne.present?
+        personne = @projet_courant.personne
+        @projet_courant.update_attribute(:personne_id, nil)
+        personne.destroy!
+      else
+        @projet_courant.personne = nil
       end
     end
-
-    @projet_courant.assign_attributes(projet_contacts_params)
-    if ! @projet_courant.save
+    if !@projet_courant.save
       return false
     end
 
     demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
     demandeur_principal.assign_attributes(demandeur_principal_params)
-    if ! demandeur_principal.save
+    if !demandeur_principal.save
       flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
       return false
     end

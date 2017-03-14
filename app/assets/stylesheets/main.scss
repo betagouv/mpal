@@ -200,139 +200,12 @@ fieldset {
   text-transform: uppercase;
 }
 
-/** Login **/
-.login {
-  background: #eef1f7;
-  box-shadow: 2px 2px 12px 0 rgba(0, 0, 0, 0.2); }
-  .intro {
-    vertical-align: top;
-    padding: 30px;
-    box-sizing: border-box;
-    background: #eef1f7;
-    @media screen and (min-width: 820px) {
-      display: inline-block;
-      width: 50%;
-    }
-  }
-    .login .intro h1 {
-      text-align: center;
-      padding: 10px 0 20px; }
-      .login .intro h1 img {
-        display: inline; }
-    .login .intro h2 {
-      padding: 20px 0 30px;
-      font-size: 20px;
-      text-align: center;
-      line-height: 30px;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
-      .login .intro h2 strong {
-        font-size: 25px;
-        display: block;
-        text-align: center; }
-    .login .intro p {
-      margin-bottom: 1em;
-      line-height: 20px; }
-    .login .intro a {
-      display: inline-block;
-      margin-top: 20px;
-      font-size: 13px;
-      color: #e7235a;
-      text-decoration: underline; }
-  .login .champs {
-    background: white;
-    vertical-align: top;
-    box-sizing: border-box;
-    @media screen and (min-width: 820px) {
-      display: inline-block;
-      width: 50%;
-    }
-  }
-    .login .champs h2 {
-      text-align: center;
-      font-size: 30px;
-      font-weight: bold;
-      padding: 30px;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5); }
-    .login .champs p {
-      line-height: 20px;
-      font-size: 14px;
-      margin-bottom: 1em;
-      padding: 0 30px; }
-    .form-login {
-      margin-top: 30px;
-    }
-    .login .champs .auth {
-      padding: 25px 30px;
-      background: #56869a; }
-      .login .champs .auth .auth-input {
-        display: block;
-        border-radius: 3px;
-        background-color: #f2f6fa;
-        box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-        border: solid 1px #909eaf;
-        padding: 9px 10px 8px;
-        width: 80%; }
-      .login .champs .auth .auth-label {
-        display: block;
-        color: white;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
-        margin-top: 20px;
-        margin-bottom: 8px;
-      }
-      .login .champs .auth .auth-label-numero-fiscal {
-        margin-top: 0;
-      }
-      .login .champs .auth a {
-        color: #fff;
-        text-decoration: underline;
-        font-size: 12px;
-        display: inline-block;
-        margin-top: 5px;
-      }
-      .login .champs .auth .btn {
-        display: table;
-        margin: 20px 0 0;
-      }
-    .login .champs .mleg {
-      margin-top: 20px;
-      line-height: 20px;
-    }
-      .login .champs .mleg input {
-        margin-right: 10px; }
-      .login .champs .mleg label {
-        color: #fff;
-        text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5); }
-      .login .champs .mleg abbr {
-        color: white;
-        border-bottom-color: white; }
-.authentification-clavis {
-  padding: 30px;
-  a {
-    text-decoration: underline;
-    &:hover {
-      color: #111;
-    }
-  }
-}
-.login {
-  .exemples {
-    background-color: #e6eaed;
-    padding: 30px;
-  }
-  li {
-    display: list-item;
-    list-style-type: square;
-    margin-left: 1em;
-  }
-  p {
-    margin-top: 1em;
-  }
-}
-
 /** Page projet **/
 .page-projet {
   position: relative;
   margin: 0 auto;
+}
+.page-projet-2-cols {
   @media screen and (min-width: 600px) {
     display: flex;
     height: 100%;
@@ -380,6 +253,17 @@ fieldset {
   .nom-agent {
     font-weight: bold;
     margin-bottom: 1em;
+  }
+  .nom-intervenant-error {
+    color: #bf0000;
+    a {
+      color: #bf0000;
+      font-weight: bold;
+      text-decoration: underline;
+      &:hover {
+        color: #900;
+      }
+    }
   }
 }
 

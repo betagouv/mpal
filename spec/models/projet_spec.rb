@@ -8,12 +8,16 @@ describe Projet do
     it { expect(projet).to be_valid }
     it { is_expected.to validate_presence_of :numero_fiscal }
     it { is_expected.to validate_presence_of :reference_avis }
-    it { is_expected.not_to validate_presence_of(:adresse_ligne1).on(:create) }
-    it { is_expected.to     validate_presence_of(:adresse_ligne1).on(:update) }
+    it { is_expected.not_to validate_presence_of(:adresse_postale).on(:create) }
+    it { is_expected.to validate_presence_of(:adresse_postale).on(:update) }
     it { is_expected.to validate_numericality_of(:nb_occupants_a_charge).is_greater_than_or_equal_to(0) }
+    it { is_expected.to validate_inclusion_of(:note_degradation).in_range(0..1) }
+    it { is_expected.to validate_inclusion_of(:note_insalubrite).in_range(0..1) }
+    it { is_expected.to have_one :demande }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
     it { is_expected.to belong_to :operateur }
+    it { is_expected.to belong_to :adresse_postale }
     it { is_expected.to have_and_belong_to_many :prestations }
     it { is_expected.to belong_to :agent_operateur }
     it { is_expected.to belong_to :agent_instructeur }
@@ -125,13 +129,44 @@ describe Projet do
   end
 
   describe "#adresse" do
-    context "avec une adresse" do
-      let(:projet) do build :projet, adresse_ligne1: "12 rue de la Mare", code_postal: "75 010", ville: "Paris" end
-      it { expect(projet.adresse).to eq("12 rue de la Mare, 75 010 Paris") }
-    end
+    let(:projet) { build :projet, adresse_postale: adresse_postale, adresse_a_renover: adresse_a_renover }
     context "sans adresse" do
-      let(:projet) do build :projet, adresse_ligne1: nil, code_postal: nil, ville: nil end
+      let(:adresse_postale)   { nil }
+      let(:adresse_a_renover) { nil }
       it { expect(projet.adresse).to be nil }
+    end
+    context "avec une adresse postale" do
+      let(:adresse_postale)   { build :adresse }
+      let(:adresse_a_renover) { nil }
+      it { expect(projet.adresse).to eq adresse_postale }
+    end
+    context "avec une adresse postale et une adresse à rénover" do
+      let(:adresse_postale)   { build :adresse, :rue_de_la_mare }
+      let(:adresse_a_renover) { build :adresse, :rue_de_rome }
+      it "l'adresse utilisée est celle du logement à rénover" do
+        expect(projet.adresse).to eq adresse_a_renover
+      end
+    end
+  end
+
+  describe "#description_adresse" do
+    context "quand l'adresse est renseignée" do
+      let(:adresse) { build :adresse }
+      let(:projet)  { build :projet, adresse_postale: adresse }
+      it { expect(projet.description_adresse).to eq adresse.description }
+    end
+    context "quand l'adresse est vide" do
+      let(:projet) { build :projet, adresse_postale: nil }
+      it { expect(projet.description_adresse).to be nil }
+    end
+  end
+
+  describe "#departement" do
+    let(:adresse_postale)   { build :adresse, :rue_de_la_mare }
+    let(:adresse_a_renover) { build :adresse, :rue_de_rome }
+    let(:projet) { build :projet, adresse_postale: adresse_postale, adresse_a_renover: adresse_a_renover }
+    it "renvoie le département du logement à rénover (ou de l'adresse postale le cas échéant" do
+      expect(projet.departement).to eq adresse_a_renover.departement
     end
   end
 

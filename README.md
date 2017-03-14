@@ -67,9 +67,9 @@ Voir la page [Intégration et déploiement continu](https://github.com/sgmap/mpa
 
 https://github.com/sgmap/mpal/wiki
 
-# Api utilisées (Voir dossier `app/services`)
+# API utilisées (Voir dossier `app/services`)
 
-## Api particulier
+## API particulier
 - https://particulier.api.gouv.fr/tech/#introduction
 - https://particulier.api.gouv.fr/docs/
 
@@ -80,6 +80,6 @@ curl "https://particulier-test.api.gouv.fr/api/impots/svair?numeroFiscal=12&refe
   -H "accept: application/json" \
   -H "X-User: demo"
 
-## Api ban
+## API Base Adresse Nationale
 
 - https://adresse.data.gouv.fr/api/

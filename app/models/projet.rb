@@ -3,10 +3,14 @@ class Projet < ActiveRecord::Base
 
   enum statut: [ :prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :proposition_acceptee, :transmis_pour_instruction, :en_cours_d_instruction ]
 
-  has_one :personne_de_confiance, class_name: "Personne"
-  accepts_nested_attributes_for :personne_de_confiance
+  # Personne de confiance
+  belongs_to :personne, dependent: :destroy
+  accepts_nested_attributes_for :personne
 
   has_one :demande, dependent: :destroy
+  belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
+  belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
+
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
   belongs_to :operateur, class_name: 'Intervenant'
@@ -28,9 +32,12 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
 
   validates :numero_fiscal, :reference_avis, presence: true
-  validates :adresse_ligne1, presence: true, on: :update
+  validates :adresse_postale, presence: true, on: :update
   validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
+  validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 
+  localized_numeric_setter :note_degradation
+  localized_numeric_setter :note_insalubrite
   localized_numeric_setter :montant_travaux_ht
   localized_numeric_setter :montant_travaux_ttc
   localized_numeric_setter :reste_a_charge
@@ -195,6 +202,12 @@ class Projet < ActiveRecord::Base
     save
   end
 
+  def save_proposition!(attributes)
+    assign_attributes(attributes)
+    self.statut = :proposition_enregistree
+    save
+  end
+
   def transmettre!(instructeur)
     invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: instructeur)
     if invitation.save
@@ -207,9 +220,15 @@ class Projet < ActiveRecord::Base
   end
 
   def adresse
-    if adresse_ligne1.present?
-      "#{adresse_ligne1}, #{code_postal} #{ville}"
-    end
+    adresse_a_renover || adresse_postale
+  end
+
+  def description_adresse
+    adresse.try(:description)
+  end
+
+  def departement
+    adresse.try(:departement)
   end
 
   def nom_occupants

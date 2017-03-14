@@ -7,12 +7,14 @@
         tr
           th
             abbr title="Identifiant plateforme" ID PF
-          th
-            abbr title="Identifiant OPAL" ID OPAL
+          - if current_agent.instructeur? || current_agent.operateur?
+            th
+              abbr title="Identifiant OPAL" ID OPAL
           th Demandeur
-          th Région
-          th
-            abbr title="Département" Dép.
+          - if current_agent.operateur?
+            th Région
+            th
+              abbr title="Département" Dép.
           th Ville
           th Instructeur
           th Thèmes
@@ -22,27 +24,36 @@
       tbody
         - @dossiers.each do |projet|
           tr id="projet_#{projet.id}"
-            td= projet.numero_plateforme
-            td= projet.opal_numero
-            td
-              = link_to dossier_path(projet)
-                span.firstname= projet.demandeur_principal.prenom
-                span.lastname<= projet.demandeur_principal.nom
-            td
-            td= projet.departement
-            td= projet.ville
-            td
-              = projet.invited_instructeur.raison_sociale rescue ''
-              - if projet.agent_instructeur
+            - edit_url = dossier_path(projet)
+            td= link_to projet.numero_plateforme, edit_url
+            - if current_agent.instructeur?
+              - if projet.opal_numero.blank?
+                td= link_to ' ', edit_url
+              - else
+                td= link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: '_blank'
+            - if current_agent.operateur?
+              td= link_to (projet.opal_numero || ' '), edit_url
+            td= link_to edit_url
+              span.firstname= projet.demandeur_principal.prenom
+              span.lastname<= projet.demandeur_principal.nom
+            - if current_agent.operateur?
+              td= link_to projet.adresse.try(:region), edit_url
+              td= link_to projet.adresse.try(:departement), edit_url
+            td= link_to projet.adresse.try(:ville), edit_url
+            td= link_to edit_url do
+              = projet.invited_instructeur.raison_sociale rescue ' '
+              - if projet.agent_instructeur && (current_agent.instructeur? || current_agent.operateur?)
                 br/
                 span.firstname= projet.agent_instructeur.prenom
                 span.lastname<= projet.agent_instructeur.nom
-            td
-            td
-              = projet.invited_operateur.raison_sociale rescue ''
-              - if projet.agent_operateur
+            /TODO Themes
+            td= link_to ' ', edit_url
+            td= link_to edit_url do
+              = projet.invited_operateur.raison_sociale rescue ' '
+              - if projet.agent_operateur && (current_agent.instructeur? || current_agent.operateur?)
                 br/
                 span.firstname= projet.agent_operateur.prenom
                 span.lastname<= projet.agent_operateur.nom
-            td= t(projet.statut, scope: "projets.statut")
-            td= format_date projet.updated_at
+            td= link_to t(status_for_operateur(projet.statut), scope: "projets.statut"), edit_url
+            /TODO Status Updated At
+            td= link_to ' ', edit_url

@@ -23,30 +23,6 @@
   section {
     padding: 20px;
   }
-  .logo-link {
-    display: block;
-    width: 123px;
-    height: 96px;
-    margin: 30px auto;
-  }
-  .logo {
-    display: block;
-    width: 123px;
-    height: 96px;
-  }
-  .nom-agent {
-    font-size: 1.5em;
-  }
-  .nom-intervenant {
-    margin-top: 0.5em;
-  }
-  .nom-intervenant-error {
-    margin-top: 0.5em;
-    padding: 5px 10px;
-  }
-  .nom-intervenant-error a {
-    color: #6f3231;
-  }
 }
 .personal-information {
   background-color: #576f8c;
@@ -59,6 +35,14 @@
     margin-top: 0.5em;
     line-height: 1.5em;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
+  }
+  .personne {
+    margin-top: 1em;
+    padding-top: 1em;
+    border-top: 1px dotted white;
+    .personne-titre {
+      text-decoration: underline;
+    }
   }
 }
 .affectation {

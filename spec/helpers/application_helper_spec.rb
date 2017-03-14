@@ -26,7 +26,7 @@ describe ApplicationHelper do
   context "avec une demande existante" do
     let(:demande) { FactoryGirl.build(:demande) }
     it "une demande souhaitée contient un titre" do
-      expect(helper.affiche_demande_souhaitee(demande)).to start_with("<h4>Difficultés rencontrées dans le logement</h4>")
+      expect(helper.affiche_demande_souhaitee(demande)).to include("<h4>Difficultés rencontrées dans le logement</h4>")
     end
 
     it "une demande souhaitée contient les besoins" do
@@ -34,5 +34,17 @@ describe ApplicationHelper do
       expect(demande.froid).to be_truthy
       expect(helper.affiche_demande_souhaitee(demande)).to include(I18n.t('demarrage_projet.etape2_description_projet.froid'))
     end
+  end
+
+  it "renvoie le bon statut pour l'opérateur" do
+    expect(status_for_operateur(:prospect)).to eq :prospect
+    expect(status_for_operateur("prospect")).to eq :prospect
+    expect(status_for_operateur(nil)).to eq nil
+    expect(status_for_operateur(:en_cours)).to eq :en_cours_de_montage
+    expect(status_for_operateur(:proposition_enregistree)).to eq :en_cours_de_montage
+    expect(status_for_operateur(:proposition_proposee)).to eq :en_cours_de_montage
+    expect(status_for_operateur(:proposition_acceptee)).to eq :en_cours_de_montage
+    expect(status_for_operateur(:transmis_pour_instruction)).to eq :depose
+    expect(status_for_operateur(:en_cours_d_instruction)).to eq :en_cours_d_instruction
   end
 end
