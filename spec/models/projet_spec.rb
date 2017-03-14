@@ -304,6 +304,46 @@ describe Projet do
     end
   end
 
+  describe "#status_for_operateur" do
+    let(:projet) { build :projet }
+    it {
+      projet.statut = :prospect
+      expect(projet.status_for_operateur).to eq :prospect
+    }
+    it {
+      projet.statut = "prospect"
+      expect(projet.status_for_operateur).to eq :prospect
+    }
+    it {
+      projet.statut = nil
+      expect(projet.status_for_operateur).to eq nil
+    }
+    it {
+      projet.statut = :en_cours
+      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+    }
+    it {
+      projet.statut = :proposition_enregistree
+      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+    }
+    it {
+      projet.statut = :proposition_proposee
+      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+    }
+    it {
+      projet.statut = :proposition_acceptee
+      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+    }
+    it {
+      projet.statut = :transmis_pour_instruction
+      expect(projet.status_for_operateur).to eq :depose
+    }
+    it {
+      projet.statut = :en_cours_d_instruction
+      expect(projet.status_for_operateur).to eq :en_cours_d_instruction
+    }
+  end
+
   describe "#transmettre!" do
     context "with valid call" do
       let(:projet) { create :projet }

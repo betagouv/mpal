@@ -1,5 +1,6 @@
 class Projet < ActiveRecord::Base
   include LocalizedModelConcern
+  extend CsvProperties
 
   enum statut: [ :prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :proposition_acceptee, :transmis_pour_instruction, :en_cours_d_instruction ]
 
@@ -239,6 +240,58 @@ class Projet < ActiveRecord::Base
 
   def prenom_occupants
     occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
+  end
+
+  def status_for_operateur
+    return if statut.blank?
+    statuses_map = {
+      prospect:                :prospect,
+      en_cours:                :en_cours_de_montage,
+      proposition_enregistree: :en_cours_de_montage,
+      proposition_proposee:    :en_cours_de_montage,
+      proposition_acceptee:    :en_cours_de_montage,
+      en_cours_d_instruction:  :en_cours_d_instruction,
+    }
+    statuses_map[statut.to_sym] || :depose
+  end
+
+  def self.to_csv(agent)
+    utf8 = CSV.generate(csv_options) do |csv|
+      titles = [
+        'Numéro plateforme',
+        'Demandeur',
+        'Ville',
+        'Instructeur',
+        'Thèmes',
+        'Opérateur',
+        'État',
+        'Depuis',
+      ]
+      titles.insert 6, 'Agent opérateur'   if agent.instructeur? || agent.operateur?
+      titles.insert 4, 'Agent instructeur' if agent.instructeur? || agent.operateur?
+      titles.insert 2, 'Département'       if agent.operateur?
+      titles.insert 2, 'Région'            if agent.operateur?
+      titles.insert 1, 'Identifiant OPAL'  if agent.operateur?
+      csv << titles
+      Projet.for_agent(agent).each do |projet|
+        line = [
+          projet.numero_plateforme,
+          projet.demandeur_principal.fullname,
+          projet.adresse.try(:ville),
+          projet.invited_instructeur.try(:raison_sociale),
+          '',
+          projet.invited_operateur.try(:raison_sociale),
+          I18n.t(projet.status_for_operateur, scope: "projets.statut"),
+        ]
+        line.insert 6, projet.opal_numero                      if agent.instructeur? || agent.operateur?
+        line.insert 4, projet.agent_instructeur.try(:fullname) if agent.instructeur? || agent.operateur?
+        line.insert 2, projet.adresse.try(:departement)        if agent.operateur?
+        line.insert 2, projet.adresse.try(:region)             if agent.operateur?
+        line.insert 1, projet.opal_numero                      if agent.operateur?
+        csv << line
+      end
+    end
+    utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
   end
 
   def validate_suggested_operateurs
