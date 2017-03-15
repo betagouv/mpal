@@ -27,8 +27,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         expect(page).to have_content(projet.opal_numero)
         expect(page).to have_content(projet.demandeur_principal.fullname)
         expect(page).to have_content(projet.adresse.region)
-        expect(page).to have_css('td#departement')
-        expect(page).to have_content(projet.adresse.departement)
+        expect(page).to have_css('td.departement', text: projet.adresse.departement)
         expect(page).to have_content(projet.adresse.ville)
         expect(page).to have_content(projet.agent_instructeur.intervenant.raison_sociale)
         expect(page).to have_content(projet.agent_instructeur.fullname)
@@ -49,7 +48,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
 
     scenario "je ne peux pas accéder au dossier Opal" do
       visit dossiers_path
-      expect(page).not_to have_link(projet.opal_numero, :href=>dossier_opal_url(projet.opal_numero))
+      expect(page).not_to have_link(projet.opal_numero, href: dossier_opal_url(projet.opal_numero))
     end
   end
 
@@ -64,7 +63,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         expect(page).to     have_content(projet.opal_numero)
         expect(page).to     have_content(projet.demandeur_principal.fullname)
         expect(page).not_to have_content(projet.adresse.region)
-        expect(page).not_to have_css('td#departement')
+        expect(page).not_to have_css('td.departement')
         expect(page).to     have_content(projet.adresse.ville)
         expect(page).to     have_content(projet.agent_instructeur.intervenant.raison_sociale)
         expect(page).to     have_content(projet.agent_instructeur.fullname)
@@ -85,7 +84,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
 
     scenario "je peux accéder au dossier Opal" do
       visit dossiers_path
-      expect(page).to have_link(projet.opal_numero, :href=>dossier_opal_url(projet.opal_numero))
+      expect(page).to have_link(projet.opal_numero, href: dossier_opal_url(projet.opal_numero))
     end
   end
 
@@ -100,7 +99,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         expect(page).not_to have_content(projet.opal_numero)
         expect(page).to     have_content(projet.demandeur_principal.fullname)
         expect(page).not_to have_content(projet.adresse.region)
-        expect(page).not_to have_css('td#departement')
+        expect(page).not_to have_css('td.departement')
         expect(page).to     have_content(projet.adresse.ville)
         expect(page).to     have_content(projet.agent_instructeur.intervenant.raison_sociale)
         expect(page).not_to have_content(projet.agent_instructeur.fullname)

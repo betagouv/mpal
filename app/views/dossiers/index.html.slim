@@ -39,7 +39,7 @@
               span.lastname<= projet.demandeur_principal.nom
             - if current_agent.operateur?
               td= link_to projet.adresse.try(:region), edit_url
-              td id='departement' = link_to projet.adresse.try(:departement), edit_url
+              td class='departement' = link_to projet.adresse.try(:departement), edit_url
             td= link_to projet.adresse.try(:ville), edit_url
             td= link_to edit_url do
               = projet.invited_instructeur.raison_sociale rescue ' '
