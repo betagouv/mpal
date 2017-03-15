@@ -14,7 +14,6 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(projet.demandeur_principal_nom).to eq("Martin")
     expect(projet.demandeur_principal_prenom).to eq("Pierre")
     expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_demandeur'))
-    expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_occupants'))
     expect(find_field('projet_adresse_postale').value).to eq('12 rue de la Mare, 75010 Paris')
     expect(page).to have_content(I18n.t('projets.messages.creation.corps'))
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
@@ -63,7 +62,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     click_button I18n.t('demarrage_projet.action')
 
     projet.reload
-    expect(page).to have_current_path etape2_description_projet_path(projet)
+    expect(page).to have_current_path projet_avis_impositions_path(projet)
     expect(projet.adresse_a_renover.ligne_1).to eq("8 Boulevard du Port")
     expect(projet.adresse_a_renover.code_postal).to eq("80000")
     expect(projet.adresse_a_renover.ville).to eq("Amiens")
@@ -82,7 +81,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
       fill_in 'projet_personne_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
     end
     click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(etape2_description_projet_path(projet))
+    expect(page.current_path).to eq(projet_avis_impositions_path(projet))
     projet.reload
     expect(projet.personne.civilite).to eq('Mr')
     expect(projet.personne.prenom).to eq("Frank")
@@ -94,6 +93,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "je vois la liste des personnes présentes dans l'avis d'imposition sous forme d'occupants" do
     signin_for_new_projet
+    visit projet_occupants_path(projet)
     expect(projet.nb_total_occupants).to eq(3)
     expect(projet.occupants.count).to eq(1)
     expect(page).to have_content("Occupant 2")

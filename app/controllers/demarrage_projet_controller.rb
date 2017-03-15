@@ -13,11 +13,6 @@ class DemarrageProjetController < ApplicationController
     end
 
     @projet_courant.personne ||= Personne.new
-    nb_occupants = @projet_courant.occupants.count
-    @occupants_a_charge = []
-    @projet_courant.nb_occupants_a_charge.times.each do |index|
-      @occupants_a_charge << Occupant.new(nom: "Occupant #{index + nb_occupants + 1}")
-    end
     @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
     @action_label = if needs_etape2? then action_label_create else action_label_update end
   end
@@ -178,7 +173,7 @@ private
 
   def etape1_redirect_to_next_step
     if needs_etape2?
-      redirect_to etape2_description_projet_path(@projet_courant)
+      redirect_to projet_avis_impositions_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end
