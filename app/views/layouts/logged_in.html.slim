@@ -21,6 +21,17 @@
             li= t('projets.visualisation.occupants', count: @projet_courant.nb_total_occupants)
             - if current_agent
               li= "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"
+          - if (personne = @projet_courant.personne).present?
+            ul.personne
+              li.personne-titre Personne à contacter :
+              li
+                strong
+                  span.firstname= personne.prenom
+                  span.lastname<= personne.nom
+              - if personne.tel.present?
+                li= personne.tel
+              - if personne.email.present?
+                li= personne.email
         - if current_agent
           section.affectation
             - if (agent_operateur = @projet_courant.agent_operateur)

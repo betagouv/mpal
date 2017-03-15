@@ -4,7 +4,8 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Les information personnelles syntéthiques sont visibles" do
-  let(:projet)          { create :projet }
+  let(:personne)        { create :personne }
+  let(:projet)          { create :projet, personne: personne }
   let(:operateur)       { create :operateur, departements: [projet.departement] }
   let(:agent_operateur) { create :agent, intervenant: operateur }
   let!(:invitation)     { create :invitation, intervenant: operateur, projet: projet }
@@ -18,6 +19,11 @@ feature "Les information personnelles syntéthiques sont visibles" do
       expect(page).to have_content(projet.email)
       expect(page).to have_no_content("très modeste")
       expect(page).to have_content(I18n.t('projets.visualisation.occupants', count: projet.nb_total_occupants))
+    end
+    within '.personne' do
+      expect(page).to have_content(personne.fullname)
+      expect(page).to have_content(personne.tel)
+      expect(page).to have_content(personne.email)
     end
   end
 
