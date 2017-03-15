@@ -26,13 +26,12 @@ class Seeder
   def seed_type_aides
     table_name = 'type_aides'
     seeding table_name
-    clear_table 'aides', table_name
     progress do
       TYPE_AIDES.each do |libelle_type_aide, aides|
-        type_aide = TypeAide.create!(libelle: libelle_type_aide)
+        type_aide = TypeAide.find_or_create_by!(libelle: libelle_type_aide)
         ahead!
         aides.each do |libelle_aide|
-          Aide.create!(type_aide: type_aide, libelle: libelle_aide)
+          Aide.find_or_create_by!(type_aide: type_aide, libelle: libelle_aide)
           ahead!('+')
         end
       end

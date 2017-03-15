@@ -13,13 +13,6 @@ private
     end
   end
 
-  def clear_table(*table_names)
-    table_names.flatten.reject(&:blank?).each do |table_name|
-      cnx.execute "TRUNCATE #{cnx.quote_table_name table_name} RESTART IDENTITY CASCADE"
-    end
-  end
-  alias_method :clear_tables, :clear_table
-
   def cnx
     ActiveRecord::Base.connection
   end
