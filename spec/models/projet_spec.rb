@@ -235,13 +235,26 @@ describe Projet do
 
       it "sélectionne le nouvel intervenant" do
         projet.invite_intervenant!(new_operateur)
-        expect(projet.invitations.count).to eq(1)
+        expect(projet.invitations.count).to eq(2)
+        expect(projet.invited_pris).not_to be_nil
         expect(projet.invited_operateur).to eq(new_operateur)
-        expect(projet.invited_pris).to be_nil
       end
     end
 
     context "avec un opérateur invité auparavant" do
+      context "et un nouveau PRIS" do
+        let(:projet)    { create :projet, :prospect, :with_invited_operateur }
+        let(:operateur) { projet.invited_operateur }
+        let(:pris)      { create :pris }
+
+        it "rajoute l’opérateur et conserve la relation avec le PRIS" do
+          projet.invite_intervenant!(pris)
+          expect(projet.invitations.count).to eq(2)
+          expect(projet.invited_operateur).to eq(operateur)
+          expect(projet.invited_pris).to eq(pris)
+        end
+      end
+
       context "et un nouvel opérateur différent du précédent" do
         let(:projet)             { create :projet, :prospect, :with_invited_operateur }
         let(:previous_operateur) { projet.invited_operateur }
