@@ -17,6 +17,8 @@ class Opal
   end
 
 private
+  OPAL_CIVILITE_M   = 1
+  OPAL_CIVILITE_MME = 2
 
   def ajoute_id_opal(projet, reponse)
     opal = JSON.parse(reponse)
@@ -26,6 +28,16 @@ private
 
   def met_a_jour_statut(projet)
     projet.statut = :en_cours_d_instruction
+  end
+
+  def serialize_civilite_occupants(occupants)
+    # Seule la civilité du demandeur principal est renseignée
+    civilite = occupants.map(&:civilite).compact.first
+    if civilite == Occupant.civilites.keys[0]
+      OPAL_CIVILITE_M
+    else
+      OPAL_CIVILITE_MME
+    end
   end
 
   def serialize_prenom_occupants(occupants)
@@ -51,7 +63,7 @@ private
         "qdmId": 29,
         "cadId": 2,
         "personnePhysique": {
-          "civId": 4,
+          "civId":     serialize_civilite_occupants(projet.occupants),
           "pphNom":    serialize_noms_occupants(projet.occupants),
           "pphPrenom": serialize_prenom_occupants(projet.occupants),
           "adressePostale": {

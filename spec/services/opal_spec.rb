@@ -45,7 +45,7 @@ describe Opal do
       expect(demandeur["dmdRevenuOccupants"]).to eq projet.revenu_fiscal_reference_total
 
       personne_physique = demandeur["personnePhysique"]
-      expect(personne_physique["civId"]).to eq 4
+      expect(personne_physique["civId"]).to eq 1
       expect(personne_physique["pphPrenom"]).to eq "Jean"
       expect(personne_physique["pphNom"]).to start_with "MARTIN"
 
