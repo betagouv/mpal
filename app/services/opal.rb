@@ -42,9 +42,9 @@ class Opal
           "pphPrenom": projet.prenom_occupants,
           "adressePostale": {
             "payId": 1,
-            "adpLigne1": projet.adresse.ligne_1,
-            "adpLocalite": projet.adresse.ville,
-            "adpCodePostal": projet.adresse.code_postal
+            "adpLigne1":     projet.adresse_postale.ligne_1,
+            "adpLocalite":   projet.adresse_postale.ville,
+            "adpCodePostal": projet.adresse_postale.code_postal
           }
         }
       },
