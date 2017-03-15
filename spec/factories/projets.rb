@@ -4,7 +4,6 @@ FactoryGirl.define do
     reference_avis 15
     email 'prenom.nom@site.com'
     nb_occupants_a_charge 0
-    plateforme_id 1234
     association :adresse_postale, factory: :adresse
 
     after(:create) do |projet, evaluator|
@@ -57,6 +56,20 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_invited_instructeur do
+      after(:build) do |projet|
+        instructeur = create(:instructeur, departements: [projet.departement])
+        create(:invitation, projet: projet, intervenant: instructeur)
+      end
+    end
+
+    trait :with_invited_pris do
+      after(:build) do |projet|
+        pris = create(:pris, departements: [projet.departement])
+        create(:invitation, projet: projet, intervenant: pris)
+      end
+    end
+
     trait :with_prestations do
       transient do
         prestations_count 1
@@ -102,13 +115,11 @@ FactoryGirl.define do
 
     trait :en_cours_d_instruction do
       statut :en_cours_d_instruction
+      opal_numero 4567
       with_committed_operateur
+      with_invited_instructeur
+      with_invited_pris
       with_prestations
-
-      after(:build) do |projet|
-        projet.operateur = create(:operateur, departements: [projet.departement])
-        projet.invitations << create(:invitation, intermediaire: projet.operateur, intervenant: create(:instructeur))
-      end
     end
   end
 end

@@ -63,6 +63,7 @@ RSpec.configure do |config|
   # config.filter_gems_from_backtrace("gem name")
   #
   config.include Capybara::DSL, type: :feature
+  config.include ApplicationHelper
 
   config.before(:each) do
     FakeWeb.clean_registry
