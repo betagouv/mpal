@@ -4,7 +4,9 @@ FactoryGirl.define do
     reference_avis 15
     email 'prenom.nom@site.com'
     nb_occupants_a_charge 0
-    association :adresse_postale, factory: :adresse
+    annee_construction 1975
+    association :adresse_postale,   factory: [ :adresse, :rue_de_rome ]
+    association :adresse_a_renover, factory: [ :adresse, :rue_de_la_mare ]
 
     after(:create) do |projet, evaluator|
       create_list(:demandeur, 1, projet: projet)

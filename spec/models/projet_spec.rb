@@ -182,7 +182,7 @@ describe Projet do
       it { expect(projet.description_adresse).to eq adresse.description }
     end
     context "quand l'adresse est vide" do
-      let(:projet) { build :projet, adresse_postale: nil }
+      let(:projet) { build :projet, adresse_postale: nil, adresse_a_renover: nil }
       it { expect(projet.description_adresse).to be nil }
     end
   end

@@ -19,7 +19,7 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
     end
 
     expect(find('#demandeur_principal_civilite_mr')).to be_checked
-    expect(page).to have_field('Adresse postale', with: '12 rue de la Mare, 75010 Paris')
+    expect(page).to have_field('Adresse postale', with: '65 rue de Rome, 75008 Paris')
 
     fill_in :projet_adresse_postale,   with: Fakeweb::ApiBan::ADDRESS_PORT
     fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_MARE
