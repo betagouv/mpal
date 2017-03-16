@@ -1,0 +1,6 @@
+= form_for @projet_courant, url: projet_occupants_path, method: 'get', html: { class: 'form' }  do |f|
+  = render 'shared/errors', resource: @projet_courant
+  section.occupants
+    h2 Avis d’imposition
+  = btn name: 'Valider', class: 'btn-large btn-centered', icon: 'ok'
+

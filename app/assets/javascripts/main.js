@@ -79,7 +79,6 @@ $(document).ready(function() {
 
     function updateSubmitButton() {
       var isChecked = $(".engagement").prop("checked");
-      console.log("checked: ", isChecked);
       var submit_btn = $('button');
       if (isChecked) {
         submit_btn.removeProp('disabled');
