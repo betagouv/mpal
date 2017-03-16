@@ -65,11 +65,11 @@ feature "Remplir la proposition de travaux" do
       # Section "Logement"
       expect(page.current_path).to eq(dossier_path(projet))
       expect(page).to have_content('Appartement')
-      expect(page).to have_content('2')
-      expect(page).to have_content('Plus de 5')
+      expect(page).to have_css('.etage', text: 2)
+      expect(page).to have_css('.pieces', text:'Plus de 5')
       expect(page).to have_content('1954')
-      expect(page).to have_content('42')
-      expect(page).to have_content('C')
+      expect(page).to have_content('42 m2')
+      expect(page).to have_css('.etiquette_avant', text: 'C')
 
       # Section "Diagnostic opérateur"
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.autonomie'))
@@ -87,9 +87,9 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content('Lavabo adapté')
       expect(page).not_to have_content('Géothermie')
       expect(page).to have_content(I18n.t('helpers.label.proposition.gain_energetique'))
-      expect(page).to have_content('31')
+      expect(page).to have_css('.gain_energetique', text: 31)
       expect(page).to have_content(I18n.t('helpers.label.proposition.etiquette_apres_travaux'))
-      expect(page).to have_content('A')
+      expect(page).to have_css('.etiquette_apres', text: 'A')
 
       # Section "Financement"
       expect(page).to have_content(I18n.t('helpers.label.proposition.montant_travaux_ht'))
@@ -113,6 +113,16 @@ feature "Remplir la proposition de travaux" do
         click_on 'Enregistrer cette proposition'
         expect(page).to have_current_path dossier_proposition_path(projet)
         expect(page).to have_content "La note de dégradation doit être comprise entre zéro et un"
+      end
+    end
+
+    context "quand je ne réponds non/pas aux questions" do
+      scenario "elles n'apparaissent pas dans la synthèse" do
+        visit dossier_proposition_path(projet)
+        choose 'projet_ventilation_adaptee_false'
+        click_on 'Enregistrer cette proposition'
+        expect(page.current_path).to eq(dossier_path(projet))
+        within('.block.projet-ope') { expect(page).not_to have_content 'Non' }
       end
     end
 
