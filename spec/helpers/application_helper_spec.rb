@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 describe ApplicationHelper do
+  let(:projet) { FactoryGirl.build(:projet) }
+
   it "renvoie l'icone correspondant au type d'évènement" do
     expect(helper.icone_evenement('creation_projet')).to eq ('suitcase')
   end
@@ -13,14 +15,20 @@ describe ApplicationHelper do
 
   it { expect(helper.affiche_message_eligibilite('plafond_depasse')).to eq ('plafond dépassé')}
 
-  let(:projet) { FactoryGirl.build(:projet) }
+  describe "#icone_presence" do
+    context "quand la donnée existe" do
+      let(:projet) { build(:projet, annee_construction: 1975) }
+      it "renvoie l'icone effectué" do
+        expect(helper.icone_presence(projet, :annee_construction)).to eq ("<i class=\"checkmark box icon\"></i>Année de construction : ")
+      end
+    end
 
-  it "renvoie l'icone effectué si la donnée existe" do
-    expect(helper.icone_presence(projet, :adresse)).to eq ("<i class=\"checkmark box icon\"></i>Adresse : ")
-  end
-
-  it "renvoie l'icone à faire et message si la donnée n'existe pas" do
-    expect(helper.icone_presence(projet, :annee_construction)).to eq ("<i class=\"square outline icon\"></i>Année de construction :  Veuillez renseigner cette donnée")
+    context "quand la donnée n'existe pas" do
+      let(:projet) { build(:projet, annee_construction: nil) }
+      it "renvoie l'icone à faire" do
+        expect(helper.icone_presence(projet, :annee_construction)).to eq ("<i class=\"square outline icon\"></i>Année de construction :  Veuillez renseigner cette donnée")
+      end
+    end
   end
 
   context "avec une demande existante" do
