@@ -19,14 +19,14 @@ ActiveRecord::Schema.define(version: 20170313093933) do
   create_table "adresses", force: :cascade do |t|
     t.decimal  "latitude",               precision: 10, scale: 6
     t.decimal  "longitude",              precision: 10, scale: 6
-    t.string   "ligne_1",                                         null: false
-    t.string   "code_insee",                                      null: false
-    t.string   "code_postal",                                     null: false
-    t.string   "ville",                                           null: false
-    t.string   "departement", limit: 10,                          null: false
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
-    t.string   "region"
+    t.string   "ligne_1",                                                      null: false
+    t.string   "code_insee",                                                   null: false
+    t.string   "code_postal",                                                  null: false
+    t.string   "ville",                                                        null: false
+    t.string   "departement", limit: 10,                                       null: false
+    t.datetime "created_at",                                                   null: false
+    t.datetime "updated_at",                                                   null: false
+    t.string   "region",                                          default: "", null: false
   end
 
   create_table "agents", force: :cascade do |t|
@@ -252,11 +252,11 @@ ActiveRecord::Schema.define(version: 20170313093933) do
     t.string   "departement"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                                   array: true
-    t.integer  "nb_occupants_a_charge",        default: 0
+    t.string   "themes",                                                            array: true
+    t.integer  "nb_occupants_a_charge",                                 default: 0
     t.integer  "annee_construction"
     t.string   "code_insee"
-    t.integer  "statut",                       default: 0
+    t.integer  "statut",                                                default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"
     t.string   "opal_id"
