@@ -72,5 +72,43 @@ describe Opal do
       expect(projet.agent_instructeur).to eq(agent_instructeur)
     end
   end
+
+  describe ".split_adresse_into_lines" do
+    let(:opal)              { Opal.new(client) }
+
+    subject(:adresse_lines) { opal.send(:split_adresse_into_lines, adresse) }
+
+    context "quand l'adresse est courte" do
+      let(:adresse) { "15 Rue Principale" }
+
+      it "ne fait rien" do
+        expect(adresse_lines[0]).to eq "15 Rue Principale"
+        expect(adresse_lines[1]).to eq ""
+        expect(adresse_lines[2]).to eq ""
+      end
+    end
+
+    context "quand l'adresse est longue" do
+      let(:adresse) { "15 Rue Principale (Bonnevaux le Prieuré)" }
+
+      it "sépare l'adresse selon le dernier espace rencontré" do
+        expect(adresse_lines[0]).to eq "15 Rue Principale (Bonnevaux le "
+        expect(adresse_lines[1]).to eq "Prieuré)"
+        expect(adresse_lines[2]).to eq ""
+      end
+    end
+
+    context "quand l'adresse est très longue" do
+      let(:adresse) { "1080 Boulevard Of Broken Dreams (Endroit-Fantasque-Sorti-Directement-De-Mon-Imagination-Debordante)" }
+
+      it "sépare l'adresse selon le dernier tiret rencontré" do
+        expect(adresse_lines[0]).to eq "1080 Boulevard Of Broken Dreams "
+        expect(adresse_lines[1]).to eq "(Endroit-Fantasque-Sorti-Directement-"
+        expect(adresse_lines[2]).to eq "De-Mon-Imagination-Debordante)"
+      end
+    end
+  end
 end
+
+
 
