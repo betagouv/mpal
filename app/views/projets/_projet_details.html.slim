@@ -5,31 +5,37 @@ ul.ctr-ope
     span= @projet_courant.type_logement
   li
     = "Étage : "
-    span= @projet_courant.etage
-  li
+    span class='etage'= @projet_courant.etage
+  li class='pieces'
     = "Nombre de pièces : "
     span= @projet_courant.nb_pieces
   - if @projet_courant.annee_construction.present?
     li
       = "Année de construction : "
-      span= @projet_courant.annee_construction
+      span class='construction'= @projet_courant.annee_construction
   - if @projet_courant.surface_habitable.present?
     li
       = "Surface avant travaux : "
       span= "#{@projet_courant.surface_habitable} m2"
+  - if @projet_courant.etiquette_avant_travaux.present?
+    li
+      = with_semicolon(t('helpers.label.proposition.etiquette_avant_travaux'))
+      span class='etiquette_avant' = @projet_courant.etiquette_avant_travaux
 
 h4 Votre évaluation
 ul.ctr-ope
-  li
-    = t('helpers.label.diagnostic.autonomie')
-    span=< readable_bool(@projet_courant.autonomie)
+  - if @projet_courant.autonomie.present?
+    li
+      = t('helpers.label.diagnostic.autonomie')
+      span=< readable_bool(@projet_courant.autonomie)
   - if @projet_courant.niveau_gir.present?
     li
       = with_semicolon(t('helpers.label.diagnostic.niveau_gir'))
       span= @projet_courant.niveau_gir
-  li
-    = with_semicolon(t('helpers.label.diagnostic.handicap'))
-    span= readable_bool(@projet_courant.handicap)
+  - if @projet_courant.autonomie.present?
+    li
+      = with_semicolon(t('helpers.label.diagnostic.handicap'))
+      span= readable_bool(@projet_courant.handicap)
   - if @projet_courant.note_degradation.present?
     li
       = with_semicolon(t('helpers.label.diagnostic.note_degradation'))
@@ -38,15 +44,18 @@ ul.ctr-ope
     li
       = with_semicolon(t('helpers.label.diagnostic.note_insalubrite'))
       span= number_with_delimiter(@projet_courant.note_insalubrite)
-  li
-    = with_semicolon(t('helpers.label.diagnostic.ventilation_adaptee'))
-    span= readable_bool(@projet_courant.ventilation_adaptee)
-  li
-    = with_semicolon(t('helpers.label.diagnostic.presence_humidite'))
-    span= readable_bool(@projet_courant.presence_humidite)
-  li
-    = t('helpers.label.diagnostic.auto_rehabilitation')
-    span=< readable_bool(@projet_courant.auto_rehabilitation)
+  - if @projet_courant.ventilation_adaptee.present?
+    li
+      = with_semicolon(t('helpers.label.diagnostic.ventilation_adaptee'))
+      span= readable_bool(@projet_courant.ventilation_adaptee)
+  - if @projet_courant.presence_humidite.present?
+    li
+      = with_semicolon(t('helpers.label.diagnostic.presence_humidite'))
+      span= readable_bool(@projet_courant.presence_humidite)
+  - if @projet_courant.auto_rehabilitation.present?
+    li
+      = t('helpers.label.diagnostic.auto_rehabilitation')
+      span=< readable_bool(@projet_courant.auto_rehabilitation)
   - if @projet_courant.remarques_diagnostic.present?
     li
       = with_semicolon(t('helpers.label.diagnostic.remarques_diagnostic'))
@@ -65,11 +74,11 @@ table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
     - if @projet_courant.gain_energetique
       tr
         th scope="row"= t('helpers.label.proposition.gain_energetique')
-        td= @projet_courant.gain_energetique
+        td class='gain_energetique' = @projet_courant.gain_energetique
     - if @projet_courant.etiquette_apres_travaux.present?
       tr
         th scope="row"= t('helpers.label.proposition.etiquette_apres_travaux')
-        td= @projet_courant.etiquette_apres_travaux
+        td class='etiquette_apres' = @projet_courant.etiquette_apres_travaux
     - if @projet_courant.montant_travaux_ht.present?
       tr
         th scope="row"= t('helpers.label.proposition.montant_travaux_ht')

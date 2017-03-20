@@ -6,6 +6,7 @@
 
 # Ignore bundler config.
 /.bundle
+/vendor/bundle/
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
@@ -16,6 +17,7 @@
 !/log/.keep
 /tmp
 .byebug_history
+.powenv
 
 # Ignore vi tempfiles
 .*swp
@@ -42,3 +44,4 @@ erd.pdf
 
 # Couverture de tests
 coverage
+

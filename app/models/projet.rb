@@ -50,7 +50,7 @@ class Projet < ActiveRecord::Base
     self.plateforme_id = Time.now.to_i
   end
 
-  before_save :clean_numero_fiscal
+  before_save :clean_numero_fiscal, :clean_reference_avis
 
   scope :for_agent, ->(agent) {
     next where(nil) if agent.instructeur?
@@ -74,7 +74,11 @@ class Projet < ActiveRecord::Base
   end
 
   def clean_numero_fiscal
-    self.numero_fiscal.to_s.gsub(/[^\w]+/, '').upcase
+    self.numero_fiscal = numero_fiscal.to_s.gsub(/\D+/, '')
+  end
+
+  def clean_reference_avis
+    self.reference_avis = reference_avis.to_s.gsub(/\W+/, '').upcase
   end
 
   def numero_plateforme
@@ -183,13 +187,13 @@ class Projet < ActiveRecord::Base
     ProjetMailer.notification_invitation_intervenant(invitation).deliver_later!
     EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
 
-    if previous_operateur
+    if intervenant.operateur? && previous_operateur
       previous_invitation = invitations.where(intervenant: previous_operateur).first
       ProjetMailer.resiliation_operateur(previous_invitation).deliver_later!
       previous_invitation.destroy!
     end
 
-    if previous_pris
+    if intervenant.pris? && previous_pris
       previous_invitation = invitations.where(intervenant: previous_pris).first
       previous_invitation.destroy!
     end

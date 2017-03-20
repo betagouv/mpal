@@ -51,18 +51,38 @@ describe Projet do
 
   describe '#clean_numero_fiscal' do
     let(:projet) { build :projet }
-    it {
-      projet.numero_fiscal = " 123 456 A  "
-      expect(projet.clean_numero_fiscal).to eq("123456A")
-    }
-    it {
-      projet.numero_fiscal = "123t456a"
-      expect(projet.clean_numero_fiscal).to eq("123T456A")
-    }
-    it {
-      projet.numero_fiscal = "é=123ç456à'$"
-      expect(projet.clean_numero_fiscal).to eq("123456")
-    }
+    before do
+      projet.numero_fiscal = numero_fiscal
+      projet.save!
+    end
+    context "supprime les espaces" do
+      let(:numero_fiscal) { " 123 456   " }
+      it { expect(projet.numero_fiscal).to eq("123456") }
+    end
+    context "supprime tout ce qui n’est pas un chiffre" do
+      let(:numero_fiscal) { "é=123çA456à'$" }
+      it { expect(projet.numero_fiscal).to eq("123456") }
+    end
+  end
+
+  describe '#clean_reference_avis' do
+    let(:projet) { build :projet }
+    before do
+      projet.reference_avis = reference_avis
+      projet.save!
+    end
+    context "supprime les espaces" do
+      let(:reference_avis) { " 123 456 A  " }
+      it { expect(projet.reference_avis).to eq("123456A") }
+    end
+    context "passe tout en majuscules" do
+      let(:reference_avis) { "123t456a" }
+      it { expect(projet.reference_avis).to eq("123T456A") }
+    end
+    context "supprime ce qui n’est pas un caractère alphanumérique" do
+      let(:reference_avis) { "é=123çA456à'$" }
+      it { expect(projet.reference_avis).to eq("123A456") }
+    end
   end
 
   describe '#for_agent' do
@@ -182,7 +202,7 @@ describe Projet do
       it { expect(projet.description_adresse).to eq adresse.description }
     end
     context "quand l'adresse est vide" do
-      let(:projet) { build :projet, adresse_postale: nil }
+      let(:projet) { build :projet, adresse_postale: nil, adresse_a_renover: nil }
       it { expect(projet.description_adresse).to be nil }
     end
   end
@@ -235,13 +255,26 @@ describe Projet do
 
       it "sélectionne le nouvel intervenant" do
         projet.invite_intervenant!(new_operateur)
-        expect(projet.invitations.count).to eq(1)
+        expect(projet.invitations.count).to eq(2)
+        expect(projet.invited_pris).not_to be_nil
         expect(projet.invited_operateur).to eq(new_operateur)
-        expect(projet.invited_pris).to be_nil
       end
     end
 
     context "avec un opérateur invité auparavant" do
+      context "et un nouveau PRIS" do
+        let(:projet)    { create :projet, :prospect, :with_invited_operateur }
+        let(:operateur) { projet.invited_operateur }
+        let(:pris)      { create :pris }
+
+        it "rajoute l’opérateur et conserve la relation avec le PRIS" do
+          projet.invite_intervenant!(pris)
+          expect(projet.invitations.count).to eq(2)
+          expect(projet.invited_operateur).to eq(operateur)
+          expect(projet.invited_pris).to eq(pris)
+        end
+      end
+
       context "et un nouvel opérateur différent du précédent" do
         let(:projet)             { create :projet, :prospect, :with_invited_operateur }
         let(:previous_operateur) { projet.invited_operateur }

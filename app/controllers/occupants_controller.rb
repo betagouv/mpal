@@ -1,7 +1,17 @@
 class OccupantsController < ApplicationController
+  layout 'inscription'
+
   before_action :dossier_ou_projet
   before_action :assert_projet_courant
   before_action :authentifie
+
+  def index
+    @occupants_a_charge = []
+    nb_occupants = @projet_courant.occupants.count
+    @projet_courant.nb_occupants_a_charge.times.each do |index|
+      @occupants_a_charge << Occupant.new(nom: "Occupant #{index + nb_occupants + 1}")
+    end
+  end
 
   def new
     @occupant = @projet_courant.occupants.build

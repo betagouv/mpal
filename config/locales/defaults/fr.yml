@@ -46,6 +46,7 @@ fr:
         remarques_diagnostic: "Autres remarques"
       proposition:
         gain_energetique: "Gain énergétique"
+        etiquette_avant_travaux: "Étiquette énergétique avant travaux"
         etiquette_apres_travaux: "Étiquette énergétique après travaux"
         montant: "Montant"
         montant_travaux_ht: "Montant total HT"
