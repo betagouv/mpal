@@ -50,7 +50,7 @@ class Projet < ActiveRecord::Base
     self.plateforme_id = Time.now.to_i
   end
 
-  before_save :clean_numero_fiscal
+  before_save :clean_numero_fiscal, :clean_reference_avis
 
   scope :for_agent, ->(agent) {
     next where(nil) if agent.instructeur?
@@ -74,7 +74,11 @@ class Projet < ActiveRecord::Base
   end
 
   def clean_numero_fiscal
-    self.numero_fiscal.to_s.gsub(/[^\w]+/, '').upcase
+    self.numero_fiscal = numero_fiscal.to_s.gsub(/\D+/, '')
+  end
+
+  def clean_reference_avis
+    self.reference_avis = reference_avis.to_s.gsub(/\W+/, '').upcase
   end
 
   def numero_plateforme
