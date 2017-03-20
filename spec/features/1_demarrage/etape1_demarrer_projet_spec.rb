@@ -62,7 +62,8 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     click_button I18n.t('demarrage_projet.action')
 
     projet.reload
-    expect(page).to have_current_path projet_avis_impositions_path(projet)
+    #TODO expect(page).to have_current_path projet_avis_impositions_path(projet)
+    expect(page).to have_current_path projet_occupants_path(projet)
     expect(projet.adresse_a_renover.ligne_1).to eq("8 Boulevard du Port")
     expect(projet.adresse_a_renover.code_postal).to eq("80000")
     expect(projet.adresse_a_renover.ville).to eq("Amiens")
@@ -81,7 +82,8 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
       fill_in 'projet_personne_attributes_lien_avec_demandeur', with: "Mon jazzman favori et neanmoins concubin"
     end
     click_button I18n.t('demarrage_projet.action')
-    expect(page.current_path).to eq(projet_avis_impositions_path(projet))
+    #TODO expect(page.current_path).to eq(projet_avis_impositions_path(projet))
+    expect(page.current_path).to eq(projet_occupants_path(projet))
     projet.reload
     expect(projet.personne.civilite).to eq('Mr')
     expect(projet.personne.prenom).to eq("Frank")
