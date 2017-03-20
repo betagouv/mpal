@@ -1,5 +1,3 @@
-[![Build status](https://circleci.com/gh/sgmap/mpal.svg?style=shield&circle-token=50a0754f6e164ff97a3f479374102a568b750847)](https://circleci.com/gh/sgmap/mpal/tree/dev)
-
 # Les aides de l’Anah
 
 Vous reculez devant un projet d’amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches vous effraie : vous ne savez pas à qui vous adresser, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra.
