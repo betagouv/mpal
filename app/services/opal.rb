@@ -92,14 +92,14 @@ private
   def split_adresse_into_lines(adresse)
     return [adresse, '', ''] if adresse.length <= MAX_ADDRESS_LINE_LENGTH
 
-    split_index = adresse.rindex(/\s|-/, MAX_ADDRESS_LINE_LENGTH)
+    split_index = adresse.rindex(/\s|-/, MAX_ADDRESS_LINE_LENGTH-1)
     ligne_1 = adresse[0..split_index]
     ligne_2 = adresse[(split_index+1)..-1]
 
     return [ligne_1, ligne_2, ''] if ligne_2.length <= MAX_ADDRESS_LINE_LENGTH
 
     old_ligne_2 = ligne_2
-    split_index = old_ligne_2.rindex(/\s|-/, MAX_ADDRESS_LINE_LENGTH)
+    split_index = old_ligne_2.rindex(/\s|-/, MAX_ADDRESS_LINE_LENGTH-1)
     ligne_2 = old_ligne_2[0..split_index]
     ligne_3 = old_ligne_2[(split_index+1)..-1]
 
