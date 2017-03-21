@@ -275,7 +275,7 @@ class Projet < ActiveRecord::Base
       titles.insert 4, 'Agent instructeur' if agent.instructeur? || agent.operateur?
       titles.insert 2, 'Département'       if agent.operateur?
       titles.insert 2, 'Région'            if agent.operateur?
-      titles.insert 1, 'Identifiant OPAL'  if agent.operateur?
+      titles.insert 1, 'Identifiant OPAL'  if agent.instructeur? || agent.operateur?
       csv << titles
       Projet.for_agent(agent).each do |projet|
         line = [
@@ -287,11 +287,11 @@ class Projet < ActiveRecord::Base
           projet.invited_operateur.try(:raison_sociale),
           I18n.t(projet.status_for_operateur, scope: "projets.statut"),
         ]
-        line.insert 6, projet.opal_numero                      if agent.instructeur? || agent.operateur?
+        line.insert 6, projet.agent_operateur.try(:fullname)   if agent.instructeur? || agent.operateur?
         line.insert 4, projet.agent_instructeur.try(:fullname) if agent.instructeur? || agent.operateur?
         line.insert 2, projet.adresse.try(:departement)        if agent.operateur?
         line.insert 2, projet.adresse.try(:region)             if agent.operateur?
-        line.insert 1, projet.opal_numero                      if agent.operateur?
+        line.insert 1, projet.opal_numero                      if agent.instructeur? || agent.operateur?
         csv << line
       end
     end
