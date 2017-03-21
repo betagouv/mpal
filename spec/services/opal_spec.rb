@@ -107,6 +107,16 @@ describe Opal do
         expect(adresse_lines[2]).to eq "De-Mon-Imagination-Debordante)"
       end
     end
+
+    context "quand l’adresse est trop longue" do
+      let(:adresse) { "Boulevard du Président John Fitzgerald Kennedy et il faut rajouter des mots" }
+
+      it "découpe en lignes de moins de 38 caractères" do
+        expect(adresse_lines[0].length).to be <= 38
+        expect(adresse_lines[1].length).to be <= 38
+        expect(adresse_lines[2].length).to be <= 38
+      end
+    end
   end
 end
 
