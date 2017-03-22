@@ -7,10 +7,15 @@ class Occupant < ActiveRecord::Base
   has_many :avis_impositions
 
   validates :nom, :prenom, :date_de_naissance, presence: true
+  validates :civilite, presence: true, on: :update, if: :require_civilite?
 
   strip_fields :nom, :prenom
 
   scope :sans_revenus, -> { where(revenus: nil) }
+
+  def require_civilite?
+    projet && projet.demandeur_principal == self
+  end
 
   def fullname
     "#{prenom} #{nom}"

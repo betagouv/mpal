@@ -118,7 +118,7 @@ class Projet < ActiveRecord::Base
   end
 
   def demandeur_principal
-    occupants.where(demandeur: true).first
+    @demandeur_principal ||= occupants.where(demandeur: true).first
   end
 
   def demandeur_principal_nom

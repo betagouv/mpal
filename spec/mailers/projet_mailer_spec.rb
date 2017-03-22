@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe ProjetMailer, type: :mailer do
   describe "recommandation operateurs" do
-    let(:projet) { create :projet, :with_suggested_operateurs, :with_invited_pris }
+    let(:projet) { create :projet, :prospect, :with_suggested_operateurs, :with_invited_pris }
     let(:email) { ProjetMailer.recommandation_operateurs(projet) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([projet.email]) }
@@ -43,7 +43,7 @@ describe ProjetMailer, type: :mailer do
 
   describe "l'intervenant reçoit un email lorsqu'il a été choisi par le demandeur" do
     let(:operateur) { create :operateur }
-    let(:projet) { create :projet, operateur: operateur }
+    let(:projet) { create :projet, :prospect, operateur: operateur }
     let!(:invitation) { create :invitation, projet: projet, intervenant: operateur }
     let(:email) { ProjetMailer.notification_choix_intervenant(projet) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }

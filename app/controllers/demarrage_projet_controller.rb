@@ -13,7 +13,7 @@ class DemarrageProjetController < ApplicationController
     end
 
     @projet_courant.personne ||= Personne.new
-    @demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
+    @demandeur_principal = @projet_courant.demandeur_principal
     @action_label = if needs_etape2? then action_label_create else action_label_update end
   end
 
@@ -153,7 +153,7 @@ private
       return false
     end
 
-    demandeur_principal = @projet_courant.occupants.where(demandeur: true).first
+    demandeur_principal = @projet_courant.demandeur_principal
     demandeur_principal.assign_attributes(demandeur_principal_params)
     if !demandeur_principal.save
       flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')

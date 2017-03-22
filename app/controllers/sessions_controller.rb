@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
       flash[:notice_titre] = t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname)
       redirect_to etape1_recuperation_infos_path(projet), notice: notice
     else
-      redirect_to new_session_path, alert: t('sessions.erreurs.creation_projet')
+      redirect_to new_session_path, alert: t('sessions.erreur_creation_projet')
     end
   end
 
