@@ -6,7 +6,7 @@ require 'support/api_ban_helper'
 feature "En tant que demandeur, je peux vérifier et corriger mes informations personnelles" do
   let(:projet) { Projet.last }
 
-  scenario "Depuis la page de connexion, je recupère mes informations principales" do
+  scenario "Depuis la page de connexion, je récupère mes informations principales" do
     signin_for_new_projet
     expect(page.current_path).to eq(etape1_recuperation_infos_path(projet))
     expect(page).to have_content("Martin")
@@ -25,6 +25,8 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     fill_in :projet_email, with: "demandeur@exemple.fr"
     fill_in :projet_tel,   with: "01 02 03 04 05"
     click_button I18n.t('demarrage_projet.action')
+
+    expect(page).to have_current_path(projet_occupants_path(projet))
     expect(projet.demandeur_principal.civilite).to eq("mr")
     expect(projet.email).to eq("demandeur@exemple.fr")
     expect(projet.tel).to eq("01 02 03 04 05")
