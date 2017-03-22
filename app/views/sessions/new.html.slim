@@ -1,53 +1,53 @@
 .login
-  section.intro
-    h1= image_tag "logo-anah.png", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat", title: "Les aides de l’Anah - Agence Nationale de l’Habitat", class: "logo-anah"
-    h2
-      strong Avec nous, améliorez l’habitat !
+  section.login-intro
+    h1.login-intro__heading
+      = image_tag "logo-anah.png", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat", title: "Les aides de l’Anah - Agence Nationale de l’Habitat", class: "login-intro__heading-image logo-anah"
+    h2.login-intro__baseline
+      strong.login-intro__baseline-title Avec nous, améliorez l’habitat !
       | Le financement de mon projet prend vie en quelques minutes…
-    p
+    p.login-intro__p
       | Vous êtes propriétaire d’un appartement ou d’une maison et vous y habitez ou allez y
       |  habiter. Mais ce logement est en mauvais état, difficile à chauffer ou mal adapté à votre
       |  situation de handicap ou votre état de santé.
-    p
+    p.login-intro__p
       | Si vous n’avez pas commencé à faire les travaux, l’Agence nationale de l’habitat (
       abbr title=("Agence nationale de l’habitat") Anah
       | ) peut vous aider à financer ces travaux et vous accompagner dans votre projet.
-    p
+    p.login-intro__p
       | Ses aides sont accordées notamment sous conditions de ressources de l’ensemble des
       |  occupants du logement.
-    p
+    p.login-intro__p
       | Vous devez donc vous munir des deux derniers avis d’imposition ou de situation fiscale de
       |  l’ensemble des personnes habitant sous votre toit.
-    /a href="#"  En savoir plus
-  section.champs
-    h2 Connectez-vous
-    p
+    /TODO a.login-intro__a href="#"  En savoir plus
+  section.login-fields
+    h2.login-fields__heading Connectez-vous
+    p.login-fields__p
       | Vous souhaitez vous renseigner ou demander une aide à l’Anah. Identifiez-vous en
       |  renseignant votre numéro fiscal et la référence de l’avis d’imposition présents sur votre
       |  dernier avis d’imposition.
-    p
+    p.login-fields__p
       | Ces renseignements permettront d’aller rechercher directement auprès de la direction
       |  générale des finances publiques les coordonnées vous concernant ainsi que votre revenu
       |  fiscal de référence (
       abbr title=("Revenu fiscal de référence") RFR
       | ) correspondant à votre niveau de ressources.
-    = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'form-login') do
-      .auth
-        = label_tag "form-nf", "Numéro fiscal", class: "auth-label auth-label-numero-fiscal"
-        = text_field_tag :numero_fiscal, params[:numero_fiscal], placeholder: "Ex : 123 456 789 AB", id: "form-nf", class: "auth-input"
-        /TODO a href="#"  Où se trouve mon numéro fiscal ?
-        = label_tag "form-ra", "Référence de l’avis", class: "auth-label"
-        = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : ABC DEF 123", id: "form-ra", class: "auth-input"
-        .mleg
-          = check_box_tag "autorisation", "1", params[:autorisation], class: "engagement", id: "lab-rfr"
-          label for="lab-rfr"
-            | J’autorise l’
-            abbr title=("Agence nationale de l’habitat") Anah
-            |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon 
-            abbr title=("Revenu fiscal de référence") RFR
-        = btn name: t('sessions.nouvelle.action'), icon: 'log-in'
-      .authentification-clavis
-        = t('sessions.authentification_clavis', clavis: link_to('Clavis', new_agent_session_path)).html_safe
+    = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'login-fields__form') do
+      label for="lab-proprietaire" Je suis propriétaire de mon logement
+      = label_tag "form-nf", "Numéro fiscal", class: "login-fields__label login-fields__label--first"
+      = text_field_tag :numero_fiscal, params[:numero_fiscal], placeholder: "Ex : 123 456 789 AB", id: "form-nf", class: "login-fields__input"
+      /TODO a.login-intro__a href="#"  Où se trouve mon numéro fiscal ?
+      = label_tag "form-ra", "Référence de l’avis", class: "login-fields__label"
+      = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : ABC DEF 123", id: "form-ra", class: "login-fields__input"
+      .login-fields__mentions
+        = check_box_tag "autorisation", "1", params[:autorisation], class: "login-fields__mentions-input", id: "lab-rfr"
+        label.login-fields__mentions-label for="lab-rfr"
+          | J’autorise l’
+          abbr.login-fields__mentions-abbr title=("Agence nationale de l’habitat") Anah
+          |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon 
+          abbr.login-fields__mentions-abbr title=("Revenu fiscal de référence") RFR
+      = btn name: t('sessions.nouvelle.action'), icon: 'log-in', class: 'login-fields__btn'
 
   - if Tools.demo?
     = render 'demo'
+
