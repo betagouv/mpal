@@ -235,6 +235,7 @@ fr:
         titre: 'Félicitations %{demandeur_principal}'
         corps: Votre projet démarre aujourd’hui.
     visualisation:
+      non_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation va être prochainement réalisé. Un interlocuteur va prendre contact avec vous. Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Infoservice ou l’opérateur de l’opération programmée […] : Tel…"
       lien_edition_projet: 'Modifier le projet'
       lien_edition: 'Modifier'
       lien_edition_coordonnees: 'Modifier mes coordonnées'
