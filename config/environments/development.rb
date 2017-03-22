@@ -1,3 +1,7 @@
+# Print console logs immediately (instead of buffering them)
+# See https://github.com/ddollar/foreman/wiki/Missing-Output
+$stdout.sync = true
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
