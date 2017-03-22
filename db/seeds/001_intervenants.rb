@@ -41,7 +41,7 @@ class Seeder
     {
       departements: ["88"],
       raison_sociale: "DDT des VOSGES",
-      clavis_service_id: "5519",
+      clavis_service_id: "5119",
       adresse_postale: "22-26 Avenue Dutac, 88000 Épinal",
       email: "delegation88-1@anah.gouv.fr",
       roles: ["instructeur"]
