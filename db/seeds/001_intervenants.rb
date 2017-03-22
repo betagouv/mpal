@@ -184,10 +184,11 @@ class Seeder
   def seed_intervenants
     table_name = 'intervenants'
     seeding table_name
-    clear_table table_name
     progress do
       INTERVENANTS.each do |attributes|
-        Intervenant.create!(attributes)
+        Intervenant
+          .find_or_initialize_by(raison_sociale: attributes[:raison_sociale])
+          .update_attributes!(attributes)
         ahead!
       end
     end
