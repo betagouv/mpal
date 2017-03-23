@@ -10,6 +10,10 @@ class SessionsController < ApplicationController
   end
 
   def create
+    unless "1" == params[:proprietaire]
+      flash.now[:alert] = t('sessions.erreur_proprietaire')
+      return render :new
+    end
     contribuable = ApiParticulier.new.retrouve_contribuable(param_numero_fiscal, param_reference_avis)
     unless contribuable
       flash.now[:alert] = t('sessions.invalid_credentials')

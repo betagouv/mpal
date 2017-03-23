@@ -8,8 +8,10 @@ fr:
     invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
     access_forbidden: Vous n’avez pas accès à cette page
     erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
+    erreur_proprietaire: "L’Anah accorde des aides à des personnes propriétaires de leur logement. Si vous êtes locataire c’est à votre propriétaire de faire la demande de subvention auprès de l’Anah."
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
     confirmation_deconnexion_clavis: "Vous avez été déconnecté de Clavis"
     lien_deconnexion: "Déconnexion"
     authentification_clavis: "Vous êtes intervenant ? Identifiez-vous via %{clavis}"
     authentification_clavis_logged: "Je m’identifie via %{clavis}"
+
