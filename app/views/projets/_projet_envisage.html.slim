@@ -2,6 +2,8 @@ article.block.projet
   h3 Projet envisagé
   = link_to t('projets.visualisation.lien_edition'), etape2_description_projet_path(@projet_courant), class: 'edit'
   .content-block
+    - if @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) == :plafond_depasse
+      p.alert.alert-warning = t('projets.visualisation.non_eligible')
     - if @projet_courant.demande.blank?
       - if current_agent
         p Le demandeur n’a pas encore rempli le projet.

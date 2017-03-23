@@ -11,6 +11,10 @@ def signin_for_new_projet
   signin(Fakeweb::ApiParticulier::NUMERO_FISCAL, Fakeweb::ApiParticulier::REFERENCE_AVIS)
 end
 
+def signin_for_new_projet_non_eligible
+  signin(Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE, Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE)
+end
+
 def authenticate_as_admin_with_token
   # L'environnement est mocké car CircleCI ne permet pas d'exposer des
   # variables d'environnement lors des builds de Pull requests.

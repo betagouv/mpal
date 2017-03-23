@@ -4,9 +4,11 @@ module Fakeweb
   class ApiParticulier
     NUMERO_FISCAL  = 12
     REFERENCE_AVIS = 15
+    NUMERO_FISCAL_NON_ELIGIBLE = 13
+    REFERENCE_AVIS_NON_ELIGIBLE = 16
     INVALID = 'INVALID'
 
-    def self.register_success
+    def self.register_eligible
       FakeWeb.register_uri(
         :get, "https://#{ENV['API_PARTICULIER_DOMAIN']}/api/impots/svair?numeroFiscal=#{NUMERO_FISCAL}&referenceAvis=#{REFERENCE_AVIS}",
         content_type: 'application/json',
@@ -26,6 +28,26 @@ module Fakeweb
       )
     end
 
+    def self.register_non_eligible
+      FakeWeb.register_uri(
+          :get, "https://#{ENV['API_PARTICULIER_DOMAIN']}/api/impots/svair?numeroFiscal=#{NUMERO_FISCAL_NON_ELIGIBLE}&referenceAvis=#{REFERENCE_AVIS_NON_ELIGIBLE}",
+          content_type: 'application/json',
+          body: JSON.generate({
+            "declarant1": {
+                "nom": "Martin",
+                "prenoms": "Pierre",
+                "dateNaissance": "19/03/1980"
+            },
+            "anneeImpots": "2015",
+            "nombrePersonnesCharge": 0,
+            "foyerFiscal": {
+                "adresse": "12 rue de la Mare, 75010 Paris"
+            },
+            "revenuFiscalReference": 1000000
+        }),
+      )
+    end
+
     def self.register_invalid
       FakeWeb.register_uri(
         :get, "https://#{ENV['API_PARTICULIER_DOMAIN']}/api/impots/svair?numeroFiscal=#{INVALID}&referenceAvis=#{INVALID}",
@@ -39,7 +61,8 @@ end
 
 RSpec.configure do |config|
   config.before(:each) do
-    Fakeweb::ApiParticulier.register_success
+    Fakeweb::ApiParticulier.register_eligible
+    Fakeweb::ApiParticulier.register_non_eligible
     Fakeweb::ApiParticulier.register_invalid
   end
 end
