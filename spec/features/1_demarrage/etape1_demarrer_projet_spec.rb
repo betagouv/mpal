@@ -98,9 +98,9 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   scenario "je vois la liste des personnes présentes dans l'avis d'imposition sous forme d'occupants" do
     signin_for_new_projet
     visit projet_occupants_path(projet)
-    expect(projet.nb_total_occupants).to eq(3)
-    expect(projet.occupants.count).to eq(1)
-    expect(page).to have_content("Occupant 2")
+    expect(projet.nb_total_occupants).to eq(4)
+    expect(projet.occupants.count).to eq(2)
     expect(page).to have_content("Occupant 3")
+    expect(page).to have_content("Occupant 4")
   end
 end
