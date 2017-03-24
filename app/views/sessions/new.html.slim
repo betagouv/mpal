@@ -1,3 +1,19 @@
+- content_for :popins do
+  #numero-fiscal.popin.popin--numero-fiscal
+    .popin__container
+      = image_tag "numero-fiscal.png", class: "popin__image popin__image--numero-fiscal"
+      p.popin__p Le numéro fiscal est un identifiant unique composé de 13 chiffres.
+      p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
+      p.popin__p.popin__p--centered
+        = btn name: "Fermer", href: "#", class: "popin__close"
+  #reference-avis.popin.popin--reference-avis
+    .popin__container
+      = image_tag "reference-avis.png", class: "popin__image popin__image--reference-avis"
+      p.popin__p La référence de l’avis est un identifiant unique composé de 13 caractères.
+      p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
+      p.popin__p.popin__p--centered
+        = btn name: "Fermer", href: "#", class: "popin__close"
+
 .login
   section.login-intro
     h1.login-intro__heading
@@ -33,7 +49,7 @@
       abbr title=("Revenu fiscal de référence") RFR
       | ) correspondant à votre niveau de ressources.
     = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'login-fields__form') do
-      p.login-fields__label.login-fields__label--first Êtes-vous propriétaire de votre résidence principale ?
+      p.login-fields__label.login-fields__label--p.login-fields__label--first Êtes-vous propriétaire de votre résidence principale ?
       - proprietaire = params[:proprietaire] == "1"
       label.login-fields__proprietaire-label for="lab-proprietaire-yes"
         = radio_button_tag "proprietaire", "1", proprietaire, class: "login-fields__proprietaire-input", id: "lab-proprietaire-yes"
@@ -41,11 +57,13 @@
       label.login-fields__proprietaire-label for="lab-proprietaire-no"
         = radio_button_tag "proprietaire", "0", !proprietaire, class: "login-fields__proprietaire-input", id: "lab-proprietaire-no"
         | Non
-      = label_tag "form-nf", "Numéro fiscal (13 chiffres)", class: "login-fields__label"
+      br/
+      = label_tag "form-nf", "Numéro fiscal", class: "login-fields__label"
+      a.login-fields__help.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
       = text_field_tag :numero_fiscal, params[:numero_fiscal], placeholder: "Ex : 12 34 567 890 123", id: "form-nf", class: "login-fields__input"
-      /TODO a.login-intro__a href="#"  Où se trouve mon numéro fiscal ?
-      = label_tag "form-ra", "Référence de l’avis (13 caractères)", class: "login-fields__label"
-      = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : 12 34 0123456 78", id: "form-ra", class: "login-fields__input"
+      = label_tag "form-ra", "Référence de l’avis", class: "login-fields__label"
+      a.login-fields__help.js-popin data-target="#reference-avis" title="Où trouver la référence de l’avis ?" ?
+      = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : 12 34 A123456 78", id: "form-ra", class: "login-fields__input"
       .login-fields__mentions
         = check_box_tag "autorisation", "1", params[:autorisation], class: "login-fields__mentions-input js-engagement", id: "lab-rfr"
         label.login-fields__mentions-label for="lab-rfr"

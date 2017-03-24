@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
   // show/hide personne de confiance
   if (!$("#contact-diff").is(':checked')) {
     $(".dem-diff").hide();
@@ -76,6 +75,19 @@ $(document).ready(function() {
     return false;
   });
 
+  function bindPopins() {
+    $(".popin").click(function(e) {
+      $(this).hide();
+    });
+    $(".js-popin").click(function(e) {
+      var element = $(this);
+      var target = $(element.data('target'));
+      if (target.length) {
+        target.show();
+      }
+    });
+  }
+
   function updateSubmitButton() {
     var isChecked = $(".js-engagement").prop("checked");
     var submit_btn = $('button');
@@ -86,11 +98,11 @@ $(document).ready(function() {
     }
   }
 
+  bindPopins();
   var engagement = $(".js-engagement");
   if (engagement.length) {
     updateSubmitButton();
     engagement.click(updateSubmitButton);
   }
-
 });
 
