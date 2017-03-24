@@ -1,24 +1,22 @@
 /! Demandeur
 = form_for @projet_courant, url: { controller: 'demarrage_projet', action: 'etape1_recuperation_infos' }, method: 'post', html: { class: 'form' }  do |f|
   = render 'shared/errors', resource: @projet_courant
-  = render 'shared/errors', resource: @demandeur_principal
+  = render 'shared/errors', resource: @demandeur
   section.demandeur
     h2.header-blk= t('demarrage_projet.etape1_demarrage_projet.section_demandeur')
     p.chapo= t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
     ul.dem-info.ins-form.civilite
       li.radio
-        = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[1], (@demandeur_principal.civilite == Occupant.civilites.keys[1])
+        = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[1], (@demandeur.try(:civilite) == Occupant.civilites.keys[1])
         = label_tag 'demandeur_principal_civilite_mme', t(:"occupants.civilite.mme")
       li.radio
-        = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[0], (@demandeur_principal.civilite == Occupant.civilites.keys[0])
+        = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[0], (@demandeur.try(:civilite) == Occupant.civilites.keys[0])
         = label_tag 'demandeur_principal_civilite_mr', t(:"occupants.civilite.mr")
     ul.dem-info.ins-form
-      li
-        = f.label :demandeur_principal_prenom
-        = f.text_field :demandeur_principal_prenom, disabled: true, class: 'disabled'
-      li
-        = f.label :demandeur_principal_nom
-        = f.text_field :demandeur_principal_nom, disabled: true, class: 'disabled'
+      li.full
+        = f.label 'Prénom et nom du demandeur'
+        = select_tag 'projet[demandeur_id]', options_for_select(@declarants,@projet_courant.demandeur_principal.id), class: 'form-control'
+      /= f.collection_select :demandeur_id, @projet_courant.occupants.all, :id, :fullname
       li.full
         = f.label :adresse_postale
         = text_field_tag "projet[adresse_postale]", @projet_courant.adresse_postale.try(:description)
