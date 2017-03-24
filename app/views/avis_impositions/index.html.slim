@@ -2,5 +2,27 @@
   = render 'shared/errors', resource: @projet_courant
   section.occupants
     h2 Avis d’imposition
-  = btn name: 'Valider', class: 'btn-large btn-centered', icon: 'ok'
+    table.table
+      thead
+        tr
+          th Numéro fiscal
+          th Référence de l’avis
+          th Revenu fiscal
+          th Déclarant 1
+          th Déclarant 2
+          th Personnes à charge
+          th
+      tbody
+        - @projet_courant.avis_impositions.each_with_index do |avis_imposition, index|
+          tr
+            td= avis_imposition.numero_fiscal
+            td= avis_imposition.reference_avis
+            td= avis_imposition.revenu_fiscal_reference
+            td= avis_imposition.declarant_1
+            td= avis_imposition.declarant_2
+            td= avis_imposition.nombre_personnes_charge
+            td
+              - if 0 < index
+                = btn name: "Supprimer", href: "#", icon: "remove"
+  = btn name: "Valider", href: projet_occupants_path, class: "btn-large btn-centered", icon: "ok"
 

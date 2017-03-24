@@ -1,0 +1,61 @@
+.btn {
+  position: relative;
+  display: inline-block;
+  border-radius: 3px;
+  box-shadow: inset 0 2px 0 0 rgba(255, 255, 255, 0.5);
+  border: solid 1px #86062d;
+  font-size: 14px;
+  color: white;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.5);
+  padding: 5px 15px;
+  background-color: #e7235a;
+  transition: all 200ms ease;
+  &:hover {
+    background-color: #d9184e;
+  }
+  .glyphicon {
+    position: absolute;
+    top: 6px;
+    left: 11px;
+    width: 15px;
+    height: 15px;
+    font-size: 16px;
+  }
+}
+.btn-icon {
+  padding-left: 37px;
+}
+.btn-large {
+  font-size: 20px;
+  line-height: 38px;
+  height: 50px;
+  .glyphicon {
+    font-size: 20px;
+    top: 12px;
+    left: 22px;
+  }
+  &.btn-icon {
+    padding-left: 60px;
+    padding-right: 25px;
+  }
+}
+.btn-centered {
+  display: table;
+  margin: 15px auto 0;
+}
+.btn-test {
+  background-color: #449d44;
+  border-color: #398439;
+  &:hover {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+  }
+}
+.btn-secondary {
+  background-color: #888;
+  border-color: #777;
+  &:hover {
+    background-color: #666;
+    border-color: #555;
+  }
+}
