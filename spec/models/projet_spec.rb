@@ -133,10 +133,12 @@ describe Projet do
     end
   end
 
+  # TODO: `nb_occupants_a_charge` est maintenant le nombre d’occupants créés,
+  # besoin d’un refactoring pour utiliser `projet.occupants.count` en utisant un `through: :avis_impositions`
   describe '#nb_occupants_a_charge' do
-    let(:projet) { create :projet, nb_occupants_a_charge: 3 }
+    let(:projet) { create :projet, nb_occupants_a_charge: 1 }
     let!(:occupant_2) { create :occupant, projet: projet }
-    it { expect(projet.nb_total_occupants).to eq(5) }
+    it { expect(projet.nb_total_occupants).to eq(2) }
   end
 
   describe '#annee_fiscale_reference' do

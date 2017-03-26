@@ -97,7 +97,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     signin_for_new_projet
     visit projet_occupants_path(projet)
     expect(projet.nb_total_occupants).to eq(4)
-    expect(projet.occupants.count).to eq(2)
+    expect(projet.occupants.count).to eq(4)
     expect(page).to have_content("Occupant 3")
     expect(page).to have_content("Occupant 4")
   end

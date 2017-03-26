@@ -7,10 +7,6 @@ class OccupantsController < ApplicationController
 
   def index
     @occupants_a_charge = []
-    nb_occupants = @projet_courant.occupants.count
-    @projet_courant.nb_occupants_a_charge.times.each do |index|
-      @occupants_a_charge << Occupant.new(nom: "Occupant #{index + nb_occupants + 1}")
-    end
   end
 
   def new
@@ -46,8 +42,7 @@ class OccupantsController < ApplicationController
     redirect_to projet_path(@projet_courant)
   end
 
-  private
-
+private
   def occupant_params
     params.require(:occupant).permit(
       :civilite,
@@ -57,5 +52,4 @@ class OccupantsController < ApplicationController
       :revenus
     )
   end
-
 end

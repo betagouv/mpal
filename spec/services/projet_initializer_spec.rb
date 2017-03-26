@@ -71,8 +71,7 @@ describe ProjetInitializer do
       expect(projet.reference_avis).to eq('1515')
       expect(projet.nb_occupants_a_charge).to eq(3)
       expect(projet.avis_impositions.length).to eq(1)
-      # TODO: on devrait modifier la méthode pour initialiser les occupants non demandeurs, et donc avoir 4 ci-après
-      expect(projet.avis_impositions.first.occupants.length).to eq(1)
+      expect(projet.avis_impositions.first.occupants.length).to eq(4)
       expect(projet.avis_impositions.first.occupants.first).to be_declarant
     end
   end
@@ -90,10 +89,9 @@ describe ProjetInitializer do
       expect(avis_imposition.numero_fiscal).to eq('15')
       expect(avis_imposition.reference_avis).to eq('1515')
       expect(avis_imposition.nombre_personnes_charge).to eq(3)
-      expect(avis_imposition.occupants.length).to eq(1)
+      expect(avis_imposition.occupants.length).to eq(4)
 
       occupant = avis_imposition.occupants.first
-      # TODO: `demandeur` est mal nommé, on devrait dire `declarant`
       expect(occupant).to be_declarant
       expect(occupant.nom).to eq('Martin')
     end

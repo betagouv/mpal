@@ -32,17 +32,19 @@ class ProjetInitializer
     end
     is_new_project = 0 == projet.avis_impositions.length
 
+    declarant_count = contribuable.declarants[1].present? ? 2 : 1
     avis_imposition = projet.avis_impositions.build
     avis_imposition.reference_avis = reference_avis
     avis_imposition.numero_fiscal = numero_fiscal
     avis_imposition.annee = contribuable.annee_impots
     avis_imposition.declarant_1 = "#{contribuable.declarants[0][:prenom]} #{contribuable.declarants[0][:nom]}"
-    avis_imposition.declarant_2 = "#{contribuable.declarants[1][:prenom]} #{contribuable.declarants[1][:nom]}" if contribuable.declarants[1].present?
+    avis_imposition.declarant_2 = "#{contribuable.declarants[1][:prenom]} #{contribuable.declarants[1][:nom]}" if 2 <= declarant_count
     avis_imposition.nombre_personnes_charge = contribuable.nombre_personnes_charge
 
     contribuable.declarants.each_with_index do |declarant, index|
       avis_imposition.occupants.build(
-        nom: declarant[:nom], prenom: declarant[:prenom],
+        nom: declarant[:nom],
+        prenom: declarant[:prenom],
         date_de_naissance: "#{declarant[:date_de_naissance]}",
         projet: projet,
         declarant: true,
@@ -50,7 +52,16 @@ class ProjetInitializer
       )
     end
 
-    # TODO: les personnes à charge devraient être buildées ici et non pas dans le controller
+    contribuable.nombre_personnes_charge.times do |index|
+      avis_imposition.occupants.build(
+        nom: "Occupant #{declarant_count + index + 1}",
+        prenom: "Occupant #{declarant_count + index + 1}",
+        date_de_naissance: "1970-01-01", # TODO: obligatoire :(
+        projet: projet,
+        declarant: false,
+        demandeur: false
+      )
+    end
 
     avis_imposition
   end
