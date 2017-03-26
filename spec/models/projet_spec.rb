@@ -141,9 +141,9 @@ describe Projet do
 
   describe '#annee_fiscale_reference' do
     let(:projet) { create :projet }
-    let!(:avis_imposition_1) { create :avis_imposition, projet: projet, annee: 2013 }
-    let!(:avis_imposition_2) { create :avis_imposition, projet: projet, annee: 2014 }
-    let!(:avis_imposition_3) { create :avis_imposition, projet: projet, annee: 2015 }
+    let!(:avis_imposition_1) { create :avis_imposition, projet: projet, numero_fiscal: '42', annee: 2013 }
+    let!(:avis_imposition_2) { create :avis_imposition, projet: projet, numero_fiscal: '43', annee: 2014 }
+    let!(:avis_imposition_3) { create :avis_imposition, projet: projet, numero_fiscal: '44', annee: 2015 }
     it { expect(projet.annee_fiscale_reference).to eq(2014) }
   end
 
