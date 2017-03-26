@@ -16,7 +16,6 @@
       li.full
         = f.label 'Prénom et nom du demandeur'
         = select_tag 'projet[demandeur_id]', options_for_select(@declarants,@projet_courant.demandeur_principal.id), class: 'form-control'
-      /= f.collection_select :demandeur_id, @projet_courant.occupants.all, :id, :fullname
       li.full
         = f.label :adresse_postale
         = text_field_tag "projet[adresse_postale]", @projet_courant.adresse_postale.try(:description)
