@@ -1,13 +1,14 @@
 class ProjetInitializer
   def initialize(service_particulier = nil, service_adresse = nil)
-    @service_particulier = service_particulier || ApiParticulier.new
+    @service_particulier = service_particulier
     @service_adresse = service_adresse || ApiBan.new
   end
 
   def initialize_projet(numero_fiscal, reference_avis)
     projet = Projet.new
 
-    contribuable = @service_particulier.retrouve_contribuable(numero_fiscal, reference_avis)
+    @service_particulier ||= ApiParticulier.new(numero_fiscal, reference_avis)
+    contribuable = @service_particulier.retrouve_contribuable
 
     projet.reference_avis = reference_avis
     projet.numero_fiscal = numero_fiscal
@@ -19,13 +20,16 @@ class ProjetInitializer
       logger.info "ProjetInitializer: l'adresse n'a pas pu être localisée (#{e})"
     end
 
-    contribuable.declarants.each do |declarant|
-      projet.occupants.build(
-        nom: declarant[:nom], prenom: declarant[:prenom],
-        date_de_naissance: "#{declarant[:date_de_naissance]}",
-        demandeur: true)
-    end
+    initialize_avis_imposition(projet, numero_fiscal, reference_avis, contribuable)
 
+    projet
+  end
+
+  def initialize_avis_imposition(projet, numero_fiscal, reference_avis, contribuable = nil)
+    unless contribuable
+      @service_particulier ||= ApiParticulier.new(numero_fiscal, reference_avis)
+      contribuable = @service_particulier.retrouve_contribuable
+    end
     avis_imposition = projet.avis_impositions.build
     avis_imposition.reference_avis = reference_avis
     avis_imposition.numero_fiscal = numero_fiscal
@@ -34,7 +38,17 @@ class ProjetInitializer
     avis_imposition.declarant_2 = "#{contribuable.declarants[1][:prenom]} #{contribuable.declarants[1][:nom]}" if contribuable.declarants[1].present?
     avis_imposition.nombre_personnes_charge = contribuable.nombre_personnes_charge
 
-    projet
+    contribuable.declarants.each do |declarant|
+      avis_imposition.occupants.build(
+        nom: declarant[:nom], prenom: declarant[:prenom],
+        date_de_naissance: "#{declarant[:date_de_naissance]}",
+        projet: projet,
+        demandeur: true)
+    end
+
+    # TODO: les personnes à charge devraient être buildées ici et non pas dans le controller
+
+    avis_imposition
   end
 
   def precise_adresse(adresse, previous_value: nil, required: false)

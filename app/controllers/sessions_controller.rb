@@ -10,7 +10,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    contribuable = ApiParticulier.new.retrouve_contribuable(param_numero_fiscal, param_reference_avis)
+    contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
     unless contribuable
       flash.now[:alert] = t('sessions.invalid_credentials')
       return render :new
