@@ -30,6 +30,8 @@ class ProjetInitializer
       @service_particulier ||= ApiParticulier.new(numero_fiscal, reference_avis)
       contribuable = @service_particulier.retrouve_contribuable
     end
+    is_new_project = 0 == projet.avis_impositions.length
+
     avis_imposition = projet.avis_impositions.build
     avis_imposition.reference_avis = reference_avis
     avis_imposition.numero_fiscal = numero_fiscal
@@ -38,12 +40,14 @@ class ProjetInitializer
     avis_imposition.declarant_2 = "#{contribuable.declarants[1][:prenom]} #{contribuable.declarants[1][:nom]}" if contribuable.declarants[1].present?
     avis_imposition.nombre_personnes_charge = contribuable.nombre_personnes_charge
 
-    contribuable.declarants.each do |declarant|
+    contribuable.declarants.each_with_index do |declarant, index|
       avis_imposition.occupants.build(
         nom: declarant[:nom], prenom: declarant[:prenom],
         date_de_naissance: "#{declarant[:date_de_naissance]}",
         projet: projet,
-        demandeur: true)
+        declarant: true,
+        demandeur: is_new_project && 0 == index
+      )
     end
 
     # TODO: les personnes à charge devraient être buildées ici et non pas dans le controller

@@ -73,7 +73,7 @@ describe ProjetInitializer do
       expect(projet.avis_impositions.length).to eq(1)
       # TODO: on devrait modifier la méthode pour initialiser les occupants non demandeurs, et donc avoir 4 ci-après
       expect(projet.avis_impositions.first.occupants.length).to eq(1)
-      expect(projet.avis_impositions.first.occupants.first).to be_demandeur
+      expect(projet.avis_impositions.first.occupants.first).to be_declarant
     end
   end
 
@@ -94,7 +94,7 @@ describe ProjetInitializer do
 
       occupant = avis_imposition.occupants.first
       # TODO: `demandeur` est mal nommé, on devrait dire `declarant`
-      expect(occupant).to be_demandeur
+      expect(occupant).to be_declarant
       expect(occupant.nom).to eq('Martin')
     end
   end
