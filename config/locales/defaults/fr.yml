@@ -232,7 +232,7 @@ fr:
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
-        titre: 'Félicitations %{demandeur_principal}'
+        titre: 'Félicitations'
         corps: Votre projet démarre aujourd’hui.
     visualisation:
       non_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation va être prochainement réalisé. Un interlocuteur va prendre contact avec vous. Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Infoservice ou l’opérateur de l’opération programmée […] : Tel…"

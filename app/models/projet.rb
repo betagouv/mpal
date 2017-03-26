@@ -117,8 +117,14 @@ class Projet < ActiveRecord::Base
     invited_operateur.present? && operateur.blank?
   end
 
+  def change_demandeur(demandeur_id)
+    demandeur = Occupant.find demandeur_id
+    occupants.each { |occupant| occupant.update_attribute(:demandeur,(occupant == demandeur)) }
+    demandeur
+  end
+
   def demandeur_principal
-    @demandeur_principal ||= occupants.where(demandeur: true).first
+    occupants.where(demandeur: true).first
   end
 
   def demandeur_principal_nom

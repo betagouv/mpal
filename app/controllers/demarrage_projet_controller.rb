@@ -13,7 +13,8 @@ class DemarrageProjetController < ApplicationController
     end
 
     @projet_courant.personne ||= Personne.new
-    @demandeur_principal = @projet_courant.demandeur_principal
+    @demandeur = @projet_courant.demandeur_principal
+    @declarants = @projet_courant.occupants.collect { |o| [ o.fullname, o.id ] }
     @action_label = if needs_etape2? then action_label_create else action_label_update end
   end
 
@@ -149,17 +150,25 @@ private
         @projet_courant.personne = nil
       end
     end
-    if !@projet_courant.save
+    unless @projet_courant.save
       return false
     end
 
-    demandeur_principal = @projet_courant.demandeur_principal
-    demandeur_principal.assign_attributes(demandeur_principal_params)
-    if !demandeur_principal.save
+    demandeur_id = params[:projet][:demandeur_id]
+    unless demandeur_id.blank?
+      return define_demandeur(demandeur_id)
+    end
+
+    true
+  end
+
+  def define_demandeur(demandeur_id)
+    @demandeur = @projet_courant.change_demandeur(demandeur_id)
+    @demandeur.assign_attributes(demandeur_principal_params)
+    unless @demandeur.save
       flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
       return false
     end
-
     true
   end
 

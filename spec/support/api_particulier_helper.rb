@@ -18,6 +18,11 @@ module Fakeweb
             "prenoms": "Pierre",
             "dateNaissance": "19/03/1980"
           },
+          "declarant2": {
+              "nom": "Martin",
+              "prenoms": "Anne",
+              "dateNaissance": "05/06/1979"
+          },
           "anneeImpots": "2015",
           "nombrePersonnesCharge": 2,
           "foyerFiscal": {

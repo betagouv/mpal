@@ -216,6 +216,20 @@ describe Projet do
     end
   end
 
+  describe "#change_demandeur" do
+    context "avec 2 demandeurs" do
+      let(:projet)    { create :projet, :prospect, :with_two_demandeurs}
+
+      it "change le demandeur" do
+        expect(projet.occupants.count).to be 2
+        expect(projet.demandeur_principal).to eq projet.occupants.first
+        new_demandeur_principal = projet.occupants.last
+        projet.change_demandeur(new_demandeur_principal.id)
+        expect(projet.demandeur_principal).to eq new_demandeur_principal
+      end
+    end
+  end
+
   describe "#suggest_operateurs!" do
     let(:projet)     { create :projet, :with_suggested_operateurs }
     let(:operateurA) { create :operateur }
