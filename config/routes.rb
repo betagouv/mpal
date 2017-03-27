@@ -35,7 +35,7 @@ Rails.application.routes.draw do
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     resources :projets, only: [], concerns: :projectable do
-      resources :avis_impositions, only: [:index, :create]
+      resources :avis_impositions, only: :destroy
       resources :transmissions, only: [:create]
       get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'
