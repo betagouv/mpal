@@ -4,7 +4,8 @@ def signin(numero_fiscal, reference_avis)
   visit new_session_path
   fill_in :numero_fiscal,  with: numero_fiscal
   fill_in :reference_avis, with: reference_avis
-  find('.form-login .btn').click
+  choose 'Oui'
+  find('.js-login-btn').click
 end
 
 def signin_for_new_projet
