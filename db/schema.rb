@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170326193734) do
+ActiveRecord::Schema.define(version: 20170327092815) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,26 +248,16 @@ ActiveRecord::Schema.define(version: 20170326193734) do
     t.string   "reference_avis"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "adresse_ligne1"
-    t.float    "latitude"
-    t.float    "longitude"
-    t.string   "departement"
     t.string   "email"
     t.string   "tel"
     t.string   "themes",                                                            array: true
     t.integer  "nb_occupants_a_charge",                                 default: 0
     t.integer  "annee_construction"
-    t.string   "code_insee"
     t.integer  "statut",                                                default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"
     t.string   "opal_id"
-    t.string   "code_postal"
-    t.string   "ville"
     t.integer  "personne_id"
-    t.string   "adresse_postale_ligne1"
-    t.string   "adresse_postale_code_postal"
-    t.string   "adresse_postale_ville"
     t.string   "disponibilite"
     t.string   "type_logement"
     t.string   "etage"
