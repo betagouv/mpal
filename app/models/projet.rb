@@ -18,9 +18,9 @@ class Projet < ActiveRecord::Base
   belongs_to :agent_operateur, class_name: "Agent"
   belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
-  has_many :occupants, -> { order "id" }, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
+  has_many :occupants, through: :avis_impositions
 
   has_many :documents, dependent: :destroy
   accepts_nested_attributes_for :documents
@@ -36,7 +36,6 @@ class Projet < ActiveRecord::Base
   validates :email, email: true, allow_blank: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
-  validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 
   localized_numeric_setter :note_degradation
@@ -89,6 +88,10 @@ class Projet < ActiveRecord::Base
     occupants.count
   end
 
+  def nb_occupants_a_charge
+    occupants.count - demandeurs.count
+  end
+
   def intervenants_disponibles(role: nil)
     Intervenant.pour_departement(departement).pour_role(role)
   end
@@ -118,13 +121,17 @@ class Projet < ActiveRecord::Base
   end
 
   def change_demandeur(demandeur_id)
-    demandeur = Occupant.find demandeur_id
-    occupants.each { |occupant| occupant.update_attribute(:demandeur,(occupant == demandeur)) }
+    demandeur = Occupant.find(demandeur_id)
+    occupants.each { |occupant| occupant.update_attribute(:demandeur, (occupant == demandeur)) }
     demandeur
   end
 
+  def demandeurs
+    occupants.where(demandeur: true)
+  end
+
   def demandeur_principal
-    occupants.where(demandeur: true).first
+    demandeurs.first
   end
 
   def demandeur_principal_nom

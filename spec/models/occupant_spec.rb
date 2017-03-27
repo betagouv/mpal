@@ -6,7 +6,6 @@ describe Occupant do
   it { is_expected.to have_db_column(:lien_demandeur) }
   it { is_expected.to have_db_column(:civilite) }
   it { is_expected.to have_db_column(:demandeur) }
-  it { is_expected.to belong_to(:projet) }
 
   describe "validations" do
     it { is_expected.to be_valid }
@@ -26,7 +25,7 @@ describe Occupant do
       end
 
       context "qui est le demandeur principal" do
-        subject { create(:projet).demandeur_principal }
+        subject { create(:projet, :with_demandeurs).demandeur_principal }
         it { is_expected.to validate_presence_of(:civilite) }
       end
     end
