@@ -69,7 +69,6 @@ describe ProjetInitializer do
       expect(projet.adresse.description).to eq(adresse)
       expect(projet.numero_fiscal).to eq('15')
       expect(projet.reference_avis).to eq('1515')
-      expect(projet.nb_occupants_a_charge).to eq(3)
       expect(projet.avis_impositions.length).to eq(1)
       expect(projet.avis_impositions.first.occupants.length).to eq(4)
       expect(projet.avis_impositions.first.occupants.first).to be_declarant

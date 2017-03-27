@@ -12,7 +12,6 @@ class ProjetInitializer
 
     projet.reference_avis = reference_avis
     projet.numero_fiscal = numero_fiscal
-    projet.nb_occupants_a_charge = contribuable.nombre_personnes_charge
 
     begin
       projet.adresse_postale = self.precise_adresse(contribuable.adresse)
@@ -46,7 +45,6 @@ class ProjetInitializer
         nom: declarant[:nom],
         prenom: declarant[:prenom],
         date_de_naissance: "#{declarant[:date_de_naissance]}",
-        projet: projet,
         declarant: true,
         demandeur: is_new_project && 0 == index
       )
@@ -54,10 +52,9 @@ class ProjetInitializer
 
     contribuable.nombre_personnes_charge.times do |index|
       avis_imposition.occupants.build(
-        nom: "Occupant #{declarant_count + index + 1}",
+        nom:    "Occupant #{declarant_count + index + 1}",
         prenom: "Occupant #{declarant_count + index + 1}",
         date_de_naissance: "1970-01-01", # TODO: obligatoire :(
-        projet: projet,
         declarant: false,
         demandeur: false
       )

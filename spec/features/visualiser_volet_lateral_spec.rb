@@ -5,7 +5,7 @@ require 'support/api_ban_helper'
 
 feature "Les information personnelles syntéthiques sont visibles" do
   let(:personne)        { create :personne }
-  let(:projet)          { create :projet, personne: personne }
+  let(:projet)          { create :projet, :prospect, personne: personne }
   let(:operateur)       { create :operateur, departements: [projet.departement] }
   let(:agent_operateur) { create :agent, intervenant: operateur }
   let!(:invitation)     { create :invitation, intervenant: operateur, projet: projet }

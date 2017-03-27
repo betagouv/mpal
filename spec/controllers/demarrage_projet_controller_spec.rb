@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_ban_helper'
 
 describe DemarrageProjetController do
-  let(:projet) { create :projet, :prospect, :with_two_demandeurs }
+  let(:projet) { create :projet, :prospect, demandeurs_count: 2 }
 
   before(:each) do
     authenticate_as_particulier(projet.numero_fiscal)
