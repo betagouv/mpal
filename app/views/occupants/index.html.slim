@@ -1,45 +1,50 @@
-= form_for @projet_courant, url: etape2_description_projet_path, method: 'get', html: { class: 'form' }  do |f|
-  = render 'shared/errors', resource: @projet_courant
+= form_for @occupant, url: { controller: "occupants", action: "index" }, method: "post" do |f|
   section.occupants
+    = render 'shared/errors', resource: @occupant
     h2.occupants-heading
-      = t('demarrage_projet.etape1_demarrage_projet.section_occupants')
-      /TODO
-        = btn name: t('demarrage_projet.etape1_demarrage_projet.ajouter_occupant'), href: '#'
+      = t('occupants.title')
 
     .occupants-recap
       ul
         li
-          = t('demarrage_projet.etape1_demarrage_projet.nombre_occupant')
+          = t('occupants.nombre_occupant')
           span= " #{@projet_courant.nb_total_occupants}"
         li
           = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
           span= " #{annee_fiscale_reference} : "
           span= " #{revenu_fiscal_reference_total} €"
-    p.chapo= t('demarrage_projet.etape1_demarrage_projet.confirmer_occupants')
+    p.chapo= t('occupants.confirmer_nombre_personnes')
     table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
       tbody
         tr
-          th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants')
-          th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants_date_naissance')
-          /TODO th scope="col"  = t('demarrage_projet.etape1_demarrage_projet.occupants_modification')
-        - @projet_courant.occupants.each do |occupant|
+          th scope="col"  = t('occupants.occupants')
+          th scope="col"  = t('.occupants.date_naissance')
+          /TODO th scope="col"  = t('occupants.actions.modifier')
+        - @occupants.each do |occupant|
           tr
             td
               span.firstname= occupant.prenom
               span.lastname<= occupant.nom
             td= occupant.date_de_naissance.year
             /TODO td
-        - @occupants_a_charge.each do |occupant|
-          tr
-            td
-              span.firstname= occupant.prenom
-              span.lastname<= occupant.nom
-            td
-              /TODO input type="text" /
-            /TODO td
-              = btn name: t('demarrage_projet.etape1_demarrage_projet.occupants_supprimer'), href: '#'
+              = btn name: t('occupants.actions.supprimer'), href: '#'
+
+    .occupant-inline-form
+      h3.occupant-inline-form__title Ajouter un occupant
+      .occupant-inline-form__fields
+        .occupant-inline-form__field
+          = f.label :prenom
+          = f.text_field :prenom,            class: "occupant-inline-form__prenom", placeholder: "Prénom"
+        .occupant-inline-form__field
+          = f.label :nom
+          = f.text_field :nom,               class: "occupant-inline-form__nom",    placeholder: "Nom"
+        .occupant-inline-form__field
+          = f.label :date_de_naissance
+          = f.date_field :date_de_naissance, class: "occupant-inline-form__dob",    placeholder: "JJ/MM/AAAA"
+        = btn name: t('occupants.nouveau.action'), class: "occupant-inline-form__submit"
+
     .checkbox-validation
       input#dif1 type="checkbox" class="js-engagement"
       label for="dif1" = t('agrements.attestation_communiquer_infos_occupants')
-  = btn name: 'Valider', class: 'btn-large btn-centered js-engagement', icon: 'ok'
+  = btn name: "Valider", class: "btn-large btn-centered js-engagement", icon: "ok"
 

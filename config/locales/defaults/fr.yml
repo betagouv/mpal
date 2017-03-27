@@ -94,7 +94,6 @@ fr:
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
         enregistrement_demandeur: "Une erreur s’est produite lors de l’enregistrement de vos informations personnelles."
       section_demandeur: "Demandeur"
-      section_occupants: "Occupants"
       recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
       personne_confiance: "Qui contacter pour les démarches à venir ?"
       personne_confiance_choix1: Vous-même
@@ -107,13 +106,7 @@ fr:
       personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"
       personne_de_confiance_placeholder: "Enfant, voisin…"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
-      nombre_occupant: "Nombre d’occupants :"
-      ajouter_occupant: "Ajouter un occupant"
-      confirmer_occupants: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
-      occupants: Occupants
-      occupants_date_naissance: "Date de naissance"
-      occupants_modification: "Modification"
-      occupants_supprimer: "Supprimer"
+
     # ----------------------- Etape 2 ---------------------
     etape2_description_projet:
       erreurs:
@@ -318,15 +311,20 @@ fr:
 
   # ----------------------- Gestion des occupants ---------------------
   occupants:
+    title: "Occupants"
+    occupants: "Occupants"
+    nombre_occupant: "Nombre d’occupants :"
+    confirmer_nombre_personnes: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
+    date_naissance: "Date de naissance"
+    actions:
+      modifier: "Modifier"
+      supprimer: "Supprimer"
     nouveau:
       titre: "Ajoutez un nouvel occupant à votre logement"
-      action: "J’ajoute cet occupant"
+      action: "Ajouter un occupant"
     edition:
       titre: "Modifiez %{occupant}"
       action: "Je modifie %{occupant}"
-    messages:
-      nom:
-        obligatoire: "Le nom de l’occupant est obligatoire"
     modification:
       composition_logement: "Composition du logement"
     civilite:
@@ -381,6 +379,9 @@ fr:
         note_insalubrite: "La note d’insalubrité"
       occupant:
         civilite: "La civilité"
+        nom: "Nom"
+        prenom: "Prénom"
+        date_de_naissance: "Date de naissance"
     errors:
       models:
         projet:
