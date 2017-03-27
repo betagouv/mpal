@@ -9,10 +9,11 @@ feature "Occupants :" do
       signin_for_new_projet
       visit projet_occupants_path(projet)
 
-      expect(page).to have_content("Nombre d’occupants : 3")
+      expect(page).to have_content("Nombre d’occupants : 4")
       expect(page).to have_content("Pierre Martin")
-      expect(page).to have_content("Occupant 2")
+      expect(page).to have_content("Anne Martin")
       expect(page).to have_content("Occupant 3")
+      expect(page).to have_content("Occupant 4")
     end
 
     scenario "je peux enregistrer les demandeurs et passer à l'étape suivante" do

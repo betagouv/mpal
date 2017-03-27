@@ -12,6 +12,12 @@ FactoryGirl.define do
       create_list(:demandeur, 1, projet: projet)
     end
 
+    trait :with_two_demandeurs do
+      after(:create) do |projet|
+        create_list(:demandeur, 1, projet: projet)
+      end
+    end
+
     trait :with_demande do
       after(:build) do |projet|
         create(:demande, projet: projet)

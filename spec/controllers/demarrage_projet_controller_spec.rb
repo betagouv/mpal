@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_ban_helper'
 
 describe DemarrageProjetController do
-  let(:projet) { create :projet, :prospect }
+  let(:projet) { create :projet, :prospect, :with_two_demandeurs }
 
   before(:each) do
     authenticate_as_particulier(projet.numero_fiscal)
@@ -140,6 +140,19 @@ describe DemarrageProjetController do
       end
       it "supprime l'adresse à rénover" do
         expect(projet.adresse_a_renover).to be_nil
+      end
+    end
+
+    context "lorsque je renseigne le déclarant" do
+      let(:projet_params) do
+        {
+            demandeur_id: projet.occupants.last.id,
+        }
+      end
+
+      it "enregistre les informations modifiées" do
+        expect(response).to redirect_to projet_path(projet)
+        expect(projet.demandeur_principal).to eq projet.occupants.last
       end
     end
   end

@@ -1,0 +1,4 @@
+- resource = form.object
+= render "shared/errors", resource: resource
+= form.input :numero_fiscal, wrapper_html: { class: "size-m" }, autofocus: true
+= form.input :reference_avis, wrapper_html: { class: "size-m" }

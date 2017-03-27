@@ -133,17 +133,19 @@ describe Projet do
     end
   end
 
+  # TODO: `nb_occupants_a_charge` est maintenant le nombre d’occupants créés,
+  # besoin d’un refactoring pour utiliser `projet.occupants.count` en utisant un `through: :avis_impositions`
   describe '#nb_occupants_a_charge' do
-    let(:projet) { create :projet, nb_occupants_a_charge: 3 }
+    let(:projet) { create :projet, nb_occupants_a_charge: 1 }
     let!(:occupant_2) { create :occupant, projet: projet }
-    it { expect(projet.nb_total_occupants).to eq(5) }
+    it { expect(projet.nb_total_occupants).to eq(2) }
   end
 
   describe '#annee_fiscale_reference' do
     let(:projet) { create :projet }
-    let!(:avis_imposition_1) { create :avis_imposition, projet: projet, annee: 2013 }
-    let!(:avis_imposition_2) { create :avis_imposition, projet: projet, annee: 2014 }
-    let!(:avis_imposition_3) { create :avis_imposition, projet: projet, annee: 2015 }
+    let!(:avis_imposition_1) { create :avis_imposition, projet: projet, numero_fiscal: '42', annee: 2013 }
+    let!(:avis_imposition_2) { create :avis_imposition, projet: projet, numero_fiscal: '43', annee: 2014 }
+    let!(:avis_imposition_3) { create :avis_imposition, projet: projet, numero_fiscal: '44', annee: 2015 }
     it { expect(projet.annee_fiscale_reference).to eq(2014) }
   end
 
@@ -213,6 +215,20 @@ describe Projet do
     let(:projet) { build :projet, adresse_postale: adresse_postale, adresse_a_renover: adresse_a_renover }
     it "renvoie le département du logement à rénover (ou de l'adresse postale le cas échéant" do
       expect(projet.departement).to eq adresse_a_renover.departement
+    end
+  end
+
+  describe "#change_demandeur" do
+    context "avec 2 demandeurs" do
+      let(:projet)    { create :projet, :prospect, :with_two_demandeurs}
+
+      it "change le demandeur" do
+        expect(projet.occupants.count).to be 2
+        expect(projet.demandeur_principal).to eq projet.occupants.first
+        new_demandeur_principal = projet.occupants.last
+        projet.change_demandeur(new_demandeur_principal.id)
+        expect(projet.demandeur_principal).to eq new_demandeur_principal
+      end
     end
   end
 
