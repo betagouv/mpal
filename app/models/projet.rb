@@ -86,7 +86,7 @@ class Projet < ActiveRecord::Base
   end
 
   def nb_total_occupants
-    occupants.count + nb_occupants_a_charge
+    occupants.count
   end
 
   def intervenants_disponibles(role: nil)
@@ -157,14 +157,14 @@ class Projet < ActiveRecord::Base
     total_revenu_fiscal_reference = 0
     annee_imposition = annee_revenus ? annee_revenus + 1 : nil
     avis_impositions.where(annee: annee_imposition).each do |avis_imposition|
-      contribuable = ApiParticulier.new.retrouve_contribuable(avis_imposition.numero_fiscal, avis_imposition.reference_avis)
+      contribuable = ApiParticulier.new(avis_imposition.numero_fiscal, avis_imposition.reference_avis).retrouve_contribuable
       total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference if contribuable
     end
     total_revenu_fiscal_reference
   end
 
   def preeligibilite(annee_revenus)
-    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee_revenus), self.departement, self.nb_total_occupants)
+    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee_revenus), departement, nb_total_occupants)
   end
 
   def suggest_operateurs!(operateur_ids)

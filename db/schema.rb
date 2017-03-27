@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170315170006) do
+ActiveRecord::Schema.define(version: 20170326193734) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -190,9 +190,11 @@ ActiveRecord::Schema.define(version: 20170315170006) do
     t.integer  "lien_demandeur"
     t.date     "date_de_naissance"
     t.integer  "civilite"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.boolean  "demandeur"
+    t.integer  "avis_imposition_id"
+    t.boolean  "declarant",          default: false, null: false
   end
 
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree

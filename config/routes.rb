@@ -3,7 +3,7 @@ Rails.application.routes.draw do
     resources :occupants,          only: [:index, :new, :create, :edit, :update, :destroy]
     resources :commentaires,       only: :create
     resource  :composition
-    resources :avis_impositions
+    resources :avis_impositions,   only: [:index, :new, :create]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
     get       :calcul_revenu_fiscal_reference

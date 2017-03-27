@@ -182,8 +182,7 @@ private
 
   def etape1_redirect_to_next_step
     if needs_etape2?
-      #TODO redirect_to projet_avis_impositions_path(@projet_courant)
-      redirect_to projet_occupants_path(@projet_courant)
+      redirect_to projet_avis_impositions_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end

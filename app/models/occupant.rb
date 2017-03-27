@@ -3,8 +3,9 @@ class Occupant < ActiveRecord::Base
   enum civilite: ['mr', 'mme']
   enum lien_demandeur: [ 'père/mère', 'enfant', 'frère/soeur', 'conjoint']
 
+  belongs_to :avis_imposition
   belongs_to :projet
-  has_many :avis_impositions
+  # TODO: delegate :projet, to: :avis_imposition
 
   validates :nom, :prenom, :date_de_naissance, presence: true
   validates :civilite, presence: true, on: :update, if: :require_civilite?
