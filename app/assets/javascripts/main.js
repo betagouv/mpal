@@ -89,8 +89,8 @@ $(document).ready(function() {
   }
 
   function updateSubmitButton() {
-    var isChecked = $(".js-engagement").prop("checked");
-    var submit_btn = $('button');
+    var isChecked = $("input[type=checkbox].js-engagement").prop("checked");
+    var submit_btn = $('button.js-engagement');
     if (isChecked) {
       submit_btn.removeProp('disabled');
     } else {
