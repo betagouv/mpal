@@ -1,0 +1,27 @@
+.section__imposition {
+
+}
+
+.imposition__form {
+  margin: 10px 30px;
+}
+
+.form__element {
+  display: block;
+  margin-right: -4px;
+  padding: 10px 0 10px;
+}
+
+.element__label {
+  display: block;
+  padding: 5px 0;
+}
+
+.element__input {
+  background-color: #f2f6fa;
+  border: solid 1px #909eaf;
+  border-radius: 3px;
+  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  padding: 9px 10px 8px;
+  width: 90%;
+}
