@@ -160,6 +160,11 @@ class Projet < ActiveRecord::Base
     calcul_revenu_fiscal_reference_total(annee_fiscale_reference)
   end
 
+  def get_revenu_fiscal_reference(avis_imposition)
+    contribuable = ApiParticulier.new(avis_imposition.numero_fiscal, avis_imposition.reference_avis).retrouve_contribuable
+    contribuable ? contribuable.revenu_fiscal_reference : 0
+  end
+
   def calcul_revenu_fiscal_reference_total(annee_revenus)
     total_revenu_fiscal_reference = 0
     annee_imposition = annee_revenus ? annee_revenus + 1 : nil
