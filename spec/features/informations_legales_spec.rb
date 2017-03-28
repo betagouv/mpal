@@ -4,7 +4,7 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Les informations légales concernant la plateforme sont disponibles" do
-  let(:projet) { create :projet }
+  let(:projet) { create :projet, :prospect }
 
   context "en tant que visiteur" do
     scenario "je peux consulter les mentions légales" do

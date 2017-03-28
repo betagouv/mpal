@@ -28,7 +28,7 @@ describe Opal do
   let(:client) { OpalClientMock.new }
 
   describe "#creer_dossier" do
-    let(:projet) {            create :projet }
+    let(:projet) {            create :projet, :transmis_pour_instruction, demandeurs_count: 1, occupants_a_charge_count: 1 }
     let(:instructeur) {       create :instructeur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
 
@@ -41,12 +41,12 @@ describe Opal do
       expect(body["utiIdClavis"]).to eq agent_instructeur.clavis_id
 
       demandeur = body["demandeur"]
-      expect(demandeur["dmdNbOccupants"]).to eq 1
+      expect(demandeur["dmdNbOccupants"]).to eq 2
       expect(demandeur["dmdRevenuOccupants"]).to eq projet.revenu_fiscal_reference_total
 
       personne_physique = demandeur["personnePhysique"]
-      expect(personne_physique["civId"]).to eq 4
-      expect(personne_physique["pphPrenom"]).to eq "Jean"
+      expect(personne_physique["civId"]).to eq 1
+      expect(personne_physique["pphPrenom"]).to eq "Jean et Jean"
       expect(personne_physique["pphNom"]).to start_with "MARTIN"
 
       adresse_postale = personne_physique["adressePostale"]

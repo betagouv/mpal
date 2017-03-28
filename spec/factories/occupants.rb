@@ -4,7 +4,7 @@ FactoryGirl.define do
     prenom 'Jean'
     date_de_naissance '20/06/1977'
     civilite 'mr'
-    projet
+    avis_imposition
   end
 
   factory :demandeur, parent: :occupant do

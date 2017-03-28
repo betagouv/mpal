@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   concern :projectable do
-    resources :occupants,          only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :occupants, only: [:index, :new, :create, :edit, :update, :destroy] do
+      post :index, on: :collection
+    end
     resources :commentaires,       only: :create
     resource  :composition
-    resources :avis_impositions
+    resources :avis_impositions,   only: [:index, :new, :create]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
     get       :calcul_revenu_fiscal_reference
@@ -33,7 +35,7 @@ Rails.application.routes.draw do
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     resources :projets, only: [], concerns: :projectable do
-      resources :avis_impositions, only: [:index, :create]
+      resources :avis_impositions, only: :destroy
       resources :transmissions, only: [:create]
       get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'

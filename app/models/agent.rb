@@ -38,7 +38,11 @@ class Agent < ActiveRecord::Base
       when :Id
         self.clavis_id = valeur
       when :ServiceId
-        self.intervenant = Intervenant.find_by_clavis_service_id(valeur)
+        intervenant = Intervenant.find_by_clavis_service_id(valeur)
+        if intervenant.blank?
+          logger.warn "Agent #{id} : aucun intervenant trouvé pour le ServiceId '#{valeur}'"
+        end
+        self.intervenant = intervenant
       end
     end
   end

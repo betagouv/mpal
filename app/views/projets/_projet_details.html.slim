@@ -117,5 +117,5 @@ date= l(Time.now.to_date)
   ul.ctr-ope.documents-list
     - @projet_courant.documents.each do |document|
       li
-        i.icon.file-dark
+        i.glyphicon.glyphicon-file
         = link_to document.label, document.fichier_url, target: "_blank"

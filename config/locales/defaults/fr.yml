@@ -75,7 +75,7 @@ fr:
 
   # ----------------------- Liste des messages à caractère juridique ---------------------
   agrements:
-    attestation_communiquer_infos_occupants: "J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur RFR auprès de la direction générale des finances publiques."
+    attestation_communiquer_infos_occupants: "J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur revenu fiscal de référence auprès de la direction générale des finances publiques."
     autorisation_acces_donnees_intervenants: "Je suis informé(e) que les intervenants avec lesquels je vais être mis(e) en relation ou que je vais inviter à consulter mon dossier ont accès aux données que j’ai renseignées."
   # ----------------------- Liste des liens du menu bas ---------------------
   menu_bas:
@@ -92,8 +92,8 @@ fr:
       erreurs:
         adresse_vide: "Votre adresse doit être renseignée"
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
+        enregistrement_demandeur: "Une erreur s’est produite lors de l’enregistrement de vos informations personnelles."
       section_demandeur: "Demandeur"
-      section_occupants: "Occupants"
       recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
       personne_confiance: "Qui contacter pour les démarches à venir ?"
       personne_confiance_choix1: Vous-même
@@ -106,13 +106,7 @@ fr:
       personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"
       personne_de_confiance_placeholder: "Enfant, voisin…"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
-      nombre_occupant: "Nombre d’occupants :"
-      ajouter_occupant: "Ajouter un occupant"
-      confirmer_occupants: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
-      occupants: Occupants
-      occupants_date_naissance: "Date de naissance"
-      occupants_modification: "Modification"
-      occupants_supprimer: "Supprimer"
+
     # ----------------------- Etape 2 ---------------------
     etape2_description_projet:
       erreurs:
@@ -231,9 +225,10 @@ fr:
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
-        titre: 'Félicitations %{demandeur_principal}'
+        titre: 'Félicitations'
         corps: Votre projet démarre aujourd’hui.
     visualisation:
+      non_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation va être prochainement réalisé. Un interlocuteur va prendre contact avec vous. Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Infoservice ou l’opérateur de l’opération programmée […] : Tel…"
       lien_edition_projet: 'Modifier le projet'
       lien_edition: 'Modifier'
       lien_edition_coordonnees: 'Modifier mes coordonnées'
@@ -316,17 +311,26 @@ fr:
 
   # ----------------------- Gestion des occupants ---------------------
   occupants:
+    title: "Occupants"
+    occupants: "Occupants"
+    nombre_occupant: "Nombre d’occupants :"
+    confirmer_nombre_personnes: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
+    date_naissance: "Date de naissance"
+    actions: "Actions"
     nouveau:
       titre: "Ajoutez un nouvel occupant à votre logement"
-      action: "J’ajoute cet occupant"
+      action: "Ajouter un occupant"
     edition:
       titre: "Modifiez %{occupant}"
       action: "Je modifie %{occupant}"
-    messages:
-      nom:
-        obligatoire: "Le nom de l’occupant est obligatoire"
     modification:
       composition_logement: "Composition du logement"
+    delete:
+      confirm: "Êtes-vous sûr de vouloir retirer %{fullname} de la liste des occupants de votre logement ?"
+      action: "Retirer"
+      success: "%{fullname} a été retiré de la liste des occupants."
+      error: "Une erreur s’est produite lors de la suppression de l’occupant."
+      cant_delete_demandeur: "Les occupants mentionnés dans l’avis d’imposition ne peuvent pas être retirés de la liste."
     civilite:
       mme: Madame
       mr: Monsieur
@@ -377,6 +381,11 @@ fr:
         tel: "Le numéro de téléphone"
         note_degradation: "La note de dégradation"
         note_insalubrite: "La note d’insalubrité"
+      occupant:
+        civilite: "La civilité"
+        nom: "Nom"
+        prenom: "Prénom"
+        date_de_naissance: "Date de naissance"
     errors:
       models:
         projet:
@@ -385,3 +394,7 @@ fr:
               inclusion: "doit être comprise entre zéro et un."
             note_insalubrite:
               inclusion: "doit être comprise entre zéro et un."
+        occupant:
+          attributes:
+            civilite:
+              blank: "doit être renseignée."

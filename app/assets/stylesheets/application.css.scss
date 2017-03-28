@@ -15,13 +15,23 @@
  */
 
 @import "reboot";
-@import "glyphicons";
 @import "main";
 
-@import "inscription";
 @import "alert";
+@import "buttons";
 @import "colonne";
-@import "icons";
-@import "informations";
 @import "dashboards";
-@import "session";
+
+@import "glyphicons";
+@import "informations";
+@import "inscription";
+@import "section";
+@import "imposition";
+
+@import "login-demo";
+@import "login-fields";
+@import "login-intro";
+@import "popin";
+@import "info-point";
+
+@import "occupants";

@@ -1,0 +1,10 @@
+.section__content {
+  padding: 30px 10px;
+  @media screen and (min-width: 920px) {
+    padding: 30px;
+  }
+}
+
+.content__question {
+  margin-bottom: 1em;
+}

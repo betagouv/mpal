@@ -41,7 +41,7 @@ class Seeder
     {
       departements: ["88"],
       raison_sociale: "DDT des VOSGES",
-      clavis_service_id: "5519",
+      clavis_service_id: "5119",
       adresse_postale: "22-26 Avenue Dutac, 88000 Épinal",
       email: "delegation88-1@anah.gouv.fr",
       roles: ["instructeur"]
@@ -184,10 +184,11 @@ class Seeder
   def seed_intervenants
     table_name = 'intervenants'
     seeding table_name
-    clear_table table_name
     progress do
       INTERVENANTS.each do |attributes|
-        Intervenant.create!(attributes)
+        Intervenant
+          .find_or_initialize_by(raison_sociale: attributes[:raison_sociale])
+          .update_attributes!(attributes)
         ahead!
       end
     end

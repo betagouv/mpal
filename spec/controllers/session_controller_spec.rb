@@ -4,13 +4,25 @@ require 'support/api_ban_helper'
 
 describe SessionsController do
   describe "#create" do
+    context "quand le demandeur n’est pas propriétaire" do
+      let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL }
+      let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS }
+      let(:projet)         { Projet.last }
+
+      it "il obtient un message d’erreur" do
+        post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "0"
+        expect(response).to render_template("new")
+        expect(flash[:alert]).to be_present
+      end
+    end
+
     context "quand le projet n'existe pas encore" do
       let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL }
       let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS }
       let(:projet)         { Projet.last }
 
       it "je suis redirigé vers la page de démarrage du projet" do
-        post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis
+        post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
         expect(response).to redirect_to etape1_recuperation_infos_path(projet)
       end
 
@@ -18,7 +30,7 @@ describe SessionsController do
         before { Fakeweb::ApiBan.register_all_unavailable }
 
         it "je suis redirigé vers la page de démarrage du projet" do
-          post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis
+          post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
           expect(response).to redirect_to etape1_recuperation_infos_path(projet)
           expect(projet.adresse).to be nil
         end
@@ -28,7 +40,7 @@ describe SessionsController do
         before { Fakeweb::ApiBan.register_all_unknown }
 
         it "je suis redirigé vers la page de démarrage du projet" do
-          post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis
+          post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
           expect(response).to redirect_to etape1_recuperation_infos_path(projet)
           expect(projet.adresse).to be nil
         end
@@ -41,7 +53,7 @@ describe SessionsController do
       let(:reference_avis) { projet.reference_avis }
 
       it "je suis redirigé vers la page principale du projet" do
-        post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis
+        post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
         expect(response).to redirect_to projet_path(projet)
       end
     end

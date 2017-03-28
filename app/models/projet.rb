@@ -18,9 +18,9 @@ class Projet < ActiveRecord::Base
   belongs_to :agent_operateur, class_name: "Agent"
   belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
-  has_many :occupants, -> { order "id" }, dependent: :destroy
   has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
+  has_many :occupants, through: :avis_impositions
 
   has_many :documents, dependent: :destroy
   accepts_nested_attributes_for :documents
@@ -36,7 +36,6 @@ class Projet < ActiveRecord::Base
   validates :email, email: true, allow_blank: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
-  validates_numericality_of :nb_occupants_a_charge, greater_than_or_equal_to: 0, allow_nil: true
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 
   localized_numeric_setter :note_degradation
@@ -86,7 +85,11 @@ class Projet < ActiveRecord::Base
   end
 
   def nb_total_occupants
-    occupants.count + nb_occupants_a_charge
+    occupants.count
+  end
+
+  def nb_occupants_a_charge
+    occupants.count - demandeurs.count
   end
 
   def intervenants_disponibles(role: nil)
@@ -117,8 +120,18 @@ class Projet < ActiveRecord::Base
     invited_operateur.present? && operateur.blank?
   end
 
+  def change_demandeur(demandeur_id)
+    demandeur = Occupant.find(demandeur_id)
+    occupants.each { |occupant| occupant.update_attribute(:demandeur, (occupant == demandeur)) }
+    demandeur
+  end
+
+  def demandeurs
+    occupants.where(demandeur: true)
+  end
+
   def demandeur_principal
-    occupants.where(demandeur: true).first
+    demandeurs.first
   end
 
   def demandeur_principal_nom
@@ -151,14 +164,13 @@ class Projet < ActiveRecord::Base
     total_revenu_fiscal_reference = 0
     annee_imposition = annee_revenus ? annee_revenus + 1 : nil
     avis_impositions.where(annee: annee_imposition).each do |avis_imposition|
-      contribuable = ApiParticulier.new.retrouve_contribuable(avis_imposition.numero_fiscal, avis_imposition.reference_avis)
-      total_revenu_fiscal_reference += contribuable.revenu_fiscal_reference if contribuable
+      total_revenu_fiscal_reference += avis_imposition.revenu_fiscal_reference
     end
     total_revenu_fiscal_reference
   end
 
   def preeligibilite(annee_revenus)
-    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee_revenus), self.departement, self.nb_total_occupants)
+    Tools.calcule_preeligibilite(calcul_revenu_fiscal_reference_total(annee_revenus), departement, nb_total_occupants)
   end
 
   def suggest_operateurs!(operateur_ids)

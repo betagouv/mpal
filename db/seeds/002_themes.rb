@@ -71,13 +71,12 @@ class Seeder
   def seed_themes
     table_name = 'themes'
     seeding table_name
-    clear_table 'prestations', table_name
     progress do
       THEMES.each do |libelle_theme, prestations|
-        theme = Theme.create!(libelle: libelle_theme)
+        theme = Theme.find_or_create_by!(libelle: libelle_theme)
         ahead!
         prestations.each do |libelle_prestation|
-          Prestation.create!(theme: theme, libelle: libelle_prestation)
+          Prestation.find_or_create_by!(theme: theme, libelle: libelle_prestation)
           ahead!('+')
         end
       end

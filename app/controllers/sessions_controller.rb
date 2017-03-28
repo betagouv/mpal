@@ -10,7 +10,11 @@ class SessionsController < ApplicationController
   end
 
   def create
-    contribuable = ApiParticulier.new.retrouve_contribuable(param_numero_fiscal, param_reference_avis)
+    unless "1" == params[:proprietaire]
+      flash.now[:alert] = t('sessions.erreur_proprietaire')
+      return render :new
+    end
+    contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
     unless contribuable
       flash.now[:alert] = t('sessions.invalid_credentials')
       return render :new
@@ -29,10 +33,10 @@ class SessionsController < ApplicationController
     if projet.save
       EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')
-      flash[:notice_titre] = t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname)
+      flash[:notice_titre] = t('projets.messages.creation.titre')
       redirect_to etape1_recuperation_infos_path(projet), notice: notice
     else
-      redirect_to new_session_path, alert: t('sessions.erreurs.creation_projet')
+      redirect_to new_session_path, alert: t('sessions.erreur_creation_projet')
     end
   end
 

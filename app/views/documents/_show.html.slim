@@ -6,7 +6,7 @@ section.content-projet
         ul.documents-list
           - @projet_courant.documents.select{|document| document.persisted? }.each do |document|
             li
-              i.icon.file-dark
+              i.glyphicon.glyphicon-file
               = link_to document.label, document.fichier_url, target: "_blank"
       = form_tag({action: :create, controller: 'documents' }, multipart: true) do
         fieldset

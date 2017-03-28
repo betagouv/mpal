@@ -6,11 +6,20 @@ class OccupantsController < ApplicationController
   before_action :authentifie
 
   def index
-    @occupants_a_charge = []
-    nb_occupants = @projet_courant.occupants.count
-    @projet_courant.nb_occupants_a_charge.times.each do |index|
-      @occupants_a_charge << Occupant.new(nom: "Occupant #{index + nb_occupants + 1}")
+    @occupant = @projet_courant.avis_impositions.first.occupants.build(occupant_params)
+
+    if request.post?
+      if occupant_params?
+        if @occupant.save
+          # Clear form fields
+          @occupant = @projet_courant.avis_impositions.first.occupants.build
+        end
+      else
+        return redirect_to etape2_description_projet_path(@projet_courant)
+      end
     end
+
+    @occupants = @projet_courant.occupants.to_a.find_all(&:persisted?)
   end
 
   def new
@@ -42,20 +51,29 @@ class OccupantsController < ApplicationController
 
   def destroy
     @occupant = @projet_courant.occupants.where(id: params[:id]).first
-    @occupant.destroy
-    redirect_to projet_path(@projet_courant)
+
+    if @occupant.can_be_deleted? && @occupant.destroy
+      flash[:notice] = t("occupants.delete.success", fullname: @occupant.fullname)
+    else
+      flash[:alert] = t("occupants.delete.error")
+    end
+    redirect_to projet_occupants_path(@projet_courant)
   end
 
-  private
-
+private
   def occupant_params
-    params.require(:occupant).permit(
+    params.fetch(:occupant, {}).permit(
       :civilite,
-      :prenom, :nom,
+      :prenom,
+      :nom,
       :date_de_naissance,
-      :lien_demandeur, :demandeur,
+      :lien_demandeur,
+      :demandeur,
       :revenus
     )
   end
 
+  def occupant_params?
+    occupant_params.any? { |attribute, value| value.present? }
+  end
 end

@@ -4,11 +4,16 @@ def signin(numero_fiscal, reference_avis)
   visit new_session_path
   fill_in :numero_fiscal,  with: numero_fiscal
   fill_in :reference_avis, with: reference_avis
-  find('.form-login .btn').click
+  choose 'Oui'
+  find('.js-login-btn').click
 end
 
 def signin_for_new_projet
   signin(Fakeweb::ApiParticulier::NUMERO_FISCAL, Fakeweb::ApiParticulier::REFERENCE_AVIS)
+end
+
+def signin_for_new_projet_non_eligible
+  signin(Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE, Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE)
 end
 
 def authenticate_as_admin_with_token

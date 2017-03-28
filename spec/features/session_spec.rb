@@ -13,7 +13,7 @@ feature "Identification :" do
 end
 
 feature "Réinitialisation de la session :" do
-  let(:projet) {          create :projet }
+  let(:projet) {          create :projet, :prospect }
   let(:invitation) {      create :invitation }
   let(:operateur) {       create :operateur, departements: [projet.departement] }
   let(:agent_operateur) { create :agent, intervenant: operateur }
