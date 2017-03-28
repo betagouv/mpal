@@ -1,0 +1,31 @@
+.info-point {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  line-height: 17px;
+  text-align: center;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: 12px;
+  margin-left: 5px;
+  cursor: default;
+
+  color: #56869a;
+  border-color: #56869a;
+  &:hover {
+    color: #CCC;
+    border-color: #CCC;
+  }
+}
+.info-point--light {
+  color: white;
+  border-color: white;
+  &:hover {
+    color: #111;
+    border-color: #111;
+  }
+}
+
+a.info-point {
+  cursor: pointer;
+}

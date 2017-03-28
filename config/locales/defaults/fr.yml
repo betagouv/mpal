@@ -327,9 +327,10 @@ fr:
       composition_logement: "Composition du logement"
     delete:
       confirm: "Êtes-vous sûr de vouloir retirer %{fullname} de la liste des occupants de votre logement ?"
-      action: "Supprimer"
+      action: "Retirer"
       success: "%{fullname} a été retiré de la liste des occupants."
       error: "Une erreur s’est produite lors de la suppression de l’occupant."
+      cant_delete_demandeur: "Les occupants mentionnés dans l’avis d’imposition ne peuvent pas être retirés de la liste."
     civilite:
       mme: Madame
       mr: Monsieur
