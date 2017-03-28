@@ -27,6 +27,16 @@ class AvisImpositionsController < ApplicationController
     redirect_to projet_avis_impositions_path(projet_id: @projet_courant)
   end
 
+  def destroy
+    avis_imposition = @projet_courant.avis_impositions.find(params[:id])
+    if avis_imposition != @projet_courant.avis_impositions.first
+      avis_imposition.destroy!
+      @avis_imposition = avis_imposition
+      flash[:notice] = "Avis d’imposition supprimé"
+    end
+    redirect_to projet_avis_impositions_path(@projet_courant)
+  end
+
 private
   def init_view
     @page_heading = "Inscription"

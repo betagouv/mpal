@@ -25,7 +25,7 @@ describe AvisImpositionsController do
       let(:reference_avis)  { Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE }
 
       it "ajoute un avis d'imposition au projet" do
-        get :create, projet_id: projet.id,
+        post :create, projet_id: projet.id,
             avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
         projet.reload
         expect(projet.avis_impositions.count).to eq 2
@@ -45,7 +45,7 @@ describe AvisImpositionsController do
 
       it "n'ajoute pas un avis d'imposition au projet" do
         skip "TODO PF-410"
-        get :create, projet_id: projet.id,
+        post :create, projet_id: projet.id,
             avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
         projet.reload
         expect(projet.avis_impositions.count).to eq 1
@@ -53,6 +53,38 @@ describe AvisImpositionsController do
 
         expect(flash[:alert]).to be_present
         expect(response).to redirect_to projet_avis_impositions_path(projet)
+      end
+    end
+  end
+
+  describe "#destroy" do
+    let(:projet)      { create :projet, :with_avis_imposition }
+    let(:first_avis)  { projet.avis_impositions.first }
+
+    it "ne supprime pas le premier avis d'imposition" do
+      delete :destroy, projet_id: projet.id, id: first_avis.id
+      projet.reload
+      expect(projet.avis_impositions.count).to eq 1
+    end
+
+    context "quand il y a plusieurs avis d'imposition" do
+      let(:projet)      { create :projet, :with_avis_imposition }
+      let(:first_avis)  { projet.avis_impositions.first }
+      let(:last_avis)   { create :avis_imposition, numero_fiscal: 13, reference_avis: 16 }
+
+      before { projet.avis_impositions << last_avis }
+
+      it "ne supprime pas le premier avis d'imposition" do
+        delete :destroy, projet_id: projet.id, id: first_avis.id
+        projet.reload
+        expect(projet.avis_impositions.count).to eq 2
+      end
+
+      it "supprime un avis d'imposition rajouté" do
+        delete :destroy, projet_id: projet.id, id: last_avis.id
+        projet.reload
+        expect(flash[:notice]).to be_present
+        expect(projet.avis_impositions.count).to eq 1
       end
     end
   end
