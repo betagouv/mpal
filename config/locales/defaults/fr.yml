@@ -316,9 +316,7 @@ fr:
     nombre_occupant: "Nombre d’occupants :"
     confirmer_nombre_personnes: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
     date_naissance: "Date de naissance"
-    actions:
-      modifier: "Modifier"
-      supprimer: "Supprimer"
+    actions: "Actions"
     nouveau:
       titre: "Ajoutez un nouvel occupant à votre logement"
       action: "Ajouter un occupant"
@@ -327,6 +325,10 @@ fr:
       action: "Je modifie %{occupant}"
     modification:
       composition_logement: "Composition du logement"
+    delete:
+      confirm: "Êtes-vous sûr de vouloir retirer %{fullname} de la liste des occupants de votre logement ?"
+      action: "Supprimer"
+      success: "%{fullname} a été retiré de la liste des occupants."
     civilite:
       mme: Madame
       mr: Monsieur
