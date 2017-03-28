@@ -99,7 +99,7 @@ describe ProjetInitializer do
 
     context "lorsque les identifiants sont invalides" do
       it "ne crée pas d'avis d'imposition" do
-        skip "TODO"
+        skip "TODO PF-410"
         expect(projet.avis_impositions.length).to eq(0)
 
         projet_initializer.initialize_avis_imposition(projet, 'INVALID', 'INVALID')

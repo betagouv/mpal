@@ -44,7 +44,7 @@ describe AvisImpositionsController do
       let(:reference_avis)  { Fakeweb::ApiParticulier::INVALID}
 
       it "n'ajoute pas un avis d'imposition au projet" do
-        skip "TODO"
+        skip "TODO PF-410"
         get :create, projet_id: projet.id,
             avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
         projet.reload
