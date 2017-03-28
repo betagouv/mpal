@@ -18,16 +18,26 @@
       tbody
         tr
           th scope="col"  = t('occupants.occupants')
-          th scope="col"  = t('.occupants.date_naissance')
-          /TODO th scope="col"  = t('occupants.actions.modifier')
+          th scope="col"  = t('occupants.date_naissance')
+          th scope="col"  = t('occupants.actions')
         - @occupants.each do |occupant|
-          tr
+          tr data-occupant-id=occupant.id
             td
               span.firstname= occupant.prenom
               span.lastname<= occupant.nom
             td= occupant.date_de_naissance.year
-            /TODO td
-              = btn name: t('occupants.actions.supprimer'), href: '#'
+            td
+              - if occupant.can_be_deleted?
+                = link_to projet_occupant_path(id: occupant.id),
+                    method: :delete,
+                    title: t('occupants.delete.action'),
+                    class: "btn btn-icon",
+                    data: { confirm: t('occupants.delete.confirm', fullname: occupant.fullname) }
+                    i class="glyphicon glyphicon-remove"
+                    = t('occupants.delete.action')
+
+              - else
+                .info-point title=t('occupants.delete.cant_delete_demandeur') ?
 
     .occupant-inline-form
       h3.occupant-inline-form__title Ajouter un occupant

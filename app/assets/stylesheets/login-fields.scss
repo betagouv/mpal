@@ -53,21 +53,6 @@
 .login-fields__proprietaire-label {
   margin-right: 20px;
 }
-.login-fields__help {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  line-height: 17px;
-  text-align: center;
-  color: white;
-  border: 2px solid white;
-  border-radius: 12px;
-  margin-left: 5px;
-  &:hover {
-    color: #111;
-    border-color: #111;
-  }
-}
 .login-fields__btn {
   display: table;
   margin: 20px 0 0;

@@ -20,4 +20,8 @@ class Occupant < ActiveRecord::Base
   def fullname
     "#{prenom} #{nom}"
   end
+
+  def can_be_deleted?
+    !demandeur && avis_imposition.occupants.count > 1
+  end
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_helper'
 
 describe OccupantsController do
-  let(:projet) { create :projet, :with_avis_imposition }
+  let(:projet) { create :projet, :with_demandeurs }
 
   before(:each) do
     authenticate_as_particulier(projet.numero_fiscal)
@@ -83,6 +83,30 @@ describe OccupantsController do
         it "passe à l'étape suivante" do
           expect(response).to redirect_to(etape2_description_projet_path(projet))
         end
+      end
+    end
+  end
+
+  describe "#destroy" do
+    context "pour un occupant demandeur" do
+      let(:occupant_demandeur) { projet.occupants.first }
+
+      it "affiche une erreur" do
+        delete :destroy, projet_id: projet.id, id: occupant_demandeur.id
+        expect(projet.occupants).to include occupant_demandeur
+        expect(response).to redirect_to(projet_occupants_path(projet))
+        expect(flash[:alert]).to eq I18n.t("occupants.delete.error")
+      end
+    end
+
+    context "pour un occupant rajouté ultérieurement" do
+      let(:occupant_to_delete) { projet.occupants.last }
+
+      it "supprime l'occupant" do
+        delete :destroy, projet_id: projet.id, id: occupant_to_delete.id
+        expect(projet.occupants).not_to include occupant_to_delete
+        expect(response).to redirect_to(projet_occupants_path(projet))
+        expect(flash[:notice]).to eq I18n.t("occupants.delete.success", fullname: occupant_to_delete.fullname)
       end
     end
   end
