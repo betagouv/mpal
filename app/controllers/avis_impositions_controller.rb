@@ -29,9 +29,11 @@ class AvisImpositionsController < ApplicationController
 
   def destroy
     avis_imposition = @projet_courant.avis_impositions.find(params[:id])
-    avis_imposition.destroy! unless avis_imposition == @projet_courant.avis_impositions.first
-    @avis_imposition = avis_imposition
-    flash[:notice] = "Avis d’imposition supprimé"
+    if avis_imposition != @projet_courant.avis_impositions.first
+      avis_imposition.destroy!
+      @avis_imposition = avis_imposition
+      flash[:notice] = "Avis d’imposition supprimé"
+    end
     redirect_to projet_avis_impositions_path(@projet_courant)
   end
 
