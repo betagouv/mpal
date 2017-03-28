@@ -89,6 +89,14 @@ describe OccupantsController do
 
   describe "#destroy" do
     context "pour un occupant demandeur" do
+      let(:occupant_demandeur) { projet.occupants.first }
+
+      it "affiche une erreur" do
+        delete :destroy, projet_id: projet.id, id: occupant_demandeur.id
+        expect(projet.occupants).to include occupant_demandeur
+        expect(response).to redirect_to(projet_occupants_path(projet))
+        expect(flash[:alert]).to eq I18n.t("occupants.delete.error")
+      end
     end
 
     context "pour un occupant rajouté ultérieurement" do

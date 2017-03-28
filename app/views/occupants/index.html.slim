@@ -27,10 +27,17 @@
               span.lastname<= occupant.nom
             td= occupant.date_de_naissance.year
             td
-              = link_to t('occupants.delete.action'),
-                  projet_occupant_path(id: occupant.id),
-                  method: :delete,
-                  data: { confirm: t('occupants.delete.confirm', fullname: occupant.fullname) }
+              - if occupant.can_be_deleted?
+                = link_to projet_occupant_path(id: occupant.id),
+                    method: :delete,
+                    title: t('occupants.delete.action'),
+                    class: "btn btn-icon",
+                    data: { confirm: t('occupants.delete.confirm', fullname: occupant.fullname) }
+                    i class="glyphicon glyphicon-remove"
+                    = t('occupants.delete.action')
+
+              - else
+                .info-point title=t('occupants.delete.cant_delete_demandeur') ?
 
     .occupant-inline-form
       h3.occupant-inline-form__title Ajouter un occupant

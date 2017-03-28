@@ -329,6 +329,7 @@ fr:
       confirm: "Êtes-vous sûr de vouloir retirer %{fullname} de la liste des occupants de votre logement ?"
       action: "Supprimer"
       success: "%{fullname} a été retiré de la liste des occupants."
+      error: "Une erreur s’est produite lors de la suppression de l’occupant."
     civilite:
       mme: Madame
       mr: Monsieur

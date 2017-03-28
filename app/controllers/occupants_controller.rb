@@ -51,8 +51,11 @@ class OccupantsController < ApplicationController
 
   def destroy
     @occupant = @projet_courant.occupants.where(id: params[:id]).first
-    if @occupant.destroy
+
+    if @occupant.can_be_deleted? && @occupant.destroy
       flash[:notice] = t("occupants.delete.success", fullname: @occupant.fullname)
+    else
+      flash[:alert] = t("occupants.delete.error")
     end
     redirect_to projet_occupants_path(@projet_courant)
   end
