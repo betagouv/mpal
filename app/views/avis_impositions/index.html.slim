@@ -13,10 +13,11 @@ section.avis-imposition
           /TODO th
       tbody
         - @projet_courant.avis_impositions.each_with_index do |avis_imposition, index|
+          - revenu_fiscal = @projet_courant.get_revenu_fiscal_reference(avis_imposition)
           tr
             td= avis_imposition.numero_fiscal
             td= avis_imposition.reference_avis
-            td= @projet_courant.get_revenu_fiscal_reference(avis_imposition)
+            td= number_to_currency(revenu_fiscal, precision: 0, locale: :fr)
             td= avis_imposition.declarant_1
             td= avis_imposition.declarant_2
             td= avis_imposition.nombre_personnes_charge

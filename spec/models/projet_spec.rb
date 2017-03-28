@@ -406,7 +406,7 @@ describe Projet do
   end
 
   describe "#get_revenu_fiscal_reference" do
-    let(:projet)          { create :projet }
+    let(:projet)          { create :projet, :with_avis_imposition }
 
     context "pour un avis donné" do
       let(:avis_imposition) { projet.avis_impositions.first }
@@ -416,10 +416,9 @@ describe Projet do
       subject(:contribuable) { ApiParticulier.new(numero_fiscal, reference_avis).retrouve_contribuable }
 
       it "récupère le revenu fiscal" do
-        annee_impots  = contribuable.annee_impots
         revenu_fiscal = contribuable.revenu_fiscal_reference
 
-        expect(projet.get_revenu_fiscal_reference(annee_impots)).to eq(revenu_fiscal)
+        expect(projet.get_revenu_fiscal_reference(avis_imposition)).to eq(revenu_fiscal)
       end
     end
   end
