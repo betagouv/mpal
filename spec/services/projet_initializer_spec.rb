@@ -78,21 +78,33 @@ describe ProjetInitializer do
   describe "#initialize_avis_imposition" do
     let(:projet) { create :projet }
 
-    it "renvoie un avis d’imposition avec les informations du contribuable" do
-      expect(projet.avis_impositions.length).to eq(0)
+    context "lorsque les identifiants sont valides" do
+      it "crée un avis d’imposition avec les informations du contribuable" do
+        expect(projet.avis_impositions.length).to eq(0)
 
-      projet_initializer.initialize_avis_imposition(projet, '15', '1515')
-      expect(projet.avis_impositions.length).to eq(1)
+        projet_initializer.initialize_avis_imposition(projet, '15', '1515')
+        expect(projet.avis_impositions.length).to eq(1)
 
-      avis_imposition = projet.avis_impositions.first
-      expect(avis_imposition.numero_fiscal).to eq('15')
-      expect(avis_imposition.reference_avis).to eq('1515')
-      expect(avis_imposition.nombre_personnes_charge).to eq(3)
-      expect(avis_imposition.occupants.length).to eq(4)
+        avis_imposition = projet.avis_impositions.first
+        expect(avis_imposition.numero_fiscal).to eq('15')
+        expect(avis_imposition.reference_avis).to eq('1515')
+        expect(avis_imposition.nombre_personnes_charge).to eq(3)
+        expect(avis_imposition.occupants.length).to eq(4)
 
-      occupant = avis_imposition.occupants.first
-      expect(occupant).to be_declarant
-      expect(occupant.nom).to eq('Martin')
+        occupant = avis_imposition.occupants.first
+        expect(occupant).to be_declarant
+        expect(occupant.nom).to eq('Martin')
+      end
+    end
+
+    context "lorsque les identifiants sont invalides" do
+      it "ne crée pas d'avis d'imposition" do
+        skip "TODO"
+        expect(projet.avis_impositions.length).to eq(0)
+
+        projet_initializer.initialize_avis_imposition(projet, 'INVALID', 'INVALID')
+        expect(projet.avis_impositions.length).to eq(0)
+      end
     end
   end
 

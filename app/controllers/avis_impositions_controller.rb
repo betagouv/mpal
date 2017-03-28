@@ -10,7 +10,6 @@ class AvisImpositionsController < ApplicationController
   end
 
   def new
-    @avis_imposition = @projet_courant.avis_impositions.new(params[:avis_imposition])
     init_view
   end
 
