@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   concern :projectable do
-    resources :occupants,          only: [:index, :new, :create, :edit, :update, :destroy]
+    resources :occupants, only: [:index, :new, :create, :edit, :update, :destroy] do
+      post :index, on: :collection
+    end
     resources :commentaires,       only: :create
     resource  :composition
     resources :avis_impositions,   only: [:index, :new, :create]

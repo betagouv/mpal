@@ -6,7 +6,20 @@ class OccupantsController < ApplicationController
   before_action :authentifie
 
   def index
-    @occupants_a_charge = []
+    @occupant = @projet_courant.avis_impositions.first.occupants.build(occupant_params)
+
+    if request.post?
+      if occupant_params?
+        if @occupant.save
+          # Clear form fields
+          @occupant = @projet_courant.avis_impositions.first.occupants.build
+        end
+      else
+        return redirect_to etape2_description_projet_path(@projet_courant)
+      end
+    end
+
+    @occupants = @projet_courant.occupants.to_a.find_all(&:persisted?)
   end
 
   def new
@@ -44,12 +57,18 @@ class OccupantsController < ApplicationController
 
 private
   def occupant_params
-    params.require(:occupant).permit(
+    params.fetch(:occupant, {}).permit(
       :civilite,
-      :prenom, :nom,
+      :prenom,
+      :nom,
       :date_de_naissance,
-      :lien_demandeur, :demandeur,
+      :lien_demandeur,
+      :demandeur,
       :revenus
     )
+  end
+
+  def occupant_params?
+    occupant_params.any? { |attribute, value| value.present? }
   end
 end
