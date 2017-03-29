@@ -339,17 +339,19 @@ fr:
   mailers:
     projet_mailer:
       recommandation_operateurs:
-        sujet: "[ANAH] Voici nos recommandations pour votre projet de rénovation"
+        sujet: "[Anah] Voici nos recommandations pour votre projet de rénovation"
       invitation_intervenant:
-        sujet: "[ANAH] Invitation de %{demandeur_principal} à consulter son projet"
+        sujet: "[Anah] Invitation de %{demandeur_principal} à consulter son projet"
       notification_invitation_intervenant:
-        sujet: "[ANAH] Invitation de %{intervenant} à consulter votre projet"
+        sujet: "[Anah] Invitation de %{intervenant} à consulter votre projet"
       notification_choix_intervenant:
-        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l’accompagner sur son projet"
+        sujet: "[Anah] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l’accompagner sur son projet"
       resiliation_operateur:
-        sujet: "[ANAH] %{demandeur_principal} a changé d’opérateur pour son projet"
+        sujet: "[Anah] %{demandeur_principal} a changé d’opérateur pour son projet"
       mise_en_relation_intervenant:
-        sujet: "[ANAH] Mise en relation par %{intermediaire}"
+        sujet: "[Anah] Mise en relation par %{intermediaire}"
+      accuse_reception:
+        sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
 
   # ----------------------- Gestion d’évènements  ---------------------
   evenements:

@@ -52,4 +52,17 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.body.encoded).to match(invitation.demandeur_principal.fullname) }
     it { expect(email.body.encoded).to include(dossier_url(projet)) }
    end
+
+  describe "le demandeur reçoit un email lorsqu'il a transmis sa demande au service instructeur" do
+    let(:projet) { create :projet, :transmis_pour_instruction }
+    subject(:email) { ProjetMailer.accuse_reception(projet) }
+    it { expect(email.from).to eq([projet.invited_instructeur.email]) }
+    it { expect(email.to).to eq([projet.email]) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.accuse_reception.sujet')) }
+    it { expect(email.body).to include(projet.demandeur_principal.fullname) }
+    it { expect(email.body).to include(projet.plateforme_id) }
+    it { expect(email.body).to include(projet.invited_instructeur.raison_sociale) }
+    it { expect(email.body).to include(projet.invited_instructeur.description_adresse) }
+    it { expect(email.body).to include(projet.invited_instructeur.email) }
+   end
 end

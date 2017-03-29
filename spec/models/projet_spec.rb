@@ -355,10 +355,10 @@ describe Projet do
         expect(projet.invitations.count).to eq(2)
       end
 
-      it "notifie l'instructeur" do
+      it "notifie l'instructeur et le demandeur" do
         expect(ProjetMailer).to receive(:mise_en_relation_intervenant).and_call_original
+        expect(ProjetMailer).to receive(:accuse_reception).and_call_original
         projet.transmettre!(instructeur)
-        #expect(ProjetMailer).to receive(:resiliation_operateur).and_call_original
       end
     end
 
@@ -370,6 +370,19 @@ describe Projet do
         expect(projet.statut.to_sym).not_to eq(:transmis_pour_instruction)
         expect(projet.invitations.count).to eq(1)
       end
+    end
+  end
+
+  describe "#date_depot" do
+    subject { projet.date_depot }
+    context "avant la transmission du dossier" do
+      let(:projet) { create :projet, :proposition_acceptee }
+      it { is_expected.to be_nil }
+    end
+
+    context "après la transmission du dossier" do
+      let(:projet) { create :projet, :transmis_pour_instruction }
+      it { is_expected.to eq projet.invitations.last.created_at }
     end
   end
 
