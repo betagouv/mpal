@@ -2,7 +2,15 @@ class Projet < ActiveRecord::Base
   include LocalizedModelConcern
   extend CsvProperties
 
-  enum statut: [ :prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :proposition_acceptee, :transmis_pour_instruction, :en_cours_d_instruction ]
+  enum statut: {
+    prospect: 0,
+    en_cours: 1,
+    proposition_enregistree: 2,
+    proposition_proposee: 3,
+    proposition_acceptee: 4,
+    transmis_pour_instruction: 5,
+    en_cours_d_instruction: 6
+  }
 
   # Personne de confiance
   belongs_to :personne, dependent: :destroy
