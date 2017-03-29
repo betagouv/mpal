@@ -53,4 +53,16 @@ class ProjetMailer < ActionMailer::Base
       subject: t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: @invitation.intermediaire.raison_sociale)
     )
   end
+
+  def accuse_reception(projet)
+    @projet = projet
+    @demandeur = projet.demandeur_principal
+    @instructeur = projet.invited_instructeur
+    @date_depot = projet.date_depot
+    mail(
+      from: projet.invited_instructeur.email,
+      to: projet.email,
+      subject: t('mailers.projet_mailer.accuse_reception.sujet')
+    )
+  end
 end

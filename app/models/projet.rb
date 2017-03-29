@@ -228,9 +228,10 @@ class Projet < ActiveRecord::Base
   end
 
   def transmettre!(instructeur)
-    invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: instructeur)
+    invitation = Invitation.new(projet: self, intermediaire: operateur, intervenant: instructeur)
     if invitation.save
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
+      ProjetMailer.accuse_reception(self).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'transmis_instructeur', projet: self, producteur: invitation)
       self.statut = :transmis_pour_instruction
       return self.save
@@ -256,6 +257,15 @@ class Projet < ActiveRecord::Base
 
   def prenom_occupants
     occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
+  end
+
+  def date_depot
+    invitation_intervenant = invitations.where(intervenant: invited_instructeur).first
+    if invitation_intervenant
+      invitation_intervenant.created_at
+    else
+      nil
+    end
   end
 
   def status_for_operateur
