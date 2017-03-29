@@ -344,7 +344,7 @@ describe Projet do
   end
 
   describe "#transmettre!" do
-    let(:projet) { create :projet, :proposition_acceptee }
+    let(:projet) { create :projet, :proposition_proposee }
 
     context "avec un instructeur valide" do
       let(:instructeur) { create :instructeur }
@@ -376,7 +376,7 @@ describe Projet do
   describe "#date_depot" do
     subject { projet.date_depot }
     context "avant la transmission du dossier" do
-      let(:projet) { create :projet, :proposition_acceptee }
+      let(:projet) { create :projet, :proposition_proposee }
       it { is_expected.to be_nil }
     end
 
@@ -410,10 +410,6 @@ describe Projet do
     }
     it {
       projet.statut = :proposition_proposee
-      expect(projet.status_for_operateur).to eq :en_cours_de_montage
-    }
-    it {
-      projet.statut = :proposition_acceptee
       expect(projet.status_for_operateur).to eq :en_cours_de_montage
     }
     it {

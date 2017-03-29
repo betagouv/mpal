@@ -7,7 +7,6 @@ class Projet < ActiveRecord::Base
     en_cours: 1,
     proposition_enregistree: 2,
     proposition_proposee: 3,
-    proposition_acceptee: 4,
     transmis_pour_instruction: 5,
     en_cours_d_instruction: 6
   }
@@ -283,7 +282,6 @@ class Projet < ActiveRecord::Base
       en_cours:                :en_cours_de_montage,
       proposition_enregistree: :en_cours_de_montage,
       proposition_proposee:    :en_cours_de_montage,
-      proposition_acceptee:    :en_cours_de_montage,
       en_cours_d_instruction:  :en_cours_d_instruction,
     }
     statuses_map[statut.to_sym] || :depose

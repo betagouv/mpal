@@ -121,8 +121,8 @@ FactoryGirl.define do
       with_prestations
     end
 
-    trait :proposition_acceptee do
-      statut :proposition_acceptee
+    trait :proposition_proposee do
+      statut :proposition_proposee
       with_demandeurs
       with_demande
       with_committed_operateur
