@@ -32,7 +32,7 @@ describe Opal do
     let(:instructeur) {       create :instructeur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
 
-    before { projet.demandeur_principal.update(nom: 'Straße', prenom: 'ōlaf') }
+    before { projet.demandeur_principal.update(nom: 'Strâbe', prenom: 'ōlaf') }
 
     subject! { Opal.new(client).creer_dossier(projet, agent_instructeur) }
 
@@ -48,8 +48,8 @@ describe Opal do
 
       personne_physique = demandeur["personnePhysique"]
       expect(personne_physique["civId"]).to eq 1
-      expect(personne_physique["pphPrenom"]).to eq "Ōlaf"
-      expect(personne_physique["pphNom"]).to eq "STRAßE"
+      expect(personne_physique["pphPrenom"]).to eq "Olaf"
+      expect(personne_physique["pphNom"]).to eq "STRABE"
 
       adresse_postale = personne_physique["adressePostale"]
       expect(adresse_postale["adpLigne1"]).to eq "65 rue de Rome"
