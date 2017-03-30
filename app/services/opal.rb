@@ -34,6 +34,14 @@ private
     (demandeur.civilite == Occupant.civilites.keys[0]) ? OPAL_CIVILITE_M : OPAL_CIVILITE_MME
   end
 
+  def serialize_prenom(demandeur)
+    demandeur.prenom.mb_chars.capitalize.to_s
+  end
+
+  def serialize_nom(demandeur)
+    demandeur.nom.mb_chars.upcase.to_s
+  end
+
   def serialize_code_insee(code_insee)
     code_insee[2, code_insee.length]
   end
@@ -53,8 +61,8 @@ private
         "cadId": 2,
         "personnePhysique": {
           "civId":            serialize_civilite(projet.demandeur_principal),
-          "pphNom":           projet.demandeur_principal.nom.upcase,
-          "pphPrenom":        projet.demandeur_principal.prenom.capitalize,
+          "pphNom":           serialize_nom(projet.demandeur_principal),
+          "pphPrenom":        serialize_prenom(projet.demandeur_principal),
           "adressePostale": {
             "payId": 1,
             "adpLigne1":     lignes_adresse_postale[0],
