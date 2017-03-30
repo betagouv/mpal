@@ -1,6 +1,6 @@
 article.block.projet
   h3 Projet envisagé
-  = link_to t('projets.visualisation.lien_edition'), etape2_description_projet_path(@projet_courant), class: 'edit'
+  = edit_projet_button(@projet_courant, etape2_description_projet_path(@projet_courant))
   .content-block
     - if @projet_courant.demande.blank?
       - if current_agent

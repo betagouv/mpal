@@ -44,6 +44,7 @@ class Projet < ActiveRecord::Base
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
+  validate  :validate_frozen_attributes
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
@@ -125,6 +126,23 @@ class Projet < ActiveRecord::Base
 
   def can_validate_operateur?
     invited_operateur.present? && operateur.blank?
+  end
+
+  FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
+  ALLOWED_ATTRIBUTES_WHEN_FROZEN = [:statut, :opal_numero, :opal_id, :agent_instructeur_id]
+
+  def projet_frozen?
+    persisted_statut = (changed_attributes[:statut] || statut).to_sym
+    FROZEN_STATUTS.include? persisted_statut
+  end
+
+  def validate_frozen_attributes
+    if projet_frozen?
+      changed_frozen_attributes = changed_attributes.keys.map(&:to_sym) - ALLOWED_ATTRIBUTES_WHEN_FROZEN
+      changed_frozen_attributes.each do |attribute|
+        errors.add(attribute, :frozen)
+      end
+    end
   end
 
   def change_demandeur(demandeur_id)

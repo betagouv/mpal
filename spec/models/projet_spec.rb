@@ -46,6 +46,41 @@ describe Projet do
       projet.valid?
       expect(projet.errors[:tel]).to be_present
     end
+
+    describe "#validate_frozen_attributes" do
+      matcher :allow_updating_of do |attribute|
+        def with(value)
+          @value = value
+          self
+        end
+        match do |projet|
+          projet.send("#{attribute}=", @value || "dummy")
+          projet.validate
+          projet.errors[attribute].blank?
+        end
+        match_when_negated do |projet|
+          projet.send("#{attribute}=", @value || "dummy")
+          projet.validate
+          projet.errors[attribute].present?
+        end
+      end
+
+      context "quand le projet est figé" do
+        subject(:projet) { create :projet, :transmis_pour_instruction }
+        it { is_expected.to allow_updating_of(:statut).with(:en_cours_d_instruction) }
+        it { is_expected.to allow_updating_of(:opal_numero) }
+        it { is_expected.to allow_updating_of(:opal_id) }
+        it { is_expected.to allow_updating_of(:agent_instructeur_id).with(create(:agent).id) }
+        it { is_expected.not_to allow_updating_of(:note_degradation) }
+        it { is_expected.not_to allow_updating_of(:note_insalubrite) }
+        it { is_expected.not_to allow_updating_of(:montant_travaux_ht) }
+        it { is_expected.not_to allow_updating_of(:montant_travaux_ttc) }
+        it { is_expected.not_to allow_updating_of(:reste_a_charge) }
+        it { is_expected.not_to allow_updating_of(:pret_bancaire) }
+        it { is_expected.not_to allow_updating_of(:adresse_postale_id).with(create(:adresse).id) }
+        it { is_expected.not_to allow_updating_of(:adresse_a_renover_id).with(create(:adresse).id) }
+      end
+    end
   end
 
   describe '#clean_numero_fiscal' do

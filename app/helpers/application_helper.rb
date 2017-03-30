@@ -74,6 +74,12 @@ module ApplicationHelper
     t("projets.composition_logement.calcul_preeligibilite.#{plafond}")
   end
 
+  def edit_projet_button(projet, path)
+    unless projet.projet_frozen?
+      link_to t('projets.visualisation.lien_edition'), path, class: 'edit'
+    end
+  end
+
   def affiche_demande_souhaitee(demande)
     html = content_tag(:h4, "Adresse du logement")
     html << content_tag(:p, demande.projet.adresse.description)
