@@ -2,14 +2,6 @@ module ProjetConcern
   extend ActiveSupport::Concern
 
   included do
-    def accepter
-      @projet_courant.statut = :proposition_acceptee
-      if @projet_courant.save
-        return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant)
-      end
-      render "projets/show"
-    end
-
     def proposition
       if @projet_courant.prospect?
         return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), alert: t('sessions.access_forbidden')

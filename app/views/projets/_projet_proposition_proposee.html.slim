@@ -1,4 +1,4 @@
 - content_for :cta do
   .button-group
-    = btn name: t('projets.statut.bouton_accepter'), href: projet_accepter_path(@projet_courant), class: 'proposal'
+    = btn name: t('projets.statut.bouton_accepter'), href: projet_transmission_path(@projet_courant), class: 'proposal'
 = render 'projet_proposition'

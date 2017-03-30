@@ -36,12 +36,12 @@ Rails.application.routes.draw do
 
     resources :projets, only: [], concerns: :projectable do
       resources :avis_impositions, only: :destroy
-      resources :transmissions, only: [:create]
       get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'
       get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
       post      :engagement_operateur, action: :create, controller: 'engagement_operateur'
-      get       :accepter
+      get       :transmission,         action: :new,    controller: 'transmission'
+      post      :transmission,         action: :create, controller: 'transmission'
     end
     resources :projets, only: [:show, :edit, :update], param: :projet_id
 

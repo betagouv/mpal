@@ -150,7 +150,6 @@ fr:
       en_cours_d_instruction: "En cours d’instruction"
       en_cours_de_montage: "En cours de montage"
       prospect: "En prospection"
-      proposition_acceptee: "Proposition acceptée"
       proposition_enregistree: "Proposition enregistrée"
       proposition_proposee: "Proposition proposée"
       transmis_pour_instruction: "Transmis aux services instructeurs"
@@ -206,10 +205,11 @@ fr:
         erreur_label_manquant: "Veuillez ajouter un nom à votre document"
         erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
 
-    transmissions:
+    transmission:
       envoi_demande: "Je dépose ma demande de subvention"
       messages:
-        succes: La demande a bien été transmise aux services instructeurs
+        success: La demande a bien été transmise aux services instructeurs.
+        error: Une erreur s’est produite lors de la transmission du dossier aux services instructeurs.
         info_demandeur: "Votre projet a bien été envoyé à %{instructeur}. Vous serez informé par email de l’avancement de votre dossier."
 
     creation_opal:

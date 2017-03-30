@@ -2,7 +2,14 @@ class Projet < ActiveRecord::Base
   include LocalizedModelConcern
   extend CsvProperties
 
-  enum statut: [ :prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :proposition_acceptee, :transmis_pour_instruction, :en_cours_d_instruction ]
+  enum statut: {
+    prospect: 0,
+    en_cours: 1,
+    proposition_enregistree: 2,
+    proposition_proposee: 3,
+    transmis_pour_instruction: 5,
+    en_cours_d_instruction: 6
+  }
 
   # Personne de confiance
   belongs_to :personne, dependent: :destroy
@@ -275,7 +282,6 @@ class Projet < ActiveRecord::Base
       en_cours:                :en_cours_de_montage,
       proposition_enregistree: :en_cours_de_montage,
       proposition_proposee:    :en_cours_de_montage,
-      proposition_acceptee:    :en_cours_de_montage,
       en_cours_d_instruction:  :en_cours_d_instruction,
     }
     statuses_map[statut.to_sym] || :depose
