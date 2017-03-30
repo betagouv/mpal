@@ -32,6 +32,8 @@ describe Opal do
     let(:instructeur) {       create :instructeur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
 
+    before { projet.demandeur_principal.update(nom: 'Straße', prenom: 'ōlaf') }
+
     subject! { Opal.new(client).creer_dossier(projet, agent_instructeur) }
 
     it "envoie les informations sérialisées" do
@@ -46,8 +48,8 @@ describe Opal do
 
       personne_physique = demandeur["personnePhysique"]
       expect(personne_physique["civId"]).to eq 1
-      expect(personne_physique["pphPrenom"]).to eq "Jean"
-      expect(personne_physique["pphNom"]).to start_with "MARTIN"
+      expect(personne_physique["pphPrenom"]).to eq "Ōlaf"
+      expect(personne_physique["pphNom"]).to eq "STRAßE"
 
       adresse_postale = personne_physique["adressePostale"]
       expect(adresse_postale["adpLigne1"]).to eq "65 rue de Rome"
