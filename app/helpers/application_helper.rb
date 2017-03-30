@@ -68,14 +68,6 @@ module ApplicationHelper
     string + " : "
   end
 
-  def transmission_instructeur(projet)
-    if @role_utilisateur  == :intervenant
-      form_tag(projet_transmissions_path(projet_id: projet.id), method: 'post', class:'ui form' ) do
-        submit_tag t('projets.proposition.action', instructeur: Intervenant.instructeur_pour(projet).to_s), class:'ui primary button'
-      end
-    end
-  end
-
   def display_errors resource, message_header
     return '' if (resource.errors.empty?)
     messages = resource.errors.messages.map { |key, msg|
