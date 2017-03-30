@@ -30,22 +30,16 @@ private
     projet.statut = :en_cours_d_instruction
   end
 
-  def serialize_civilite_occupants(occupants)
-    # Seule la civilité du demandeur principal est renseignée
-    civilite = occupants.map(&:civilite).compact.first
-    if civilite == Occupant.civilites.keys[0]
-      OPAL_CIVILITE_M
-    else
-      OPAL_CIVILITE_MME
-    end
+  def serialize_civilite(demandeur)
+    (demandeur.civilite == Occupant.civilites.keys[0]) ? OPAL_CIVILITE_M : OPAL_CIVILITE_MME
   end
 
-  def serialize_prenom_occupants(occupants)
-    occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
+  def serialize_prenom(demandeur)
+    demandeur.prenom.mb_chars.capitalize.to_s
   end
 
-  def serialize_noms_occupants(occupants)
-    occupants.map { |occupant| occupant.nom.upcase }.join(' ET ')
+  def serialize_nom(demandeur)
+    demandeur.nom.mb_chars.upcase.to_s
   end
 
   def serialize_code_insee(code_insee)
@@ -66,9 +60,9 @@ private
         "qdmId": 29,
         "cadId": 2,
         "personnePhysique": {
-          "civId":     serialize_civilite_occupants(projet.occupants),
-          "pphNom":    serialize_noms_occupants(projet.occupants),
-          "pphPrenom": serialize_prenom_occupants(projet.occupants),
+          "civId":            serialize_civilite(projet.demandeur_principal),
+          "pphNom":           serialize_nom(projet.demandeur_principal),
+          "pphPrenom":        serialize_prenom(projet.demandeur_principal),
           "adressePostale": {
             "payId": 1,
             "adpLigne1":     lignes_adresse_postale[0],
