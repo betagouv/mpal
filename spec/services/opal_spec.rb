@@ -46,7 +46,7 @@ describe Opal do
 
       personne_physique = demandeur["personnePhysique"]
       expect(personne_physique["civId"]).to eq 1
-      expect(personne_physique["pphPrenom"]).to eq "Jean et Jean"
+      expect(personne_physique["pphPrenom"]).to eq "Jean"
       expect(personne_physique["pphNom"]).to start_with "MARTIN"
 
       adresse_postale = personne_physique["adressePostale"]
