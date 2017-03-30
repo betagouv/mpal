@@ -20,11 +20,16 @@ section.popin-form
       li en cas de non-respect des engagements et de la règlementation en vigueur et en cas de fraude, l’aide attribuée est annulée et les sommes déjà perçues seront reversées avec majoration,
       li toute fraude ou fausse déclaration expose également à des sanctions pécuniaires, à des sanctions administratives (interdiction de bénéficier d’une subvention pendant un délai pouvant atteindre cinq années), et à des poursuites judiciaires.
 
-    ul
-      li.checkbox
-        input#confirm type="checkbox" class="js-engagement"
-        label for="confirm"
-          | J’ai lu et j’accepte les informations ci-dessus.
+    = form_tag(projet_transmission_path(@projet_courant), method: 'post', class: 'ui form') do
+      h3.transmission__subtitle= I18n.t('projets.proposition.messages.info_confirmation_email')
+      ul
+        li.transmission__textfield= text_field_tag 'projet[email]', @projet_courant.email
 
-  = form_tag(projet_transmission_path(@projet_courant), method: 'post', class: 'ui form') do
-    = btn name: t('projets.transmission.envoi_demande'), class:'js-engagement'
+      ul
+        li.checkbox
+          input#confirm type="checkbox" class="js-engagement"
+          label for="confirm"
+            = I18n.t('projets.proposition.confirmation')
+
+      .transmission__button
+        = btn name: t('projets.transmission.envoi_demande'), class:'js-engagement'
