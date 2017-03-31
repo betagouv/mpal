@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
 
   def create
     unless "1" == params[:proprietaire]
-      flash.now[:alert] = t('sessions.erreur_proprietaire')
+      flash.now[:alert] = t('sessions.erreur_proprietaire_html', anil: view_context.link_to('Anil.org', 'https://www.anil.org/')).html_safe
       return render :new
     end
     contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
