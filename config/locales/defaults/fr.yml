@@ -315,7 +315,7 @@ fr:
     occupants: "Occupants"
     nombre_occupant: "Nombre d’occupants :"
     confirmer_nombre_personnes: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
-    date_naissance: "Date de naissance"
+    annee_naissance: "Année de naissance"
     actions: "Actions"
     nouveau:
       titre: "Ajoutez un nouvel occupant à votre logement"
