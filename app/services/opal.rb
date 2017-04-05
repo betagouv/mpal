@@ -35,11 +35,11 @@ private
   end
 
   def serialize_prenom(demandeur)
-    demandeur.prenom.mb_chars.capitalize.to_s
+    I18n.transliterate(demandeur.prenom[0]).capitalize + demandeur.prenom[1..-1].downcase
   end
 
   def serialize_nom(demandeur)
-    demandeur.nom.mb_chars.upcase.to_s
+    I18n.transliterate(demandeur.nom).upcase
   end
 
   def serialize_code_insee(code_insee)
