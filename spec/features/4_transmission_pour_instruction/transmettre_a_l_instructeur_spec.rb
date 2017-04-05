@@ -16,7 +16,8 @@ feature "Transmettre à l'instructeur :" do
       expect(page).to have_current_path(projet_transmission_path(projet))
       click_button I18n.t('projets.transmission.envoi_demande')
 
-      expect(page).to have_content(I18n.t('projets.transmission.messages.success'))
+      instructeur =  Intervenant.instructeur_pour(projet)
+      expect(page).to have_content(I18n.t('projets.transmission.messages.success', instructeur: instructeur.raison_sociale))
       expect(page).to have_content(I18n.t('projets.statut.transmis_pour_instruction').downcase)
     end
   end
