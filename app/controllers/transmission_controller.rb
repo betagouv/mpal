@@ -13,7 +13,8 @@ class TransmissionController < ApplicationController
   def create
     instructeur = Intervenant.instructeur_pour(@projet_courant)
     if @projet_courant.transmettre!(instructeur)
-      redirect_to projet_path(@projet_courant), notice: t('projets.transmission.messages.success')
+      infos = [instructeur.raison_sociale, instructeur.adresse_postale, instructeur.phone].reject(&:blank?)
+      redirect_to projet_path(@projet_courant), notice: t('projets.transmission.messages.success', instructeur: infos.join(", "))
     else
       redirect_to projet_path(@projet_courant), alert: t('projets.transmission.messages.error')
     end

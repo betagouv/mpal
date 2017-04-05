@@ -50,7 +50,7 @@ private
   end
 
   def strong_params
-    %w(raison_sociale adresse_postale clavis_service_id informations email)
+    %w(raison_sociale adresse_postale clavis_service_id informations email phone)
   end
 
   def tabs

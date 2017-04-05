@@ -208,7 +208,7 @@ fr:
     transmission:
       envoi_demande: "Je dépose ma demande de subvention"
       messages:
-        success: La demande a bien été transmise aux services instructeurs.
+        success: "Dépôt effectué auprès du service en charge de l’instruction : %{instructeur}"
         error: Une erreur s’est produite lors de la transmission du dossier aux services instructeurs.
         info_demandeur: "Votre projet a bien été envoyé à %{instructeur}. Vous serez informé par email de l’avancement de votre dossier."
 
