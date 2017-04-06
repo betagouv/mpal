@@ -73,10 +73,6 @@ module ApplicationHelper
     check_box_tag 'projet[prestation_ids][]', prestation.id, checked, id: "prestation_#{prestation.id}"
   end
 
-  def annee_fiscale_reference
-    @projet_courant.annee_fiscale_reference
-  end
-
   def revenu_fiscal_reference_total
     @projet_courant.revenu_fiscal_reference_total
   end
