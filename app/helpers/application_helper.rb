@@ -68,106 +68,9 @@ module ApplicationHelper
     string + " : "
   end
 
-  def display_errors resource, message_header
-    return '' if (resource.errors.empty?)
-    messages = resource.errors.messages.map { |key, msg|
-      msg.map { |message| content_tag(:li, message) }.join
-    }.join
-    html = <<-HTML
-    <div class="ui icon negative message">
-      <i class="warning sign icon"></i>
-      <div class="content">
-        <div class="header">#{message_header}</div>
-        <ul class="list">#{messages}</ul>
-      </div>
-    </div>
-    HTML
-    html.html_safe
-  end
-
-  def affiche_erreurs_avec_cle resource, message_header
-    return '' if (resource.errors.empty?)
-    messages = resource.errors.messages.map { |key, msg|
-      msg.map { |message| content_tag(:li, "#{key} #{message}") }.join
-    }.join
-    html = <<-HTML
-    <div class="ui icon negative message">
-      <i class="warning sign icon"></i>
-      <div class="content">
-        <div class="header">#{message_header}</div>
-        <ul class="list">
-    #{messages}
-        </ul>
-      </div>
-    </div>
-    HTML
-    html.html_safe
-  end
-
-  def icone_evenement(label)
-    liste_icone = {choix_intervenant: 'pin', transmis_instructeur: 'external', creation_projet: 'suitcase', invitation_intervenant: 'plug', mise_en_relation_intervenant: 'plug', ajout_avis_imposition: "file text outline" }
-    liste_icone[label.to_sym]
-  end
-
-  def bouton_retour_projet_courant
-    link_to 'Retour au projet', @projet_courant, class: "ui button"
-  end
-
   def prestation_checkbox(projet, prestation)
     checked = projet.prestations.include?(prestation)
     check_box_tag 'projet[prestation_ids][]', prestation.id, checked, id: "prestation_#{prestation.id}"
-  end
-
-  def bouton_ajout_occupant
-    if demandeur?
-      html = <<-HTML
-      <div class="ui small button">
-        <i class="add icon"></i>
-      #{link_to t('projets.visualisation.lien_ajout_occupant'), new_projet_occupant_path(@projet_courant) if demandeur?}
-      </div>
-      HTML
-      html.html_safe
-    end
-  end
-
-  def bouton_suppression_occupant(occupant)
-    if demandeur?
-      html = <<-HTML
-        <i class="trash icon"></i>
-      #{link_to 'Supprimer', projet_occupant_path(@projet_courant, occupant), method: :delete}
-      </div>
-      HTML
-      html.html_safe
-    end
-  end
-
-  def bouton_modification_occupant(occupant)
-    if demandeur?
-      html = <<-HTML
-        <i class="write square icon"></i>
-      #{link_to 'Modifier', edit_projet_occupant_path(@projet_courant, occupant)}
-      </div>
-      HTML
-      html.html_safe
-    end
-  end
-
-  def bouton_modifier_composition
-    if demandeur?
-      html = <<-HTML
-      <div class="ui right floated icon button">
-        <i class="user icon"></i>
-      #{link_to t('projets.visualisation.modifier_liste_occupant'), edit_projet_composition_path(@projet_courant)}
-      </div>
-      HTML
-      html.html_safe
-    end
-  end
-
-  def bouton_suppression_document(document)
-    link_to projet_document_path(@projet_courant, document), method: :delete do
-      content_tag(:i, "", class: "trash icon")
-    end
   end
 
   def annee_fiscale_reference
@@ -180,29 +83,7 @@ module ApplicationHelper
 
   def calcul_preeligibilite(annee)
     plafond = @projet_courant.preeligibilite(annee)
-    affiche_message_eligibilite(plafond)
-  end
-
-  def affiche_message_eligibilite(revenus)
-    t("projets.composition_logement.calcul_preeligibilite.#{revenus}")
-  end
-
-  def bouton_modification_projet(projet)
-    link_to t('projets.visualisation.lien_edition'), edit_projet_path(projet)
-  end
-
-  def icone_presence(projet, attribut)
-    liste_message = {
-      adresse: 'Adresse : ',
-      annee_construction: 'Année de construction : ',
-      email: 'Email : ',
-      tel: 'Téléphone : '
-    }
-    projet.send(attribut).present? ? content_tag(:i, "", class: "checkmark box icon") + liste_message[attribut] : content_tag(:i, "", class: "square outline icon") + "#{liste_message[attribut] } Veuillez renseigner cette donnée"
-  end
-
-  def icone_revenus(projet, annee)
-    calcul_revenu_fiscal_reference_total(annee) ? content_tag(:i, "", class: "checkmark box icon") + "Revenus #{annee} : " : content_tag(:i, "", class: "square outline icon") + "Revenus manquants"
+    t("projets.composition_logement.calcul_preeligibilite.#{plafond}")
   end
 
   def affiche_intervenants(projet)
@@ -211,10 +92,6 @@ module ApplicationHelper
     else
       projet.operateur.raison_sociale if projet.operateur
     end
-  end
-
-  def menu_actif?(url)
-    active = current_page?(url) ? "active item" : "item"
   end
 
   def affiche_demande_souhaitee(demande)
