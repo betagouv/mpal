@@ -40,11 +40,15 @@
       text-align: left;
     }
   }
-  tbody tr:nth-of-type(even) {
-    background-color: #eee;
+  &.table-hovered {
+    tbody tr:hover {
+      background-color: #ffc;
+    }
   }
-  tbody tr:hover {
-    background-color: #ffc;
+  &.table-stripped {
+    tbody tr:nth-of-type(even) {
+      background-color: #eee;
+    }
   }
 }
 
