@@ -12,6 +12,17 @@
   font-weight: 600;
 }
 
+.transmission__textfield {
+  display: block;
+  margin-right: -4px;
+  padding: 10px 0 10px;
+  width: 100%;
+}
+
+.transmission__button {
+  margin-top: 30px;
+}
+
 .ins-form .transmission__list {
   margin-top: 5px;
   margin-bottom: 10px;

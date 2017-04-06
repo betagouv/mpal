@@ -99,7 +99,7 @@ fr:
       personne_confiance_choix1: Vous-même
       personne_confiance_choix2: "Une personne chargée du suivi du dossier (pour vous)"
       telephone: "Numéro de téléphone"
-      email: "Votre adresse e-mail"
+      email: "Votre adresse email"
       civilite: "Civilite"
       personne_de_confiance_prenom: "Prénom"
       personne_de_confiance_nom: "Nom"
@@ -160,7 +160,7 @@ fr:
       messages:
         erreur: "Le projet n’a pas pu être modifié"
         succes: "Projet modifié avec succès"
-        erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
+        erreur_email_invalide: "Veuillez entrer une adresse email valide svp"
         email_obligatoire: "L’email est obligatoire"
     composition_logement:
       avis_imposition:
@@ -200,12 +200,14 @@ fr:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
+      confirmation: "J’ai lu, j’accepte les informations ci-dessus et je confirme cette adresse email"
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
         erreur_depot_document: "Une erreur est survenue. Votre document n’a pas été ajouté au projet"
         succes_suppression_document: 'Votre document a été supprimé avec succès'
         erreur_label_manquant: "Veuillez ajouter un nom à votre document"
         erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
+        info_confirmation_email: "En vu de vous envoyer un accusé de réception et de suivre votre dossier merci de confirmer votre adresse email :"
 
     transmission:
       envoi_demande: "Je dépose ma demande de subvention"
@@ -213,6 +215,8 @@ fr:
         success: "Dépôt effectué auprès du service en charge de l’instruction : %{instructeur}"
         error: Une erreur s’est produite lors de la transmission du dossier aux services instructeurs.
         info_demandeur: "Votre projet a bien été envoyé à %{instructeur}. Vous serez informé par email de l’avancement de votre dossier."
+        validation_email_vide: "Veuillez remplir votre email pour déposer votre demande"
+        validation_email: "Veuillez saisir une adresse email valide pour déposer votre demande"
 
     creation_opal:
       titre_creation_opal: "Créer le dossier dans Opal"
