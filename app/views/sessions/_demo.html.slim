@@ -1,6 +1,10 @@
 section.login-demo
   div.login-demo__column-left
     h3 Actions disponibles sur l’environnement de démo
+
+    h4.login-demo__subtitle Les intervenants ne peuvent se connecter à la plate-forme que via leur compte Clavis.
+    p= btn name: t('accueil.se_connecter_via_clavis'), href: dossiers_path, class: 'btn-test', icon: 'log-in'
+
     h4.login-demo__subtitle
       | En démo les emails ne sont pas réellement envoyés ; mais il est possible de les consulter.<br>
       | Si les emails n’apparaissent pas, cliquez sur "Refresh" pour mettre à jour la page.
