@@ -56,10 +56,6 @@ module ApplicationHelper
     I18n.localize(date, format: format)
   end
 
-  def projet_suffix
-    demandeur? ? "demandeur" : "intervenant"
-  end
-
   def readable_bool(boolean)
     boolean ? "Oui" : "Non"
   end
@@ -76,14 +72,6 @@ module ApplicationHelper
   def calcul_preeligibilite(annee)
     plafond = @projet_courant.preeligibilite(annee)
     t("projets.composition_logement.calcul_preeligibilite.#{plafond}")
-  end
-
-  def affiche_intervenants(projet)
-    if projet.prospect?
-      projet.intervenants.map(&:raison_sociale).join(', ')
-    else
-      projet.operateur.raison_sociale if projet.operateur
-    end
   end
 
   def affiche_demande_souhaitee(demande)
