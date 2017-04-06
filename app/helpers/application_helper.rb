@@ -73,10 +73,6 @@ module ApplicationHelper
     check_box_tag 'projet[prestation_ids][]', prestation.id, checked, id: "prestation_#{prestation.id}"
   end
 
-  def revenu_fiscal_reference_total
-    @projet_courant.revenu_fiscal_reference_total
-  end
-
   def calcul_preeligibilite(annee)
     plafond = @projet_courant.preeligibilite(annee)
     t("projets.composition_logement.calcul_preeligibilite.#{plafond}")

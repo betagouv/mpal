@@ -10,7 +10,7 @@ article.block.occupants
       li
         = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
         span= " #{@projet_courant.annee_fiscale_reference} : "
-        span= number_to_currency(revenu_fiscal_reference_total, precision: 0)
+        span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
   .content-block
     h4 Demandeur :
     p
