@@ -156,4 +156,23 @@ describe DemarrageProjetController do
       end
     end
   end
+
+  context "lorsque une information est erronée" do
+    before do
+      projet.demandeur_principal.update_attribute(:civilite, nil)
+      post :etape1_recuperation_infos, {
+        contact: "1",
+        projet_id: projet.id,
+        projet: {
+          adresse_postale: projet.adresse_postale.description,
+          demandeur_id: projet.demandeur_principal.id
+        }
+      }
+      projet.reload
+    end
+
+    it "affiche une erreur" do
+      expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
+    end
+  end
 end

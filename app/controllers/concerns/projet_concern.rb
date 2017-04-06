@@ -11,7 +11,7 @@ module ProjetConcern
         if @projet_courant.save_proposition!(projet_params)
           return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), notice: t('projets.edition_projet.messages.succes')
         else
-          flash[:alert] = t('projets.edition_projet.messages.erreur')
+          flash.now[:alert] = t('projets.edition_projet.messages.erreur')
         end
       end
 
@@ -75,7 +75,7 @@ private
     def assign_projet_if_needed
       if !@projet_courant.agent_operateur && current_agent
         if @projet_courant.update_attribute(:agent_operateur, current_agent)
-          flash[:notice] = t('projets.visualisation.projet_affecte')
+          flash.now[:notice] = t('projets.visualisation.projet_affecte')
         end
       end
     end

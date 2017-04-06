@@ -7,9 +7,8 @@ class DemarrageProjetController < ApplicationController
   before_action :init_view
 
   def etape1_recuperation_infos
-    if request.post?
-      success = etape1_save
-      return etape1_redirect_to_next_step if success
+    if request.post? && etape1_save
+      return etape1_redirect_to_next_step
     end
 
     @projet_courant.personne ||= Personne.new
@@ -134,7 +133,7 @@ private
         required: false
       )
     rescue => e
-      flash[:alert] = e.message
+      flash.now[:alert] = e.message
       return false
     end
 
@@ -155,7 +154,7 @@ private
     end
 
     demandeur_id = params[:projet][:demandeur_id]
-    unless demandeur_id.blank?
+    if demandeur_id.present?
       return define_demandeur(demandeur_id)
     end
 
@@ -166,7 +165,7 @@ private
     @demandeur = @projet_courant.change_demandeur(demandeur_id)
     @demandeur.assign_attributes(demandeur_principal_params)
     unless @demandeur.save
-      flash[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
+      flash.now[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
       return false
     end
     true
