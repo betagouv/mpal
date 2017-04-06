@@ -33,4 +33,5 @@ section.popin-form
 
       .transmission__button
         = btn name: t('projets.transmission.envoi_demande'), class: 'js-engagement'
+        = btn name: t('projets.transmission.modification_demande'), href: projet_path(projet_id: @projet_courant, anchor: 'messagerie'), class: 'btn-secondary'
 

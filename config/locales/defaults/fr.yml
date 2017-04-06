@@ -212,6 +212,7 @@ fr:
 
     transmission:
       envoi_demande: "Je dépose ma demande de subvention"
+      modification_demande: "Je souhaite modifier ma demande"
       messages:
         success: "Dépôt effectué auprès du service en charge de l’instruction : %{instructeur}"
         error: Une erreur s’est produite lors de la transmission du dossier aux services instructeurs.

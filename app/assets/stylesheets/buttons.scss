@@ -22,6 +22,9 @@
     font-size: 16px;
   }
 }
+.btn + .btn {
+  margin-left: 30px;
+}
 .btn-icon {
   padding-left: 37px;
 }
