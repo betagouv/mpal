@@ -147,7 +147,6 @@ fr:
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
     statut:
-      bouton_accepter: "Accepter ce projet"
       depose: "Déposé par le demandeur"
       en_cours: "En cours"
       en_cours_d_instruction: "En cours d’instruction"
@@ -211,6 +210,7 @@ fr:
         info_confirmation_email: "En vu de vous envoyer un accusé de réception et de suivre votre dossier merci de confirmer votre adresse email :"
 
     transmission:
+      bouton_accepter: "Suivant"
       envoi_demande: "Je dépose ma demande de subvention"
       modification_demande: "Je souhaite modifier ma demande"
       messages:
