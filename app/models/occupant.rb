@@ -6,7 +6,8 @@ class Occupant < ActiveRecord::Base
   belongs_to :avis_imposition
   delegate :projet, to: :avis_imposition
 
-  validates :nom, :prenom, :date_de_naissance, presence: true
+  validates :nom, :prenom, presence: true
+  validates :date_de_naissance, birthday: true, presence: true
   validates :civilite, presence: true, on: :update, if: :require_civilite?
 
   strip_fields :nom, :prenom
