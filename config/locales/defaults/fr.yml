@@ -72,6 +72,7 @@ fr:
     description: "Vous reculez devant un projet d’amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches pour obtenir une subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé sous des informations contradictoires, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra."
     lire_les_emails: "Lire les emails"
     reinitialiser: "Réinitialiser les données"
+    se_connecter_via_clavis: "Se connecter via Clavis"
 
   # ----------------------- Liste des messages à caractère juridique ---------------------
   agrements:
@@ -211,6 +212,7 @@ fr:
 
     transmission:
       envoi_demande: "Je dépose ma demande de subvention"
+      modification_demande: "Je souhaite modifier ma demande"
       messages:
         success: "Dépôt effectué auprès du service en charge de l’instruction : %{instructeur}"
         error: Une erreur s’est produite lors de la transmission du dossier aux services instructeurs.

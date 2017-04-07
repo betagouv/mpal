@@ -48,7 +48,7 @@
       |  fiscal de référence (
       abbr title=("Revenu fiscal de référence") RFR
       | ) correspondant à votre niveau de ressources.
-    = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'login-fields__form') do
+    = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'login-fields__form', id: 'js-login-form') do
       p.login-fields__label.login-fields__label--p.login-fields__label--first Êtes-vous propriétaire de votre résidence principale ?
       - proprietaire = params[:proprietaire] == "1"
       label.login-fields__proprietaire-label for="lab-proprietaire-yes"

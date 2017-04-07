@@ -1,7 +1,0 @@
-div class="main ui container top"
-  = affiche_erreurs_avec_cle @occupant, t('occupants.messages.erreur')
-  h1 class="ui header" = t('occupants.nouveau.titre')
-  = form_for [@projet_courant, @occupant], html: { class: 'ui form' } do |f|
-    = render partial: "form_fields", locals: { f: f }
-    = f.submit I18n.t('occupants.nouveau.action', occupant: @occupant.to_s), class: 'ui primary button'
-  = bouton_retour_projet_courant

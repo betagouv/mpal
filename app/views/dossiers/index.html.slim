@@ -3,7 +3,7 @@
     p Aucun dossier.
   - else
     = btn name: "Export CSV", href: dossiers_path(format: :csv), icon: "download", class: "btn-export"
-    table.table
+    table.table.table-hovered.table-stripped
       thead
         tr
           th
