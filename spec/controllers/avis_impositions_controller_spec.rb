@@ -44,7 +44,6 @@ describe AvisImpositionsController do
       let(:reference_avis)  { Fakeweb::ApiParticulier::INVALID}
 
       it "n'ajoute pas un avis d'imposition au projet" do
-        skip "TODO PF-410"
         post :create, projet_id: projet.id,
             avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
         projet.reload
@@ -52,7 +51,7 @@ describe AvisImpositionsController do
         expect(projet.avis_impositions.first).to eq first_avis
 
         expect(flash[:alert]).to be_present
-        expect(response).to redirect_to projet_avis_impositions_path(projet)
+        expect(response).to redirect_to new_projet_avis_imposition_path(projet)
       end
     end
   end
