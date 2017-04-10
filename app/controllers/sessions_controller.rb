@@ -5,7 +5,7 @@ class SessionsController < ApplicationController
 
   def new
     if agent_signed_in?
-      return redirect_to dossiers_path
+      redirect_to dossiers_path
     end
   end
 
@@ -47,10 +47,10 @@ class SessionsController < ApplicationController
 
 private
   def param_numero_fiscal
-    params[:numero_fiscal].try(:delete, ' ')
+    params[:numero_fiscal].to_s.gsub(/\D+/, '')
   end
 
   def param_reference_avis
-    params[:reference_avis].try(:delete, ' ')
+    params[:reference_avis].to_s.gsub(/\W+/, '').upcase
   end
 end
