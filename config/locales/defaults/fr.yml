@@ -398,6 +398,7 @@ fr:
     errors:
       models:
         projet:
+          frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"
           attributes:
             note_degradation:
               inclusion: "doit être comprise entre zéro et un."

@@ -111,6 +111,9 @@ RSpec.configure do |config|
 
   # Capybara.default_max_wait_time = 600
 
+  # Save an HTML snapshot on test failure
+  Capybara::Screenshot.autosave_on_failure = true
+  # Remove previous HTML snapshots on each new run
   Capybara::Screenshot.prune_strategy = :keep_last_run
   # Make Capybara HTML snapshots of failed tests look better in a browser.
   # (cf. https://github.com/mattheworiordan/capybara-screenshot#better-looking-html-screenshots)

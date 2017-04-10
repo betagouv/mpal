@@ -8,13 +8,12 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
   let(:operateur)   { projet.operateur }
   let(:instructeur) { projet.invited_instructeur }
   let(:pris)        { projet.invited_pris }
-  let(:agent_operateur)   { create :agent, :operateur, intervenant: operateur}
-  let(:agent_instructeur) { create :agent, :instructeur, intervenant: instructeur}
+  let(:agent_operateur)   { projet.agent_operateur}
+  let(:agent_instructeur) { projet.agent_instructeur}
   let(:agent_pris)        { create :agent, :pris, intervenant: pris}
 
   before do
     login_as current_agent, scope: :agent
-    projet.update_attributes agent_instructeur: agent_instructeur, agent_operateur: agent_operateur
   end
 
   context "en tant qu'opérateur" do
