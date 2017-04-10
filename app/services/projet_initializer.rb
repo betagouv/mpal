@@ -28,6 +28,7 @@ class ProjetInitializer
     unless contribuable
       @service_particulier ||= ApiParticulier.new(numero_fiscal, reference_avis)
       contribuable = @service_particulier.retrouve_contribuable
+      return unless contribuable
     end
     is_new_project = 0 == projet.avis_impositions.length
 
