@@ -1,5 +1,5 @@
 article.block.occupants
-  h3 Détails des occupants
+  h3 Détails du foyer fiscal
   - if demandeur? || current_agent.operateur?
     = edit_projet_button(@projet_courant, etape1_recuperation_infos_path(@projet_courant))
   .occupants-recap
