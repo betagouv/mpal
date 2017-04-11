@@ -4,7 +4,7 @@ class Opal
   end
 
   def creer_dossier(projet, agent_instructeur)
-    response = @client.post('/createDossier', body: serialize_dossier(projet, agent_instructeur).to_json, verify: false)
+    response = @client.post('/createDossier', body: serialize_dossier(projet, agent_instructeur).to_json)
     if response.code == 201
       ajoute_id_opal(projet, response.body)
       met_a_jour_statut(projet)
