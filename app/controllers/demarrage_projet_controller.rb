@@ -13,7 +13,7 @@ class DemarrageProjetController < ApplicationController
 
     @projet_courant.personne ||= Personne.new
     @demandeur = @projet_courant.demandeur_principal
-    @declarants = @projet_courant.occupants.collect { |o| [ o.fullname, o.id ] }
+    @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
     @action_label = if needs_etape2? then action_label_create else action_label_update end
   end
 

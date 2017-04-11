@@ -12,6 +12,7 @@ class Occupant < ActiveRecord::Base
 
   strip_fields :nom, :prenom
 
+  scope :declarants, -> { where(declarant: true) }
   scope :sans_revenus, -> { where(revenus: nil) }
 
   def require_civilite?
