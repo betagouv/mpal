@@ -26,6 +26,7 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(aide.libelle)
 
       # Section "Logement"
+      fill_in 'projet_date_de_visite', with: '28/12/2016'
       select 'Appartement', from: 'projet_type_logement'
       select '2', from: 'projet_etage'
       select 'Plus de 5', from: 'projet_nb_pieces'
@@ -62,9 +63,10 @@ feature "Remplir la proposition de travaux" do
       fill_in 'projet_precisions_financement', with: 'Le prêt sera sans doute accordé.'
 
       click_on 'Enregistrer cette proposition'
+      expect(page.current_path).to eq(dossier_path(projet))
 
       # Section "Logement"
-      expect(page.current_path).to eq(dossier_path(projet))
+      expect(page).to have_content('28 décembre 2016')
       expect(page).to have_content('Appartement')
       expect(page).to have_css('.etage', text: 2)
       expect(page).to have_css('.pieces', text:'Plus de 5')
@@ -120,6 +122,7 @@ feature "Remplir la proposition de travaux" do
     context "quand je ne réponds non/pas aux questions" do
       scenario "elles n'apparaissent pas dans la synthèse" do
         visit dossier_proposition_path(projet)
+        fill_in 'projet_date_de_visite', with: '28/12/2016'
         choose 'projet_ventilation_adaptee_false'
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))

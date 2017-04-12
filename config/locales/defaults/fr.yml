@@ -390,6 +390,7 @@ fr:
         tel: "Le numéro de téléphone"
         note_degradation: "La note de dégradation"
         note_insalubrite: "La note d’insalubrité"
+        date_de_visite: "La date de visite du logement"
       occupant:
         civilite: "La civilité"
         nom: "Nom"
@@ -400,6 +401,8 @@ fr:
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"
           attributes:
+            date_de_visite:
+              blank: "doit être renseignée."
             note_degradation:
               inclusion: "doit être comprise entre zéro et un."
             note_insalubrite:

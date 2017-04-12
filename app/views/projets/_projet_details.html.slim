@@ -1,6 +1,12 @@
 h4= current_agent ? 'Projet proposé' : 'Votre logement'
 ul.ctr-ope
   li
+    = "Date de visite : "
+    - if @projet_courant.date_de_visite.present?
+      span= l(@projet_courant.date_de_visite, format: :long)
+    - else
+      span= "non renseignée"
+  li
     = "Type de logement : "
     span= @projet_courant.type_logement
   li

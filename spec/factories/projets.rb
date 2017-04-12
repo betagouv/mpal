@@ -129,6 +129,7 @@ FactoryGirl.define do
 
     trait :proposition_enregistree do
       statut :proposition_enregistree
+      date_de_visite DateTime.new(2016, 12, 28)
       with_demandeurs
       with_demande
       with_assigned_operateur

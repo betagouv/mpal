@@ -45,7 +45,7 @@ private
 
     def projet_params
       attributs = params.require(:projet)
-      .permit(:disponibilite, :description, :email, :tel, :annee_construction,
+      .permit(:disponibilite, :description, :email, :tel, :annee_construction, :date_de_visite,
               :type_logement, :etage, :nb_pieces, :surface_habitable, :etiquette_avant_travaux,
               :niveau_gir, :autonomie, :handicap, :demandeur_salarie, :entreprise_plus_10_personnes,
               :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation,

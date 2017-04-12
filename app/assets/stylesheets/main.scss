@@ -428,6 +428,10 @@ fieldset {
         .page-projet .col-right .content-projet .block.projet-ope legend {
           font-weight: 600;
           padding: 0 10px; }
+        .page-projet .col-right .content-projet .block.projet-ope .field_with_errors {
+          display: inline; }
+          .page-projet .col-right .content-projet .block.projet-ope .field_with_errors label {
+            color: #d72623; }
         .page-projet .col-right .content-projet .block.projet-ope .ins-form li {
           padding: 8px 0; }
           .page-projet .col-right .content-projet .block.projet-ope .ins-form li label, .page-projet .col-right .content-projet .block.projet-ope .ins-form li .like-label {
@@ -452,7 +456,7 @@ fieldset {
           box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
           border: solid 1px #909eaf;
           padding: 5px 10px 4px;
-          width: 90px; }
+          width: 110px; }
           .page-projet .col-right .content-projet .block.projet-ope .ins-form input[type="text"].disabled, .page-projet .col-right .content-projet .block.projet-ope .ins-form input[type="tel"].disabled, .page-projet .col-right .content-projet .block.projet-ope .ins-form textarea.disabled, .page-projet .col-right .content-projet .block.projet-ope .ins-form select.disabled {
             background-color: #f2f6fa;
             box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
