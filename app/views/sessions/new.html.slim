@@ -74,5 +74,10 @@
       = btn name: t('sessions.nouvelle.action'), icon: 'log-in', class: 'login-fields__btn js-login-btn js-engagement'
 
   - if Tools.demo?
-    = render 'demo'
+    section.login-demo
+      = render 'demo_actions'
+      - if ENV['DISPLAY_DEMO_CREDENTIALS'] == 'true'
+        = render 'demo_credentials'
+      -else
+        = render 'staging_credentials'
 
