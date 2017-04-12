@@ -224,7 +224,7 @@ fr:
       titre_creation_opal: "Créer le dossier dans Opal"
       messages:
         succes: "Le dossier vient d’être créé dans OPAL avec l’identifiant %{id_opal}"
-        erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n’a pas pu être créé"
+        erreur: "Une erreur est survenue lors de la création du dossier dans Opal : « %{message} »"
 
     intervenants:
       messages:

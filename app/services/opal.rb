@@ -1,27 +1,31 @@
+class OpalError < StandardError
+end
+
 class Opal
   def initialize(client)
     @client = client
   end
 
-  def creer_dossier(projet, agent_instructeur)
+  def create_dossier!(projet, agent_instructeur)
     response = @client.post('/createDossier', body: serialize_dossier(projet, agent_instructeur).to_json)
-    if response.code == 201
-      ajoute_id_opal(projet, response.body)
-      met_a_jour_statut(projet)
-      projet.agent_instructeur = agent_instructeur
-      projet.save
-    else
-      Rails.logger.error "[OPAL] request failed: #{response}"
-      false
+    if response.code != 201
+      message = parse_error_message(response)
+      Rails.logger.error "[OPAL] request failed with code '#{response.code}': #{message || response.body}"
+      raise OpalError, message
     end
+
+    ajoute_id_opal(projet, response.body)
+    met_a_jour_statut(projet)
+    projet.agent_instructeur = agent_instructeur
+    projet.save
   end
 
 private
   OPAL_CIVILITE_M   = 1
   OPAL_CIVILITE_MME = 2
 
-  def ajoute_id_opal(projet, reponse)
-    opal = JSON.parse(reponse)
+  def ajoute_id_opal(projet, reponse_body)
+    opal = JSON.parse(reponse_body)
     projet.opal_numero = opal["dosNumero"]
     projet.opal_id = opal["dosId"]
   end
@@ -110,5 +114,14 @@ private
     ligne_3 = old_ligne_2[(split_index+1)..-1]
 
     [ligne_1, ligne_2, ligne_3]
+  end
+
+  def parse_error_message(response)
+    message = nil
+    begin
+      message = JSON.parse(response.body)[0]["message"]
+    rescue
+    end
+    message || "#{response.msg} (#{response.code})"
   end
 end

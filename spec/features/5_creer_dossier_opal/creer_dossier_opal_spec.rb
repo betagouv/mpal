@@ -16,12 +16,25 @@ feature "Créer le dossier dans Opal" do
       scenario "je peux créer un dossier Opal depuis la page projet" do
         visit dossier_path(projet)
         click_button I18n.t('projets.creation_opal.titre_creation_opal')
+        expect(page).to have_current_path dossier_path(projet)
         expect(page).to have_content(I18n.t("projets.creation_opal.messages.succes", id_opal: "09500840"))
 
         visit dossiers_path
         within "#projet_#{projet.id}" do
           expect(page).to have_content(I18n.t("projets.statut.en_cours_d_instruction"))
           expect(page).to have_content("09500840")
+        end
+      end
+
+      context "quand la création du dossier échoue" do
+        before { Fakeweb::Opal.register_create_dossier_failure }
+
+        scenario "je reçois un message d'erreur" do
+          visit dossier_path(projet)
+          click_button I18n.t('projets.creation_opal.titre_creation_opal')
+
+          expect(page).to have_current_path dossier_path(projet)
+          expect(page).to have_content(I18n.t("projets.creation_opal.messages.erreur", message: "Utilisateur inconnu : veuillez-vous connecter à OPAL."))
         end
       end
     end
