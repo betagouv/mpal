@@ -25,7 +25,7 @@
                 = f.select :nb_pieces, options_for_select(["1","2","3","4","5","Plus de 5"], @projet_courant.nb_pieces)
               li
                 = f.label :annee_construction, "Année de construction"
-                = f.text_field :annee_construction
+                = f.text_field :annee_construction, value: @projet_courant.demande.annee_construction
               li
                 = f.label :surface_habitable, "Surface habitable"
                 = f.text_field :surface_habitable
