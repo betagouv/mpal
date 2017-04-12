@@ -11,14 +11,14 @@
           span= " #{@projet_courant.nb_total_occupants}"
         li
           = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
-          span= " #{annee_fiscale_reference} : "
-          span= number_to_currency(revenu_fiscal_reference_total, precision: 0)
+          span= " #{@projet_courant.annee_fiscale_reference} : "
+          span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
     p.chapo= t('occupants.confirmer_nombre_personnes')
     table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
       tbody
         tr
           th scope="col"  = t('occupants.occupants')
-          th scope="col"  = t('occupants.date_naissance')
+          th scope="col"  = t('occupants.annee_naissance')
           th scope="col"  = t('occupants.actions')
         - @occupants.each do |occupant|
           tr data-occupant-id=occupant.id

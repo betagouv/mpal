@@ -46,14 +46,4 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
       # TODO: tester la modification des travaux demandés
     end
   end
-
-  context "quand mon projet n'est pas éligible" do
-    let(:projet) { Projet.last }
-
-    scenario "je suis notifié de ma non éligibilité" do
-      signin_for_new_projet_non_eligible
-      visit projet_path(projet)
-      expect(page).to have_content(I18n.t('projets.visualisation.non_eligible'))
-    end
-  end
 end

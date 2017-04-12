@@ -46,7 +46,7 @@ FactoryGirl.define do
     trait :with_invited_pris do
       after(:build) do |projet|
         pris = create(:pris, departements: [projet.departement])
-        create(:invitation, projet: projet, intervenant: pris)
+        projet.invitations << create(:invitation, projet: projet, intervenant: pris)
       end
     end
 
@@ -63,21 +63,35 @@ FactoryGirl.define do
     trait :with_invited_operateur do
       after(:build) do |projet|
         operateur = create(:operateur, departements: [projet.departement])
-        create(:invitation, projet: projet, intervenant: operateur)
+        projet.invitations << create(:invitation, projet: projet, intervenant: operateur)
       end
     end
 
     trait :with_committed_operateur do
+      with_invited_operateur
       after(:build) do |projet|
-        projet.operateur = create(:operateur, departements: [projet.departement])
-        create(:invitation, projet: projet, intervenant: projet.operateur)
+        projet.operateur = projet.invited_operateur
+      end
+    end
+
+    trait :with_assigned_operateur do
+      with_committed_operateur
+      after(:build) do |projet|
+        projet.agent_operateur = create(:agent, :operateur, intervenant: projet.operateur)
       end
     end
 
     trait :with_invited_instructeur do
       after(:build) do |projet|
         instructeur = create(:instructeur, departements: [projet.departement])
-        create(:invitation, projet: projet, intervenant: instructeur)
+        projet.invitations << create(:invitation, projet: projet, intervenant: instructeur)
+      end
+    end
+
+    trait :with_committed_instructeur do
+      with_invited_instructeur
+      after(:build) do |projet|
+        projet.agent_instructeur = create(:agent, :instructeur, intervenant: projet.invited_instructeur)
       end
     end
 
@@ -117,39 +131,43 @@ FactoryGirl.define do
       statut :proposition_enregistree
       with_demandeurs
       with_demande
-      with_committed_operateur
+      with_assigned_operateur
       with_prestations
     end
 
-    trait :proposition_acceptee do
-      statut :proposition_acceptee
+    trait :proposition_proposee do
+      statut :proposition_proposee
       with_demandeurs
       with_demande
-      with_committed_operateur
+      with_assigned_operateur
       with_prestations
     end
 
     trait :transmis_pour_instruction do
-      statut :transmis_pour_instruction
       with_demandeurs
       with_demande
-      with_committed_operateur
+      with_assigned_operateur
       with_prestations
+      with_invited_instructeur
 
       after(:build) do |projet|
-        projet.invitations << create(:invitation, intermediaire: projet.operateur, intervenant: create(:instructeur))
+        projet.statut = :transmis_pour_instruction
       end
     end
 
     trait :en_cours_d_instruction do
-      statut :en_cours_d_instruction
       opal_numero 4567
+      opal_id 8910
       with_demandeurs
       with_demande
-      with_committed_operateur
-      with_invited_instructeur
-      with_invited_pris
+      with_assigned_operateur
       with_prestations
+      with_committed_instructeur
+      with_invited_pris
+
+      after(:build) do |projet|
+        projet.statut = :en_cours_d_instruction
+      end
     end
   end
 end

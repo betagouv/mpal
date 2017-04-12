@@ -1,58 +1,231 @@
 section.login-demo
-  div.login-demo__column-left
+  div.login-demo__column.login-demo__column-left
     h3 Actions disponibles sur l’environnement de démo
-    p
+
+    h4.login-demo__subtitle Les intervenants ne peuvent se connecter à la plate-forme que via leur compte Clavis.
+    p= btn name: t('accueil.se_connecter_via_clavis'), href: dossiers_path, class: 'btn-test', icon: 'log-in'
+
+    h4.login-demo__subtitle
       | En démo les emails ne sont pas réellement envoyés ; mais il est possible de les consulter.<br>
       | Si les emails n’apparaissent pas, cliquez sur "Refresh" pour mettre à jour la page.
     p= btn name: t('accueil.lire_les_emails'), href: letter_opener_web_url, class: 'btn-test', icon: 'envelope'
-    p Ré-initialise tous les projets sur l’environnement de démo.
+
+    h4.login-demo__subtitle Ré-initialise tous les projets sur l’environnement de démo.
     p= btn name: t('accueil.reinitialiser'), href: reset_path, class: 'btn-test', icon: 'remove'
-  div.login-demo__column-right
+
+  div.login-demo__column.login-demo__column-right.js-login-helpers
     h3 Identifiants de démo
 
-    p Doubs
-    ul.login-demo__list
-      li Demandeur 1 : <strong>25 / 1525</strong>
-      li Opérateur 1 : <strong>operateur25-1@anah.gouv.fr / service-25</strong>
-      li Opérateur 2 : <strong>operateur25-2@anah.gouv.fr / service-25</strong>
-      li Instructeur 1 : <strong>delegation25-1@anah.gouv.fr / service-25</strong>
-      li Instructeur 2 : <strong>delegation25-2@anah.gouv.fr / service-25</strong>
-      li PRIS : <strong>pris25@anah.gouv.fr / service-25</strong>
-
-    p Vosges
-    ul.login-demo__list
-      li Demandeur 1 : <strong>88 / 1588</strong>
-      li Opérateur 1 : <strong>operateur88-1@anah.gouv.fr / service-88</strong>
-      li Opérateur 2 : <strong>operateur88-2@anah.gouv.fr / service-88</strong>
-      li Instructeur 1 : <strong>delegation88-1@anah.gouv.fr / service-88</strong>
-      li Instructeur 2 : <strong>delegation88-2@anah.gouv.fr / service-88</strong>
-      li PRIS : <strong>pris88@anah.gouv.fr / service-88</strong>
-
-    p Val d’Oise
-    ul.login-demo__list
-      li Demandeur 1 : <strong>95 / 1595</strong>
-      li Demandeur 2 : <strong>952 / 15952</strong>
-      li Opérateur 1 : <strong>operateur95-1@anah.gouv.fr / service-95</strong>
-      li Opérateur 2 : <strong>operateur95-2@anah.gouv.fr / service-95</strong>
-      li Instructeur 1 : <strong>delegation95-1@anah.gouv.fr / service-95</strong>
-      li Instructeur 2 : <strong>delegation95-2@anah.gouv.fr / service-95</strong>
-      li PRIS : <strong>pris95@anah.gouv.fr / service-95</strong>
-
-    p Haute-Garonne
-    ul.login-demo__list
-      li Demandeur 1 : <em>à créer</em>
-      li Opérateur 1 : <strong>operateur31-1@anah.gouv.fr / service-31</strong>
-      li Opérateur 2 : <strong>operateur31-2@anah.gouv.fr / service-31</strong>
-      li Instructeur 1 : <strong>delegation31-1@anah.gouv.fr / service-31</strong>
-      li Instructeur 2 : <strong>delegation31-2@anah.gouv.fr / service-31</strong>
-      li PRIS : <strong>pris31@anah.gouv.fr / service-31</strong>
-
-    p Pas-de-Calais
-    ul.login-demo__list
-      li Demandeur 1 : <em>à créer</em>
-      li Opérateur 1 : <strong>operateur62-1@anah.gouv.fr / service-62</strong>
-      li Opérateur 2 : <strong>operateur62-2@anah.gouv.fr / service-62</strong>
-      li Instructeur 1 : <strong>delegation62-1@anah.gouv.fr / service-62</strong>
-      li Instructeur 2 : <strong>delegation62-2@anah.gouv.fr / service-62</strong>
-      li PRIS : <strong>pris62@anah.gouv.fr / service-62</strong>
+    table.login-demo__table
+      tbody
+        tr
+          th.login-demo__title colspan="3" Doubs (25)
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447251" data-reference-avis="1569051442251" Demandeur 1
+          td 1582453447251
+          td 1569051442251
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447252" data-reference-avis="1569051442252" Demandeur 2
+          td 1582453447252
+          td 1569051442252
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447253" data-reference-avis="1569051442253" Demandeur 3
+          td 1582453447253
+          td 1569051442253
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447254" data-reference-avis="1569051442254" Demandeur 4
+          td 1582453447254
+          td 1569051442254
+        tr
+          th.login-demo__th Opérateur 1
+          td operateur25-1@anah.gouv.fr
+          td service-25
+        tr
+          th.login-demo__th Opérateur 2
+          td operateur25-2@anah.gouv.fr
+          td service-25
+        tr
+          th.login-demo__th Instructeur 1
+          td delegation25-1@anah.gouv.fr
+          td service-25
+        tr
+          th.login-demo__th Instructeur 2
+          td delegation25-2@anah.gouv.fr
+          td service-25
+        tr
+          th.login-demo__th PRIS
+          td pris25@anah.gouv.fr
+          td service-25
+        tr
+          th.login-demo__title colspan="3" Vosges (88)
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447881" data-reference-avis="1569051442881" Demandeur 1
+          td 1582453447881
+          td 1569051442881
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447882" data-reference-avis="1569051442882" Demandeur 2
+          td 1582453447882
+          td 1569051442882
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447883" data-reference-avis="1569051442883" Demandeur 3
+          td 1582453447883
+          td 1569051442883
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447884" data-reference-avis="1569051442884" Demandeur 4
+          td 1582453447884
+          td 1569051442884
+        tr
+          th.login-demo__th Opérateur 1
+          td operateur88-1@anah.gouv.fr
+          td service-88
+        tr
+          th.login-demo__th Opérateur 2
+          td operateur88-2@anah.gouv.fr
+          td service-88
+        tr
+          th.login-demo__th Instructeur 1
+          td delegation88-1@anah.gouv.fr
+          td service-88
+        tr
+          th.login-demo__th Instructeur 2
+          td delegation88-2@anah.gouv.fr
+          td service-88
+        tr
+          th.login-demo__th PRIS
+          td pris88@anah.gouv.fr
+          td service-88
+        tr
+          th.login-demo__title colspan="3" Val d’Oise (95)
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447951" data-reference-avis="1569051442951" Demandeur 1
+          td 1582453447951
+          td 1569051442951
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447952" data-reference-avis="1569051442952" Demandeur 2
+          td 1582453447952
+          td 1569051442952
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447953" data-reference-avis="1569051442953" Demandeur 3
+          td 1582453447953
+          td 1569051442953
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447954" data-reference-avis="1569051442954" Demandeur 4
+          td 1582453447954
+          td 1569051442954
+        tr
+          th.login-demo__th Opérateur 1
+          td operateur95-1@anah.gouv.fr
+          td service-95
+        tr
+          th.login-demo__th Opérateur 2
+          td operateur95-2@anah.gouv.fr
+          td service-95
+        tr
+          th.login-demo__th Instructeur 1
+          td delegation95-1@anah.gouv.fr
+          td service-95
+        tr
+          th.login-demo__th Instructeur 2
+          td delegation95-2@anah.gouv.fr
+          td service-95
+        tr
+          th.login-demo__th PRIS
+          td pris95@anah.gouv.fr
+          td service-95
+        tr
+          th.login-demo__title colspan="3" Haute-Garonne (31)
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447331" data-reference-avis="1569051442331" Demandeur 1
+          td 1582453447331
+          td 1569051442331
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447332" data-reference-avis="1569051442332" Demandeur 2
+          td 1582453447332
+          td 1569051442332
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447333" data-reference-avis="1569051442333" Demandeur 3
+          td 1582453447333
+          td 1569051442333
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447334" data-reference-avis="1569051442334" Demandeur 4
+          td 1582453447334
+          td 1569051442334
+        tr
+          th.login-demo__th Opérateur 1
+          td operateur31-1@anah.gouv.fr
+          td service-31
+        tr
+          th.login-demo__th Opérateur 2
+          td operateur31-2@anah.gouv.fr
+          td service-31
+        tr
+          th.login-demo__th Instructeur 1
+          td delegation31-1@anah.gouv.fr
+          td service-31
+        tr
+          th.login-demo__th Instructeur 2
+          td delegation31-2@anah.gouv.fr
+          td service-31
+        tr
+          th.login-demo__th PRIS
+          td pris31@anah.gouv.fr
+          td service-31
+        tr
+          th.login-demo__title colspan="3" Pas-de-Calais (62)
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447621" data-reference-avis="1569051442621" Demandeur 1
+          td 1582453447621
+          td 1569051442621
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447622" data-reference-avis="1569051442622" Demandeur 2
+          td 1582453447622
+          td 1569051442622
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447623" data-reference-avis="1569051442623" Demandeur 3
+          td 1582453447623
+          td 1569051442623
+        tr
+          th.login-demo__th
+            a class="js-login-helper" data-numero-fiscal="1582453447624" data-reference-avis="1569051442624" Demandeur 4
+          td 1582453447624
+          td 1569051442624
+        tr
+          th.login-demo__th Opérateur 1
+          td operateur62-1@anah.gouv.fr
+          td service-62
+        tr
+          th.login-demo__th Opérateur 2
+          td operateur62-2@anah.gouv.fr
+          td service-62
+        tr
+          th.login-demo__th Instructeur 1
+          td delegation62-1@anah.gouv.fr
+          td service-62
+        tr
+          th.login-demo__th Instructeur 2
+          td delegation62-2@anah.gouv.fr
+          td service-62
+        tr
+          th.login-demo__th PRIS
+          td pris62@anah.gouv.fr
+          td service-62
 

@@ -20,7 +20,7 @@
               li= @projet_courant.adresse.ville
             li= t('projets.visualisation.occupants', count: @projet_courant.nb_total_occupants)
             - if current_agent
-              li= "Revenus dits #{calcul_preeligibilite(annee_fiscale_reference).pluralize}"
+              li= "Revenus dits #{calcul_preeligibilite(@projet_courant.annee_fiscale_reference).pluralize}"
           - if (personne = @projet_courant.personne).present?
             ul.personne
               li.personne-titre Personne à contacter :

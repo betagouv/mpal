@@ -20,6 +20,21 @@ feature "Avis d'imposition :" do
       expect(page.current_path).to eq(projet_avis_impositions_path(projet))
       expect(page).to have_content('1 000 000 €')
     end
+
+    scenario "je suis notifié que je ne peux pas ajouter un avis d'imposition invalide" do
+      signin(projet.numero_fiscal, projet.reference_avis)
+      visit projet_avis_impositions_path(projet)
+
+      click_link 'Ajouter un avis d’imposition'
+
+      expect(page.current_path).to eq(new_projet_avis_imposition_path(projet))
+      fill_in 'avis_imposition_numero_fiscal',  with: 'INVALID'
+      fill_in 'avis_imposition_reference_avis', with: 'INVALID'
+      click_button 'Ajouter'
+
+      expect(page.current_path).to eq(new_projet_avis_imposition_path(projet))
+      expect(page).to have_content(I18n.t("sessions.invalid_credentials"))
+    end
   end
 
   context "en tant que demandeur avec un avis d'imposition supplémentaire" do

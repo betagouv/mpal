@@ -28,6 +28,7 @@ class ProjetInitializer
     unless contribuable
       @service_particulier ||= ApiParticulier.new(numero_fiscal, reference_avis)
       contribuable = @service_particulier.retrouve_contribuable
+      return unless contribuable
     end
     is_new_project = 0 == projet.avis_impositions.length
 
@@ -52,8 +53,8 @@ class ProjetInitializer
 
     contribuable.nombre_personnes_charge.times do |index|
       avis_imposition.occupants.build(
-        nom:    "Occupant #{declarant_count + index + 1}",
-        prenom: "Occupant #{declarant_count + index + 1}",
+        nom:    "#{declarant_count + index + 1}",
+        prenom: "Occupant ",
         date_de_naissance: "1970-01-01", # TODO: obligatoire :(
         declarant: false,
         demandeur: false

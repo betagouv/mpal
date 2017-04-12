@@ -17,14 +17,14 @@ class AvisImpositionsController < ApplicationController
     avis_imposition = @projet_courant.avis_impositions.new(strong_params_hash)
     @avis_imposition = ProjetInitializer.new.initialize_avis_imposition(@projet_courant, avis_imposition.numero_fiscal, avis_imposition.reference_avis)
     unless @avis_imposition
-      flash.now[:alert] = t("sessions.invalid_credentials")
-      return render :new
+      flash[:alert] = t("sessions.invalid_credentials")
+      return redirect_to new_projet_avis_imposition_path(@projet_courant)
     end
     unless @avis_imposition.save
-      return render :new
+      return redirect_to new_projet_avis_imposition_path(@projet_courant)
     end
     flash[:notice] = "Avis d’imposition ajouté"
-    redirect_to projet_avis_impositions_path(projet_id: @projet_courant)
+    redirect_to projet_avis_impositions_path(@projet_courant)
   end
 
   def destroy

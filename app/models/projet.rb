@@ -2,7 +2,14 @@ class Projet < ActiveRecord::Base
   include LocalizedModelConcern
   extend CsvProperties
 
-  enum statut: [ :prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :proposition_acceptee, :transmis_pour_instruction, :en_cours_d_instruction ]
+  enum statut: {
+    prospect: 0,
+    en_cours: 1,
+    proposition_enregistree: 2,
+    proposition_proposee: 3,
+    transmis_pour_instruction: 5,
+    en_cours_d_instruction: 6
+  }
 
   # Personne de confiance
   belongs_to :personne, dependent: :destroy
@@ -37,6 +44,7 @@ class Projet < ActiveRecord::Base
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
+  validate  :validate_frozen_attributes
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
@@ -118,6 +126,23 @@ class Projet < ActiveRecord::Base
 
   def can_validate_operateur?
     invited_operateur.present? && operateur.blank?
+  end
+
+  FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
+  ALLOWED_ATTRIBUTES_WHEN_FROZEN = [:statut, :opal_numero, :opal_id, :agent_instructeur_id]
+
+  def projet_frozen?
+    persisted_statut = (changed_attributes[:statut] || statut).to_sym
+    FROZEN_STATUTS.include? persisted_statut
+  end
+
+  def validate_frozen_attributes
+    if projet_frozen?
+      changed_frozen_attributes = changed_attributes.keys.map(&:to_sym) - ALLOWED_ATTRIBUTES_WHEN_FROZEN
+      changed_frozen_attributes.each do |attribute|
+        errors.add(attribute, :frozen)
+      end
+    end
   end
 
   def change_demandeur(demandeur_id)
@@ -228,9 +253,10 @@ class Projet < ActiveRecord::Base
   end
 
   def transmettre!(instructeur)
-    invitation = Invitation.new(projet: self, intermediaire: self.operateur, intervenant: instructeur)
+    invitation = Invitation.new(projet: self, intermediaire: operateur, intervenant: instructeur)
     if invitation.save
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
+      ProjetMailer.accuse_reception(self).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'transmis_instructeur', projet: self, producteur: invitation)
       self.statut = :transmis_pour_instruction
       return self.save
@@ -258,6 +284,15 @@ class Projet < ActiveRecord::Base
     occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
   end
 
+  def date_depot
+    invitation_intervenant = invitations.where(intervenant: invited_instructeur).first
+    if invitation_intervenant
+      invitation_intervenant.created_at
+    else
+      nil
+    end
+  end
+
   def status_for_operateur
     return if statut.blank?
     statuses_map = {
@@ -265,7 +300,6 @@ class Projet < ActiveRecord::Base
       en_cours:                :en_cours_de_montage,
       proposition_enregistree: :en_cours_de_montage,
       proposition_proposee:    :en_cours_de_montage,
-      proposition_acceptee:    :en_cours_de_montage,
       en_cours_d_instruction:  :en_cours_d_instruction,
     }
     statuses_map[statut.to_sym] || :depose

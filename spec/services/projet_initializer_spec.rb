@@ -99,7 +99,7 @@ describe ProjetInitializer do
 
     context "lorsque les identifiants sont invalides" do
       it "ne crée pas d'avis d'imposition" do
-        skip "TODO PF-410"
+        expect(service_contribuable).to receive(:retrouve_contribuable).and_return(nil)
         expect(projet.avis_impositions.length).to eq(0)
 
         projet_initializer.initialize_avis_imposition(projet, 'INVALID', 'INVALID')

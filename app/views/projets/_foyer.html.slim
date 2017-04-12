@@ -1,7 +1,7 @@
 article.block.occupants
-  h3 Détails des occupants
+  h3 Détails du foyer
   - if demandeur? || current_agent.operateur?
-    = link_to t('projets.visualisation.lien_edition'), etape1_recuperation_infos_path(@projet_courant), class: 'edit'
+    = edit_projet_button(@projet_courant, etape1_recuperation_infos_path(@projet_courant))
   .occupants-recap
     ul
       li
@@ -9,8 +9,8 @@ article.block.occupants
         span= " #{@projet_courant.nb_total_occupants}"
       li
         = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
-        span= " #{annee_fiscale_reference} : "
-        span= number_to_currency(revenu_fiscal_reference_total, precision: 0)
+        span= " #{@projet_courant.annee_fiscale_reference} : "
+        span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
   .content-block
     h4 Demandeur :
     p

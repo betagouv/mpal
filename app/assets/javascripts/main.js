@@ -75,6 +75,23 @@ $(document).ready(function() {
     return false;
   });
 
+  function bindLoginHelpers() {
+    $(".js-login-helpers").click(function (e) {
+      var target = $(e.target);
+      var link = target.closest('.js-login-helper');
+      if (!link.length) {
+        return;
+      }
+      e.preventDefault();
+      e.stopPropagation();
+      $("#form-nf").val(link.data("numero-fiscal"));
+      $("#form-ra").val(link.data("reference-avis"));
+      $("html, body").animate({
+        scrollTop: $("#js-login-form").offset().top
+      }, 500);
+    });
+  }
+
   function bindPopins() {
     $(".popin").click(function(e) {
       $(this).hide();
@@ -98,6 +115,7 @@ $(document).ready(function() {
     }
   }
 
+  bindLoginHelpers();
   bindPopins();
   var engagement = $(".js-engagement");
   if (engagement.length) {

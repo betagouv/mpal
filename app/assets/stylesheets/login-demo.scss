@@ -1,12 +1,38 @@
 .login-demo {
   display: flex;
   background-color: #e6eaed;
-  padding: 30px;
 }
+
+.login-demo__subtitle {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
 .login-demo__list {
   list-style-position: inside;
 }
-.login-demo__column-left {
-  margin-right: 20px;
+
+.login-demo__column {
+  width: 50%;
+  padding: 30px;
+}
+
+.login-demo__table {
+  width: 100%;
+}
+.login-demo__title {
+  padding-top: 1em;
+  text-align: left;
+  color: black;
+}
+.login-demo__th {
+  text-align: left;
+  a {
+    text-decoration: underline;
+    color: #398439;
+    &:hover {
+      color: black;
+    }
+  }
 }
 

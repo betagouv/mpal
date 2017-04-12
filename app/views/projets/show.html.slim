@@ -1,6 +1,6 @@
 section.content-projet
   = render "projets/messagerie"
-  = render "projets/occupants"
+  = render "projets/foyer"
   = render "projet_envisage"
   - if @projet_courant.statut != "prospect"
     = render "projet_#{@projet_courant.statut}"

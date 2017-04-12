@@ -1,0 +1,39 @@
+.ins-form.transmission__form {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.transmission__subtitle {
+  margin-top: 30px;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.transmission__textfield {
+  display: block;
+  margin-right: -4px;
+  padding: 10px 0 10px;
+  width: 100%;
+}
+
+.transmission__button {
+  margin-top: 30px;
+  text-align: center;
+}
+
+.ins-form .transmission__list {
+  margin-top: 5px;
+  margin-bottom: 10px;
+  list-style-position: inside;
+}
+
+.ins-form .transmission__list li {
+  display: list-item;
+  width: 100%;
+  margin: 10px 0;
+  padding: 0;
+  list-style-type: '–  ';
+}

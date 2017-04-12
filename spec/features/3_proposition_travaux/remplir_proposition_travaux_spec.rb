@@ -17,6 +17,7 @@ feature "Remplir la proposition de travaux" do
       click_link I18n.t('projets.visualisation.remplir_le_projet')
       expect(page).to have_current_path(dossier_proposition_path(projet))
       expect(page).to have_content I18n.t('projets.visualisation.projet_affecte')
+      expect(page).to have_field('projet_annee_construction', with: '2010')
     end
 
     scenario "je remplis et j'enregistre une proposition de travaux'" do

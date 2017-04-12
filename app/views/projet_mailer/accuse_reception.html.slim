@@ -1,0 +1,36 @@
+p Bonjour #{@demandeur.fullname},
+
+p Le #{l(@date_depot, format:'%d %B %Y à %H h %M')}, vous avez déposé auprès de l’Agence nationale de l’habitat – Anah – une demande de subvention.
+
+p Votre demande a été enregistrée sous le numéro « #{@projet.plateforme_id} ». Elle sera instruite par le service suivant :
+
+ul
+  li= @instructeur.raison_sociale
+  li= @instructeur.description_adresse
+  li= @instructeur.email
+
+p La décision d’attribution ou de refus de subvention sera prise en fonction, notamment, des priorités d’actions définies par le Conseil d’administration de l’Anah, des priorités définies localement ainsi que des crédits disponibles.
+
+p L’enregistrement de votre demande de subvention vous permet de commencer les travaux. Il vous est néanmoins rappelé que seule une décision expresse d’attribution vous garantit le bénéfice d’une subvention de l’Anah.
+
+p
+  | En l’absence de réponse dans les quatre mois à compter de la réception du présent accusé de réception, votre demande sera réputée rejetée
+  sup 1
+  | .
+
+p Si votre demande est incomplète, une demande de renseignements et/ou de pièces complémentaires vous sera adressée et suspendra le délai mentionné ci-dessus.
+
+p Cordialement,
+
+p Pour l’Anah, #{@instructeur.raison_sociale}
+
+p &nbsp;
+
+hr
+
+p
+  small
+    | 1. Si vous contestiez cette décision implicite de rejet, vous disposeriez d’un délai de deux mois pour présenter un recours :
+    ul
+      li soit auprès du service instructeur, en joignant à votre envoi copie du présent accusé de réception ;
+      li soit auprès du tribunal administratif compétent.

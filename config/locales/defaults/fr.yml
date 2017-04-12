@@ -72,6 +72,7 @@ fr:
     description: "Vous reculez devant un projet d’amélioration de votre logement pourtant nécessaire à votre santé et votre confort, car la complexité des démarches pour obtenir une subvention vous effraie: vous ne savez pas à qui vous adresser, vous êtes noyé sous des informations contradictoires, vous ne savez pas évaluer le coût restant de votre poche, vous ne savez pas combien de temps cela prendra."
     lire_les_emails: "Lire les emails"
     reinitialiser: "Réinitialiser les données"
+    se_connecter_via_clavis: "Se connecter via Clavis"
 
   # ----------------------- Liste des messages à caractère juridique ---------------------
   agrements:
@@ -99,7 +100,7 @@ fr:
       personne_confiance_choix1: Vous-même
       personne_confiance_choix2: "Une personne chargée du suivi du dossier (pour vous)"
       telephone: "Numéro de téléphone"
-      email: "Votre adresse e-mail"
+      email: "Votre adresse email"
       civilite: "Civilite"
       personne_de_confiance_prenom: "Prénom"
       personne_de_confiance_nom: "Nom"
@@ -135,22 +136,22 @@ fr:
     # ----------------------- Etape 3 ---------------------
     etape3_mise_en_relation:
       votre_projet_est_eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
+      votre_projet_est_non_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation va être prochainement réalisé. Un interlocuteur va prendre contact avec vous."
       titre: "Choisissez votre opérateur"
       section_eligibilite: "Accompagnement"
       assignement_pris_titre: "Un contact pour vous aider"
+      non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée"
       un_pris_va_vous_contacter: "Le Point Rénovation Info Service de votre département, « %{pris} », va vous contacter prochainement."
       disponibilite_placeholder: "Le matin, entre 8h et 11h"
 
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
     statut:
-      bouton_accepter: "Accepter ce projet"
       depose: "Déposé par le demandeur"
       en_cours: "En cours"
       en_cours_d_instruction: "En cours d’instruction"
       en_cours_de_montage: "En cours de montage"
       prospect: "En prospection"
-      proposition_acceptee: "Proposition acceptée"
       proposition_enregistree: "Proposition enregistrée"
       proposition_proposee: "Proposition proposée"
       transmis_pour_instruction: "Transmis aux services instructeurs"
@@ -159,7 +160,7 @@ fr:
       messages:
         erreur: "Le projet n’a pas pu être modifié"
         succes: "Projet modifié avec succès"
-        erreur_email_invalide: "Veuillez entrer une adresse e-mail valide svp"
+        erreur_email_invalide: "Veuillez entrer une adresse email valide svp"
         email_obligatoire: "L’email est obligatoire"
     composition_logement:
       avis_imposition:
@@ -199,24 +200,31 @@ fr:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
+      confirmation: "J’ai lu, j’accepte les informations ci-dessus et je confirme cette adresse email"
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
         erreur_depot_document: "Une erreur est survenue. Votre document n’a pas été ajouté au projet"
         succes_suppression_document: 'Votre document a été supprimé avec succès'
         erreur_label_manquant: "Veuillez ajouter un nom à votre document"
         erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
+        info_confirmation_email: "En vu de vous envoyer un accusé de réception et de suivre votre dossier merci de confirmer votre adresse email :"
 
-    transmissions:
+    transmission:
+      bouton_accepter: "Suivant"
       envoi_demande: "Je dépose ma demande de subvention"
+      modification_demande: "Je souhaite modifier ma demande"
       messages:
-        succes: La demande a bien été transmise aux services instructeurs
+        success: "Dépôt effectué auprès du service en charge de l’instruction : %{instructeur}"
+        error: Une erreur s’est produite lors de la transmission du dossier aux services instructeurs.
         info_demandeur: "Votre projet a bien été envoyé à %{instructeur}. Vous serez informé par email de l’avancement de votre dossier."
+        validation_email_vide: "Veuillez remplir votre email pour déposer votre demande"
+        validation_email: "Veuillez saisir une adresse email valide pour déposer votre demande"
 
     creation_opal:
       titre_creation_opal: "Créer le dossier dans Opal"
       messages:
         succes: "Le dossier vient d’être créé dans OPAL avec l’identifiant %{id_opal}"
-        erreur: "Une erreur est survenue lors des échanges avec OPAL. Le dossier n’a pas pu être créé"
+        erreur: "Une erreur est survenue lors de la création du dossier dans Opal : « %{message} »"
 
     intervenants:
       messages:
@@ -228,7 +236,6 @@ fr:
         titre: 'Félicitations'
         corps: Votre projet démarre aujourd’hui.
     visualisation:
-      non_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation va être prochainement réalisé. Un interlocuteur va prendre contact avec vous. Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Infoservice ou l’opérateur de l’opération programmée […] : Tel…"
       lien_edition_projet: 'Modifier le projet'
       lien_edition: 'Modifier'
       lien_edition_coordonnees: 'Modifier mes coordonnées'
@@ -315,7 +322,7 @@ fr:
     occupants: "Occupants"
     nombre_occupant: "Nombre d’occupants :"
     confirmer_nombre_personnes: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
-    date_naissance: "Date de naissance"
+    annee_naissance: "Année de naissance"
     actions: "Actions"
     nouveau:
       titre: "Ajoutez un nouvel occupant à votre logement"
@@ -339,17 +346,19 @@ fr:
   mailers:
     projet_mailer:
       recommandation_operateurs:
-        sujet: "[ANAH] Voici nos recommandations pour votre projet de rénovation"
+        sujet: "[Anah] Voici nos recommandations pour votre projet de rénovation"
       invitation_intervenant:
-        sujet: "[ANAH] Invitation de %{demandeur_principal} à consulter son projet"
+        sujet: "[Anah] Invitation de %{demandeur_principal} à consulter son projet"
       notification_invitation_intervenant:
-        sujet: "[ANAH] Invitation de %{intervenant} à consulter votre projet"
+        sujet: "[Anah] Invitation de %{intervenant} à consulter votre projet"
       notification_choix_intervenant:
-        sujet: "[ANAH] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l’accompagner sur son projet"
+        sujet: "[Anah] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l’accompagner sur son projet"
       resiliation_operateur:
-        sujet: "[ANAH] %{demandeur_principal} a changé d’opérateur pour son projet"
+        sujet: "[Anah] %{demandeur_principal} a changé d’opérateur pour son projet"
       mise_en_relation_intervenant:
-        sujet: "[ANAH] Mise en relation par %{intermediaire}"
+        sujet: "[Anah] Mise en relation par %{intermediaire}"
+      accuse_reception:
+        sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
 
   # ----------------------- Gestion d’évènements  ---------------------
   evenements:
@@ -389,6 +398,7 @@ fr:
     errors:
       models:
         projet:
+          frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"
           attributes:
             note_degradation:
               inclusion: "doit être comprise entre zéro et un."

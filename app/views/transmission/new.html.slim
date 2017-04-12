@@ -1,0 +1,37 @@
+section.popin-form
+  h2 Avant de déposer ma demande de subvention
+  .ins-form.transmission__form
+    h3.transmission__subtitle J’atteste :
+    ul.transmission__list
+      li de l’exactitude des informations renseignées dans la présente demande,
+      li ne pas avoir commencé les travaux avant de valider la présente demande (article 5 du Règlement Général de l’Agence – RGA).
+
+    h3.transmission__subtitle Je m’engage à :
+    ul.transmission__list
+      li faire réaliser les travaux par des entreprises du bâtiment ayant une activité déclarée en rapport avec les travaux effectués (pose et fourniture à la charge de ces derniers) (article 13 du RGA),
+      li en justifier l’achèvement dans le délai de trois ans suivant la date de la décision d’octroi de la subvention, en présentant dans ce délai ma demande de paiement du solde de la subvention (articles 14 et 20 du RGA)
+      li occuper le logement pendant une durée minimale de six ans (article 15 D du RGA),
+      li en cas d’octroi de l’aide de solidarité écologique (ASE), fournir exclusivement à l’Anah, dont je reconnais le rôle actif et incitatif, l’ensemble des documents lui permettant de valoriser les certificats d’économie d’énergie - CEE (factures et attestations d’exclusivité de chaque entreprise ou professionnel ayant réalisé les travaux),
+      li aviser l’Anah par écrit de toute modification qui pourrait être apportée au droit de propriété et aux conditions d’occupation du logement subventionné (pendant toute la durée de l’engagement d’occupation).
+
+    h3.transmission__subtitle Je reconnais être informé(e) que :
+    ul.transmission__list
+      li l’Anah se réserve la possibilité d’effectuer des contrôles à tout moment (visite du logement subventionné, demande de pièces justificatives),
+      li en cas de non-respect des engagements et de la règlementation en vigueur et en cas de fraude, l’aide attribuée est annulée et les sommes déjà perçues seront reversées avec majoration,
+      li toute fraude ou fausse déclaration expose également à des sanctions pécuniaires, à des sanctions administratives (interdiction de bénéficier d’une subvention pendant un délai pouvant atteindre cinq années), et à des poursuites judiciaires.
+
+    = form_tag(projet_transmission_path(@projet_courant), method: 'post') do
+      h3.transmission__subtitle= I18n.t('projets.proposition.messages.info_confirmation_email')
+      ul
+        li.transmission__textfield= text_field_tag 'projet[email]', @projet_courant.email
+
+      ul
+        li.checkbox
+          input#confirm type="checkbox" class="js-engagement"
+          label for="confirm"
+            = I18n.t('projets.proposition.confirmation')
+
+      .transmission__button
+        = btn name: t('projets.transmission.envoi_demande'), class: 'js-engagement'
+        = btn name: t('projets.transmission.modification_demande'), href: projet_path(projet_id: @projet_courant, anchor: 'messagerie'), class: 'btn-secondary'
+

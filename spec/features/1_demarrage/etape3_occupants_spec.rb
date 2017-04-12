@@ -33,10 +33,6 @@ feature "Occupants :" do
       expect(page).not_to have_field("Date de naissance", with: "20/05/2010")
     end
 
-    scenario "je peux modifier un occupant", pending: true do
-      skip
-    end
-
     scenario "je peux supprimer un occupant" do
       signin(projet.numero_fiscal, projet.reference_avis)
       visit projet_occupants_path(projet)

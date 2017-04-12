@@ -26,6 +26,15 @@ describe SessionsController do
         expect(response).to redirect_to etape1_recuperation_infos_path(projet)
       end
 
+      context "quand mon numero fiscal se termine par une lettre" do
+        let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL.to_s + 'C' }
+
+        it "je suis redirigé vers la page de démarrage du projet" do
+          post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
+          expect(response).to redirect_to etape1_recuperation_infos_path(projet)
+        end
+      end
+
       context "quand l'API BAN n'est pas disponible" do
         before { Fakeweb::ApiBan.register_all_unavailable }
 
