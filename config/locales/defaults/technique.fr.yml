@@ -12,8 +12,8 @@ fr:
         one: "élément"
         other: "éléments"
       theme:
-        one: "thème"
-        other: "thèmes"
+        one: "type d’intervention"
+        other: "types d’intervention"
   date:
     abbr_day_names:
     - dim

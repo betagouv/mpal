@@ -8,6 +8,5 @@ feature "Administration des thèmes" do
     visit admin_themes_path
     expect(page).to have_content("Autonomie")
     expect(page).to have_content("Autres travaux")
-    expect(page).to have_content("Habiter mieux")
   end
 end

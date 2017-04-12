@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405160145) do
+ActiveRecord::Schema.define(version: 20170412125511) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -216,18 +216,21 @@ ActiveRecord::Schema.define(version: 20170405160145) do
     t.string   "entreprise"
     t.float    "montant"
     t.boolean  "recevable"
-    t.integer  "projet_id"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
     t.string   "scenario"
     t.boolean  "souhaite",   default: false, null: false
     t.boolean  "preconise",  default: false, null: false
     t.boolean  "retenu",     default: false, null: false
-    t.integer  "theme_id"
   end
 
-  add_index "prestations", ["projet_id"], name: "index_prestations_on_projet_id", using: :btree
-  add_index "prestations", ["theme_id"], name: "index_prestations_on_theme_id", using: :btree
+  create_table "prestations_projets", force: :cascade do |t|
+    t.integer "projet_id"
+    t.integer "prestation_id"
+  end
+
+  add_index "prestations_projets", ["prestation_id"], name: "index_prestations_projets_on_prestation_id", using: :btree
+  add_index "prestations_projets", ["projet_id"], name: "index_prestations_projets_on_projet_id", using: :btree
 
   create_table "projet_aides", force: :cascade do |t|
     t.integer "projet_id"
@@ -237,14 +240,6 @@ ActiveRecord::Schema.define(version: 20170405160145) do
 
   add_index "projet_aides", ["aide_id"], name: "index_projet_aides_on_aide_id", using: :btree
   add_index "projet_aides", ["projet_id"], name: "index_projet_aides_on_projet_id", using: :btree
-
-  create_table "projet_prestations", force: :cascade do |t|
-    t.integer "projet_id"
-    t.integer "prestation_id"
-  end
-
-  add_index "projet_prestations", ["prestation_id"], name: "index_projet_prestations_on_prestation_id", using: :btree
-  add_index "projet_prestations", ["projet_id"], name: "index_projet_prestations_on_projet_id", using: :btree
 
   create_table "projets", force: :cascade do |t|
     t.string   "numero_fiscal"
@@ -301,6 +296,14 @@ ActiveRecord::Schema.define(version: 20170405160145) do
   add_index "projets", ["personne_id"], name: "index_projets_on_personne_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
 
+  create_table "projets_themes", id: false, force: :cascade do |t|
+    t.integer "projet_id"
+    t.integer "theme_id"
+  end
+
+  add_index "projets_themes", ["projet_id"], name: "index_projets_themes_on_projet_id", using: :btree
+  add_index "projets_themes", ["theme_id"], name: "index_projets_themes_on_theme_id", using: :btree
+
   create_table "suggested_operateurs", id: false, force: :cascade do |t|
     t.integer "projet_id"
     t.integer "intervenant_id"
@@ -326,12 +329,10 @@ ActiveRecord::Schema.define(version: 20170405160145) do
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
-  add_foreign_key "prestations", "projets"
-  add_foreign_key "prestations", "themes"
+  add_foreign_key "prestations_projets", "prestations"
+  add_foreign_key "prestations_projets", "projets"
   add_foreign_key "projet_aides", "aides"
   add_foreign_key "projet_aides", "projets"
-  add_foreign_key "projet_prestations", "prestations"
-  add_foreign_key "projet_prestations", "projets"
   add_foreign_key "projets", "adresses", column: "adresse_a_renover_id"
   add_foreign_key "projets", "adresses", column: "adresse_postale_id"
   add_foreign_key "projets", "agents", column: "agent_instructeur_id"

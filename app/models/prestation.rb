@@ -1,4 +1,3 @@
 class Prestation < ActiveRecord::Base
-  belongs_to :projet
-  belongs_to :theme
+  has_and_belongs_to_many :projets
 end

@@ -36,8 +36,9 @@ class Projet < ActiveRecord::Base
   has_many :aides, through: :projet_aides
   accepts_nested_attributes_for :projet_aides, reject_if: :all_blank, allow_destroy: true
 
-  has_and_belongs_to_many :prestations, join_table: 'projet_prestations'
+  has_and_belongs_to_many :prestations
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
+  has_and_belongs_to_many :themes
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :email, email: true, allow_blank: true
@@ -63,6 +64,7 @@ class Projet < ActiveRecord::Base
     next where(nil) if agent.instructeur?
     joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
   }
+  scope :ordered, -> { order("projets.id desc") }
 
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')

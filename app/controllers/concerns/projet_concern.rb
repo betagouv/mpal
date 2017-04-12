@@ -16,14 +16,8 @@ module ProjetConcern
       end
 
       assign_projet_if_needed
-      @projet_courant.documents.build(label: "Evaluation énergétique")
-      @projet_courant.documents.build(label: "Decision CDAPH ou GIR")
-      @projet_courant.documents.build(label: "Rapport d'ergotherpeute ou diagnostic autonomie")
-      @projet_courant.documents.build(label: "Grille de degradation ou arrêté")
-      @projet_courant.documents.build(label: "Grille d'insalubrité ou arrêté")
-      @projet_courant.documents.build(label: "Devis ou estimation de travaux")
-      @projet_courant.documents.build(label: "Justificatif MDPH")
-      @projet_courant.documents.build(label: "Justificatif CDAPH")
+      @themes = Theme.ordered.all
+      @prestations = Prestation.all
       render "projets/proposition"
     end
 
@@ -61,6 +55,7 @@ private
               :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire, :reste_a_charge,
               :documents_attributes,
               :prestation_ids => [],
+              :theme_ids => [],
               :suggested_operateur_ids => [],
               :projet_aides_attributes => [:id, :aide_id, :montant])
       attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?

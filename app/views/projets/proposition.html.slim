@@ -1,4 +1,4 @@
-= form_for @projet_courant, url: send("#{@dossier_ou_projet}_proposition_path", @projet_courant), html: { method: :put, class: "edition-demande" } do |f|
+= simple_form_for @projet_courant, url: send("#{@dossier_ou_projet}_proposition_path", @projet_courant), html: { method: :put, class: "edition-demande" } do |f|
   = render "shared/errors", resource: @projet_courant
   section.content-projet
     article.block.projet-ope
@@ -79,23 +79,23 @@
                 = f.label :remarques_diagnostic, t('helpers.label.diagnostic.remarques_diagnostic')
                 = f.text_area :remarques_diagnostic
           fieldset
+            legend Types d’intervention
+            p (2 maximum)
+            = f.association :themes, as: :check_boxes, collection: @themes, label: false
+          fieldset
             legend Description des travaux proposés
             table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%"
               tbody
                 tr
                   th.empty scope="col"  &nbsp;
                   th.top-tab scope="col"  Proposition
-                - Theme.all.each do |theme|
-                  - next if theme.prestations.blank?
+                - @prestations.each do |prestation|
                   tr
-                    th.tab-title colspan="3" scope="row" #{theme.libelle.capitalize}
-                  - theme.prestations.each do |prestation|
-                    tr
-                      th scope="row"
-                        label for="prestation_#{prestation.id}"
-                          = prestation.libelle.capitalize
-                      td.plan_travaux(data-prestation-id=prestation.id)
-                        = prestation_checkbox(@projet_courant, prestation)
+                    th scope="row"
+                      label for="prestation_#{prestation.id}"
+                        = prestation.libelle.capitalize
+                    td.plan_travaux(data-prestation-id=prestation.id)
+                      = prestation_checkbox(@projet_courant, prestation)
                 tr
                   th.tab-title colspan="3" scope="row" Efficacité énergétique
                 tr
