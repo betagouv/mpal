@@ -3,17 +3,25 @@ require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "J'ai accès aux données concernant mes dossiers" do
+feature "Accéder au informations du dossier :" do
   let(:projet)      { create(:projet, :prospect, :with_intervenants_disponibles, :with_invited_operateur) }
   let(:operateur)   { create :operateur,   departements: [projet.departement] }
   let(:instructeur) { create :instructeur, departements: [projet.departement] }
   let(:pris)        { create :pris,        departements: [projet.departement] }
   let!(:invitation) { create :invitation, intervenant: operateur, projet: projet }
 
-  before { login_as agent, scope: :agent }
+  context "en tant que demandeur" do
+    scenario "je peux consulter mon projet" do
+      signin(projet.numero_fiscal, projet.reference_avis)
+      visit projet_path(projet)
+      expect(page).to have_current_path projet_path(projet)
+      expect(page).to have_content("Jean Martin")
+    end
+  end
 
   context "en tant qu'opérateur" do
     let(:agent) { create :agent, intervenant: operateur }
+    before { login_as agent, scope: :agent }
 
     scenario "je peux consulter un dossier" do
       visit dossier_path(projet)
@@ -28,6 +36,7 @@ feature "J'ai accès aux données concernant mes dossiers" do
 
   context "en tant qu'instructeur" do
     let(:agent) { create :agent, intervenant: instructeur }
+    before { login_as agent, scope: :agent }
 
     scenario "je peux consulter un dossier" do
       # TODO
@@ -36,6 +45,7 @@ feature "J'ai accès aux données concernant mes dossiers" do
 
   context "en tant que PRIS" do
     let(:agent) { create :agent, intervenant: pris }
+    before { login_as agent, scope: :agent }
 
     scenario "je peux consulter un dossier" do
       # TODO

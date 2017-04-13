@@ -2,17 +2,9 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/api_ban_helper'
 
-feature "En tant que demandeur, j'ai accès aux données concernant mon projet" do
-  context "quand mon projet est éligible" do
+feature "Modifier le projet :" do
+  context "en tant que demandeur" do
     let(:projet) { create(:projet, :prospect, :with_invited_operateur) }
-
-    scenario "je peux consulter mon projet en me connectant" do
-      signin(projet.numero_fiscal, projet.reference_avis)
-      @role_utilisateur = :demandeur
-      expect(page).to have_content("Jean Martin")
-      expect(page).to have_content("Total Revenu Fiscal de Référence")
-      expect(page).not_to have_content(I18n.t('projets.visualisation.non_eligible'))
-    end
 
     scenario "je peux modifier mes données personnelles" do
       signin(projet.numero_fiscal, projet.reference_avis)
