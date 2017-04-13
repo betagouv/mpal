@@ -4,10 +4,14 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Remplir la proposition de travaux" do
-  let(:projet)           { create :projet, :en_cours }
-  let(:operateur)        { projet.operateur }
-  let(:agent_operateur)  { create :agent, intervenant: operateur }
-  let(:aide)             { Aide.first }
+  let(:projet)            { create :projet, :en_cours }
+  let(:operateur)         { projet.operateur }
+  let(:agent_operateur)   { create :agent, intervenant: operateur }
+  let(:theme)             { create :theme }
+  let!(:prestation_1)     { create :prestation, libelle: 'Remplacement d’une baignoire par une douche' }
+  let!(:prestation_2)     { create :prestation, libelle: 'Lavabo adapté' }
+  let!(:prestation_3)     { create :prestation, libelle: 'Géothermie' }
+  let!(:aide)             { create :aide }
 
   context "en tant qu'opérateur" do
     before { login_as agent_operateur, scope: :agent }
