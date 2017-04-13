@@ -9,7 +9,7 @@ feature "Modifier le projet :" do
         click_link I18n.t('projets.visualisation.lien_edition')
       end
 
-      expect(page).to have_current_path etape1_recuperation_infos_path(projet)
+      expect(page).to have_current_path projet_demandeur_path(projet)
       expect(find('#demandeur_principal_civilite_mr')).to be_checked
       expect(page).to have_field('Adresse postale', with: '65 rue de Rome, 75008 Paris')
 

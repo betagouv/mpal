@@ -8,12 +8,12 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
 
   scenario "Depuis la page de connexion, je récupère mes informations principales" do
     signin_for_new_projet
-    expect(page.current_path).to eq(etape1_recuperation_infos_path(projet))
+    expect(page.current_path).to eq(projet_demandeur_path(projet))
     expect(page).to have_content("Martin")
     expect(page).to have_content("Pierre")
     expect(projet.demandeur_principal_nom).to eq("Martin")
     expect(projet.demandeur_principal_prenom).to eq("Pierre")
-    expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.section_demandeur'))
+    expect(page).to have_content(I18n.t('demarrage_projet.demandeur.section_demandeur'))
     expect(find_field('projet_adresse_postale').value).to eq('12 rue de la Mare, 75010 Paris')
     expect(page).to have_content(I18n.t('projets.messages.creation.corps'))
     expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
@@ -39,7 +39,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
       fill_in 'projet_tel', with: "999"
       click_button I18n.t('demarrage_projet.action')
 
-      expect(page).to have_current_path etape1_recuperation_infos_path(projet)
+      expect(page).to have_current_path projet_demandeur_path(projet)
       expect(page).to have_content("L’adresse email n’est pas valide")
       expect(page).to have_field("Email", with: "invalid-email@lol")
       expect(page).to have_content("Le numéro de téléphone est trop court")
@@ -51,8 +51,8 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     signin_for_new_projet
     fill_in :projet_adresse_postale, with: nil
     click_button I18n.t('demarrage_projet.action')
-    expect(page).to have_current_path(etape1_recuperation_infos_path(projet))
-    expect(page).to have_content(I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide'))
+    expect(page).to have_current_path(projet_demandeur_path(projet))
+    expect(page).to have_content(I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide'))
   end
 
   scenario "je peux ajouter l'adresse du logement à rénover" do
@@ -73,7 +73,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     signin_for_new_projet
     within '.civilite' do choose('Monsieur') end
     fill_in :projet_email, with: "demandeur@exemple.fr"
-    page.choose I18n.t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix2')
+    page.choose I18n.t('demarrage_projet.demandeur.personne_confiance_choix2')
     within '.dem-diff.ins-form' do
       page.choose('Monsieur')
       fill_in 'projet_personne_attributes_prenom', with: "Frank"

@@ -9,7 +9,7 @@ describe DemarrageProjetController do
     authenticate_as_particulier(projet.numero_fiscal)
   end
 
-  describe "#etape1_recuperation_infos" do
+  describe "#demandeur" do
     let(:projet_params) do {} end
     let(:params) do
       default_params = { adresse_postale: projet.adresse_postale.description }
@@ -21,7 +21,7 @@ describe DemarrageProjetController do
     end
 
     before(:each) do
-      post :etape1_recuperation_infos, params
+      post :demandeur, params
       projet.reload
     end
 
@@ -67,8 +67,8 @@ describe DemarrageProjetController do
       let(:projet_params) do { adresse_postale: '' } end
 
       it "affiche une erreur" do
-        expect(response).to render_template(:etape1_recuperation_infos)
-        expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
+        expect(response).to render_template(:demandeur)
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
       end
     end
 
@@ -103,8 +103,8 @@ describe DemarrageProjetController do
       context "et n'est pas disponible dans la BAN" do
         let(:projet_params) do { adresse_postale: Fakeweb::ApiBan::ADDRESS_UNKNOWN } end
         it "affiche une erreur" do
-          expect(response).to render_template(:etape1_recuperation_infos)
-          expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
+          expect(response).to render_template(:demandeur)
+          expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_inconnue')
         end
       end
     end
@@ -160,7 +160,7 @@ describe DemarrageProjetController do
   context "lorsque une information est erronée" do
     before do
       projet.demandeur_principal.update_attribute(:civilite, nil)
-      post :etape1_recuperation_infos, {
+      post :demandeur, {
         contact: "1",
         projet_id: projet.id,
         projet: {
@@ -172,7 +172,7 @@ describe DemarrageProjetController do
     end
 
     it "affiche une erreur" do
-      expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
+      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
     end
   end
 end

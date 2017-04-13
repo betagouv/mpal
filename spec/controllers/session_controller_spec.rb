@@ -23,7 +23,7 @@ describe SessionsController do
 
       it "je suis redirigé vers la page de démarrage du projet" do
         post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
-        expect(response).to redirect_to etape1_recuperation_infos_path(projet)
+        expect(response).to redirect_to projet_demandeur_path(projet)
       end
 
       context "quand mon numero fiscal se termine par une lettre" do
@@ -31,7 +31,7 @@ describe SessionsController do
 
         it "je suis redirigé vers la page de démarrage du projet" do
           post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
-          expect(response).to redirect_to etape1_recuperation_infos_path(projet)
+          expect(response).to redirect_to projet_demandeur_path(projet)
         end
       end
 
@@ -40,7 +40,7 @@ describe SessionsController do
 
         it "je suis redirigé vers la page de démarrage du projet" do
           post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
-          expect(response).to redirect_to etape1_recuperation_infos_path(projet)
+          expect(response).to redirect_to projet_demandeur_path(projet)
           expect(projet.adresse).to be nil
         end
       end
@@ -50,7 +50,7 @@ describe SessionsController do
 
         it "je suis redirigé vers la page de démarrage du projet" do
           post :create, numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1"
-          expect(response).to redirect_to etape1_recuperation_infos_path(projet)
+          expect(response).to redirect_to projet_demandeur_path(projet)
           expect(projet.adresse).to be nil
         end
       end

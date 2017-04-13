@@ -88,8 +88,8 @@ fr:
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
     action: "Suivant"
-    # ----------------------- Etape 1 ---------------------
-    etape1_demarrage_projet:
+    # ----------------------- Demandeur ---------------------
+    demandeur:
       erreurs:
         adresse_vide: "Votre adresse doit être renseignée"
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."

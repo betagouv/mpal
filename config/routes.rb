@@ -36,6 +36,8 @@ Rails.application.routes.draw do
 
     resources :projets, only: [], concerns: :projectable do
       resources :avis_impositions, only: :destroy
+      get       :demandeur, controller: 'demarrage_projet'
+      post      :demandeur, controller: 'demarrage_projet'
       get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'
       get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
@@ -44,9 +46,6 @@ Rails.application.routes.draw do
       post      :transmission,         action: :create, controller: 'transmission'
     end
     resources :projets, only: [:show, :edit, :update], param: :projet_id
-
-    get   '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos', as: 'etape1_recuperation_infos'
-    post  '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos'
 
     get   '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_description_projet', as: 'etape2_description_projet'
     patch '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_envoi_description_projet'

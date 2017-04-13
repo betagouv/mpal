@@ -6,9 +6,9 @@ class DemarrageProjetController < ApplicationController
   before_action :authentifie
   before_action :init_view
 
-  def etape1_recuperation_infos
-    if request.post? && etape1_save
-      return etape1_redirect_to_next_step
+  def demandeur
+    if request.post? && demandeur_save
+      return demandeur_redirect_to_next_step
     end
 
     @projet_courant.personne ||= Personne.new
@@ -119,7 +119,7 @@ private
     demande_params.values.include?('1')
   end
 
-  def etape1_save
+  def demandeur_save
     begin
       @projet_courant.adresse_postale = ProjetInitializer.new.precise_adresse(
         params[:projet][:adresse_postale],
@@ -165,7 +165,7 @@ private
     @demandeur = @projet_courant.change_demandeur(demandeur_id)
     @demandeur.assign_attributes(demandeur_principal_params)
     unless @demandeur.save
-      flash.now[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
+      flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
       return false
     end
     true
@@ -179,7 +179,7 @@ private
     @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
   end
 
-  def etape1_redirect_to_next_step
+  def demandeur_redirect_to_next_step
     if needs_etape2?
       redirect_to projet_avis_impositions_path(@projet_courant)
     else
