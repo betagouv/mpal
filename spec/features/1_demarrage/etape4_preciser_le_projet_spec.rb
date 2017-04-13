@@ -9,8 +9,8 @@ feature "Préciser le projet :" do
   context "en tant que demandeur" do
     scenario "je peux décrire mes besoins pour ma demande de travaux" do
       signin_for_new_projet
-      visit etape2_description_projet_path(projet)
-      expect(page).to have_content(I18n.t('demarrage_projet.etape2_description_projet.section_projet_envisage'))
+      visit projet_demande_path(projet)
+      expect(page).to have_content(I18n.t('demarrage_projet.demande.section_projet_envisage'))
       # Liste des besoins
       check('demande_froid')
       check('demande_changement_chauffage')
@@ -58,10 +58,10 @@ feature "Préciser le projet :" do
 
     scenario "je ne peux pas passer à l'étape suivante tant que je n'ai pas rempli au moins un besoin" do
       signin_for_new_projet
-      visit etape2_description_projet_path(projet)
+      visit projet_demande_path(projet)
       click_button I18n.t('demarrage_projet.action')
-      expect(page.current_path).to eq(etape2_description_projet_path(projet))
-      expect(page).to have_content(I18n.t("demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire"))
+      expect(page.current_path).to eq(projet_demande_path(projet))
+      expect(page).to have_content(I18n.t("demarrage_projet.demande.erreurs.besoin_obligatoire"))
     end
   end
 end

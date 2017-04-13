@@ -108,8 +108,8 @@ fr:
       personne_de_confiance_placeholder: "Enfant, voisin…"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
 
-    # ----------------------- Etape 2 ---------------------
-    etape2_description_projet:
+    # ----------------------- Ma demande ---------------------
+    demande:
       erreurs:
         besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
       section_projet_envisage: "Projet envisagé"

@@ -1,7 +1,7 @@
-= form_for @demande, url: {controller: 'demarrage_projet', action: 'etape2_envoi_description_projet'}, method: 'patch', html: { class:'ui form'}  do |f|
+= form_for @demande, url: {controller: 'demarrage_projet', action: 'update_demande'}, method: 'patch', html: { class:'ui form'}  do |f|
   section.projet
-    h2 = t('demarrage_projet.etape2_description_projet.section_projet_envisage')
-    p.chapo = t('demarrage_projet.etape2_description_projet.titre_besoins')
+    h2 = t('demarrage_projet.demande.section_projet_envisage')
+    p.chapo = t('demarrage_projet.demande.titre_besoins')
     ul.ins-form
       li.checkbox
         = f.check_box :changement_chauffage, class: 'checkbox-inline'
@@ -25,7 +25,7 @@
         = f.label :autre
         = f.text_field :autre
 
-    p.chapo = t('demarrage_projet.etape2_description_projet.titre_travaux')
+    p.chapo = t('demarrage_projet.demande.titre_travaux')
     ul.ins-form
       li.checkbox
         = f.check_box :travaux_fenetres, class: 'checkbox-inline'

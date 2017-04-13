@@ -85,25 +85,25 @@ module ApplicationHelper
     html << content_tag(:p, demande.projet.adresse.description)
     html << content_tag(:h4, "Difficultés rencontrées dans le logement")
     besoins = []
-    besoins << t("demarrage_projet.etape2_description_projet.changement_chauffage") if demande.changement_chauffage
-    besoins << t("demarrage_projet.etape2_description_projet.froid") if demande.froid
-    besoins << t("demarrage_projet.etape2_description_projet.probleme_deplacement") if demande.probleme_deplacement
-    besoins << t("demarrage_projet.etape2_description_projet.accessibilite") if demande.accessibilite
-    besoins << t("demarrage_projet.etape2_description_projet.hospitalisation") if demande.hospitalisation
-    besoins << t("demarrage_projet.etape2_description_projet.adaptation_salle_de_bain") if demande.adaptation_salle_de_bain
-    besoins << "#{t("demarrage_projet.etape2_description_projet.autre")} : #{demande.autre}" if demande.autre.present?
+    besoins << t("demarrage_projet.demande.changement_chauffage") if demande.changement_chauffage
+    besoins << t("demarrage_projet.demande.froid") if demande.froid
+    besoins << t("demarrage_projet.demande.probleme_deplacement") if demande.probleme_deplacement
+    besoins << t("demarrage_projet.demande.accessibilite") if demande.accessibilite
+    besoins << t("demarrage_projet.demande.hospitalisation") if demande.hospitalisation
+    besoins << t("demarrage_projet.demande.adaptation_salle_de_bain") if demande.adaptation_salle_de_bain
+    besoins << "#{t("demarrage_projet.demande.autre")} : #{demande.autre}" if demande.autre.present?
     html << content_tag(:ul) do
       besoins.map { |besoin| content_tag(:li, besoin.html_safe) }.join.html_safe
     end
     html << content_tag(:h4, "Travaux envisagés")
     travaux = []
-    travaux << t("demarrage_projet.etape2_description_projet.travaux_fenetres") if demande.travaux_fenetres
-    travaux << t("demarrage_projet.etape2_description_projet.travaux_isolation") if demande.travaux_isolation
-    travaux << t("demarrage_projet.etape2_description_projet.travaux_chauffage") if demande.travaux_chauffage
-    travaux << t("demarrage_projet.etape2_description_projet.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb
-    travaux << t("demarrage_projet.etape2_description_projet.travaux_monte_escalier") if demande.travaux_monte_escalier
-    travaux << t("demarrage_projet.etape2_description_projet.travaux_amenagement_ext") if demande.travaux_amenagement_ext
-    travaux << "#{t("demarrage_projet.etape2_description_projet.travaux_autres")} : #{demande.travaux_autres}" if demande.travaux_autres.present?
+    travaux << t("demarrage_projet.demande.travaux_fenetres") if demande.travaux_fenetres
+    travaux << t("demarrage_projet.demande.travaux_isolation") if demande.travaux_isolation
+    travaux << t("demarrage_projet.demande.travaux_chauffage") if demande.travaux_chauffage
+    travaux << t("demarrage_projet.demande.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb
+    travaux << t("demarrage_projet.demande.travaux_monte_escalier") if demande.travaux_monte_escalier
+    travaux << t("demarrage_projet.demande.travaux_amenagement_ext") if demande.travaux_amenagement_ext
+    travaux << "#{t("demarrage_projet.demande.travaux_autres")} : #{demande.travaux_autres}" if demande.travaux_autres.present?
     html << content_tag(:ul) do
       travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
     end
@@ -112,12 +112,12 @@ module ApplicationHelper
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite.present?
     ptz = demande.ptz ? "Oui": "Non"
     ptz_strong = content_tag(:strong, ptz)
-    complements << "#{t("demarrage_projet.etape2_description_projet.ptz")} : #{ptz_strong}"
+    complements << "#{t("demarrage_projet.demande.ptz")} : #{ptz_strong}"
     annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
     annee_construction_strong = content_tag(:strong, annee_construction)
-    complements << "#{t("demarrage_projet.etape2_description_projet.annee_construction")} : #{annee_construction_strong}"
+    complements << "#{t("demarrage_projet.demande.annee_construction")} : #{annee_construction_strong}"
     if demande.complement.present?
-      complements << "#{t("demarrage_projet.etape2_description_projet.precisions")} : #{content_tag(:strong, demande.complement)}"
+      complements << "#{t("demarrage_projet.demande.precisions")} : #{content_tag(:strong, demande.complement)}"
     end
     html << content_tag(:ul) do
       complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe

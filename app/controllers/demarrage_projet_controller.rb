@@ -14,21 +14,21 @@ class DemarrageProjetController < ApplicationController
     @projet_courant.personne ||= Personne.new
     @demandeur = @projet_courant.demandeur_principal
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
-    @action_label = if needs_etape2? then action_label_create else action_label_update end
+    @action_label = if needs_demande_step? then action_label_create else action_label_update end
   end
 
-  def etape2_description_projet
+  def demande
     @demande = projet_demande
     @action_label = if needs_etape3? then action_label_create else action_label_update end
   end
 
-  def etape2_envoi_description_projet
+  def update_demande
     @projet_courant.demande = projet_demande
     if demande_params_valid?
       @projet_courant.demande.update_attributes(demande_params)
-      etape2_redirect_to_next_step
+      demande_redirect_to_next_step
     else
-      redirect_to etape2_description_projet_path(@projet_courant), alert: t('demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire')
+      redirect_to projet_demande_path(@projet_courant), alert: t('demarrage_projet.demande.erreurs.besoin_obligatoire')
     end
   end
 
@@ -171,7 +171,7 @@ private
     true
   end
 
-  def needs_etape2?
+  def needs_demande_step?
     @projet_courant.demande.blank? || ! @projet_courant.demande.complete?
   end
 
@@ -180,14 +180,14 @@ private
   end
 
   def demandeur_redirect_to_next_step
-    if needs_etape2?
+    if needs_demande_step?
       redirect_to projet_avis_impositions_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end
   end
 
-  def etape2_redirect_to_next_step
+  def demande_redirect_to_next_step
     if needs_etape3?
       redirect_to etape3_mise_en_relation_path(@projet_courant)
     else
