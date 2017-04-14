@@ -2,24 +2,14 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/api_ban_helper'
 
-feature "En tant que demandeur, j'ai accès aux données concernant mon projet" do
-  context "quand mon projet est éligible" do
-    let(:projet) { create(:projet, :prospect, :with_invited_operateur) }
-
-    scenario "je peux consulter mon projet en me connectant" do
-      signin(projet.numero_fiscal, projet.reference_avis)
-      @role_utilisateur = :demandeur
-      expect(page).to have_content("Jean Martin")
-      expect(page).to have_content("Total Revenu Fiscal de Référence")
-      expect(page).not_to have_content(I18n.t('projets.visualisation.non_eligible'))
-    end
-
-    scenario "je peux modifier mes données personnelles" do
-      signin(projet.numero_fiscal, projet.reference_avis)
+feature "Modifier le projet :" do
+  shared_examples "je peux modifier les informations personnelles du demandeur" do
+    specify do
       within 'article.occupants' do
         click_link I18n.t('projets.visualisation.lien_edition')
       end
 
+      expect(page).to have_current_path etape1_recuperation_infos_path(projet)
       expect(find('#demandeur_principal_civilite_mr')).to be_checked
       expect(page).to have_field('Adresse postale', with: '65 rue de Rome, 75008 Paris')
 
@@ -34,9 +24,10 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
       expect(page).to have_content Fakeweb::ApiBan::ADDRESS_PORT
       expect(page).to have_content Fakeweb::ApiBan::ADDRESS_MARE
     end
+  end
 
-    scenario "je peux modifier les données concernant mon habitation et mon projet" do
-      signin(projet.numero_fiscal, projet.reference_avis)
+  shared_examples "je peux modifier les informations de l'habitation et de la demande" do
+    specify do
       within 'article.projet' do
         click_link I18n.t('projets.visualisation.lien_edition')
       end
@@ -45,5 +36,13 @@ feature "En tant que demandeur, j'ai accès aux données concernant mon projet" 
       expect(page).to have_content(1950)
       # TODO: tester la modification des travaux demandés
     end
+  end
+
+  context "en tant que demandeur" do
+    let(:projet) { create(:projet, :prospect, :with_invited_operateur) }
+    before { signin(projet.numero_fiscal, projet.reference_avis) }
+
+    it_behaves_like "je peux modifier les informations personnelles du demandeur"
+    it_behaves_like "je peux modifier les informations de l'habitation et de la demande"
   end
 end
