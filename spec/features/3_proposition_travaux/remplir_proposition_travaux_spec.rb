@@ -185,6 +185,20 @@ feature "Remplir la proposition de travaux" do
         expect(page).not_to have_content(prestation.libelle)
         expect(page).not_to have_content(aide.libelle)
       end
+
+      context "avec une prestation dépréciée" do
+        let!(:old_unused_prestation)  { create :prestation, libelle: 'Ancienne prestation non utilisée', active: false }
+        let!(:old_used_prestation)    { create :prestation, libelle: 'Ancienne prestation utilisée', active: false }
+
+        before { projet.prestations << old_used_prestation }
+
+        scenario "j'ai toujours accès à cette prestation" do
+          visit dossier_proposition_path(projet)
+          expect(page).not_to have_content('Ancienne prestation non utilisée')
+          expect(page).to have_content('Ancienne prestation utilisée')
+          expect(find("#prestation_#{old_used_prestation.id}")).to be_checked
+        end
+      end
     end
   end
 end

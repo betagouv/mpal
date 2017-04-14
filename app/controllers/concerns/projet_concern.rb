@@ -17,7 +17,7 @@ module ProjetConcern
 
       assign_projet_if_needed
       @themes = Theme.ordered.all
-      @prestations = Prestation.all
+      @prestations = Prestation.where(active: true) | @projet_courant.prestations
       render "projets/proposition"
     end
 

@@ -1,5 +1,6 @@
-class Seeder
-  PRESTATION_NAMES = [
+desc "Disable old prestations and add the new ones"
+task migrate_prestations: :environment do
+  new_prestation_names = [
     "Isolation murs par l'extérieur",
     "Isolation murs par l'extérieur partielle",
     "Isolation murs par l'intérieur",
@@ -149,14 +150,13 @@ class Seeder
     "Prévention des inondations",
   ]
 
-  def seed_prestations
-    table_name = 'prestations'
-    seeding table_name
-    progress do
-      PRESTATION_NAMES.each do |libelle_prestation|
-        Prestation.find_or_create_by!(libelle: libelle_prestation)
-        ahead!
-      end
-    end
+  downcased_new_prestation_names = new_prestation_names.map(&:downcase)
+
+  Prestation.all.each do |p|
+    p.update(active: false) unless downcased_new_prestation_names.include?(p.libelle.downcase)
+  end
+
+  new_prestation_names.each do |name|
+    Prestation.create libelle: name unless Prestation.where("lower(libelle) = ?", name.downcase).exists?
   end
 end
