@@ -36,10 +36,13 @@ Rails.application.routes.draw do
 
     resources :projets, only: [], concerns: :projectable do
       resources :avis_impositions, only: :destroy
-      get       :demandeur,  controller: 'demarrage_projet'
-      post      :demandeur,  controller: 'demarrage_projet'
-      get       :demande, controller: 'demarrage_projet'
-      patch     :demande, controller: 'demarrage_projet', action: :update_demande
+      get       :demandeur,        controller: 'demarrage_projet'
+      post      :demandeur,        controller: 'demarrage_projet'
+      get       :demande,          controller: 'demarrage_projet'
+      patch     :demande,          controller: 'demarrage_projet', action: :update_demande
+      get       :mise_en_relation, controller: 'demarrage_projet'
+      patch     :mise_en_relation, controller: 'demarrage_projet', action: :update_mise_en_relation
+
       get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'
       get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
@@ -48,9 +51,6 @@ Rails.application.routes.draw do
       post      :transmission,         action: :create, controller: 'transmission'
     end
     resources :projets, only: [:show, :edit, :update], param: :projet_id
-
-    get   '/projets/:projet_id/mise_en_relation', to: 'demarrage_projet#etape3_mise_en_relation', as: 'etape3_mise_en_relation'
-    patch '/projets/:projet_id/mise_en_relation', to: 'demarrage_projet#etape3_envoi_mise_en_relation'
 
     get   '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post  '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'

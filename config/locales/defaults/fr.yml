@@ -133,8 +133,8 @@ fr:
       ptz: "PTZ"
       annee_construction: "Année de construction"
       precisions: "Précisions"
-    # ----------------------- Etape 3 ---------------------
-    etape3_mise_en_relation:
+    # ----------------------- Mise en relation ---------------------
+    mise_en_relation:
       votre_projet_est_eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
       votre_projet_est_non_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation va être prochainement réalisé. Un interlocuteur va prendre contact avec vous."
       titre: "Choisissez votre opérateur"

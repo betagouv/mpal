@@ -19,7 +19,7 @@ class DemarrageProjetController < ApplicationController
 
   def demande
     @demande = projet_demande
-    @action_label = if needs_etape3? then action_label_create else action_label_update end
+    @action_label = if needs_mise_en_relation_step? then action_label_create else action_label_update end
   end
 
   def update_demande
@@ -32,16 +32,16 @@ class DemarrageProjetController < ApplicationController
     end
   end
 
-  def etape3_mise_en_relation
+  def mise_en_relation
     @demande = projet_demande
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
     if @pris_departement.blank?
       raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
     end
-    @action_label = if needs_etape3? then action_label_create else action_label_update end
+    @action_label = if needs_mise_en_relation_step? then action_label_create else action_label_update end
   end
 
-  def etape3_envoi_mise_en_relation
+  def update_mise_en_relation
     begin
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
       intervenant = Intervenant.find_by_id(params[:intervenant])
@@ -53,7 +53,7 @@ class DemarrageProjetController < ApplicationController
       redirect_to projet_path(@projet_courant)
     rescue => e
       logger.error e.message
-      redirect_to etape3_mise_en_relation_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+      redirect_to projet_mise_en_relation_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     end
   end
 
@@ -175,7 +175,7 @@ private
     @projet_courant.demande.blank? || ! @projet_courant.demande.complete?
   end
 
-  def needs_etape3?
+  def needs_mise_en_relation_step?
     @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
   end
 
@@ -188,8 +188,8 @@ private
   end
 
   def demande_redirect_to_next_step
-    if needs_etape3?
-      redirect_to etape3_mise_en_relation_path(@projet_courant)
+    if needs_mise_en_relation_step?
+      redirect_to projet_mise_en_relation_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end
