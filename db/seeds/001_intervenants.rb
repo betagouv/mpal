@@ -35,6 +35,7 @@ class Seeder
       raison_sociale: "PRIS-DDT-88",
       clavis_service_id: "5269",
       adresse_postale: "22-26 Avenue Dutac, 88000 Épinal",
+      phone: "03 33 44 55 66",
       email: "pris88@anah.gouv.fr",
       roles: ["pris"]
     },
@@ -43,6 +44,7 @@ class Seeder
       raison_sociale: "DDT des VOSGES",
       clavis_service_id: "5119",
       adresse_postale: "22-26 Avenue Dutac, 88000 Épinal",
+      phone: "03 99 88 77 66",
       email: "delegation88-1@anah.gouv.fr",
       roles: ["instructeur"]
     },
@@ -51,6 +53,7 @@ class Seeder
       raison_sociale: "URBAM CONSEIL SAS",
       clavis_service_id: "5265",
       adresse_postale: "5 Rue Thiers, 88000 Épinal",
+      phone: "03 00 11 22 33",
       email: "operateur88-1@anah.gouv.fr",
       roles: ["operateur"]
     },

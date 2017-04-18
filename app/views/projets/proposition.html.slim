@@ -15,7 +15,7 @@
             ul.ins-form
               li
                 = f.label :date_de_visite, "Date de visite (obligatoire)"
-                = f.text_field :date_de_visite, placeholder: "JJ/MM/AAAA", value: @projet_courant.date_de_visite.try(:strftime, "%d/%m/%Y")
+                = f.text_field :date_de_visite, placeholder: "JJ/MM/AAAA", value: format_date(@projet_courant.date_de_visite)
               li
                 = f.label :type_logement, "Type de logement"
                 = f.select :type_logement, options_for_select(["Maison","Appartement"], @projet_courant.type_logement)

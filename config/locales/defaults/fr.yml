@@ -216,7 +216,7 @@ fr:
       messages:
         success: "Dépôt effectué auprès du service en charge de l’instruction : %{instructeur}"
         error: Une erreur s’est produite lors de la transmission du dossier aux services instructeurs.
-        info_demandeur: "Votre projet a bien été envoyé à %{instructeur}. Vous serez informé par email de l’avancement de votre dossier."
+        info_demandeur: "Vous serez informé par email de l’avancement de votre dossier."
         validation_email_vide: "Veuillez remplir votre email pour déposer votre demande"
         validation_email: "Veuillez saisir une adresse email valide pour déposer votre demande"
 
