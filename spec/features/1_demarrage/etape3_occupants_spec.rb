@@ -52,7 +52,7 @@ feature "Occupants :" do
       signin(projet.numero_fiscal, projet.reference_avis)
       visit projet_occupants_path(projet)
       click_button "Valider"
-      expect(page.current_path).to match(etape2_description_projet_path(projet))
+      expect(page.current_path).to match(projet_demande_path(projet))
     end
   end
 end

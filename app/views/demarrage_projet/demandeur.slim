@@ -1,10 +1,10 @@
 /! Demandeur
-= form_for @projet_courant, url: { controller: 'demarrage_projet', action: 'etape1_recuperation_infos' }, method: 'post', html: { class: 'form' }  do |f|
+= form_for @projet_courant, url: { controller: 'demarrage_projet', action: 'demandeur' }, method: 'post', html: { class: 'form' }  do |f|
   = render 'shared/errors', resource: @projet_courant
   = render 'shared/errors', resource: @demandeur
   section.demandeur
-    h2.header-blk= t('demarrage_projet.etape1_demarrage_projet.section_demandeur')
-    p.chapo= t('demarrage_projet.etape1_demarrage_projet.recapitulatif_informations')
+    h2.header-blk= t('demarrage_projet.demandeur.section_demandeur')
+    p.chapo= t('demarrage_projet.demandeur.recapitulatif_informations')
     ul.dem-info.ins-form.civilite
       li.radio
         = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[1], (@demandeur.try(:civilite) == Occupant.civilites.keys[1])
@@ -29,17 +29,17 @@
         = f.label :email
         = f.text_field :email
     .dem-contact-wrapper
-      p.chapo= t('demarrage_projet.etape1_demarrage_projet.personne_confiance')
+      p.chapo= t('demarrage_projet.demandeur.personne_confiance')
       - has_personne = params[:contact].present? ? "1" == params[:contact] : @projet_courant.personne_id.present?
       ul.dem-contact.ins-form
         li.radio
           label for="contact-idem"
             input#contact-idem name="contact" type="radio" value="0" checked=(has_personne ? false : 'checked') /
-            = t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix1')
+            = t('demarrage_projet.demandeur.personne_confiance_choix1')
         li.radio
           label for="contact-diff"
             input#contact-diff name="contact" type="radio" value="1" checked=(has_personne ? 'checked' : false) /
-            = t('demarrage_projet.etape1_demarrage_projet.personne_confiance_choix2')
+            = t('demarrage_projet.demandeur.personne_confiance_choix2')
       = f.fields_for :personne do |ff|
           ul.dem-diff.ins-form
             li.radio
@@ -62,6 +62,6 @@
               = ff.text_field :email
             li
              = ff.label :lien_avec_demandeur
-             = ff.text_field :lien_avec_demandeur, placeholder:  t('demarrage_projet.etape1_demarrage_projet.personne_de_confiance_placeholder')
+             = ff.text_field :lien_avec_demandeur, placeholder:  t('demarrage_projet.demandeur.personne_de_confiance_placeholder')
   = btn name: @action_label, class: 'btn-large btn-centered', icon: 'ok'
 

@@ -6,42 +6,42 @@ class DemarrageProjetController < ApplicationController
   before_action :authentifie
   before_action :init_view
 
-  def etape1_recuperation_infos
-    if request.post? && etape1_save
-      return etape1_redirect_to_next_step
+  def demandeur
+    if request.post? && demandeur_save
+      return demandeur_redirect_to_next_step
     end
 
     @projet_courant.personne ||= Personne.new
     @demandeur = @projet_courant.demandeur_principal
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
-    @action_label = if needs_etape2? then action_label_create else action_label_update end
+    @action_label = if needs_demande_step? then action_label_create else action_label_update end
   end
 
-  def etape2_description_projet
+  def demande
     @demande = projet_demande
-    @action_label = if needs_etape3? then action_label_create else action_label_update end
+    @action_label = if needs_mise_en_relation_step? then action_label_create else action_label_update end
   end
 
-  def etape2_envoi_description_projet
+  def update_demande
     @projet_courant.demande = projet_demande
     if demande_params_valid?
       @projet_courant.demande.update_attributes(demande_params)
-      etape2_redirect_to_next_step
+      demande_redirect_to_next_step
     else
-      redirect_to etape2_description_projet_path(@projet_courant), alert: t('demarrage_projet.etape2_description_projet.erreurs.besoin_obligatoire')
+      redirect_to projet_demande_path(@projet_courant), alert: t('demarrage_projet.demande.erreurs.besoin_obligatoire')
     end
   end
 
-  def etape3_mise_en_relation
+  def mise_en_relation
     @demande = projet_demande
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
     if @pris_departement.blank?
       raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
     end
-    @action_label = if needs_etape3? then action_label_create else action_label_update end
+    @action_label = if needs_mise_en_relation_step? then action_label_create else action_label_update end
   end
 
-  def etape3_envoi_mise_en_relation
+  def update_mise_en_relation
     begin
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
       intervenant = Intervenant.find_by_id(params[:intervenant])
@@ -53,7 +53,7 @@ class DemarrageProjetController < ApplicationController
       redirect_to projet_path(@projet_courant)
     rescue => e
       logger.error e.message
-      redirect_to etape3_mise_en_relation_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+      redirect_to projet_mise_en_relation_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     end
   end
 
@@ -119,7 +119,7 @@ private
     demande_params.values.include?('1')
   end
 
-  def etape1_save
+  def demandeur_save
     begin
       @projet_courant.adresse_postale = ProjetInitializer.new.precise_adresse(
         params[:projet][:adresse_postale],
@@ -165,31 +165,31 @@ private
     @demandeur = @projet_courant.change_demandeur(demandeur_id)
     @demandeur.assign_attributes(demandeur_principal_params)
     unless @demandeur.save
-      flash.now[:alert] = t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
+      flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
       return false
     end
     true
   end
 
-  def needs_etape2?
+  def needs_demande_step?
     @projet_courant.demande.blank? || ! @projet_courant.demande.complete?
   end
 
-  def needs_etape3?
+  def needs_mise_en_relation_step?
     @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
   end
 
-  def etape1_redirect_to_next_step
-    if needs_etape2?
+  def demandeur_redirect_to_next_step
+    if needs_demande_step?
       redirect_to projet_avis_impositions_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end
   end
 
-  def etape2_redirect_to_next_step
-    if needs_etape3?
-      redirect_to etape3_mise_en_relation_path(@projet_courant)
+  def demande_redirect_to_next_step
+    if needs_mise_en_relation_step?
+      redirect_to projet_mise_en_relation_path(@projet_courant)
     else
       redirect_to projet_path(@projet_courant)
     end

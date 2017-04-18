@@ -1,13 +1,13 @@
 article.block.projet
   h3 Projet envisagé
-  = edit_projet_button(@projet_courant, etape2_description_projet_path(@projet_courant))
+  = edit_projet_button(@projet_courant, projet_demande_path(@projet_courant))
   .content-block
     - if @projet_courant.demande.blank?
       - if current_agent
         p Le demandeur n’a pas encore rempli le projet.
       - else
         .button-group
-          = btn name: 'Remplir le projet', href: etape2_description_projet_path(@projet_courant), icon: 'edit'
+          = btn name: 'Remplir le projet', href: projet_demande_path(@projet_courant), icon: 'edit'
     - else
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/

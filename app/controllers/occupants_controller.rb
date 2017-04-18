@@ -15,7 +15,7 @@ class OccupantsController < ApplicationController
           @occupant = @projet_courant.avis_impositions.first.occupants.build
         end
       else
-        return redirect_to etape2_description_projet_path(@projet_courant)
+        return redirect_to projet_demande_path(@projet_courant)
       end
     end
 
