@@ -20,6 +20,7 @@ describe Projet do
     it { is_expected.to belong_to :operateur }
     it { is_expected.to belong_to :adresse_postale }
     it { is_expected.to have_and_belong_to_many :prestations }
+    it { is_expected.to have_and_belong_to_many :themes }
     it { is_expected.to belong_to :agent_operateur }
     it { is_expected.to belong_to :agent_instructeur }
 
