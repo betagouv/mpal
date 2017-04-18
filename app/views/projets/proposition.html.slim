@@ -14,6 +14,9 @@
             legend Logement
             ul.ins-form
               li
+                = f.label :date_de_visite, "Date de visite (obligatoire)"
+                = f.text_field :date_de_visite, placeholder: "JJ/MM/AAAA", value: @projet_courant.date_de_visite.try(:strftime, "%d/%m/%Y")
+              li
                 = f.label :type_logement, "Type de logement"
                 = f.select :type_logement, options_for_select(["Maison","Appartement"], @projet_courant.type_logement)
               li
@@ -31,7 +34,7 @@
                 = f.text_field :surface_habitable
                 = " m²"
               li
-                = f.label :etiquette_avant_travaux, "Etiquette énergétique avant travaux"
+                = f.label :etiquette_avant_travaux, "Étiquette énergétique avant travaux"
                 = f.text_field :etiquette_avant_travaux
           fieldset
             legend Diagnostic opérateur
