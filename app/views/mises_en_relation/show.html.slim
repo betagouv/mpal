@@ -1,4 +1,4 @@
-= form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'update_mise_en_relation'}, method: 'patch', html: { class:'ui form'}  do |f|
+= form_for @projet_courant, url: {controller: 'mises_en_relation', action: 'update'}, method: 'patch', html: { class:'ui form'}  do |f|
     <div>
       /! Eligibilite
       section.eligibilite
@@ -18,6 +18,6 @@
             = t('demarrage_projet.mise_en_relation.un_pris_va_vous_contacter', { pris: @pris_departement.raison_sociale})
         p.chapo Il pourra vous recommander un opérateur chargé de vous accompagner tout au long de votre démarche.
         = hidden_field_tag :intervenant, @pris_departement.id
-        = render 'disponibilite_form'
+        = render 'mises_en_relation/disponibilite_form'
       = btn name: @action_label, class: 'btn-large btn-centered js-engagement', icon: 'ok'
     </div><!-- Workaround for allowing slim to honor the scope of the submit tag -->

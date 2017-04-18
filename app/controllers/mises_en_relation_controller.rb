@@ -1,21 +1,21 @@
-class DemarrageProjetController < ApplicationController
+class MisesEnRelationController < ApplicationController
   layout 'inscription'
 
   before_action :dossier_ou_projet
   before_action :assert_projet_courant
   before_action :authentifie
-  before_action :init_view
 
-  def mise_en_relation
+  def show
     @demande = @projet_courant.demande
     @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
     if @pris_departement.blank?
       raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
     end
-    @action_label = if needs_mise_en_relation_step? then action_label_create else action_label_update end
+    @page_heading = 'Inscription'
+    @action_label = if needs_mise_en_relation? then action_label_create else action_label_update end
   end
 
-  def update_mise_en_relation
+  def update
     begin
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
       intervenant = Intervenant.find_by_id(params[:intervenant])
@@ -27,16 +27,13 @@ class DemarrageProjetController < ApplicationController
       redirect_to projet_path(@projet_courant)
     rescue => e
       logger.error e.message
-      redirect_to projet_mise_en_relation_path(@projet_courant), alert: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+      redirect_to projet_mise_en_relation_path(@projet_courant), alert: t('demarrage_projet.mise_en_relation.error')
     end
   end
 
 private
-  def init_view
-    @page_heading = 'Inscription'
-  end
 
-  def needs_mise_en_relation_step?
+  def needs_mise_en_relation?
     @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
   end
 

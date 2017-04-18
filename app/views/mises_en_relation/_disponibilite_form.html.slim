@@ -1,4 +1,4 @@
-= form_for @projet_courant, url: {controller: 'demarrage_projet', action: 'mise_en_relation'}, method: 'patch', html: { class:'ui form'}  do |f|
+= form_for @projet_courant, url: {controller: 'mises_en_relation', action: 'update'}, method: 'patch', html: { class:'ui form'}  do |f|
   ul.ins-form
     li.full
       = f.label :disponibilite, t('helpers.label.projet.disponibilite')
