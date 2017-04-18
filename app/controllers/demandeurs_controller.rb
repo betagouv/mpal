@@ -20,12 +20,12 @@ class DemandeursController < ApplicationController
 private
   # Show -----------------------
 
-  def action_label_create
-    t('demarrage_projet.action')
-  end
-
-  def action_label_update
-    t('projets.edition.action')
+  def action_label
+    if needs_next_step?
+      t('demarrage_projet.action')
+    else
+      t('projets.edition.action')
+    end
   end
 
   def render_show
@@ -34,7 +34,7 @@ private
 
     @page_heading = 'Inscription'
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
-    @action_label = if needs_next_step? then action_label_create else action_label_update end
+    @action_label = action_label
 
     render :show
   end
@@ -124,9 +124,9 @@ private
 
   def redirect_to_next_step
     if needs_next_step?
-      redirect_to projet_avis_impositions_path(@projet_courant)
+      redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
     else
-      redirect_to projet_path(@projet_courant)
+      redirect_to projet_or_dossier_path(@projet_courant)
     end
   end
 end
