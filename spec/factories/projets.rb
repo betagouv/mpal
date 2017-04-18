@@ -118,6 +118,7 @@ FactoryGirl.define do
       statut :prospect
       with_demandeurs
       with_demande
+      with_intervenants_disponibles
     end
 
     trait :en_cours do

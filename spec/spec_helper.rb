@@ -119,8 +119,25 @@ RSpec.configure do |config|
   # (cf. https://github.com/mattheworiordan/capybara-screenshot#better-looking-html-screenshots)
   Capybara.asset_host = "http#{("true" == ENV['USE_HTTPS']) ? 's' : ''}://#{ENV['DOMAIN']}"
 
-  # Config DatabaseCleaner v1
+  # Config DatabaseCleaner
   config.include(RSpec::ActiveJob)
+
+  config.before(:suite) do
+    if config.use_transactional_fixtures?
+      raise(<<-MSG)
+        Delete line `config.use_transactional_fixtures = true` from rails_helper.rb
+        (or set it to false) to prevent uncommitted transactions being used in
+        JavaScript-dependent specs.
+
+        During testing, the app-under-test that the browser driver connects to
+        uses a different database connection to the database connection used by
+        the spec. The app's database connection would not be able to access
+        uncommitted transaction data setup over the spec's database connection.
+      MSG
+    end
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.start
@@ -140,39 +157,6 @@ RSpec.configure do |config|
     ActiveJob::Base.queue_adapter.enqueued_jobs = []
     ActiveJob::Base.queue_adapter.performed_jobs = []
   end
-
-  # Config DatabaseCleaner v2
-
-  config.before(:suite) do
-    Rails.application.load_seed # loading seeds
-  end
-
-  # config.before(:suite) do
-  #
-  #   DatabaseCleaner.clean_with(:truncation)
-  # end
-  #
-  # config.before(:each) do
-  #   puts ">>>>>> before each strategy <<<<<<<<<< "
-  #
-  #   DatabaseCleaner.strategy = :transaction
-  # end
-  #
-  # config.before(:each, :js => true) do
-  #   puts ">>>>>> before each js truncation <<<<<<<<<< "
-  #
-  #   DatabaseCleaner.strategy = :truncation
-  # end
-  #
-  # config.before(:each) do
-  #   puts ">>>>>> before each start <<<<<<<<<< "
-  #   DatabaseCleaner.start
-  # end
-  #
-  # config.after(:each) do
-  #   puts ">>>>>> after each clean<<<<<<<<<< "
-  #   DatabaseCleaner.clean
-  # end
 
   Warden.test_mode!
 

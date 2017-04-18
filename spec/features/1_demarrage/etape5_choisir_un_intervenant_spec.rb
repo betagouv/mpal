@@ -5,7 +5,7 @@ require 'support/api_ban_helper'
 
 feature "En tant que demandeur, un PRIS est automatiquement assigné à mon projet" do
   context "quand je suis éligible" do
-    let(:projet) { create :projet, :prospect, :with_demande }
+    let(:projet) { create :projet, :prospect }
     let(:pris)   { projet.intervenants_disponibles(role: :pris).first }
 
     scenario "je valide ma mise en relation avec le PRIS" do
@@ -36,8 +36,8 @@ feature "En tant que demandeur, un PRIS est automatiquement assigné à mon proj
   end
 
   context "quand je ne suis pas éligible" do
-    let(:projet) { Projet.last }
-    let(:pris)   { projet.intervenants_disponibles(role: :pris).first }
+    let(:projet)      { Projet.last }
+    let!(:pris) { create :pris }
 
     scenario "je suis notifié de ma non éligibilité" do
       signin_for_new_projet_non_eligible
