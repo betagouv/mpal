@@ -93,4 +93,10 @@ class ApplicationController < ActionController::Base
     send("#{@projet_or_dossier}_avis_impositions_path", projet)
   end
   helper_method :projet_or_dossier_avis_impositions_path
+
+  def new_projet_or_dossier_avis_imposition_path(projet)
+    assert_projet_or_dossier_defined
+    send("new_#{@projet_or_dossier}_avis_imposition_path", projet)
+  end
+  helper_method :new_projet_or_dossier_avis_imposition_path
 end

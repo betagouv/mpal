@@ -45,7 +45,7 @@ describe DemandeursController do
       end
 
       it "enregistre les informations modifiées" do
-        expect(response).to redirect_to projet_path(projet)
+        expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.tel).to eq   '01 02 03 04 05'
         expect(projet.email).to eq 'particulier@exemple.fr'
       end
@@ -65,7 +65,7 @@ describe DemandeursController do
       end
 
       it "enregistre la personne de confiance" do
-        expect(response).to redirect_to projet_path(projet)
+        expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.personne.civilite).to            eq 'mr'
         expect(projet.personne.prenom).to              eq 'Tyrone'
         expect(projet.personne.nom).to                 eq 'Meehan'
@@ -162,7 +162,7 @@ describe DemandeursController do
       end
 
       it "enregistre les informations modifiées" do
-        expect(response).to redirect_to projet_path(projet)
+        expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.demandeur_principal).to eq projet.occupants.last
       end
     end

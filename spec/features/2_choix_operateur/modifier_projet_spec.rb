@@ -11,6 +11,10 @@ feature "Modifier le projet :" do
     send("#{resource_name}_demandeur_path", projet)
   end
 
+  def resource_avis_impositions_path(projet)
+    send("#{resource_name}_avis_impositions_path", projet)
+  end
+
   def resource_demande_path(projet)
     send("#{resource_name}_demande_path", projet)
   end
@@ -32,8 +36,9 @@ feature "Modifier le projet :" do
       fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_MARE
       fill_in :projet_tel, with: '01 10 20 30 40'
 
-      click_button I18n.t('projets.edition.action')
+      click_button I18n.t('demarrage_projet.action')
 
+      visit resource_path(projet)
       expect(page).to have_content('01 10 20 30 40')
       expect(page).to have_current_path resource_path(projet)
       expect(page).to have_content Fakeweb::ApiBan::ADDRESS_PORT
@@ -60,8 +65,9 @@ feature "Modifier le projet :" do
     end
   end
 
+  let(:projet) { create(:projet, :prospect, :with_committed_operateur) }
+
   context "en tant que demandeur" do
-    let(:projet) { create(:projet, :prospect, :with_invited_operateur) }
     before { signin(projet.numero_fiscal, projet.reference_avis) }
 
     it_behaves_like :can_edit_demandeur, "projet"
@@ -69,9 +75,7 @@ feature "Modifier le projet :" do
   end
 
   context "en tant qu'opérateur" do
-    let(:projet) { create(:projet, :prospect, :with_committed_operateur) }
     let(:agent_operateur) { create :agent, intervenant: projet.operateur }
-
     before { login_as agent_operateur, scope: :agent }
 
     it_behaves_like :can_edit_demandeur, "dossier"

@@ -24,6 +24,6 @@ section.avis-imposition
               - if 0 < index
                 = link_to "Supprimer", projet_avis_imposition_path(id: avis_imposition), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cet avis d’imposition ?" }
     p.content__question= "Parmi les occupants du logement actuel y a-t-il d’autres avis d’imposition pour l’année #{@projet_courant.annee_fiscale_reference} ?"
-    = btn name: "Ajouter un avis d’imposition", href: new_projet_avis_imposition_path, icon: "plus"
-= btn name: "Valider", href: projet_occupants_path, class: "btn-large btn-centered", icon: "ok"
+    = btn name: "Ajouter un avis d’imposition", href: new_projet_or_dossier_avis_imposition_path(@projet_courant), icon: "plus"
+= btn name: "Valider", href: projet_occupants_path(@projet_courant), class: "btn-large btn-centered", icon: "ok"
 
