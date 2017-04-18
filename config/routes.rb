@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     end
     resources :commentaires,       only: :create
     resource  :composition
-    resources :avis_impositions,   only: [:index, :new, :create]
+    resources :avis_impositions,   only: [:index, :new, :create, :destroy]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
     resource :demandeur,         only: [:show, :update]
@@ -38,7 +38,6 @@ Rails.application.routes.draw do
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     resources :projets, only: [], concerns: :projectable do
-      resources :avis_impositions, only: :destroy
       get      :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch    :choix_operateur,      action: :choose, controller: 'choix_operateur'
       get      :engagement_operateur, action: :new,    controller: 'engagement_operateur'
