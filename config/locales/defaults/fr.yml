@@ -411,3 +411,5 @@ fr:
           attributes:
             civilite:
               blank: "doit être renseignée."
+            date_de_naissance:
+              not_in_past: "invalide : merci d’indiquer une date dans le passé."
