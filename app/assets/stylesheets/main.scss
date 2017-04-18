@@ -65,6 +65,22 @@ input:-ms-input-placeholder {
   @-ms-viewport { width: device-width; }
 }
 
+/** Lists */
+ul.list {
+  margin-bottom: 1em;
+  li {
+    list-style-type: disc;
+    margin-left: 1.5em;
+  }
+}
+ol.list {
+  margin-bottom: 1em;
+  li {
+    list-style-type: decimal;
+    margin-left: 1.5em;
+  }
+}
+
 /** Tables */
 .table {
   background-color: white;

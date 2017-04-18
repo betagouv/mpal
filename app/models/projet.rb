@@ -287,6 +287,8 @@ class Projet < ActiveRecord::Base
     occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
   end
 
+  # TODO Attention : cette date est importante à conserver alors que les invitations
+  # sont faciles à supprimer. En attente de mise en place de l’historisation.
   def date_depot
     invitation_intervenant = invitations.where(intervenant: invited_instructeur).first
     if invitation_intervenant
