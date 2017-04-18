@@ -1,5 +1,5 @@
 /! Demandeur
-= form_for @projet_courant, url: { controller: 'demarrage_projet', action: 'demandeur' }, method: 'post', html: { class: 'form' }  do |f|
+= form_for @projet_courant, url: { controller: 'demandeurs', action: 'update' }, html: { class: 'form' }  do |f|
   = render 'shared/errors', resource: @projet_courant
   = render 'shared/errors', resource: @demandeur
   section.demandeur

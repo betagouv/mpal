@@ -6,17 +6,6 @@ class DemarrageProjetController < ApplicationController
   before_action :authentifie
   before_action :init_view
 
-  def demandeur
-    if request.post? && demandeur_save
-      return demandeur_redirect_to_next_step
-    end
-
-    @projet_courant.personne ||= Personne.new
-    @demandeur = @projet_courant.demandeur_principal
-    @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
-    @action_label = if needs_demande_step? then action_label_create else action_label_update end
-  end
-
   def demande
     @demande = projet_demande
     @action_label = if needs_mise_en_relation_step? then action_label_create else action_label_update end
@@ -66,32 +55,6 @@ private
     @projet_courant.demande || @projet_courant.build_demande
   end
 
-  def projet_contacts_params
-    params.require(:projet).permit(
-      :civilite,
-      :tel,
-      :email,
-    )
-  end
-
-  def projet_personne_params
-    params.require(:projet).permit(
-      personne_attributes: [
-        :id,
-        :prenom,
-        :nom,
-        :tel,
-        :email,
-        :lien_avec_demandeur,
-        :civilite
-      ]
-    )
-  end
-
-  def demandeur_principal_params
-    params.fetch(:demandeur_principal, {}).permit(:civilite)
-  end
-
   def demande_params
     params.require(:demande).permit(
       :changement_chauffage,
@@ -119,72 +82,8 @@ private
     demande_params.values.include?('1')
   end
 
-  def demandeur_save
-    begin
-      @projet_courant.adresse_postale = ProjetInitializer.new.precise_adresse(
-        params[:projet][:adresse_postale],
-        previous_value: @projet_courant.adresse_postale,
-        required: true
-      )
-
-      @projet_courant.adresse_a_renover = ProjetInitializer.new.precise_adresse(
-        params[:projet][:adresse_a_renover],
-        previous_value: @projet_courant.adresse_a_renover,
-        required: false
-      )
-    rescue => e
-      flash.now[:alert] = e.message
-      return false
-    end
-
-    @projet_courant.assign_attributes(projet_contacts_params)
-    if "1" == params[:contact]
-      @projet_courant.assign_attributes(projet_personne_params)
-    else
-      if @projet_courant.personne.present?
-        personne = @projet_courant.personne
-        @projet_courant.update_attribute(:personne_id, nil)
-        personne.destroy!
-      else
-        @projet_courant.personne = nil
-      end
-    end
-    unless @projet_courant.save
-      return false
-    end
-
-    demandeur_id = params[:projet][:demandeur_id]
-    if demandeur_id.present?
-      return define_demandeur(demandeur_id)
-    end
-
-    true
-  end
-
-  def define_demandeur(demandeur_id)
-    @demandeur = @projet_courant.change_demandeur(demandeur_id)
-    @demandeur.assign_attributes(demandeur_principal_params)
-    unless @demandeur.save
-      flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
-      return false
-    end
-    true
-  end
-
-  def needs_demande_step?
-    @projet_courant.demande.blank? || ! @projet_courant.demande.complete?
-  end
-
   def needs_mise_en_relation_step?
     @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
-  end
-
-  def demandeur_redirect_to_next_step
-    if needs_demande_step?
-      redirect_to projet_avis_impositions_path(@projet_courant)
-    else
-      redirect_to projet_path(@projet_courant)
-    end
   end
 
   def demande_redirect_to_next_step

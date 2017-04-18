@@ -36,8 +36,7 @@ Rails.application.routes.draw do
 
     resources :projets, only: [], concerns: :projectable do
       resources :avis_impositions, only: :destroy
-      get       :demandeur,        controller: 'demarrage_projet'
-      post      :demandeur,        controller: 'demarrage_projet'
+      resource :demandeur
       get       :demande,          controller: 'demarrage_projet'
       patch     :demande,          controller: 'demarrage_projet', action: :update_demande
       get       :mise_en_relation, controller: 'demarrage_projet'
