@@ -2,7 +2,7 @@ class DossiersController < ApplicationController
   include ProjetConcern, CsvProperties
 
   before_action :authenticate_agent!
-  before_action :dossier_ou_projet
+  before_action :projet_or_dossier
   before_action :assert_projet_courant, except: [:index]
 
   def index

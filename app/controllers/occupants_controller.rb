@@ -1,7 +1,7 @@
 class OccupantsController < ApplicationController
   layout 'inscription'
 
-  before_action :dossier_ou_projet
+  before_action :projet_or_dossier
   before_action :assert_projet_courant
   before_action :authentifie
 

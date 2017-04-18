@@ -29,7 +29,7 @@ class ApplicationController < ActionController::Base
 
   def after_sign_in_path_for(resource)
     if projet_id = session[:projet_id_from_opal]
-      send("#{@dossier_ou_projet}_path", Projet.find_by_id(projet_id))
+      projet_or_dossier_path(Projet.find_by_id(projet_id))
     else
       stored_location_for(resource) || root_path
     end
@@ -38,10 +38,6 @@ class ApplicationController < ActionController::Base
   def current_ability
     #TODO add user management?
     @current_ability ||= Ability.new(current_agent)
-  end
-
-  def dossier_ou_projet
-    @dossier_ou_projet = current_agent ? "dossier" : "projet"
   end
 
   def assert_projet_courant
@@ -61,4 +57,34 @@ class ApplicationController < ActionController::Base
     end
     true
   end
+
+  # Routing ------------------------
+
+  def projet_or_dossier
+    @projet_or_dossier = current_agent ? "dossier" : "projet"
+  end
+
+  def assert_projet_or_dossier_defined
+    if @projet_or_dossier.blank?
+      raise "`@projet_or_dossier` must be defined"
+    end
+  end
+
+  def projet_or_dossier_path(projet)
+    assert_projet_or_dossier_defined
+    send("#{@projet_or_dossier}_path", projet)
+  end
+  helper_method :projet_or_dossier_path
+
+  def projet_or_dossier_proposition_path(projet)
+    assert_projet_or_dossier_defined
+    send("#{@projet_or_dossier}_proposition_path", projet)
+  end
+  helper_method :projet_or_dossier_proposition_path
+
+  def projet_or_dossier_commentaires_path(projet)
+    assert_projet_or_dossier_defined
+    send("#{@projet_or_dossier}_commentaires_path", projet)
+  end
+  helper_method :projet_or_dossier_commentaires_path
 end
