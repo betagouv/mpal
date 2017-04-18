@@ -3,15 +3,20 @@ require 'support/mpal_features_helper'
 require 'support/api_ban_helper'
 
 feature "Modifier le projet :" do
+  def resource_path(projet)
+    send("#{resource_name}_path", projet)
+  end
+
+  def resource_demandeur_path(projet)
+    send("#{resource_name}_demandeur_path", projet)
+  end
+
+  def resource_demande_path(projet)
+    send("#{resource_name}_demande_path", projet)
+  end
 
   shared_examples :can_edit_demandeur do |resource_name|
     let(:resource_name) { resource_name }
-    def resource_path(projet)
-      send("#{resource_name}_path", projet)
-    end
-    def resource_demandeur_path(projet)
-      send("#{resource_name}_demandeur_path", projet)
-    end
 
     scenario "je peux modifier les informations personnelles du demandeur" do
       visit resource_path(projet)
@@ -36,13 +41,20 @@ feature "Modifier le projet :" do
     end
   end
 
-  shared_examples :can_edit_demande do
+  shared_examples :can_edit_demande do |resource_name|
+    let(:resource_name) { resource_name }
+
     scenario "je peux modifier les informations de l'habitation et de la demande" do
+      visit resource_path(projet)
       within 'article.projet' do
         click_link I18n.t('projets.visualisation.lien_edition')
       end
+
+      expect(page).to have_current_path resource_demande_path(projet)
       fill_in :demande_annee_construction, with: '1950'
       click_button I18n.t('projets.edition.action')
+
+      expect(page).to have_current_path resource_path(projet)
       expect(page).to have_content(1950)
       # TODO: tester la modification des travaux demandés
     end
@@ -53,7 +65,7 @@ feature "Modifier le projet :" do
     before { signin(projet.numero_fiscal, projet.reference_avis) }
 
     it_behaves_like :can_edit_demandeur, "projet"
-    it_behaves_like :can_edit_demande
+    it_behaves_like :can_edit_demande, "projet"
   end
 
   context "en tant qu'opérateur" do
@@ -63,5 +75,6 @@ feature "Modifier le projet :" do
     before { login_as agent_operateur, scope: :agent }
 
     it_behaves_like :can_edit_demandeur, "dossier"
+    it_behaves_like :can_edit_demande, "dossier"
   end
 end
