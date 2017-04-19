@@ -113,18 +113,17 @@
                 tr
                   th.tab-title colspan="3" scope="row"  Plan de financement prévisionnel
 
-                - TypeAide.all.each do |type_aide|
-                  - type_aide.aides.each do |aide|
-                    tr
-                      - field_name = "projet[projet_aides_attributes][#{aide.id}]"
-                      th scope="row"
-                        = label_tag "#{field_name}[montant]", "#{aide.libelle}"
-                      td
-                        - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
-                        = hidden_field_tag "#{field_name}[aide_id]", aide.id
-                        = hidden_field_tag "#{field_name}[id]",      aide_courante.try(:id)
-                        = text_field_tag   "#{field_name}[montant]", number_to_currency(aide_courante.try(:montant), unit: ''), class: "aide"
-                        = " €"
+                - Aide.all.each do |aide|
+                  tr
+                    - field_name = "projet[projet_aides_attributes][#{aide.id}]"
+                    th scope="row"
+                      = label_tag "#{field_name}[montant]", "#{aide.libelle}"
+                    td
+                      - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
+                      = hidden_field_tag "#{field_name}[aide_id]", aide.id
+                      = hidden_field_tag "#{field_name}[id]",      aide_courante.try(:id)
+                      = text_field_tag   "#{field_name}[montant]", number_to_currency(aide_courante.try(:montant), unit: ''), class: "aide"
+                      = " €"
 
                 tr
                   th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.financement_personnel')

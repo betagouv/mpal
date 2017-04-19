@@ -1,3 +1,4 @@
 class Aide < ActiveRecord::Base
-  belongs_to :type_aide
+  has_many :projet_aides
+  has_many :projets, through: :projet_aides
 end
