@@ -64,57 +64,43 @@ class ApplicationController < ActionController::Base
     @projet_or_dossier = current_agent ? "dossier" : "projet"
   end
 
-  def assert_projet_or_dossier_defined
-    if @projet_or_dossier.blank?
-      raise "`@projet_or_dossier` must be defined"
-    end
-  end
-
   def projet_or_dossier_path(projet)
-    assert_projet_or_dossier_defined
-    send("#{@projet_or_dossier}_path", projet)
+    send("#{projet_or_dossier}_path", projet)
   end
   helper_method :projet_or_dossier_path
 
   def projet_or_dossier_proposition_path(projet)
-    assert_projet_or_dossier_defined
-    send("#{@projet_or_dossier}_proposition_path", projet)
+    send("#{projet_or_dossier}_proposition_path", projet)
   end
   helper_method :projet_or_dossier_proposition_path
 
   def projet_or_dossier_commentaires_path(projet)
-    assert_projet_or_dossier_defined
-    send("#{@projet_or_dossier}_commentaires_path", projet)
+    send("#{projet_or_dossier}_commentaires_path", projet)
   end
   helper_method :projet_or_dossier_commentaires_path
 
   def projet_or_dossier_avis_impositions_path(projet)
-    assert_projet_or_dossier_defined
-    send("#{@projet_or_dossier}_avis_impositions_path", projet)
+    send("#{projet_or_dossier}_avis_impositions_path", projet)
   end
   helper_method :projet_or_dossier_avis_impositions_path
 
   def projet_or_dossier_avis_imposition_path(*args)
-    assert_projet_or_dossier_defined
-    send("#{@projet_or_dossier}_avis_imposition_path", *args)
+    send("#{projet_or_dossier}_avis_imposition_path", *args)
   end
   helper_method :projet_or_dossier_avis_imposition_path
 
   def new_projet_or_dossier_avis_imposition_path(projet)
-    assert_projet_or_dossier_defined
-    send("new_#{@projet_or_dossier}_avis_imposition_path", projet)
+    send("new_#{projet_or_dossier}_avis_imposition_path", projet)
   end
   helper_method :new_projet_or_dossier_avis_imposition_path
 
   def projet_or_dossier_occupants_path(*args)
-    assert_projet_or_dossier_defined
-    send("#{@projet_or_dossier}_occupants_path", *args)
+    send("#{projet_or_dossier}_occupants_path", *args)
   end
   helper_method :projet_or_dossier_occupants_path
 
   def projet_or_dossier_occupant_path(*args)
-    assert_projet_or_dossier_defined
-    send("#{@projet_or_dossier}_occupant_path", *args)
+    send("#{projet_or_dossier}_occupant_path", *args)
   end
   helper_method :projet_or_dossier_occupant_path
 end
