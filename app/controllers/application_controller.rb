@@ -60,47 +60,32 @@ class ApplicationController < ActionController::Base
 
   # Routing ------------------------
 
+  # Demandeurs access their projects through '/projets/' URLs;
+  # Intervenants access their projects through '/dossiers/' URLs.
   def projet_or_dossier
     @projet_or_dossier = current_agent ? "dossier" : "projet"
   end
 
-  def projet_or_dossier_path(projet)
-    send("#{projet_or_dossier}_path", projet)
+  # Expose a `projet_or_dossier_*_path` helper, which will dynamically
+  # resolve to either `projet_*_path` or `dossier_*_path`, depending
+  # of the currently connected user (demandeur or intervenant).
+  #
+  # The helper is available to both controllers and views.
+  def self.expose_routing_helper(name)
+    define_method name do |*args|
+      resolved_name = name.to_s.sub(/projet_or_dossier/, projet_or_dossier)
+      send(resolved_name, *args)
+    end
+    # Expose the helper to the views
+    helper_method name
   end
-  helper_method :projet_or_dossier_path
 
-  def projet_or_dossier_proposition_path(projet)
-    send("#{projet_or_dossier}_proposition_path", projet)
-  end
-  helper_method :projet_or_dossier_proposition_path
-
-  def projet_or_dossier_commentaires_path(projet)
-    send("#{projet_or_dossier}_commentaires_path", projet)
-  end
-  helper_method :projet_or_dossier_commentaires_path
-
-  def projet_or_dossier_avis_impositions_path(projet)
-    send("#{projet_or_dossier}_avis_impositions_path", projet)
-  end
-  helper_method :projet_or_dossier_avis_impositions_path
-
-  def projet_or_dossier_avis_imposition_path(*args)
-    send("#{projet_or_dossier}_avis_imposition_path", *args)
-  end
-  helper_method :projet_or_dossier_avis_imposition_path
-
-  def new_projet_or_dossier_avis_imposition_path(projet)
-    send("new_#{projet_or_dossier}_avis_imposition_path", projet)
-  end
-  helper_method :new_projet_or_dossier_avis_imposition_path
-
-  def projet_or_dossier_occupants_path(*args)
-    send("#{projet_or_dossier}_occupants_path", *args)
-  end
-  helper_method :projet_or_dossier_occupants_path
-
-  def projet_or_dossier_occupant_path(*args)
-    send("#{projet_or_dossier}_occupant_path", *args)
-  end
-  helper_method :projet_or_dossier_occupant_path
+  expose_routing_helper :projet_or_dossier_path
+  expose_routing_helper :projet_or_dossier_proposition_path
+  expose_routing_helper :projet_or_dossier_commentaires_path
+  expose_routing_helper :projet_or_dossier_avis_impositions_path
+  expose_routing_helper :projet_or_dossier_avis_imposition_path
+  expose_routing_helper :new_projet_or_dossier_avis_imposition_path
+  expose_routing_helper :projet_or_dossier_occupants_path
+  expose_routing_helper :projet_or_dossier_occupant_path
 end
