@@ -113,7 +113,7 @@
                 tr
                   th.tab-title colspan="3" scope="row"  Plan de financement prévisionnel
 
-                - Aide.all.each do |aide|
+                - @aides.each do |aide|
                   tr
                     - field_name = "projet[projet_aides_attributes][#{aide.id}]"
                     th scope="row"

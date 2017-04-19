@@ -173,7 +173,7 @@ feature "Remplir la proposition de travaux" do
           click_link I18n.t('projets.visualisation.lien_edition')
         end
         expect(page.current_path).to eq(dossier_proposition_path(projet))
-        expect(find("#prestation_#{prestation.id}")).to be_checked
+        expect(find_field(prestation.libelle)).to be_checked
 
         fill_in 'projet_surface_habitable', with: '42'
         uncheck prestation.libelle
@@ -196,7 +196,24 @@ feature "Remplir la proposition de travaux" do
           visit dossier_proposition_path(projet)
           expect(page).not_to have_content('Ancienne prestation non utilisée')
           expect(page).to have_content('Ancienne prestation utilisée')
-          expect(find("#prestation_#{old_used_prestation.id}")).to be_checked
+          expect(find_field('Ancienne prestation utilisée')).to be_checked
+        end
+      end
+
+      context "avec une aide dépréciée" do
+        let!(:old_unused_aide)  { create :aide, libelle: 'Ancienne aide non utilisée', active: false }
+        let!(:old_used_aide)    { create :aide, libelle: 'Ancienne aide utilisée', active: false }
+
+        before do
+          projet.aides << old_used_aide
+          old_used_aide.projet_aides.first.update(montant: 12)
+        end
+
+        scenario "j'ai toujours accès à cette aide" do
+          visit dossier_proposition_path(projet)
+          expect(page).not_to have_content('Ancienne aide non utilisée')
+          expect(page).to have_content('Ancienne aide utilisée')
+          expect(find_field('Ancienne aide utilisée').value).to eq '12,00 '
         end
       end
     end

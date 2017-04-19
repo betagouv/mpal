@@ -1,29 +1,32 @@
 class Seeder
-  AIDES = [
-    "Subvention ANAH",
-    "Subvention FART",
-    "Subvention Commune / EPCI",
-    "Subvention Département",
-    "Subvention Région",
-    "Subvention Europe",
-    "Subvention ADEME",
-    "Subvention Agende de l’eau",
-    "Autres",
-    "CNAV/CARSAT",
-    "MSA",
-    "RSI",
-    "AGIRX",
-    "ARRCO",
-    "IRCANTEC",
-  ]
+  HELPS = {
+      public: [
+          "Aide de l'Anah",
+          "Aide ASE",
+          "Aide AMO",
+          "Aide commune",
+          "Aide EPCI",
+          "Aide département",
+          "Aide région",
+          "Aide union européenne",
+          "Caisse de retraite régime de base (CNAV/CARSAT,MSA,RSI, autres)",
+          "Caisse de retraite complémentaires obligatoires (AGIRC, ARRCO, IRCANTEC, autres)",
+          "Autre aide publique (ADEME, Agence de l'eau…)",
+      ],
+      private: [
+          "Aides non publiques",
+      ],
+  }
 
   def seed_aides
     table_name = 'aides'
     seeding table_name
     progress do
-      AIDES.each do |libelle_aide|
-        Aide.find_or_create_by!(type_aide: type_aide, libelle: libelle_aide)
-        ahead!('+')
+      HELPS.each_pair do |attribute, help_array|
+        help_array.each do |name|
+          Aide.find_or_create_by!(libelle: name).update(public: attribute == :public)
+          ahead!('+')
+        end
       end
     end
   end
