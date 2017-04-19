@@ -36,19 +36,15 @@ Rails.application.routes.draw do
 
     resources :projets, only: [], concerns: :projectable do
       resources :avis_impositions, only: :destroy
-      get       :demandeur,        controller: 'demarrage_projet'
-      post      :demandeur,        controller: 'demarrage_projet'
-      get       :demande,          controller: 'demarrage_projet'
-      patch     :demande,          controller: 'demarrage_projet', action: :update_demande
-      get       :mise_en_relation, controller: 'demarrage_projet'
-      patch     :mise_en_relation, controller: 'demarrage_projet', action: :update_mise_en_relation
-
-      get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
-      patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'
-      get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
-      post      :engagement_operateur, action: :create, controller: 'engagement_operateur'
-      get       :transmission,         action: :new,    controller: 'transmission'
-      post      :transmission,         action: :create, controller: 'transmission'
+      resource :demandeur,         only: [:show, :update]
+      resource :demande,           only: [:show, :update]
+      resource :mise_en_relation,  only: [:show, :update]
+      get      :choix_operateur,      action: :new,    controller: 'choix_operateur'
+      patch    :choix_operateur,      action: :choose, controller: 'choix_operateur'
+      get      :engagement_operateur, action: :new,    controller: 'engagement_operateur'
+      post     :engagement_operateur, action: :create, controller: 'engagement_operateur'
+      get      :transmission,         action: :new,    controller: 'transmission'
+      post     :transmission,         action: :create, controller: 'transmission'
     end
     resources :projets, only: [:show, :edit, :update], param: :projet_id
 

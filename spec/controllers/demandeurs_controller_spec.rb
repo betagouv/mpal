@@ -2,14 +2,25 @@ require 'rails_helper'
 require 'support/mpal_helper'
 require 'support/api_ban_helper'
 
-describe DemarrageProjetController do
+describe DemandeursController do
   let(:projet) { create :projet, :prospect, demandeurs_count: 2 }
 
   before(:each) do
     authenticate_as_particulier(projet.numero_fiscal)
   end
 
-  describe "#demandeur" do
+  describe "#show" do
+    before do
+      get :show, projet_id: projet.id
+    end
+
+    it "renders the template" do
+      expect(response).to render_template(:show)
+      expect(assigns(:page_heading)).to eq 'Inscription'
+    end
+  end
+
+  describe "#update" do
     let(:projet_params) do {} end
     let(:params) do
       default_params = { adresse_postale: projet.adresse_postale.description }
@@ -21,7 +32,7 @@ describe DemarrageProjetController do
     end
 
     before(:each) do
-      post :demandeur, params
+      post :update, params
       projet.reload
     end
 
@@ -67,7 +78,7 @@ describe DemarrageProjetController do
       let(:projet_params) do { adresse_postale: '' } end
 
       it "affiche une erreur" do
-        expect(response).to render_template(:demandeur)
+        expect(response).to render_template(:show)
         expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
       end
     end
@@ -103,7 +114,7 @@ describe DemarrageProjetController do
       context "et n'est pas disponible dans la BAN" do
         let(:projet_params) do { adresse_postale: Fakeweb::ApiBan::ADDRESS_UNKNOWN } end
         it "affiche une erreur" do
-          expect(response).to render_template(:demandeur)
+          expect(response).to render_template(:show)
           expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_inconnue')
         end
       end
@@ -160,7 +171,7 @@ describe DemarrageProjetController do
   context "lorsque une information est erronée" do
     before do
       projet.demandeur_principal.update_attribute(:civilite, nil)
-      post :demandeur, {
+      post :update, {
         contact: "1",
         projet_id: projet.id,
         projet: {
@@ -168,7 +179,6 @@ describe DemarrageProjetController do
           demandeur_id: projet.demandeur_principal.id
         }
       }
-      projet.reload
     end
 
     it "affiche une erreur" do

@@ -1,4 +1,4 @@
-= form_for @demande, url: {controller: 'demarrage_projet', action: 'update_demande'}, method: 'patch', html: { class:'ui form'}  do |f|
+= form_for @demande, url: { controller: 'demandes', action: 'update' }, method: 'patch', html: { class:'ui form'}  do |f|
   section.projet
     h2 = t('demarrage_projet.demande.section_projet_envisage')
     p.chapo = t('demarrage_projet.demande.titre_besoins')

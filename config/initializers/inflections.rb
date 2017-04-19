@@ -13,6 +13,7 @@
 # These inflection rules are supported but not enabled by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'API'
-  inflect.irregular 'plan_travaux','plans_travaux'
-  inflect.irregular 'plan_financements','plans_financements'
+  inflect.irregular 'mise_en_relation',  'mises_en_relation'
+  inflect.irregular 'plan_travaux',      'plans_travaux'
+  inflect.irregular 'plan_financements', 'plans_financements'
 end

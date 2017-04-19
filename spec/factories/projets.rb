@@ -43,13 +43,6 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_invited_pris do
-      after(:build) do |projet|
-        pris = create(:pris, departements: [projet.departement])
-        projet.invitations << create(:invitation, projet: projet, intervenant: pris)
-      end
-    end
-
     trait :with_suggested_operateurs do
       after(:build) do |projet|
         operateurA = create(:operateur, departements: [projet.departement])
@@ -98,7 +91,7 @@ FactoryGirl.define do
     trait :with_invited_pris do
       after(:build) do |projet|
         pris = create(:pris, departements: [projet.departement])
-        create(:invitation, projet: projet, intervenant: pris)
+        projet.invitations << create(:invitation, projet: projet, intervenant: pris)
       end
     end
 
