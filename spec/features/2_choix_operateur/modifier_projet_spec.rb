@@ -19,6 +19,10 @@ feature "Modifier le projet :" do
     send("new_#{resource_name}_avis_imposition_path", projet)
   end
 
+  def resource_occupants_path(projet)
+    send("#{resource_name}_occupants_path", projet)
+  end
+
   def resource_demande_path(projet)
     send("#{resource_name}_demande_path", projet)
   end
@@ -63,6 +67,7 @@ feature "Modifier le projet :" do
       expect(page).to have_current_path resource_demandeur_path(projet)
       click_button I18n.t('demarrage_projet.action')
 
+      # Add new avis imposition
       expect(page).to have_current_path resource_avis_impositions_path(projet)
       click_link 'Ajouter un avis d’imposition'
       expect(page).to have_current_path new_resource_avis_imposition_path(projet)
@@ -73,9 +78,44 @@ feature "Modifier le projet :" do
       expect(page).to have_current_path resource_avis_impositions_path(projet)
       expect(page).to have_content('1 000 000 €')
 
+      # Delete avis imposition
       click_link 'Supprimer'
       expect(page).to have_current_path resource_avis_impositions_path(projet)
       expect(page).not_to have_content('1 000 000 €')
+    end
+  end
+
+  shared_examples :can_edit_occupants do |resource_name|
+    let(:resource_name) { resource_name }
+
+    scenario "je peux modifier les occupants du foyer" do
+      visit resource_path(projet)
+      within 'article.occupants' do
+        click_link I18n.t('projets.visualisation.lien_edition')
+      end
+
+      expect(page).to have_current_path resource_demandeur_path(projet)
+      click_button I18n.t('demarrage_projet.action')
+
+      expect(page).to have_current_path resource_avis_impositions_path(projet)
+      click_link I18n.t('demarrage_projet.action')
+
+      # Add new occupant
+      expect(page).to have_current_path resource_occupants_path(projet)
+      fill_in "Nom",               with: "Marielle"
+      fill_in "Prénom",            with: "Jean-Pierre"
+      fill_in "Date de naissance", with: "20/05/2010"
+      click_button I18n.t("occupants.nouveau.action")
+
+      expect(page).to have_current_path(resource_occupants_path(projet))
+      expect(page).to have_content("Jean-Pierre Marielle")
+
+      # Delete occupant
+      within "table tr:last-child" do
+        click_link I18n.t('occupants.delete.action')
+      end
+      expect(page).to have_current_path(resource_occupants_path(projet))
+      expect(page).to have_content("Jean-Pierre Marielle")
     end
   end
 
@@ -103,17 +143,19 @@ feature "Modifier le projet :" do
   context "en tant que demandeur" do
     before { signin(projet.numero_fiscal, projet.reference_avis) }
 
-    it_behaves_like :can_edit_demandeur, "projet"
+    it_behaves_like :can_edit_demandeur,        "projet"
     it_behaves_like :can_edit_avis_impositions, "projet"
-    it_behaves_like :can_edit_demande, "projet"
+    it_behaves_like :can_edit_occupants,        "projet"
+    it_behaves_like :can_edit_demande,          "projet"
   end
 
   context "en tant qu'opérateur" do
     let(:agent_operateur) { create :agent, intervenant: projet.operateur }
     before { login_as agent_operateur, scope: :agent }
 
-    it_behaves_like :can_edit_demandeur, "dossier"
+    it_behaves_like :can_edit_demandeur,        "dossier"
     it_behaves_like :can_edit_avis_impositions, "dossier"
-    it_behaves_like :can_edit_demande, "dossier"
+    it_behaves_like :can_edit_occupants,        "dossier"
+    it_behaves_like :can_edit_demande,          "dossier"
   end
 end

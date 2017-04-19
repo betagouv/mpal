@@ -31,7 +31,7 @@ class OccupantsController < ApplicationController
     else
       flash[:alert] = t("occupants.delete.error")
     end
-    redirect_to projet_occupants_path(@projet_courant)
+    redirect_to projet_or_dossier_occupants_path(@projet_courant)
   end
 
 private
