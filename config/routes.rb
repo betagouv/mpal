@@ -5,9 +5,12 @@ Rails.application.routes.draw do
     end
     resources :commentaires,       only: :create
     resource  :composition
-    resources :avis_impositions,   only: [:index, :new, :create]
+    resources :avis_impositions,   only: [:index, :new, :create, :destroy]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
+    resource :demandeur,         only: [:show, :update]
+    resource :demande,           only: [:show, :update]
+    resource :mise_en_relation,  only: [:show, :update]
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       :proposition
@@ -35,10 +38,6 @@ Rails.application.routes.draw do
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     resources :projets, only: [], concerns: :projectable do
-      resources :avis_impositions, only: :destroy
-      resource :demandeur,         only: [:show, :update]
-      resource :demande,           only: [:show, :update]
-      resource :mise_en_relation,  only: [:show, :update]
       get      :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch    :choix_operateur,      action: :choose, controller: 'choix_operateur'
       get      :engagement_operateur, action: :new,    controller: 'engagement_operateur'

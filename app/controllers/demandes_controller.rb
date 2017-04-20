@@ -1,14 +1,14 @@
 class DemandesController < ApplicationController
   layout 'inscription'
 
-  before_action :dossier_ou_projet
+  before_action :projet_or_dossier
   before_action :assert_projet_courant
   before_action :authentifie
 
   def show
     @demande = projet_demande
     @page_heading = 'Inscription'
-    @action_label = if needs_next_step? then action_label_create else action_label_update end
+    @action_label = action_label
   end
 
   def update
@@ -23,12 +23,12 @@ class DemandesController < ApplicationController
 
 private
 
-  def action_label_create
-    t('demarrage_projet.action')
-  end
-
-  def action_label_update
-    t('projets.edition.action')
+  def action_label
+    if needs_next_step?
+      t('demarrage_projet.action')
+    else
+      t('projets.edition.action')
+    end
   end
 
   def projet_demande
@@ -70,7 +70,7 @@ private
     if needs_next_step?
       redirect_to projet_mise_en_relation_path(@projet_courant)
     else
-      redirect_to projet_path(@projet_courant)
+      redirect_to projet_or_dossier_path(@projet_courant)
     end
   end
 end

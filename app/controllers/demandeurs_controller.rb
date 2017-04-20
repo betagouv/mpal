@@ -1,7 +1,7 @@
 class DemandeursController < ApplicationController
   layout 'inscription'
 
-  before_action :dossier_ou_projet
+  before_action :projet_or_dossier
   before_action :assert_projet_courant
   before_action :authentifie
 
@@ -11,7 +11,7 @@ class DemandeursController < ApplicationController
 
   def update
     if save_demandeur
-      return redirect_to_next_step
+      return redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
     else
       render_show
     end
@@ -20,21 +20,12 @@ class DemandeursController < ApplicationController
 private
   # Show -----------------------
 
-  def action_label_create
-    t('demarrage_projet.action')
-  end
-
-  def action_label_update
-    t('projets.edition.action')
-  end
-
   def render_show
     @projet_courant.personne ||= Personne.new
     @demandeur ||= @projet_courant.demandeur_principal
 
     @page_heading = 'Inscription'
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
-    @action_label = if needs_next_step? then action_label_create else action_label_update end
 
     render :show
   end
@@ -116,17 +107,5 @@ private
     @demandeur = @projet_courant.change_demandeur(demandeur_id)
     @demandeur.assign_attributes(demandeur_principal_params)
     @demandeur.save
-  end
-
-  def needs_next_step?
-    @projet_courant.demande.blank? || ! @projet_courant.demande.complete?
-  end
-
-  def redirect_to_next_step
-    if needs_next_step?
-      redirect_to projet_avis_impositions_path(@projet_courant)
-    else
-      redirect_to projet_path(@projet_courant)
-    end
   end
 end

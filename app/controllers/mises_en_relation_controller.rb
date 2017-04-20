@@ -1,7 +1,7 @@
 class MisesEnRelationController < ApplicationController
   layout 'inscription'
 
-  before_action :dossier_ou_projet
+  before_action :projet_or_dossier
   before_action :assert_projet_courant
   before_action :authentifie
 
@@ -12,7 +12,7 @@ class MisesEnRelationController < ApplicationController
       raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
     end
     @page_heading = 'Inscription'
-    @action_label = if needs_mise_en_relation? then action_label_create else action_label_update end
+    @action_label = action_label
   end
 
   def update
@@ -33,15 +33,15 @@ class MisesEnRelationController < ApplicationController
 
 private
 
+  def action_label
+    if needs_mise_en_relation?
+      t('demarrage_projet.action')
+    else
+      t('projets.edition.action')
+    end
+  end
+
   def needs_mise_en_relation?
     @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
-  end
-
-  def action_label_create
-    t('demarrage_projet.action')
-  end
-
-  def action_label_update
-    t('projets.edition.action')
   end
 end

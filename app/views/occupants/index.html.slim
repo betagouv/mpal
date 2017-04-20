@@ -28,7 +28,7 @@
             td= occupant.date_de_naissance.year
             td
               - if occupant.can_be_deleted?
-                = link_to projet_occupant_path(id: occupant.id),
+                = link_to projet_or_dossier_occupant_path(projet: @projet_courant, id: occupant.id),
                     method: :delete,
                     title: t('occupants.delete.action'),
                     class: "btn btn-icon",
@@ -56,5 +56,5 @@
     .checkbox-validation
       input#dif1 type="checkbox" class="js-engagement"
       label for="dif1" = t('agrements.attestation_communiquer_infos_occupants')
-  = btn name: "Valider", class: "btn-large btn-centered js-engagement", icon: "ok"
+  = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "ok"
 

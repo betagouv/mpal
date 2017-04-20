@@ -4,12 +4,12 @@ module ProjetConcern
   included do
     def proposition
       if @projet_courant.prospect?
-        return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), alert: t('sessions.access_forbidden')
+        return redirect_to projet_or_dossier_path(@projet_courant), alert: t('sessions.access_forbidden')
       end
 
       if request.put?
         if @projet_courant.save_proposition!(projet_params)
-          return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), notice: t('projets.edition_projet.messages.succes')
+          return redirect_to projet_or_dossier_path(@projet_courant), notice: t('projets.edition_projet.messages.succes')
         else
           flash.now[:alert] = t('projets.edition_projet.messages.erreur')
         end
@@ -24,7 +24,7 @@ module ProjetConcern
     def proposer
       @projet_courant.statut = :proposition_proposee
       if @projet_courant.save
-        return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant)
+        return redirect_to projet_or_dossier_path(@projet_courant)
       end
       render "projets/show"
     end
