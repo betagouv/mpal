@@ -14,17 +14,21 @@ describe DemandeursController do
       get :show, projet_id: projet.id
     end
 
-    it "renders the template" do
+    it "affiche le template" do
       expect(response).to render_template(:show)
       expect(assigns(:page_heading)).to eq 'Inscription'
+      expect(assigns(:demandeur)).to eq projet.demandeur_principal
     end
   end
 
   describe "#update" do
     let(:projet_params) do {} end
     let(:params) do
-      default_params = { adresse_postale: projet.adresse_postale.description }
-      {
+      default_params = {
+        demandeur_id: projet.demandeur_principal.id,
+        adresse_postale: projet.adresse_postale.description
+      }
+      return {
         contact: "1",
         projet_id: projet.id,
         projet:    default_params.merge(projet_params)
@@ -39,8 +43,9 @@ describe DemandeursController do
     context "lorsque les informations changent" do
       let(:projet_params) do
         {
-          tel:   '01 02 03 04 05',
-          email: 'particulier@exemple.fr'
+          tel:         '01 02 03 04 05',
+          email:       'particulier@exemple.fr',
+          demandeur_id: projet.occupants.last.id,
         }
       end
 
@@ -48,6 +53,7 @@ describe DemandeursController do
         expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.tel).to eq   '01 02 03 04 05'
         expect(projet.email).to eq 'particulier@exemple.fr'
+        expect(projet.demandeur_principal).to eq projet.occupants.last
       end
     end
 
@@ -154,35 +160,38 @@ describe DemandeursController do
       end
     end
 
-    context "lorsque je renseigne le déclarant" do
-      let(:projet_params) do
-        {
-            demandeur_id: projet.occupants.last.id,
-        }
-      end
-
-      it "enregistre les informations modifiées" do
-        expect(response).to redirect_to projet_avis_impositions_path(projet)
-        expect(projet.demandeur_principal).to eq projet.occupants.last
-      end
-    end
   end
 
-  context "lorsque une information est erronée" do
+  context "lorsque le demandeur n'est pas sélectionné" do
     before do
-      projet.demandeur_principal.update_attribute(:civilite, nil)
       post :update, {
-        contact: "1",
         projet_id: projet.id,
         projet: {
           adresse_postale: projet.adresse_postale.description,
-          demandeur_id: projet.demandeur_principal.id
+          demandeur_id: nil
         }
       }
     end
 
     it "affiche une erreur" do
-      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
+      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.missing_demandeur')
+    end
+  end
+
+  context "lorsque une information est erronée" do
+    before do
+      post :update, {
+        projet_id: projet.id,
+        projet: {
+          adresse_postale: nil,
+          demandeur_id: projet.occupants.last.id
+        }
+      }
+    end
+
+    it "affiche une erreur" do
+      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
+      expect(assigns(:demandeur)).to eq projet.demandeur_principal
     end
   end
 end

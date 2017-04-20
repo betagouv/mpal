@@ -94,7 +94,10 @@ fr:
         adresse_vide: "Votre adresse doit être renseignée"
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
         enregistrement_demandeur: "Une erreur s’est produite lors de l’enregistrement de vos informations personnelles."
+        missing_demandeur: "Veuillez sélectionner le prénom et nom du demandeur"
       section_demandeur: "Demandeur"
+      demandeur_identity: "Prénom et nom du propriétaire demandeur"
+      select: "Sélectionnez le propriétaire demandeur"
       recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
       personne_confiance: "Qui contacter pour les démarches à venir ?"
       personne_confiance_choix1: Vous-même

@@ -94,8 +94,11 @@ private
     end
 
     demandeur_id = params[:projet][:demandeur_id]
-    needs_saving_demandeur = demandeur_id.present?
-    if needs_saving_demandeur && !assign_demandeur(demandeur_id)
+    if demandeur_id.blank?
+      flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.missing_demandeur')
+      return false
+    end
+    if !assign_demandeur(demandeur_id)
       flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
       return false
     end

@@ -9,19 +9,17 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   scenario "Depuis la page de connexion, je récupère mes informations principales" do
     signin_for_new_projet
     expect(page.current_path).to eq(projet_demandeur_path(projet))
-    expect(page).to have_content("Martin")
-    expect(page).to have_content("Pierre")
-    expect(projet.demandeur_principal_nom).to eq("Martin")
-    expect(projet.demandeur_principal_prenom).to eq("Pierre")
-    expect(page).to have_content(I18n.t('demarrage_projet.demandeur.section_demandeur'))
-    expect(find_field('projet_adresse_postale').value).to eq('12 rue de la Mare, 75010 Paris')
+    expect(page).to have_content(I18n.t('projets.messages.creation.titre'))
     expect(page).to have_content(I18n.t('projets.messages.creation.corps'))
-    expect(page).to have_content(I18n.t('projets.messages.creation.titre', demandeur_principal: projet.demandeur_principal.fullname))
-  end
+    expect(page).to have_content(I18n.t('demarrage_projet.demandeur.section_demandeur'))
+    expect(page).to have_select(I18n.t('demarrage_projet.demandeur.demandeur_identity'))
+    expect(find_field('projet_adresse_postale').value).to eq('12 rue de la Mare, 75010 Paris')
+    end
 
   scenario "je remplis mes informations personnelles" do
     signin_for_new_projet
-    within '.civilite' do choose('Monsieur') end
+    within '.civilite' do choose "Monsieur" end
+    select "Pierre Martin"
     fill_in :projet_email, with: "demandeur@exemple.fr"
     fill_in :projet_tel,   with: "01 02 03 04 05"
     click_button I18n.t('demarrage_projet.action')
@@ -58,6 +56,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   scenario "je peux ajouter l'adresse du logement à rénover" do
     signin_for_new_projet
     within '.civilite' do choose('Monsieur') end
+    select "Pierre Martin"
     fill_in :projet_email, with: "demandeur@exemple.fr"
     fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_PORT
     click_button I18n.t('demarrage_projet.action')
@@ -72,6 +71,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
   scenario "j'ajoute une personne de confiance" do
     signin_for_new_projet
     within '.civilite' do choose('Monsieur') end
+    select "Pierre Martin"
     fill_in :projet_email, with: "demandeur@exemple.fr"
     page.choose I18n.t('demarrage_projet.demandeur.personne_confiance_choix2')
     within '.dem-diff.ins-form' do

@@ -111,6 +111,17 @@ FactoryGirl.define do
 
     # Project states
 
+    trait :initial do
+      statut :prospect
+      email nil
+      annee_construction nil
+      with_avis_imposition
+
+      after(:create) do |projet, evaluator|
+        projet.demandeur_principal.update_attribute(:civilite, nil)
+      end
+    end
+
     trait :prospect do
       statut :prospect
       with_demandeur
