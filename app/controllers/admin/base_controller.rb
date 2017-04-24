@@ -6,9 +6,9 @@ class Admin::BaseController < ApplicationController
   before_action :assert_admin
 
   MENU = {
-    home:   { name: "Accueil", url: "admin_root_path" },
-    themes: { name: "Thèmes",  url: "admin_themes_path" },
-    intervenants: { name: "Intervenants", url: "admin_intervenants_path" },
+    home:         { name: "Accueil",              url: "admin_root_path" },
+    themes:       { name: "Types d’intervention", url: "admin_themes_path" },
+    intervenants: { name: "Intervenants",         url: "admin_intervenants_path" },
   }
 
 private

@@ -47,6 +47,7 @@ class Projet < ActiveRecord::Base
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
   validates :date_de_visite, presence: true, on: :proposition
   validate  :validate_frozen_attributes
+  validate  :validate_theme_count, on: :proposition
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
@@ -146,6 +147,14 @@ class Projet < ActiveRecord::Base
         errors.add(attribute, :frozen)
       end
     end
+  end
+
+  def validate_theme_count
+    if 2 < themes.count
+      errors.add(:theme_ids, "vous ne pouvez en sélectionner que 2 maximum")
+      return false
+    end
+    true
   end
 
   def change_demandeur(demandeur_id)

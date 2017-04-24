@@ -83,8 +83,7 @@
                 = f.text_area :remarques_diagnostic
           fieldset
             legend Types d’intervention
-            p (2 maximum)
-            = f.association :themes, as: :check_boxes, collection: @themes, label: false
+            = f.input :theme_ids, as: :check_boxes, collection: @themes, label: false
           fieldset
             legend Description des travaux proposés
             table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%"
