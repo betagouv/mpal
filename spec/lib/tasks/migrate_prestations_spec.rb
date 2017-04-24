@@ -5,10 +5,10 @@ describe 'migrate_prestations' do
   include_context 'rake'
 
   let(:new_prestations_count)     { 147 }
-  let!(:old_prestation)           { create :prestation, libelle: "Ancienne Prestation" }
-  let!(:current_prestation)       { create :prestation, libelle: "Isolation murs par l'extérieur" }
+  let!(:old_prestation)           { create :prestation, libelle: "Ancienne prestation" }
+  let!(:current_prestation)       { create :prestation, libelle: "Isolation murs par l’extérieur" }
   let!(:bold_written_prestation)  { create :prestation, libelle: "VOLETS" }
-  let!(:badly_written_prestation) { create :prestation, libelle: "Isolation murs par l'exterieur partielle" }
+  let!(:badly_written_prestation) { create :prestation, libelle: "Isolation murs par l’exterieur partielle" }
 
   before { subject.invoke }
 
