@@ -102,12 +102,27 @@
                 tr
                   th scope="row"= t('helpers.label.proposition.montant_travaux_ht')
                   td
-                    = text_field_tag "projet[montant_travaux_ht]", @projet_courant.montant_travaux_ht
+                    = f.text_field :montant_travaux_ht, value: @projet_courant.montant_travaux_ht
+                    |  €
+                tr
+                  th scope="row"= 'Travaux : assiette subventionnable HT'
+                  td
+                    = f.text_field :assiette_subventionnable_amount, value: @projet_courant.assiette_subventionnable_amount
+                    |  €
+                tr
+                  th scope="row"= 'Coût AMO (Assistance à Maîtrise d’Ouvrage)'
+                  td
+                    = f.text_field :amo_amount, value: @projet_courant.amo_amount
+                    |  €
+                tr
+                  th scope="row"= 'Coût Maîtrise d’Œuvre'
+                  td
+                    = f.text_field :maitrise_oeuvre_amount, value: @projet_courant.maitrise_oeuvre_amount
                     |  €
                 tr
                   th scope="row"= t('helpers.label.proposition.montant_travaux_ttc')
                   td
-                    = text_field_tag "projet[montant_travaux_ttc]", @projet_courant.montant_travaux_ttc
+                    = f.text_field :montant_travaux_ttc, value: @projet_courant.montant_travaux_ttc
                     |  €
                 tr
                   th.tab-title colspan="3" scope="row"  Plan de financement prévisionnel
