@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170419145738) do
+ActiveRecord::Schema.define(version: 20170426125658) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -232,9 +232,9 @@ ActiveRecord::Schema.define(version: 20170419145738) do
     t.datetime "updated_at"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                                                            array: true
-    t.integer  "nb_occupants_a_charge",                                 default: 0
-    t.integer  "statut",                                                default: 0
+    t.string   "themes",                                                               array: true
+    t.integer  "nb_occupants_a_charge",                                    default: 0
+    t.integer  "statut",                                                   default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"
     t.string   "opal_id"
@@ -249,8 +249,8 @@ ActiveRecord::Schema.define(version: 20170419145738) do
     t.boolean  "handicap"
     t.boolean  "demandeur_salarie"
     t.boolean  "entreprise_plus_10_personnes"
-    t.decimal  "note_degradation",             precision: 10, scale: 6
-    t.decimal  "note_insalubrite",             precision: 10, scale: 6
+    t.decimal  "note_degradation",                precision: 10, scale: 6
+    t.decimal  "note_insalubrite",                precision: 10, scale: 6
     t.boolean  "ventilation_adaptee"
     t.boolean  "presence_humidite"
     t.boolean  "auto_rehabilitation"
@@ -270,6 +270,10 @@ ActiveRecord::Schema.define(version: 20170419145738) do
     t.integer  "adresse_postale_id"
     t.integer  "adresse_a_renover_id"
     t.date     "date_de_visite"
+    t.decimal  "montant_aide",                    precision: 10, scale: 6
+    t.decimal  "amo_amount",                      precision: 10, scale: 2
+    t.decimal  "maitrise_oeuvre_amount",          precision: 10, scale: 2
+    t.decimal  "assiette_subventionnable_amount", precision: 10, scale: 2
   end
 
   add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree

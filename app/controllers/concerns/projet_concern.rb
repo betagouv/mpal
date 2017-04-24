@@ -17,8 +17,9 @@ module ProjetConcern
 
       assign_projet_if_needed
       @themes = Theme.ordered.all
-      @prestations = Prestation.where(active: true) | @projet_courant.prestations
-      @aides = Aide.where(active: true) | @projet_courant.aides
+      @prestations = Prestation.active | @projet_courant.prestations
+      @aides_publiques = Aide.public_assistance.active     | @projet_courant.aides.public_assistance
+      @aides_privees   = Aide.not_public_assistance.active | @projet_courant.aides.not_public_assistance
       render "projets/proposition"
     end
 
@@ -58,7 +59,7 @@ private
               :prestation_ids => [],
               :theme_ids => [],
               :suggested_operateur_ids => [],
-              :projet_aides_attributes => [:id, :aide_id, :montant],
+              :projet_aides_attributes => [:id, :aide_id, :localized_amount],
               :demande => [:annee_construction],
       )
       attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?

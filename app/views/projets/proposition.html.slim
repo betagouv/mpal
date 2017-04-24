@@ -102,18 +102,17 @@
                 tr
                   th scope="row"= t('helpers.label.proposition.montant_travaux_ht')
                   td
-                    = text_field_tag "projet[montant_travaux_ht]", number_to_currency(@projet_courant.montant_travaux_ht, unit: '')
-                    = " €"
-
+                    = text_field_tag "projet[montant_travaux_ht]", @projet_courant.montant_travaux_ht
+                    |  €
                 tr
                   th scope="row"= t('helpers.label.proposition.montant_travaux_ttc')
                   td
-                    = text_field_tag "projet[montant_travaux_ttc]", number_to_currency(@projet_courant.montant_travaux_ttc, unit: '')
-                    = " €"
+                    = text_field_tag "projet[montant_travaux_ttc]", @projet_courant.montant_travaux_ttc
+                    |  €
                 tr
                   th.tab-title colspan="3" scope="row"  Plan de financement prévisionnel
 
-                - @aides.each do |aide|
+                - @aides_publiques.each do |aide|
                   tr
                     - field_name = "projet[projet_aides_attributes][#{aide.id}]"
                     th scope="row"
@@ -122,21 +121,47 @@
                       - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
                       = hidden_field_tag "#{field_name}[aide_id]", aide.id
                       = hidden_field_tag "#{field_name}[id]",      aide_courante.try(:id)
-                      = text_field_tag   "#{field_name}[montant]", number_to_currency(aide_courante.try(:montant), unit: ''), class: "aide"
-                      = " €"
+                      = text_field_tag   "#{field_name}[montant]", aide_courante.try(:montant), class: "aide js-public-help"
+                      |  €
+
+                tr
+                  th scope="row"
+                    label for="js-public-helps-sum" Total des aides publiques
+                  td
+                    = text_field_tag :public_helps_amount, '', disabled: true, id: 'js-public-helps-sum'
+                    |  €
+
+                - @aides_privees.each do |aide|
+                  tr
+                    - field_name = "projet[projet_aides_attributes][#{aide.id}]"
+                    th scope="row"
+                      = label_tag "#{field_name}[montant]", "#{aide.libelle}"
+                    td
+                      - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
+                      = hidden_field_tag "#{field_name}[aide_id]", aide.id
+                      = hidden_field_tag "#{field_name}[id]",      aide_courante.try(:id)
+                      = text_field_tag   "#{field_name}[montant]", aide_courante.try(:montant), class: "aide"
+                      |  €
 
                 tr
                   th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.financement_personnel')
                 tr
                   th scope="row"= t('helpers.label.proposition.reste_a_charge')
                   td
-                    = text_field_tag "projet[reste_a_charge]", number_to_currency(@projet_courant.reste_a_charge, unit: '')
-                    = " €"
+                    = f.text_field :reste_a_charge, value: @projet_courant.reste_a_charge, class: 'js-funding'
+                    |  €
                 tr
                   th scope="row"= t('helpers.label.proposition.pret_bancaire')
                   td
-                    = text_field_tag "projet[pret_bancaire]", number_to_currency(@projet_courant.pret_bancaire, unit: '')
-                    = " €"
+                    = f.text_field :pret_bancaire, value: @projet_courant.pret_bancaire, class: 'js-funding'
+                    |  €
+                tr
+                  th scope="row"
+                    label for="js-fundings-sum" Total des financements
+                  td
+                    = text_field_tag :fundings_amount, '', disabled: true, id: 'js-fundings-sum'
+                    |  €
+
           ul.ins-form
             li
               = f.label :precisions_travaux, t('helpers.label.proposition.precisions_travaux')

@@ -2,7 +2,7 @@ class Aide < ActiveRecord::Base
   has_many :projet_aides
   has_many :projets, through: :projet_aides
 
-  scope :actives,  -> { where(active: true) }
-  scope :publics,  -> { where(public: true) }
-  scope :privates, -> { where(public: false) }
+  scope :active, -> { where(active: true) }
+  scope :public_assistance,    -> { where(public: true) }
+  scope :not_public_assistance, -> { where(public: false) }
 end

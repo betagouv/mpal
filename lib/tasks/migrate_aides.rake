@@ -23,11 +23,11 @@ task migrate_aides: :environment do
   downcased_new_private_help_names = new_helps[:private].map(&:downcase)
   downcased_new_help_names = downcased_new_public_help_names | downcased_new_private_help_names
 
-  Aide.publics.each do |help|
+  Aide.public_assistance.each do |help|
     help.update(public: false) if downcased_new_private_help_names.include?(help.libelle.downcase)
   end
 
-  Aide.privates.each do |help|
+  Aide.not_public_assistance.each do |help|
     help.update(public: true) if downcased_new_public_help_names.include?(help.libelle.downcase)
   end
 

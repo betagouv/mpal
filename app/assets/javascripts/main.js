@@ -115,6 +115,40 @@ $(document).ready(function() {
     }
   }
 
+  function sumPublicHelps() {
+    var helps = document.getElementsByClassName('js-public-help');
+    var sum = 0;
+    for(var i = 0; i < helps.length; i++) {
+      var value = parseFloat(helps[i].value);
+      if(value > 0)
+        sum += value;
+    }
+    document.getElementById('js-public-helps-sum').value = sum;
+  }
+
+  function sumFundings() {
+    var fundings = document.getElementsByClassName('js-funding');
+    var sum = 0;
+    for(var i = 0; i < fundings.length; i++) {
+      var value = parseFloat(fundings[i].value);
+      if(value > 0)
+        sum += value;
+    }
+    document.getElementById('js-fundings-sum').value = sum;
+  }
+
+  var public_helps = $(".js-public-help");
+  if (public_helps.length) {
+    sumPublicHelps();
+    public_helps.change(sumPublicHelps);
+  }
+
+  var fundings = $(".js-funding");
+  if (fundings.length) {
+    sumFundings();
+    fundings.change(sumFundings);
+  }
+
   bindLoginHelpers();
   bindPopins();
   var engagement = $(".js-engagement");
