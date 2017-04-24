@@ -18,10 +18,12 @@
               abbr title="Département" Dép.
           th Ville
           th Instructeur
-          th Thèmes
+          th Types d’intervention
           th Opérateur
+          th Visité le
           th État
-          th Depuis
+          / TODO
+          / th Depuis
       tbody
         - @dossiers.each do |projet|
           tr id="projet_#{projet.id}"
@@ -47,14 +49,20 @@
                 br/
                 span.firstname= projet.agent_instructeur.prenom
                 span.lastname<= projet.agent_instructeur.nom
-            /TODO Themes
-            td= link_to ' ', edit_url
+            td
+              = link_to edit_url do
+                - if projet.themes.present?
+                  = projet.themes.map(&:libelle).join(', ')
             td= link_to edit_url do
               = projet.invited_operateur.raison_sociale rescue ' '
               - if projet.agent_operateur && (current_agent.instructeur? || current_agent.operateur?)
                 br/
                 span.firstname= projet.agent_operateur.prenom
                 span.lastname<= projet.agent_operateur.nom
+            td
+              = link_to edit_url do
+                - if projet.date_de_visite.present?
+                  = format_date(projet.date_de_visite)
             td= link_to t(projet.status_for_operateur, scope: "projets.statut"), edit_url
             /TODO Status Updated At
-            td= link_to ' ', edit_url
+            / td= link_to ' ', edit_url
