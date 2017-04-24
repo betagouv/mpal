@@ -197,15 +197,15 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   create_table "prestations", force: :cascade do |t|
     t.string   "libelle"
     t.string   "entreprise"
-    t.float    "montant"
+    t.decimal  "montant",    precision: 10, scale: 2
     t.boolean  "recevable"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at",                                          null: false
+    t.datetime "updated_at",                                          null: false
     t.string   "scenario"
-    t.boolean  "souhaite",   default: false, null: false
-    t.boolean  "preconise",  default: false, null: false
-    t.boolean  "retenu",     default: false, null: false
-    t.boolean  "active",     default: true,  null: false
+    t.boolean  "souhaite",                            default: false, null: false
+    t.boolean  "preconise",                           default: false, null: false
+    t.boolean  "retenu",                              default: false, null: false
+    t.boolean  "active",                              default: true,  null: false
   end
 
   create_table "prestations_projets", force: :cascade do |t|
@@ -219,7 +219,7 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   create_table "projet_aides", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "aide_id"
-    t.float   "montant"
+    t.decimal "montant",   precision: 10, scale: 2
   end
 
   add_index "projet_aides", ["aide_id"], name: "index_projet_aides_on_aide_id", using: :btree
@@ -257,14 +257,14 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.text     "remarques_diagnostic"
     t.string   "etiquette_apres_travaux"
     t.integer  "gain_energetique"
-    t.float    "montant_travaux_ht"
-    t.float    "montant_travaux_ttc"
-    t.float    "pret_bancaire"
+    t.decimal  "montant_travaux_ht",              precision: 10, scale: 2
+    t.decimal  "montant_travaux_ttc",             precision: 10, scale: 2
+    t.decimal  "pret_bancaire",                   precision: 10, scale: 2
     t.text     "precisions_travaux"
     t.text     "precisions_financement"
     t.boolean  "autonomie"
     t.string   "plateforme_id"
-    t.float    "reste_a_charge"
+    t.decimal  "reste_a_charge",                  precision: 10, scale: 2
     t.integer  "agent_operateur_id"
     t.integer  "agent_instructeur_id"
     t.integer  "adresse_postale_id"

@@ -119,22 +119,22 @@ $(document).ready(function() {
     var helps = document.getElementsByClassName('js-public-help');
     var sum = 0;
     for(var i = 0; i < helps.length; i++) {
-      var value = parseFloat(helps[i].value);
+      var value = parseFloat(helps[i].value.replace(',', '.'));
       if(value > 0)
         sum += value;
     }
-    document.getElementById('js-public-helps-sum').value = sum;
+    document.getElementById('js-public-helps-sum').value = sum.toString().replace('.',',');
   }
 
   function sumFundings() {
     var fundings = document.getElementsByClassName('js-funding');
     var sum = 0;
     for(var i = 0; i < fundings.length; i++) {
-      var value = parseFloat(fundings[i].value);
+      var value = parseFloat(fundings[i].value.replace(',', '.'));
       if(value > 0)
         sum += value;
     }
-    document.getElementById('js-fundings-sum').value = sum;
+    document.getElementById('js-fundings-sum').value = sum.toString().replace('.',',');
   }
 
   var public_helps = $(".js-public-help");

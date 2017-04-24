@@ -483,4 +483,27 @@ describe Projet do
       expect(projet.status_for_operateur).to eq :en_cours_d_instruction
     }
   end
+
+  describe "amo_amount=" do
+    let(:projet) { create :projet }
+
+    it {
+      projet.amo_amount = '4,2'
+      expect(projet[:amo_amount].to_s).to eq '4.2'
+    }
+    it {
+      projet.amo_amount = '1 400,2'
+      expect(projet[:amo_amount].to_s).to eq '1400.2'
+    }
+  end
+
+  describe "amo_amount" do
+    let(:projet) { create :projet }
+
+    it {
+      projet[:amo_amount] = 4.2
+      expect(projet.amo_amount).to eq '4,2'
+    }
+  end
+
 end

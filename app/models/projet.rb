@@ -46,6 +46,8 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
 
+  amountable :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :montant_travaux_ht, :montant_travaux_ttc, :reste_a_charge, :pret_bancaire
+
   validates :numero_fiscal, :reference_avis, presence: true
   validates :email, email: true, allow_blank: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
@@ -85,6 +87,16 @@ class Projet < ActiveRecord::Base
       self.find_by(id: locator)
     end
   end
+
+=begin
+  def amo_amount
+    self[:amo_amount].to_s.gsub(/[^.0-9]/,'').gsub('.', ',')
+  end
+
+  def amo_amount=(value)
+    self[:amo_amount] = value.gsub(/[^,0-9]/,'').gsub(',', '.')
+  end
+=end
 
   def accessible_for_agent?(agent)
     agent.instructeur? || intervenants.include?(agent.intervenant)

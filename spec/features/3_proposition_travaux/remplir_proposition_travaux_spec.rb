@@ -14,6 +14,10 @@ feature "Remplir la proposition de travaux" do
   let!(:aide)             { create :aide }
 
   context "en tant qu'opérateur" do
+    let(:name) do
+      expect(page).to have_content(I18n.t('helpers.label.proposition.reste_a_charge'))
+    end
+
     before { login_as agent_operateur, scope: :agent }
 
     scenario "je visualise la proposition de travaux pour m'affecter le projet" do
@@ -103,7 +107,7 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content('3 333,33 €')
       expect(page).to have_content(I18n.t('helpers.label.proposition.montant_travaux_ht'))
       expect(page).to have_content('4 444,44 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.reste_a_charge'))
+      name
       expect(page).to have_content('1 111,11 €')
       expect(page).to have_content(I18n.t('helpers.label.proposition.pret_bancaire'))
       expect(page).to have_content('2 222,22 €')
@@ -213,7 +217,7 @@ feature "Remplir la proposition de travaux" do
           visit dossier_proposition_path(projet)
           expect(page).not_to have_content('Ancienne aide non utilisée')
           expect(page).to have_content('Ancienne aide utilisée')
-          expect(find_field('Ancienne aide utilisée').value).to eq '12,00 '
+          expect(find_field('Ancienne aide utilisée').value).to eq '12.0'
         end
       end
     end
