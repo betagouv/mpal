@@ -7,11 +7,13 @@ module Amountable
   module ClassMethods
     def amountable(*args)
       args.each do |attribute|
-        define_method attribute do
-          self[attribute.to_sym].to_s.gsub(/[^.0-9]/,'').gsub('.', ',')
+        define_method "localized_#{attribute}" do
+          ActiveSupport::NumberHelper.number_to_delimited(self[attribute.to_sym], precision: 2)
         end
-        define_method "#{attribute}=" do |arg|
-          self[attribute.to_sym] = arg.gsub(/[^,0-9]/,'').gsub(',', '.')
+        define_method "localized_#{attribute}=" do |arg|
+          value = arg.gsub(I18n.t('number.format.delimiter'), '')
+                     .gsub(I18n.t('number.format.separator'), '.')
+          self[attribute.to_sym] = value
         end
       end
     end

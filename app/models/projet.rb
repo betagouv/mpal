@@ -46,7 +46,7 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
 
-  amountable :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :montant_travaux_ht, :montant_travaux_ttc, :reste_a_charge, :pret_bancaire
+  amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :email, email: true, allow_blank: true
@@ -59,10 +59,6 @@ class Projet < ActiveRecord::Base
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
-  localized_numeric_setter :montant_travaux_ht
-  localized_numeric_setter :montant_travaux_ttc
-  localized_numeric_setter :reste_a_charge
-  localized_numeric_setter :pret_bancaire
 
   before_create do
     self.plateforme_id = Time.now.to_i

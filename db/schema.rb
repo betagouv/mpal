@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426125658) do
+ActiveRecord::Schema.define(version: 20170425081952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,7 +219,7 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   create_table "projet_aides", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "aide_id"
-    t.decimal "montant",   precision: 10, scale: 2
+    t.decimal "amount",    precision: 10, scale: 2
   end
 
   add_index "projet_aides", ["aide_id"], name: "index_projet_aides_on_aide_id", using: :btree
@@ -257,14 +257,14 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.text     "remarques_diagnostic"
     t.string   "etiquette_apres_travaux"
     t.integer  "gain_energetique"
-    t.decimal  "montant_travaux_ht",              precision: 10, scale: 2
-    t.decimal  "montant_travaux_ttc",             precision: 10, scale: 2
-    t.decimal  "pret_bancaire",                   precision: 10, scale: 2
+    t.decimal  "travaux_ht_amount",               precision: 10, scale: 2
+    t.decimal  "travaux_ttc_amount",              precision: 10, scale: 2
+    t.decimal  "loan_amount",                     precision: 10, scale: 2
     t.text     "precisions_travaux"
     t.text     "precisions_financement"
     t.boolean  "autonomie"
     t.string   "plateforme_id"
-    t.decimal  "reste_a_charge",                  precision: 10, scale: 2
+    t.decimal  "personal_funding_amount",         precision: 10, scale: 2
     t.integer  "agent_operateur_id"
     t.integer  "agent_instructeur_id"
     t.integer  "adresse_postale_id"

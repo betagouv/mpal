@@ -15,7 +15,7 @@ feature "Remplir la proposition de travaux" do
 
   context "en tant qu'opérateur" do
     let(:name) do
-      expect(page).to have_content(I18n.t('helpers.label.proposition.reste_a_charge'))
+      expect(page).to have_content(I18n.t('helpers.label.proposition.personal_funding'))
     end
 
     before { login_as agent_operateur, scope: :agent }
@@ -60,10 +60,10 @@ feature "Remplir la proposition de travaux" do
       fill_in 'projet_etiquette_apres_travaux', with: 'A'
 
       # Section "Financement"
-      fill_in 'projet_montant_travaux_ht', with: '3 333,33'
-      fill_in 'projet_montant_travaux_ttc', with: '4 444,44'
-      fill_in 'projet_reste_a_charge', with: '1 111,11'
-      fill_in 'projet_pret_bancaire', with: '2 222,22'
+      fill_in 'projet_localized_travaux_ht_amount', with: '3 333,33'
+      fill_in 'projet_localized_travaux_ttc_amount', with: '4 444,44'
+      fill_in 'projet_localized_personal_funding_amount', with: '1 111,11'
+      fill_in 'projet_localized_loan_amount', with: '2 222,22'
       fill_in  aide.libelle, with: '5 555,55'
 
       # Section "Précisions"
@@ -103,13 +103,13 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_css('.etiquette_apres', text: 'A')
 
       # Section "Financement"
-      expect(page).to have_content(I18n.t('helpers.label.proposition.montant_travaux_ht'))
+      expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ht_amount'))
       expect(page).to have_content('3 333,33 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.montant_travaux_ht'))
+      expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ttc_amount'))
       expect(page).to have_content('4 444,44 €')
       name
       expect(page).to have_content('1 111,11 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.pret_bancaire'))
+      expect(page).to have_content(I18n.t('helpers.label.proposition.loan_amount'))
       expect(page).to have_content('2 222,22 €')
       expect(page).to have_content(aide.libelle)
       expect(page).to have_content('5 555,55 €')
@@ -210,14 +210,14 @@ feature "Remplir la proposition de travaux" do
 
         before do
           projet.aides << old_used_aide
-          old_used_aide.projet_aides.first.update(montant: 12)
+          old_used_aide.projet_aides.first.update(amount: 1111.1)
         end
 
         scenario "j'ai toujours accès à cette aide" do
           visit dossier_proposition_path(projet)
           expect(page).not_to have_content('Ancienne aide non utilisée')
           expect(page).to have_content('Ancienne aide utilisée')
-          expect(find_field('Ancienne aide utilisée').value).to eq '12.0'
+          expect(find_field('Ancienne aide utilisée').value).to eq '1 111,1'
         end
       end
     end

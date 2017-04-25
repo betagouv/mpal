@@ -54,8 +54,8 @@ private
               :remarques_diagnostic,
               :gain_energetique, :etiquette_apres_travaux,
               :precisions_travaux, :precisions_financement,
-              :montant_travaux_ht, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :montant_travaux_ttc,
-              :pret_bancaire, :reste_a_charge,
+              :localized_amo_amount, :localized_assiette_subventionnable_amount, :localized_maitrise_oeuvre_amount, :localized_travaux_ht_amount, :localized_travaux_ttc_amount,
+              :localized_loan_amount, :localized_personal_funding_amount,
               :documents_attributes,
               :prestation_ids => [],
               :theme_ids => [],
@@ -66,7 +66,7 @@ private
       attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?
       if attributs[:projet_aides_attributes].present?
         attributs[:projet_aides_attributes].values.each do |projet_aide|
-          projet_aide[:_destroy] = true if projet_aide[:montant].blank?
+          projet_aide[:_destroy] = true if projet_aide[:localized_amount].blank?
         end
       end
       attributs
