@@ -12,30 +12,23 @@
         .form
           fieldset
             legend Logement
-            ul.ins-form
-              li
-                = f.label :date_de_visite, "Date de visite (obligatoire)"
-                = f.text_field :date_de_visite, placeholder: "JJ/MM/AAAA", value: format_date(@projet_courant.date_de_visite)
-              li
-                = f.label :type_logement, "Type de logement"
-                = f.select :type_logement, options_for_select(["Maison","Appartement"], @projet_courant.type_logement)
-              li
-                = f.label :etage, "Votre étage"
-                = f.select :etage, options_for_select(["0","1","2","3","4","5","Plus de 5"], @projet_courant.etage)
-
-              li
-                = f.label :nb_pieces, "Nombre de pièces"
-                = f.select :nb_pieces, options_for_select(["1","2","3","4","5","Plus de 5"], @projet_courant.nb_pieces)
-              li
-                = f.label :annee_construction, "Année de construction"
-                = f.text_field :annee_construction, value: @projet_courant.demande.annee_construction
-              li
-                = f.label :surface_habitable, "Surface habitable"
-                = f.text_field :surface_habitable
-                = " m²"
-              li
-                = f.label :etiquette_avant_travaux, "Étiquette énergétique avant travaux"
-                = f.text_field :etiquette_avant_travaux
+            /= f.label :date_de_visite, "Date de visite (obligatoire)"
+            = f.text_field :date_de_visite, placeholder: "JJ/MM/AAAA", value: format_date(@projet_courant.date_de_visite)
+            /= f.label :type_logement, "Type de logement"
+            = f.select :type_logement, options_for_select(["Maison","Appartement"], @projet_courant.type_logement)
+            /= f.label :etage, "Votre étage"
+            = f.select :etage, options_for_select(["0","1","2","3","4","5","Plus de 5"], @projet_courant.etage)
+            /= f.label :nb_pieces, "Nombre de pièces"
+            = f.select :nb_pieces, options_for_select(["1","2","3","4","5","Plus de 5"], @projet_courant.nb_pieces)
+            = f.fields_for :demande do |demande_form|
+              /= demande_form.label :annee_construction, "Année de construction"
+              = demande_form.input :annee_construction
+              /, value: @projet_courant.demande.annee_construction
+            /= f.label :surface_habitable, "Surface habitable"
+            = f.input :surface_habitable
+            = " m²"
+            /= f.label :etiquette_avant_travaux, "Étiquette énergétique avant travaux"
+            = f.input :etiquette_avant_travaux
           fieldset
             legend Diagnostic opérateur
             ul.ins-form

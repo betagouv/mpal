@@ -16,6 +16,8 @@ class Projet < ActiveRecord::Base
   accepts_nested_attributes_for :personne
 
   has_one :demande, dependent: :destroy
+  accepts_nested_attributes_for :demande
+
   belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
   belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 

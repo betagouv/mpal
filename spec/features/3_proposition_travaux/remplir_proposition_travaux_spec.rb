@@ -74,7 +74,7 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content('Appartement')
       expect(page).to have_css('.etage', text: 2)
       expect(page).to have_css('.pieces', text:'Plus de 5')
-      expect(page).to have_content('1954')
+      expect(page).to have_content('2010')
       expect(page).to have_content('42 m2')
       expect(page).to have_css('.etiquette_avant', text: 'C')
 

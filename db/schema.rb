@@ -107,7 +107,7 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.boolean "adaptation_salle_de_bain"
     t.boolean "accessibilite"
     t.boolean "ptz"
-    t.string  "annee_construction"
+    t.integer "annee_construction"
     t.text    "complement"
     t.text    "autre"
     t.boolean "hospitalisation"
@@ -251,7 +251,6 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.string   "tel"
     t.string   "themes",                                                            array: true
     t.integer  "nb_occupants_a_charge",                                 default: 0
-    t.integer  "annee_construction"
     t.integer  "statut",                                                default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"

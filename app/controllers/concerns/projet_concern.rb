@@ -45,7 +45,7 @@ private
 
     def projet_params
       attributs = params.require(:projet)
-      .permit(:disponibilite, :description, :email, :tel, :annee_construction, :date_de_visite,
+      .permit(:disponibilite, :description, :email, :tel, :date_de_visite,
               :type_logement, :etage, :nb_pieces, :surface_habitable, :etiquette_avant_travaux,
               :niveau_gir, :autonomie, :handicap, :demandeur_salarie, :entreprise_plus_10_personnes,
               :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation,
@@ -57,7 +57,9 @@ private
               :prestation_ids => [],
               :theme_ids => [],
               :suggested_operateur_ids => [],
-              :projet_aides_attributes => [:id, :aide_id, :montant])
+              :projet_aides_attributes => [:id, :aide_id, :montant],
+              :demande => [:annee_construction],
+      )
       attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?
       if attributs[:projet_aides_attributes].present?
         attributs[:projet_aides_attributes].values.each do |projet_aide|

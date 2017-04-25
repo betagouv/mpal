@@ -3,7 +3,6 @@ FactoryGirl.define do
     numero_fiscal 12
     reference_avis 15
     email 'prenom.nom@site.com'
-    annee_construction 1975
     association :adresse_postale,   factory: [ :adresse, :rue_de_rome ]
     association :adresse_a_renover, factory: [ :adresse, :rue_de_la_mare ]
 

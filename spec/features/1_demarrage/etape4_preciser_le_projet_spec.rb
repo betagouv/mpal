@@ -48,7 +48,7 @@ feature "Préciser le projet :" do
       expect(projet.demande.adaptation_salle_de_bain).to be_truthy
       expect(projet.demande.accessibilite).to be_truthy
       expect(projet.demande.ptz).to be_truthy
-      expect(projet.demande.annee_construction).to eq("1930")
+      expect(projet.demande.annee_construction).to eq(1930)
       expect(projet.demande.travaux_isolation).not_to be_truthy
       expect(projet.demande.travaux_adaptation_sdb).not_to be_truthy
       expect(projet.demande.travaux_amenagement_ext).to be_truthy
