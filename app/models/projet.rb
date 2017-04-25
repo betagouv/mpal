@@ -1,6 +1,6 @@
 class Projet < ActiveRecord::Base
   include LocalizedModelConcern
-  extend CsvProperties
+  extend CsvProperties, ApplicationHelper
 
   enum statut: {
     prospect: 0,
@@ -317,8 +317,9 @@ class Projet < ActiveRecord::Base
         'Demandeur',
         'Ville',
         'Instructeur',
-        'Thèmes',
+        'Types d’intervention',
         'Opérateur',
+        'Date de visite',
         'État',
         'Depuis',
       ]
@@ -334,8 +335,9 @@ class Projet < ActiveRecord::Base
           projet.demandeur_principal.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
-          '',
+          projet.themes.map(&:libelle).join(", "),
           projet.invited_operateur.try(:raison_sociale),
+          projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_operateur, scope: "projets.statut"),
         ]
         line.insert 6, projet.agent_operateur.try(:fullname)   if agent.instructeur? || agent.operateur?
