@@ -60,7 +60,7 @@ feature "Remplir la proposition de travaux" do
       fill_in 'projet_etiquette_apres_travaux', with: 'A'
 
       # Section "Financement"
-      fill_in 'projet_localized_travaux_ht_amount', with: '3 333,33'
+      fill_in 'projet_localized_travaux_ht_amount', with: '3 333'
       fill_in 'projet_localized_travaux_ttc_amount', with: '4 444,44'
       fill_in 'projet_localized_personal_funding_amount', with: '1 111,11'
       fill_in 'projet_localized_loan_amount', with: '2 222,22'
@@ -104,7 +104,7 @@ feature "Remplir la proposition de travaux" do
 
       # Section "Financement"
       expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ht_amount'))
-      expect(page).to have_content('3 333,33 €')
+      expect(page).to have_content('3 333,00 €')
       expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ttc_amount'))
       expect(page).to have_content('4 444,44 €')
       name
@@ -217,7 +217,7 @@ feature "Remplir la proposition de travaux" do
           visit dossier_proposition_path(projet)
           expect(page).not_to have_content('Ancienne aide non utilisée')
           expect(page).to have_content('Ancienne aide utilisée')
-          expect(find_field('Ancienne aide utilisée').value).to eq '1 111,1'
+          expect(find_field('Ancienne aide utilisée').value).to eq '1 111,10'
         end
       end
     end

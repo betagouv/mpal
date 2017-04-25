@@ -105,17 +105,17 @@
                     = f.text_field :localized_travaux_ht_amount, value: @projet_courant.localized_travaux_ht_amount
                     |  €
                 tr
-                  th scope="row"= 'Travaux : assiette subventionnable HT'
+                  th scope="row"= t('helpers.label.proposition.assiette_subventionnable_amount')
                   td
                     = f.text_field :localized_assiette_subventionnable_amount, value: @projet_courant.localized_assiette_subventionnable_amount
                     |  €
                 tr
-                  th scope="row"= 'Coût AMO (Assistance à Maîtrise d’Ouvrage)'
+                  th scope="row"= t('helpers.label.proposition.amo_amount')
                   td
                     = f.text_field :localized_amo_amount, value: @projet_courant.localized_amo_amount
                     |  €
                 tr
-                  th scope="row"= 'Coût Maîtrise d’Œuvre'
+                  th scope="row"= t('helpers.label.proposition.maitrise_oeuvre_amount')
                   td
                     = f.text_field :localized_maitrise_oeuvre_amount, value: @projet_courant.localized_maitrise_oeuvre_amount
                     |  €
