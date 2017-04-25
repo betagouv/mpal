@@ -2,6 +2,10 @@ class Projet < ActiveRecord::Base
   include LocalizedModelConcern
   extend CsvProperties, ApplicationHelper
 
+  TYPE_LOGEMENT_VALUES = ["Maison", "Appartement"]
+  ETAGE_VALUES = ["0", "1", "2", "3", "4", "5", "Plus de 5"]
+  NB_PIECES_VALUES = ["1", "2", "3", "4", "5", "Plus de 5"]
+
   enum statut: {
     prospect: 0,
     en_cours: 1,
