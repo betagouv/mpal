@@ -84,16 +84,6 @@ class Projet < ActiveRecord::Base
     end
   end
 
-=begin
-  def amo_amount
-    self[:amo_amount].to_s.gsub(/[^.0-9]/,'').gsub('.', ',')
-  end
-
-  def amo_amount=(value)
-    self[:amo_amount] = value.gsub(/[^,0-9]/,'').gsub(',', '.')
-  end
-=end
-
   def accessible_for_agent?(agent)
     agent.instructeur? || intervenants.include?(agent.intervenant)
   end
