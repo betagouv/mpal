@@ -53,7 +53,7 @@ class Projet < ActiveRecord::Base
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
-  validates :date_de_visite, presence: true, on: :proposition
+  validates :date_de_visite, :assiette_subventionnable_amount, :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
 
@@ -265,7 +265,7 @@ class Projet < ActiveRecord::Base
   def save_proposition!(attributes)
     assign_attributes(attributes)
     self.statut = :proposition_enregistree
-    save(context: :proposition)
+    save
   end
 
   def transmettre!(instructeur)

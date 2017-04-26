@@ -25,13 +25,21 @@ module ProjetConcern
 
     def proposer
       @projet_courant.statut = :proposition_proposee
-      if @projet_courant.save
+      if @projet_courant.save(context: :proposition)
         return redirect_to projet_or_dossier_path(@projet_courant)
+      else
+        @projet_courant.restore_statut!
+        render_show
       end
-      render "projets/show"
     end
 
     def show
+      render_show
+    end
+
+private
+
+    def render_show
       gon.push({
         latitude:  @projet_courant.adresse.try(:latitude),
         longitude: @projet_courant.adresse.try(:longitude)
@@ -42,8 +50,6 @@ module ProjetConcern
       @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
       render "projets/show"
     end
-
-private
 
     def projet_params
       attributs = params.require(:projet)

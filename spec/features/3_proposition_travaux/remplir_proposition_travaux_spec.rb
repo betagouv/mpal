@@ -14,10 +14,6 @@ feature "Remplir la proposition de travaux" do
   let!(:aide)             { create :aide }
 
   context "en tant qu'opérateur" do
-    let(:name) do
-      expect(page).to have_content(I18n.t('helpers.label.proposition.personal_funding'))
-    end
-
     before { login_as agent_operateur, scope: :agent }
 
     scenario "je visualise la proposition de travaux pour m'affecter le projet" do
@@ -40,7 +36,7 @@ feature "Remplir la proposition de travaux" do
       select 'Plus de 5', from: 'projet_nb_pieces'
       fill_in 'projet_demande_attributes_annee_construction', with: '1954'
       fill_in 'projet_surface_habitable', with: '42'
-      fill_in 'projet_etiquette_avant_travaux', with: 'C'
+      fill_in I18n.t('helpers.label.proposition.etiquette_avant_travaux'), with: 'C'
 
       # Section "Diagnostic opérateur"
       choose 'projet_autonomie_true'
@@ -56,19 +52,22 @@ feature "Remplir la proposition de travaux" do
       # Section "Description des travaux proposés"
       check 'Remplacement d’une baignoire par une douche'
       check 'Lavabo adapté'
-      fill_in 'projet_gain_energetique', with: '31'
-      fill_in 'projet_etiquette_apres_travaux', with: 'A'
+      fill_in I18n.t('helpers.label.proposition.gain_energetique'), with: '31'
+      fill_in I18n.t('helpers.label.proposition.etiquette_apres_travaux'), with: 'A'
+
+      # Section "Montant"
+      fill_in_section_montant
 
       # Section "Financement"
-      fill_in 'projet_localized_travaux_ht_amount', with: '3 333'
-      fill_in 'projet_localized_travaux_ttc_amount', with: '4 444,44'
-      fill_in 'projet_localized_personal_funding_amount', with: '1 111,11'
-      fill_in 'projet_localized_loan_amount', with: '2 222,22'
-      fill_in  aide.libelle, with: '5 555,55'
+      fill_in aide.libelle, with: '6 666,66'
+
+      # Section "Financement personnel"
+      fill_in I18n.t('helpers.label.proposition.personal_funding'), with: '7 777,77'
+      fill_in I18n.t('helpers.label.proposition.loan_amount'), with: '8 888,88'
 
       # Section "Précisions"
-      fill_in 'projet_precisions_travaux', with: 'Il faudra casser un mur.'
-      fill_in 'projet_precisions_financement', with: 'Le prêt sera sans doute accordé.'
+      fill_in I18n.t('helpers.label.proposition.precisions_travaux'), with: 'Il faudra casser un mur.'
+      fill_in I18n.t('helpers.label.proposition.precisions_financement'), with: 'Le prêt sera sans doute accordé.'
 
       click_on 'Enregistrer cette proposition'
       expect(page.current_path).to eq(dossier_path(projet))
@@ -104,15 +103,27 @@ feature "Remplir la proposition de travaux" do
 
       # Section "Financement"
       expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ht_amount'))
-      expect(page).to have_content('3 333,00 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ttc_amount'))
-      expect(page).to have_content('4 444,44 €')
-      name
-      expect(page).to have_content('1 111,11 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.loan_amount'))
+      expect(page).to have_content('1 111,00 €')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.assiette_subventionnable_amount'))
       expect(page).to have_content('2 222,22 €')
-      expect(page).to have_content(aide.libelle)
+      expect(page).to have_content(I18n.t('helpers.label.proposition.amo_amount'))
+      expect(page).to have_content('3 333,33 €')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.maitrise_oeuvre_amount'))
+      expect(page).to have_content('4 444,44 €')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ttc_amount'))
       expect(page).to have_content('5 555,55 €')
+
+      # Section "Financement"
+      expect(page).to have_content(aide.libelle)
+      expect(page).to have_content('6 666,66 €')
+
+      # Section "Financement personnel"
+      expect(page).to have_content(I18n.t('helpers.label.proposition.personal_funding'))
+      expect(page).to have_content('7 777,77 €')
+      expect(page).to have_content(I18n.t('helpers.label.proposition.loan_amount'))
+      expect(page).to have_content('8 888,88 €')
+
+      # Section "Précisions"
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_travaux') + ' : Il faudra casser un mur.')
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_financement') + ' : Le prêt sera sans doute accordé.')
     end
@@ -131,6 +142,7 @@ feature "Remplir la proposition de travaux" do
       scenario "elles n'apparaissent pas dans la synthèse" do
         visit dossier_proposition_path(projet)
         fill_in 'projet_date_de_visite', with: '28/12/2016'
+        fill_in_section_montant
         choose 'projet_ventilation_adaptee_false'
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))
@@ -221,5 +233,40 @@ feature "Remplir la proposition de travaux" do
         end
       end
     end
+
+    context "avec des attributs manquants" do
+      let(:projet) { create :projet, :proposition_enregistree, travaux_ht_amount: nil}
+
+      scenario "je suis notifié de l'erreur quand j'essaye d'envoyer ma proposition" do
+        visit dossier_proposition_path(projet)
+        fill_in 'projet_note_degradation', with: '1'
+
+        click_on 'Enregistrer cette proposition'
+        expect(page).to have_current_path dossier_path(projet)
+
+        click_link 'Proposer le projet au demandeur'
+        expect(page).to have_content('Coût des travaux à réaliser HT doit être rempli(e)')
+
+        within 'article.projet-ope' do
+          click_link I18n.t('projets.visualisation.lien_edition')
+        end
+        fill_in 'projet_date_de_visite', with: '28/12/2016'
+        fill_in I18n.t('helpers.label.proposition.travaux_ht_amount'), with: '1 111'
+        click_on 'Enregistrer cette proposition'
+
+        click_link 'Proposer le projet au demandeur'
+        expect(page).to have_no_content('Coût des travaux à réaliser HT doit être rempli(e)')
+      end
+    end
   end
+end
+
+private
+
+def fill_in_section_montant
+  fill_in I18n.t('helpers.label.proposition.travaux_ht_amount'),               with: '1 111'
+  fill_in I18n.t('helpers.label.proposition.assiette_subventionnable_amount'), with: '2 222,22'
+  fill_in I18n.t('helpers.label.proposition.amo_amount'),                      with: '3 333,33'
+  fill_in I18n.t('helpers.label.proposition.maitrise_oeuvre_amount'),          with: '4 444,44'
+  fill_in I18n.t('helpers.label.proposition.travaux_ttc_amount'),              with: '5 555,55'
 end

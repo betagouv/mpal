@@ -14,6 +14,9 @@ describe Projet do
     it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.not_to validate_presence_of(:date_de_visite) }
     it { is_expected.to validate_presence_of(:date_de_visite).on(:proposition) }
+    it { is_expected.to validate_presence_of(:assiette_subventionnable_amount).on(:proposition) }
+    it { is_expected.to validate_presence_of(:travaux_ht_amount).on(:proposition) }
+    it { is_expected.to validate_presence_of(:travaux_ttc_amount).on(:proposition) }
     it { is_expected.to validate_inclusion_of(:note_degradation).in_range(0..1) }
     it { is_expected.to validate_inclusion_of(:note_insalubrite).in_range(0..1) }
     it { is_expected.to have_one :demande }
@@ -385,22 +388,13 @@ describe Projet do
     let(:projet) { create :projet, :en_cours }
 
     context "quand les attributs sont valides" do
-      let(:attributes) do { note_degradation: 0.1, date_de_visite: Time.now } end
+      let(:attributes) do { note_degradation: 0.1 } end
 
       it "enregistre les modifications au projet" do
         expect(projet.save_proposition!(attributes)).to be true
         expect(projet.changed?).to be false
         expect(projet.statut).to eq(:proposition_enregistree.to_s)
         expect(projet.note_degradation).to eq 0.1
-      end
-    end
-
-    context "quand des attributs requis sont manquants" do
-      let(:attributes) do { date_de_visite: nil } end
-
-      it "ajoute une erreur de validation" do
-        expect(projet.save_proposition!(attributes)).to be false
-        expect(projet.errors).not_to be_blank
       end
     end
   end
