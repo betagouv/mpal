@@ -123,6 +123,7 @@ $(document).ready(function() {
       if(value > 0)
         sum += value;
     }
+    sum = sum.toFixed(2);
     document.getElementById('js-public-helps-sum').value = sum.toString().replace('.',',');
   }
 
@@ -134,6 +135,7 @@ $(document).ready(function() {
       if(value > 0)
         sum += value;
     }
+    sum = sum.toFixed(2);
     document.getElementById('js-fundings-sum').value = sum.toString().replace('.',',');
   }
 
