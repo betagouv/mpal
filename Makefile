@@ -3,7 +3,7 @@ install: ## Install or update dependencies
 	test -f .env || cp .env{.sample,}
 	command -v bundler >/dev/null 2>&1 || gem install bundler --no-ri --no-rdoc
 	bundle check || bundle install
-	bundle exec rake db:migrate
+	bundle exec rake db:migrate after_party:run
 
 run: ## Start the app server
 	foreman start -f Procfile.dev
