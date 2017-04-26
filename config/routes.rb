@@ -5,9 +5,12 @@ Rails.application.routes.draw do
     end
     resources :commentaires,       only: :create
     resource  :composition
-    resources :avis_impositions,   only: [:index, :new, :create]
+    resources :avis_impositions,   only: [:index, :new, :create, :destroy]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
+    resource :demandeur,         only: [:show, :update]
+    resource :demande,           only: [:show, :update]
+    resource :mise_en_relation,  only: [:show, :update]
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       :proposition
@@ -35,24 +38,14 @@ Rails.application.routes.draw do
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     resources :projets, only: [], concerns: :projectable do
-      resources :avis_impositions, only: :destroy
-      get       :choix_operateur,      action: :new,    controller: 'choix_operateur'
-      patch     :choix_operateur,      action: :choose, controller: 'choix_operateur'
-      get       :engagement_operateur, action: :new,    controller: 'engagement_operateur'
-      post      :engagement_operateur, action: :create, controller: 'engagement_operateur'
-      get       :transmission,         action: :new,    controller: 'transmission'
-      post      :transmission,         action: :create, controller: 'transmission'
+      get      :choix_operateur,      action: :new,    controller: 'choix_operateur'
+      patch    :choix_operateur,      action: :choose, controller: 'choix_operateur'
+      get      :engagement_operateur, action: :new,    controller: 'engagement_operateur'
+      post     :engagement_operateur, action: :create, controller: 'engagement_operateur'
+      get      :transmission,         action: :new,    controller: 'transmission'
+      post     :transmission,         action: :create, controller: 'transmission'
     end
     resources :projets, only: [:show, :edit, :update], param: :projet_id
-
-    get   '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos', as: 'etape1_recuperation_infos'
-    post  '/projets/:projet_id/mes_infos', to: 'demarrage_projet#etape1_recuperation_infos'
-
-    get   '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_description_projet', as: 'etape2_description_projet'
-    patch '/projets/:projet_id/mon_projet', to: 'demarrage_projet#etape2_envoi_description_projet'
-
-    get   '/projets/:projet_id/mise_en_relation', to: 'demarrage_projet#etape3_mise_en_relation', as: 'etape3_mise_en_relation'
-    patch '/projets/:projet_id/mise_en_relation', to: 'demarrage_projet#etape3_envoi_mise_en_relation'
 
     get   '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post  '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'

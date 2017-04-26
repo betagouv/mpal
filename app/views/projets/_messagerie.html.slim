@@ -22,7 +22,7 @@ article#messagerie.block.messagerie
     - else
       p Il n’y a pas de message. Soyez le premier/la première à poser votre question.
       p Vous serez notifié par email dès qu’un nouveau message apparaîtra.
-    = form_for @commentaire, url: send("#{@dossier_ou_projet}_commentaires_path", @projet_courant) do |f|
+    = form_for @commentaire, url: projet_or_dossier_commentaires_path(@projet_courant) do |f|
       = f.text_area :corps_message, class: 'chat-respond'
       = btn name: t('projets.visualisation.lien_ajout_commentaire'), icon: 'envelope'
 

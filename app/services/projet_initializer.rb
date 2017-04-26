@@ -67,7 +67,7 @@ class ProjetInitializer
   def precise_adresse(adresse, previous_value: nil, required: false)
     if adresse.blank?
       if required
-        raise I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
+        raise I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
       else
         return nil
       end
@@ -79,7 +79,7 @@ class ProjetInitializer
 
     adresse_localisee = @service_adresse.precise(adresse)
     if !adresse_localisee
-      raise I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
+      raise I18n.t('demarrage_projet.demandeur.erreurs.adresse_inconnue')
     end
 
     adresse_localisee

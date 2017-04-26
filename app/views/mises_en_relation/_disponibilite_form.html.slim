@@ -1,0 +1,9 @@
+= form_for @projet_courant, url: {controller: 'mises_en_relation', action: 'update'}, method: 'patch', html: { class:'ui form'}  do |f|
+  ul.ins-form
+    li.full
+      = f.label :disponibilite, t('helpers.label.projet.disponibilite')
+      = f.text_field :disponibilite, placeholder: t('demarrage_projet.mise_en_relation.disponibilite_placeholder')
+  .checkbox-validation
+    input#dif1 type="checkbox" class="js-engagement"
+    label for="dif1" = t('agrements.autorisation_acces_donnees_intervenants')
+

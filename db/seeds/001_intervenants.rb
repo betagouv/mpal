@@ -5,14 +5,14 @@ class Seeder
       raison_sociale: "ADIL 25",
       clavis_service_id: "5264",
       adresse_postale: "1 Rue de Ronde du Fort Griffon, 25000 Besançon",
-      email: "pris25@anah.gouv.fr",
+      email: "demo-pris@anah.gouv.fr",
       roles: ["pris"]
     },
     {
       departements: ["25"],
       raison_sociale: "DDT 25",
       clavis_service_id: "5054",
-      email: "delegation25-1@anah.gouv.fr",
+      email: "demo-delegation@anah.gouv.fr",
       roles: ["instructeur"]
     },
     {
@@ -27,7 +27,7 @@ class Seeder
       raison_sociale: "SOLIHA 25-90",
       clavis_service_id: "5262",
       adresse_postale: "30 rue Caporal Peugeot, 25000 Besançon",
-      email: "operateur25-2@anah.gouv.fr",
+      email: "demo-operateur@anah.gouv.fr",
       roles: ["operateur"]
     },
     {
@@ -35,6 +35,7 @@ class Seeder
       raison_sociale: "PRIS-DDT-88",
       clavis_service_id: "5269",
       adresse_postale: "22-26 Avenue Dutac, 88000 Épinal",
+      phone: "03 33 44 55 66",
       email: "pris88@anah.gouv.fr",
       roles: ["pris"]
     },
@@ -43,6 +44,7 @@ class Seeder
       raison_sociale: "DDT des VOSGES",
       clavis_service_id: "5119",
       adresse_postale: "22-26 Avenue Dutac, 88000 Épinal",
+      phone: "03 99 88 77 66",
       email: "delegation88-1@anah.gouv.fr",
       roles: ["instructeur"]
     },
@@ -51,6 +53,7 @@ class Seeder
       raison_sociale: "URBAM CONSEIL SAS",
       clavis_service_id: "5265",
       adresse_postale: "5 Rue Thiers, 88000 Épinal",
+      phone: "03 00 11 22 33",
       email: "operateur88-1@anah.gouv.fr",
       roles: ["operateur"]
     },

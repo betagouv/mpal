@@ -41,6 +41,11 @@ fr:
       contact:
         subject: Objet
         description: Message
+      projet:
+        theme_ids: Types d’interventions
+    hints:
+      defaults:
+        theme_ids: "(2 maximum)"
     placeholders:
       defaults:
         birthday: jj/mm/aaaa

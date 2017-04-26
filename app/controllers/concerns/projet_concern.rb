@@ -4,33 +4,27 @@ module ProjetConcern
   included do
     def proposition
       if @projet_courant.prospect?
-        return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), alert: t('sessions.access_forbidden')
+        return redirect_to projet_or_dossier_path(@projet_courant), alert: t('sessions.access_forbidden')
       end
 
       if request.put?
         if @projet_courant.save_proposition!(projet_params)
-          return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant), notice: t('projets.edition_projet.messages.succes')
+          return redirect_to projet_or_dossier_path(@projet_courant), notice: t('projets.edition_projet.messages.succes')
         else
           flash.now[:alert] = t('projets.edition_projet.messages.erreur')
         end
       end
 
       assign_projet_if_needed
-      @projet_courant.documents.build(label: "Evaluation énergétique")
-      @projet_courant.documents.build(label: "Decision CDAPH ou GIR")
-      @projet_courant.documents.build(label: "Rapport d'ergotherpeute ou diagnostic autonomie")
-      @projet_courant.documents.build(label: "Grille de degradation ou arrêté")
-      @projet_courant.documents.build(label: "Grille d'insalubrité ou arrêté")
-      @projet_courant.documents.build(label: "Devis ou estimation de travaux")
-      @projet_courant.documents.build(label: "Justificatif MDPH")
-      @projet_courant.documents.build(label: "Justificatif CDAPH")
+      @themes = Theme.ordered.all
+      @prestations = Prestation.where(active: true) | @projet_courant.prestations
       render "projets/proposition"
     end
 
     def proposer
       @projet_courant.statut = :proposition_proposee
       if @projet_courant.save
-        return redirect_to send("#{@dossier_ou_projet}_path", @projet_courant)
+        return redirect_to projet_or_dossier_path(@projet_courant)
       end
       render "projets/show"
     end
@@ -51,7 +45,7 @@ private
 
     def projet_params
       attributs = params.require(:projet)
-      .permit(:disponibilite, :description, :email, :tel, :annee_construction,
+      .permit(:disponibilite, :description, :email, :tel, :annee_construction, :date_de_visite,
               :type_logement, :etage, :nb_pieces, :surface_habitable, :etiquette_avant_travaux,
               :niveau_gir, :autonomie, :handicap, :demandeur_salarie, :entreprise_plus_10_personnes,
               :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation,
@@ -61,6 +55,7 @@ private
               :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire, :reste_a_charge,
               :documents_attributes,
               :prestation_ids => [],
+              :theme_ids => [],
               :suggested_operateur_ids => [],
               :projet_aides_attributes => [:id, :aide_id, :montant])
       attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?

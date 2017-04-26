@@ -2,14 +2,25 @@ require 'rails_helper'
 require 'support/mpal_helper'
 require 'support/api_ban_helper'
 
-describe DemarrageProjetController do
+describe DemandeursController do
   let(:projet) { create :projet, :prospect, demandeurs_count: 2 }
 
   before(:each) do
     authenticate_as_particulier(projet.numero_fiscal)
   end
 
-  describe "#etape1_recuperation_infos" do
+  describe "#show" do
+    before do
+      get :show, projet_id: projet.id
+    end
+
+    it "renders the template" do
+      expect(response).to render_template(:show)
+      expect(assigns(:page_heading)).to eq 'Inscription'
+    end
+  end
+
+  describe "#update" do
     let(:projet_params) do {} end
     let(:params) do
       default_params = { adresse_postale: projet.adresse_postale.description }
@@ -21,7 +32,7 @@ describe DemarrageProjetController do
     end
 
     before(:each) do
-      post :etape1_recuperation_infos, params
+      post :update, params
       projet.reload
     end
 
@@ -34,7 +45,7 @@ describe DemarrageProjetController do
       end
 
       it "enregistre les informations modifiées" do
-        expect(response).to redirect_to projet_path(projet)
+        expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.tel).to eq   '01 02 03 04 05'
         expect(projet.email).to eq 'particulier@exemple.fr'
       end
@@ -54,7 +65,7 @@ describe DemarrageProjetController do
       end
 
       it "enregistre la personne de confiance" do
-        expect(response).to redirect_to projet_path(projet)
+        expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.personne.civilite).to            eq 'mr'
         expect(projet.personne.prenom).to              eq 'Tyrone'
         expect(projet.personne.nom).to                 eq 'Meehan'
@@ -67,8 +78,8 @@ describe DemarrageProjetController do
       let(:projet_params) do { adresse_postale: '' } end
 
       it "affiche une erreur" do
-        expect(response).to render_template(:etape1_recuperation_infos)
-        expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_vide')
+        expect(response).to render_template(:show)
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
       end
     end
 
@@ -103,8 +114,8 @@ describe DemarrageProjetController do
       context "et n'est pas disponible dans la BAN" do
         let(:projet_params) do { adresse_postale: Fakeweb::ApiBan::ADDRESS_UNKNOWN } end
         it "affiche une erreur" do
-          expect(response).to render_template(:etape1_recuperation_infos)
-          expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.adresse_inconnue')
+          expect(response).to render_template(:show)
+          expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_inconnue')
         end
       end
     end
@@ -151,7 +162,7 @@ describe DemarrageProjetController do
       end
 
       it "enregistre les informations modifiées" do
-        expect(response).to redirect_to projet_path(projet)
+        expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.demandeur_principal).to eq projet.occupants.last
       end
     end
@@ -160,7 +171,7 @@ describe DemarrageProjetController do
   context "lorsque une information est erronée" do
     before do
       projet.demandeur_principal.update_attribute(:civilite, nil)
-      post :etape1_recuperation_infos, {
+      post :update, {
         contact: "1",
         projet_id: projet.id,
         projet: {
@@ -168,11 +179,10 @@ describe DemarrageProjetController do
           demandeur_id: projet.demandeur_principal.id
         }
       }
-      projet.reload
     end
 
     it "affiche une erreur" do
-      expect(flash[:alert]).to eq I18n.t('demarrage_projet.etape1_demarrage_projet.erreurs.enregistrement_demandeur')
+      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
     end
   end
 end

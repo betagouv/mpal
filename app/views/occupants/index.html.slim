@@ -10,7 +10,7 @@
           = t('occupants.nombre_occupant')
           span= " #{@projet_courant.nb_total_occupants}"
         li
-          = t('demarrage_projet.etape1_demarrage_projet.revenu_fiscal_reference')
+          = t('demarrage_projet.demandeur.revenu_fiscal_reference')
           span= " #{@projet_courant.annee_fiscale_reference} : "
           span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
     p.chapo= t('occupants.confirmer_nombre_personnes')
@@ -28,7 +28,7 @@
             td= occupant.date_de_naissance.year
             td
               - if occupant.can_be_deleted?
-                = link_to projet_occupant_path(id: occupant.id),
+                = link_to projet_or_dossier_occupant_path(projet: @projet_courant, id: occupant.id),
                     method: :delete,
                     title: t('occupants.delete.action'),
                     class: "btn btn-icon",
@@ -50,11 +50,11 @@
           = f.text_field :nom,               class: "occupant-inline-form__nom",    placeholder: "Nom"
         .occupant-inline-form__field
           = f.label :date_de_naissance
-          = f.date_field :date_de_naissance, class: "occupant-inline-form__dob",    placeholder: "JJ/MM/AAAA"
+          = f.date_field :date_de_naissance, class: "occupant-inline-form__dob",    placeholder: "JJ/MM/AAAA", value: format_date(@occupant.date_de_naissance)
         = btn name: t('occupants.nouveau.action'), class: "occupant-inline-form__submit", icon: "plus"
 
     .checkbox-validation
       input#dif1 type="checkbox" class="js-engagement"
       label for="dif1" = t('agrements.attestation_communiquer_infos_occupants')
-  = btn name: "Valider", class: "btn-large btn-centered js-engagement", icon: "ok"
+  = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "ok"
 

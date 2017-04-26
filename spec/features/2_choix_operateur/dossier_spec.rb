@@ -3,22 +3,37 @@ require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "J'ai accès aux données concernant mes dossiers" do
-  let(:projet)      { create(:projet, :prospect, :with_intervenants_disponibles, :with_invited_operateur) }
-  let(:operateur)   { create :operateur,   departements: [projet.departement] }
-  let(:instructeur) { create :instructeur, departements: [projet.departement] }
-  let(:pris)        { create :pris,        departements: [projet.departement] }
-  let!(:invitation) { create :invitation, intervenant: operateur, projet: projet }
+feature "Accéder au informations du dossier :" do
+  let(:projet)      { create(:projet, :prospect, :with_invited_operateur, :with_invited_instructeur, :with_invited_pris) }
+  let(:operateur)   { projet.invited_operateur }
+  let(:instructeur) { projet.invited_instructeur }
+  let(:pris)        { projet.invited_pris }
 
-  before { login_as agent, scope: :agent }
+  shared_examples "je peux consulter mon projet" do
+    specify do
+      visit projet_path(projet)
+      expect(page).to have_current_path projet_path(projet)
+      expect(page).to have_content("Jean Martin")
+    end
+  end
+
+  shared_examples "je peux consulter un dossier" do
+    specify do
+      visit dossier_path(projet)
+      expect(page).to have_current_path dossier_path(projet)
+      expect(page).to have_content("Jean Martin")
+    end
+  end
+
+  context "en tant que demandeur" do
+    before { signin(projet.numero_fiscal, projet.reference_avis) }
+    it_behaves_like "je peux consulter mon projet"
+  end
 
   context "en tant qu'opérateur" do
     let(:agent) { create :agent, intervenant: operateur }
-
-    scenario "je peux consulter un dossier" do
-      visit dossier_path(projet)
-      expect(page).to have_content("Jean Martin")
-    end
+    before { login_as agent, scope: :agent }
+    it_behaves_like "je peux consulter un dossier"
 
     scenario "je ne peux pas changer de moi-même l'opérateur du dossier" do
       visit dossier_path(projet)
@@ -28,21 +43,13 @@ feature "J'ai accès aux données concernant mes dossiers" do
 
   context "en tant qu'instructeur" do
     let(:agent) { create :agent, intervenant: instructeur }
-
-    scenario "je peux consulter un dossier" do
-      # TODO
-    end
+    before { login_as agent, scope: :agent }
+    it_behaves_like "je peux consulter un dossier"
   end
 
   context "en tant que PRIS" do
     let(:agent) { create :agent, intervenant: pris }
-
-    scenario "je peux consulter un dossier" do
-      # TODO
-    end
-
-    scenario "si je suis saisi par le demandeur, je peux affecter un opérateur au dossier" do
-      # TODO
-    end
+    before { login_as agent, scope: :agent }
+    it_behaves_like "je peux consulter un dossier"
   end
 end

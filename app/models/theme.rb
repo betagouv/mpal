@@ -1,7 +1,7 @@
 class Theme < ActiveRecord::Base
-  validates :libelle, presence: true
+  has_and_belongs_to_many :projets
 
-  has_many :prestations
+  validates :libelle, presence: true
 
   scope :ordered, -> { order("themes.libelle, themes.id") }
 

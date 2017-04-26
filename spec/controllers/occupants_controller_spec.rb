@@ -81,7 +81,7 @@ describe OccupantsController do
         end
 
         it "passe à l'étape suivante" do
-          expect(response).to redirect_to(etape2_description_projet_path(projet))
+          expect(response).to redirect_to(projet_demande_path(projet))
         end
       end
     end

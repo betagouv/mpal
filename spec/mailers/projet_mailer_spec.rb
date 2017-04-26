@@ -24,12 +24,15 @@ describe ProjetMailer, type: :mailer do
   end
 
   describe "mise en relation intervenant" do
-    let(:mise_en_relation) { create :mise_en_relation }
-    let(:email) { ProjetMailer.mise_en_relation_intervenant(mise_en_relation) }
+    let!(:prestation)      { create :prestation }
+    let(:projet)           { create :projet, :proposition_proposee }
+    let(:mise_en_relation) { create :mise_en_relation, projet: projet }
+    let(:email)            { ProjetMailer.mise_en_relation_intervenant(mise_en_relation) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([mise_en_relation.intervenant_email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: mise_en_relation.intermediaire.raison_sociale)) }
     it { expect(email.body.encoded).to match(mise_en_relation.description_adresse) }
+    it { expect(email.body).to include(prestation.libelle) }
   end
 
   describe "l'opérateur reçoit un email lorsque le demandeur choisit un autre opérateur" do

@@ -1,6 +1,6 @@
 class Projet < ActiveRecord::Base
   include LocalizedModelConcern
-  extend CsvProperties
+  extend CsvProperties, ApplicationHelper
 
   enum statut: {
     prospect: 0,
@@ -36,15 +36,18 @@ class Projet < ActiveRecord::Base
   has_many :aides, through: :projet_aides
   accepts_nested_attributes_for :projet_aides, reject_if: :all_blank, allow_destroy: true
 
-  has_and_belongs_to_many :prestations, join_table: 'projet_prestations'
+  has_and_belongs_to_many :prestations
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
+  has_and_belongs_to_many :themes
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :email, email: true, allow_blank: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
+  validates :date_de_visite, presence: true, on: :proposition
   validate  :validate_frozen_attributes
+  validate  :validate_theme_count, on: :proposition
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
@@ -63,6 +66,7 @@ class Projet < ActiveRecord::Base
     next where(nil) if agent.instructeur?
     joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
   }
+  scope :ordered, -> { order("projets.id desc") }
 
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')
@@ -143,6 +147,14 @@ class Projet < ActiveRecord::Base
         errors.add(attribute, :frozen)
       end
     end
+  end
+
+  def validate_theme_count
+    if 2 < themes.count
+      errors.add(:theme_ids, "vous ne pouvez en sélectionner que 2 maximum")
+      return false
+    end
+    true
   end
 
   def change_demandeur(demandeur_id)
@@ -249,7 +261,7 @@ class Projet < ActiveRecord::Base
   def save_proposition!(attributes)
     assign_attributes(attributes)
     self.statut = :proposition_enregistree
-    save
+    save(context: :proposition)
   end
 
   def transmettre!(instructeur)
@@ -284,6 +296,8 @@ class Projet < ActiveRecord::Base
     occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
   end
 
+  # TODO Attention : cette date est importante à conserver alors que les invitations
+  # sont faciles à supprimer. En attente de mise en place de l’historisation.
   def date_depot
     invitation_intervenant = invitations.where(intervenant: invited_instructeur).first
     if invitation_intervenant
@@ -312,8 +326,9 @@ class Projet < ActiveRecord::Base
         'Demandeur',
         'Ville',
         'Instructeur',
-        'Thèmes',
+        'Types d’intervention',
         'Opérateur',
+        'Date de visite',
         'État',
         'Depuis',
       ]
@@ -329,8 +344,9 @@ class Projet < ActiveRecord::Base
           projet.demandeur_principal.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
-          '',
+          projet.themes.map(&:libelle).join(", "),
           projet.invited_operateur.try(:raison_sociale),
+          projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_operateur, scope: "projets.statut"),
         ]
         line.insert 6, projet.agent_operateur.try(:fullname)   if agent.instructeur? || agent.operateur?

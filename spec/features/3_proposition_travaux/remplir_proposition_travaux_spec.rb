@@ -4,10 +4,14 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Remplir la proposition de travaux" do
-  let(:projet)           { create :projet, :en_cours }
-  let(:operateur)        { projet.operateur }
-  let(:agent_operateur)  { create :agent, intervenant: operateur }
-  let(:aide)             { Aide.first }
+  let(:projet)            { create :projet, :en_cours }
+  let(:operateur)         { projet.operateur }
+  let(:agent_operateur)   { create :agent, intervenant: operateur }
+  let(:theme)             { create :theme }
+  let!(:prestation_1)     { create :prestation, libelle: 'Remplacement d’une baignoire par une douche' }
+  let!(:prestation_2)     { create :prestation, libelle: 'Lavabo adapté' }
+  let!(:prestation_3)     { create :prestation, libelle: 'Géothermie' }
+  let!(:aide)             { create :aide }
 
   context "en tant qu'opérateur" do
     before { login_as agent_operateur, scope: :agent }
@@ -26,6 +30,7 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(aide.libelle)
 
       # Section "Logement"
+      fill_in 'projet_date_de_visite', with: '28/12/2016'
       select 'Appartement', from: 'projet_type_logement'
       select '2', from: 'projet_etage'
       select 'Plus de 5', from: 'projet_nb_pieces'
@@ -62,9 +67,10 @@ feature "Remplir la proposition de travaux" do
       fill_in 'projet_precisions_financement', with: 'Le prêt sera sans doute accordé.'
 
       click_on 'Enregistrer cette proposition'
+      expect(page.current_path).to eq(dossier_path(projet))
 
       # Section "Logement"
-      expect(page.current_path).to eq(dossier_path(projet))
+      expect(page).to have_content('28 décembre 2016')
       expect(page).to have_content('Appartement')
       expect(page).to have_css('.etage', text: 2)
       expect(page).to have_css('.pieces', text:'Plus de 5')
@@ -120,6 +126,7 @@ feature "Remplir la proposition de travaux" do
     context "quand je ne réponds non/pas aux questions" do
       scenario "elles n'apparaissent pas dans la synthèse" do
         visit dossier_proposition_path(projet)
+        fill_in 'projet_date_de_visite', with: '28/12/2016'
         choose 'projet_ventilation_adaptee_false'
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))
@@ -177,6 +184,20 @@ feature "Remplir la proposition de travaux" do
         expect(page).to have_content('42')
         expect(page).not_to have_content(prestation.libelle)
         expect(page).not_to have_content(aide.libelle)
+      end
+
+      context "avec une prestation dépréciée" do
+        let!(:old_unused_prestation)  { create :prestation, libelle: 'Ancienne prestation non utilisée', active: false }
+        let!(:old_used_prestation)    { create :prestation, libelle: 'Ancienne prestation utilisée', active: false }
+
+        before { projet.prestations << old_used_prestation }
+
+        scenario "j'ai toujours accès à cette prestation" do
+          visit dossier_proposition_path(projet)
+          expect(page).not_to have_content('Ancienne prestation non utilisée')
+          expect(page).to have_content('Ancienne prestation utilisée')
+          expect(find("#prestation_#{old_used_prestation.id}")).to be_checked
+        end
       end
     end
   end

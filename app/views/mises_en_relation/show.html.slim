@@ -1,0 +1,23 @@
+= form_for @projet_courant, url: {controller: 'mises_en_relation', action: 'update'}, method: 'patch', html: { class:'ui form'}  do |f|
+    <div>
+      /! Eligibilite
+      section.eligibilite
+        h2 = t('demarrage_projet.mise_en_relation.section_eligibilite')
+        p.chapo
+          - if @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) == :plafond_depasse
+            = t('demarrage_projet.mise_en_relation.votre_projet_est_non_eligible')
+          - else
+            = t('demarrage_projet.mise_en_relation.votre_projet_est_eligible')
+      /! Auto-assignation d'un PRIS
+      section.assignement-pris
+        h2 = t('demarrage_projet.mise_en_relation.assignement_pris_titre')
+        p.chapo
+          - if @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) == :plafond_depasse
+            = t('demarrage_projet.mise_en_relation.non_eligible_recontacter',  { pris: @pris_departement.raison_sociale})
+          - else
+            = t('demarrage_projet.mise_en_relation.un_pris_va_vous_contacter', { pris: @pris_departement.raison_sociale})
+        p.chapo Il pourra vous recommander un opérateur chargé de vous accompagner tout au long de votre démarche.
+        = hidden_field_tag :intervenant, @pris_departement.id
+        = render 'mises_en_relation/disponibilite_form'
+      = btn name: @action_label, class: 'btn-large btn-centered js-engagement', icon: 'ok'
+    </div><!-- Workaround for allowing slim to honor the scope of the submit tag -->
