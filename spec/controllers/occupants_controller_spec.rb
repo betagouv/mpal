@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_helper'
 
 describe OccupantsController do
-  let(:projet) { create :projet, :with_demandeurs }
+  let(:projet) { create :projet, :with_demandeur }
 
   before(:each) do
     authenticate_as_particulier(projet.numero_fiscal)

@@ -23,10 +23,14 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_demandeurs do
+    trait :with_demandeur do
       with_avis_imposition
       declarants_count 2
       occupants_a_charge_count 2
+
+      after(:build) do |projet|
+        projet.avis_impositions.first.occupants.first.demandeur = true
+      end
     end
 
     trait :with_demande do
@@ -109,14 +113,14 @@ FactoryGirl.define do
 
     trait :prospect do
       statut :prospect
-      with_demandeurs
+      with_demandeur
       with_demande
       with_intervenants_disponibles
     end
 
     trait :en_cours do
       statut :en_cours
-      with_demandeurs
+      with_demandeur
       with_demande
       with_committed_operateur
     end
@@ -124,7 +128,7 @@ FactoryGirl.define do
     trait :proposition_enregistree do
       statut :proposition_enregistree
       date_de_visite DateTime.new(2016, 12, 28)
-      with_demandeurs
+      with_demandeur
       with_demande
       with_assigned_operateur
       with_prestations
@@ -132,14 +136,14 @@ FactoryGirl.define do
 
     trait :proposition_proposee do
       statut :proposition_proposee
-      with_demandeurs
+      with_demandeur
       with_demande
       with_assigned_operateur
       with_prestations
     end
 
     trait :transmis_pour_instruction do
-      with_demandeurs
+      with_demandeur
       with_demande
       with_assigned_operateur
       with_prestations
@@ -153,7 +157,7 @@ FactoryGirl.define do
     trait :en_cours_d_instruction do
       opal_numero 4567
       opal_id 8910
-      with_demandeurs
+      with_demandeur
       with_demande
       with_assigned_operateur
       with_prestations
