@@ -3,6 +3,7 @@ ruby '2.3.1'
 
 gem 'acsv'
 gem 'active_model_serializers'
+gem 'after_party'
 gem 'bootstrap', '~> 4.0.0.alpha3.1'
 gem 'bootstrap-will_paginate'
 gem 'bourbon'
