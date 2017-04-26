@@ -30,7 +30,7 @@ describe Opal do
   let(:client) { OpalClientMock.new(201, "OK", { dosNumero: "09500840", dosId: 959496 }) }
 
   describe "#create_dossier!" do
-    let(:projet) {            create :projet, :transmis_pour_instruction, demandeurs_count: 1, occupants_a_charge_count: 1 }
+    let(:projet) {            create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
     let(:instructeur) {       create :instructeur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
 

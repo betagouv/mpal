@@ -9,7 +9,7 @@ FactoryGirl.define do
 
     trait :with_avis_imposition do
       transient do
-        demandeurs_count 1
+        declarants_count 1
         occupants_a_charge_count 0
       end
 
@@ -18,14 +18,14 @@ FactoryGirl.define do
           projet: projet,
           numero_fiscal: projet.numero_fiscal,
           reference_avis: projet.reference_avis,
-          demandeurs_count: evaluator.demandeurs_count,
+          declarants_count: evaluator.declarants_count,
           occupants_a_charge_count: evaluator.occupants_a_charge_count)
       end
     end
 
     trait :with_demandeurs do
       with_avis_imposition
-      demandeurs_count 2
+      declarants_count 2
       occupants_a_charge_count 2
     end
 
