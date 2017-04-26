@@ -97,13 +97,17 @@ module ApplicationHelper
     end
     html << content_tag(:h4, "Travaux envisagés")
     travaux = []
-    travaux << t("demarrage_projet.demande.travaux_fenetres") if demande.travaux_fenetres
-    travaux << t("demarrage_projet.demande.travaux_isolation") if demande.travaux_isolation
-    travaux << t("demarrage_projet.demande.travaux_chauffage") if demande.travaux_chauffage
-    travaux << t("demarrage_projet.demande.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb
-    travaux << t("demarrage_projet.demande.travaux_monte_escalier") if demande.travaux_monte_escalier
-    travaux << t("demarrage_projet.demande.travaux_amenagement_ext") if demande.travaux_amenagement_ext
-    travaux << "#{t("demarrage_projet.demande.travaux_autres")} : #{demande.travaux_autres}" if demande.travaux_autres.present?
+    if demande.projet.prestations.blank?
+      travaux << t("demarrage_projet.demande.travaux_fenetres") if demande.travaux_fenetres
+      travaux << t("demarrage_projet.demande.travaux_isolation") if demande.travaux_isolation
+      travaux << t("demarrage_projet.demande.travaux_chauffage") if demande.travaux_chauffage
+      travaux << t("demarrage_projet.demande.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb
+      travaux << t("demarrage_projet.demande.travaux_monte_escalier") if demande.travaux_monte_escalier
+      travaux << t("demarrage_projet.demande.travaux_amenagement_ext") if demande.travaux_amenagement_ext
+      travaux << "#{t("demarrage_projet.demande.travaux_autres")} : #{demande.travaux_autres}" if demande.travaux_autres.present?
+    else
+      demande.projet.prestations.each {|prestation| travaux << prestation.libelle}
+    end
     html << content_tag(:ul) do
       travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
     end
