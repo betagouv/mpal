@@ -12,9 +12,9 @@ FactoryGirl.define do
         occupants_a_charge_count 0
       end
 
-      after(:create) do |avis_imposition, evaluator|
-        create_list(:declarant, evaluator.declarants_count,         avis_imposition: avis_imposition)
-        create_list(:occupant,  evaluator.occupants_a_charge_count, avis_imposition: avis_imposition)
+      after(:build) do |avis_imposition, evaluator|
+        avis_imposition.occupants << build_list(:declarant, evaluator.declarants_count,         avis_imposition: avis_imposition)
+        avis_imposition.occupants << build_list(:occupant,  evaluator.occupants_a_charge_count, avis_imposition: avis_imposition)
       end
     end
   end

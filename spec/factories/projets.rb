@@ -13,12 +13,12 @@ FactoryGirl.define do
         occupants_a_charge_count 0
       end
 
-      after(:create) do |projet, evaluator|
-        create(:avis_imposition_with_occupants,
-          projet: projet,
-          numero_fiscal: projet.numero_fiscal,
-          reference_avis: projet.reference_avis,
-          declarants_count: evaluator.declarants_count,
+      after(:build) do |projet, evaluator|
+        projet.avis_impositions << build(:avis_imposition_with_occupants,
+          projet:                   projet,
+          numero_fiscal:            projet.numero_fiscal,
+          reference_avis:           projet.reference_avis,
+          declarants_count:         evaluator.declarants_count,
           occupants_a_charge_count: evaluator.occupants_a_charge_count)
       end
     end
