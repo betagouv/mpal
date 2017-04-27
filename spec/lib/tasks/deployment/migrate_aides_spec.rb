@@ -1,5 +1,5 @@
 require 'rails_helper'
-require 'support/rake_helper'
+require 'support/after_party_helper'
 
 describe '20170427105111_migrate_aides' do
   include_context 'after_party'

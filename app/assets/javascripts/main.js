@@ -116,27 +116,21 @@ $(document).ready(function() {
   }
 
   function sumPublicHelps() {
-    var helps = document.getElementsByClassName('js-public-help');
-    var sum = 0;
-    for(var i = 0; i < helps.length; i++) {
-      var value = parseFloat(helps[i].value.replace(',', '.'));
-      if(value > 0)
-        sum += value;
-    }
-    sum = sum.toFixed(2);
+    var helps = Array.from(document.getElementsByClassName('js-public-help'));
+    var sum = helps.reduce(parseAmountAndSum, 0).toFixed(2);
     document.getElementById('js-public-helps-sum').value = sum.toString().replace('.',',');
   }
 
   function sumFundings() {
-    var fundings = document.getElementsByClassName('js-funding');
-    var sum = 0;
-    for(var i = 0; i < fundings.length; i++) {
-      var value = parseFloat(fundings[i].value.replace(',', '.'));
-      if(value > 0)
-        sum += value;
-    }
-    sum = sum.toFixed(2);
+    var fundings = Array.from(document.getElementsByClassName('js-funding'));
+    var sum = fundings.reduce(parseAmountAndSum, 0).toFixed(2);
     document.getElementById('js-fundings-sum').value = sum.toString().replace('.',',');
+  }
+
+  function parseAmountAndSum(accumulator, element) {
+    var field_value = parseFloat(element.value.replace(',', '.'));
+    field_value = isNaN(field_value) ? 0 : field_value;
+    return accumulator + field_value;
   }
 
   var public_helps = $(".js-public-help");
