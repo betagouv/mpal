@@ -1,8 +1,8 @@
 require 'rails_helper'
 require 'support/rake_helper'
 
-describe 'migrate_aides' do
-  include_context 'rake'
+describe '20170427105111_migrate_aides' do
+  include_context 'after_party'
 
   let(:new_help_count)      { 12 }
   let!(:old_help)           { create :aide, libelle: "Ancienne Aide" }

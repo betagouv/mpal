@@ -1,9 +1,8 @@
 require 'rails_helper'
 require 'support/rake_helper'
 
-describe 'after_party:migrate_prestations' do
-  include_context 'rake'
-  let(:task_path) { 'lib/tasks/deployment/20170426130046_migrate_prestations' }
+describe '20170426130046_migrate_prestations' do
+  include_context 'after_party'
 
   let(:new_prestations_count)     { 147 }
   let!(:old_prestation)           { create :prestation, libelle: "Ancienne prestation" }
