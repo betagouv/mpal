@@ -13,16 +13,16 @@
 
           fieldset
             legend Logement
-            = f.input :date_de_visite, as: :string, required: true
-            = f.input :type_logement, collection: Projet::TYPE_LOGEMENT_VALUES
-            = f.input :etage,         collection: Projet::ETAGE_VALUES
-            = f.input :nb_pieces,     collection: Projet::NB_PIECES_VALUES
+            = f.input :date_de_visite, as: :string, required: true, wrapper_html: { class: "size-s" }
+            = f.input :type_logement, collection: Projet::TYPE_LOGEMENT_VALUES, wrapper_html: { class: "size-s" }
+            = f.input :etage,         collection: Projet::ETAGE_VALUES,         wrapper_html: { class: "size-xs" }
+            = f.input :nb_pieces,     collection: Projet::NB_PIECES_VALUES,     wrapper_html: { class: "size-xs" }
             = f.fields_for :demande do |demande_form|
-              = demande_form.input :annee_construction
-            = f.input :surface_habitable, wrapper: "append" do
+              = demande_form.input :annee_construction, wrapper_html: { class: "size-xs" }
+            = f.input :surface_habitable, wrapper: "append", wrapper_html: { class: "size-xs" } do
               = f.input_field :surface_habitable
               span.input-group-addon m²
-            = f.input :etiquette_avant_travaux
+            = f.input :etiquette_avant_travaux, wrapper_html: { class: "size-xs" }
 
           fieldset
             legend Diagnostic opérateur

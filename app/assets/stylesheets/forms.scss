@@ -1,6 +1,10 @@
 @import "custom_bootstrap/variables";
 @import "custom_bootstrap/mixins";
 
+.form-group {
+  @include clearfix();
+}
+
 .form-regular {
   label {
     cursor: pointer;
@@ -33,7 +37,7 @@
     text-align: right;
   }
   @include media-breakpoint-up(480px) {
-    .form-control-label { width: percentage((4 / $grid-columns)); text-align: right; }
+    .form-control-label { width: percentage((4 / $grid-columns)); }
     .form-field         { width: percentage((8 / $grid-columns)); }
     .form-field-label   { margin-left: percentage((4 / $grid-columns)); }
   }
@@ -56,7 +60,7 @@
     margin: 0;
     color: #d9534f;
   }
-  .form-control {
+  &.has-danger .form-control {
     padding-right: (38px * 1.25);
   }
   a:hover {
