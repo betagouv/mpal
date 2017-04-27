@@ -45,9 +45,11 @@ fr:
         auto_rehabilitation: "Ces travaux seront-ils réalisés en auto-réhabilitation ?"
         remarques_diagnostic: "Autres remarques"
       proposition:
-        gain_energetique: "Gain énergétique"
+        consommation_avant_travaux: "Consommation énergétique avant travaux"
+        consommation_apres_travaux: "Consommation énergétique après travaux"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
         etiquette_apres_travaux: "Étiquette énergétique après travaux"
+        gain_energetique: "Gain énergétique"
         montant: "Montant"
         travaux_ht_amount: "Coût des travaux à réaliser HT"
         assiette_subventionnable_amount: "Travaux : assiette subventionnable HT"
@@ -59,6 +61,9 @@ fr:
         loan_amount: "Prêt"
         precisions_travaux: "Précisions travaux proposés"
         precisions_financement: "Précisions financement"
+    units:
+      power: "kWh"
+      power_consumption: "kWh/m²/an"
 
   # ----------------------- Page d’accueil ---------------------
   accueil:

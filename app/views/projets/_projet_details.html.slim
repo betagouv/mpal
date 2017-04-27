@@ -22,7 +22,11 @@ ul.ctr-ope
   - if @projet_courant.surface_habitable.present?
     li
       = "Surface avant travaux : "
-      span= "#{@projet_courant.surface_habitable} m2"
+      span= "#{@projet_courant.surface_habitable} m²"
+  - if @projet_courant.consommation_avant_travaux.present?
+    li
+      = with_semicolon(t('helpers.label.proposition.consommation_avant_travaux'))
+      span class='consommation_avant' = number_to_power_consumption(@projet_courant.consommation_avant_travaux)
   - if @projet_courant.etiquette_avant_travaux.present?
     li
       = with_semicolon(t('helpers.label.proposition.etiquette_avant_travaux'))
@@ -77,14 +81,18 @@ table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
       tr
         th scope="row" #{prestation.libelle}
         td= image_tag "check.svg", alt: "Pris en compte"
-    - if @projet_courant.gain_energetique
+    - if @projet_courant.consommation_apres_travaux.present?
       tr
-        th scope="row"= t('helpers.label.proposition.gain_energetique')
-        td class='gain_energetique' = @projet_courant.gain_energetique
+        th scope="row"= t('helpers.label.proposition.consommation_apres_travaux')
+        td class='consommation_apres' = number_to_power_consumption(@projet_courant.consommation_apres_travaux)
     - if @projet_courant.etiquette_apres_travaux.present?
       tr
         th scope="row"= t('helpers.label.proposition.etiquette_apres_travaux')
         td class='etiquette_apres' = @projet_courant.etiquette_apres_travaux
+    - if @projet_courant.gain_energetique
+      tr
+        th scope="row"= t('helpers.label.proposition.gain_energetique')
+        td class='gain_energetique' = @projet_courant.gain_energetique
     - if @projet_courant.travaux_ht_amount.present?
       tr
         th scope="row"= t('helpers.label.proposition.travaux_ht_amount')
