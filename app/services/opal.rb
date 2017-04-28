@@ -78,7 +78,7 @@ private
         }
       },
       "immeuble": {
-        "immAnneeAchevement": projet.annee_construction || 0,
+        "immAnneeAchevement": projet.demande.annee_construction || 0,
         "ntrId": 1,
         "immSiArretePeril": false,
         "immSiGrilleDegradation": false,

@@ -1,4 +1,4 @@
-= simple_form_for @projet_courant, url: projet_or_dossier_proposition_path(@projet_courant), html: { method: :put, class: "edition-demande" } do |f|
+= simple_form_for @projet_courant, url: projet_or_dossier_proposition_path(@projet_courant), html: { method: :put, class: "form-regular edition-demande" } do |f|
   = render "shared/errors", resource: @projet_courant
   section.content-projet
     article.block.projet-ope
@@ -10,32 +10,20 @@
             span= @projet_courant.operateur.raison_sociale
       .content-block
         .form
+
           fieldset
             legend Logement
-            ul.ins-form
-              li
-                = f.label :date_de_visite, "Date de visite (obligatoire)"
-                = f.text_field :date_de_visite, placeholder: "JJ/MM/AAAA", value: format_date(@projet_courant.date_de_visite)
-              li
-                = f.label :type_logement, "Type de logement"
-                = f.select :type_logement, options_for_select(["Maison","Appartement"], @projet_courant.type_logement)
-              li
-                = f.label :etage, "Votre étage"
-                = f.select :etage, options_for_select(["0","1","2","3","4","5","Plus de 5"], @projet_courant.etage)
+            = f.input :date_de_visite, as: :string, required: true, wrapper_html: { class: "size-s" }
+            = f.input :type_logement, collection: Projet::TYPE_LOGEMENT_VALUES, wrapper_html: { class: "size-s" }
+            = f.input :etage,         collection: Projet::ETAGE_VALUES,         wrapper_html: { class: "size-xs" }
+            = f.input :nb_pieces,     collection: Projet::NB_PIECES_VALUES,     wrapper_html: { class: "size-xs" }
+            = f.fields_for :demande do |demande_form|
+              = demande_form.input :annee_construction, wrapper_html: { class: "size-xs" }
+            = f.input :surface_habitable, wrapper: "append", wrapper_html: { class: "size-xs" } do
+              = f.input_field :surface_habitable
+              span.input-group-addon m²
+            = f.input :etiquette_avant_travaux, wrapper_html: { class: "size-xs" }
 
-              li
-                = f.label :nb_pieces, "Nombre de pièces"
-                = f.select :nb_pieces, options_for_select(["1","2","3","4","5","Plus de 5"], @projet_courant.nb_pieces)
-              li
-                = f.label :annee_construction, "Année de construction"
-                = f.text_field :annee_construction, value: @projet_courant.demande.annee_construction
-              li
-                = f.label :surface_habitable, "Surface habitable"
-                = f.text_field :surface_habitable
-                = " m²"
-              li
-                = f.label :etiquette_avant_travaux, "Étiquette énergétique avant travaux"
-                = f.text_field :etiquette_avant_travaux
           fieldset
             legend Diagnostic opérateur
             ul.ins-form

@@ -2,6 +2,10 @@ class Projet < ActiveRecord::Base
   include LocalizedModelConcern
   extend CsvProperties, ApplicationHelper
 
+  TYPE_LOGEMENT_VALUES = ["Maison", "Appartement"]
+  ETAGE_VALUES = ["0", "1", "2", "3", "4", "5", "Plus de 5"]
+  NB_PIECES_VALUES = ["1", "2", "3", "4", "5", "Plus de 5"]
+
   enum statut: {
     prospect: 0,
     en_cours: 1,
@@ -16,6 +20,8 @@ class Projet < ActiveRecord::Base
   accepts_nested_attributes_for :personne
 
   has_one :demande, dependent: :destroy
+  accepts_nested_attributes_for :demande
+
   belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
   belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 

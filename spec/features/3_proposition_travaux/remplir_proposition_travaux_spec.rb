@@ -21,7 +21,7 @@ feature "Remplir la proposition de travaux" do
       click_link I18n.t('projets.visualisation.remplir_le_projet')
       expect(page).to have_current_path(dossier_proposition_path(projet))
       expect(page).to have_content I18n.t('projets.visualisation.projet_affecte')
-      expect(page).to have_field('projet_annee_construction', with: '2010')
+      expect(page).to have_field('projet_demande_attributes_annee_construction', with: '2010')
     end
 
     scenario "je remplis et j'enregistre une proposition de travaux'" do
@@ -34,7 +34,7 @@ feature "Remplir la proposition de travaux" do
       select 'Appartement', from: 'projet_type_logement'
       select '2', from: 'projet_etage'
       select 'Plus de 5', from: 'projet_nb_pieces'
-      fill_in 'projet_annee_construction', with: '1954'
+      fill_in 'projet_demande_attributes_annee_construction', with: '1954'
       fill_in 'projet_surface_habitable', with: '42'
       fill_in 'projet_etiquette_avant_travaux', with: 'C'
 
@@ -74,7 +74,7 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content('Appartement')
       expect(page).to have_css('.etage', text: 2)
       expect(page).to have_css('.pieces', text:'Plus de 5')
-      expect(page).to have_content('1954')
+      expect(page).to have_content('2010')
       expect(page).to have_content('42 m2')
       expect(page).to have_css('.etiquette_avant', text: 'C')
 

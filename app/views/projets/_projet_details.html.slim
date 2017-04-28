@@ -15,10 +15,10 @@ ul.ctr-ope
   li class='pieces'
     = "Nombre de pièces : "
     span= @projet_courant.nb_pieces
-  - if @projet_courant.annee_construction.present?
+  - if @projet_courant.demande.try(:annee_construction).present?
     li
       = "Année de construction : "
-      span class='construction'= @projet_courant.annee_construction
+      span class='construction'= @projet_courant.demande.annee_construction
   - if @projet_courant.surface_habitable.present?
     li
       = "Surface avant travaux : "

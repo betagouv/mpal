@@ -59,7 +59,7 @@ describe Opal do
         expect(adresse_postale["adpCodePostal"]).to eq "75008"
 
         immeuble = body["immeuble"]
-        expect(immeuble["immAnneeAchevement"]).to eq 1975
+        expect(immeuble["immAnneeAchevement"]).to eq 2010
 
         adresse_geographique = immeuble["adresseGeographique"]
         expect(adresse_geographique["adgLigne1"]).to eq "12 rue de la Mare"
