@@ -25,7 +25,7 @@ class Seeder
       HELPS.each_pair do |attribute, help_array|
         help_array.each do |name|
           Aide.find_or_create_by!(libelle: name).update(public: attribute == :public)
-          ahead!('+')
+          ahead!
         end
       end
     end

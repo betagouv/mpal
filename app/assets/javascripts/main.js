@@ -116,15 +116,15 @@ $(document).ready(function() {
   }
 
   function sumPublicHelps() {
-    var helps = Array.from(document.getElementsByClassName('js-public-help'));
+    var helps = Array.from($(".js-public-help"));
     var sum = helps.reduce(parseAmountAndSum, 0).toFixed(2);
-    document.getElementById('js-public-helps-sum').value = sum.toString().replace('.',',');
+    $("#js-public-helps-sum")[0].value = sum.toString().replace('.', ',');
   }
 
   function sumFundings() {
-    var fundings = Array.from(document.getElementsByClassName('js-funding'));
+    var fundings = Array.from($(".js-funding"));
     var sum = fundings.reduce(parseAmountAndSum, 0).toFixed(2);
-    document.getElementById('js-fundings-sum').value = sum.toString().replace('.',',');
+    $("#js-fundings-sum")[0].value = sum.toString().replace('.', ',');
   }
 
   function parseAmountAndSum(accumulator, element) {
@@ -136,13 +136,13 @@ $(document).ready(function() {
   var public_helps = $(".js-public-help");
   if (public_helps.length) {
     sumPublicHelps();
-    public_helps.change(sumPublicHelps);
+    public_helps.keyup(sumPublicHelps);
   }
 
   var fundings = $(".js-funding");
   if (fundings.length) {
     sumFundings();
-    fundings.change(sumFundings);
+    fundings.keyup(sumFundings);
   }
 
   bindLoginHelpers();
