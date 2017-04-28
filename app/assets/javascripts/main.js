@@ -115,6 +115,36 @@ $(document).ready(function() {
     }
   }
 
+  function sumPublicHelps() {
+    var helps = Array.from($(".js-public-help"));
+    var sum = helps.reduce(parseAmountAndSum, 0).toFixed(2);
+    $("#js-public-helps-sum")[0].value = sum.toString().replace('.', ',');
+  }
+
+  function sumFundings() {
+    var fundings = Array.from($(".js-funding"));
+    var sum = fundings.reduce(parseAmountAndSum, 0).toFixed(2);
+    $("#js-fundings-sum")[0].value = sum.toString().replace('.', ',');
+  }
+
+  function parseAmountAndSum(accumulator, element) {
+    var field_value = parseFloat(element.value.replace(',', '.'));
+    field_value = isNaN(field_value) ? 0 : field_value;
+    return accumulator + field_value;
+  }
+
+  var public_helps = $(".js-public-help");
+  if (public_helps.length) {
+    sumPublicHelps();
+    public_helps.keyup(sumPublicHelps);
+  }
+
+  var fundings = $(".js-funding");
+  if (fundings.length) {
+    sumFundings();
+    fundings.keyup(sumFundings);
+  }
+
   bindLoginHelpers();
   bindPopins();
   var engagement = $(".js-engagement");

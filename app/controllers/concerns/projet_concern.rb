@@ -17,19 +17,29 @@ module ProjetConcern
 
       assign_projet_if_needed
       @themes = Theme.ordered.all
-      @prestations = Prestation.where(active: true) | @projet_courant.prestations
+      @prestations = Prestation.active | @projet_courant.prestations
+      @aides_publiques = Aide.public_assistance.active     | @projet_courant.aides.public_assistance
+      @aides_privees   = Aide.not_public_assistance.active | @projet_courant.aides.not_public_assistance
       render "projets/proposition"
     end
 
     def proposer
       @projet_courant.statut = :proposition_proposee
-      if @projet_courant.save
+      if @projet_courant.save(context: :proposition)
         return redirect_to projet_or_dossier_path(@projet_courant)
+      else
+        @projet_courant.restore_statut!
+        render_show
       end
-      render "projets/show"
     end
 
     def show
+      render_show
+    end
+
+private
+
+    def render_show
       gon.push({
         latitude:  @projet_courant.adresse.try(:latitude),
         longitude: @projet_courant.adresse.try(:longitude)
@@ -41,8 +51,6 @@ module ProjetConcern
       render "projets/show"
     end
 
-private
-
     def projet_params
       attributs = params.require(:projet)
       .permit(:disponibilite, :description, :email, :tel, :date_de_visite,
@@ -52,18 +60,19 @@ private
               :remarques_diagnostic,
               :gain_energetique, :etiquette_apres_travaux,
               :precisions_travaux, :precisions_financement,
-              :montant_travaux_ht, :montant_travaux_ttc, :pret_bancaire, :reste_a_charge,
+              :localized_amo_amount, :localized_assiette_subventionnable_amount, :localized_maitrise_oeuvre_amount, :localized_travaux_ht_amount, :localized_travaux_ttc_amount,
+              :localized_loan_amount, :localized_personal_funding_amount,
               :documents_attributes,
               :prestation_ids => [],
               :theme_ids => [],
               :suggested_operateur_ids => [],
-              :projet_aides_attributes => [:id, :aide_id, :montant],
+              :projet_aides_attributes => [:id, :aide_id, :localized_amount],
               :demande => [:annee_construction],
       )
       attributs[:prestation_ids] = [] if attributs[:prestation_ids].blank?
       if attributs[:projet_aides_attributes].present?
         attributs[:projet_aides_attributes].values.each do |projet_aide|
-          projet_aide[:_destroy] = true if projet_aide[:montant].blank?
+          projet_aide[:_destroy] = true if projet_aide[:localized_amount].blank?
         end
       end
       attributs

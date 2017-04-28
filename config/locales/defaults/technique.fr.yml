@@ -1,6 +1,11 @@
 ---
 fr:
   activerecord:
+    attributes:
+      projet:
+        assiette_subventionnable_amount: "Travaux : assiette subventionnable HT"
+        travaux_ht_amount: "Coût des travaux à réaliser HT"
+        travaux_ttc_amount: "Montant global TTC"
     errors:
       messages:
         record_invalid: 'La validation a échoué : %{errors}'

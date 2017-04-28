@@ -14,6 +14,9 @@ describe Projet do
     it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.not_to validate_presence_of(:date_de_visite) }
     it { is_expected.to validate_presence_of(:date_de_visite).on(:proposition) }
+    it { is_expected.to validate_presence_of(:assiette_subventionnable_amount).on(:proposition) }
+    it { is_expected.to validate_presence_of(:travaux_ht_amount).on(:proposition) }
+    it { is_expected.to validate_presence_of(:travaux_ttc_amount).on(:proposition) }
     it { is_expected.to validate_inclusion_of(:note_degradation).in_range(0..1) }
     it { is_expected.to validate_inclusion_of(:note_insalubrite).in_range(0..1) }
     it { is_expected.to have_one :demande }
@@ -76,10 +79,10 @@ describe Projet do
         it { is_expected.to allow_updating_of(:agent_instructeur_id).with(create(:agent).id) }
         it { is_expected.not_to allow_updating_of(:note_degradation) }
         it { is_expected.not_to allow_updating_of(:note_insalubrite) }
-        it { is_expected.not_to allow_updating_of(:montant_travaux_ht) }
-        it { is_expected.not_to allow_updating_of(:montant_travaux_ttc) }
-        it { is_expected.not_to allow_updating_of(:reste_a_charge) }
-        it { is_expected.not_to allow_updating_of(:pret_bancaire) }
+        it { is_expected.not_to allow_updating_of(:travaux_ht_amount) }
+        it { is_expected.not_to allow_updating_of(:travaux_ttc_amount) }
+        it { is_expected.not_to allow_updating_of(:personal_funding_amount) }
+        it { is_expected.not_to allow_updating_of(:loan_amount) }
         it { is_expected.not_to allow_updating_of(:adresse_postale_id).with(create(:adresse).id) }
         it { is_expected.not_to allow_updating_of(:adresse_a_renover_id).with(create(:adresse).id) }
       end
@@ -385,22 +388,13 @@ describe Projet do
     let(:projet) { create :projet, :en_cours }
 
     context "quand les attributs sont valides" do
-      let(:attributes) do { note_degradation: 0.1, date_de_visite: Time.now } end
+      let(:attributes) do { note_degradation: 0.1 } end
 
       it "enregistre les modifications au projet" do
         expect(projet.save_proposition!(attributes)).to be true
         expect(projet.changed?).to be false
         expect(projet.statut).to eq(:proposition_enregistree.to_s)
         expect(projet.note_degradation).to eq 0.1
-      end
-    end
-
-    context "quand des attributs requis sont manquants" do
-      let(:attributes) do { date_de_visite: nil } end
-
-      it "ajoute une erreur de validation" do
-        expect(projet.save_proposition!(attributes)).to be false
-        expect(projet.errors).not_to be_blank
       end
     end
   end
@@ -483,4 +477,27 @@ describe Projet do
       expect(projet.status_for_operateur).to eq :en_cours_d_instruction
     }
   end
+
+  describe "localizedamo_amount=" do
+    let(:projet) { create :projet }
+
+    it {
+      projet.localized_amo_amount = '4,2'
+      expect(projet[:amo_amount].to_s).to eq '4.2'
+    }
+    it {
+      projet.localized_amo_amount = '1 400,2'
+      expect(projet[:amo_amount].to_s).to eq '1400.2'
+    }
+  end
+
+  describe "localized_amo_amount" do
+    let(:projet) { create :projet }
+
+    it {
+      projet[:amo_amount] = 4.2
+      expect(projet.localized_amo_amount).to eq '4,20'
+    }
+  end
+
 end

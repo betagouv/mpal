@@ -85,26 +85,38 @@ table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
       tr
         th scope="row"= t('helpers.label.proposition.etiquette_apres_travaux')
         td class='etiquette_apres' = @projet_courant.etiquette_apres_travaux
-    - if @projet_courant.montant_travaux_ht.present?
+    - if @projet_courant.travaux_ht_amount.present?
       tr
-        th scope="row"= t('helpers.label.proposition.montant_travaux_ht')
-        td= number_to_currency(@projet_courant.montant_travaux_ht)
-    - if @projet_courant.montant_travaux_ttc.present?
+        th scope="row"= t('helpers.label.proposition.travaux_ht_amount')
+        td= number_to_currency(@projet_courant.travaux_ht_amount)
+    - if @projet_courant.assiette_subventionnable_amount.present?
       tr
-        th scope="row"= t('helpers.label.proposition.montant_travaux_ttc')
-        td= number_to_currency(@projet_courant.montant_travaux_ttc)
+        th scope="row"= t('helpers.label.proposition.assiette_subventionnable_amount')
+        td= number_to_currency(@projet_courant.assiette_subventionnable_amount)
+    - if @projet_courant.amo_amount.present?
+      tr
+        th scope="row"= t('helpers.label.proposition.amo_amount')
+        td= number_to_currency(@projet_courant.amo_amount)
+    - if @projet_courant.maitrise_oeuvre_amount.present?
+      tr
+        th scope="row"= t('helpers.label.proposition.maitrise_oeuvre_amount')
+        td= number_to_currency(@projet_courant.maitrise_oeuvre_amount)
+    - if @projet_courant.travaux_ttc_amount.present?
+      tr
+        th scope="row"= t('helpers.label.proposition.travaux_ttc_amount')
+        td= number_to_currency(@projet_courant.travaux_ttc_amount)
     - @projet_courant.projet_aides.each do |projet_aide|
       tr
         th scope="row" #{projet_aide.aide.libelle}
-        td= number_to_currency(projet_aide.montant)
-    - if 0 == @projet_courant.reste_a_charge || @projet_courant.reste_a_charge.present?
+        td= number_to_currency(projet_aide.amount)
+    - if @projet_courant.personal_funding_amount.present?
       tr
-        th scope="row"= t('helpers.label.proposition.reste_a_charge')
-        td= number_to_currency(@projet_courant.reste_a_charge)
-    - if 0 == @projet_courant.pret_bancaire || @projet_courant.pret_bancaire.present?
+        th scope="row"= t('helpers.label.proposition.personal_funding')
+        td= number_to_currency(@projet_courant.personal_funding_amount)
+    - if @projet_courant.loan_amount.present?
       tr
-        th scope="row"= t('helpers.label.proposition.pret_bancaire')
-        td= number_to_currency(@projet_courant.pret_bancaire)
+        th scope="row"= t('helpers.label.proposition.loan_amount')
+        td= number_to_currency(@projet_courant.loan_amount)
 
 ul.ctr-ope
   - if @projet_courant.precisions_travaux.present?

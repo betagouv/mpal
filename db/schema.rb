@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   create_table "aides", force: :cascade do |t|
     t.string  "libelle"
     t.integer "type_aide_id"
+    t.boolean "active",       default: true, null: false
+    t.boolean "public",       default: true, null: false
   end
 
   create_table "avis_impositions", force: :cascade do |t|
@@ -195,7 +197,6 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   create_table "prestations", force: :cascade do |t|
     t.string   "libelle"
     t.string   "entreprise"
-    t.float    "montant"
     t.boolean  "recevable"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
@@ -217,7 +218,7 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   create_table "projet_aides", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "aide_id"
-    t.float   "montant"
+    t.decimal "amount",    precision: 10, scale: 2
   end
 
   add_index "projet_aides", ["aide_id"], name: "index_projet_aides_on_aide_id", using: :btree
@@ -230,9 +231,9 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.datetime "updated_at"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                                                            array: true
-    t.integer  "nb_occupants_a_charge",                                 default: 0
-    t.integer  "statut",                                                default: 0
+    t.string   "themes",                                                               array: true
+    t.integer  "nb_occupants_a_charge",                                    default: 0
+    t.integer  "statut",                                                   default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"
     t.string   "opal_id"
@@ -247,27 +248,30 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.boolean  "handicap"
     t.boolean  "demandeur_salarie"
     t.boolean  "entreprise_plus_10_personnes"
-    t.decimal  "note_degradation",             precision: 10, scale: 6
-    t.decimal  "note_insalubrite",             precision: 10, scale: 6
+    t.decimal  "note_degradation",                precision: 10, scale: 6
+    t.decimal  "note_insalubrite",                precision: 10, scale: 6
     t.boolean  "ventilation_adaptee"
     t.boolean  "presence_humidite"
     t.boolean  "auto_rehabilitation"
     t.text     "remarques_diagnostic"
     t.string   "etiquette_apres_travaux"
     t.integer  "gain_energetique"
-    t.float    "montant_travaux_ht"
-    t.float    "montant_travaux_ttc"
-    t.float    "pret_bancaire"
+    t.decimal  "travaux_ht_amount",               precision: 10, scale: 2
+    t.decimal  "travaux_ttc_amount",              precision: 10, scale: 2
+    t.decimal  "loan_amount",                     precision: 10, scale: 2
     t.text     "precisions_travaux"
     t.text     "precisions_financement"
     t.boolean  "autonomie"
     t.string   "plateforme_id"
-    t.float    "reste_a_charge"
+    t.decimal  "personal_funding_amount",         precision: 10, scale: 2
     t.integer  "agent_operateur_id"
     t.integer  "agent_instructeur_id"
     t.integer  "adresse_postale_id"
     t.integer  "adresse_a_renover_id"
     t.date     "date_de_visite"
+    t.decimal  "amo_amount",                      precision: 10, scale: 2
+    t.decimal  "maitrise_oeuvre_amount",          precision: 10, scale: 2
+    t.decimal  "assiette_subventionnable_amount", precision: 10, scale: 2
   end
 
   add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
@@ -299,10 +303,6 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   end
 
   create_table "themes", force: :cascade do |t|
-    t.string "libelle"
-  end
-
-  create_table "type_aides", force: :cascade do |t|
     t.string "libelle"
   end
 

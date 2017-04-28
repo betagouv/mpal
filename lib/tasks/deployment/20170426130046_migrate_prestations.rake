@@ -5,13 +5,12 @@ namespace :after_party do
 
     downcased_new_prestation_names = new_prestation_names.map(&:downcase)
     Prestation.all.each do |p|
-      if !downcased_new_prestation_names.include?(p.libelle.downcase)
+      unless downcased_new_prestation_names.include?(p.libelle.downcase)
         p.update(active: false)
       end
     end
 
-    total = new_prestation_names.count
-    new_prestation_names.each_with_index do |name, index|
+    new_prestation_names.each do |name|
       Prestation.create libelle: name unless Prestation.where("lower(libelle) = ?", name.downcase).exists?
     end
 

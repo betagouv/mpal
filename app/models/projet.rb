@@ -46,21 +46,19 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
 
+  amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
+
   validates :numero_fiscal, :reference_avis, presence: true
   validates :email, email: true, allow_blank: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
-  validates :date_de_visite, presence: true, on: :proposition
+  validates :date_de_visite, :assiette_subventionnable_amount, :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
-  localized_numeric_setter :montant_travaux_ht
-  localized_numeric_setter :montant_travaux_ttc
-  localized_numeric_setter :reste_a_charge
-  localized_numeric_setter :pret_bancaire
 
   before_create do
     self.plateforme_id = Time.now.to_i
@@ -267,7 +265,7 @@ class Projet < ActiveRecord::Base
   def save_proposition!(attributes)
     assign_attributes(attributes)
     self.statut = :proposition_enregistree
-    save(context: :proposition)
+    save
   end
 
   def transmettre!(instructeur)
