@@ -107,7 +107,7 @@ class Projet < ActiveRecord::Base
   end
 
   def nb_occupants_a_charge
-    occupants.count - demandeurs.count
+    occupants.count - declarants.count
   end
 
   def intervenants_disponibles(role: nil)
@@ -169,12 +169,12 @@ class Projet < ActiveRecord::Base
     demandeur
   end
 
-  def demandeurs
-    occupants.where(demandeur: true)
+  def declarants
+    occupants.where(declarant: true)
   end
 
   def demandeur_principal
-    demandeurs.first
+    occupants.where(demandeur: true).first
   end
 
   def demandeur_principal_nom

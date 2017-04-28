@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 
 feature "Occupants :" do
-  let(:projet) { create(:projet, :with_demandeurs) }
+  let(:projet) { create(:projet, :with_demandeur) }
 
   context "en tant que demandeur" do
     scenario "je peux voir les occupants récupérés depuis l'avis d'imposition" do

@@ -8,24 +8,28 @@ FactoryGirl.define do
 
     trait :with_avis_imposition do
       transient do
-        demandeurs_count 1
+        declarants_count 1
         occupants_a_charge_count 0
       end
 
-      after(:create) do |projet, evaluator|
-        create(:avis_imposition_with_occupants,
-          projet: projet,
-          numero_fiscal: projet.numero_fiscal,
-          reference_avis: projet.reference_avis,
-          demandeurs_count: evaluator.demandeurs_count,
+      after(:build) do |projet, evaluator|
+        projet.avis_impositions << build(:avis_imposition_with_occupants,
+          projet:                   projet,
+          numero_fiscal:            projet.numero_fiscal,
+          reference_avis:           projet.reference_avis,
+          declarants_count:         evaluator.declarants_count,
           occupants_a_charge_count: evaluator.occupants_a_charge_count)
       end
     end
 
-    trait :with_demandeurs do
+    trait :with_demandeur do
       with_avis_imposition
-      demandeurs_count 2
+      declarants_count 2
       occupants_a_charge_count 2
+
+      after(:build) do |projet|
+        projet.avis_impositions.first.occupants.first.demandeur = true
+      end
     end
 
     trait :with_demande do
@@ -106,16 +110,27 @@ FactoryGirl.define do
 
     # Project states
 
+    trait :initial do
+      statut :prospect
+      email nil
+      annee_construction nil
+      with_avis_imposition
+
+      after(:create) do |projet, evaluator|
+        projet.demandeur_principal.update_attribute(:civilite, nil)
+      end
+    end
+
     trait :prospect do
       statut :prospect
-      with_demandeurs
+      with_demandeur
       with_demande
       with_intervenants_disponibles
     end
 
     trait :en_cours do
       statut :en_cours
-      with_demandeurs
+      with_demandeur
       with_demande
       with_committed_operateur
     end
@@ -123,7 +138,7 @@ FactoryGirl.define do
     trait :proposition_enregistree do
       statut :proposition_enregistree
       date_de_visite DateTime.new(2016, 12, 28)
-      with_demandeurs
+      with_demandeur
       with_demande
       with_assigned_operateur
       with_prestations
@@ -131,14 +146,14 @@ FactoryGirl.define do
 
     trait :proposition_proposee do
       statut :proposition_proposee
-      with_demandeurs
+      with_demandeur
       with_demande
       with_assigned_operateur
       with_prestations
     end
 
     trait :transmis_pour_instruction do
-      with_demandeurs
+      with_demandeur
       with_demande
       with_assigned_operateur
       with_prestations
@@ -152,7 +167,7 @@ FactoryGirl.define do
     trait :en_cours_d_instruction do
       opal_numero 4567
       opal_id 8910
-      with_demandeurs
+      with_demandeur
       with_demande
       with_assigned_operateur
       with_prestations

@@ -25,7 +25,7 @@ describe Occupant do
       end
 
       context "qui est le demandeur principal" do
-        subject { create(:projet, :with_demandeurs).demandeur_principal }
+        subject { create(:projet, :with_demandeur).demandeur_principal }
         it { is_expected.to validate_presence_of(:civilite) }
       end
     end

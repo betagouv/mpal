@@ -8,11 +8,9 @@ class ApplicationController < ActionController::Base
   def authentifie_sans_redirection
     if agent_signed_in?
       @role_utilisateur = :agent
-      @utilisateur_courant = current_agent
     elsif @role_utilisateur.blank?
       @role_utilisateur = :demandeur
       if @projet_courant
-        @utilisateur_courant = @projet_courant.demandeur_principal
         @utilisateur_invalide = true if session[:numero_fiscal] != @projet_courant.numero_fiscal
       end
     end

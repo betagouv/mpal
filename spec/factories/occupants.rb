@@ -10,4 +10,9 @@ FactoryGirl.define do
   factory :demandeur, parent: :occupant do
     demandeur true
   end
+
+  factory :declarant, parent: :occupant do
+    demandeur true
+    declarant true
+  end
 end

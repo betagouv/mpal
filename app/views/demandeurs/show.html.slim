@@ -14,8 +14,8 @@
         = label_tag 'demandeur_principal_civilite_mr', t(:"occupants.civilite.mr")
     ul.dem-info.ins-form
       li.full
-        = f.label 'Prénom et nom du demandeur'
-        = select_tag 'projet[demandeur_id]', options_for_select(@declarants,@projet_courant.demandeur_principal.id), class: 'form-control'
+        = label_tag 'projet[demandeur_id]', t('demarrage_projet.demandeur.demandeur_identity')
+        = select_tag 'projet[demandeur_id]', options_for_select(@declarants, @demandeur.try(:id)), class: 'form-control', prompt: t('demarrage_projet.demandeur.select')
       li.full
         = f.label :adresse_postale
         = text_field_tag "projet[adresse_postale]", @projet_courant.adresse_postale.try(:description)

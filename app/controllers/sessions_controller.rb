@@ -22,7 +22,7 @@ class SessionsController < ApplicationController
     session[:numero_fiscal] = param_numero_fiscal
     projet = Projet.find_by(numero_fiscal: param_numero_fiscal)
     if projet
-      redirect_to projet
+      redirect_to_next_step(projet)
     else
       create_projet_and_redirect
     end
@@ -52,5 +52,13 @@ private
 
   def param_reference_avis
     params[:reference_avis].to_s.gsub(/\W+/, '').upcase
+  end
+
+  def redirect_to_next_step(projet)
+    if projet.demandeur_principal.blank?
+      redirect_to projet_demandeur_path(projet)
+    else
+      redirect_to projet
+    end
   end
 end

@@ -47,7 +47,7 @@ class ProjetInitializer
         prenom: declarant[:prenom],
         date_de_naissance: "#{declarant[:date_de_naissance]}",
         declarant: true,
-        demandeur: is_new_project && 0 == index
+        demandeur: false
       )
     end
 

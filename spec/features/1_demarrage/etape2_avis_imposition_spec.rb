@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 
 feature "Avis d'imposition :" do
-  let(:projet) { create(:projet, :with_demandeurs) }
+  let(:projet) { create(:projet, :with_demandeur) }
 
   context "en tant que demandeur avec l'avis d'imposition initial" do
     scenario "je peux ajouter un autre avis d'imposition" do
