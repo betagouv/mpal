@@ -1,8 +1,9 @@
-= simple_form_for @contact, html: { class: "form-regular form-with-alerts form-contact clearfix" }, wrapper: :bootstrap do |f|
+= simple_form_for @contact, html: { class: "form-regular form-with-alerts form-contact" } do |f|
   = render "shared/errors", resource: @contact
   = f.input :name, wrapper_html: { class: "size-m" }, required: true
   = f.input :email, wrapper_html: { class: "size-m" }, required: true
   = f.input :phone, wrapper_html: { class: "size-m" }
   = f.input :subject, required: true
-  = f.input :description, as: :text, input_html: { cols: 40, rows: 6 }
-  = f.button :submit
+  = f.input :description, input_html: { cols: 40, rows: 6 }
+  = btn name: t("helpers.submit.defaults.send"), class: "btn-large", icon: "ok"
+

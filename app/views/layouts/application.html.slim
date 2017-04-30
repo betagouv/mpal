@@ -18,14 +18,16 @@ html lang="fr"
         = render 'shared/messages'
         = content_for?(:content) ? yield(:content) : yield
         footer.main-footer
-          /a href="#"  À propos
+          /= link_to t("menu.homepage"), root_path
           /|  - 
-          /= link_to t('menu_bas.cgu'), informations_cgu_path
+          /= link_to t("menu.about"), informations_about_path
           /|  - 
-          /a href="#"  Contact
+          /= link_to t("menu.terms_of_use"), informations_terms_of_use_path
           /|  - 
-          /= link_to t('menu_bas.faq'), informations_faq_path
+          /= link_to t("menu.faq"), informations_faq_path
           /|  - 
-          = link_to t('menu_bas.mentions_legales'), informations_mentions_legales_path
+          = link_to t("menu.legal"), informations_legal_path
+          /|  - 
+          /= link_to t("menu.contact"), new_contact_path
     = yield :popins
 

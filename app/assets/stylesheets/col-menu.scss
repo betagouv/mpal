@@ -1,0 +1,12 @@
+.col-menu__item {
+  display: block;
+  padding: 10px;
+  text-decoration: none;
+  border-bottom: 1px solid white;
+  background-color: #56869a;
+  color: white;
+  &:hover {
+    background-color: #576f8c;
+  }
+}
+

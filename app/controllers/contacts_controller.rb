@@ -1,5 +1,5 @@
 class ContactsController < ApplicationController
-  layout 'informations'
+  layout "informations"
 
   def index
     return redirect_to(new_contact_path)
@@ -22,3 +22,4 @@ class ContactsController < ApplicationController
     render :new
   end
 end
+

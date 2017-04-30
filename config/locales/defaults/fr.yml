@@ -81,12 +81,14 @@ fr:
   agrements:
     attestation_communiquer_infos_occupants: "J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur revenu fiscal de référence auprès de la direction générale des finances publiques."
     autorisation_acces_donnees_intervenants: "Je suis informé(e) que les intervenants avec lesquels je vais être mis(e) en relation ou que je vais inviter à consulter mon dossier ont accès aux données que j’ai renseignées."
-  # ----------------------- Liste des liens du menu bas ---------------------
-  menu_bas:
-    cgu: "CGU"
+  # ----------------------- Liste des liens du menu ---------------------
+  menu:
+    about: "À propos"
     contact: "Contact"
-    faq: "Faq"
-    mentions_legales: "Mentions légales"
+    faq: "FAQ"
+    homepage: "Accueil"
+    legal: "Mentions légales"
+    terms_of_use: "Conditions générales d’utilisation"
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
@@ -392,8 +394,9 @@ fr:
   # ---------------------- Active Record -----------------------------
   activerecord:
     attributes:
-      projet:
+      defaults:
         email: "L’adresse email"
+      projet:
         tel: "Le numéro de téléphone"
         note_degradation: "La note de dégradation"
         note_insalubrite: "La note d’insalubrité"
