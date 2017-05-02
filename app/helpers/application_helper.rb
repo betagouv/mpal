@@ -64,11 +64,6 @@ module ApplicationHelper
     string + " : "
   end
 
-  def prestation_checkbox(projet, prestation)
-    checked = projet.prestations.include?(prestation)
-    check_box_tag 'projet[prestation_ids][]', prestation.id, checked, id: "prestation_#{prestation.id}"
-  end
-
   def calcul_preeligibilite(annee)
     plafond = @projet_courant.preeligibilite(annee)
     t("projets.composition_logement.calcul_preeligibilite.#{plafond}")

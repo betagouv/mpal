@@ -72,23 +72,35 @@
               li
                 = f.label :remarques_diagnostic, t('helpers.label.diagnostic.remarques_diagnostic')
                 = f.text_area :remarques_diagnostic
+
           fieldset
             legend Types d’intervention
             = f.input :theme_ids, as: :check_boxes, collection: @themes, label: false
+
           fieldset
             legend Description des travaux proposés
             table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%"
               tbody
                 tr
-                  th.empty scope="col"  &nbsp;
-                  th.top-tab scope="col"  Proposition
-                - @prestations.each do |prestation|
+                  th.empty scope="col"    &nbsp;
+                  th.top-tab scope="col"  Souhaitée
+                  th.top-tab scope="col"  Préconiséee
+                  th.top-tab scope="col"  Sélectionnée
+                - @prestations_with_choices.each do |prestation|
+                  - field_name = "projet[prestation_choices_attributes][#{prestation.id}]" # prestation.id is the Hash key value
                   tr
                     th scope="row"
-                      label for="prestation_#{prestation.id}"
-                        = prestation.libelle.capitalize
-                    td.plan_travaux(data-prestation-id=prestation.id)
-                      = prestation_checkbox(@projet_courant, prestation)
+                      label= prestation.libelle.capitalize
+                      = hidden_field_tag "#{field_name}[id]", prestation.prestation_choice_id
+                      = hidden_field_tag "#{field_name}[prestation_id]", prestation.id
+                    td= check_box_tag "#{field_name}[desired]",     true, prestation.desired,      id: "prestation_#{prestation.id}_desired"
+                    td= check_box_tag "#{field_name}[recommended]", true, prestation.recommended,  id: "prestation_#{prestation.id}_recommended"
+                    td= check_box_tag "#{field_name}[selected]",    true, prestation.selected,     id: "prestation_#{prestation.id}_selected"
+
+          fieldset
+            legend Description des travaux proposés
+            table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%"
+              tbody
                 tr
                   th.tab-title colspan="3" scope="row" Efficacité énergétique
                 tr
