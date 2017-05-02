@@ -14,7 +14,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(page).to have_content(I18n.t('demarrage_projet.demandeur.section_demandeur'))
     expect(page).to have_select(I18n.t('demarrage_projet.demandeur.demandeur_identity'))
     expect(find_field('projet_adresse_postale').value).to eq('12 rue de la Mare, 75010 Paris')
-    end
+  end
 
   scenario "je remplis mes informations personnelles" do
     signin_for_new_projet

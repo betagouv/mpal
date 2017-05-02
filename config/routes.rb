@@ -69,9 +69,11 @@ Rails.application.routes.draw do
 
   get  '/deconnexion', to: 'sessions#deconnexion'
   resources :dossiers, only: []
-  get  '/informations/faq', to: 'informations#faq'
-  get  '/informations/cgu', to: 'informations#cgu'
-  get  '/informations/mentions_legales', to: 'informations#mentions_legales'
+
+  get  '/informations/about',        to: 'informations#about'
+  get  '/informations/faq',          to: 'informations#faq'
+  get  '/informations/terms_of_use', to: 'informations#terms_of_use'
+  get  '/informations/legal',        to: 'informations#legal'
 
   resources :contacts, only: [:index, :new, :create]
 

@@ -1,4 +1,4 @@
-.page-projet .col-left {
+.col-left {
   background: #56869a;
   color: white;
   margin-bottom: 15px;
@@ -13,6 +13,11 @@
   @media screen and (min-width: 800px) {
     flex: 0 0 300px;
   }
+}
+.page-projet .col-right {
+  flex: 1;
+}
+.col-projet {
   a {
     color: white;
     text-decoration: underline;
@@ -23,9 +28,6 @@
   section {
     padding: 20px;
   }
-}
-.page-projet .col-right {
-  flex: 1;
 }
 .personal-information {
   background-color: #576f8c;

@@ -3,7 +3,7 @@
 - content_for :content do
   .page-projet.clearfix(class=(@projet_courant ? 'page-projet-2-cols' : ''))
     - if @projet_courant
-      aside.col.col-left
+      aside.col.col-left.col-projet
         - if current_agent
           section
             = link_to t('tableau_de_bord.titre_section'), dossiers_path
