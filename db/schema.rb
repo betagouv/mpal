@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426125658) do
+ActiveRecord::Schema.define(version: 20170427130348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -291,6 +291,8 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.decimal  "amo_amount",                      precision: 10, scale: 2
     t.decimal  "maitrise_oeuvre_amount",          precision: 10, scale: 2
     t.decimal  "assiette_subventionnable_amount", precision: 10, scale: 2
+    t.integer  "consommation_avant_travaux"
+    t.integer  "consommation_apres_travaux"
   end
 
   add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
