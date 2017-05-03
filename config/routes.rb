@@ -13,8 +13,6 @@ Rails.application.routes.draw do
     resource :mise_en_relation,  only: [:show, :update]
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
-    get       :proposition
-    put       :proposition
   end
 
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
@@ -34,6 +32,8 @@ Rails.application.routes.draw do
       get  :recommander_operateurs
       post :recommander_operateurs
       get  :proposer
+      get  :proposition
+      put  :proposition
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
