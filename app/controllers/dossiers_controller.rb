@@ -43,7 +43,6 @@ class DossiersController < ApplicationController
 
     assign_projet_if_needed
     @themes = Theme.ordered.all
-    #TODO prestations = Prestation.active | @projet_courant.prestations
     @prestations_with_choices = prestations_with_choices
     @aides_publiques = Aide.public_assistance.active     | @projet_courant.aides.public_assistance
     @aides_privees   = Aide.not_public_assistance.active | @projet_courant.aides.not_public_assistance
@@ -91,7 +90,12 @@ private
   end
 
   def prestations_with_choices
-    Prestation.joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}").distinct.select('prestations.*, prestation_choices.wished AS wished, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id')
+    Prestation
+      .active_for_projet(@projet_courant)
+      .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}")
+      .distinct
+      .select('prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id')
+      .order(:id)
   end
 
   def projet_params
@@ -110,7 +114,7 @@ private
                         :documents_attributes,
                         :theme_ids => [],
                         :suggested_operateur_ids => [],
-                        :prestation_choices_attributes => [:id, :prestation_id, :wished, :recommended, :selected],
+                        :prestation_choices_attributes => [:id, :prestation_id, :desired, :recommended, :selected],
                         :projet_aides_attributes => [:id, :aide_id, :localized_amount],
                         :demande => [:annee_construction],
                 )
@@ -121,7 +125,7 @@ private
     end
     if attributs[:prestation_choices_attributes].present?
       attributs[:prestation_choices_attributes].values.each do |prestation_choice|
-        prestation_choice[:_destroy] = true if prestation_choice[:wished].blank? && prestation_choice[:recommended].blank? && prestation_choice[:selected].blank?
+        prestation_choice[:_destroy] = true if prestation_choice[:desired].blank? && prestation_choice[:recommended].blank? && prestation_choice[:selected].blank?
       end
     end
     attributs

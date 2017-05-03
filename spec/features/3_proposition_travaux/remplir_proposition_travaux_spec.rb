@@ -213,7 +213,6 @@ feature "Remplir la proposition de travaux" do
         before { projet.prestation_choices << create(:prestation_choice, :selected, projet: projet, prestation: old_used_prestation) }
 
         scenario "j'ai toujours accès à cette prestation" do
-          skip "TODO projet_concern.rb:20"
           visit dossier_proposition_path(projet)
           expect(page).not_to have_content('Ancienne prestation non utilisée')
           expect(page).to have_content('Ancienne prestation utilisée')

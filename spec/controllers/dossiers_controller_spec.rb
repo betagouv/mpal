@@ -27,7 +27,7 @@ describe DossiersController do
         let(:projet_params) do
           {
             prestation_choices_attributes: {
-              '1' => { id: '', prestation_id: prestation_1.id, wished: true },
+              '1' => { id: '', prestation_id: prestation_1.id, desired: true },
               '2' => { id: '', prestation_id: prestation_2.id, recommended: true, selected: true },
               '3' => { id: '', prestation_id: prestation_3.id },
             }
@@ -42,11 +42,11 @@ describe DossiersController do
           prestation_choice_2 = projet.prestation_choices.where(prestation_id: prestation_2.id).first
           prestation_choice_3 = projet.prestation_choices.where(prestation_id: prestation_3.id).first
 
-          expect(prestation_choice_1.wished).to       eq true
+          expect(prestation_choice_1.desired).to      eq true
           expect(prestation_choice_1.recommended).to  eq false
           expect(prestation_choice_1.selected).to     eq false
 
-          expect(prestation_choice_2.wished).to       eq false
+          expect(prestation_choice_2.desired).to      eq false
           expect(prestation_choice_2.recommended).to  eq true
           expect(prestation_choice_2.selected).to     eq true
 
@@ -55,12 +55,12 @@ describe DossiersController do
       end
 
       context "si une prestation était sélectionnée" do
-        let(:prestation_choice_1) { create :prestation_choice, :wished, projet: projet, prestation: prestation_1 }
+        let(:prestation_choice_1) { create :prestation_choice, :desired, projet: projet, prestation: prestation_1 }
         let(:prestation_choice_2) { create :prestation_choice, :recommended, :selected, projet: projet, prestation: prestation_2 }
         let(:projet_params) do
           {
             prestation_choices_attributes: {
-              '1' => { id: prestation_choice_1.id, prestation_id: prestation_1.id, wished: false },
+              '1' => { id: prestation_choice_1.id, prestation_id: prestation_1.id, desired: false },
               '2' => { id: prestation_choice_2.id, prestation_id: prestation_2.id, recommended: true, selected: false },
             }
           }
@@ -76,7 +76,7 @@ describe DossiersController do
 
           expect(prestation_choice_1).to eq nil
 
-          expect(prestation_choice_2.wished).to       eq false
+          expect(prestation_choice_2.desired).to      eq false
           expect(prestation_choice_2.recommended).to  eq true
           expect(prestation_choice_2.selected).to     eq false
 
