@@ -187,8 +187,6 @@ feature "Remplir la proposition de travaux" do
       let(:projet)     { create :projet, :proposition_enregistree }
       let(:prestation) { projet.prestations.first }
 
-      before { prestation.choice_for_projet(projet).update(selected: true) }
-
       scenario "je peux modifier la proposition" do
         visit dossier_path(projet)
         within 'article.projet-ope' do
@@ -210,9 +208,9 @@ feature "Remplir la proposition de travaux" do
 
       context "avec une prestation dépréciée" do
         let!(:old_unused_prestation)  { create :prestation, libelle: 'Ancienne prestation non utilisée', active: false }
-        let!(:old_used_prestation)    { create :prestation, libelle: 'Ancienne prestation utilisée', active: false }
+        let!(:old_used_prestation)    { create :prestation, libelle: 'Ancienne prestation utilisée',     active: false }
 
-        before { projet.prestations << old_used_prestation }
+        before { projet.prestation_choices << create(:prestation_choice, :selected, projet: projet, prestation: old_used_prestation) }
 
         scenario "j'ai toujours accès à cette prestation" do
           skip "TODO projet_concern.rb:20"
@@ -225,7 +223,7 @@ feature "Remplir la proposition de travaux" do
 
       context "avec une aide dépréciée" do
         let!(:old_unused_aide)  { create :aide, libelle: 'Ancienne aide non utilisée', active: false }
-        let!(:old_used_aide)    { create :aide, libelle: 'Ancienne aide utilisée', active: false }
+        let!(:old_used_aide)    { create :aide, libelle: 'Ancienne aide utilisée',     active: false }
 
         before do
           projet.aides << old_used_aide

@@ -24,9 +24,9 @@ describe ProjetMailer, type: :mailer do
   end
 
   describe "mise en relation intervenant" do
-    let!(:prestation)      { create :prestation }
     let(:projet)           { create :projet, :proposition_proposee }
     let(:mise_en_relation) { create :mise_en_relation, projet: projet }
+    let(:prestation)       { projet.prestations.first }
     let(:email)            { ProjetMailer.mise_en_relation_intervenant(mise_en_relation) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([mise_en_relation.intervenant_email]) }

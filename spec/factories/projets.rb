@@ -98,13 +98,10 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_prestations do
-      transient do
-        prestations_count 1
-      end
-
-      after(:build) do |projet, evaluator|
-        projet.prestations = Prestation.first(evaluator.prestations_count)
+    trait :with_selected_prestation do
+      after(:build) do |projet|
+        prestation = create(:prestation)
+        projet.prestation_choices << create(:prestation_choice, :selected, projet: projet, prestation: prestation)
       end
     end
 
@@ -144,7 +141,7 @@ FactoryGirl.define do
       with_demandeur
       with_demande
       with_assigned_operateur
-      with_prestations
+      with_selected_prestation
     end
 
     trait :proposition_proposee do
@@ -152,14 +149,14 @@ FactoryGirl.define do
       with_demandeur
       with_demande
       with_assigned_operateur
-      with_prestations
+      with_selected_prestation
     end
 
     trait :transmis_pour_instruction do
       with_demandeur
       with_demande
       with_assigned_operateur
-      with_prestations
+      with_selected_prestation
       with_invited_instructeur
 
       after(:build) do |projet|
@@ -173,7 +170,7 @@ FactoryGirl.define do
       with_demandeur
       with_demande
       with_assigned_operateur
-      with_prestations
+      with_selected_prestation
       with_committed_instructeur
       with_invited_pris
 
