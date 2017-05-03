@@ -19,6 +19,20 @@ describe DemandeursController do
       expect(assigns(:page_heading)).to eq 'Inscription'
       expect(assigns(:demandeur)).to eq projet.demandeur
     end
+
+    context "quand il n'y a qu'un seul déclarant" do
+      let(:projet) { create :projet, :prospect, declarants_count: 1 }
+      it "propose l'unique déclarant possible comme demandeur" do
+        expect(assigns(:declarants_prompt)).to be nil
+      end
+    end
+
+    context "quand il y a plusieurs déclarants" do
+      let(:projet) { create :projet, :prospect, declarants_count: 2 }
+      it "laisse l'utilisateur choisir le demandeur" do
+        expect(assigns(:declarants_prompt)).to   eq I18n.t('demarrage_projet.demandeur.select')
+      end
+    end
   end
 
   describe "#update" do

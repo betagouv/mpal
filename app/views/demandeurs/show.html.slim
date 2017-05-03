@@ -15,7 +15,7 @@
     ul.dem-info.ins-form
       li.full
         = label_tag 'projet[demandeur_id]', t('demarrage_projet.demandeur.demandeur_identity')
-        = select_tag 'projet[demandeur_id]', options_for_select(@declarants, @demandeur.try(:id)), class: 'form-control', prompt: t('demarrage_projet.demandeur.select')
+        = select_tag 'projet[demandeur_id]', options_for_select(@declarants, @demandeur.try(:id)), class: 'form-control', prompt: @declarants_prompt
       li.full
         = f.label :adresse_postale
         = text_field_tag "projet[adresse_postale]", @projet_courant.adresse_postale.try(:description)
