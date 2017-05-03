@@ -37,8 +37,8 @@
             - if current_agent.operateur?
               td= link_to (projet.opal_numero || ' '), edit_url
             td= link_to edit_url
-              span.firstname= projet.demandeur_principal.prenom
-              span.lastname<= projet.demandeur_principal.nom
+              span.firstname= projet.demandeur.prenom
+              span.lastname<= projet.demandeur.nom
             - if current_agent.operateur?
               td= link_to projet.adresse.try(:region), edit_url
               td class='departement' = link_to projet.adresse.try(:departement), edit_url

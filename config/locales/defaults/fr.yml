@@ -2,8 +2,8 @@ fr:
   helpers:
     label:
       projet:
-        demandeur_principal_nom: Nom
-        demandeur_principal_prenom: Prénom
+        demandeur_nom: Nom
+        demandeur_prenom: Prénom
         email: Email
         adresse: Adresse
         adresse_logement: "Adresse du logement à rénover si différente"
@@ -362,13 +362,13 @@ fr:
       recommandation_operateurs:
         sujet: "[Anah] Voici nos recommandations pour votre projet de rénovation"
       invitation_intervenant:
-        sujet: "[Anah] Invitation de %{demandeur_principal} à consulter son projet"
+        sujet: "[Anah] Invitation de %{demandeur} à consulter son projet"
       notification_invitation_intervenant:
         sujet: "[Anah] Invitation de %{intervenant} à consulter votre projet"
       notification_choix_intervenant:
-        sujet: "[Anah] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l’accompagner sur son projet"
+        sujet: "[Anah] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur} pour l’accompagner sur son projet"
       resiliation_operateur:
-        sujet: "[Anah] %{demandeur_principal} a changé d’opérateur pour son projet"
+        sujet: "[Anah] %{demandeur} a changé d’opérateur pour son projet"
       mise_en_relation_intervenant:
         sujet: "[Anah] Mise en relation par %{intermediaire}"
       accuse_reception:

@@ -24,7 +24,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       within "#projet_#{projet.id}" do
         expect(page).to have_content(projet.numero_plateforme)
         expect(page).to have_content(projet.opal_numero)
-        expect(page).to have_content(projet.demandeur_principal.fullname)
+        expect(page).to have_content(projet.demandeur.fullname)
         expect(page).to have_content(projet.adresse.region)
         expect(page).to have_css('td.departement', text: projet.adresse.departement)
         expect(page).to have_content(projet.adresse.ville)
@@ -42,7 +42,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       visit dossiers_path
       click_link projet.numero_plateforme
       expect(page.current_path).to eq(dossier_path(projet))
-      expect(page).to have_content(projet.demandeur_principal.fullname)
+      expect(page).to have_content(projet.demandeur.fullname)
     end
 
     scenario "je ne peux pas accéder au dossier Opal" do
@@ -60,7 +60,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       within "#projet_#{projet.id}" do
         expect(page).to     have_content(projet.numero_plateforme)
         expect(page).to     have_content(projet.opal_numero)
-        expect(page).to     have_content(projet.demandeur_principal.fullname)
+        expect(page).to     have_content(projet.demandeur.fullname)
         expect(page).not_to have_content(projet.adresse.region)
         expect(page).not_to have_css('td.departement')
         expect(page).to     have_content(projet.adresse.ville)
@@ -78,7 +78,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       visit dossiers_path
       click_link projet.numero_plateforme
       expect(page.current_path).to eq(dossier_path(projet))
-      expect(page).to have_content(projet.demandeur_principal.fullname)
+      expect(page).to have_content(projet.demandeur.fullname)
     end
 
     scenario "je peux accéder au dossier Opal" do
@@ -96,7 +96,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       within "#projet_#{projet.id}" do
         expect(page).to     have_content(projet.plateforme_id)
         expect(page).not_to have_content(projet.opal_numero)
-        expect(page).to     have_content(projet.demandeur_principal.fullname)
+        expect(page).to     have_content(projet.demandeur.fullname)
         expect(page).not_to have_content(projet.adresse.region)
         expect(page).not_to have_css('td.departement')
         expect(page).to     have_content(projet.adresse.ville)
@@ -114,7 +114,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       visit dossiers_path
       click_link projet.numero_plateforme
       expect(page.current_path).to eq(dossier_path(projet))
-      expect(page).to have_content(projet.demandeur_principal.fullname)
+      expect(page).to have_content(projet.demandeur.fullname)
     end
   end
 end

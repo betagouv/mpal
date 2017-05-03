@@ -7,7 +7,7 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.recommandation_operateurs.sujet')) }
-    it { expect(email.body.encoded).to match(projet.demandeur_principal.fullname) }
+    it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
     it { expect(email.body.encoded).to match(projet_choix_operateur_url(projet)) }
   end
 
@@ -16,8 +16,8 @@ describe ProjetMailer, type: :mailer do
     let(:email) { ProjetMailer.invitation_intervenant(invitation) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([invitation.intervenant_email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur_principal: invitation.demandeur_principal.fullname)) }
-    it { expect(email.body.encoded).to match(invitation.demandeur_principal.fullname) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur: invitation.demandeur.fullname)) }
+    it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
     it { expect(email.body.encoded).to match(invitation.description_adresse) }
     it { expect(email.body.encoded).to include("Difficultés rencontrées dans le logement") }
     it { expect(email.body.encoded).to include(dossier_url(invitation.projet)) }
@@ -40,8 +40,8 @@ describe ProjetMailer, type: :mailer do
     let(:email) { ProjetMailer.resiliation_operateur(invitation) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([invitation.intervenant_email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.resiliation_operateur.sujet', demandeur_principal: invitation.demandeur_principal.fullname)) }
-    it { expect(email.body.encoded).to match(invitation.demandeur_principal.fullname) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.resiliation_operateur.sujet', demandeur: invitation.demandeur.fullname)) }
+    it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
   end
 
   describe "l'intervenant reçoit un email lorsqu'il a été choisi par le demandeur" do
@@ -51,8 +51,8 @@ describe ProjetMailer, type: :mailer do
     let(:email) { ProjetMailer.notification_choix_intervenant(projet) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([projet.operateur.email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: operateur.raison_sociale, demandeur_principal: projet.demandeur_principal.fullname)) }
-    it { expect(email.body.encoded).to match(invitation.demandeur_principal.fullname) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: operateur.raison_sociale, demandeur: projet.demandeur.fullname)) }
+    it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
     it { expect(email.body.encoded).to include(dossier_url(projet)) }
    end
 
@@ -62,7 +62,7 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.from).to eq([projet.invited_instructeur.email]) }
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.accuse_reception.sujet')) }
-    it { expect(email.body).to include(projet.demandeur_principal.fullname) }
+    it { expect(email.body).to include(projet.demandeur.fullname) }
     it { expect(email.body).to include(projet.plateforme_id) }
     it { expect(email.body).to include(projet.invited_instructeur.raison_sociale) }
     it { expect(email.body).to include(projet.invited_instructeur.description_adresse) }

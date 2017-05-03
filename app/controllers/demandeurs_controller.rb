@@ -22,7 +22,7 @@ private
 
   def render_show
     @projet_courant.personne ||= Personne.new
-    @demandeur ||= @projet_courant.demandeur_principal
+    @demandeur ||= @projet_courant.demandeur
 
     @page_heading = 'Inscription'
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
@@ -54,8 +54,8 @@ private
     )
   end
 
-  def demandeur_principal_params
-    params.fetch(:demandeur_principal, {}).permit(:civilite)
+  def demandeur_params
+    params.fetch(:demandeur, {}).permit(:civilite)
   end
 
   def save_demandeur
@@ -108,7 +108,7 @@ private
 
   def assign_demandeur(demandeur_id)
     @demandeur = @projet_courant.change_demandeur(demandeur_id)
-    @demandeur.assign_attributes(demandeur_principal_params)
+    @demandeur.assign_attributes(demandeur_params)
     @demandeur.save
   end
 end

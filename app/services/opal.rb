@@ -64,9 +64,9 @@ private
         "qdmId": 29,
         "cadId": 2,
         "personnePhysique": {
-          "civId":            serialize_civilite(projet.demandeur_principal),
-          "pphNom":           serialize_nom(projet.demandeur_principal),
-          "pphPrenom":        serialize_prenom(projet.demandeur_principal),
+          "civId":            serialize_civilite(projet.demandeur),
+          "pphNom":           serialize_nom(projet.demandeur),
+          "pphPrenom":        serialize_prenom(projet.demandeur),
           "adressePostale": {
             "payId": 1,
             "adpLigne1":     lignes_adresse_postale[0],

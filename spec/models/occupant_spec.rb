@@ -19,13 +19,13 @@ describe Occupant do
     end
 
     context "pour un occupant existant" do
-      context "qui n'est pas le demandeur principal" do
+      context "qui n'est pas le demandeur" do
         subject { create(:occupant) }
         it { is_expected.not_to validate_presence_of(:civilite) }
       end
 
-      context "qui est le demandeur principal" do
-        subject { create(:projet, :with_demandeur).demandeur_principal }
+      context "qui est le demandeur" do
+        subject { create(:projet, :with_demandeur).demandeur }
         it { is_expected.to validate_presence_of(:civilite) }
       end
     end

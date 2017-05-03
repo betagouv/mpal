@@ -4,10 +4,10 @@ class AddCiviliteToDemandeurPrincipal < ActiveRecord::Migration
 
     ActiveRecord::Base.transaction do
       Projet.find_each do |projet|
-        if projet.demandeur_principal && projet.demandeur_principal.civilite.blank?
+        if projet.demandeur && projet.demandeur.civilite.blank?
           begin
-            projet.demandeur_principal.civilite = Occupant.civilites.keys[0]
-            projet.demandeur_principal.save!
+            projet.demandeur.civilite = Occupant.civilites.keys[0]
+            projet.demandeur.save!
             print "."
             count += 1
           rescue => e

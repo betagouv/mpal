@@ -16,7 +16,7 @@ private
     if agent_signed_in?
       current_agent
     else
-      @projet_courant.demandeur_principal
+      @projet_courant.demandeur
     end
   end
 end

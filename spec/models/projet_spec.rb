@@ -256,10 +256,10 @@ describe Projet do
     let(:projet) { create :projet, :with_demandeur }
 
     it "change le demandeur" do
-      expect(projet.demandeur_principal).to eq projet.occupants.first
-      new_demandeur_principal = projet.occupants.last
-      projet.change_demandeur(new_demandeur_principal.id)
-      expect(projet.demandeur_principal).to eq new_demandeur_principal
+      expect(projet.demandeur).to eq projet.occupants.first
+      new_demandeur = projet.occupants.last
+      projet.change_demandeur(new_demandeur.id)
+      expect(projet.demandeur).to eq new_demandeur
     end
   end
 

@@ -171,24 +171,24 @@ class Projet < ActiveRecord::Base
     occupants.where(declarant: true)
   end
 
-  def demandeur_principal
+  def demandeur
     occupants.where(demandeur: true).first
   end
 
-  def demandeur_principal_nom
-    demandeur_principal.nom
+  def demandeur_nom
+    demandeur.nom
   end
 
-  def demandeur_principal_prenom
-    demandeur_principal.prenom
+  def demandeur_prenom
+    demandeur.prenom
   end
 
-  def demandeur_principal_civilite
-    demandeur_principal.civilite
+  def demandeur_civilite
+    demandeur.civilite
   end
 
   def usager
-    occupant = demandeur_principal
+    occupant = demandeur
     occupant.to_s if occupant
   end
 
@@ -345,7 +345,7 @@ class Projet < ActiveRecord::Base
       Projet.for_agent(agent).each do |projet|
         line = [
           projet.numero_plateforme,
-          projet.demandeur_principal.fullname,
+          projet.demandeur.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),

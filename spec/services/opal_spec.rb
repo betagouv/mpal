@@ -35,7 +35,7 @@ describe Opal do
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
 
     context "en cas de succès" do
-      before { projet.demandeur_principal.update(nom: 'Strâbe', prenom: 'ōlaf') }
+      before { projet.demandeur.update(nom: 'Strâbe', prenom: 'ōlaf') }
       subject! { Opal.new(client).create_dossier!(projet, agent_instructeur) }
 
       it "envoie les informations sérialisées" do
