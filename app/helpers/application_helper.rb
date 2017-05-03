@@ -140,4 +140,8 @@ module ApplicationHelper
   def dossier_opal_url(numero)
     "#{ENV['OPAL_API_BASE_URI']}sio/ctrl/accueil?FORM_DTO_ID=DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE&FORM_ACTION=RECHERCHER_RAPIDE_DOSSIER&$DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE$DOS_NUMERO=#{numero}"
   end
+
+  def number_to_power_consumption(number)
+    [number, I18n.t('helpers.units.power_consumption')].join(' ')
+  end
 end

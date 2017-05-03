@@ -37,6 +37,7 @@ feature "Remplir la proposition de travaux" do
       fill_in 'projet_demande_attributes_annee_construction', with: '1954'
       fill_in 'projet_surface_habitable', with: '42'
       fill_in I18n.t('helpers.label.proposition.etiquette_avant_travaux'), with: 'C'
+      fill_in 'projet_consommation_avant_travaux', with: '333'
 
       # Section "Diagnostic opérateur"
       choose 'projet_autonomie_true'
@@ -54,6 +55,7 @@ feature "Remplir la proposition de travaux" do
       check 'Lavabo adapté'
       fill_in I18n.t('helpers.label.proposition.gain_energetique'), with: '31'
       fill_in I18n.t('helpers.label.proposition.etiquette_apres_travaux'), with: 'A'
+      fill_in 'projet_consommation_apres_travaux', with: '222'
 
       # Section "Montant"
       fill_in_section_montant
@@ -78,8 +80,9 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_css('.etage', text: 2)
       expect(page).to have_css('.pieces', text:'Plus de 5')
       expect(page).to have_content('2010')
-      expect(page).to have_content('42 m2')
+      expect(page).to have_content('42 m²')
       expect(page).to have_css('.etiquette_avant', text: 'C')
+      expect(page).to have_css('.consommation_avant', text: '333')
 
       # Section "Diagnostic opérateur"
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.autonomie'))
@@ -100,6 +103,7 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_css('.gain_energetique', text: 31)
       expect(page).to have_content(I18n.t('helpers.label.proposition.etiquette_apres_travaux'))
       expect(page).to have_css('.etiquette_apres', text: 'A')
+      expect(page).to have_css('.consommation_apres', text: '222')
 
       # Section "Financement"
       expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ht_amount'))

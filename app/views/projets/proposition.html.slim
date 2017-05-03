@@ -15,14 +15,17 @@
             legend Logement
             = f.input :date_de_visite, as: :string, required: true, wrapper_html: { class: "size-s" }
             = f.input :type_logement, collection: Projet::TYPE_LOGEMENT_VALUES, wrapper_html: { class: "size-s" }
-            = f.input :etage,         collection: Projet::ETAGE_VALUES,         wrapper_html: { class: "size-xs" }
-            = f.input :nb_pieces,     collection: Projet::NB_PIECES_VALUES,     wrapper_html: { class: "size-xs" }
+            = f.input :etage,         collection: Projet::ETAGE_VALUES,         wrapper_html: { class: "size-s" }
+            = f.input :nb_pieces,     collection: Projet::NB_PIECES_VALUES,     wrapper_html: { class: "size-s" }
             = f.fields_for :demande do |demande_form|
-              = demande_form.input :annee_construction, wrapper_html: { class: "size-xs" }
-            = f.input :surface_habitable, wrapper: "append", wrapper_html: { class: "size-xs" } do
+              = demande_form.input :annee_construction, wrapper_html: { class: "size-s" }
+            = f.input :surface_habitable, wrapper: "append", wrapper_html: { class: "size-s" } do
               = f.input_field :surface_habitable
               span.input-group-addon m²
-            = f.input :etiquette_avant_travaux, wrapper_html: { class: "size-xs" }
+            = f.input :consommation_avant_travaux, wrapper: "append", wrapper_html: { class: "size-s" } do
+              = f.input_field :consommation_avant_travaux
+              span.input-group-addon = t('helpers.units.power_consumption')
+            = f.input :etiquette_avant_travaux,    wrapper_html: { class: "size-s" }
 
           fieldset
             legend Diagnostic opérateur
@@ -90,15 +93,21 @@
                   th.tab-title colspan="3" scope="row" Efficacité énergétique
                 tr
                   th scope="row"
-                    = f.label :gain_energetique, t('helpers.label.proposition.gain_energetique')
+                    = f.label :consommation_apres_travaux, t('helpers.label.proposition.consommation_apres_travaux')
                   td
-                    = f.text_field :gain_energetique
-                    = " %"
+                    = f.text_field :consommation_apres_travaux
+                    =< t('helpers.units.power_consumption')
                 tr
                   th scope="row"
                     = f.label :etiquette_apres_travaux, t('helpers.label.proposition.etiquette_apres_travaux')
                   td
                     = f.text_field :etiquette_apres_travaux
+                tr
+                  th scope="row"
+                    = f.label :gain_energetique, t('helpers.label.proposition.gain_energetique')
+                  td
+                    = f.text_field :gain_energetique
+                    = " %"
                 tr
                   th.tab-title colspan="3" scope="row"= t('helpers.label.proposition.montant')
                 tr
