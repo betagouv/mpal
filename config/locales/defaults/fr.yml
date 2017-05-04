@@ -412,6 +412,9 @@ fr:
         prenom: "Prénom"
         date_de_naissance: "Date de naissance"
     errors:
+      messages:
+        greater_than_or_equal_to_feminine: "La %{attribute} doit être supérieure ou égale à %{count}"
+        greater_than_or_equal_to_masculine: "Le %{attribute} doit être supérieur ou égal à %{count}"
       models:
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"

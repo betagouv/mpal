@@ -54,6 +54,7 @@ class Projet < ActiveRecord::Base
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
   validates :date_de_visite, :assiette_subventionnable_amount, :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
+  validates :consommation_avant_travaux, :consommation_apres_travaux, numericality: { greater_than_or_equal_to: 0, message: :greater_than_or_equal_to_feminine }, allow_nil: true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
 
