@@ -25,7 +25,7 @@ describe DossiersController do
         it "je ne peux pas proposer au demandeur" do
           get :proposer, dossier_id: projet.id
           expect(assigns(:projet_courant).statut.to_sym).to eq :proposition_enregistree
-          expect(assigns(:projet_courant).errors).to be_added :date_de_visite, :blank
+          expect(assigns(:projet_courant).errors).to be_added :date_de_visite, :blank_feminine
           expect(response).to render_template(:show)
         end
       end

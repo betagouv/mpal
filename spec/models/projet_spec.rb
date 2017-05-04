@@ -13,8 +13,8 @@ describe Projet do
     it { is_expected.not_to validate_presence_of(:email) }
     it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.not_to validate_presence_of(:date_de_visite) }
-    it { is_expected.to validate_presence_of(:date_de_visite).on(:proposition) }
-    it { is_expected.to validate_presence_of(:assiette_subventionnable_amount).on(:proposition) }
+    it { is_expected.to validate_presence_of(:date_de_visite).with_message(:blank_feminine).on(:proposition) }
+    it { is_expected.to validate_presence_of(:assiette_subventionnable_amount).with_message(:blank_feminine).on(:proposition) }
     it { is_expected.to validate_presence_of(:travaux_ht_amount).on(:proposition) }
     it { is_expected.to validate_presence_of(:travaux_ttc_amount).on(:proposition) }
     it { is_expected.to validate_inclusion_of(:note_degradation).in_range(0..1) }

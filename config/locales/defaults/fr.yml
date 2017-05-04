@@ -406,6 +406,8 @@ fr:
         note_degradation: "La note de dégradation"
         note_insalubrite: "La note d’insalubrité"
         date_de_visite: "La date de visite du logement"
+        consommation_avant_travaux: "Consommation énergétique avant travaux"
+        consommation_apres_travaux: "Consommation énergétique après travaux"
       occupant:
         civilite: "La civilité"
         nom: "Nom"
@@ -413,21 +415,19 @@ fr:
         date_de_naissance: "Date de naissance"
     errors:
       messages:
-        greater_than_or_equal_to_feminine: "La %{attribute} doit être supérieure ou égale à %{count}"
-        greater_than_or_equal_to_masculine: "Le %{attribute} doit être supérieur ou égal à %{count}"
+        blank_feminine: "doit être renseignée"
+        blank_masculine: "doit être renseigné"
+        greater_than_or_equal_to_feminine: "doit être supérieure ou égale à %{count}"
+        greater_than_or_equal_to_masculine: "doit être supérieur ou égal à %{count}"
       models:
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"
           attributes:
-            date_de_visite:
-              blank: "doit être renseignée."
             note_degradation:
               inclusion: "doit être comprise entre zéro et un."
             note_insalubrite:
               inclusion: "doit être comprise entre zéro et un."
         occupant:
           attributes:
-            civilite:
-              blank: "doit être renseignée."
             date_de_naissance:
               not_in_past: "invalide : merci d’indiquer une date dans le passé."
