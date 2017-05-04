@@ -85,7 +85,7 @@
                   th.empty scope="col"    &nbsp;
                   th.top-tab scope="col"  Souhaitée
                   th.top-tab scope="col"  Préconiséee
-                  th.top-tab scope="col"  Sélectionnée
+                  th.top-tab scope="col"  Retenue
                 - @prestations_with_choices.each do |prestation|
                   - field_name = "projet[prestation_choices_attributes][#{prestation.id}]" # prestation.id is the Hash key value
                   tr

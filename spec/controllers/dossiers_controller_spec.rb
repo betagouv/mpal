@@ -23,7 +23,7 @@ describe DossiersController do
 
       before(:each) { authenticate_as_agent projet.agent_operateur }
 
-      context "si aucune prestation n'était sélectionnée" do
+      context "si aucune prestation n'était retenue" do
         let(:projet_params) do
           {
             prestation_choices_attributes: {
@@ -54,7 +54,7 @@ describe DossiersController do
         end
       end
 
-      context "si une prestation était sélectionnée" do
+      context "si une prestation était retenue" do
         let(:prestation_choice_1) { create :prestation_choice, :desired, projet: projet, prestation: prestation_1 }
         let(:prestation_choice_2) { create :prestation_choice, :recommended, :selected, projet: projet, prestation: prestation_2 }
         let(:projet_params) do

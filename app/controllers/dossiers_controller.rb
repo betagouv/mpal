@@ -90,7 +90,7 @@ private
   end
 
   def prestations_with_choices
-    # simplify by .leftjoin when Rails 5
+    # This query be simplified by using `left_joins` once we'll be running on Rails 5
     Prestation
       .active_for_projet(@projet_courant)
       .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}")

@@ -16,7 +16,7 @@ describe '20170504092142_migrate_prestation_choices' do
   context "quand la table de jointure est vide" do
     let!(:prestation_choice) { create :prestation_choice, projet: projet, prestation: prestation }
 
-    it "définie une prestation comme sélectionnée" do
+    it "définie une prestation comme retenue" do
       subject.invoke
 
       prestation_choice.reload
@@ -29,7 +29,7 @@ describe '20170504092142_migrate_prestation_choices' do
   context "quand la table de jointure est déjà remplie" do
     let!(:prestation_choice) { create :prestation_choice, :desired, projet: projet, prestation: prestation }
 
-    it "définie une prestation comme sélectionnée" do
+    it "définie une prestation comme retenue" do
       subject.invoke
 
       prestation_choice.reload
