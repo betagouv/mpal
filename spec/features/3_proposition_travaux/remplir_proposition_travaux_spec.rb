@@ -96,9 +96,18 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.remarques_diagnostic') + ' : Le diagnostic est complet.')
 
       # Section "Description des travaux proposés"
-      expect(page).to have_content('Remplacement d’une baignoire par une douche')
-      expect(page).to have_content('Lavabo adapté')
-      expect(page).not_to have_content('Géothermie')
+      expect(page).to     have_content prestation_1.libelle
+      expect(page).to     have_selector "#prestation_#{prestation_1.id}_wished"
+      expect(page).not_to have_selector "#prestation_#{prestation_1.id}_recommended"
+      expect(page).not_to have_selector "#prestation_#{prestation_1.id}_selected"
+      expect(page).to     have_content prestation_2.libelle
+      expect(page).not_to have_selector "#prestation_#{prestation_2.id}_wished"
+      expect(page).not_to have_selector "#prestation_#{prestation_2.id}_recommended"
+      expect(page).to     have_selector "#prestation_#{prestation_2.id}_selected"
+      expect(page).not_to have_content prestation_3.libelle
+      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_wished"
+      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_recommended"
+      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_selected"
       expect(page).to have_content(I18n.t('helpers.label.proposition.gain_energetique'))
       expect(page).to have_css('.gain_energetique', text: 31)
       expect(page).to have_content(I18n.t('helpers.label.proposition.etiquette_apres_travaux'))
@@ -197,12 +206,15 @@ feature "Remplir la proposition de travaux" do
 
         fill_in 'projet_surface_habitable', with: '42'
         uncheck "prestation_#{prestation.id}_selected"
+        check   "prestation_#{prestation.id}_wished"
         fill_in aide.libelle, with: ''
 
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content('42')
-        expect(page).not_to have_content(prestation.libelle)
+        expect(page).to have_content(prestation.libelle)
+        expect(page).to     have_selector "#prestation_#{prestation.id}_wished"
+        expect(page).not_to have_selector "#prestation_#{prestation.id}_selected"
         expect(page).not_to have_content(aide.libelle)
       end
 
@@ -214,9 +226,9 @@ feature "Remplir la proposition de travaux" do
 
         scenario "j'ai toujours accès à cette prestation" do
           visit dossier_proposition_path(projet)
-          expect(page).not_to have_content('Ancienne prestation non utilisée')
-          expect(page).to have_content('Ancienne prestation utilisée')
-          expect(find_field('Ancienne prestation utilisée')).to be_checked
+          expect(page).not_to have_content old_unused_prestation.libelle
+          expect(page).to     have_content old_used_prestation.libelle
+          expect(find_field("prestation_#{old_used_prestation.id}_selected")).to be_checked
         end
       end
 

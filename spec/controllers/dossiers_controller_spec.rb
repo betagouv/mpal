@@ -60,8 +60,9 @@ describe DossiersController do
         let(:projet_params) do
           {
             prestation_choices_attributes: {
-              '1' => { id: prestation_choice_1.id, prestation_id: prestation_1.id, desired: false },
-              '2' => { id: prestation_choice_2.id, prestation_id: prestation_2.id, recommended: true, selected: false },
+              '1' => { id: prestation_choice_1.id, prestation_id: prestation_1.id },
+              '2' => { id: prestation_choice_2.id, prestation_id: prestation_2.id, recommended: true },
+              '3' => { id: '',                     prestation_id: prestation_3.id },
             }
           }
         end

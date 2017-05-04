@@ -90,12 +90,12 @@ private
   end
 
   def prestations_with_choices
+    # simplify by .leftjoin when Rails 5
     Prestation
       .active_for_projet(@projet_courant)
       .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}")
       .distinct
       .select('prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id')
-      .order(:id)
   end
 
   def projet_params
@@ -118,17 +118,37 @@ private
                         :projet_aides_attributes => [:id, :aide_id, :localized_amount],
                         :demande => [:annee_construction],
                 )
+    clean_projet_aides(attributs)
+    clean_prestation_choices(attributs)
+    attributs
+  end
+
+  def clean_projet_aides(attributs)
     if attributs[:projet_aides_attributes].present?
       attributs[:projet_aides_attributes].values.each do |projet_aide|
         projet_aide[:_destroy] = true if projet_aide[:localized_amount].blank?
       end
     end
+  end
+
+  def clean_prestation_choices(attributs)
     if attributs[:prestation_choices_attributes].present?
       attributs[:prestation_choices_attributes].values.each do |prestation_choice|
-        prestation_choice[:_destroy] = true if prestation_choice[:desired].blank? && prestation_choice[:recommended].blank? && prestation_choice[:selected].blank?
+        if [:desired, :recommended, :selected].any? { |key| prestation_choice.key? key }
+          fill_blank_values_with_false(prestation_choice)
+        else
+          prestation_choice[:_destroy] = true
+        end
       end
     end
     attributs
+  end
+
+  def fill_blank_values_with_false(prestation_choice)
+    prestation_choice[:wished]      = prestation_choice[:wished].present?
+    prestation_choice[:recommended] = prestation_choice[:recommended].present?
+    prestation_choice[:selected]    = prestation_choice[:selected].present?
+    prestation_choice
   end
 
   def suggested_operateurs_params
