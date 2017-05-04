@@ -111,16 +111,19 @@ describe ProjetInitializer do
         occupants = avis_imposition.occupants
         expect(occupants[1].prenom).to eq "Occupant "
         expect(occupants[1].nom).to eq "2"
+        expect(occupants[1].date_de_naissance).to be_nil
         expect(occupants[1]).not_to be_declarant
         expect(occupants[1]).not_to be_demandeur
 
         expect(occupants[2].prenom).to eq "Occupant "
         expect(occupants[2].nom).to eq "3"
+        expect(occupants[2].date_de_naissance).to be_nil
         expect(occupants[2]).not_to be_declarant
         expect(occupants[2]).not_to be_demandeur
 
         expect(occupants[3].prenom).to eq "Occupant "
         expect(occupants[3].nom).to eq "4"
+        expect(occupants[3].date_de_naissance).to be_nil
         expect(occupants[3]).not_to be_declarant
         expect(occupants[3]).not_to be_demandeur
       end

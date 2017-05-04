@@ -10,7 +10,7 @@ class OccupantsController < ApplicationController
 
     if request.post?
       if occupant_params?
-        if @occupant.save
+        if @occupant.save(context: :user_action)
           # Clear form fields
           @occupant = @projet_courant.avis_impositions.first.occupants.build
         end
