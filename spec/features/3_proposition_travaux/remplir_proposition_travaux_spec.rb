@@ -97,15 +97,15 @@ feature "Remplir la proposition de travaux" do
 
       # Section "Description des travaux proposés"
       expect(page).to     have_content prestation_1.libelle
-      expect(page).to     have_selector "#prestation_#{prestation_1.id}_wished"
+      expect(page).to     have_selector "#prestation_#{prestation_1.id}_desired"
       expect(page).not_to have_selector "#prestation_#{prestation_1.id}_recommended"
       expect(page).not_to have_selector "#prestation_#{prestation_1.id}_selected"
       expect(page).to     have_content prestation_2.libelle
-      expect(page).not_to have_selector "#prestation_#{prestation_2.id}_wished"
+      expect(page).not_to have_selector "#prestation_#{prestation_2.id}_desired"
       expect(page).not_to have_selector "#prestation_#{prestation_2.id}_recommended"
       expect(page).to     have_selector "#prestation_#{prestation_2.id}_selected"
       expect(page).not_to have_content prestation_3.libelle
-      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_wished"
+      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_desired"
       expect(page).not_to have_selector "#prestation_#{prestation_3.id}_recommended"
       expect(page).not_to have_selector "#prestation_#{prestation_3.id}_selected"
       expect(page).to have_content(I18n.t('helpers.label.proposition.gain_energetique'))
@@ -206,14 +206,14 @@ feature "Remplir la proposition de travaux" do
 
         fill_in 'projet_surface_habitable', with: '42'
         uncheck "prestation_#{prestation.id}_selected"
-        check   "prestation_#{prestation.id}_wished"
+        check   "prestation_#{prestation.id}_desired"
         fill_in aide.libelle, with: ''
 
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content('42')
         expect(page).to have_content(prestation.libelle)
-        expect(page).to     have_selector "#prestation_#{prestation.id}_wished"
+        expect(page).to     have_selector "#prestation_#{prestation.id}_desired"
         expect(page).not_to have_selector "#prestation_#{prestation.id}_selected"
         expect(page).not_to have_content(aide.libelle)
       end

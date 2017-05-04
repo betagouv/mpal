@@ -83,7 +83,7 @@ table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
       tr
         - prestation = prestation_choice.prestation
         th scope="row" #{prestation.libelle}
-        td.recap-projet-image-cell= image_tag "check.svg", alt: "Souhaitée",  id: "prestation_#{prestation.id}_wished"      if prestation_choice.wished
+        td.recap-projet-image-cell= image_tag "check.svg", alt: "Souhaitée",  id: "prestation_#{prestation.id}_desired"     if prestation_choice.desired
         td.recap-projet-image-cell= image_tag "check.svg", alt: "Préconisée", id: "prestation_#{prestation.id}_recommended" if prestation_choice.recommended
         td.recap-projet-image-cell= image_tag "check.svg", alt: "Retenue",    id: "prestation_#{prestation.id}_selected"    if prestation_choice.selected
 

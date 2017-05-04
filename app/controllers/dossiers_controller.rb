@@ -145,7 +145,7 @@ private
   end
 
   def fill_blank_values_with_false(prestation_choice)
-    prestation_choice[:wished]      = prestation_choice[:wished].present?
+    prestation_choice[:desired]     = prestation_choice[:desired].present?
     prestation_choice[:recommended] = prestation_choice[:recommended].present?
     prestation_choice[:selected]    = prestation_choice[:selected].present?
     prestation_choice
