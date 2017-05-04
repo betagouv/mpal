@@ -17,7 +17,7 @@ describe DemandeursController do
     it "affiche le template" do
       expect(response).to render_template(:show)
       expect(assigns(:page_heading)).to eq 'Inscription'
-      expect(assigns(:demandeur)).to eq projet.demandeur_principal
+      expect(assigns(:demandeur)).to eq projet.demandeur
     end
   end
 
@@ -25,7 +25,7 @@ describe DemandeursController do
     let(:projet_params) do {} end
     let(:params) do
       default_params = {
-        demandeur_id: projet.demandeur_principal.id,
+        demandeur_id: projet.demandeur.id,
         adresse_postale: projet.adresse_postale.description
       }
       return {
@@ -53,7 +53,7 @@ describe DemandeursController do
         expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.tel).to eq   '01 02 03 04 05'
         expect(projet.email).to eq 'particulier@exemple.fr'
-        expect(projet.demandeur_principal).to eq projet.occupants.last
+        expect(projet.demandeur).to eq projet.occupants.last
       end
     end
 
@@ -191,7 +191,7 @@ describe DemandeursController do
 
     it "affiche une erreur" do
       expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
-      expect(assigns(:demandeur)).to eq projet.demandeur_principal
+      expect(assigns(:demandeur)).to eq projet.demandeur
     end
   end
 end

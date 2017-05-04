@@ -5,7 +5,7 @@ class ProjetMailer < ActionMailer::Base
 
   def recommandation_operateurs(projet)
     @projet = projet
-    @demandeur = projet.demandeur_principal
+    @demandeur = projet.demandeur
     @pris = projet.invited_pris
     mail(
       to: projet.email,
@@ -17,7 +17,7 @@ class ProjetMailer < ActionMailer::Base
     @invitation = invitation
     mail(
       to: invitation.intervenant_email,
-      subject: t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur_principal: @invitation.demandeur_principal.fullname)
+      subject: t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur: @invitation.demandeur.fullname)
     )
   end
 
@@ -33,7 +33,7 @@ class ProjetMailer < ActionMailer::Base
     @invitation = invitation
     mail(
       to: invitation.intervenant_email,
-      subject: t('mailers.projet_mailer.resiliation_operateur.sujet', demandeur_principal: @invitation.demandeur_principal.fullname)
+      subject: t('mailers.projet_mailer.resiliation_operateur.sujet', demandeur: @invitation.demandeur.fullname)
     )
   end
 
@@ -42,7 +42,7 @@ class ProjetMailer < ActionMailer::Base
     @invitation = @projet.invitations.find_by_intervenant_id(projet.operateur_id)
     mail(
       to: @projet.operateur.email,
-      subject: t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: @projet.operateur.raison_sociale, demandeur_principal: @projet.demandeur_principal.fullname)
+      subject: t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: @projet.operateur.raison_sociale, demandeur: @projet.demandeur.fullname)
     )
   end
 
@@ -56,7 +56,7 @@ class ProjetMailer < ActionMailer::Base
 
   def accuse_reception(projet)
     @projet = projet
-    @demandeur = projet.demandeur_principal
+    @demandeur = projet.demandeur
     @instructeur = projet.invited_instructeur
     @date_depot = projet.date_depot
     mail(

@@ -14,7 +14,7 @@ feature "Les information personnelles syntéthiques sont visibles" do
     signin(projet.numero_fiscal, projet.reference_avis)
     visit projet_path(projet)
     within '.personal-information' do
-      expect(page).to have_content(projet.demandeur_principal.fullname)
+      expect(page).to have_content(projet.demandeur.fullname)
       expect(page).to have_content(projet.tel)
       expect(page).to have_content(projet.email)
       expect(page).to have_no_content("très modeste")
@@ -31,7 +31,7 @@ feature "Les information personnelles syntéthiques sont visibles" do
     login_as agent_operateur, scope: :agent
     visit dossier_path(projet)
     within '.personal-information' do
-      expect(page).to have_content(projet.demandeur_principal.fullname)
+      expect(page).to have_content(projet.demandeur.fullname)
       expect(page).to have_content(projet.tel)
       expect(page).to have_content(projet.email)
       expect(page).to have_content("très modeste")

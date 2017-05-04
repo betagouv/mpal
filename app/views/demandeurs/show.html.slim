@@ -7,11 +7,11 @@
     p.chapo= t('demarrage_projet.demandeur.recapitulatif_informations')
     ul.dem-info.ins-form.civilite
       li.radio
-        = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[1], (@demandeur.try(:civilite) == Occupant.civilites.keys[1])
-        = label_tag 'demandeur_principal_civilite_mme', t(:"occupants.civilite.mme")
+        = radio_button_tag 'demandeur[civilite]', Occupant.civilites.keys[1], (@demandeur.try(:civilite) == Occupant.civilites.keys[1])
+        = label_tag 'demandeur_civilite_mme', t(:"occupants.civilite.mme")
       li.radio
-        = radio_button_tag 'demandeur_principal[civilite]', Occupant.civilites.keys[0], (@demandeur.try(:civilite) == Occupant.civilites.keys[0])
-        = label_tag 'demandeur_principal_civilite_mr', t(:"occupants.civilite.mr")
+        = radio_button_tag 'demandeur[civilite]', Occupant.civilites.keys[0], (@demandeur.try(:civilite) == Occupant.civilites.keys[0])
+        = label_tag 'demandeur_civilite_mr', t(:"occupants.civilite.mr")
     ul.dem-info.ins-form
       li.full
         = label_tag 'projet[demandeur_id]', t('demarrage_projet.demandeur.demandeur_identity')

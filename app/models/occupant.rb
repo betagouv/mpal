@@ -16,7 +16,7 @@ class Occupant < ActiveRecord::Base
   scope :sans_revenus, -> { where(revenus: nil) }
 
   def require_civilite?
-    projet && projet.demandeur_principal == self
+    projet && projet.demandeur == self
   end
 
   def fullname

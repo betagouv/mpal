@@ -25,7 +25,7 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     click_button I18n.t('demarrage_projet.action')
 
     expect(page).to have_current_path projet_avis_impositions_path(projet)
-    expect(projet.demandeur_principal.civilite).to eq("mr")
+    expect(projet.demandeur.civilite).to eq("mr")
     expect(projet.email).to eq("demandeur@exemple.fr")
     expect(projet.tel).to eq("01 02 03 04 05")
   end

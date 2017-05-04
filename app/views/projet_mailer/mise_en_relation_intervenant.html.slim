@@ -1,6 +1,6 @@
 p Bonjour,
 p= "#{@invitation.intermediaire.raison_sociale} vient de vous mettre en relation avec le projet suivant :"
-p= "#{@invitation.demandeur_principal.fullname} souhaite rénover son habitat #{@invitation.description_adresse}"
+p= "#{@invitation.demandeur.fullname} souhaite rénover son habitat #{@invitation.description_adresse}"
 p Voici une description des travaux qu’il souhaite effectuer :
 p= affiche_demande_souhaitee(@invitation.projet.demande)
 p= link_to "Pour visualiser le projet, cliquer sur ce lien", dossier_url(@invitation.projet)

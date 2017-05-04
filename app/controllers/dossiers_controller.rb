@@ -33,7 +33,7 @@ class DossiersController < ApplicationController
       if @projet_courant.suggest_operateurs!(suggested_operateurs_params[:suggested_operateur_ids])
         message = I18n.t('recommander_operateurs.succes',
                           count:     @projet_courant.suggested_operateurs.count,
-                          demandeur: @projet_courant.demandeur_principal.fullname)
+                          demandeur: @projet_courant.demandeur.fullname)
         redirect_to(dossier_path(@projet_courant), notice: message)
       end
     end
