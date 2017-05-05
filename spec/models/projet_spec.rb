@@ -24,7 +24,8 @@ describe Projet do
     it { is_expected.to have_many :evenements }
     it { is_expected.to belong_to :operateur }
     it { is_expected.to belong_to :adresse_postale }
-    it { is_expected.to have_and_belong_to_many :prestations }
+    it { is_expected.to have_many(:prestations).through(:prestation_choices)}
+    it { is_expected.to have_many(:aides).through(:projet_aides)}
     it { is_expected.to have_and_belong_to_many :themes }
     it { is_expected.to belong_to :agent_operateur }
     it { is_expected.to belong_to :agent_instructeur }

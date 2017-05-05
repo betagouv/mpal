@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170427130348) do
+ActiveRecord::Schema.define(version: 20170502100619) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,12 +71,6 @@ ActiveRecord::Schema.define(version: 20170427130348) do
 
   add_index "avis_impositions", ["projet_id"], name: "index_avis_impositions_on_projet_id", using: :btree
 
-  create_table "cad_references", force: :cascade do |t|
-    t.integer "opal_id"
-    t.string  "code"
-    t.text    "libelle"
-  end
-
   create_table "commentaires", force: :cascade do |t|
     t.integer  "projet_id"
     t.integer  "auteur_id"
@@ -135,13 +129,6 @@ ActiveRecord::Schema.define(version: 20170427130348) do
 
   add_index "documents", ["projet_id"], name: "index_documents_on_projet_id", using: :btree
 
-  create_table "engagements", force: :cascade do |t|
-    t.string   "nom"
-    t.boolean  "valeur"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "evenements", force: :cascade do |t|
     t.integer  "projet_id"
     t.string   "label"
@@ -182,12 +169,6 @@ ActiveRecord::Schema.define(version: 20170427130348) do
   add_index "invitations", ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
   add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
 
-  create_table "ntr_references", force: :cascade do |t|
-    t.integer "opal_id"
-    t.string  "code"
-    t.text    "libelle"
-  end
-
   create_table "occupants", force: :cascade do |t|
     t.integer  "projet_id"
     t.string   "nom"
@@ -213,26 +194,23 @@ ActiveRecord::Schema.define(version: 20170427130348) do
     t.string "civilite"
   end
 
-  create_table "prestations", force: :cascade do |t|
-    t.string   "libelle"
-    t.string   "entreprise"
-    t.boolean  "recevable"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "scenario"
-    t.boolean  "souhaite",   default: false, null: false
-    t.boolean  "preconise",  default: false, null: false
-    t.boolean  "retenu",     default: false, null: false
-    t.boolean  "active",     default: true,  null: false
-  end
-
-  create_table "prestations_projets", force: :cascade do |t|
+  create_table "prestation_choices", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "prestation_id"
+    t.boolean "desired",       default: false, null: false
+    t.boolean "recommended",   default: false, null: false
+    t.boolean "selected",      default: false, null: false
   end
 
-  add_index "prestations_projets", ["prestation_id"], name: "index_prestations_projets_on_prestation_id", using: :btree
-  add_index "prestations_projets", ["projet_id"], name: "index_prestations_projets_on_projet_id", using: :btree
+  add_index "prestation_choices", ["prestation_id"], name: "index_prestation_choices_on_prestation_id", using: :btree
+  add_index "prestation_choices", ["projet_id"], name: "index_prestation_choices_on_projet_id", using: :btree
+
+  create_table "prestations", force: :cascade do |t|
+    t.string   "libelle"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "active",     default: true, null: false
+  end
 
   create_table "projet_aides", force: :cascade do |t|
     t.integer "projet_id"
@@ -336,8 +314,8 @@ ActiveRecord::Schema.define(version: 20170427130348) do
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
-  add_foreign_key "prestations_projets", "prestations"
-  add_foreign_key "prestations_projets", "projets"
+  add_foreign_key "prestation_choices", "prestations"
+  add_foreign_key "prestation_choices", "projets"
   add_foreign_key "projet_aides", "aides"
   add_foreign_key "projet_aides", "projets"
   add_foreign_key "projets", "adresses", column: "adresse_a_renover_id"

@@ -15,10 +15,81 @@ describe DossiersController do
   end
 
   context "en tant qu'opérateur connecté" do
-    let(:projet)  { create :projet, :proposition_enregistree }
-    before(:each) { authenticate_as_agent projet.agent_operateur }
+    describe "#proposition" do
+      let!(:prestation_1) { create :prestation, libelle: 'Remplacement d’une baignoire par une douche' }
+      let!(:prestation_2) { create :prestation, libelle: 'Lavabo adapté' }
+      let!(:prestation_3) { create :prestation, libelle: 'Géothermie' }
+      let(:projet)        { create :projet, :en_cours, :with_assigned_operateur }
+
+      before(:each) { authenticate_as_agent projet.agent_operateur }
+
+      context "si aucune prestation n'était retenue" do
+        let(:projet_params) do
+          {
+            prestation_choices_attributes: {
+              '1' => { id: '', prestation_id: prestation_1.id, desired: true },
+              '2' => { id: '', prestation_id: prestation_2.id, recommended: true, selected: true },
+              '3' => { id: '', prestation_id: prestation_3.id },
+            }
+          }
+        end
+
+        it "je définis des prestations souhaitées/préconisées/retenues" do
+          put :proposition, dossier_id: projet.id, projet: projet_params
+          projet.reload
+
+          prestation_choice_1 = projet.prestation_choices.where(prestation_id: prestation_1.id).first
+          prestation_choice_2 = projet.prestation_choices.where(prestation_id: prestation_2.id).first
+          prestation_choice_3 = projet.prestation_choices.where(prestation_id: prestation_3.id).first
+
+          expect(prestation_choice_1.desired).to      eq true
+          expect(prestation_choice_1.recommended).to  eq false
+          expect(prestation_choice_1.selected).to     eq false
+
+          expect(prestation_choice_2.desired).to      eq false
+          expect(prestation_choice_2.recommended).to  eq true
+          expect(prestation_choice_2.selected).to     eq true
+
+          expect(prestation_choice_3).to eq nil
+        end
+      end
+
+      context "si une prestation était retenue" do
+        let(:prestation_choice_1) { create :prestation_choice, :desired, projet: projet, prestation: prestation_1 }
+        let(:prestation_choice_2) { create :prestation_choice, :recommended, :selected, projet: projet, prestation: prestation_2 }
+        let(:projet_params) do
+          {
+            prestation_choices_attributes: {
+              '1' => { id: prestation_choice_1.id, prestation_id: prestation_1.id },
+              '2' => { id: prestation_choice_2.id, prestation_id: prestation_2.id, recommended: true },
+              '3' => { id: '',                     prestation_id: prestation_3.id },
+            }
+          }
+        end
+
+        it "je peux modifier ses attributs (souhaitée/préconisée/retenue) et/ou la supprimer" do
+          put :proposition, dossier_id: projet.id, projet: projet_params
+          projet.reload
+
+          prestation_choice_1 = projet.prestation_choices.where(prestation_id: prestation_1.id).first
+          prestation_choice_2 = projet.prestation_choices.where(prestation_id: prestation_2.id).first
+          prestation_choice_3 = projet.prestation_choices.where(prestation_id: prestation_3.id).first
+
+          expect(prestation_choice_1).to eq nil
+
+          expect(prestation_choice_2.desired).to      eq false
+          expect(prestation_choice_2.recommended).to  eq true
+          expect(prestation_choice_2.selected).to     eq false
+
+          expect(prestation_choice_3).to eq nil
+        end
+      end
+    end
 
     describe "#proposer" do
+      let(:projet)  { create :projet, :proposition_enregistree }
+      before(:each) { authenticate_as_agent projet.agent_operateur }
+
       context "si un attribut requis n'est pas renseigné" do
         before { projet.update_attribute(:date_de_visite, nil) }
 

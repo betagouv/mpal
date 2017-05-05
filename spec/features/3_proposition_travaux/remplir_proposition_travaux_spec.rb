@@ -51,8 +51,8 @@ feature "Remplir la proposition de travaux" do
       fill_in 'projet_remarques_diagnostic', with: 'Le diagnostic est complet.'
 
       # Section "Description des travaux proposés"
-      check 'Remplacement d’une baignoire par une douche'
-      check 'Lavabo adapté'
+      check "prestation_#{prestation_1.id}_desired"
+      check "prestation_#{prestation_2.id}_selected"
       fill_in I18n.t('helpers.label.proposition.gain_energetique'), with: '31'
       fill_in I18n.t('helpers.label.proposition.etiquette_apres_travaux'), with: 'A'
       fill_in 'projet_consommation_apres_travaux', with: '222'
@@ -96,9 +96,18 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.remarques_diagnostic') + ' : Le diagnostic est complet.')
 
       # Section "Description des travaux proposés"
-      expect(page).to have_content('Remplacement d’une baignoire par une douche')
-      expect(page).to have_content('Lavabo adapté')
-      expect(page).not_to have_content('Géothermie')
+      expect(page).to     have_content prestation_1.libelle
+      expect(page).to     have_selector "#prestation_#{prestation_1.id}_desired"
+      expect(page).not_to have_selector "#prestation_#{prestation_1.id}_recommended"
+      expect(page).not_to have_selector "#prestation_#{prestation_1.id}_selected"
+      expect(page).to     have_content prestation_2.libelle
+      expect(page).not_to have_selector "#prestation_#{prestation_2.id}_desired"
+      expect(page).not_to have_selector "#prestation_#{prestation_2.id}_recommended"
+      expect(page).to     have_selector "#prestation_#{prestation_2.id}_selected"
+      expect(page).not_to have_content prestation_3.libelle
+      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_desired"
+      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_recommended"
+      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_selected"
       expect(page).to have_content(I18n.t('helpers.label.proposition.gain_energetique'))
       expect(page).to have_css('.gain_energetique', text: 31)
       expect(page).to have_content(I18n.t('helpers.label.proposition.etiquette_apres_travaux'))
@@ -193,36 +202,39 @@ feature "Remplir la proposition de travaux" do
           click_link I18n.t('projets.visualisation.lien_edition')
         end
         expect(page.current_path).to eq(dossier_proposition_path(projet))
-        expect(find_field(prestation.libelle)).to be_checked
+        expect(find_field("prestation_#{prestation.id}_selected")).to be_checked
 
         fill_in 'projet_surface_habitable', with: '42'
-        uncheck prestation.libelle
+        uncheck "prestation_#{prestation.id}_selected"
+        check   "prestation_#{prestation.id}_desired"
         fill_in aide.libelle, with: ''
 
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content('42')
-        expect(page).not_to have_content(prestation.libelle)
+        expect(page).to have_content(prestation.libelle)
+        expect(page).to     have_selector "#prestation_#{prestation.id}_desired"
+        expect(page).not_to have_selector "#prestation_#{prestation.id}_selected"
         expect(page).not_to have_content(aide.libelle)
       end
 
       context "avec une prestation dépréciée" do
         let!(:old_unused_prestation)  { create :prestation, libelle: 'Ancienne prestation non utilisée', active: false }
-        let!(:old_used_prestation)    { create :prestation, libelle: 'Ancienne prestation utilisée', active: false }
+        let!(:old_used_prestation)    { create :prestation, libelle: 'Ancienne prestation utilisée',     active: false }
 
-        before { projet.prestations << old_used_prestation }
+        before { projet.prestation_choices << create(:prestation_choice, :selected, projet: projet, prestation: old_used_prestation) }
 
         scenario "j'ai toujours accès à cette prestation" do
           visit dossier_proposition_path(projet)
-          expect(page).not_to have_content('Ancienne prestation non utilisée')
-          expect(page).to have_content('Ancienne prestation utilisée')
-          expect(find_field('Ancienne prestation utilisée')).to be_checked
+          expect(page).not_to have_content old_unused_prestation.libelle
+          expect(page).to     have_content old_used_prestation.libelle
+          expect(find_field("prestation_#{old_used_prestation.id}_selected")).to be_checked
         end
       end
 
       context "avec une aide dépréciée" do
         let!(:old_unused_aide)  { create :aide, libelle: 'Ancienne aide non utilisée', active: false }
-        let!(:old_used_aide)    { create :aide, libelle: 'Ancienne aide utilisée', active: false }
+        let!(:old_used_aide)    { create :aide, libelle: 'Ancienne aide utilisée',     active: false }
 
         before do
           projet.aides << old_used_aide
