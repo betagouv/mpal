@@ -8,6 +8,11 @@ describe DossiersController do
       it { is_expected.to redirect_to(new_agent_session_path) }
     end
 
+    context "quand j'essaie d'accéder aux indicateurs" do
+      subject { get :indicateurs }
+      it { is_expected.to redirect_to(new_agent_session_path) }
+    end
+
     context "quand j'essaie d'accéder au dossier" do
       subject { get :show, dossier_id: 42 }
       it { is_expected.to redirect_to(new_agent_session_path) }
@@ -101,6 +106,24 @@ describe DossiersController do
         expect(projet.projet_aides.count).to eq 1
       end
     end
+  end
+
+  context "en tant qu'instructeur connecté non affecté à un projet" do
+    let(:instructeur)       { create :instructeur }
+    let(:agent_instructeur) { create :agent, :instructeur, intervenant: instructeur }
+    before { authenticate_as_agent agent_instructeur }
+
+    describe "#indicateurs" do
+      it "je peux accéder aux indicateurs" do
+        get :indicateurs
+        expect(response).to render_template(:indicateurs)
+      end
+    end
+  end
+
+  context "en tant qu'opérateur connecté affecté à un projet" do
+    let(:projet)  { create :projet, :proposition_enregistree }
+    before(:each) { authenticate_as_agent projet.agent_operateur }
 
     describe "#proposer" do
       let(:projet)  { create :projet, :proposition_enregistree }
