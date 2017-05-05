@@ -8,7 +8,7 @@ class Occupant < ActiveRecord::Base
 
   validates :nom, :prenom, presence: true
   validates :date_de_naissance, birthday: true, presence: true
-  validates :civilite, presence: true, on: :update, if: :require_civilite?
+  validates :civilite, presence: { message: :blank_feminine }, on: :update, if: :require_civilite?
 
   strip_fields :nom, :prenom
 
