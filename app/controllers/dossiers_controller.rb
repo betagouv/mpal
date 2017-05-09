@@ -4,7 +4,6 @@ class DossiersController < ApplicationController
   before_action :authenticate_agent!
   before_action :projet_or_dossier
   before_action :assert_projet_courant, except: [:index, :indicateurs]
-  #skip_before_action :assert_projet_courant, only: [:indicateurs]
 
   def index
     @dossiers = Projet.for_agent(current_agent)
@@ -80,7 +79,9 @@ class DossiersController < ApplicationController
   end
 
   def indicateurs
-
+    if !current_agent.instructeur?
+      redirect_to dossiers_path()
+    end
   end
 
 private

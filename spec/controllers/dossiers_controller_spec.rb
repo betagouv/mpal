@@ -121,6 +121,18 @@ describe DossiersController do
     end
   end
 
+  context "si je suis utilisateur connecté non affecté à un projet" do
+    let(:operateur)       { create :operateur }
+    let(:agent_operateur) { create :agent, :operateur, intervenant: operateur }
+    before { authenticate_as_agent agent_operateur }
+
+    context "quand j'essaie d'accéder aux indicateurs" do
+      subject { get :indicateurs }
+      it { is_expected.to redirect_to(dossiers_path()) }
+    end
+  end
+
+
   context "en tant qu'opérateur connecté affecté à un projet" do
     let(:projet)  { create :projet, :proposition_enregistree }
     before(:each) { authenticate_as_agent projet.agent_operateur }
