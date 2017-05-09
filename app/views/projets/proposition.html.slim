@@ -91,7 +91,6 @@
                   tr
                     th scope="row"
                       label= prestation.libelle.capitalize
-                      = hidden_field_tag "#{field_name}[id]", prestation.prestation_choice_id
                       = hidden_field_tag "#{field_name}[prestation_id]", prestation.id
                     td= check_box_tag "#{field_name}[desired]",     true, prestation.desired,      id: "prestation_#{prestation.id}_desired"
                     td= check_box_tag "#{field_name}[recommended]", true, prestation.recommended,  id: "prestation_#{prestation.id}_recommended"
@@ -163,7 +162,6 @@
                     td
                       - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
                       = hidden_field_tag "#{field_name}[aide_id]", aide.id
-                      = hidden_field_tag "#{field_name}[id]",      aide_courante.try(:id)
                       = text_field_tag   "#{field_name}[localized_amount]", aide_courante.try(:localized_amount), class: "aide js-public-help"
                       |  €
 
@@ -182,7 +180,6 @@
                     td
                       - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
                       = hidden_field_tag "#{field_name}[aide_id]", aide.id
-                      = hidden_field_tag "#{field_name}[id]",      aide_courante.try(:id)
                       = text_field_tag   "#{field_name}[localized_amount]", aide_courante.try(:localized_amount), class: "aide"
                       |  €
 
