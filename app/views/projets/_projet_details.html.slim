@@ -125,10 +125,24 @@ table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
       tr
         th scope="row"= t('helpers.label.proposition.travaux_ttc_amount')
         td= number_to_currency(@projet_courant.travaux_ttc_amount)
-    - @projet_courant.projet_aides.each do |projet_aide|
+
+    - @aides_with_amounts.public_assistance.each do |aide|
+      - if aide.amount.present?
+        tr
+          th scope="row" #{aide.libelle}
+          td= number_to_currency(aide.amount)
+
+    - if @aides_with_amounts.public_assistance.present?
       tr
-        th scope="row" #{projet_aide.aide.libelle}
-        td= number_to_currency(projet_aide.amount)
+        th scope="row" Total des aides publiques
+        td= number_to_currency(@aides_with_amounts.public_assistance.sum(:amount))
+
+    - @aides_with_amounts.not_public_assistance.each do |aide|
+      - if aide.amount.present?
+        tr
+          th scope="row" #{aide.libelle}
+          td= number_to_currency(aide.amount)
+
     - if @projet_courant.personal_funding_amount.present?
       tr
         th scope="row"= t('helpers.label.proposition.personal_funding')
@@ -137,6 +151,10 @@ table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
       tr
         th scope="row"= t('helpers.label.proposition.loan_amount')
         td= number_to_currency(@projet_courant.loan_amount)
+    - if @projet_courant.personal_funding_amount.present? || @projet_courant.loan_amount.present?
+      tr
+        th scope="row" Total des financements
+        td= number_to_currency(@projet_courant.try(:loan_amount) + @projet_courant.try(:personal_funding_amount))
 
 ul.ctr-ope
   - if @projet_courant.precisions_travaux.present?

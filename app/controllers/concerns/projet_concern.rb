@@ -2,9 +2,6 @@ module ProjetConcern
   extend ActiveSupport::Concern
 
   included do
-    def show
-      render_show
-    end
 
 private
 

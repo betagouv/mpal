@@ -245,7 +245,7 @@ feature "Remplir la proposition de travaux" do
           visit dossier_proposition_path(projet)
           expect(page).not_to have_content('Ancienne aide non utilisée')
           expect(page).to have_content('Ancienne aide utilisée')
-          expect(find_field('Ancienne aide utilisée').value).to eq '1 111,10'
+          expect(find_field('Ancienne aide utilisée').value).to eq '1 111,10 '
         end
       end
     end

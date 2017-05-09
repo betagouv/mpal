@@ -44,8 +44,7 @@ class DossiersController < ApplicationController
     assign_projet_if_needed
     @themes = Theme.ordered.all
     @prestations_with_choices = prestations_with_choices
-    @aides_publiques = Aide.public_assistance.active     | @projet_courant.aides.public_assistance
-    @aides_privees   = Aide.not_public_assistance.active | @projet_courant.aides.not_public_assistance
+    @aides_with_amounts = aides_with_amounts
     render "projets/proposition"
   end
 
@@ -75,6 +74,11 @@ class DossiersController < ApplicationController
     end
   end
 
+  def show
+    @aides_with_amounts = aides_with_amounts
+    render_show
+  end
+
 private
 
   def assign_projet_if_needed
@@ -96,6 +100,17 @@ private
       .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}")
       .distinct
       .select('prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id')
+      .order(:id)
+  end
+
+  def aides_with_amounts
+    # This query be simplified by using `left_joins` once we'll be running on Rails 5
+    Aide
+      .active_for_projet(@projet_courant)
+      .joins("LEFT OUTER JOIN projet_aides ON projet_aides.aide_id = aides.id AND projet_aides.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}")
+      .distinct
+      .select('aides.*, projet_aides.amount AS amount')
+      .order(:id)
   end
 
   def projet_params

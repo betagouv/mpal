@@ -125,44 +125,43 @@
                   th scope="row"
                     = f.label :localized_travaux_ht_amount, t('helpers.label.proposition.travaux_ht_amount')
                   td
-                    = f.text_field :localized_travaux_ht_amount, value: @projet_courant.localized_travaux_ht_amount
+                    = f.text_field :localized_travaux_ht_amount, value: number_to_currency(@projet_courant.travaux_ht_amount, unit: '')
                     |  €
                 tr
                   th scope="row"
                     = f.label :localized_assiette_subventionnable_amount, t('helpers.label.proposition.assiette_subventionnable_amount')
                   td
-                    = f.text_field :localized_assiette_subventionnable_amount, value: @projet_courant.localized_assiette_subventionnable_amount
+                    = f.text_field :localized_assiette_subventionnable_amount, value: number_to_currency(@projet_courant.assiette_subventionnable_amount, unit: '')
                     |  €
                 tr
                   th scope="row"
                     = f.label :localized_amo_amount, t('helpers.label.proposition.amo_amount')
                   td
-                    = f.text_field :localized_amo_amount, value: @projet_courant.localized_amo_amount
+                    = f.text_field :localized_amo_amount, value: number_to_currency(@projet_courant.amo_amount, unit: '')
                     |  €
                 tr
                   th scope="row"
                     = f.label :localized_maitrise_oeuvre_amount, t('helpers.label.proposition.maitrise_oeuvre_amount')
                   td
-                    = f.text_field :localized_maitrise_oeuvre_amount, value: @projet_courant.localized_maitrise_oeuvre_amount
+                    = f.text_field :localized_maitrise_oeuvre_amount, value: number_to_currency(@projet_courant.maitrise_oeuvre_amount, unit: '')
                     |  €
                 tr
                   th scope="row"
                     = f.label :localized_travaux_ttc_amount, t('helpers.label.proposition.travaux_ttc_amount')
                   td
-                    = f.text_field :localized_travaux_ttc_amount, value: @projet_courant.localized_travaux_ttc_amount
+                    = f.text_field :localized_travaux_ttc_amount, value: number_to_currency(@projet_courant.travaux_ttc_amount, unit: '')
                     |  €
                 tr
                   th.tab-title colspan="3" scope="row"
 
-                - @aides_publiques.each do |aide|
+                - @aides_with_amounts.public_assistance.each do |aide|
                   tr
                     - field_name = "projet[projet_aides_attributes][#{aide.id}]"
                     th scope="row"
                       = label_tag "#{field_name}[localized_amount]", "#{aide.libelle}"
                     td
-                      - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
                       = hidden_field_tag "#{field_name}[aide_id]", aide.id
-                      = text_field_tag   "#{field_name}[localized_amount]", aide_courante.try(:localized_amount), class: "aide js-public-help"
+                      = text_field_tag   "#{field_name}[localized_amount]", number_to_currency(aide.amount, unit: ''), class: "aide js-public-help"
                       |  €
 
                 tr
@@ -172,15 +171,14 @@
                     = text_field_tag :localized_public_helps_amount, '', disabled: true, id: 'js-public-helps-sum'
                     |  €
 
-                - @aides_privees.each do |aide|
+                - @aides_with_amounts.not_public_assistance.each do |aide|
                   tr
                     - field_name = "projet[projet_aides_attributes][#{aide.id}]"
                     th scope="row"
                       = label_tag "#{field_name}[localized_amount]", "#{aide.libelle}"
                     td
-                      - aide_courante = @projet_courant.projet_aides.find_by(aide_id: aide.id)
                       = hidden_field_tag "#{field_name}[aide_id]", aide.id
-                      = text_field_tag   "#{field_name}[localized_amount]", aide_courante.try(:localized_amount), class: "aide"
+                      = text_field_tag   "#{field_name}[localized_amount]", number_to_currency(aide.amount, unit: ''), class: "aide"
                       |  €
 
                 tr
@@ -189,13 +187,13 @@
                   th scope="row"
                     = f.label :localized_personal_funding_amount, t('helpers.label.proposition.personal_funding')
                   td
-                    = f.text_field :localized_personal_funding_amount, value: @projet_courant.localized_personal_funding_amount, class: 'js-funding'
+                    = f.text_field :localized_personal_funding_amount, value: number_to_currency(@projet_courant.personal_funding_amount, unit: ''), class: 'js-funding'
                     |  €
                 tr
                   th scope="row"
                     = f.label :localized_loan_amount, t('helpers.label.proposition.loan_amount')
                   td
-                    = f.text_field :localized_loan_amount, value: @projet_courant.localized_loan_amount, class: 'js-funding'
+                    = f.text_field :localized_loan_amount, value: number_to_currency(@projet_courant.loan_amount, unit: ''), class: 'js-funding'
                     |  €
                 tr
                   th scope="row"
