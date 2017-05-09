@@ -126,16 +126,23 @@ describe DossiersController do
     let(:agent_operateur) { create :agent, :operateur, intervenant: operateur }
     before { authenticate_as_agent agent_operateur }
 
+
     context "quand j'essaie d'accéder aux indicateurs" do
       subject { get :indicateurs }
       it { is_expected.to redirect_to(dossiers_path()) }
+      # SOUCIS FLASH ALERT
+      # it { expect(flash[:alert]).to eq(I18n.t('sessions.access_forbidden')) }
     end
   end
-
 
   context "en tant qu'opérateur connecté affecté à un projet" do
     let(:projet)  { create :projet, :proposition_enregistree }
     before(:each) { authenticate_as_agent projet.agent_operateur }
+
+    context "quand j'essaie d'accéder aux indicateurs" do
+      subject { get :indicateurs }
+      it { is_expected.to redirect_to(dossiers_path()) }
+    end
 
     describe "#proposer" do
       let(:projet)  { create :projet, :proposition_enregistree }

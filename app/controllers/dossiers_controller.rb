@@ -80,7 +80,7 @@ class DossiersController < ApplicationController
 
   def indicateurs
     if !current_agent.instructeur?
-      redirect_to dossiers_path()
+      redirect_to dossiers_path(), alert: t('sessions.access_forbidden')
     end
   end
 

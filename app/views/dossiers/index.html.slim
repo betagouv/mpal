@@ -1,6 +1,8 @@
 .main-content-block.dashboard-dossiers
   - if @dossiers.blank?
     p Aucun dossier.
+  - if current_agent.instructeur?
+    = link_to "Indicateurs",   indicateurs_dossiers_path
   - else
     = btn name: "Export CSV", href: dossiers_path(format: :csv), icon: "download", class: "btn-export"
     table.table.table-hovered.table-stripped
