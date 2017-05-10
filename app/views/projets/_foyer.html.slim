@@ -39,5 +39,8 @@ article.block.occupants
             td
               span.firstname= occupant.prenom
               span.lastname<= occupant.nom
-            td= occupant.date_de_naissance.year
-
+            td
+              - if occupant.date_de_naissance
+                = occupant.date_de_naissance.year
+              - else
+                | -
