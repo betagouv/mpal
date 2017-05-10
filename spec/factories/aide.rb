@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :aide do
-    libelle "Subvention truc"
+    sequence(:libelle) {|n| "Subvention #{n}" }
   end
 
   factory :projet_aide do

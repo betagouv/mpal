@@ -8,19 +8,19 @@ FactoryGirl.define do
     trait :instructeur do
       nom 'Instructeur'
       prenom 'Agent'
-      username 'agent_instructeur'
+      sequence(:username) {|n| "agent_instructeur#{n}" }
     end
 
     trait :operateur do
       nom 'Operateur'
       prenom 'Agent'
-      username 'agent_operateur'
+      sequence(:username) {|n| "agent_operateur#{n}" }
     end
 
     trait :pris do
       nom 'PRIS'
       prenom 'Agent'
-      username 'agent_pris'
+      sequence(:username) {|n| "agent_pris#{n}" }
     end
   end
 end

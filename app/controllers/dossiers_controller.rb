@@ -79,9 +79,10 @@ class DossiersController < ApplicationController
   end
 
   def indicateurs
-    if !current_agent.instructeur?
-      redirect_to dossiers_path(), alert: t('sessions.access_forbidden')
+    unless current_agent.instructeur?
+      redirect_to dossiers_path, alert: t('sessions.access_forbidden')
     end
+    @all_projets = Projet.all
   end
 
 private
