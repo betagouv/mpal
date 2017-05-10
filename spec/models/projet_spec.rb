@@ -19,6 +19,8 @@ describe Projet do
     it { is_expected.to validate_presence_of(:travaux_ttc_amount).on(:proposition) }
     it { is_expected.to validate_inclusion_of(:note_degradation).in_range(0..1) }
     it { is_expected.to validate_inclusion_of(:note_insalubrite).in_range(0..1) }
+    it { is_expected.to validate_numericality_of(:consommation_avant_travaux).is_greater_than_or_equal_to(0).allow_nil }
+    it { is_expected.to validate_numericality_of(:consommation_apres_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to have_one :demande }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }

@@ -417,8 +417,6 @@ fr:
       messages:
         blank_feminine: "doit être renseignée"
         blank_masculine: "doit être renseigné"
-        greater_than_or_equal_to_feminine: "doit être supérieure ou égale à %{count}"
-        greater_than_or_equal_to_masculine: "doit être supérieur ou égal à %{count}"
       models:
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"
@@ -427,6 +425,10 @@ fr:
               inclusion: "doit être comprise entre zéro et un."
             note_insalubrite:
               inclusion: "doit être comprise entre zéro et un."
+            consommation_avant_travaux:
+              greater_than_or_equal_to: "doit être supérieure ou égale à %{count}"
+            consommation_apres_travaux:
+              greater_than_or_equal_to: "doit être supérieure ou égale à %{count}"
         occupant:
           attributes:
             date_de_naissance:
