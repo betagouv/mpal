@@ -130,8 +130,6 @@ describe DossiersController do
     context "quand j'essaie d'accéder aux indicateurs" do
       subject { get :indicateurs }
       it { is_expected.to redirect_to(dossiers_path()) }
-      # SOUCIS FLASH ALERT
-      # it { expect(flash[:alert]).to eq(I18n.t('sessions.access_forbidden')) }
     end
   end
 
@@ -139,9 +137,16 @@ describe DossiersController do
     let(:projet)  { create :projet, :proposition_enregistree }
     before(:each) { authenticate_as_agent projet.agent_operateur }
 
-    context "quand j'essaie d'accéder aux indicateurs" do
-      subject { get :indicateurs }
-      it { is_expected.to redirect_to(dossiers_path()) }
+    describe "#indicateurs" do
+      context "quand j'essaie d'accéder aux indicateurs" do
+
+        it "je retourne à la page Dossiers et j'ai un message d'erreur" do
+          get :indicateurs
+          expect(flash[:alert]).to eq I18n.t('sessions.access_forbidden')
+          expect(response).to redirect_to dossiers_path()
+        end
+
+      end
     end
 
     describe "#proposer" do
