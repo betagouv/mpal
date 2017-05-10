@@ -120,8 +120,8 @@ private
   def clean_projet_aides(attributs)
     if attributs[:projet_aides_attributes].present?
       attributs[:projet_aides_attributes].values.each do |projet_aide|
-        projet_aide_to_modifiy = ProjetAide.where(aide_id: projet_aide[:aide_id], projet_id: @projet_courant.id).first
-        projet_aide[:id] = projet_aide_to_modifiy.try(:id)
+        projet_aide_to_modify = ProjetAide.where(aide_id: projet_aide[:aide_id], projet_id: @projet_courant.id).first
+        projet_aide[:id] = projet_aide_to_modify.try(:id)
 
         projet_aide[:_destroy] = true if projet_aide[:localized_amount].blank?
       end
@@ -131,8 +131,8 @@ private
   def clean_prestation_choices(attributs)
     if attributs[:prestation_choices_attributes].present?
       attributs[:prestation_choices_attributes].values.each do |prestation_choice|
-        prestation_choice_to_modifiy = PrestationChoice.where(prestation_id: prestation_choice[:prestation_id], projet_id: @projet_courant.id).first
-        prestation_choice[:id] = prestation_choice_to_modifiy.try(:id)
+        prestation_choice_to_modify = PrestationChoice.where(prestation_id: prestation_choice[:prestation_id], projet_id: @projet_courant.id).first
+        prestation_choice[:id] = prestation_choice_to_modify.try(:id)
 
         if [:desired, :recommended, :selected].any? { |key| prestation_choice.key? key }
           fill_blank_values_with_false(prestation_choice)

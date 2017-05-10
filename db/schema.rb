@@ -70,12 +70,6 @@ ActiveRecord::Schema.define(version: 20170510152048) do
 
   add_index "avis_impositions", ["projet_id"], name: "index_avis_impositions_on_projet_id", using: :btree
 
-  create_table "cad_references", force: :cascade do |t|
-    t.integer "opal_id"
-    t.string  "code"
-    t.text    "libelle"
-  end
-
   create_table "commentaires", force: :cascade do |t|
     t.integer  "projet_id"
     t.integer  "auteur_id"
@@ -134,13 +128,6 @@ ActiveRecord::Schema.define(version: 20170510152048) do
 
   add_index "documents", ["projet_id"], name: "index_documents_on_projet_id", using: :btree
 
-  create_table "engagements", force: :cascade do |t|
-    t.string   "nom"
-    t.boolean  "valeur"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "evenements", force: :cascade do |t|
     t.integer  "projet_id"
     t.string   "label"
@@ -180,12 +167,6 @@ ActiveRecord::Schema.define(version: 20170510152048) do
   add_index "invitations", ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree
   add_index "invitations", ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
   add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
-
-  create_table "ntr_references", force: :cascade do |t|
-    t.integer "opal_id"
-    t.string  "code"
-    t.text    "libelle"
-  end
 
   create_table "occupants", force: :cascade do |t|
     t.integer  "projet_id"
@@ -229,14 +210,6 @@ ActiveRecord::Schema.define(version: 20170510152048) do
     t.datetime "updated_at",                null: false
     t.boolean  "active",     default: true, null: false
   end
-
-  create_table "prestations_projets", force: :cascade do |t|
-    t.integer "projet_id"
-    t.integer "prestation_id"
-  end
-
-  add_index "prestations_projets", ["prestation_id"], name: "index_prestations_projets_on_prestation_id", using: :btree
-  add_index "prestations_projets", ["projet_id"], name: "index_prestations_projets_on_projet_id", using: :btree
 
   create_table "projet_aides", force: :cascade do |t|
     t.integer "projet_id"

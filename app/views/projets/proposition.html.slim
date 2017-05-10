@@ -83,9 +83,9 @@
               tbody
                 tr
                   th.empty scope="col"    &nbsp;
-                  th.top-tab scope="col"  Souhaitée
-                  th.top-tab scope="col"  Préconisée
-                  th.top-tab scope="col"  Retenue
+                  th.top-tab scope="col"  Souhaité
+                  th.top-tab scope="col"  Préconisé
+                  th.top-tab scope="col"  Retenu
                 - @prestations_with_choices.each do |prestation|
                   - field_name = "projet[prestation_choices_attributes][#{prestation.id}]" # prestation.id is the Hash key value
                   tr
