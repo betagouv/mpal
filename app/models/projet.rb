@@ -71,11 +71,15 @@ class Projet < ActiveRecord::Base
 
   before_save :clean_numero_fiscal, :clean_reference_avis
 
-  scope :for_agent, ->(agent) {
-    next where(nil) if agent.instructeur?
-    joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
-  }
   scope :ordered, -> { order("projets.id desc") }
+  scope :with_demandeur, -> { joins(:occupants).where('occupants.demandeur = true').distinct  }
+  scope :for_agent, ->(agent) {
+    if agent.instructeur?
+      with_demandeur
+    else
+      joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
+    end
+  }
 
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')
