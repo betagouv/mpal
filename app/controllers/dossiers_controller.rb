@@ -44,14 +44,14 @@ class DossiersController < ApplicationController
     assign_projet_if_needed
     @themes = Theme.ordered.all
     @prestations_with_choices = prestations_with_choices
-    @aides_with_amounts = aides_with_amounts
+    define_helps
     render "projets/proposition"
   end
 
   def proposer
     @projet_courant.statut = :proposition_proposee
     if @projet_courant.save(context: :proposition)
-      return redirect_to projet_or_dossier_path(@projet_courant)
+      redirect_to projet_or_dossier_path(@projet_courant)
     else
       @projet_courant.restore_statut!
       render_show
@@ -75,7 +75,6 @@ class DossiersController < ApplicationController
   end
 
   def show
-    @aides_with_amounts = aides_with_amounts
     render_show
   end
 
@@ -91,26 +90,6 @@ private
 
   def export_filename
     "dossiers_#{Time.now.strftime('%Y-%m-%d_%H-%M')}.csv"
-  end
-
-  def prestations_with_choices
-    # This query be simplified by using `left_joins` once we'll be running on Rails 5
-    Prestation
-      .active_for_projet(@projet_courant)
-      .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}")
-      .distinct
-      .select('prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id')
-      .order(:id)
-  end
-
-  def aides_with_amounts
-    # This query be simplified by using `left_joins` once we'll be running on Rails 5
-    Aide
-      .active_for_projet(@projet_courant)
-      .joins("LEFT OUTER JOIN projet_aides ON projet_aides.aide_id = aides.id AND projet_aides.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}")
-      .distinct
-      .select('aides.*, projet_aides.amount AS amount')
-      .order(:id)
   end
 
   def projet_params

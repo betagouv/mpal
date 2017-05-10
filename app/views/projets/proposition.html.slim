@@ -154,24 +154,24 @@
                 tr
                   th.tab-title colspan="3" scope="row"
 
-                - @aides_with_amounts.public_assistance.each do |aide|
+                - @public_helps_with_amounts.each do |aide|
                   tr
                     - field_name = "projet[projet_aides_attributes][#{aide.id}]"
                     th scope="row"
                       = label_tag "#{field_name}[localized_amount]", "#{aide.libelle}"
                     td
                       = hidden_field_tag "#{field_name}[aide_id]", aide.id
-                      = text_field_tag   "#{field_name}[localized_amount]", number_to_currency(aide.amount, unit: ''), class: "aide js-public-help"
+                      = text_field_tag   "#{field_name}[localized_amount]", number_to_currency(aide.amount, unit: ''), class: "aide js-public-help js-funding"
                       |  €
 
                 tr
                   th scope="row"
-                    label for="js-public-helps-sum" Total des aides publiques
+                    label for="js-public-helps-sum" = t('helpers.label.proposition.public_helps_sum')
                   td
                     = text_field_tag :localized_public_helps_amount, '', disabled: true, id: 'js-public-helps-sum'
                     |  €
 
-                - @aides_with_amounts.not_public_assistance.each do |aide|
+                - @private_helps_with_amounts.each do |aide|
                   tr
                     - field_name = "projet[projet_aides_attributes][#{aide.id}]"
                     th scope="row"
@@ -197,7 +197,7 @@
                     |  €
                 tr
                   th scope="row"
-                    label for="js-fundings-sum" Total des financements
+                    label for="js-fundings-sum" = t('helpers.label.proposition.fundings_sum')
                   td
                     = text_field_tag :localized_fundings_amount, '', disabled: true, id: 'js-fundings-sum'
                     |  €

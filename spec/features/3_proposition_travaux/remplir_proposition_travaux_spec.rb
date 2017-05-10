@@ -11,7 +11,8 @@ feature "Remplir la proposition de travaux" do
   let!(:prestation_1)     { create :prestation, libelle: 'Remplacement d’une baignoire par une douche' }
   let!(:prestation_2)     { create :prestation, libelle: 'Lavabo adapté' }
   let!(:prestation_3)     { create :prestation, libelle: 'Géothermie' }
-  let!(:aide)             { create :aide }
+  let!(:aide_1)           { create :aide, libelle: 'Aide 1' }
+  let!(:aide_2)           { create :aide, libelle: 'Aide 2' }
 
   context "en tant qu'opérateur" do
     before { login_as agent_operateur, scope: :agent }
@@ -27,7 +28,6 @@ feature "Remplir la proposition de travaux" do
     scenario "je remplis et j'enregistre une proposition de travaux'" do
       visit dossier_proposition_path(projet)
       expect(page).to have_content('Plan de financement prévisionnel')
-      expect(page).to have_content(aide.libelle)
 
       # Section "Logement"
       fill_in 'projet_date_de_visite', with: '28/12/2016'
@@ -61,11 +61,12 @@ feature "Remplir la proposition de travaux" do
       fill_in_section_montant
 
       # Section "Financement"
-      fill_in aide.libelle, with: '6 666,66'
+      fill_in aide_1.libelle, with: '6 666,66'
+      fill_in aide_2.libelle, with: '7 777,77'
 
       # Section "Financement personnel"
-      fill_in I18n.t('helpers.label.proposition.personal_funding'), with: '7 777,77'
-      fill_in I18n.t('helpers.label.proposition.loan_amount'), with: '8 888,88'
+      fill_in I18n.t('helpers.label.proposition.personal_funding'), with: '8 888,88'
+      fill_in I18n.t('helpers.label.proposition.loan_amount'), with: '9 999,99'
 
       # Section "Précisions"
       fill_in I18n.t('helpers.label.proposition.precisions_travaux'), with: 'Il faudra casser un mur.'
@@ -127,14 +128,20 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content('5 555,55 €')
 
       # Section "Financement"
-      expect(page).to have_content(aide.libelle)
-      expect(page).to have_content('6 666,66 €')
+      expect(page).to have_content aide_1.libelle
+      expect(page).to have_content '6 666,66 €'
+      expect(page).to have_content aide_2.libelle
+      expect(page).to have_content '7 777,77 €'
+      expect(page).to have_content I18n.t('helpers.label.proposition.public_helps_sum')
+      expect(page).to have_content '14 444,43 €'
 
       # Section "Financement personnel"
-      expect(page).to have_content(I18n.t('helpers.label.proposition.personal_funding'))
-      expect(page).to have_content('7 777,77 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.loan_amount'))
-      expect(page).to have_content('8 888,88 €')
+      expect(page).to have_content I18n.t('helpers.label.proposition.personal_funding')
+      expect(page).to have_content '8 888,88 €'
+      expect(page).to have_content I18n.t('helpers.label.proposition.loan_amount')
+      expect(page).to have_content '9 999,99 €'
+      expect(page).to have_content I18n.t('helpers.label.proposition.fundings_sum')
+      expect(page).to have_content '33 333,30 €'
 
       # Section "Précisions"
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_travaux') + ' : Il faudra casser un mur.')
@@ -207,7 +214,7 @@ feature "Remplir la proposition de travaux" do
         fill_in 'projet_surface_habitable', with: '42'
         uncheck "prestation_#{prestation.id}_selected"
         check   "prestation_#{prestation.id}_desired"
-        fill_in aide.libelle, with: ''
+        fill_in aide_1.libelle, with: ''
 
         click_on 'Enregistrer cette proposition'
         expect(page.current_path).to eq(dossier_path(projet))
@@ -215,7 +222,7 @@ feature "Remplir la proposition de travaux" do
         expect(page).to have_content(prestation.libelle)
         expect(page).to     have_selector "#prestation_#{prestation.id}_desired"
         expect(page).not_to have_selector "#prestation_#{prestation.id}_selected"
-        expect(page).not_to have_content(aide.libelle)
+        expect(page).not_to have_content(aide_1.libelle)
       end
 
       context "avec une prestation dépréciée" do
