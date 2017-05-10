@@ -119,6 +119,38 @@ describe DossiersController do
         expect(response).to render_template(:indicateurs)
       end
     end
+
+    describe "#indicateurs" do
+      before do
+        create :projet, :proposition_enregistree
+        create :projet, :en_cours
+        create :projet, :en_cours
+      end
+
+      it "je peux voir la liste des projets" do
+        get :indicateurs
+
+        expect(assigns(:all_projets).count).to eq 3
+        expect(assigns(:all_prospect).count).to eq 0
+        expect(assigns(:all_en_cours).count).to eq 2
+        expect(assigns(:all_proposition_enregistree).count).to eq 1
+        expect(assigns(:all_proposition_proposee).count).to eq 0
+        expect(assigns(:all_transmis_pour_instruction).count).to eq 0
+        expect(assigns(:all_en_cours_d_instruction).count).to eq 0
+      end
+    end
+  end
+
+  context "si je suis utilisateur connecté non affecté à un projet" do
+    let(:operateur)       { create :operateur }
+    let(:agent_operateur) { create :agent, :operateur, intervenant: operateur }
+    before { authenticate_as_agent agent_operateur }
+
+
+    context "quand j'essaie d'accéder aux indicateurs" do
+      subject { get :indicateurs }
+      it { is_expected.to redirect_to(dossiers_path()) }
+    end
   end
 
   context "en tant qu'opérateur connecté affecté à un projet" do

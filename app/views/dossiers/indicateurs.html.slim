@@ -3,3 +3,11 @@
   = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-right btn-secondary"
 
   p=  "Il y a #{ pluralize( @all_projets.count, 'projet' ) }."
+
+  ul
+   li= "Il y a #{ pluralize( @all_proposition_enregistree.count, 'projet' )} 'Proposition Enregistrée'."
+   li= "Il y a #{ pluralize( @all_en_cours.count, 'projet' )} 'En Cours'."
+   li= "Il y a #{ pluralize( @all_prospect.count, 'projet' )} 'Prospect'."
+   li= "Il y a #{ pluralize( @all_proposition_proposee.count, 'projet' )} 'Proposition Proposée'."
+   li= "Il y a #{ pluralize( @all_transmis_pour_instruction.count, 'projet' )} 'Transmis pour Instruction'."
+   li= "Il y a #{ pluralize( @all_en_cours_d_instruction.count, 'projet' )} 'En Cours d'Instruction."

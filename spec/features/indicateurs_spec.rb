@@ -55,21 +55,33 @@ feature "Affichage de la page Indicateurs" do
     login_as current_agent, scope: :agent
   end
 
-  let!(:projet1)  { create :projet, :proposition_enregistree }
-  let!(:projet2)  { create :projet, :en_cours }
-  let!(:projet3)  { create :projet, :prospect }
-  let!(:projet4)  { create :projet, :proposition_proposee }
+  let!(:projet0)  { create :projet, :proposition_enregistree }
+  let!(:projet1)  { create :projet, :en_cours }
+  let!(:projet1b)  { create :projet, :en_cours }
+  let!(:projet1c)  { create :projet, :en_cours }
+  let!(:projet2)  { create :projet, :prospect }
+  let!(:projet3)  { create :projet, :proposition_proposee }
   let!(:projet5)  { create :projet, :transmis_pour_instruction }
   let!(:projet6)  { create :projet, :en_cours_d_instruction }
-  let!(:projet7)  { create :projet, :en_cours }
+  let!(:projet6b)  { create :projet, :en_cours_d_instruction }
 
 
   context "si je suis instructeur" do
     let(:current_agent) { agent_instructeur }
-    scenario "la page affiche le nombre total de projets" do
 
+    scenario "la page affiche le nombre total de projets" do
       visit indicateurs_dossiers_path
-      expect(page).to have_content("Il y a 7 projets.")
+      expect(page).to have_content("Il y a 9 projets.")
+    end
+
+    scenario "la page affiche le nombre total de projets par statut" do
+      visit indicateurs_dossiers_path
+      expect(page).to have_content("Il y a 1 projet 'Proposition Enregistrée'.")
+      expect(page).to have_content("Il y a 3 projets 'En Cours'.")
+      expect(page).to have_content("Il y a 1 projet 'Prospect'.")
+      expect(page).to have_content("Il y a 1 projet 'Proposition Proposée'.")
+      expect(page).to have_content("Il y a 1 projet 'Transmis pour Instruction'.")
+      expect(page).to have_content("Il y a 2 projets 'En Cours d'Instruction.")
     end
   end
 
