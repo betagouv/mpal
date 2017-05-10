@@ -26,6 +26,7 @@ private
 
     @page_heading = 'Inscription'
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
+    @declarants_prompt = @declarants.length <= 1 ? nil : t('demarrage_projet.demandeur.select')
 
     render :show
   end

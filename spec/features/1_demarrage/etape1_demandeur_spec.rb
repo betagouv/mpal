@@ -3,10 +3,10 @@ require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "En tant que demandeur, je peux vérifier et corriger mes informations personnelles" do
+feature "Demandeur :" do
   let(:projet) { Projet.last }
 
-  scenario "Depuis la page de connexion, je récupère mes informations principales" do
+  scenario "mes informations personnelles sont récupérées à partir de l'avis d'imposition" do
     signin_for_new_projet
     expect(page.current_path).to eq(projet_demandeur_path(projet))
     expect(page).to have_content(I18n.t('projets.messages.creation.titre'))
@@ -28,21 +28,6 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(projet.demandeur.civilite).to eq("mr")
     expect(projet.email).to eq("demandeur@exemple.fr")
     expect(projet.tel).to eq("01 02 03 04 05")
-  end
-
-  context "quand je rentre des données invalides" do
-    scenario "je vois un message d'erreur" do
-      signin_for_new_projet
-      fill_in :projet_email, with: "invalid-email@lol"
-      fill_in 'projet_tel', with: "999"
-      click_button I18n.t('demarrage_projet.action')
-
-      expect(page).to have_current_path projet_demandeur_path(projet)
-      expect(page).to have_content("L’adresse email n’est pas valide")
-      expect(page).to have_field("Email", with: "invalid-email@lol")
-      expect(page).to have_content("Le numéro de téléphone est trop court")
-      expect(page).to have_field("Téléphone", with: "999")
-    end
   end
 
   scenario "je dois rentrer une adresse" do
@@ -93,12 +78,19 @@ feature "En tant que demandeur, je peux vérifier et corriger mes informations p
     expect(projet.personne.lien_avec_demandeur).to eq("Mon jazzman favori et neanmoins concubin")
   end
 
-  scenario "je vois la liste des personnes présentes dans l'avis d'imposition sous forme d'occupants" do
-    signin_for_new_projet
-    visit projet_occupants_path(projet)
-    expect(projet.nb_total_occupants).to eq(4)
-    expect(projet.occupants.count).to eq(4)
-    expect(page).to have_content("Occupant 3")
-    expect(page).to have_content("Occupant 4")
+  context "quand je rentre des données invalides" do
+    scenario "je vois un message d'erreur" do
+      signin_for_new_projet
+      fill_in :projet_email, with: "invalid-email@lol"
+      fill_in 'projet_tel', with: "999"
+      click_button I18n.t('demarrage_projet.action')
+
+      expect(page).to have_current_path projet_demandeur_path(projet)
+      expect(page).to have_content(I18n.t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur'))
+      expect(page).to have_content("L’adresse email n’est pas valide")
+      expect(page).to have_field("Email", with: "invalid-email@lol")
+      expect(page).to have_content("Le numéro de téléphone est trop court")
+      expect(page).to have_field("Téléphone", with: "999")
+    end
   end
 end
