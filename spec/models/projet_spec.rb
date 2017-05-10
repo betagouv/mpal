@@ -128,6 +128,15 @@ describe Projet do
     end
   end
 
+  describe "#with_demandeur" do
+    let!(:projet1) { create :projet, :with_demandeur }
+    let!(:projet2) { create :projet, :with_demandeur }
+    let!(:projet3) { create :projet }
+
+    it { expect(Projet.with_demandeur).to include(projet1, projet2) }
+    it { expect(Projet.with_demandeur).not_to include(projet3) }
+  end
+
   describe '#for_agent' do
     let(:instructeur) {       create :instructeur }
     let(:operateur1) {        create :operateur }
@@ -137,21 +146,25 @@ describe Projet do
     let(:agent_operateur1) {  create :agent, intervenant: operateur1 }
     let(:agent_operateur2) {  create :agent, intervenant: operateur2 }
     let(:agent_operateur3) {  create :agent, intervenant: operateur3 }
-    let(:projet1) {           create :projet }
-    let(:projet2) {           create :projet }
-    let(:projet3) {           create :projet }
+    let(:projet1) {           create :projet, :with_demandeur }
+    let(:projet2) {           create :projet, :with_demandeur }
+    let(:projet3) {           create :projet, :with_demandeur }
+    let(:projet4) {           create :projet }
     let!(:invitation1) {      create :invitation, intervenant: operateur1, projet: projet1 }
     let!(:invitation2) {      create :invitation, intervenant: operateur1, projet: projet2 }
     let!(:invitation3) {      create :invitation, intervenant: operateur2, projet: projet3 }
 
-    it "un opérateur voit les projets sur lesquels il est affecté" do
-      expect(Projet.for_agent(agent_operateur1).length).to eq(2)
-      expect(Projet.for_agent(agent_operateur2).length).to eq(1)
-      expect(Projet.for_agent(agent_operateur3).length).to eq(0)
+    describe "un opérateur voit les projets sur lesquels il est affecté" do
+      it { expect(Projet.for_agent(agent_operateur1).length).to eq(2) }
+      it { expect(Projet.for_agent(agent_operateur2).length).to eq(1) }
+      it { expect(Projet.for_agent(agent_operateur3).length).to eq(0) }
     end
 
-    it "un instructeur voit tous les projets" do
-      expect(Projet.for_agent(agent_instructeur).length).to eq(3)
+    it "un instructeur voit tous les projets avec un demandeur" do
+      expect(Projet.for_agent(agent_instructeur)).to include(projet1)
+      expect(Projet.for_agent(agent_instructeur)).to include(projet2)
+      expect(Projet.for_agent(agent_instructeur)).to include(projet3)
+      expect(Projet.for_agent(agent_instructeur)).not_to include(projet4)
     end
   end
 
