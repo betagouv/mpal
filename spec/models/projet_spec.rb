@@ -129,25 +129,29 @@ describe Projet do
   end
 
   describe '#for_agent' do
-    context "en tant qu'operateur" do
-      let(:instructeur) {       create :instructeur }
-      let(:operateur1) {        create :operateur }
-      let(:operateur2) {        create :operateur }
-      let(:operateur3) {        create :operateur }
-      let(:agent_instructeur) { create :agent, intervenant: instructeur }
-      let(:agent_operateur1) {  create :agent, intervenant: operateur1 }
-      let(:agent_operateur2) {  create :agent, intervenant: operateur2 }
-      let(:agent_operateur3) {  create :agent, intervenant: operateur3 }
-      let(:projet1) {           create :projet }
-      let(:projet2) {           create :projet }
-      let(:projet3) {           create :projet }
-      let!(:invitation1) {       create :invitation, intervenant: operateur1, projet: projet1 }
-      let!(:invitation2) {       create :invitation, intervenant: operateur1, projet: projet2 }
-      let!(:invitation3) {       create :invitation, intervenant: operateur2, projet: projet3 }
-      it { expect(Projet.for_agent(agent_operateur1).length).to eq(2) }
-      it { expect(Projet.for_agent(agent_operateur2).length).to eq(1) }
-      it { expect(Projet.for_agent(agent_operateur3).length).to eq(0) }
-      it { expect(Projet.for_agent(agent_instructeur).length).to eq(3) }
+    let(:instructeur) {       create :instructeur }
+    let(:operateur1) {        create :operateur }
+    let(:operateur2) {        create :operateur }
+    let(:operateur3) {        create :operateur }
+    let(:agent_instructeur) { create :agent, intervenant: instructeur }
+    let(:agent_operateur1) {  create :agent, intervenant: operateur1 }
+    let(:agent_operateur2) {  create :agent, intervenant: operateur2 }
+    let(:agent_operateur3) {  create :agent, intervenant: operateur3 }
+    let(:projet1) {           create :projet }
+    let(:projet2) {           create :projet }
+    let(:projet3) {           create :projet }
+    let!(:invitation1) {      create :invitation, intervenant: operateur1, projet: projet1 }
+    let!(:invitation2) {      create :invitation, intervenant: operateur1, projet: projet2 }
+    let!(:invitation3) {      create :invitation, intervenant: operateur2, projet: projet3 }
+
+    it "un opérateur voit les projets sur lesquels il est affecté" do
+      expect(Projet.for_agent(agent_operateur1).length).to eq(2)
+      expect(Projet.for_agent(agent_operateur2).length).to eq(1)
+      expect(Projet.for_agent(agent_operateur3).length).to eq(0)
+    end
+
+    it "un instructeur voit tous les projets" do
+      expect(Projet.for_agent(agent_instructeur).length).to eq(3)
     end
   end
 
