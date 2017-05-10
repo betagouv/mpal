@@ -55,7 +55,7 @@ class ProjetInitializer
       avis_imposition.occupants.build(
         nom:    "#{declarant_count + index + 1}",
         prenom: "Occupant ",
-        date_de_naissance: "1970-01-01", # TODO: obligatoire :(
+        date_de_naissance: nil,
         declarant: false,
         demandeur: false
       )

@@ -65,7 +65,7 @@ describe OccupantsController do
 
           it "affiche les erreurs de validation" do
             occupant = assigns(:occupant)
-            expect(occupant.errors).to be_present
+            expect(occupant.errors).to be_added :date_de_naissance, :blank
             expect(response.body).to include occupant.errors.full_messages.first
           end
         end

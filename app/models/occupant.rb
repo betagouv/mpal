@@ -7,7 +7,7 @@ class Occupant < ActiveRecord::Base
   delegate :projet, to: :avis_imposition
 
   validates :nom, :prenom, presence: true
-  validates :date_de_naissance, birthday: true, presence: true
+  validates :date_de_naissance, birthday: true, presence: true, on: :user_action
   validates :civilite, presence: { message: :blank_feminine }, on: :update, if: :require_civilite?
 
   strip_fields :nom, :prenom

@@ -25,7 +25,11 @@
             td
               span.firstname= occupant.prenom
               span.lastname<= occupant.nom
-            td= occupant.date_de_naissance.year
+            td
+              - if occupant.date_de_naissance
+                = occupant.date_de_naissance.year
+              - else
+                | -
             td
               - if occupant.can_be_deleted?
                 = link_to projet_or_dossier_occupant_path(projet: @projet_courant, id: occupant.id),
