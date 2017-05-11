@@ -15,8 +15,9 @@ database:
 deployment:
   staging:
     branch: staging
-    heroku:
-      appname: aideanah-staging
+    commands:
+      - git fetch --unshallow
+      - git push -f git@scalingo.com:anah-staging.git $CIRCLE_SHA1:master
   demo:
     branch: master
     commands:
