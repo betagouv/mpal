@@ -3,7 +3,7 @@ class DossiersController < ApplicationController
 
   before_action :authenticate_agent!
   before_action :projet_or_dossier
-  before_action :assert_projet_courant, except: [:index]
+  before_action :assert_projet_courant, except: [:index, :indicateurs]
 
   def index
     @dossiers = Projet.for_agent(current_agent)
@@ -76,6 +76,19 @@ class DossiersController < ApplicationController
 
   def show
     render_show
+  end
+
+  def indicateurs
+    unless current_agent.instructeur?
+      redirect_to dossiers_path, alert: t('sessions.access_forbidden')
+    end
+    @all_projets = Projet.all
+    @all_prospect = Projet.where(statut: 0)
+    @all_en_cours = Projet.where(statut: 1)
+    @all_proposition_enregistree = Projet.where(statut: 2)
+    @all_proposition_proposee = Projet.where(statut: 3)
+    @all_transmis_pour_instruction = Projet.where(statut: 5)
+    @all_en_cours_d_instruction = Projet.where(statut: 6)
   end
 
 private

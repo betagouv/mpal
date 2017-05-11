@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :prestation do
-    libelle 'Chaudiere'
+    sequence(:libelle) {|n| "Prestation #{n}" }
   end
 end

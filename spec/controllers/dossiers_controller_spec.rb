@@ -8,6 +8,11 @@ describe DossiersController do
       it { is_expected.to redirect_to(new_agent_session_path) }
     end
 
+    context "quand j'essaie d'accéder aux indicateurs" do
+      subject { get :indicateurs }
+      it { is_expected.to redirect_to(new_agent_session_path) }
+    end
+
     context "quand j'essaie d'accéder au dossier" do
       subject { get :show, dossier_id: 42 }
       it { is_expected.to redirect_to(new_agent_session_path) }
@@ -16,10 +21,10 @@ describe DossiersController do
 
   context "en tant qu'opérateur connecté" do
     describe "#proposition" do
-      let!(:prestation_1) { create :prestation, libelle: 'Remplacement d’une baignoire par une douche' }
-      let!(:prestation_2) { create :prestation, libelle: 'Lavabo adapté' }
-      let!(:prestation_3) { create :prestation, libelle: 'Géothermie' }
-      let!(:aide_1)       { create :aide, libelle: 'Aide 1' }
+      let!(:prestation_1) { create :prestation }
+      let!(:prestation_2) { create :prestation }
+      let!(:prestation_3) { create :prestation }
+      let!(:aide_1)       { create :aide }
       let(:projet)        { create :projet, :en_cours, :with_assigned_operateur }
 
       before(:each) { authenticate_as_agent projet.agent_operateur }
@@ -101,6 +106,56 @@ describe DossiersController do
         expect(projet.projet_aides.count).to eq 1
       end
     end
+  end
+
+  context "en tant qu'instructeur connecté non affecté à un projet" do
+    let(:instructeur)       { create :instructeur }
+    let(:agent_instructeur) { create :agent, :instructeur, intervenant: instructeur }
+    before { authenticate_as_agent agent_instructeur }
+
+    describe "#indicateurs" do
+      it "je peux accéder aux indicateurs" do
+        get :indicateurs
+        expect(response).to render_template(:indicateurs)
+      end
+    end
+
+    describe "#indicateurs" do
+      before do
+        create :projet, :proposition_enregistree
+        create :projet, :en_cours
+        create :projet, :en_cours
+      end
+
+      it "je peux voir la liste des projets" do
+        get :indicateurs
+
+        expect(assigns(:all_projets).count).to eq 3
+        expect(assigns(:all_prospect).count).to eq 0
+        expect(assigns(:all_en_cours).count).to eq 2
+        expect(assigns(:all_proposition_enregistree).count).to eq 1
+        expect(assigns(:all_proposition_proposee).count).to eq 0
+        expect(assigns(:all_transmis_pour_instruction).count).to eq 0
+        expect(assigns(:all_en_cours_d_instruction).count).to eq 0
+      end
+    end
+  end
+
+  context "si je suis utilisateur connecté non affecté à un projet" do
+    let(:operateur)       { create :operateur }
+    let(:agent_operateur) { create :agent, :operateur, intervenant: operateur }
+    before { authenticate_as_agent agent_operateur }
+
+
+    context "quand j'essaie d'accéder aux indicateurs" do
+      subject { get :indicateurs }
+      it { is_expected.to redirect_to(dossiers_path()) }
+    end
+  end
+
+  context "en tant qu'opérateur connecté affecté à un projet" do
+    let(:projet)  { create :projet, :proposition_enregistree }
+    before(:each) { authenticate_as_agent projet.agent_operateur }
 
     describe "#proposer" do
       let(:projet)  { create :projet, :proposition_enregistree }

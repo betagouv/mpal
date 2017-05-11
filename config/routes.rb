@@ -25,6 +25,7 @@ Rails.application.routes.draw do
     get  '/', to: 'projets#show', as: 'projet'
     post '/plan_financements', to: 'plans_financements#create', as: 'projet_plan_financements'
   end
+
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
@@ -34,6 +35,7 @@ Rails.application.routes.draw do
       get  :proposer
       get  :proposition
       put  :proposition
+      get  :indicateurs, on: :collection
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
@@ -45,7 +47,10 @@ Rails.application.routes.draw do
       get      :transmission,         action: :new,    controller: 'transmission'
       post     :transmission,         action: :create, controller: 'transmission'
     end
+
     resources :projets, only: [:show, :edit, :update], param: :projet_id
+
+
 
     get   '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post  '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'

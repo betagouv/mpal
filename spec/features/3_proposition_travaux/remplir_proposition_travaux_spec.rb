@@ -8,11 +8,11 @@ feature "Remplir la proposition de travaux" do
   let(:operateur)         { projet.operateur }
   let(:agent_operateur)   { create :agent, intervenant: operateur }
   let(:theme)             { create :theme }
-  let!(:prestation_1)     { create :prestation, libelle: 'Remplacement d’une baignoire par une douche' }
-  let!(:prestation_2)     { create :prestation, libelle: 'Lavabo adapté' }
-  let!(:prestation_3)     { create :prestation, libelle: 'Géothermie' }
-  let!(:aide_1)           { create :aide, libelle: 'Aide 1' }
-  let!(:aide_2)           { create :aide, libelle: 'Aide 2' }
+  let!(:prestation_1)     { create :prestation }
+  let!(:prestation_2)     { create :prestation }
+  let!(:prestation_3)     { create :prestation }
+  let!(:aide_1)           { create :aide }
+  let!(:aide_2)           { create :aide }
 
   context "en tant qu'opérateur" do
     before { login_as agent_operateur, scope: :agent }
@@ -226,8 +226,8 @@ feature "Remplir la proposition de travaux" do
       end
 
       context "avec une prestation dépréciée" do
-        let!(:old_unused_prestation)  { create :prestation, libelle: 'Ancienne prestation non utilisée', active: false }
-        let!(:old_used_prestation)    { create :prestation, libelle: 'Ancienne prestation utilisée',     active: false }
+        let!(:old_unused_prestation)  { create :prestation, active: false }
+        let!(:old_used_prestation)    { create :prestation, active: false }
 
         before { projet.prestation_choices << create(:prestation_choice, :selected, projet: projet, prestation: old_used_prestation) }
 
@@ -240,8 +240,8 @@ feature "Remplir la proposition de travaux" do
       end
 
       context "avec une aide dépréciée" do
-        let!(:old_unused_aide)  { create :aide, libelle: 'Ancienne aide non utilisée', active: false }
-        let!(:old_used_aide)    { create :aide, libelle: 'Ancienne aide utilisée',     active: false }
+        let!(:old_unused_aide)  { create :aide, active: false }
+        let!(:old_used_aide)    { create :aide, active: false }
 
         before do
           projet.aides << old_used_aide
@@ -250,9 +250,9 @@ feature "Remplir la proposition de travaux" do
 
         scenario "j'ai toujours accès à cette aide" do
           visit dossier_proposition_path(projet)
-          expect(page).not_to have_content('Ancienne aide non utilisée')
-          expect(page).to have_content('Ancienne aide utilisée')
-          expect(find_field('Ancienne aide utilisée').value).to eq '1 111,10 '
+          expect(page).not_to have_content old_unused_aide.libelle
+          expect(page).to have_content old_used_aide.libelle
+          expect(find_field(old_used_aide.libelle).value).to eq '1 111,10 '
         end
       end
     end
