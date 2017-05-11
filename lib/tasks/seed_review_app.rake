@@ -5,7 +5,11 @@
 # But such a hook doesn't exist on Scalingo yet (although it does
 # on Heroku) ; hence this workaround.
 
-if ENV['IS_REVIEW_APP'] == "true" && !ActiveRecord::Migrator.needs_migration?
-  Rails.application.load_tasks
-  Rake::Task['db:seed'].invoke
+namespace :db do
+  desc "Seed the database of Review Apps"
+  task seed_review_app: :environment do
+    if ENV['IS_REVIEW_APP'] == "true" && Invitation.count == 0
+      Rails.application.load_seed
+    end
+  end
 end
