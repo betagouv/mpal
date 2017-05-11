@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170502100619) do
+ActiveRecord::Schema.define(version: 20170510152048) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,9 +51,8 @@ ActiveRecord::Schema.define(version: 20170502100619) do
 
   create_table "aides", force: :cascade do |t|
     t.string  "libelle"
-    t.integer "type_aide_id"
-    t.boolean "active",       default: true, null: false
-    t.boolean "public",       default: true, null: false
+    t.boolean "active",  default: true, null: false
+    t.boolean "public",  default: true, null: false
   end
 
   create_table "avis_impositions", force: :cascade do |t|

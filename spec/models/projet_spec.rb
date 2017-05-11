@@ -511,13 +511,4 @@ describe Projet do
     }
   end
 
-  describe "localized_amo_amount" do
-    let(:projet) { create :projet }
-
-    it {
-      projet[:amo_amount] = 4.2
-      expect(projet.localized_amo_amount).to eq '4,20'
-    }
-  end
-
 end

@@ -9,7 +9,7 @@ class Seeder
           "Aide département",
           "Aide région",
           "Aide union européenne",
-          "Caisse de retraite régime de base (CNAV/CARSAT,MSA,RSI, autres)",
+          "Caisse de retraite régime de base (CNAV/CARSAT, MSA, RSI, autres)",
           "Caisse de retraite complémentaires obligatoires (AGIRC, ARRCO, IRCANTEC, autres)",
           "Autre aide publique (ADEME, Agence de l'eau…)",
       ],

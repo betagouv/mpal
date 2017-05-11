@@ -44,15 +44,14 @@ class DossiersController < ApplicationController
     assign_projet_if_needed
     @themes = Theme.ordered.all
     @prestations_with_choices = prestations_with_choices
-    @aides_publiques = Aide.public_assistance.active     | @projet_courant.aides.public_assistance
-    @aides_privees   = Aide.not_public_assistance.active | @projet_courant.aides.not_public_assistance
+    define_helps
     render "projets/proposition"
   end
 
   def proposer
     @projet_courant.statut = :proposition_proposee
     if @projet_courant.save(context: :proposition)
-      return redirect_to projet_or_dossier_path(@projet_courant)
+      redirect_to projet_or_dossier_path(@projet_courant)
     else
       @projet_courant.restore_statut!
       render_show
@@ -75,6 +74,10 @@ class DossiersController < ApplicationController
     end
   end
 
+  def show
+    render_show
+  end
+
 private
 
   def assign_projet_if_needed
@@ -87,15 +90,6 @@ private
 
   def export_filename
     "dossiers_#{Time.now.strftime('%Y-%m-%d_%H-%M')}.csv"
-  end
-
-  def prestations_with_choices
-    # This query be simplified by using `left_joins` once we'll be running on Rails 5
-    Prestation
-      .active_for_projet(@projet_courant)
-      .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(@projet_courant.id)}")
-      .distinct
-      .select('prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id')
   end
 
   def projet_params
@@ -114,8 +108,8 @@ private
                         :documents_attributes,
                         :theme_ids => [],
                         :suggested_operateur_ids => [],
-                        :prestation_choices_attributes => [:id, :prestation_id, :desired, :recommended, :selected],
-                        :projet_aides_attributes => [:id, :aide_id, :localized_amount],
+                        :prestation_choices_attributes => [:prestation_id, :desired, :recommended, :selected],
+                        :projet_aides_attributes => [:aide_id, :localized_amount],
                         :demande => [:annee_construction],
                 )
     clean_projet_aides(attributs)
@@ -126,6 +120,9 @@ private
   def clean_projet_aides(attributs)
     if attributs[:projet_aides_attributes].present?
       attributs[:projet_aides_attributes].values.each do |projet_aide|
+        projet_aide_to_modify = ProjetAide.where(aide_id: projet_aide[:aide_id], projet_id: @projet_courant.id).first
+        projet_aide[:id] = projet_aide_to_modify.try(:id)
+
         projet_aide[:_destroy] = true if projet_aide[:localized_amount].blank?
       end
     end
@@ -134,6 +131,9 @@ private
   def clean_prestation_choices(attributs)
     if attributs[:prestation_choices_attributes].present?
       attributs[:prestation_choices_attributes].values.each do |prestation_choice|
+        prestation_choice_to_modify = PrestationChoice.where(prestation_id: prestation_choice[:prestation_id], projet_id: @projet_courant.id).first
+        prestation_choice[:id] = prestation_choice_to_modify.try(:id)
+
         if [:desired, :recommended, :selected].any? { |key| prestation_choice.key? key }
           fill_blank_values_with_false(prestation_choice)
         else
