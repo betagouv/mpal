@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510152048) do
+ActiveRecord::Schema.define(version: 20170511143826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,6 +162,8 @@ ActiveRecord::Schema.define(version: 20170510152048) do
     t.integer  "intermediaire_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "suggested",        default: false, null: false
+    t.boolean  "contacted",        default: false, null: false
   end
 
   add_index "invitations", ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree
