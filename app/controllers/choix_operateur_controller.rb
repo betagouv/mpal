@@ -7,7 +7,7 @@ class ChoixOperateurController < ApplicationController
   before_action :init_view
 
   def new
-    @suggested_operateurs = @projet_courant.suggested_operateurs.shuffle
+    @suggested_operateurs = @projet_courant.pris_suggested_operateurs.shuffle
     @other_operateurs = @projet_courant.intervenants_disponibles(role: :operateur).shuffle - @suggested_operateurs
     @operateur = @projet_courant.invited_operateur
 
@@ -23,7 +23,7 @@ class ChoixOperateurController < ApplicationController
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
       operateur = Intervenant.find_by_id(params[:operateur_id])
       unless @projet_courant.invited_operateur == operateur
-        @projet_courant.invite_intervenant!(operateur)
+        @projet_courant.contact_operateur!(operateur)
         flash[:notice_titre] = t('invitations.messages.succes_titre')
         flash[:notice] = t('invitations.messages.succes', intervenant: operateur.raison_sociale)
       end

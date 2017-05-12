@@ -20,7 +20,7 @@ class MisesEnRelationController < ApplicationController
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
       intervenant = Intervenant.find_by_id(params[:intervenant])
       unless @projet_courant.intervenants.include? intervenant
-        @projet_courant.invite_intervenant!(intervenant)
+        @projet_courant.invite_pris!(intervenant)
         flash[:notice_titre] = t('invitations.messages.succes_titre')
         flash[:notice] = t('invitations.messages.succes', intervenant: intervenant.raison_sociale)
       end
