@@ -54,3 +54,43 @@
   }
 }
 
+.flex-indicateurs-projet {
+  margin-top: 30px;
+}
+
+.indicateur-projet {
+  float: left;
+  background-color: #67a2bc;
+  margin-left: 30px;
+  margin-bottom: 30px;
+  height: 150px;
+  width: 300px;
+  padding-top: 20px;
+  box-shadow: 2px 2px 3px grey;
+  border-radius: 10px;
+  text-align: center;
+  h3 {
+    font-weight: bolder;
+    font-size: 20px;
+    color:white;
+  }
+
+  position: relative;
+}
+
+.nombre-projets {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: white;
+  font-weight: 600;
+  font-size: 25px;
+  text-align: center;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+
+  position: absolute;
+  left : 38%;
+  bottom: 10%;
+}

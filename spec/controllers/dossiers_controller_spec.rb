@@ -130,13 +130,13 @@ describe DossiersController do
       it "je peux voir la liste des projets" do
         get :indicateurs
 
-        expect(assigns(:all_projets).count).to eq 3
-        expect(assigns(:all_prospect).count).to eq 0
-        expect(assigns(:all_en_cours).count).to eq 2
-        expect(assigns(:all_proposition_enregistree).count).to eq 1
-        expect(assigns(:all_proposition_proposee).count).to eq 0
-        expect(assigns(:all_transmis_pour_instruction).count).to eq 0
-        expect(assigns(:all_en_cours_d_instruction).count).to eq 0
+        expect(assigns(:projets_count)).to eq 3
+        expect(assigns(:projets)[:prospect]).to eq 0
+        expect(assigns(:projets)[:en_cours]).to eq 2
+        expect(assigns(:projets)[:proposition_enregistree]).to eq 1
+        expect(assigns(:projets)[:proposition_proposee]).to eq 0
+        expect(assigns(:projets)[:transmis_pour_instruction]).to eq 0
+        expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
       end
     end
   end

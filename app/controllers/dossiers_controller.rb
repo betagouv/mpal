@@ -91,16 +91,17 @@ class DossiersController < ApplicationController
   end
 
   def indicateurs
+    @page_heading = 'Indicateurs'
     unless current_agent.instructeur?
       redirect_to dossiers_path, alert: t('sessions.access_forbidden')
     end
-    @all_projets = Projet.all
-    @all_prospect = Projet.where(statut: 0)
-    @all_en_cours = Projet.where(statut: 1)
-    @all_proposition_enregistree = Projet.where(statut: 2)
-    @all_proposition_proposee = Projet.where(statut: 3)
-    @all_transmis_pour_instruction = Projet.where(statut: 5)
-    @all_en_cours_d_instruction = Projet.where(statut: 6)
+    all_projets_statut = Projet.all.map(&:statut)
+    @projets_count = all_projets_statut.count
+
+    @projets = {}
+    Projet::STATUSES.each do |statut|
+      @projets[statut] = all_projets_statut.count(statut.to_s)
+    end
   end
 
 private

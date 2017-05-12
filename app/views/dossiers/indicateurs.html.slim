@@ -1,13 +1,41 @@
 .main-content-block
   h1 Indicateurs
-  = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-right btn-secondary"
+  = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-top-right btn-secondary"
 
-  p=  "Il y a #{ pluralize( @all_projets.count, 'projet' ) }."
+  h3=  "Il y a #{ pluralize( @projets_count, 'projet' ) }."
 
-  ul
-   li= "Il y a #{ pluralize( @all_proposition_enregistree.count, 'projet' )} 'Proposition Enregistrée'."
-   li= "Il y a #{ pluralize( @all_en_cours.count, 'projet' )} 'En Cours'."
-   li= "Il y a #{ pluralize( @all_prospect.count, 'projet' )} 'Prospect'."
-   li= "Il y a #{ pluralize( @all_proposition_proposee.count, 'projet' )} 'Proposition Proposée'."
-   li= "Il y a #{ pluralize( @all_transmis_pour_instruction.count, 'projet' )} 'Transmis pour Instruction'."
-   li= "Il y a #{ pluralize( @all_en_cours_d_instruction.count, 'projet' )} 'En Cours d'Instruction."
+  .flex-indicateurs-projet.clearfix
+    - @projets.each do |statut, count|
+        .indicateur-projet
+          h3= t("projets.statut.#{statut}")
+          p.nombre-projets= count
+          
+    
+
+  /div class="flex-indicateurs-projet"
+    div class="indicateur-projet en-cours" style="background-color: #67a2bc"
+      h3 Prospect
+      p class="nombre-projets" 
+        = @all_prospect_count
+    div class="indicateur-projet" style="background-color: #6797bc"
+      h3 En Cours
+      p class="nombre-projets" 
+        = @all_en_cours_count
+    div class="indicateur-projet" style="background-color: #678cbc"
+      h3 Proposition Enregistrée 
+      p class="nombre-projets" 
+        = @all_proposition_enregistree_count
+  /div class="flex-indicateurs-projet" 
+    div class="indicateur-projet" style="background-color: #67abbc"
+      h3 Proposition Proposée
+      p class="nombre-projets" 
+        = @all_proposition_proposee_count 
+    div class="indicateur-projet" style="background-color: #67babc"
+      h3 Transmis pour Instruction
+      p class="nombre-projets" 
+        = @all_transmis_pour_instruction_count
+    div class="indicateur-projet" style="background-color: #67bca8"
+      h3 En Cours d'Instruction
+      p class="nombre-projets" 
+        = @all_en_cours_d_instruction_count
+        
