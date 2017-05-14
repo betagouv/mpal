@@ -69,6 +69,8 @@ fr:
     placeholders:
       defaults:
         url: "http://…"
+      occupant:
+        date_de_naissance: "JJ/MM/AAAA"
       personne:
         lien_avec_demandeur: "Enfant, voisin…"
 

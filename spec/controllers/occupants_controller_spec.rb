@@ -41,15 +41,7 @@ describe OccupantsController do
           end
 
           it "affiche les occupants" do
-            expect(response).to have_http_status(:success)
-            expect(response).to render_template("index")
-            expect(assigns(:occupants)).to eq projet.occupants
-          end
-
-          it "réinitialise les champs du formulaire" do
-            expect(assigns(:occupant).prenom).to            be_blank
-            expect(assigns(:occupant).nom).to               be_blank
-            expect(assigns(:occupant).date_de_naissance).to be_blank
+            expect(response).to redirect_to projet_occupants_path(projet)
           end
         end
 

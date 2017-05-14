@@ -1,25 +1,25 @@
-= form_for @occupant, url: { controller: "occupants", action: "index" }, method: "post" do |f|
+= simple_form_for @occupant, url: { controller: "occupants", action: "index" }, method: "post", html: { class: "form-regular" } do |f|
   section.occupants
-    = render 'shared/errors', resource: @occupant
-    h2.occupants-heading
-      = t('occupants.title')
+    = render "shared/errors", resource: @occupant
+    h2.occupants-heading= t("occupants.title")
 
     .occupants-recap
       ul
         li
-          = t('occupants.nombre_occupant')
+          = t("occupants.nombre_occupant")
           span= " #{@projet_courant.nb_total_occupants}"
         li
-          = t('demarrage_projet.demandeur.revenu_fiscal_reference')
+          = t("demarrage_projet.demandeur.revenu_fiscal_reference")
           span= " #{@projet_courant.annee_fiscale_reference} : "
           span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
-    p.chapo= t('occupants.confirmer_nombre_personnes')
-    table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
+    p.chapo= t("occupants.confirmer_nombre_personnes")
+
+    table.occ-table
       tbody
         tr
-          th scope="col"  = t('occupants.occupants')
-          th scope="col"  = t('occupants.annee_naissance')
-          th scope="col"  = t('occupants.actions')
+          th scope="col" = t("occupants.occupants")
+          th scope="col" = t("occupants.annee_naissance")
+          th scope="col" = t("occupants.actions")
         - @occupants.each do |occupant|
           tr data-occupant-id=occupant.id
             td
@@ -34,31 +34,26 @@
               - if occupant.can_be_deleted?
                 = link_to projet_or_dossier_occupant_path(projet: @projet_courant, id: occupant.id),
                     method: :delete,
-                    title: t('occupants.delete.action'),
-                    class: "btn btn-icon",
-                    data: { confirm: t('occupants.delete.confirm', fullname: occupant.fullname) }
+                    title: t("occupants.delete.action"),
+                    class: "btn btn-icon btn-small",
+                    data: { confirm: t("occupants.delete.confirm", fullname: occupant.fullname) }
                     i class="glyphicon glyphicon-remove"
-                    = t('occupants.delete.action')
+                    = t("occupants.delete.action")
 
               - else
-                .info-point title=t('occupants.delete.cant_delete_demandeur') ?
+                .info-point title=t("occupants.delete.cant_delete_demandeur") ?
 
     .occupant-inline-form
       h3.occupant-inline-form__title Ajouter un occupant
       .occupant-inline-form__fields
-        .occupant-inline-form__field
-          = f.label :prenom
-          = f.text_field :prenom,            class: "occupant-inline-form__prenom", placeholder: "Prénom"
-        .occupant-inline-form__field
-          = f.label :nom
-          = f.text_field :nom,               class: "occupant-inline-form__nom",    placeholder: "Nom"
-        .occupant-inline-form__field
-          = f.label :date_de_naissance
-          = f.date_field :date_de_naissance, class: "occupant-inline-form__dob",    placeholder: "JJ/MM/AAAA", value: format_date(@occupant.date_de_naissance)
-        = btn name: t('occupants.nouveau.action'), class: "occupant-inline-form__submit", icon: "plus"
+        = f.input :prenom, wrapper_html: { class: "occupant-inline-form__field size-l" }
+        = f.input :nom, wrapper_html: { class: "occupant-inline-form__field size-l" }
+        = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form__field size-l" }, required: true
+        /= f.date_field :date_de_naissance, class: "occupant-inline-form__dob",    placeholder: "JJ/MM/AAAA", value: format_date(@occupant.date_de_naissance)
+        = btn name: t("occupants.nouveau.action"), class: "occupant-inline-form__submit", icon: "plus"
 
     .checkbox-validation
       input#dif1 type="checkbox" class="js-engagement"
-      label for="dif1" = t('agrements.attestation_communiquer_infos_occupants')
+      label for="dif1" = t("agrements.attestation_communiquer_infos_occupants")
   = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "ok"
 
