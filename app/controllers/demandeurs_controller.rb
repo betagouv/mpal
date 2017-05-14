@@ -23,6 +23,7 @@ private
   def render_show
     @projet_courant.personne ||= Personne.new
     @demandeur ||= @projet_courant.demandeur
+    @demandeur ||= Occupant.new
 
     @page_heading = 'Inscription'
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
@@ -35,7 +36,6 @@ private
 
   def projet_params
     params.require(:projet).permit(
-      :civilite,
       :tel,
       :email,
     )
@@ -56,7 +56,7 @@ private
   end
 
   def demandeur_params
-    params.fetch(:demandeur, {}).permit(:civilite)
+    params[:projet].fetch(:occupant, {}).permit(:civility)
   end
 
   def save_demandeur
@@ -94,7 +94,7 @@ private
       return false
     end
 
-    demandeur_id = params[:projet][:demandeur_id]
+    demandeur_id = params[:projet][:demandeur]
     if demandeur_id.blank?
       flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.missing_demandeur')
       return false
@@ -113,3 +113,4 @@ private
     @demandeur.save
   end
 end
+

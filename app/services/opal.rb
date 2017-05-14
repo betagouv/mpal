@@ -21,8 +21,7 @@ class Opal
   end
 
 private
-  OPAL_CIVILITE_M   = 1
-  OPAL_CIVILITE_MME = 2
+  OPAL_CIVILITY_MAPPING = { "mrs" => 2, "mr" => 1 }
 
   def ajoute_id_opal(projet, reponse_body)
     opal = JSON.parse(reponse_body)
@@ -35,7 +34,7 @@ private
   end
 
   def serialize_civilite(demandeur)
-    (demandeur.civilite == Occupant.civilites.keys[0]) ? OPAL_CIVILITE_M : OPAL_CIVILITE_MME
+    OPAL_CIVILITY_MAPPING[demandeur.civility] || 1
   end
 
   def serialize_prenom(demandeur)

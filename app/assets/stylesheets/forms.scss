@@ -6,7 +6,13 @@
 }
 
 .form-regular {
+  abbr[title] {
+    position: absolute;
+    left: -15px;
+    text-decoration: none;
+  }
   label {
+    position: relative;
     cursor: pointer;
     font-weight: normal;
     &.required {
@@ -17,7 +23,7 @@
     }
   }
   .form-control-label, .form-field {
-    float: left;
+    display: block;
     position: relative;
     // Prevent columns from collapsing when empty
     min-height: 1px;
@@ -42,9 +48,9 @@
     .form-field-label   { margin-left: percentage((4 / $grid-columns)); }
   }
   @include media-breakpoint-up(md) {
-    .size-xs .form-field { max-width: 130px; }
-    .size-s  .form-field { max-width: 230px; }
-    .size-m  .form-field { max-width: 330px; }
+    .size-xs .form-field { max-width: 120px; }
+    .size-s  .form-field { max-width: 240px; }
+    .size-m  .form-field { max-width: 480px; }
   }
   .has-error .form-field-label {
     padding-bottom: 7px;
@@ -66,4 +72,13 @@
   a:hover {
     text-decoration: underline;
   }
+  .form-check-input {
+    margin-left: 0;
+  }
 }
+.form-horizontal {
+  .form-control-label, .form-field {
+    float: left;
+  }
+}
+

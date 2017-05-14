@@ -24,6 +24,7 @@ fr:
         birthday: "Date de naissance"
         building: "Bâtiment"
         city: "Ville"
+        civilite: "Civilité"
         civility: "Civilité"
         country: "Pays"
         created_at: "Créé le"
@@ -33,18 +34,26 @@ fr:
         last_name: "Nom"
         login: "Identifiant"
         name: "Nom"
+        nom: "Nom"
         password: "Mot de passe"
         phone: "Téléphone"
+        prenom: "Prénom"
         result_per_page: "Résultats"
+        tel: "Téléphone"
         updated_at: "Dernière modification le"
         zip_code: "Code postal"
       contact:
-        subject: Objet
-        description: Message
+        subject: "Objet"
+        description: "Message"
       demande:
         annee_construction: "Année de construction"
+      personne:
+        lien_avec_demandeur: "Lien avec le demandeur"
       projet:
+        adresse_postale: "Adresse postale"
+        adresse_a_renover: "Adresse à rénover"
         date_de_visite: "Date de visite"
+        demandeur: "Prénom et nom"
         etage: "Votre étage"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
         nb_pieces: "Nombre de pièces"
@@ -53,13 +62,13 @@ fr:
         type_logement: "Type de logement"
     hints:
       defaults:
+        birthday: "JJ/MM/AAAA"
+      projet:
+        date_de_visite: "JJ/MM/AAAA"
         theme_ids: "(2 maximum)"
     placeholders:
       defaults:
-        birthday: "JJ/MM/AAAA"
-        email: "Adresse email"
-        first_name: "Prénom"
-        last_name: "Nom"
         url: "http://…"
-      projet:
-        date_de_visite: "JJ/MM/AAAA"
+      personne:
+        lien_avec_demandeur: "Enfant, voisin…"
+

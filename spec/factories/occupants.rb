@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :occupant do
     sequence(:nom) {|n| "Martin#{n}" }
     prenom 'Jean'
-    civilite 'mr'
+    civility 'mr'
     avis_imposition
   end
 
@@ -17,3 +17,4 @@ FactoryGirl.define do
     date_de_naissance '20/06/1977'
   end
 end
+

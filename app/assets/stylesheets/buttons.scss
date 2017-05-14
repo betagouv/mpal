@@ -16,7 +16,7 @@
   .glyphicon {
     position: absolute;
     top: 6px;
-    left: 11px;
+    right: 11px;
     width: 15px;
     height: 15px;
     font-size: 16px;
@@ -26,7 +26,7 @@
   margin-left: 30px;
 }
 .btn-icon {
-  padding-left: 37px;
+  padding-right: 37px;
 }
 .btn-large {
   font-size: 20px;
@@ -34,12 +34,12 @@
   height: 50px;
   .glyphicon {
     font-size: 20px;
-    top: 12px;
-    left: 22px;
+    top: 14px;
+    right: 22px;
   }
   &.btn-icon {
-    padding-left: 60px;
-    padding-right: 25px;
+    padding-left: 25px;
+    padding-right: 60px;
   }
 }
 .btn-centered {

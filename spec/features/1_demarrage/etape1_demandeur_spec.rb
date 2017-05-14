@@ -18,14 +18,14 @@ feature "Demandeur :" do
 
   scenario "je remplis mes informations personnelles" do
     signin_for_new_projet
-    within '.civilite' do choose "Monsieur" end
+    within '.js-demandeur-civility' do choose "Monsieur" end
     select "Pierre Martin"
     fill_in :projet_email, with: "demandeur@exemple.fr"
     fill_in :projet_tel,   with: "01 02 03 04 05"
     click_button I18n.t('demarrage_projet.action')
 
     expect(page).to have_current_path projet_avis_impositions_path(projet)
-    expect(projet.demandeur.civilite).to eq("mr")
+    expect(projet.demandeur.civility).to eq("mr")
     expect(projet.email).to eq("demandeur@exemple.fr")
     expect(projet.tel).to eq("01 02 03 04 05")
   end
@@ -40,7 +40,7 @@ feature "Demandeur :" do
 
   scenario "je peux ajouter l'adresse du logement à rénover" do
     signin_for_new_projet
-    within '.civilite' do choose('Monsieur') end
+    within '.js-demandeur-civility' do choose('Monsieur') end
     select "Pierre Martin"
     fill_in :projet_email, with: "demandeur@exemple.fr"
     fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_PORT
@@ -55,11 +55,11 @@ feature "Demandeur :" do
 
   scenario "j'ajoute une personne de confiance" do
     signin_for_new_projet
-    within '.civilite' do choose('Monsieur') end
+    within '.js-demandeur-civility' do choose('Monsieur') end
     select "Pierre Martin"
     fill_in :projet_email, with: "demandeur@exemple.fr"
-    page.choose I18n.t('demarrage_projet.demandeur.personne_confiance_choix2')
-    within '.dem-diff.ins-form' do
+    page.choose I18n.t('demarrage_projet.demandeur.reliable_person_select_yes')
+    within '.js-reliable-person-form' do
       page.choose('Monsieur')
       fill_in 'projet_personne_attributes_prenom', with: "Frank"
       fill_in 'projet_personne_attributes_nom', with: "Strazzeri"
@@ -70,7 +70,7 @@ feature "Demandeur :" do
     click_button I18n.t('demarrage_projet.action')
     expect(page.current_path).to eq(projet_avis_impositions_path(projet))
     projet.reload
-    expect(projet.personne.civilite).to eq('Mr')
+    expect(projet.personne.civilite).to eq('mr')
     expect(projet.personne.prenom).to eq("Frank")
     expect(projet.personne.nom).to eq("Strazzeri")
     expect(projet.personne.tel).to eq("0130201040")
@@ -82,15 +82,15 @@ feature "Demandeur :" do
     scenario "je vois un message d'erreur" do
       signin_for_new_projet
       fill_in :projet_email, with: "invalid-email@lol"
-      fill_in 'projet_tel', with: "999"
+      fill_in :projet_tel, with: "999"
       click_button I18n.t('demarrage_projet.action')
 
       expect(page).to have_current_path projet_demandeur_path(projet)
       expect(page).to have_content(I18n.t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur'))
       expect(page).to have_content("L’adresse email n’est pas valide")
-      expect(page).to have_field("Email", with: "invalid-email@lol")
+      expect(page).to have_field(:projet_email, with: "invalid-email@lol")
       expect(page).to have_content("Le numéro de téléphone est trop court")
-      expect(page).to have_field("Téléphone", with: "999")
+      expect(page).to have_field(:projet_tel, with: "999")
     end
   end
 end

@@ -16,9 +16,6 @@ class Invitation < ActiveRecord::Base
   validates_uniqueness_of :intervenant, scope: :projet_id
 
   delegate :demandeur,           to: :projet
-  delegate :demandeur_prenom,    to: :projet
-  delegate :demandeur_nom,       to: :projet
-  delegate :demandeur_civilite,  to: :projet
   delegate :description_adresse, to: :projet
 
   def intervenant_email
@@ -29,3 +26,4 @@ class Invitation < ActiveRecord::Base
     projet.email
   end
 end
+

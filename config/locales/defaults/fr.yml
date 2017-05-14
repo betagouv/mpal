@@ -14,7 +14,7 @@ fr:
         prenom: Prénom
         tel: Téléphone
         email: Email
-        lien_avec_demandeur: 'Lien avec vous ?'
+        lien_avec_demandeur: "Quel est votre lien avec le demandeur ?"
       demande:
         travaux_fenetres: "Fenêtres"
         froid: "Vous avez froid, votre logement est mal isolé"
@@ -106,19 +106,11 @@ fr:
         enregistrement_demandeur: "Une erreur s’est produite lors de l’enregistrement de vos informations personnelles."
         missing_demandeur: "Veuillez sélectionner le prénom et nom du demandeur"
       section_demandeur: "Demandeur"
-      demandeur_identity: "Prénom et nom du propriétaire demandeur"
+      demandeur_identity: "Prénom et nom"
       select: "Sélectionnez le propriétaire demandeur"
-      recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
-      personne_confiance: "Qui contacter pour les démarches à venir ?"
-      personne_confiance_choix1: Vous-même
-      personne_confiance_choix2: "Une personne chargée du suivi du dossier (pour vous)"
-      telephone: "Numéro de téléphone"
-      email: "Votre adresse email"
-      civilite: "Civilite"
-      personne_de_confiance_prenom: "Prénom"
-      personne_de_confiance_nom: "Nom"
-      personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"
-      personne_de_confiance_placeholder: "Enfant, voisin…"
+      reliable_person: "Qui contacter pour les démarches à venir ?"
+      reliable_person_select_no: "Vous-même"
+      reliable_person_select_yes: "Une personne chargée du suivi du dossier"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
 
     # ----------------------- Ma demande ---------------------

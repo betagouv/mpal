@@ -1,0 +1,20 @@
+.reliable-person__header {
+  @extend .clearfix;
+  p {
+    font-weight: bold;
+  }
+  label {
+    float: left;
+    clear: left;
+    margin-top: 0.5em;
+  }
+  input {
+    margin-right: 5px;
+  }
+}
+.reliable-person__form {
+  margin-top: 1em;
+  padding: 0.5em 2.5em;
+  background-color: #eee;
+}
+
