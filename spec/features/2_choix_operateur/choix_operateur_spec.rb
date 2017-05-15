@@ -59,16 +59,16 @@ feature "Choisir un opérateur:" do
     end
 
     context "avant de m'être engagé avec un opérateur" do
-      let(:projet) { create(:projet, :prospect, :with_intervenants_disponibles, :with_invited_operateur) }
+      let(:projet) { create(:projet, :prospect, :with_intervenants_disponibles, :with_contacted_operateur) }
 
       scenario "je peux choisir un autre opérateur" do
         signin(projet.numero_fiscal, projet.reference_avis)
         click_link I18n.t('projets.visualisation.changer_intervenant')
 
         expect(page).to have_selector('.choose-operator.choose-operator-intervenant')
-        expect(page).to have_selector("#operateur_id_#{projet.invited_operateur.id}[checked]")
+        expect(page).to have_selector("#operateur_id_#{projet.contacted_operateur.id}[checked]")
 
-        previous_operateur = projet.invited_operateur
+        previous_operateur = projet.contacted_operateur
         new_operateur = projet.intervenants_disponibles(role: :operateur).first
 
         choose new_operateur.raison_sociale

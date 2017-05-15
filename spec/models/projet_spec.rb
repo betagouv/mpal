@@ -340,7 +340,7 @@ describe Projet do
         expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
         projet.contact_operateur!(operateur)
         expect(projet.invitations.count).to eq(1)
-        expect(projet.invited_operateur).to eq(operateur)
+        expect(projet.contacted_operateur).to eq(operateur)
       end
     end
 
@@ -361,7 +361,7 @@ describe Projet do
     end
 
     context "avec un opérateur invité auparavant" do
-      let(:projet) { create :projet, :prospect, :with_invited_operateur }
+      let(:projet) { create :projet, :prospect, :with_contacted_operateur }
 
       context "et un nouvel opérateur différent du précédent" do
         let(:new_operateur) { create :operateur }
@@ -371,17 +371,17 @@ describe Projet do
           expect(ProjetMailer).to receive(:resiliation_operateur).and_call_original
           projet.contact_operateur!(new_operateur)
           expect(projet.invitations.count).to eq(1)
-          expect(projet.invited_operateur).to eq(new_operateur)
+          expect(projet.contacted_operateur).to eq(new_operateur)
         end
       end
 
       context "et un nouvel opérateur identique au précédent" do
-        let(:operateur) { projet.invited_operateur }
+        let(:operateur) { projet.contacted_operateur }
 
         it "ne change rien" do
           projet.contact_operateur!(operateur)
           expect(projet.invitations.count).to eq 1
-          expect(projet.invited_operateur).to eq operateur
+          expect(projet.contacted_operateur).to eq operateur
         end
       end
     end
@@ -395,7 +395,7 @@ describe Projet do
         it "ne change rien et lève une exception" do
           expect { projet.contact_operateur!(new_operateur) }.to raise_error RuntimeError
           expect(projet.invitations.count).to eq 1
-          expect(projet.invited_operateur).to eq projet.operateur
+          expect(projet.contacted_operateur).to eq projet.operateur
         end
       end
 

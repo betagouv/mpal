@@ -12,7 +12,7 @@ article.block.projet
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/
       h4 Organisme qui vous accompagne pour la suite de votre projet :
-      - operateur = @projet_courant.invited_operateur
+      - operateur = @projet_courant.contacted_operateur
       - if operateur.present?
         .description-operateur
           strong= operateur.raison_sociale
@@ -25,7 +25,7 @@ article.block.projet
           |. Vous serez informé par email pour chaque réponse de sa part.
         .button-group
           - if @projet_courant.can_validate_operateur?
-            = btn name: t('projets.visualisation.s_engager_avec_operateur'), href: projet_engagement_operateur_path(@projet_courant, operateur_id: @projet_courant.invited_operateur)
+            = btn name: t('projets.visualisation.s_engager_avec_operateur'), href: projet_engagement_operateur_path(@projet_courant, operateur_id: @projet_courant.contacted_operateur)
           - if @projet_courant.can_switch_operateur?
             = btn name: t('projets.visualisation.changer_intervenant'), href: projet_choix_operateur_path(@projet_courant)
       - elsif @projet_courant.pris_suggested_operateurs.present?

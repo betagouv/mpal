@@ -130,7 +130,7 @@ class Projet < ActiveRecord::Base
     intervenants.pour_role(:operateur).find(pris_suggested_operateur_ids)
   end
 
-  def invited_operateur
+  def contacted_operateur
     contacted_operateur_ids = invitations.where(contacted: true).map(&:intervenant_id)
     intervenants.pour_role(:operateur).find(contacted_operateur_ids).first
   end
@@ -144,11 +144,11 @@ class Projet < ActiveRecord::Base
   end
 
   def can_switch_operateur?
-    statut.to_sym == :prospect && invited_operateur.present?
+    statut.to_sym == :prospect && contacted_operateur.present?
   end
 
   def can_validate_operateur?
-    invited_operateur.present? && operateur.blank?
+    contacted_operateur.present? && operateur.blank?
   end
 
   FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
@@ -250,7 +250,7 @@ class Projet < ActiveRecord::Base
   end
 
   def contact_operateur!(operateur_to_contact)
-    previous_operateur = invited_operateur
+    previous_operateur = contacted_operateur
     return if previous_operateur == operateur_to_contact
 
     if operateur.present?
@@ -386,7 +386,7 @@ class Projet < ActiveRecord::Base
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
-          projet.invited_operateur.try(:raison_sociale),
+          projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_operateur, scope: "projets.statut"),
         ]

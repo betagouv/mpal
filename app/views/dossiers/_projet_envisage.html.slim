@@ -11,7 +11,7 @@ article.block.projet
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/
       h4 Organisme choisi pour accompagner le projet :
-      - operateur = @projet_courant.invited_operateur
+      - operateur = @projet_courant.contacted_operateur
       - if operateur.present?
         .description-operateur
           strong= operateur.raison_sociale

@@ -42,6 +42,6 @@ private
   end
 
   def needs_mise_en_relation?
-    @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
+    @projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank?
   end
 end

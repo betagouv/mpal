@@ -3,8 +3,8 @@ require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 
 feature "S'engager avec un opérateur :" do
-  let(:projet)    { create(:projet, :prospect, :with_invited_operateur) }
-  let(:operateur) { projet.invited_operateur }
+  let(:projet)    { create(:projet, :prospect, :with_contacted_operateur) }
+  let(:operateur) { projet.contacted_operateur }
 
   scenario "en tant que demandeur, je peux m'engager avec un opérateur" do
     signin(projet.numero_fiscal, projet.reference_avis)
