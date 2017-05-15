@@ -58,6 +58,13 @@ SimpleForm.setup do |config|
     end
   end
 
+  config.wrappers :vertical_boolean, tag: "div", class: "form-group", error_class: "has-danger has-feedback" do |b|
+    b.wrapper tag: "div", class: CUSTOM_INPUT_CLASS + ["form-field-label"] do |input|
+      input.use :label_input
+      input.use :feedback
+    end
+  end
+
   config.wrapper_mappings = {
     check_boxes:   :booleans,
     radio_buttons: :booleans,

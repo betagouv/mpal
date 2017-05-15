@@ -16,20 +16,6 @@ fr:
         email: Email
         lien_avec_demandeur: "Quel est votre lien avec le demandeur ?"
       demande:
-        travaux_fenetres: "Fenêtres"
-        froid: "Vous avez froid, votre logement est mal isolé"
-        probleme_deplacement: "Vous avez du mal à vous déplacer"
-        changement_chauffage: "Votre chauffage vous coûte trop cher"
-        adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
-        accessibilite: "Vous avez des difficultés dans les escaliers"
-        hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
-        autre: "Autre"
-        travaux_isolation: "Isolation"
-        travaux_chauffage: "Chauffage"
-        travaux_adaptation_sdb: "Adaptation salle de bain"
-        travaux_monte_escalier: "Monte-escalier"
-        travaux_amenagement_ext: "Aménagement extérieur"
-        travaux_autres: "Autre"
         complement: "Précisez votre projet"
         date_achevement_15_ans: "Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?"
         annee_construction: "Si vous la connaissez, indiquez l’année d’achèvement de votre logement :"
@@ -94,6 +80,14 @@ fr:
     homepage: "Accueil"
     legal: "Mentions légales"
     terms_of_use: "Conditions générales d’utilisation"
+
+  # ----------------------- Liste des liens du menu patterns ---------------------
+  menu_patterns:
+    forms:
+      title: "Formulaires"
+      buttons: "Boutons"
+      inputs: "Inputs"
+      inline_inputs: "Inputs horizontaux"
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:

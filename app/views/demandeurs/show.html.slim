@@ -1,4 +1,4 @@
-= simple_form_for @projet_courant, url: { controller: "demandeurs", action: "update" }, html: { class: "form form-regular" } do |f|
+= simple_form_for @projet_courant, url: { controller: "demandeurs", action: "update" }, html: { class: "form" } do |f|
   section.section
     h2.section__title= t("demarrage_projet.demandeur.section_demandeur")
     = render "shared/errors", resource: @projet_courant
@@ -14,7 +14,7 @@
 
       .reliable-person
         .reliable-person__header
-          p= t("demarrage_projet.demandeur.reliable_person")
+          p.reliable-person__question= t("demarrage_projet.demandeur.reliable_person")
           - has_reliable_person = params[:contact] ? "1" == params[:contact] : @projet_courant.personne_id.present?
           .js-reliable-person-select
             label for="reliable-person-select-no"

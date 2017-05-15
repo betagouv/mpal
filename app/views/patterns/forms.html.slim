@@ -1,0 +1,168 @@
+h1= t("menu_patterns.forms.title")
+
+ul
+  li= link_to t("menu_patterns.forms.buttons"), "#buttons"
+  li= link_to t("menu_patterns.forms.inputs"), "#inputs"
+  li= link_to t("menu_patterns.forms.inline_inputs"), "#inline_inputs"
+
+h2#buttons= t("menu_patterns.forms.buttons")
+
+h3 Types
+
+table.table-patterns
+  tbody
+    tr
+      td= btn name: "Primary", class: "btn"
+      td
+        code .btn
+    tr
+      td= btn name: "Secondary", class: "btn-secondary"
+      td
+        code .btn.btn-secondary
+    /tr
+      td= btn name: "Default"
+      td
+        code .btn.btn-default
+        
+h3 Tailles
+
+table.table-patterns
+  tbody
+    tr
+      td= btn name: "Small button", class: "btn-small"
+      td
+        code .btn.btn-small
+    tr
+      td= btn name: "Small button", class: "btn-small btn-secondary"
+      td
+        code .btn.btn-secondary.btn-small
+    tr
+      td= btn name: "Large button", class: "btn-large"
+      td
+        code .btn.btn-large
+    tr
+      td= btn name: "Large button", class: "btn-large btn-secondary"
+      td
+        code .btn.btn-secondary.btn-large
+
+
+h2#inputs= t("menu_patterns.forms.inputs")
+
+h3 Input
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form" } do |f|
+  = f.input :prenom, required: false
+  = f.input :nom
+  = f.input :nom, hint: "3 caractères minimum"
+
+h3 Groupes d’inputs
+
+= simple_form_for Projet.new, url: "#", html: { class: "form" } do |f|
+  = f.input :email, wrapper: "prepend" do
+    span.input-group-addon @
+    = f.input_field :email
+  = f.input :localized_travaux_ht_amount, wrapper: "prepend" do
+    = f.input_field :localized_travaux_ht_amount
+    span.input-group-addon €
+  = f.input :surface_habitable, wrapper: "append" do
+    = f.input_field :surface_habitable
+    span.input-group-addon m²
+
+h3 Select
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form" } do |f|
+  = f.input :civility, collection: Occupant::CIVILITIES, prompt: "Sélectionner"
+= simple_form_for Projet.new, url: "#", html: { class: "form" } do |f|
+  = f.input :theme_ids, collection: Theme.all, prompt: "Sélectionner"
+
+h3 Radio buttons
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form" } do |f|
+  = f.input :civility, as: :radio_buttons, collection: Occupant::CIVILITIES
+
+h3 Check boxes
+
+= simple_form_for Projet.new, url: "#", html: { class: "form" } do |f|
+  = f.input :theme_ids, as: :check_boxes, collection: Theme.all
+
+= simple_form_for Demande.new, url: "#", html: { class: "form" } do |f|
+  .vertical-booleans
+    label.vertical-booleans__title= t("demarrage_projet.demande.titre_besoins")
+    = f.input :changement_chauffage
+    = f.input :froid
+    = f.input :probleme_deplacement
+
+h3 Dates
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form" } do |f|
+  = f.input :date_de_naissance
+  = f.input :date_de_naissance, as: :string
+
+h3 Tailles
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form" } do |f|
+  = f.input :prenom, wrapper_html: { class: "size-xs" }
+  = f.input :prenom, wrapper_html: { class: "size-s" }
+  = f.input :prenom, wrapper_html: { class: "size-m" }
+  = f.input :prenom, wrapper_html: { class: "size-l" }
+
+h2#inline_inputs= t("menu_patterns.forms.inline_inputs")
+
+h3 Input
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+  = f.input :prenom, required: false
+  = f.input :nom
+
+h3 Groupes d’inputs
+
+= simple_form_for Projet.new, url: "#", html: { class: "form form-inline" } do |f|
+  = f.input :email, wrapper: "prepend" do
+    span.input-group-addon @
+    = f.input_field :email
+  = f.input :localized_travaux_ht_amount, wrapper: "prepend" do
+    = f.input_field :localized_travaux_ht_amount
+    span.input-group-addon €
+  = f.input :surface_habitable, wrapper: "append" do
+    = f.input_field :surface_habitable
+    span.input-group-addon m²
+
+h3 Select
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+  = f.input :civility, collection: Occupant::CIVILITIES, prompt: "Sélectionner"
+= simple_form_for Projet.new, url: "#", html: { class: "form" } do |f|
+  = f.input :theme_ids, collection: Theme.all, prompt: "Sélectionner"
+
+h3 Radio buttons
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+  = f.input :civility, as: :radio_buttons, collection: Occupant::CIVILITIES
+
+h3 Check boxes
+
+= simple_form_for Projet.new, url: "#", html: { class: "form form-inline" } do |f|
+  = f.input :theme_ids, as: :check_boxes, collection: Theme.all
+
+= simple_form_for Demande.new, url: "#", html: { class: "form form-inline" } do |f|
+  .vertical-booleans
+    label.vertical-booleans__title= t("demarrage_projet.demande.titre_besoins")
+    = f.input :changement_chauffage
+    = f.input :froid
+    = f.input :probleme_deplacement
+    = f.input :accessibilite
+
+h3 Dates
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+  = f.input :date_de_naissance
+  = f.input :date_de_naissance, as: :string
+
+h3 Tailles
+
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+  = f.input :prenom, wrapper_html: { class: "size-xs" }
+  = f.input :prenom, wrapper_html: { class: "size-s" }
+  = f.input :prenom, wrapper_html: { class: "size-m" }
+  = f.input :prenom, wrapper_html: { class: "size-l" }
+

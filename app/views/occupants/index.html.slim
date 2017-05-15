@@ -1,4 +1,4 @@
-= simple_form_for @occupant, url: { controller: "occupants", action: "index" }, method: "post", html: { class: "form-regular" } do |f|
+= simple_form_for @occupant, url: { controller: "occupants", action: "index" }, method: "post", html: { class: "form" } do |f|
   section.occupants
     = render "shared/errors", resource: @occupant
     h2.occupants-heading= t("occupants.title")
@@ -35,7 +35,7 @@
                 = link_to projet_or_dossier_occupant_path(projet: @projet_courant, id: occupant.id),
                     method: :delete,
                     title: t("occupants.delete.action"),
-                    class: "btn btn-icon btn-small",
+                    class: "btn btn-icon btn-secondary btn-small",
                     data: { confirm: t("occupants.delete.confirm", fullname: occupant.fullname) }
                     i class="glyphicon glyphicon-remove"
                     = t("occupants.delete.action")
@@ -49,11 +49,10 @@
         = f.input :prenom, wrapper_html: { class: "occupant-inline-form__field size-l" }
         = f.input :nom, wrapper_html: { class: "occupant-inline-form__field size-l" }
         = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form__field size-l" }, required: true
-        /= f.date_field :date_de_naissance, class: "occupant-inline-form__dob",    placeholder: "JJ/MM/AAAA", value: format_date(@occupant.date_de_naissance)
         = btn name: t("occupants.nouveau.action"), class: "occupant-inline-form__submit", icon: "plus"
 
     .checkbox-validation
       input#dif1 type="checkbox" class="js-engagement"
       label for="dif1" = t("agrements.attestation_communiquer_infos_occupants")
-  = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "ok"
+  = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "arrow-right"
 

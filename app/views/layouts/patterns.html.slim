@@ -1,0 +1,14 @@
+- content_for :header do
+  = render "shared/header"
+- content_for :content do
+  .page-projet.page-projet-2-cols.clearfix
+    aside.col.col-left
+      .col-menu
+        = link_to t("menu.homepage"),             root_path,           class: "col-menu__item"
+        = link_to t("menu_patterns.forms.title"), patterns_forms_path, class: "col-menu__item"
+    .col.col-right
+      section.patterns
+        = render "shared/messages"
+        = yield
+= render template: "layouts/application"
+

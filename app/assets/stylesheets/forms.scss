@@ -5,17 +5,7 @@
   @include clearfix();
 }
 
-.form-horizontal {
-  .form-control-label, .form-field {
-    float: left;
-  }
-  @include media-breakpoint-up(480px) {
-    .form-control-label { max-width: percentage((4 / $grid-columns)); }
-    .form-field         { max-width: percentage((8 / $grid-columns)); }
-    .form-field-label   { margin-left: percentage((4 / $grid-columns)); }
-  }
-}
-.form-regular {
+.form {
   abbr[title] {
     position: absolute;
     left: -15px;
@@ -23,6 +13,7 @@
   }
   label {
     position: relative;
+    display: inline-block;
     cursor: pointer;
     font-weight: normal;
     &.required {
@@ -32,7 +23,7 @@
       }
     }
   }
-  .form-control-label, .form-field {
+  .form-field {
     display: block;
     position: relative;
     // Prevent columns from collapsing when empty
@@ -43,7 +34,6 @@
   .form-control-label {
     padding-top: calc(.5rem - 1px * 2);
     padding-bottom: calc(.5rem - 1px * 2);
-    padding-right: 1em;
     margin-bottom: 0;
   }
   p.form-field {
@@ -52,10 +42,13 @@
   .form-group.price .form-control {
     text-align: right;
   }
-  .form-field { max-width: 480px; }
+  .form-field {
+    max-width: 480px;
+  }
   @include media-breakpoint-up(md) {
     .size-xs .form-field { max-width: 120px; }
     .size-s  .form-field { max-width: 240px; }
+    // Medium is default
     .size-l  .form-field { max-width: 100%; }
   }
   .has-error .form-field-label {
@@ -77,6 +70,28 @@
   }
   .form-check-input {
     margin-left: 0;
+  }
+  .form-check-hacked {
+    > label {
+      display: block;
+    }
+  }
+  .text-muted {
+    color: #888;
+  }
+}
+
+.form-inline {
+  .form-control-label, .form-field {
+    float: left;
+  }
+  .form-control-label {
+    padding-right: 1em;
+  }
+  @include media-breakpoint-up(480px) {
+    .form-control-label { max-width: percentage((4 / $grid-columns)); }
+    .form-field         { max-width: percentage((8 / $grid-columns)); }
+    .form-field-label   { margin-left: percentage((4 / $grid-columns)); }
   }
 }
 

@@ -60,6 +60,27 @@ fr:
         surface_habitable: "Surface habitable"
         theme_ids: "Types d’interventions"
         type_logement: "Type de logement"
+      demande:
+        # Difficultés
+        changement_chauffage: "Votre chauffage vous coûte trop cher"
+        froid: "Vous avez froid, votre logement est mal isolé"
+        probleme_deplacement: "Vous avez du mal à vous déplacer"
+        accessibilite: "Vous avez des difficultés dans les escaliers"
+        hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
+        adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
+        autre: "Autre"
+        # Travaux
+        travaux_fenetres: "Fenêtres"
+        travaux_isolation: "Isolation"
+        travaux_chauffage: "Chauffage"
+        travaux_adaptation_sdb: "Adaptation salle de bain"
+        travaux_monte_escalier: "Monte-escalier"
+        travaux_amenagement_ext: "Aménagement extérieur"
+        travaux_autres: "Autre"
+        # Autre
+        complement: "Informations complémentaires"
+        date_achevement_15_ans: "Logement achevé depuis plus ou moins de 15 ans"
+        ptz: "Prêt à taux zéro contracté"
     hints:
       defaults:
         birthday: "JJ/MM/AAAA"
