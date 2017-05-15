@@ -111,7 +111,10 @@ describe DossiersController do
   context "en tant qu'instructeur connecté non affecté à un projet" do
     let(:instructeur)       { create :instructeur }
     let(:agent_instructeur) { create :agent, :instructeur, intervenant: instructeur }
-    before { authenticate_as_agent agent_instructeur }
+
+    before do
+      authenticate_as_agent agent_instructeur
+    end
 
     describe "#indicateurs" do
       it "je peux accéder aux indicateurs" do
@@ -121,20 +124,23 @@ describe DossiersController do
     end
 
     describe "#indicateurs" do
+      let!(:current_agent_project)    { create :projet, :proposition_proposee, agent_instructeur: agent_instructeur }
+      let!(:same_department_project)  { create :projet, :en_cours }
+      let!(:other_department_project) { create :projet, :en_cours }
+
       before do
-        create :projet, :proposition_enregistree
-        create :projet, :en_cours
-        create :projet, :en_cours
+        other_department_project.adresse.update(departement: "03")
       end
 
-      it "je peux voir la liste des projets" do
-        get :indicateurs
 
-        expect(assigns(:projets_count)).to eq 3
+      it "je peux voir la liste des projets qui concernent mon département" do
+puts "-----"
+        get :indicateurs
+        expect(assigns(:projets_count)).to eq 2
         expect(assigns(:projets)[:prospect]).to eq 0
-        expect(assigns(:projets)[:en_cours]).to eq 2
-        expect(assigns(:projets)[:proposition_enregistree]).to eq 1
-        expect(assigns(:projets)[:proposition_proposee]).to eq 0
+        expect(assigns(:projets)[:en_cours]).to eq 1
+        expect(assigns(:projets)[:proposition_enregistree]).to eq 0
+        expect(assigns(:projets)[:proposition_proposee]).to eq 1
         expect(assigns(:projets)[:transmis_pour_instruction]).to eq 0
         expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
       end

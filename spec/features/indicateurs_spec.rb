@@ -65,30 +65,40 @@ feature "Affichage de la page Indicateurs" do
   let!(:projet6)   { create :projet, :en_cours_d_instruction }
   let!(:projet6b)  { create :projet, :en_cours_d_instruction }
 
+  before do
+    projet1b.adresse.update(departement: "03")
+    projet5.adresse.update(departement: "23")
+    projet6.adresse.update(departement: "35")
+  end
 
   context "si je suis instructeur" do
     let(:current_agent) { agent_instructeur }
 
-    scenario "la page affiche le nombre total de projets" do
+    scenario "la page affiche le nombre total de projets qui me concernent" do
       visit indicateurs_dossiers_path
-      expect(page).to have_content("Il y a 9 projets.")
+      expect(page).to have_content("Il y a 6 projets.")
     end
 
+#A REFAIRE
     scenario "la page affiche le nombre total de projets par statut" do
       visit indicateurs_dossiers_path
-      expect(page).to have_content("9")
+      within '.en-cours' do
+        expect(page).to have_content("2")
+        expect(page).to have_content("En cours")
+      end
       expect(page).to have_content("Proposition enregistrée")
-      expect(page).to have_content("3")
+      expect(page).to have_content("2")
       expect(page).to have_content("En cours")
       expect(page).to have_content("1")
       expect(page).to have_content("prospect")
       expect(page).to have_content("1")
       expect(page).to have_content("Proposition proposée")
-      expect(page).to have_content("1")
+      expect(page).to have_content("0")
       expect(page).to have_content("Transmis aux services instructeurs")
-      expect(page).to have_content("2")
+      expect(page).to have_content("1")
       expect(page).to have_content("En cours d’instruction")
     end
   end
+#FIN
 
 end

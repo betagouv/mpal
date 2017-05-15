@@ -95,8 +95,18 @@ class DossiersController < ApplicationController
     unless current_agent.instructeur?
       redirect_to dossiers_path, alert: t('sessions.access_forbidden')
     end
-    all_projets_statut = Projet.all.map(&:statut)
-    @projets_count = all_projets_statut.count
+
+    @projets_departement = []
+    current_agent.intervenant.departements.each do |departement|
+        Projet.all.each do |projet|
+          if projet.adresse.departement == departement
+            @projets_departement << projet
+          end
+        end
+    end
+
+    @projets_count = @projets_departement.count
+    all_projets_statut = @projets_departement.map(&:statut)
 
     @projets = {}
     Projet::STATUSES.each do |statut|

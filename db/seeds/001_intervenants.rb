@@ -181,8 +181,60 @@ class Seeder
       adresse_postale: "13 rue Crespin du Gast, 75011 Paris",
       email: "adil_75@mailinator.com",
       roles: ["pris"]
+    },
+# je commence ici
+# vérifier le nom des rôles à mettre
+    {
+      departements: [liste_departements],
+      raison_sociale: "ANAH Siège SSI",
+      clavis_service_id: "5001",
+      adresse_postale: "",
+      email: "celine.deconinck@anah.gouv.fr",
+      roles: ["siege"]
+    },
+    {
+      departements: [liste_departements],
+      raison_sociale: "ANAH Siège PART",
+      clavis_service_id: "5251",
+      adresse_postale: "",
+      email: "celine.deconinck@anah.gouv.fr",
+      roles: ["siege"]
+    },
+    {
+      departements: ["21", "25", "39", "58", "70", "71", "89", "90"],
+      raison_sociale: "DREAL Bourgogne France-Compté",
+      clavis_service_id: "5268",
+      adresse_postale: "",
+      email: "dreal-bourgogne-franchecomte@anah.gouv.fr",
+      roles: ["dreal"]
+    },
+    {
+      departements: ["75", "77", "78", "91", "92", "93", "94", "95"],
+      raison_sociale: "DREAL Ile-de-France",
+      clavis_service_id: "5025",
+      adresse_postale: "",
+      email: "drihl-ile-de-france-@anah.gouv.fr",
+      roles: ["dreal"]
+    },
+    {
+      departements: ["9", "11", "12", "30", "31", "32", "34", "46", "48", "65", "66", "81", "82"],
+      raison_sociale: "DREAL Occitanie",
+      clavis_service_id: "5273",
+      adresse_postale: "",
+      email: "dreal-occitanie@anah.gouv.fr",
+      roles: ["dreal"]
+    },
+    {
+      departements: ["2", "59", "60", "62", "80"],
+      raison_sociale: "DREAL Hauts de France",
+      clavis_service_id: "5279",
+      adresse_postale: "",
+      email: "dreal-hauts-de-france@anah.gouv.fr",
+      roles: ["dreal"]
     }
   ]
+
+  liste_departements = Array(1..19).map(&:to_s) + ["2A", "2B"] + Array(21..95).map(&:to_s) + Array(971..976).map(&:to_s)
 
   def seed_intervenants
     table_name = 'intervenants'
@@ -197,4 +249,3 @@ class Seeder
     end
   end
 end
-
