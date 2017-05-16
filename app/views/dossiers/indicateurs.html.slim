@@ -9,33 +9,4 @@
         .indicateur-projet
           h3= t("projets.statut.#{statut}")
           p.nombre-projets= count
-          
-    
-
-  /div class="flex-indicateurs-projet"
-    div class="indicateur-projet en-cours" style="background-color: #67a2bc"
-      h3 Prospect
-      p class="nombre-projets" 
-        = @all_prospect_count
-    div class="indicateur-projet" style="background-color: #6797bc"
-      h3 En Cours
-      p class="nombre-projets" 
-        = @all_en_cours_count
-    div class="indicateur-projet" style="background-color: #678cbc"
-      h3 Proposition Enregistrée 
-      p class="nombre-projets" 
-        = @all_proposition_enregistree_count
-  /div class="flex-indicateurs-projet" 
-    div class="indicateur-projet" style="background-color: #67abbc"
-      h3 Proposition Proposée
-      p class="nombre-projets" 
-        = @all_proposition_proposee_count 
-    div class="indicateur-projet" style="background-color: #67babc"
-      h3 Transmis pour Instruction
-      p class="nombre-projets" 
-        = @all_transmis_pour_instruction_count
-    div class="indicateur-projet" style="background-color: #67bca8"
-      h3 En Cours d'Instruction
-      p class="nombre-projets" 
-        = @all_en_cours_d_instruction_count
         

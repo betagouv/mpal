@@ -48,24 +48,29 @@ feature "Je n'ai pas accès aux indicateurs" do
 end
 
 feature "Affichage de la page Indicateurs" do
+  # Voir si possible de faire test plus pertinent
   let(:instructeur) { create :instructeur }
+  let(:siege) { create :siege }
   let(:agent_instructeur) { create :agent, :instructeur, intervenant: instructeur }
+  let(:agent_siege) { create :agent, :siege, intervenant: siege }
 
-  before do
-    login_as current_agent, scope: :agent
-  end
-
-  let!(:projet0)   { create :projet, :proposition_enregistree }
+  let!(:projet0)   { create :projet, :prospect }
+  let!(:projet0b)  { create :projet, :prospect }
+  let!(:projet0c)  { create :projet, :prospect }
   let!(:projet1)   { create :projet, :en_cours }
   let!(:projet1b)  { create :projet, :en_cours }
   let!(:projet1c)  { create :projet, :en_cours }
-  let!(:projet2)   { create :projet, :prospect }
+  let!(:projet1d)  { create :projet, :en_cours }
+  let!(:projet1e)  { create :projet, :en_cours }
+  let!(:projet2)   { create :projet, :proposition_enregistree }
   let!(:projet3)   { create :projet, :proposition_proposee }
   let!(:projet5)   { create :projet, :transmis_pour_instruction }
   let!(:projet6)   { create :projet, :en_cours_d_instruction }
   let!(:projet6b)  { create :projet, :en_cours_d_instruction }
+  let!(:projet6c)  { create :projet, :en_cours_d_instruction }
 
   before do
+    login_as current_agent, scope: :agent
     projet1b.adresse.update(departement: "03")
     projet5.adresse.update(departement: "23")
     projet6.adresse.update(departement: "35")
@@ -74,31 +79,44 @@ feature "Affichage de la page Indicateurs" do
   context "si je suis instructeur" do
     let(:current_agent) { agent_instructeur }
 
-    scenario "la page affiche le nombre total de projets qui me concernent" do
-      visit indicateurs_dossiers_path
-      expect(page).to have_content("Il y a 6 projets.")
-    end
-
-#A REFAIRE
     scenario "la page affiche le nombre total de projets par statut" do
       visit indicateurs_dossiers_path
-      within '.en-cours' do
-        expect(page).to have_content("2")
-        expect(page).to have_content("En cours")
-      end
-      expect(page).to have_content("Proposition enregistrée")
-      expect(page).to have_content("2")
-      expect(page).to have_content("En cours")
-      expect(page).to have_content("1")
+      expect(page).to have_content("Il y a 11 projets.")
       expect(page).to have_content("prospect")
+      expect(page).to have_content("3")
+      expect(page).to have_content("En cours")
+      expect(page).to have_content("4")
+      expect(page).to have_content("Proposition enregistrée")
       expect(page).to have_content("1")
       expect(page).to have_content("Proposition proposée")
+      expect(page).to have_content("1")
+      expect(page).to have_content("Transmis aux services instructeurs")
       expect(page).to have_content("0")
+      expect(page).to have_content("En cours d’instruction")
+      expect(page).to have_content("2")
+    end
+  end
+#
+
+  context "si je suis ANAH Siège" do
+    let(:current_agent) { agent_siege }
+
+    scenario "la page affiche le nombre total de projets par statut" do
+      visit indicateurs_dossiers_path
+      expect(page).to have_content("Il y a 14 projets.")
+      expect(page).to have_content("prospect")
+      expect(page).to have_content("3")
+      expect(page).to have_content("En cours")
+      expect(page).to have_content("5")
+      expect(page).to have_content("Proposition enregistrée")
+      expect(page).to have_content("1")
+      expect(page).to have_content("Proposition proposée")
+      expect(page).to have_content("1")
       expect(page).to have_content("Transmis aux services instructeurs")
       expect(page).to have_content("1")
       expect(page).to have_content("En cours d’instruction")
+      expect(page).to have_content("3")
     end
   end
-#FIN
 
 end

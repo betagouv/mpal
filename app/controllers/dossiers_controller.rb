@@ -90,30 +90,39 @@ class DossiersController < ApplicationController
     render_show
   end
 
+# JE SUIS ICI INDICATEURS
   def indicateurs
     @page_heading = 'Indicateurs'
-    unless current_agent.instructeur?
-      redirect_to dossiers_path, alert: t('sessions.access_forbidden')
-    end
 
-    @projets_departement = []
-    current_agent.intervenant.departements.each do |departement|
+    if current_agent.instructeur?
+      @projets_departement = []
+      current_agent.intervenant.departements.each do |departement|
         Projet.all.each do |projet|
           if projet.adresse.departement == departement
             @projets_departement << projet
           end
         end
-    end
+      end
+      @projets_count = @projets_departement.count
+      all_projets_statut = @projets_departement.map(&:statut)
+      @projets = {}
+      Projet::STATUSES.each do |statut|
+        @projets[statut] = all_projets_statut.count(statut.to_s)
+      end
 
-    @projets_count = @projets_departement.count
-    all_projets_statut = @projets_departement.map(&:statut)
-
-    @projets = {}
-    Projet::STATUSES.each do |statut|
-      @projets[statut] = all_projets_statut.count(statut.to_s)
+    elsif current_agent.siege?
+      @all_projets_statut = Projet.all.map(&:statut)
+      @projets_count = @all_projets_statut.count
+      @projets = {}
+      Projet::STATUSES.each do |statut|
+        @projets[statut] = @all_projets_statut.count(statut.to_s)
+      end
+    else
+      redirect_to dossiers_path, alert: t('sessions.access_forbidden')
     end
   end
 
+# FIN INDICATEURS
 private
 
   def assign_projet_if_needed
