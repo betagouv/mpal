@@ -4,8 +4,8 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Accéder au informations du dossier :" do
-  let(:projet)      { create(:projet, :prospect, :with_invited_operateur, :with_invited_instructeur, :with_invited_pris) }
-  let(:operateur)   { projet.invited_operateur }
+  let(:projet)      { create(:projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris) }
+  let(:operateur)   { projet.contacted_operateur }
   let(:instructeur) { projet.invited_instructeur }
   let(:pris)        { projet.invited_pris }
 

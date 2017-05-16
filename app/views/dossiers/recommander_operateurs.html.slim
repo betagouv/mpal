@@ -9,7 +9,7 @@
           label
             = check_box_tag "projet[suggested_operateur_ids][]",
                             operateur.id,
-                            @projet_courant.suggested_operateur_ids.include?(operateur.id),
+                            @projet_courant.pris_suggested_operateurs.include?(operateur),
                             { id: "operateur_#{operateur.id}" }
             = operateur.raison_sociale
     = btn name: t('recommander_operateurs.valider')

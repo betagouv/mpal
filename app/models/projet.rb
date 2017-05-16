@@ -125,8 +125,14 @@ class Projet < ActiveRecord::Base
     intervenants.pour_role(:instructeur).first
   end
 
-  def invited_operateur
-    intervenants.pour_role(:operateur).first
+  def pris_suggested_operateurs
+    pris_suggested_operateur_ids = invitations.where(suggested: true).map(&:intervenant_id)
+    intervenants.pour_role(:operateur).find(pris_suggested_operateur_ids)
+  end
+
+  def contacted_operateur
+    contacted_operateur_ids = invitations.where(contacted: true).map(&:intervenant_id)
+    intervenants.pour_role(:operateur).find(contacted_operateur_ids).first
   end
 
   def invited_pris
@@ -138,11 +144,11 @@ class Projet < ActiveRecord::Base
   end
 
   def can_switch_operateur?
-    statut.to_sym == :prospect && invited_operateur.present?
+    statut.to_sym == :prospect && contacted_operateur.present?
   end
 
   def can_validate_operateur?
-    invited_operateur.present? && operateur.blank?
+    contacted_operateur.present? && operateur.blank?
   end
 
   FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
@@ -212,8 +218,18 @@ class Projet < ActiveRecord::Base
   end
 
   def suggest_operateurs!(operateur_ids)
-    self.suggested_operateur_ids = operateur_ids
-    if validate_suggested_operateurs && save
+    if operateur_ids.blank?
+      errors[:base] << I18n.t('recommander_operateurs.errors.blank')
+      return false
+    end
+
+    invitations.each { |i| i.update(suggested: false) }
+
+    operateur_ids.each do |operateur_id|
+      self.invitations.find_or_create_by(intervenant_id: operateur_id).update(suggested: true)
+    end
+
+    if save
       ProjetMailer.recommandation_operateurs(self).deliver_later!
       true
     else
@@ -221,32 +237,44 @@ class Projet < ActiveRecord::Base
     end
   end
 
-  def invite_intervenant!(intervenant)
-    return if intervenants.include? intervenant
+  def contact_operateur!(operateur_to_contact)
+    previous_operateur = contacted_operateur
+    return if previous_operateur == operateur_to_contact
 
-    if intervenant.operateur? && operateur.present?
+    if operateur.present?
       raise "Cannot invite an operator: the projet is already committed with an operator (#{operateur.raison_sociale})"
     end
 
-    previous_operateur = invited_operateur
-    previous_pris = invited_pris
+    invitation = Invitation.find_or_create_by!(projet: self, intervenant: operateur_to_contact)
+    invitation.update(contacted: true)
+    notify_intervenant_of(invitation)
 
-    invitation = Invitation.new(projet: self, intervenant: intervenant)
-    invitation.save!
-    ProjetMailer.invitation_intervenant(invitation).deliver_later!
-    ProjetMailer.notification_invitation_intervenant(invitation).deliver_later!
-    EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
-
-    if intervenant.operateur? && previous_operateur
+    if previous_operateur
       previous_invitation = invitations.where(intervenant: previous_operateur).first
       ProjetMailer.resiliation_operateur(previous_invitation).deliver_later!
-      previous_invitation.destroy!
+      if previous_invitation.suggested
+        previous_invitation.update(contacted: false)
+      else
+        previous_invitation.destroy!
+      end
     end
+  end
 
-    if intervenant.pris? && previous_pris
-      previous_invitation = invitations.where(intervenant: previous_pris).first
-      previous_invitation.destroy!
-    end
+  def invite_pris!(pris)
+    previous_pris = invited_pris
+    return if previous_pris == pris
+
+    invitation = Invitation.new(projet: self, intervenant: pris)
+    invitation.save!
+    notify_intervenant_of(invitation)
+
+    invitations.where(intervenant: previous_pris).first.try(:destroy!)
+  end
+
+  def notify_intervenant_of(invitation)
+    ProjetMailer.invitation_intervenant(invitation).deliver_later! if invitation.intervenant.email.present?
+    ProjetMailer.notification_invitation_intervenant(invitation).deliver_later! if invitation.projet.email.present?
+    EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
   end
 
   def commit_with_operateur!(committed_operateur)
@@ -346,7 +374,7 @@ class Projet < ActiveRecord::Base
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
-          projet.invited_operateur.try(:raison_sociale),
+          projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_operateur, scope: "projets.statut"),
         ]
@@ -359,14 +387,6 @@ class Projet < ActiveRecord::Base
       end
     end
     utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
-  end
-
-  def validate_suggested_operateurs
-    if suggested_operateurs.blank?
-      errors[:base] << I18n.t('recommander_operateurs.errors.blank')
-      return false
-    end
-    valid?
   end
 end
 

@@ -63,7 +63,7 @@ private
   end
 
   def needs_next_step?
-    @projet_courant.invited_operateur.blank? && @projet_courant.invited_pris.blank?
+    @projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank?
   end
 
   def redirect_to_next_step

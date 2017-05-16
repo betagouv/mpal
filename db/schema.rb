@@ -162,6 +162,8 @@ ActiveRecord::Schema.define(version: 20170514134744) do
     t.integer  "intermediaire_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "suggested",        default: false, null: false
+    t.boolean  "contacted",        default: false, null: false
   end
 
   add_index "invitations", ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree

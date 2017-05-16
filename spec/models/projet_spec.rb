@@ -138,33 +138,40 @@ describe Projet do
   end
 
   describe '#for_agent' do
-    let(:instructeur) {       create :instructeur }
-    let(:operateur1) {        create :operateur }
-    let(:operateur2) {        create :operateur }
-    let(:operateur3) {        create :operateur }
+    let(:instructeur)       { create :instructeur }
+    let(:operateur1)        { create :operateur }
+    let(:operateur2)        { create :operateur }
+    let(:operateur3)        { create :operateur }
+    let(:operateur4)        { create :operateur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
-    let(:agent_operateur1) {  create :agent, intervenant: operateur1 }
-    let(:agent_operateur2) {  create :agent, intervenant: operateur2 }
-    let(:agent_operateur3) {  create :agent, intervenant: operateur3 }
-    let(:projet1) {           create :projet, :with_demandeur }
-    let(:projet2) {           create :projet, :with_demandeur }
-    let(:projet3) {           create :projet, :with_demandeur }
-    let(:projet4) {           create :projet }
-    let!(:invitation1) {      create :invitation, intervenant: operateur1, projet: projet1 }
-    let!(:invitation2) {      create :invitation, intervenant: operateur1, projet: projet2 }
-    let!(:invitation3) {      create :invitation, intervenant: operateur2, projet: projet3 }
+    let(:agent_operateur1)  { create :agent, intervenant: operateur1 }
+    let(:agent_operateur2)  { create :agent, intervenant: operateur2 }
+    let(:agent_operateur3)  { create :agent, intervenant: operateur3 }
+    let(:agent_operateur4)  { create :agent, intervenant: operateur4 }
+    let(:projet1)           { create :projet, :with_demandeur }
+    let(:projet2)           { create :projet, :with_demandeur }
+    let(:projet3)           { create :projet, :with_demandeur }
+    let(:projet4)           { create :projet, :with_demandeur }
+    let(:projet5)           { create :projet }
+    let!(:invitation1)      { create :invitation, intervenant: operateur1, projet: projet1 }
+    let!(:invitation2)      { create :invitation, intervenant: operateur1, projet: projet2 }
+    let!(:invitation3)      { create :invitation, intervenant: operateur2, projet: projet3 }
 
-    describe "un opérateur voit les projets sur lesquels il est affecté" do
+    before { projet4.suggest_operateurs! [operateur4.id] }
+
+    describe "un opérateur voit les projets sur lesquels il est affecté ou recommandé" do
       it { expect(Projet.for_agent(agent_operateur1).length).to eq(2) }
       it { expect(Projet.for_agent(agent_operateur2).length).to eq(1) }
       it { expect(Projet.for_agent(agent_operateur3).length).to eq(0) }
+      it { expect(Projet.for_agent(agent_operateur4).length).to eq(1) }
     end
 
     it "un instructeur voit tous les projets avec un demandeur" do
       expect(Projet.for_agent(agent_instructeur)).to include(projet1)
       expect(Projet.for_agent(agent_instructeur)).to include(projet2)
       expect(Projet.for_agent(agent_instructeur)).to include(projet3)
-      expect(Projet.for_agent(agent_instructeur)).not_to include(projet4)
+      expect(Projet.for_agent(agent_instructeur)).to include(projet4)
+      expect(Projet.for_agent(agent_instructeur)).not_to include(projet5)
     end
   end
 
@@ -283,8 +290,29 @@ describe Projet do
     end
   end
 
+  describe "#pris_suggested_operateurs" do
+    let(:projet)     { create :projet }
+    let(:operateur1) { create :operateur }
+    let(:operateur2) { create :operateur }
+    let(:operateur3) { create :operateur }
+    let(:operateur4) { create :operateur }
+
+    before do
+      create :invitation, projet_id: projet.id, intervenant_id: operateur1.id, suggested: true
+      create :invitation, projet_id: projet.id, intervenant_id: operateur2.id, suggested: true
+      create :invitation, projet_id: projet.id, intervenant_id: operateur3.id, contacted: true
+    end
+
+    it "retourne les opérateurs recommandés par le PRIS" do
+      suggested_operateurs = projet.pris_suggested_operateurs
+
+      expect(suggested_operateurs).to     include(operateur1, operateur2)
+      expect(suggested_operateurs).not_to include(operateur3, operateur4)
+    end
+  end
+
   describe "#suggest_operateurs!" do
-    let(:projet)     { create :projet, :with_suggested_operateurs }
+    let(:projet)     { create :projet }
     let(:operateurA) { create :operateur }
     let(:operateurB) { create :operateur }
 
@@ -292,7 +320,7 @@ describe Projet do
       expect(ProjetMailer).to receive(:recommandation_operateurs).and_call_original
       result = projet.suggest_operateurs!([operateurA.id, operateurB.id])
       expect(result).to be true
-      expect(projet.suggested_operateurs.count).to eq 2
+      expect(projet.pris_suggested_operateurs.count).to eq 2
       expect(projet.errors).to be_empty
     end
 
@@ -303,90 +331,119 @@ describe Projet do
     end
   end
 
-  describe "#invite_intervenant!" do
-    context "sans intervenant invité au préalable" do
+  describe "#contact_operateur!" do
+    context "sans opérateur invité au préalable" do
       let(:projet)    { create :projet }
       let(:operateur) { create :operateur }
 
-      it "sélectionne et notifie l'intervenant" do
+      it "sélectionne et notifie l'opérateur" do
         expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
-        projet.invite_intervenant!(operateur)
+        projet.contact_operateur!(operateur)
         expect(projet.invitations.count).to eq(1)
-        expect(projet.invited_operateur).to eq(operateur)
+        expect(projet.contacted_operateur).to eq(operateur)
       end
     end
 
-    context "avec un PRIS invité auparavant" do
-      let(:projet)        { create :projet, :prospect, :with_invited_pris }
-      let(:new_operateur) { create :operateur }
+    context "avec des opérateurs recommandés par un PRIS" do
+      let(:projet)    { create :projet, :prospect, :with_suggested_operateurs }
+      let(:operateur) { projet.invitations.last.intervenant }
 
-      it "sélectionne le nouvel intervenant" do
-        projet.invite_intervenant!(new_operateur)
-        expect(projet.invitations.count).to eq(2)
-        expect(projet.invited_pris).not_to be_nil
-        expect(projet.invited_operateur).to eq(new_operateur)
+      context "dont un opérateur contacté" do
+        before { projet.invitations.first.update(contacted: true) }
+
+        it "ne supprime pas la suggestion sur contact d'un autre opérateur" do
+          projet.contact_operateur!(operateur)
+          expect(projet.invitations.count).to eq 2
+          expect(projet.invitations.first.suggested).to eq true
+          expect(projet.invitations.first.contacted).to eq false
+        end
       end
     end
 
     context "avec un opérateur invité auparavant" do
-      context "et un nouveau PRIS" do
-        let(:projet)    { create :projet, :prospect, :with_invited_operateur }
-        let(:operateur) { projet.invited_operateur }
-        let(:pris)      { create :pris }
-
-        it "rajoute l’opérateur et conserve la relation avec le PRIS" do
-          projet.invite_intervenant!(pris)
-          expect(projet.invitations.count).to eq(2)
-          expect(projet.invited_operateur).to eq(operateur)
-          expect(projet.invited_pris).to eq(pris)
-        end
-      end
+      let(:projet) { create :projet, :prospect, :with_contacted_operateur }
 
       context "et un nouvel opérateur différent du précédent" do
-        let(:projet)             { create :projet, :prospect, :with_invited_operateur }
-        let(:previous_operateur) { projet.invited_operateur }
-        let(:new_operateur)      { create :operateur }
+        let(:new_operateur) { create :operateur }
 
         it "sélectionne le nouvel opérateur, et notifie l'ancien opérateur" do
           expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
           expect(ProjetMailer).to receive(:resiliation_operateur).and_call_original
-          projet.invite_intervenant!(new_operateur)
+          projet.contact_operateur!(new_operateur)
           expect(projet.invitations.count).to eq(1)
-          expect(projet.invited_operateur).to eq(new_operateur)
+          expect(projet.contacted_operateur).to eq(new_operateur)
         end
       end
 
       context "et un nouvel opérateur identique au précédent" do
-        let(:projet)    { create :projet, :prospect, :with_invited_operateur }
-        let(:operateur) { projet.invited_operateur }
+        let(:operateur) { projet.contacted_operateur }
 
         it "ne change rien" do
-          projet.invite_intervenant!(operateur)
-          expect(projet.invitations.count).to eq(1)
-          expect(projet.invited_operateur).to eq(operateur)
+          projet.contact_operateur!(operateur)
+          expect(projet.invitations.count).to eq 1
+          expect(projet.contacted_operateur).to eq operateur
         end
       end
     end
 
     context "avec un opérateur engagé auparavant" do
+      let(:projet) { create :projet, :prospect, :with_committed_operateur }
+
       context "et un nouvel opérateur différent de celui déjà engagé" do
-        let(:projet)             { create :projet, :prospect, :with_committed_operateur }
-        let(:new_operateur)      { create :operateur }
+        let(:new_operateur) { create :operateur }
 
         it "ne change rien et lève une exception" do
-          expect { projet.invite_intervenant!(new_operateur) }.to raise_error RuntimeError
-          expect(projet.invitations.count).to eq(1)
-          expect(projet.invited_operateur).to eq(projet.operateur)
+          expect { projet.contact_operateur!(new_operateur) }.to raise_error RuntimeError
+          expect(projet.invitations.count).to eq 1
+          expect(projet.contacted_operateur).to eq projet.operateur
         end
       end
 
       context "et un nouvel opérateur identique au précédent" do
-        let(:projet)    { create :projet, :en_cours }
         let(:operateur) { projet.operateur }
 
         it "ne change rien" do
-          projet.invite_intervenant!(operateur)
-          expect(projet.operateur).to eq(operateur)
+          projet.contact_operateur!(operateur)
+          expect(projet.operateur).to eq operateur
+        end
+      end
+    end
+  end
+
+  describe "#invite_pris!" do
+    context "sans PRIS invité au préalable" do
+      let(:projet) { create :projet }
+      let(:pris)   { create :pris }
+
+      it "sélectionne et notifie le PRIS" do
+        expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+        projet.invite_pris!(pris)
+        expect(projet.invitations.count).to eq(1)
+        expect(projet.invited_pris).to eq(pris)
+      end
+    end
+
+    context "avec un PRIS invité auparavant" do
+      let(:projet) { create :projet, :prospect, :with_invited_pris }
+
+      context "et un nouveau PRIS différent du précédent" do
+        let(:new_pris) { create :pris }
+
+        it "sélectionne le nouveau PRIS, et notifie l'ancien PRIS" do
+          expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+          projet.invite_pris!(new_pris)
+          expect(projet.invitations.count).to eq(1)
+          expect(projet.invited_pris).to eq(new_pris)
+        end
+      end
+
+      context "et un nouveau PRIS identique au précédent" do
+        let(:pris) { projet.invited_pris }
+
+        it "ne change rien" do
+          projet.invite_pris!(pris)
+          expect(projet.invitations.count).to eq 1
+          expect(projet.invited_pris).to eq pris
         end
       end
     end
