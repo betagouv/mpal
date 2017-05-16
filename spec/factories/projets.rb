@@ -51,22 +51,23 @@ FactoryGirl.define do
         operateurA = create(:operateur, departements: [projet.departement])
         operateurB = create(:operateur, departements: [projet.departement])
         operateurC = create(:operateur, departements: [projet.departement])
-        projet.suggested_operateurs = [operateurA, operateurC]
+        projet.invitations << create(:invitation, projet: projet, intervenant: operateurA, suggested: true)
+        projet.invitations << create(:invitation, projet: projet, intervenant: operateurC, suggested: true)
         # B is available but not suggested
       end
     end
 
-    trait :with_invited_operateur do
+    trait :with_contacted_operateur do
       after(:build) do |projet|
         operateur = create(:operateur, departements: [projet.departement])
-        projet.invitations << create(:invitation, projet: projet, intervenant: operateur)
+        projet.invitations << create(:invitation, projet: projet, intervenant: operateur, contacted: true)
       end
     end
 
     trait :with_committed_operateur do
-      with_invited_operateur
+      with_contacted_operateur
       after(:build) do |projet|
-        projet.operateur = projet.invited_operateur
+        projet.operateur = projet.contacted_operateur
       end
     end
 

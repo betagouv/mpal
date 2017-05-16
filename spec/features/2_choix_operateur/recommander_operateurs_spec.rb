@@ -47,20 +47,23 @@ feature "Recommander un opérateur:" do
                             :with_intervenants_disponibles,
                             :with_invited_pris,
                             :with_suggested_operateurs) }
-      let(:suggested_operateur) { projet.suggested_operateurs.first }
+      let(:suggested_operateur1) { projet.pris_suggested_operateurs.first }
+      let(:suggested_operateur2) { projet.pris_suggested_operateurs.last }
 
       scenario "je peux modifier les opérateurs recommandés" do
         visit dossier_path(projet)
         click_link I18n.t('recommander_operateurs.modifier')
 
         expect(page).to have_current_path dossier_recommander_operateurs_path(projet)
-        expect(find("#operateur_#{suggested_operateur.id}")).to be_checked
-        uncheck suggested_operateur.raison_sociale
+        expect(find("#operateur_#{suggested_operateur1.id}")).to be_checked
+        expect(find("#operateur_#{suggested_operateur2.id}")).to be_checked
+        uncheck suggested_operateur1.raison_sociale
         click_button I18n.t('recommander_operateurs.valider')
 
         expect(page).to have_current_path dossier_path(projet)
         expect(page).to have_content "L’opérateur sélectionné a été recommandé"
-        expect(page).not_to have_content suggested_operateur.raison_sociale
+        expect(page).not_to have_content suggested_operateur1.raison_sociale
+        expect(page).to     have_content suggested_operateur2.raison_sociale
       end
     end
   end

@@ -56,7 +56,7 @@
                 - if projet.themes.present?
                   = projet.themes.map(&:libelle).join(', ')
             td= link_to edit_url do
-              = projet.invited_operateur.raison_sociale rescue ' '
+              = projet.contacted_operateur.raison_sociale rescue ' '
               - if projet.agent_operateur && (current_agent.instructeur? || current_agent.operateur?)
                 br/
                 span.firstname= projet.agent_operateur.prenom

@@ -24,7 +24,7 @@ describe ChoixOperateurController do
         operateur_id: operateur.id,
         projet: { disponibilite: 'Plutôt le midi' }
       projet.reload
-      expect(projet.invited_operateur).to eq operateur
+      expect(projet.contacted_operateur).to eq operateur
       expect(projet.disponibilite).to eq 'Plutôt le midi'
       expect(response).to redirect_to projet_path(projet)
     end
