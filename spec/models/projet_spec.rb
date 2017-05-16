@@ -38,7 +38,7 @@ describe Projet do
       expect(projet.errors[:email]).to be_empty
     end
 
-    it "rejete les emails invalides" do
+    it "rejette les emails invalides" do
       projet.email = "invalid-email@lol"
       projet.valid?
       expect(projet.errors[:email]).to be_present
@@ -50,7 +50,7 @@ describe Projet do
       expect(projet.errors[:tel]).to be_empty
     end
 
-    it "rejete les numéros de téléphone invalides" do
+    it "rejette les numéros de téléphone invalides" do
       projet.tel = "111"
       projet.valid?
       expect(projet.errors[:tel]).to be_present

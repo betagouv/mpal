@@ -18,7 +18,7 @@ describe Personne do
       expect(personne.errors[:email]).to be_empty
     end
 
-    it "rejete les emails invalides" do
+    it "rejette les emails invalides" do
       personne.email = "invalid-email@lol"
       personne.valid?
       expect(personne.errors[:email]).to be_present
@@ -30,7 +30,7 @@ describe Personne do
       expect(personne.errors[:tel]).to be_empty
     end
 
-    it "rejete les numéros de téléphone invalides" do
+    it "rejette les numéros de téléphone invalides" do
       personne.tel = "111"
       personne.valid?
       expect(personne.errors[:tel]).to be_present
