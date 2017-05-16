@@ -1,0 +1,22 @@
+.vertical-booleans {
+  margin-bottom: 2em;
+
+  .vertical-booleans__title {
+    font-weight: bold;
+    cursor: unset;
+  }
+  .form-group {
+    margin-bottom: 0;
+  }
+  .form-field-label {
+    float: left;
+    width: auto;
+    max-width: 100%;
+    padding-right: 0;
+    @extend .clearfix;
+  }
+  input.boolean {
+    margin-right: 0.5em;
+  }
+}
+

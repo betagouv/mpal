@@ -52,8 +52,8 @@ class Projet < ActiveRecord::Base
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
 
   validates :numero_fiscal, :reference_avis, presence: true
-  validates :email, email: true, allow_blank: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
+  validates :email, email: true, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
@@ -188,18 +188,6 @@ class Projet < ActiveRecord::Base
 
   def demandeur
     occupants.where(demandeur: true).first
-  end
-
-  def demandeur_nom
-    demandeur.nom
-  end
-
-  def demandeur_prenom
-    demandeur.prenom
-  end
-
-  def demandeur_civilite
-    demandeur.civilite
   end
 
   def usager
@@ -401,3 +389,4 @@ class Projet < ActiveRecord::Base
     utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
   end
 end
+

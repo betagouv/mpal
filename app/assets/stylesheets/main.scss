@@ -44,23 +44,6 @@ a {
   visibility: hidden;
 }
 
-/* Placeholder */
-input::-webkit-input-placeholder {
-  color: #bbb;
-}
-
-input:-moz-placeholder {
-  color: #bbb;
-}
-
-input::-moz-placeholder {
-  color: #bbb;
-}
-
-input:-ms-input-placeholder {
-  color: #bbb;
-}
-
 @at-root {
   @-ms-viewport { width: device-width; }
 }

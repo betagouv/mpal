@@ -80,6 +80,9 @@ Rails.application.routes.draw do
   get  '/informations/terms_of_use', to: 'informations#terms_of_use'
   get  '/informations/legal',        to: 'informations#legal'
 
+  get  '/patterns',                  to: 'patterns#index'
+  get  '/patterns/forms',            to: 'patterns#forms'
+
   resources :contacts, only: [:index, :new, :create]
 
   require "sidekiq/web"

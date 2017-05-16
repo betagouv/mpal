@@ -115,7 +115,7 @@ FactoryGirl.define do
       with_avis_imposition
 
       after(:create) do |projet, evaluator|
-        projet.demandeur.update_attribute(:civilite, nil)
+        projet.demandeur.update_attribute(:civility, nil)
       end
     end
 

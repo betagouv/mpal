@@ -1,15 +1,16 @@
 $(document).ready(function() {
-  // show/hide personne de confiance
-  if (!$("#contact-diff").is(':checked')) {
-    $(".dem-diff").hide();
-  }
-  $(".dem-contact input:radio").change(function() {
-    if ($("#contact-diff").is(':checked')) {
-      $(".dem-diff").slideDown("fast");
-    } else {
-      $(".dem-diff").slideUp("fast");
+  function bindReliablePersonForm() {
+    if (!$("#js-reliable-person-select-yes").is(":checked")) {
+      $(".js-reliable-person-form").hide();
     }
-  });
+    $(".js-reliable-person-select input:radio").change(function() {
+      if ($("#js-reliable-person-select-yes").is(":checked")) {
+        $(".js-reliable-person-form").slideDown("fast");
+      } else {
+        $(".js-reliable-person-form").slideUp("fast");
+      }
+    });
+  }
 
   // Toggle block page projet
   $(".block h3").each( function(index) {
@@ -145,6 +146,7 @@ $(document).ready(function() {
     fundings.keyup(sumFundings);
   }
 
+  bindReliablePersonForm();
   bindLoginHelpers();
   bindPopins();
   var engagement = $(".js-engagement");

@@ -39,7 +39,7 @@ describe DemandeursController do
     let(:projet_params) do {} end
     let(:params) do
       default_params = {
-        demandeur_id: projet.demandeur.id,
+        demandeur:       projet.demandeur.id,
         adresse_postale: projet.adresse_postale.description
       }
       return {
@@ -57,9 +57,9 @@ describe DemandeursController do
     context "lorsque les informations changent" do
       let(:projet_params) do
         {
-          tel:         '01 02 03 04 05',
-          email:       'particulier@exemple.fr',
-          demandeur_id: projet.occupants.last.id,
+          tel:       '01 02 03 04 05',
+          email:     'particulier@exemple.fr',
+          demandeur: projet.occupants.last.id,
         }
       end
 

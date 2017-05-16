@@ -1,4 +1,4 @@
-= simple_form_for @contact, html: { class: "form-regular form-with-alerts form-contact" } do |f|
+= simple_form_for @contact, html: { class: "form form-with-alerts form-contact" } do |f|
   = render "shared/errors", resource: @contact
   = f.input :name, wrapper_html: { class: "size-m" }, required: true
   = f.input :email, wrapper_html: { class: "size-m" }, required: true

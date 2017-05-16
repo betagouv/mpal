@@ -24,6 +24,7 @@ fr:
         birthday: "Date de naissance"
         building: "Bâtiment"
         city: "Ville"
+        civilite: "Civilité"
         civility: "Civilité"
         country: "Pays"
         created_at: "Créé le"
@@ -33,33 +34,64 @@ fr:
         last_name: "Nom"
         login: "Identifiant"
         name: "Nom"
+        nom: "Nom"
         password: "Mot de passe"
         phone: "Téléphone"
+        prenom: "Prénom"
         result_per_page: "Résultats"
+        tel: "Téléphone"
         updated_at: "Dernière modification le"
         zip_code: "Code postal"
       contact:
-        subject: Objet
-        description: Message
+        subject: "Objet"
+        description: "Message"
       demande:
         annee_construction: "Année de construction"
+      personne:
+        lien_avec_demandeur: "Lien avec le demandeur"
       projet:
+        adresse_postale: "Adresse postale"
+        adresse_a_renover: "Adresse à rénover"
         date_de_visite: "Date de visite"
+        demandeur: "Prénom et nom"
         etage: "Votre étage"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
         nb_pieces: "Nombre de pièces"
         surface_habitable: "Surface habitable"
         theme_ids: "Types d’interventions"
         type_logement: "Type de logement"
+      demande:
+        # Difficultés
+        changement_chauffage: "Votre chauffage vous coûte trop cher"
+        froid: "Vous avez froid, votre logement est mal isolé"
+        probleme_deplacement: "Vous avez du mal à vous déplacer"
+        accessibilite: "Vous avez des difficultés dans les escaliers"
+        hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
+        adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
+        autre: "Autre"
+        # Travaux
+        travaux_fenetres: "Fenêtres"
+        travaux_isolation: "Isolation"
+        travaux_chauffage: "Chauffage"
+        travaux_adaptation_sdb: "Adaptation salle de bain"
+        travaux_monte_escalier: "Monte-escalier"
+        travaux_amenagement_ext: "Aménagement extérieur"
+        travaux_autres: "Autre"
+        # Autre
+        complement: "Informations complémentaires"
+        date_achevement_15_ans: "Logement achevé depuis plus ou moins de 15 ans"
+        ptz: "Prêt à taux zéro contracté"
     hints:
       defaults:
+        birthday: "JJ/MM/AAAA"
+      projet:
+        date_de_visite: "JJ/MM/AAAA"
         theme_ids: "(2 maximum)"
     placeholders:
       defaults:
-        birthday: "JJ/MM/AAAA"
-        email: "Adresse email"
-        first_name: "Prénom"
-        last_name: "Nom"
         url: "http://…"
-      projet:
-        date_de_visite: "JJ/MM/AAAA"
+      occupant:
+        date_de_naissance: "JJ/MM/AAAA"
+      personne:
+        lien_avec_demandeur: "Enfant, voisin…"
+

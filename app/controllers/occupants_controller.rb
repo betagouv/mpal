@@ -11,8 +11,7 @@ class OccupantsController < ApplicationController
     if request.post?
       if occupant_params?
         if @occupant.save(context: :user_action)
-          # Clear form fields
-          @occupant = @projet_courant.avis_impositions.first.occupants.build
+          return redirect_to projet_or_dossier_occupants_path(@projet_courant)
         end
       else
         return redirect_to_next_step
