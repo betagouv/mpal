@@ -7,11 +7,15 @@ namespace :after_party do
     Occupant.find_each do |occupant|
       next unless occupant.civilite
       occupant.update_attribute(:civility, mapping[occupant.civilite])
+      puts "."
     end
 
+    puts "Migration end ; writing timestamp…"
     # Update task as completed.  If you remove the line below, the task will
     # run with every deploy (or every time you call after_party:run).
     AfterParty::TaskRecord.create version: '20170514135105'
+
+    puts "Timestamp written."
   end
 end
 
