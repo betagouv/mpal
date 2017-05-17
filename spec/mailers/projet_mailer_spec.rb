@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 describe ProjetMailer, type: :mailer do
-  describe "recommandation operateurs" do
+
+
+  describe "notifie le demandeur que le PRIS lui recommande des opérateurs" do
     let(:projet) { create :projet, :prospect, :with_suggested_operateurs, :with_invited_pris }
     let(:email) { ProjetMailer.recommandation_operateurs(projet) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
@@ -11,11 +13,12 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.body.encoded).to match(projet_choix_operateur_url(projet)) }
   end
 
-  describe "invitation intervenant" do
+
+  describe "notifie l'opérateur de l'invitation du demandeur" do
     let(:invitation) { create :invitation }
     let(:email) { ProjetMailer.invitation_intervenant(invitation) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
-    it { expect(email.to).to eq([invitation.intervenant_email]) }
+    it { expect(email.to).to eq([invitation.intervenant.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur: invitation.demandeur.fullname)) }
     it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
     it { expect(email.body.encoded).to match(invitation.description_adresse) }
@@ -23,40 +26,52 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.body.encoded).to include(dossier_url(invitation.projet)) }
   end
 
-  describe "mise en relation intervenant" do
-    let(:projet)           { create :projet, :proposition_proposee }
-    let(:mise_en_relation) { create :mise_en_relation, projet: projet }
-    let(:prestation)       { projet.prestations.first }
-    let(:email)            { ProjetMailer.mise_en_relation_intervenant(mise_en_relation) }
+# Pas de test notification_invitation_intervenant
+  describe "notifie le demandeur qu'il a bien invité un opérateur " do
+    let(:invitation) { create :invitation }
+    let(:email) { ProjetMailer.notification_invitation_intervenant(invitation) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
-    it { expect(email.to).to eq([mise_en_relation.intervenant_email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: mise_en_relation.intermediaire.raison_sociale)) }
-    it { expect(email.body.encoded).to match(mise_en_relation.description_adresse) }
-    it { expect(email.body).to include(prestation.libelle) }
+    it { expect(email.to).to eq([invitation.projet.email]) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_invitation_intervenant.sujet', intervenant: invitation.intervenant.raison_sociale)) }
+    it { expect(email.body.encoded).to match(invitation.intervenant.raison_sociale) }
+    it { expect(email.body.encoded).to include("Un email vient d’être envoyé à ") }
   end
 
-  describe "l'opérateur reçoit un email lorsque le demandeur choisit un autre opérateur" do
+  describe "notifie l'opérateur que le demandeur a choisi un autre opérateur" do
     let(:invitation) { create :invitation }
     let(:email) { ProjetMailer.resiliation_operateur(invitation) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
-    it { expect(email.to).to eq([invitation.intervenant_email]) }
+    it { expect(email.to).to eq([invitation.intervenant.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.resiliation_operateur.sujet', demandeur: invitation.demandeur.fullname)) }
     it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
   end
 
-  describe "l'intervenant reçoit un email lorsqu'il a été choisi par le demandeur" do
+  describe "notifie l'intervenant qu'il a été choisi par le demandeur" do
     let(:operateur) { create :operateur }
     let(:projet) { create :projet, :prospect, operateur: operateur }
     let!(:invitation) { create :invitation, projet: projet, intervenant: operateur }
-    let(:email) { ProjetMailer.notification_choix_intervenant(projet) }
+    let(:email) { ProjetMailer.notification_engagement_operateur(projet) }
     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
     it { expect(email.to).to eq([projet.operateur.email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: operateur.raison_sociale, demandeur: projet.demandeur.fullname)) }
+    it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_engagement_operateur.sujet', intervenant: operateur.raison_sociale, demandeur: projet.demandeur.fullname)) }
     it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
     it { expect(email.body.encoded).to include(dossier_url(projet)) }
    end
 
-  describe "le demandeur reçoit un email lorsqu'il a transmis sa demande au service instructeur" do
+   describe "notifie l'instructeur qu'un opérateur lui a transmis un dossier" do
+     #  ATTENTION : donne coordonnées du demandeur
+     let(:projet)           { create :projet, :proposition_proposee }
+     let(:mise_en_relation) { create :mise_en_relation, projet: projet }
+     let(:prestation)       { projet.prestations.first }
+     let(:email)            { ProjetMailer.mise_en_relation_intervenant(mise_en_relation) }
+     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
+     it { expect(email.to).to eq([mise_en_relation.intervenant.email]) }
+     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: mise_en_relation.intermediaire.raison_sociale)) }
+     it { expect(email.body.encoded).to match(mise_en_relation.description_adresse) }
+     it { expect(email.body).to include(prestation.libelle) }
+   end
+
+  describe "notifie le demandeur que sa demande a été transmise au service instructeur" do
     let(:projet) { create :projet, :transmis_pour_instruction }
     subject(:email) { ProjetMailer.accuse_reception(projet) }
     it { expect(email.from).to eq([projet.invited_instructeur.email]) }

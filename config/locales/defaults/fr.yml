@@ -351,7 +351,7 @@ fr:
         sujet: "[Anah] Invitation de %{demandeur} à consulter son projet"
       notification_invitation_intervenant:
         sujet: "[Anah] Invitation de %{intervenant} à consulter votre projet"
-      notification_choix_intervenant:
+      notification_engagement_operateur:
         sujet: "[Anah] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur} pour l’accompagner sur son projet"
       resiliation_operateur:
         sujet: "[Anah] %{demandeur} a changé d’opérateur pour son projet"

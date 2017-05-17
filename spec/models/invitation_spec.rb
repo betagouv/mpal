@@ -17,7 +17,7 @@ describe Invitation do
 
   describe '#projet_email' do
     it "devrait retourner l'email du projet" do
-      expect(invitation.projet_email).to eq('prenom.nom@site.com')
+      expect(invitation.projet.email).to eq('prenom.nom@site.com')
     end
   end
 end
