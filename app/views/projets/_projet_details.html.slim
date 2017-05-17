@@ -87,7 +87,7 @@ table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
         td.recap-projet-image-cell= image_tag "check.svg", alt: "Préconisé", id: "prestation_#{prestation.id}_recommended" if prestation_choice.recommended
         td.recap-projet-image-cell= image_tag "check.svg", alt: "Retenu",    id: "prestation_#{prestation.id}_selected"    if prestation_choice.selected
 
-h4 Détails travaux
+h4 Consommation énergétique
 table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
   tbody
     tr
@@ -109,6 +109,12 @@ table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
         th scope="row"= t('helpers.label.proposition.gain_energetique')
         td class='gain_energetique' = @projet_courant.gain_energetique
 
+h4 Plan de financement prévisionnel
+table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
+  tbody
+    tr
+      th.empty scope="row"  &nbsp;
+      td Proposition
     - if @projet_courant.travaux_ht_amount.present?
       tr
         th scope="row"= t('helpers.label.proposition.travaux_ht_amount')
