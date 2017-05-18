@@ -11,10 +11,14 @@ class DemandeursController < ApplicationController
 
   def update
     if save_demandeur
-      return redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
+      return redirect_to_next_step
     else
       render_show
     end
+  end
+
+  def departement_non_eligible
+    @departements = Tools.departements_enabled
   end
 
 private
@@ -111,6 +115,14 @@ private
     @demandeur = @projet_courant.change_demandeur(demandeur_id)
     @demandeur.assign_attributes(demandeur_params)
     @demandeur.save
+  end
+
+  def redirect_to_next_step
+    if Tools.departement_enabled?(@projet_courant.departement)
+      return redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
+    else
+      return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)
+    end
   end
 end
 
