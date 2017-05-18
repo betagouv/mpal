@@ -174,38 +174,37 @@ describe DemandeursController do
       end
     end
 
-  end
-
-  context "lorsque le demandeur n'est pas sélectionné" do
-    before do
-      post :update, {
-        projet_id: projet.id,
-        projet: {
-          adresse_postale: projet.adresse_postale.description,
-          demandeur_id: nil
+    context "lorsque le demandeur n'est pas sélectionné" do
+      let(:params) do
+        {
+          projet_id: projet.id,
+          projet: {
+            adresse_postale: projet.adresse_postale.description,
+            demandeur_id: nil
+          }
         }
-      }
+      end
+
+      it "affiche une erreur" do
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.missing_demandeur')
+      end
     end
 
-    it "affiche une erreur" do
-      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.missing_demandeur')
-    end
-  end
-
-  context "lorsque une information est erronée" do
-    before do
-      post :update, {
-        projet_id: projet.id,
-        projet: {
-          adresse_postale: nil,
-          demandeur_id: projet.occupants.last.id
+    context "lorsque une information est erronée" do
+      let(:params) do
+        {
+          projet_id: projet.id,
+          projet: {
+            adresse_postale: nil,
+            demandeur_id: projet.occupants.last.id
+          }
         }
-      }
-    end
+      end
 
-    it "affiche une erreur" do
-      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
-      expect(assigns(:demandeur)).to eq projet.demandeur
+      it "affiche une erreur" do
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
+        expect(assigns(:demandeur)).to eq projet.demandeur
+      end
     end
   end
 end
