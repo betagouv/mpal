@@ -296,10 +296,10 @@ class Projet < ActiveRecord::Base
   def transmettre!(instructeur)
     invitation = Invitation.new(projet: self, intermediaire: operateur, intervenant: instructeur)
     if invitation.save
+      self.statut = :transmis_pour_instruction
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
       ProjetMailer.accuse_reception(self).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'transmis_instructeur', projet: self, producteur: invitation)
-      self.statut = :transmis_pour_instruction
       return self.save
     end
     false
@@ -389,4 +389,3 @@ class Projet < ActiveRecord::Base
     utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
   end
 end
-

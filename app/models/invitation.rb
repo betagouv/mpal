@@ -18,12 +18,4 @@ class Invitation < ActiveRecord::Base
   delegate :demandeur,           to: :projet
   delegate :description_adresse, to: :projet
 
-  def intervenant_email
-    intervenant.email
-  end
-
-  def projet_email
-    projet.email
-  end
 end
-

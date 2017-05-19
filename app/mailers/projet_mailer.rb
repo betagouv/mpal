@@ -16,7 +16,7 @@ class ProjetMailer < ActionMailer::Base
   def invitation_intervenant(invitation)
     @invitation = invitation
     mail(
-      to: invitation.intervenant_email,
+      to: invitation.intervenant.email,
       subject: t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur: @invitation.demandeur.fullname)
     )
   end
@@ -24,7 +24,7 @@ class ProjetMailer < ActionMailer::Base
   def notification_invitation_intervenant(invitation)
     @invitation = invitation
     mail(
-      to: invitation.projet_email,
+      to: invitation.projet.email,
       subject: t('mailers.projet_mailer.notification_invitation_intervenant.sujet', intervenant: @invitation.intervenant.raison_sociale)
     )
   end
@@ -32,25 +32,33 @@ class ProjetMailer < ActionMailer::Base
   def resiliation_operateur(invitation)
     @invitation = invitation
     mail(
-      to: invitation.intervenant_email,
-      subject: t('mailers.projet_mailer.resiliation_operateur.sujet', demandeur: @invitation.demandeur.fullname)
+    to: invitation.intervenant.email,
+    subject: t('mailers.projet_mailer.resiliation_operateur.sujet', demandeur: @invitation.demandeur.fullname)
     )
   end
 
-  def notification_choix_intervenant(projet)
+  def notification_engagement_operateur(projet)
     @projet = projet
     @invitation = @projet.invitations.find_by_intervenant_id(projet.operateur_id)
     mail(
-      to: @projet.operateur.email,
-      subject: t('mailers.projet_mailer.notification_choix_intervenant.sujet', intervenant: @projet.operateur.raison_sociale, demandeur: @projet.demandeur.fullname)
+    to: @projet.operateur.email,
+    subject: t('mailers.projet_mailer.notification_engagement_operateur.sujet', intervenant: @projet.operateur.raison_sociale, demandeur: @projet.demandeur.fullname)
+    )
+  end
+
+  def notification_validation_dossier(projet)
+    @projet = projet
+    mail(
+    to: @projet.email,
+    subject: t('mailers.projet_mailer.notification_validation_dossier.sujet', intervenant: @projet.operateur.raison_sociale, demandeur: @projet.demandeur.fullname)
     )
   end
 
   def mise_en_relation_intervenant(invitation)
     @invitation = invitation
     mail(
-      to: invitation.intervenant_email,
-      subject: t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: @invitation.intermediaire.raison_sociale)
+    to: invitation.intervenant.email,
+    subject: t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: @invitation.intermediaire.raison_sociale)
     )
   end
 
