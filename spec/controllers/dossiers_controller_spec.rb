@@ -202,5 +202,6 @@ describe DossiersController do
         expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
       end
     end
+
   end
 end

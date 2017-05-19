@@ -33,7 +33,7 @@ class Agent < ActiveRecord::Base
   end
 
   def dreal?
-    intervenant && intervenant.dreal
+    intervenant && intervenant.dreal?
   end
 
   def cas_extra_attributes=(extra_attributes)

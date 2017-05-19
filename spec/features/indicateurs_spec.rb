@@ -24,9 +24,7 @@ feature "Je peux naviguer entre mes pages Dossiers et Indicateurs" do
       expect(page).to have_current_path(dossiers_path)
     end
   end
-
 end
-
 
 feature "Je n'ai pas accès aux indicateurs" do
   let(:operateur) { create :operateur }
@@ -96,7 +94,6 @@ feature "Affichage de la page Indicateurs" do
       expect(page).to have_content("2")
     end
   end
-#
 
   context "si je suis ANAH Siège" do
     let(:current_agent) { agent_siege }

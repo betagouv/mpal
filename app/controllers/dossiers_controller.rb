@@ -18,7 +18,7 @@ class DossiersController < ApplicationController
       }
     end
     return render "dossiers/dashboard_operateur"   if current_agent.operateur?
-    return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
+    return render "dossiers/dashboard_instructeur" if current_agent.instructeur? || current_agent.siege? || current_agent.dreal?
     render "dossiers/dashboard_pris"
   end
 
@@ -90,7 +90,6 @@ class DossiersController < ApplicationController
     render_show
   end
 
-# JE SUIS ICI INDICATEURS
   def indicateurs
     @page_heading = 'Indicateurs'
 
@@ -109,7 +108,6 @@ class DossiersController < ApplicationController
       Projet::STATUSES.each do |statut|
         @projets[statut] = all_projets_statut.count(statut.to_s)
       end
-
     elsif current_agent.siege?
       @all_projets_statut = Projet.all.map(&:statut)
       @projets_count = @all_projets_statut.count
@@ -122,7 +120,6 @@ class DossiersController < ApplicationController
     end
   end
 
-# FIN INDICATEURS
 private
 
   def assign_projet_if_needed

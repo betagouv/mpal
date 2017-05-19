@@ -182,27 +182,25 @@ class Seeder
       email: "adil_75@mailinator.com",
       roles: ["pris"]
     },
-# je commence ici
-# vérifier le nom des rôles à mettre
     {
-      departements: [liste_departements],
+      departements: [],
       raison_sociale: "ANAH Siège SSI",
       clavis_service_id: "5001",
       adresse_postale: "",
-      email: "celine.deconinck@anah.gouv.fr",
+      email: "referent-ssi@anah.gouv.fr",
       roles: ["siege"]
     },
     {
-      departements: [liste_departements],
+      departements: [],
       raison_sociale: "ANAH Siège PART",
       clavis_service_id: "5251",
       adresse_postale: "",
-      email: "celine.deconinck@anah.gouv.fr",
+      email: "conseiller-part@anah.gouv.fr",
       roles: ["siege"]
     },
     {
       departements: ["21", "25", "39", "58", "70", "71", "89", "90"],
-      raison_sociale: "DREAL Bourgogne France-Compté",
+      raison_sociale: "DREAL Bourgogne France-Comté",
       clavis_service_id: "5268",
       adresse_postale: "",
       email: "dreal-bourgogne-franchecomte@anah.gouv.fr",
@@ -233,8 +231,6 @@ class Seeder
       roles: ["dreal"]
     }
   ]
-
-  liste_departements = Array(1..19).map(&:to_s) + ["2A", "2B"] + Array(21..95).map(&:to_s) + Array(971..976).map(&:to_s)
 
   def seed_intervenants
     table_name = 'intervenants'
