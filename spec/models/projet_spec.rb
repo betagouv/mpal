@@ -329,6 +329,18 @@ describe Projet do
       expect(result).to be false
       expect(projet.errors).to be_present
     end
+
+    context "avec un opérateur déjà recommandé" do
+      before do
+        projet.suggest_operateurs!([operateurA.id])
+        projet.suggest_operateurs!([operateurB.id])
+      end
+
+      it "remplace l'opérateur précédemment recommandé" do
+        expect(Invitation.find_by(intervenant_id: operateurA.id).blank?).to   eq true
+        expect(Invitation.find_by(intervenant_id: operateurB.id).present?).to eq true
+      end
+    end
   end
 
   describe "#contact_operateur!" do
