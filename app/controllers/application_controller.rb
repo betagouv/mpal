@@ -56,6 +56,10 @@ class ApplicationController < ActionController::Base
     true
   end
 
+  def debug_exception
+    raise "Exception de test"
+  end
+
   # Routing ------------------------
 
   # Demandeurs access their projects through '/projets/' URLs;

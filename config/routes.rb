@@ -83,6 +83,8 @@ Rails.application.routes.draw do
   get  '/patterns',                  to: 'patterns#index'
   get  '/patterns/forms',            to: 'patterns#forms'
 
+  get  '/debug_exception',           to: 'application#debug_exception'
+
   resources :contacts, only: [:index, :new, :create]
 
   require "sidekiq/web"
