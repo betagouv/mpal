@@ -18,7 +18,7 @@ class DossiersController < ApplicationController
       }
     end
     return render "dossiers/dashboard_operateur"   if current_agent.operateur?
-    return render "dossiers/dashboard_instructeur" if current_agent.instructeur? || current_agent.siege? || current_agent.dreal?
+    return render "dossiers/dashboard_instructeur" if current_agent.instructeur? || current_agent.siege?
     render "dossiers/dashboard_pris"
   end
 
