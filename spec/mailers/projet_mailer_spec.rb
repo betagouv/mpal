@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 describe ProjetMailer, type: :mailer do
-
-
   describe "notifie le demandeur que le PRIS lui recommande des opérateurs" do
     let(:projet) { create :projet, :prospect, :with_suggested_operateurs, :with_invited_pris }
     let(:email) { ProjetMailer.recommandation_operateurs(projet) }
@@ -12,7 +10,6 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
     it { expect(email.body.encoded).to match(projet_choix_operateur_url(projet)) }
   end
-
 
   describe "notifie l'opérateur de l'invitation du demandeur" do
     let(:invitation) { create :invitation }
@@ -26,7 +23,6 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.body.encoded).to include(dossier_url(invitation.projet)) }
   end
 
-# Pas de test notification_invitation_intervenant
   describe "notifie le demandeur qu'il a bien invité un opérateur " do
     let(:invitation) { create :invitation }
     let(:email) { ProjetMailer.notification_invitation_intervenant(invitation) }
@@ -58,9 +54,20 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.body.encoded).to include(dossier_url(projet)) }
    end
 
-   describe "notifie l'instructeur qu'un opérateur lui a transmis un dossier" do
-     #  ATTENTION : donne coordonnées du demandeur
+   describe "notifie le demandeur qu'il doit valider la proposition faite par l'opérateur" do
      let(:projet)           { create :projet, :proposition_proposee }
+     let(:prestation)       { projet.prestations.first }
+     let(:email)            { ProjetMailer.notification_validation_dossier(projet) }
+     it { expect(email.from).to eq([ENV['NO_REPLY_FROM']]) }
+     it { expect(email.to).to eq([projet.email]) }
+     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_validation_dossier.sujet')) }
+     it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
+     it { expect(email.body.encoded).to match(projet.operateur.raison_sociale) }
+     it { expect(email.body).to include("a complété votre dossier") }
+   end
+
+   describe "notifie l'instructeur qu'un opérateur lui a transmis un dossier" do
+     let(:projet)           { create :projet, :transmis_pour_instruction }
      let(:mise_en_relation) { create :mise_en_relation, projet: projet }
      let(:prestation)       { projet.prestations.first }
      let(:email)            { ProjetMailer.mise_en_relation_intervenant(mise_en_relation) }

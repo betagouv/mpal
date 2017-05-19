@@ -13,8 +13,6 @@ class ProjetMailer < ActionMailer::Base
     )
   end
 
-  # Et si le PRIS change d'avis sur les opérateurs suggérés ?
-
   def invitation_intervenant(invitation)
     @invitation = invitation
     mail(
@@ -45,6 +43,14 @@ class ProjetMailer < ActionMailer::Base
     mail(
     to: @projet.operateur.email,
     subject: t('mailers.projet_mailer.notification_engagement_operateur.sujet', intervenant: @projet.operateur.raison_sociale, demandeur: @projet.demandeur.fullname)
+    )
+  end
+
+  def notification_validation_dossier(projet)
+    @projet = projet
+    mail(
+    to: @projet.email,
+    subject: t('mailers.projet_mailer.notification_validation_dossier.sujet', intervenant: @projet.operateur.raison_sociale, demandeur: @projet.demandeur.fullname)
     )
   end
 

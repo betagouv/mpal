@@ -51,7 +51,11 @@ class DossiersController < ApplicationController
   def proposer
     @projet_courant.statut = :proposition_proposee
     if @projet_courant.save(context: :proposition)
-      redirect_to projet_or_dossier_path(@projet_courant)
+      message = I18n.t('notification_validation_dossier.succes',
+                        demandeur: @projet_courant.demandeur.fullname)
+      ProjetMailer.notification_validation_dossier(@projet_courant).deliver_later!
+      EvenementEnregistreurJob.perform_later(label: 'validation_proposition', projet: @projet_courant, producteur: @projet_courant.operateur)
+      redirect_to projet_or_dossier_path(@projet_courant), notice: message
     else
       @projet_courant.restore_statut!
       render_show
