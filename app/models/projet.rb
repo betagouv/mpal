@@ -218,12 +218,19 @@ class Projet < ActiveRecord::Base
   end
 
   def suggest_operateurs!(operateur_ids)
+    if operateur.present?
+      raise "Cannot suggest an operator: the projet is already committed with an operator (#{operateur.raison_sociale})"
+    end
+
     if operateur_ids.blank?
       errors[:base] << I18n.t('recommander_operateurs.errors.blank')
       return false
     end
 
-    invitations.each { |i| i.update(suggested: false) }
+    invitations.where(suggested: true).each do |invitation|
+      invitation.update(suggested: false)
+      invitation.destroy! unless invitation.contacted
+    end
 
     operateur_ids.each do |operateur_id|
       self.invitations.find_or_create_by(intervenant_id: operateur_id).update(suggested: true)
