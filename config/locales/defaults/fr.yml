@@ -306,6 +306,10 @@ fr:
     erreurs:
       changement_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur."
 
+  # ----------------------- Proposer un dossier ---------------------
+  notification_validation_dossier:
+    succes: 'La proposition a bien été envoyée au demandeur'
+
   # ----------------------- Invitation d’un intervenant ---------------------
   invitations:
     nouvelle:

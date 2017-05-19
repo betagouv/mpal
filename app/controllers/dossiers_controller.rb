@@ -6,7 +6,7 @@ class DossiersController < ApplicationController
   before_action :assert_projet_courant, except: [:index, :indicateurs]
 
   def index
-    @dossiers = Projet.for_agent(current_agent)
+    @invitations = Invitation.where(intervenant_id: current_agent.intervenant.id).includes(:projet)
     respond_to do |format|
       format.html {
         @page_heading = I18n.t('tableau_de_bord.titre_section')
@@ -14,9 +14,12 @@ class DossiersController < ApplicationController
       format.csv {
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render text: Projet.to_csv(current_agent)
+        return render text: Projet.to_csv(current_agent)
       }
     end
+    return render "dossiers/dashboard_operateur"   if current_agent.operateur?
+    return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
+    render "dossiers/dashboard_pris"
   end
 
   def affecter_agent
