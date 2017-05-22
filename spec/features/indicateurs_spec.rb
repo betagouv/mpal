@@ -80,18 +80,30 @@ feature "Affichage de la page Indicateurs" do
     scenario "la page affiche le nombre total de projets par statut" do
       visit indicateurs_dossiers_path
       expect(page).to have_content("Il y a 11 projets.")
-      expect(page).to have_content("prospect")
-      expect(page).to have_content("3")
-      expect(page).to have_content("En cours")
-      expect(page).to have_content("4")
-      expect(page).to have_content("Proposition enregistrée")
-      expect(page).to have_content("1")
-      expect(page).to have_content("Proposition proposée")
-      expect(page).to have_content("1")
-      expect(page).to have_content("Transmis aux services instructeurs")
-      expect(page).to have_content("0")
-      expect(page).to have_content("En cours d’instruction")
-      expect(page).to have_content("2")
+      within "#projet_prospect" do
+        expect(page).to have_content("prospect")
+        expect(page).to have_content("3")
+      end
+      within "#projet_en_cours" do
+        expect(page).to have_content("En cours")
+        expect(page).to have_content("4")
+      end
+      within "#projet_proposition_enregistree" do
+        expect(page).to have_content("Proposition enregistrée")
+        expect(page).to have_content("1")
+      end
+      within "#projet_proposition_proposee" do
+        expect(page).to have_content("Proposition proposée")
+        expect(page).to have_content("1")
+      end
+      within "#projet_transmis_pour_instruction" do
+        expect(page).to have_content("Transmis aux services instructeurs")
+        expect(page).to have_content("0")
+      end
+      within "#projet_en_cours_d_instruction" do
+        expect(page).to have_content("En cours d’instruction")
+        expect(page).to have_content("2")
+      end
     end
   end
 

@@ -6,7 +6,6 @@
 
   .flex-indicateurs-projet.clearfix
     - @projets.each do |statut, count|
-        .indicateur-projet
+        .indicateur-projet id="projet_#{statut}"
           h3= t("projets.statut.#{statut}")
-          p.nombre-projets= count
-         
+          p.nombre-projets= count 

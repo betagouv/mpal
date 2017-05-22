@@ -180,14 +180,11 @@ describe DossiersController do
     context "en tant que ANAH Siège connecté non affecté à un projet" do
       let(:siege)         { create :siege }
       let(:current_agent) { create :agent, :siege, intervenant: siege }
-      let!(:project1)     { create :projet, :proposition_proposee }
-      let!(:project2)     { create :projet, :en_cours }
-      let!(:project3)     { create :projet, :en_cours }
 
       before do
-        project1.adresse.update(departement: "01")
-        project2.adresse.update(departement: "56")
-        project3.adresse.update(departement: "34")
+        (create :projet, :proposition_proposee).adresse.update(departement: "01")
+        (create :projet, :en_cours).adresse.update(departement: "56")
+        (create :projet, :en_cours).adresse.update(departement: "34")
       end
 
       it "je peux voir la liste de tous les projets" do
