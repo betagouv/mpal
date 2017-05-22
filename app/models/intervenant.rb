@@ -7,7 +7,7 @@ class Intervenant < ActiveRecord::Base
   has_and_belongs_to_many :suggested_on_projets, class_name: 'Projet', join_table: 'suggested_operateurs'
 
   validates :raison_sociale, presence: true
-  validates :email, email: true, allow_blank: true
+  validates :email, presence: true, email: true
 
   scope :ordered, -> { order("intervenants.raison_sociale, intervenants.id") }
   scope :pour_departement, ->(departement) { where("'#{departement}' = ANY (departements)") }

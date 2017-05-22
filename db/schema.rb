@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170514134744) do
+ActiveRecord::Schema.define(version: 20170523120121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -144,7 +144,7 @@ ActiveRecord::Schema.define(version: 20170514134744) do
     t.string "adresse_postale"
     t.string "themes",                                      array: true
     t.string "departements",                                array: true
-    t.string "email"
+    t.string "email",                          null: false
     t.string "roles",                                       array: true
     t.text   "informations"
     t.string "clavis_service_id"
