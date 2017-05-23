@@ -1,13 +1,13 @@
 div.login-demo__column.login-demo__column-left
   h3 Actions disponibles sur l’environnement de démo
 
-  h4.login-demo__subtitle Les intervenants ne peuvent se connecter à la plate-forme que via leur compte Clavis.
+  p.login-demo__subtitle Les intervenants ne peuvent se connecter à la plate-forme que via leur compte Clavis.
   p= btn name: t('accueil.se_connecter_via_clavis'), href: dossiers_path, class: 'btn-test', icon: 'log-in'
 
-  h4.login-demo__subtitle
-    | En démo les emails ne sont pas réellement envoyés ; mais il est possible de les consulter.<br>
-    | Si les emails n’apparaissent pas, cliquez sur "Refresh" pour mettre à jour la page.
+  p.login-demo__subtitle
+    | Les emails ne sont pas réellement envoyés ; mais il est possible de les consulter. Si les emails n’apparaissent pas, cliquez sur "Refresh".
   p= btn name: t('accueil.lire_les_emails'), href: letter_opener_web_url, class: 'btn-test', icon: 'envelope'
 
-  h4.login-demo__subtitle Ré-initialise tous les projets sur l’environnement de démo.
+  p.login-demo__subtitle Ré-initialise tous les projets sur l’environnement.
   p= btn name: t('accueil.reinitialiser'), href: reset_path, class: 'btn-test', icon: 'remove'
+
