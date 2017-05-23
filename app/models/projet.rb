@@ -2,9 +2,12 @@ class Projet < ActiveRecord::Base
   include LocalizedModelConcern
   extend CsvProperties, ApplicationHelper
 
-  TYPE_LOGEMENT_VALUES = ["Maison", "Appartement"]
-  ETAGE_VALUES = ["0", "1", "2", "3", "4", "5", "Plus de 5"]
-  NB_PIECES_VALUES = ["1", "2", "3", "4", "5", "Plus de 5"]
+  TYPE_LOGEMENT_VALUES     = ["Maison", "Appartement"]
+  ETAGE_VALUES             = ["0", "1", "2", "3", "4", "5", "Plus de 5"]
+  NB_PIECES_VALUES         = ["1", "2", "3", "4", "5", "Plus de 5"]
+  HOUSE_EVALUATION_FIELDS  = [:autonomie, :niveau_gir, :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation, :remarques_diagnostic]
+  ENERGY_EVALUATION_FIELDS = [:consommation_apres_travaux, :etiquette_apres_travaux, :gain_energetique]
+  FUNDING_FIELDS           = [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount, :personal_funding_amount, :loan_amount]
 
   enum statut: {
     prospect: 0,
@@ -123,6 +126,18 @@ class Projet < ActiveRecord::Base
 
   def invited_instructeur
     intervenants.pour_role(:instructeur).first
+  end
+
+  def has_house_evaluation?
+    HOUSE_EVALUATION_FIELDS.any? { |field| send(field).present? }
+  end
+
+  def has_energy_evaluation?
+    ENERGY_EVALUATION_FIELDS.any? { |field| send(field).present? }
+  end
+
+  def has_fundings?
+    FUNDING_FIELDS.any? { |field| send(field).present? }
   end
 
   def pris_suggested_operateurs

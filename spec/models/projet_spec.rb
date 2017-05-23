@@ -290,6 +290,36 @@ describe Projet do
     end
   end
 
+  describe "#has_house_evaluation?" do
+    let(:projet_without_house_evaluation) { create :projet }
+    let(:projet_with_house_evaluation)    { create :projet, note_degradation: 1 }
+
+    it "retourne vrai si un élément de l'évaluation du logement est renseigné" do
+      expect(projet_without_house_evaluation.has_house_evaluation?).to be_falsy
+      expect(projet_with_house_evaluation.has_house_evaluation?).to be_truthy
+    end
+  end
+
+  describe "#has_energy_evaluation?" do
+    let(:projet_without_energy_evaluation) { create :projet }
+    let(:projet_with_energy_evaluation)    { create :projet, etiquette_apres_travaux: 'A' }
+
+    it "retourne vrai si un élément de l'évaluation énergétique est renseigné" do
+      expect(projet_without_energy_evaluation.has_energy_evaluation?).to be_falsy
+      expect(projet_with_energy_evaluation.has_energy_evaluation?).to be_truthy
+    end
+  end
+
+  describe "#has_fundings?" do
+    let(:projet_without_fundings) { create :projet }
+    let(:projet_with_fundings)    { create :projet, travaux_ht_amount: 1 }
+
+    it "retourne vrai si un élément de financement est renseigné" do
+      expect(projet_without_fundings.has_fundings?).to be_falsy
+      expect(projet_with_fundings.has_fundings?).to be_truthy
+    end
+  end
+
   describe "#pris_suggested_operateurs" do
     let(:projet)     { create :projet }
     let(:operateur1) { create :operateur }

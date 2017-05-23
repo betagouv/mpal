@@ -2,19 +2,19 @@ h4= current_agent ? 'Projet proposé' : 'Votre logement'
 ul.ctr-ope
   li
     = "Date de visite : "
-    - if @projet_courant.date_de_visite.present?
-      span= l(@projet_courant.date_de_visite, format: :long)
-    - else
-      span= "non renseignée"
-  li
-    = "Type de logement : "
-    span= @projet_courant.type_logement
-  li
-    = "Étage : "
-    span class='etage'= @projet_courant.etage
-  li class='pieces'
-    = "Nombre de pièces : "
-    span= @projet_courant.nb_pieces
+    span= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "non renseignée"
+  - if @projet_courant.type_logement.present?
+    li
+      = "Type de logement : "
+      span= @projet_courant.type_logement
+  - if @projet_courant.etage.present?
+    li
+      = "Étage : "
+      span class='etage'= @projet_courant.etage
+  - if @projet_courant.nb_pieces.present?
+    li class='pieces'
+      = "Nombre de pièces : "
+      span= @projet_courant.nb_pieces
   - if @projet_courant.demande.try(:annee_construction).present?
     li
       = "Année de construction : "
@@ -32,145 +32,149 @@ ul.ctr-ope
       = with_semicolon(t('helpers.label.proposition.etiquette_avant_travaux'))
       span class='etiquette_avant' = @projet_courant.etiquette_avant_travaux
 
-h4 Votre évaluation
-ul.ctr-ope
-  - if @projet_courant.autonomie.present?
-    li
-      = t('helpers.label.diagnostic.autonomie')
-      span=< readable_bool(@projet_courant.autonomie)
-  - if @projet_courant.niveau_gir.present?
-    li
-      = with_semicolon(t('helpers.label.diagnostic.niveau_gir'))
-      span= @projet_courant.niveau_gir
-  - if @projet_courant.autonomie.present?
-    li
-      = with_semicolon(t('helpers.label.diagnostic.handicap'))
-      span= readable_bool(@projet_courant.handicap)
-  - if @projet_courant.note_degradation.present?
-    li
-      = with_semicolon(t('helpers.label.diagnostic.note_degradation'))
-      span= number_with_delimiter(@projet_courant.note_degradation)
-  - if @projet_courant.note_insalubrite.present?
-    li
-      = with_semicolon(t('helpers.label.diagnostic.note_insalubrite'))
-      span= number_with_delimiter(@projet_courant.note_insalubrite)
-  - if @projet_courant.ventilation_adaptee.present?
-    li
-      = with_semicolon(t('helpers.label.diagnostic.ventilation_adaptee'))
-      span= readable_bool(@projet_courant.ventilation_adaptee)
-  - if @projet_courant.presence_humidite.present?
-    li
-      = with_semicolon(t('helpers.label.diagnostic.presence_humidite'))
-      span= readable_bool(@projet_courant.presence_humidite)
-  - if @projet_courant.auto_rehabilitation.present?
-    li
-      = t('helpers.label.diagnostic.auto_rehabilitation')
-      span=< readable_bool(@projet_courant.auto_rehabilitation)
-  - if @projet_courant.remarques_diagnostic.present?
-    li
-      = with_semicolon(t('helpers.label.diagnostic.remarques_diagnostic'))
-      span= @projet_courant.remarques_diagnostic
+- if @projet_courant.has_house_evaluation?
+  h4 Votre évaluation
+  ul.ctr-ope
+    - if @projet_courant.autonomie.present?
+      li
+        = t('helpers.label.diagnostic.autonomie')
+        span=< readable_bool(@projet_courant.autonomie)
+    - if @projet_courant.niveau_gir.present?
+      li
+        = with_semicolon(t('helpers.label.diagnostic.niveau_gir'))
+        span= @projet_courant.niveau_gir
+    - if @projet_courant.autonomie.present?
+      li
+        = with_semicolon(t('helpers.label.diagnostic.handicap'))
+        span= readable_bool(@projet_courant.handicap)
+    - if @projet_courant.note_degradation.present?
+      li
+        = with_semicolon(t('helpers.label.diagnostic.note_degradation'))
+        span= number_with_delimiter(@projet_courant.note_degradation)
+    - if @projet_courant.note_insalubrite.present?
+      li
+        = with_semicolon(t('helpers.label.diagnostic.note_insalubrite'))
+        span= number_with_delimiter(@projet_courant.note_insalubrite)
+    - if @projet_courant.ventilation_adaptee.present?
+      li
+        = with_semicolon(t('helpers.label.diagnostic.ventilation_adaptee'))
+        span= readable_bool(@projet_courant.ventilation_adaptee)
+    - if @projet_courant.presence_humidite.present?
+      li
+        = with_semicolon(t('helpers.label.diagnostic.presence_humidite'))
+        span= readable_bool(@projet_courant.presence_humidite)
+    - if @projet_courant.auto_rehabilitation.present?
+      li
+        = t('helpers.label.diagnostic.auto_rehabilitation')
+        span=< readable_bool(@projet_courant.auto_rehabilitation)
+    - if @projet_courant.remarques_diagnostic.present?
+      li
+        = with_semicolon(t('helpers.label.diagnostic.remarques_diagnostic'))
+        span= @projet_courant.remarques_diagnostic
 
-h4 Travaux
-table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
-  tbody
-    tr
-      th.empty scope="row"  &nbsp;
-      td Souhaité
-      td Préconisé
-      td Retenu
-    - @projet_courant.prestation_choices.each do |prestation_choice|
+- if @projet_courant.prestations.present?
+  h4 Travaux
+  table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
+    tbody
       tr
-        - prestation = prestation_choice.prestation
-        th scope="row" #{prestation.libelle}
-        td.recap-projet-image-cell= image_tag "check.svg", alt: "Souhaité",  id: "prestation_#{prestation.id}_desired"     if prestation_choice.desired
-        td.recap-projet-image-cell= image_tag "check.svg", alt: "Préconisé", id: "prestation_#{prestation.id}_recommended" if prestation_choice.recommended
-        td.recap-projet-image-cell= image_tag "check.svg", alt: "Retenu",    id: "prestation_#{prestation.id}_selected"    if prestation_choice.selected
-
-h4 Consommation énergétique
-table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
-  tbody
-    tr
-      th.empty scope="row"  &nbsp;
-      td Proposition
-
-    - if @projet_courant.consommation_apres_travaux.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.consommation_apres_travaux')
-        td class='consommation_apres' = number_to_power_consumption(@projet_courant.consommation_apres_travaux)
-
-    - if @projet_courant.etiquette_apres_travaux.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.etiquette_apres_travaux')
-        td class='etiquette_apres' = @projet_courant.etiquette_apres_travaux
-
-    - if @projet_courant.gain_energetique
-      tr
-        th scope="row"= t('helpers.label.proposition.gain_energetique')
-        td class='gain_energetique' = @projet_courant.gain_energetique
-
-h4 Plan de financement prévisionnel
-table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
-  tbody
-    tr
-      th.empty scope="row"  &nbsp;
-      td Proposition
-    - if @projet_courant.travaux_ht_amount.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.travaux_ht_amount')
-        td= number_to_currency(@projet_courant.travaux_ht_amount)
-
-    - if @projet_courant.assiette_subventionnable_amount.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.assiette_subventionnable_amount')
-        td= number_to_currency(@projet_courant.assiette_subventionnable_amount)
-
-    - if @projet_courant.amo_amount.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.amo_amount')
-        td= number_to_currency(@projet_courant.amo_amount)
-
-    - if @projet_courant.maitrise_oeuvre_amount.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.maitrise_oeuvre_amount')
-        td= number_to_currency(@projet_courant.maitrise_oeuvre_amount)
-
-    - if @projet_courant.travaux_ttc_amount.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.travaux_ttc_amount')
-        td= number_to_currency(@projet_courant.travaux_ttc_amount)
-
-    - @public_helps_with_amounts.each do |aide|
-      - if aide.amount.present?
+        th.empty scope="row"  &nbsp;
+        td Souhaité
+        td Préconisé
+        td Retenu
+      - @projet_courant.prestation_choices.each do |prestation_choice|
         tr
-          th scope="row" #{aide.libelle}
-          td= number_to_currency(aide.amount)
+          - prestation = prestation_choice.prestation
+          th scope="row" #{prestation.libelle}
+          td.recap-projet-image-cell= image_tag "check.svg", alt: "Souhaité",  id: "prestation_#{prestation.id}_desired"     if prestation_choice.desired
+          td.recap-projet-image-cell= image_tag "check.svg", alt: "Préconisé", id: "prestation_#{prestation.id}_recommended" if prestation_choice.recommended
+          td.recap-projet-image-cell= image_tag "check.svg", alt: "Retenu",    id: "prestation_#{prestation.id}_selected"    if prestation_choice.selected
 
-    - if @public_helps_sum > 0
+- if @projet_courant.has_energy_evaluation?
+  h4 Consommation énergétique
+  table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
+    tbody
       tr
-        th scope="row" = t('helpers.label.proposition.public_helps_sum')
-        td= number_to_currency(@public_helps_sum)
+        th.empty scope="row"  &nbsp;
+        td Proposition
 
-    - @private_helps_with_amounts.each do |aide|
-      - if aide.amount.present?
+      - if @projet_courant.consommation_apres_travaux.present?
         tr
-          th scope="row" #{aide.libelle}
-          td= number_to_currency(aide.amount)
+          th scope="row"= t('helpers.label.proposition.consommation_apres_travaux')
+          td class='consommation_apres' = number_to_power_consumption(@projet_courant.consommation_apres_travaux)
 
-    - if @projet_courant.personal_funding_amount.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.personal_funding')
-        td= number_to_currency(@projet_courant.personal_funding_amount)
+      - if @projet_courant.etiquette_apres_travaux.present?
+        tr
+          th scope="row"= t('helpers.label.proposition.etiquette_apres_travaux')
+          td class='etiquette_apres' = @projet_courant.etiquette_apres_travaux
 
-    - if @projet_courant.loan_amount.present?
-      tr
-        th scope="row"= t('helpers.label.proposition.loan_amount')
-        td= number_to_currency(@projet_courant.loan_amount)
+      - if @projet_courant.gain_energetique
+        tr
+          th scope="row"= t('helpers.label.proposition.gain_energetique')
+          td class='gain_energetique' = @projet_courant.gain_energetique
 
-    - if @fundings_sum > 0
+- if @projet_courant.has_fundings?
+  h4 Plan de financement prévisionnel
+  table.recap-projet-table border="0" cellpadding="0" cellspacing="0"
+    tbody
       tr
-        th scope="row" = t('helpers.label.proposition.fundings_sum')
-        td= number_to_currency(@fundings_sum)
+        th.empty scope="row"  &nbsp;
+        td Proposition
+      - if @projet_courant.travaux_ht_amount.present?
+        tr
+          th scope="row"= t('helpers.label.proposition.travaux_ht_amount')
+          td= number_to_currency(@projet_courant.travaux_ht_amount)
+
+      - if @projet_courant.assiette_subventionnable_amount.present?
+        tr
+          th scope="row"= t('helpers.label.proposition.assiette_subventionnable_amount')
+          td= number_to_currency(@projet_courant.assiette_subventionnable_amount)
+
+      - if @projet_courant.amo_amount.present?
+        tr
+          th scope="row"= t('helpers.label.proposition.amo_amount')
+          td= number_to_currency(@projet_courant.amo_amount)
+
+      - if @projet_courant.maitrise_oeuvre_amount.present?
+        tr
+          th scope="row"= t('helpers.label.proposition.maitrise_oeuvre_amount')
+          td= number_to_currency(@projet_courant.maitrise_oeuvre_amount)
+
+      - if @projet_courant.travaux_ttc_amount.present?
+        tr
+          th scope="row"= t('helpers.label.proposition.travaux_ttc_amount')
+          td= number_to_currency(@projet_courant.travaux_ttc_amount)
+
+      - @public_helps_with_amounts.each do |aide|
+        - if aide.amount.present?
+          tr
+            th scope="row" #{aide.libelle}
+            td= number_to_currency(aide.amount)
+
+      - if @public_helps_sum > 0
+        tr
+          th scope="row" = t('helpers.label.proposition.public_helps_sum')
+          td= number_to_currency(@public_helps_sum)
+
+      - @private_helps_with_amounts.each do |aide|
+        - if aide.amount.present?
+          tr
+            th scope="row" #{aide.libelle}
+            td= number_to_currency(aide.amount)
+
+      - if @projet_courant.personal_funding_amount.present?
+        tr
+          th scope="row"= t('helpers.label.proposition.personal_funding')
+          td= number_to_currency(@projet_courant.personal_funding_amount)
+
+      - if @projet_courant.loan_amount.present?
+        tr
+          th scope="row"= t('helpers.label.proposition.loan_amount')
+          td= number_to_currency(@projet_courant.loan_amount)
+
+      - if @fundings_sum > 0
+        tr
+          th scope="row" = t('helpers.label.proposition.fundings_sum')
+          td= number_to_currency(@fundings_sum)
 
 ul.ctr-ope
   - if @projet_courant.precisions_travaux.present?
