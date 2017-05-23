@@ -357,6 +357,8 @@ fr:
         sujet: "[Anah] %{demandeur} a changé d’opérateur pour son projet"
       mise_en_relation_intervenant:
         sujet: "[Anah] Mise en relation par %{intermediaire}"
+      notification_validation_dossier:
+        sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
         sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
 
