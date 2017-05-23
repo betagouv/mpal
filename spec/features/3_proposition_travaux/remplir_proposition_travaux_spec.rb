@@ -7,7 +7,8 @@ feature "Remplir la proposition de travaux" do
   let(:projet)            { create :projet, :en_cours }
   let(:operateur)         { projet.operateur }
   let(:agent_operateur)   { create :agent, intervenant: operateur }
-  let(:theme)             { create :theme }
+  let!(:theme_1)          { create :theme }
+  let!(:theme_2)          { create :theme }
   let!(:prestation_1)     { create :prestation }
   let!(:prestation_2)     { create :prestation }
   let!(:prestation_3)     { create :prestation }
@@ -49,6 +50,9 @@ feature "Remplir la proposition de travaux" do
       choose 'projet_presence_humidite_true'
       choose 'projet_auto_rehabilitation_true'
       fill_in 'projet_remarques_diagnostic', with: 'Le diagnostic est complet.'
+
+      # Section Types d'intervention
+      check theme_1.libelle
 
       # Section "Description des travaux proposés"
       check "prestation_#{prestation_1.id}_desired"
@@ -95,6 +99,10 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.presence_humidite') + ' : Oui')
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.auto_rehabilitation') + ' Oui')
       expect(page).to have_content(I18n.t('helpers.label.diagnostic.remarques_diagnostic') + ' : Le diagnostic est complet.')
+
+      # Section Types d'intervention
+      expect(page).to     have_content theme_1.libelle
+      expect(page).not_to have_content theme_2.libelle
 
       # Section "Description des travaux proposés"
       expect(page).to     have_content prestation_1.libelle

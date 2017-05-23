@@ -1,5 +1,5 @@
 FactoryGirl.define do
   factory :theme do
-    libelle 'Énergie'
+    sequence(:libelle) {|n| "Theme #{n}" }
   end
 end
