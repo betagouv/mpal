@@ -1,3 +1,5 @@
+@import "variables";
+
 @font-face {
   font-family: 'Open Sans';
   src: font-url('opensans-regular/opensans-regular-webfont.eot');
@@ -10,7 +12,7 @@
 }
 
 body {
-  color: #56869a;
+  color: $font-color;
   background-color: white;
   font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
@@ -225,7 +227,6 @@ fieldset {
     right: 12px;
     font-size: 12px;
     padding-right: 26px;
-    line-height: 18px;
     color: #e7235a;
     background: image-url("edit.svg") 100% 0 no-repeat;
     &:hover {
@@ -252,7 +253,7 @@ fieldset {
     background-repeat: no-repeat;
     font-size: 18px;
     font-weight: 600;
-    color: #56869a;
+    color: $font-color;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
     padding: 10px 30px;
     border-bottom: 1px solid #dadfea;
@@ -309,7 +310,7 @@ fieldset {
           .page-projet .col-right .content-projet .block.messagerie .chat p {
             padding: 0 5px;
             width: 80%;
-            border: 1px solid #56869a;
+            border: 1px solid $color-primary;
             border-radius: 3px;
             line-height: 22px;
             position: relative;
@@ -331,7 +332,7 @@ fieldset {
               left: 26px;
               border: 11px solid rgba(194, 225, 245, 0);
               margin-left: -11px;
-              border-bottom-color: #56869a;
+              border-bottom-color: $color-primary;
               content: " ";
               height: 0;
               width: 0;
@@ -377,7 +378,7 @@ fieldset {
         }
         .page-projet .col-right .content-projet .block.occupants p {
           padding: 0 0 40px 120px;
-          line-height: 22px; }
+        }
         .page-projet .col-right .content-projet .block.occupants .occ-table {
           border-collapse: collapse;
           margin: 0 auto; }
@@ -410,7 +411,7 @@ fieldset {
           .page-projet .col-right .content-projet .block.projet ul li {
             list-style: disc outside;
             padding: 2px 0;
-            line-height: 20px; }
+          }
         .page-projet .col-right .content-projet .block.projet hr {
           margin: 30px 0 10px;
           clear: both; }
@@ -442,7 +443,7 @@ fieldset {
             cursor: pointer; }
           .page-projet .col-right .content-projet .block.projet-ope .ins-form li .help {
             background: #e7ebf4;
-            color: #56869a;
+            color: $font-color;
             border-radius: 50px;
             font-size: 10px;
             display: inline-block;
@@ -515,7 +516,7 @@ fieldset {
           .page-projet .col-right .content-projet .block.projet-ope .file-drop-area:hover {
             cursor: pointer; }
         .page-projet .col-right .content-projet .block.projet-ope .fake-btn {
-          background-color: #56869a;
+          background-color: $color-primary;
           border: 1px solid #9E9EC4;
           border-radius: 3px;
           padding: 8px 15px;
@@ -614,7 +615,6 @@ fieldset {
 }
 
 .documents-list {
-  line-height: 1.5em;
   a:hover {
     text-decoration: underline;
   }

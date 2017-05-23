@@ -1,5 +1,5 @@
 .col-left {
-  background: #56869a;
+  background: $color-primary;
   color: white;
   margin-bottom: 15px;
   @media screen and (min-width: 600px) {
@@ -38,7 +38,6 @@
   }
   ul {
     margin-top: 0.5em;
-    line-height: 1.5em;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2);
   }
   .personne {

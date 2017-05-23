@@ -1,3 +1,5 @@
+@import "variables";
+
 .inscription {
   position: relative;
   margin: 15px auto 0;
@@ -14,7 +16,7 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
     font-size: 18px;
     font-weight: bold;
-    color: #56869a;
+    color: $font-color;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
     padding: 15px 30px;
   }
@@ -201,7 +203,7 @@
     display: none;
   }
   input[type="radio"]:checked + label {
-    border-color: #56869a;
+    border-color: $color-primary;
     background-color: #eef1f7;
   }
   label {
