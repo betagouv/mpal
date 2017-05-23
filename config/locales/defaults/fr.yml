@@ -106,6 +106,13 @@ fr:
       reliable_person_select_no: "Vous-même"
       reliable_person_select_yes: "Une personne chargée du suivi du dossier"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
+      departement_non_eligible:
+        title: Désolé, les logements dans votre département ne sont pas encore éligibles
+        sorry:
+          one:   "Nous sommes désolés, mais ce site n’est pour l’instant disponible que dans un seul département (le %{departement})."
+          other: "Nous sommes désolés, mais ce site n’est pour l’instant disponible que dans %{count} départements (les %{departements})."
+        please_contact_pris: "Pour déposer votre demande d’aides, nous vous recommandons de contacter le Point Rénovation Info Service de votre département, qui pourra vous conseiller pour remplir votre demande."
+        action: "Contacter un Point Rénovation Info Service"
 
     # ----------------------- Ma demande ---------------------
     demande:

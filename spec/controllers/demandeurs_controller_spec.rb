@@ -36,6 +36,7 @@ describe DemandeursController do
   end
 
   describe "#update" do
+    let(:departements_enabled) { [Tools::DEPARTEMENTS_WILDCARD] }
     let(:projet_params) do {} end
     let(:params) do
       default_params = {
@@ -50,6 +51,7 @@ describe DemandeursController do
     end
 
     before(:each) do
+      allow(Tools).to receive(:departements_enabled).and_return(departements_enabled)
       post :update, params
       projet.reload
     end
@@ -174,38 +176,56 @@ describe DemandeursController do
       end
     end
 
+    context "lorsque le demandeur n'est pas sélectionné" do
+      let(:params) do
+        {
+          projet_id: projet.id,
+          projet: {
+            adresse_postale: projet.adresse_postale.description,
+            demandeur_id: nil
+          }
+        }
+      end
+
+      it "affiche une erreur" do
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.missing_demandeur')
+      end
+    end
+
+    context "lorsque une information est erronée" do
+      let(:params) do
+        {
+          projet_id: projet.id,
+          projet: {
+            adresse_postale: nil,
+            demandeur_id: projet.occupants.last.id
+          }
+        }
+      end
+
+      it "affiche une erreur" do
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
+        expect(assigns(:demandeur)).to eq projet.demandeur
+      end
+    end
+
+    context "lorsque l'adresse n'est pas dans un département éligible" do
+      let(:departements_enabled) { [] }
+      it "redirige vers une page d'information" do
+        expect(response).to redirect_to projet_demandeur_departement_non_eligible_path(projet)
+      end
+    end
   end
 
-  context "lorsque le demandeur n'est pas sélectionné" do
+  describe "#departement_non_eligible" do
     before do
-      post :update, {
-        projet_id: projet.id,
-        projet: {
-          adresse_postale: projet.adresse_postale.description,
-          demandeur_id: nil
-        }
-      }
+      allow(Tools).to receive(:departements_enabled).and_return(['25', '26'])
+      get :departement_non_eligible, projet_id: projet.id
     end
 
-    it "affiche une erreur" do
-      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.missing_demandeur')
-    end
-  end
-
-  context "lorsque une information est erronée" do
-    before do
-      post :update, {
-        projet_id: projet.id,
-        projet: {
-          adresse_postale: nil,
-          demandeur_id: projet.occupants.last.id
-        }
-      }
-    end
-
-    it "affiche une erreur" do
-      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
-      expect(assigns(:demandeur)).to eq projet.demandeur
+    it "affiche la page" do
+      expect(response).to render_template(:departement_non_eligible)
+      expect(assigns(:departements)).to eq ['25', '26']
     end
   end
 end
