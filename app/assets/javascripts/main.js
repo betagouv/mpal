@@ -31,22 +31,25 @@ $(document).ready(function() {
     wtf.scrollTop(height);
   });
 
-  // Open by defaut last block
+  // Open by default last block
   $(".block").last().children().addClass("is-open").slideDown(0);
 
-  // Smouth scroll anchor
-  $('a[href*="#"]:not([href="#"])').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-        $('html, body').animate({
-          scrollTop: target.offset().top
-        }, 500);
-        return false;
+  // Smooth scroll anchor
+  function bindSmoothScrolling() {
+    $('a[href*="#"]:not([href="#"])').click(function() {
+      if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+          $('html, body').animate({
+            scrollTop: target.offset().top
+          }, 500);
+          history.pushState(null, null, this.href);
+          return false;
+        }
       }
-    }
-  });
+    });
+  }
 
   // Input file custom
   var $fileInput = $('.file-input');
@@ -147,6 +150,7 @@ $(document).ready(function() {
   }
 
   bindReliablePersonForm();
+  bindSmoothScrolling();
   bindLoginHelpers();
   bindPopins();
   var engagement = $(".js-engagement");
