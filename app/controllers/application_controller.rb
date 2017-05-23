@@ -3,6 +3,11 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
 
+  def initialize
+    super
+    @display_help = true
+  end
+
   def after_sign_in_path_for(resource)
     if projet_id = session[:projet_id_from_opal]
       projet_or_dossier_path(Projet.find_by_id(projet_id))
