@@ -230,7 +230,7 @@ ActiveRecord::Schema.define(version: 20170523120121) do
     t.datetime "updated_at"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                                                               array: true
+    t.string   "themes",                                                                                array: true
     t.integer  "nb_occupants_a_charge",                                    default: 0
     t.integer  "statut",                                                   default: 0
     t.integer  "operateur_id"
@@ -273,6 +273,7 @@ ActiveRecord::Schema.define(version: 20170523120121) do
     t.decimal  "assiette_subventionnable_amount", precision: 10, scale: 2
     t.integer  "consommation_avant_travaux"
     t.integer  "consommation_apres_travaux"
+    t.boolean  "future_birth",                                             default: false, null: false
   end
 
   add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree

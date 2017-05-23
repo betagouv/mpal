@@ -44,6 +44,10 @@
                 .info-point title=t("occupants.delete.cant_delete_demandeur") ?
 
     .occupant-inline-form
+      = f.fields_for @projet_courant do |ff|
+        = ff.input :future_birth
+
+    .occupant-inline-form
       h3.occupant-inline-form__title Ajouter un occupant
       .occupant-inline-form__fields
         = f.input :prenom, wrapper_html: { class: "occupant-inline-form__field size-l" }
@@ -54,5 +58,4 @@
     .checkbox-validation
       input#dif1 type="checkbox" class="js-engagement"
       label for="dif1" = t("agrements.attestation_communiquer_infos_occupants")
-  = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "arrow-right"
-
+  = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "arrow-right", html: { name: :submit_button }
