@@ -9,6 +9,7 @@ class ProjetMailer < ActionMailer::Base
     @pris = projet.invited_pris
     mail(
       to: projet.email,
+      cc: projet.personne.try(:email),
       subject: t('mailers.projet_mailer.recommandation_operateurs.sujet')
     )
   end
@@ -25,6 +26,7 @@ class ProjetMailer < ActionMailer::Base
     @invitation = invitation
     mail(
       to: invitation.projet.email,
+      cc: invitation.projet.personne.try(:email),
       subject: t('mailers.projet_mailer.notification_invitation_intervenant.sujet', intervenant: @invitation.intervenant.raison_sociale)
     )
   end
@@ -50,6 +52,7 @@ class ProjetMailer < ActionMailer::Base
     @projet = projet
     mail(
     to: @projet.email,
+    cc: @projet.personne.try(:email),
     subject: t('mailers.projet_mailer.notification_validation_dossier.sujet', intervenant: @projet.operateur.raison_sociale, demandeur: @projet.demandeur.fullname)
     )
   end
@@ -70,6 +73,7 @@ class ProjetMailer < ActionMailer::Base
     mail(
       from: projet.invited_instructeur.email,
       to: projet.email,
+      cc: projet.personne.try(:email),
       subject: t('mailers.projet_mailer.accuse_reception.sujet')
     )
   end

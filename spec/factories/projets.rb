@@ -6,6 +6,12 @@ FactoryGirl.define do
     association :adresse_postale,   factory: [ :adresse, :rue_de_rome ]
     association :adresse_a_renover, factory: [ :adresse, :rue_de_la_mare ]
 
+    trait :with_trusted_person do
+      after(:build) do |projet|
+        projet.personne = create :personne
+      end
+    end
+
     trait :with_avis_imposition do
       transient do
         declarants_count 1
