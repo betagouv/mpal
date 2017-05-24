@@ -9,11 +9,14 @@ class OccupantsController < ApplicationController
     @occupant = @projet_courant.avis_impositions.first.occupants.build(occupant_params)
 
     if request.post?
-      if occupant_params?
+      if projet_params.present?
+        @projet_courant.update_attributes(projet_params)
+      end
+      if params[:submit_button].nil?
         if @occupant.save(context: :user_action)
           return redirect_to projet_or_dossier_occupants_path(@projet_courant)
         end
-      else
+      elsif !occupant_params? || @occupant.save(context: :user_action)
         return redirect_to_next_step
       end
     end
@@ -41,6 +44,12 @@ private
     else
       t('projets.edition.action')
     end
+  end
+
+  def projet_params
+    params[:occupant].fetch(:projet, {}).permit(
+      :future_birth
+    )
   end
 
   def occupant_params

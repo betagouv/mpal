@@ -261,6 +261,7 @@ fr:
       remplir_le_projet: "Je remplis le projet"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
+      future_birth: "Enfant(s) à naître dans le foyer"
       titre_infos_demandeur: "Mes infos"
       titre_identification_demandeur: "Identification du demandeur"
       titre_liste_occupants: "Liste des occupants"

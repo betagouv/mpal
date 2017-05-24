@@ -8,7 +8,7 @@ article.block.occupants
     ul
       li
         | Nombre d’occupants :
-        span= " #{@projet_courant.nb_total_occupants}"
+        span= " #{@projet_courant.nb_total_occupants} " + (@projet_courant.future_birth ? "+ enfant(s) à naître" : "")
       li
         = t('demarrage_projet.demandeur.revenu_fiscal_reference')
         span= " #{@projet_courant.annee_fiscale_reference} : "
@@ -29,6 +29,7 @@ article.block.occupants
         br/
         = @projet_courant.email
     h4 Occupants :
+    span= t('projets.visualisation.future_birth') if @projet_courant.future_birth
     table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
       tbody
         tr

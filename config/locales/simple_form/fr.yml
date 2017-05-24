@@ -56,6 +56,7 @@ fr:
         demandeur: "Prénom et nom"
         etage: "Votre étage"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
+        future_birth: "Enfant(s) à naître"
         nb_pieces: "Nombre de pièces"
         surface_habitable: "Surface habitable"
         theme_ids: "Types d’interventions"
@@ -94,4 +95,3 @@ fr:
         date_de_naissance: "JJ/MM/AAAA"
       personne:
         lien_avec_demandeur: "Enfant, voisin…"
-
