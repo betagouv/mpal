@@ -1,6 +1,9 @@
 #!/bin/bash
 # Merge la branche `staging` dans la branche `master`.
 # CircleCI déploie automatiquement la branche `master` sur l'environnement de démo.
+#
+# Ce script n'est pas indispensable pour déployer sur l'environnement de démo ;
+# il permet juste d'effectuer plusieurs vérification de sûreté avant de merger.
 
 # Termine le script à la première commande en erreur
 set -e
