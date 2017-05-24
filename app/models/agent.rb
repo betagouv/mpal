@@ -28,6 +28,14 @@ class Agent < ActiveRecord::Base
     intervenant && intervenant.pris?
   end
 
+  def siege?
+    intervenant && intervenant.siege?
+  end
+
+  def dreal?
+    intervenant && intervenant.dreal?
+  end
+
   def cas_extra_attributes=(extra_attributes)
     extra_attributes.each do |cas_cle, valeur|
       case cas_cle.to_sym

@@ -53,4 +53,12 @@ class Intervenant < ActiveRecord::Base
   def pris?
     (roles || []).include?('pris')
   end
+
+  def siege?
+    (roles || []).include?('siege')
+  end
+
+  def dreal?
+    (roles || []).include?('dreal')
+  end
 end

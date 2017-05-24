@@ -18,7 +18,7 @@ class DossiersController < ApplicationController
       }
     end
     return render "dossiers/dashboard_operateur"   if current_agent.operateur?
-    return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
+    return render "dossiers/dashboard_instructeur" if current_agent.instructeur? || current_agent.siege?
     render "dossiers/dashboard_pris"
   end
 
@@ -91,16 +91,33 @@ class DossiersController < ApplicationController
   end
 
   def indicateurs
-    unless current_agent.instructeur?
+    @page_heading = 'Indicateurs'
+
+    if current_agent.instructeur?
+      @projets_departement = []
+      current_agent.intervenant.departements.each do |departement|
+        Projet.all.each do |projet|
+          if projet.adresse.departement == departement
+            @projets_departement << projet
+          end
+        end
+      end
+      @projets_count = @projets_departement.count
+      all_projets_statut = @projets_departement.map(&:statut)
+      @projets = {}
+      Projet::STATUSES.each do |statut|
+        @projets[statut] = all_projets_statut.count(statut.to_s)
+      end
+    elsif current_agent.siege?
+      @all_projets_statut = Projet.all.map(&:statut)
+      @projets_count = @all_projets_statut.count
+      @projets = {}
+      Projet::STATUSES.each do |statut|
+        @projets[statut] = @all_projets_statut.count(statut.to_s)
+      end
+    else
       redirect_to dossiers_path, alert: t('sessions.access_forbidden')
     end
-    @all_projets = Projet.all
-    @all_prospect = Projet.where(statut: 0)
-    @all_en_cours = Projet.where(statut: 1)
-    @all_proposition_enregistree = Projet.where(statut: 2)
-    @all_proposition_proposee = Projet.where(statut: 3)
-    @all_transmis_pour_instruction = Projet.where(statut: 5)
-    @all_en_cours_d_instruction = Projet.where(statut: 6)
   end
 
 private

@@ -1,13 +1,11 @@
 .main-content-block
   h1 Indicateurs
-  = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-right btn-secondary"
+  = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-top-right btn-secondary"
 
-  p=  "Il y a #{ pluralize( @all_projets.count, 'projet' ) }."
+  h3=  "Il y a #{ pluralize( @projets_count, 'projet' ) }."
 
-  ul
-   li= "Il y a #{ pluralize( @all_proposition_enregistree.count, 'projet' )} 'Proposition Enregistrée'."
-   li= "Il y a #{ pluralize( @all_en_cours.count, 'projet' )} 'En Cours'."
-   li= "Il y a #{ pluralize( @all_prospect.count, 'projet' )} 'Prospect'."
-   li= "Il y a #{ pluralize( @all_proposition_proposee.count, 'projet' )} 'Proposition Proposée'."
-   li= "Il y a #{ pluralize( @all_transmis_pour_instruction.count, 'projet' )} 'Transmis pour Instruction'."
-   li= "Il y a #{ pluralize( @all_en_cours_d_instruction.count, 'projet' )} 'En Cours d'Instruction."
+  .flex-indicateurs-projet.clearfix
+    - @projets.each do |statut, count|
+        .indicateur-projet id="projet_#{statut}"
+          h3= t("projets.statut.#{statut}")
+          p.nombre-projets= count 

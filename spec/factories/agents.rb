@@ -22,5 +22,18 @@ FactoryGirl.define do
       prenom 'Agent'
       sequence(:username) {|n| "agent_pris#{n}" }
     end
+
+    trait :siege do
+      nom 'Siege'
+      prenom 'Agent'
+      sequence(:username) {|n| "agent_siege#{n}" }
+    end
+
+    trait :dreal do
+      nom 'DREAL'
+      prenom 'Agent'
+      sequence(:username) {|n| "agent_dreal#{n}" }
+    end
+    
   end
 end

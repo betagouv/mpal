@@ -18,5 +18,15 @@ FactoryGirl.define do
       sequence(:raison_sociale) {|n| "Instructeur#{n}" }
       roles ['instructeur']
     end
+
+    factory :siege do
+      sequence(:raison_sociale) {|n| "Siege#{n}" }
+      roles ['siege']
+    end
+
+    factory :dreal do
+      sequence(:raison_sociale) {|n| "Dreal#{n}" }
+      roles ['dreal']
+    end
   end
 end
