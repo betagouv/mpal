@@ -1,6 +1,9 @@
 #!/bin/bash
 # Merge la branche `staging` dans la branche `master`.
 # CircleCI déploie automatiquement la branche `master` sur l'environnement de démo.
+#
+# Ce script n'est pas indispensable pour déployer sur l'environnement de démo ;
+# il permet juste d'effectuer plusieurs vérification de sûreté avant de merger.
 
 # Termine le script à la première commande en erreur
 set -e
@@ -32,16 +35,14 @@ function assert_branch_up_to_date {
   local branch="$1"
   local commits_before=$(git rev-list "${remote_name}/${branch}..${branch}" | wc -l)
   if [ $commits_before -ne 0 ]; then
-    echo "La branche locale '${branch}' n'est pas à jour avec '${remote_name}/${branch}':"
-    GIT_PAGER=cat git log --boundary --graph --oneline "${remote_name}/${branch}..${branch}"
-    echo "Mettez la branche à jour avant de continuer."
+    echo "La branche locale '${branch}' n'est pas à jour avec '${remote_name}/${branch}'."
+    echo "Mettez la branche '${branch}' à jour avant de continuer."
     exit 1
   fi
   local commits_after=$(git rev-list "${branch}..${remote_name}/${branch}" | wc -l)
   if [ $commits_after -ne 0 ] ; then
-    echo "La branche locale '${branch}' n'est pas à jour avec '${remote_name}/${branch}':"
-    GIT_PAGER=cat git log --boundary --graph --oneline "${branch}..${remote_name}/${branch}"
-    echo "Mettez la branche à jour avant de continuer."
+    echo "La branche locale '${branch}' n'est pas à jour avec '${remote_name}/${branch}'."
+    echo "Mettez la branche '${branch}' à jour avant de continuer."
     exit 1
   fi
 }
@@ -66,7 +67,7 @@ function perform_merge {
   git checkout "$target_branch"
   git reset --hard "$target_head"
   git merge --no-edit "$source_branch"
-  git push "$remote_name" "$target_branch"
+  git push "$remote_name" "$target_branch:$target_branch"
   git checkout -
 
   echo
