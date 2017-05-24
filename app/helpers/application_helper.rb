@@ -29,7 +29,7 @@ module ApplicationHelper
     capture do
       content_tag (opts[:tag] || :button), p do
         if opts[:icon].present?
-          content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}") + opts[:name]
+          opts[:name].html_safe + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
         else
           opts[:name]
         end
@@ -62,11 +62,6 @@ module ApplicationHelper
 
   def with_semicolon(string)
     string + " : "
-  end
-
-  def prestation_checkbox(projet, prestation)
-    checked = projet.prestations.include?(prestation)
-    check_box_tag 'projet[prestation_ids][]', prestation.id, checked, id: "prestation_#{prestation.id}"
   end
 
   def calcul_preeligibilite(annee)
@@ -128,14 +123,31 @@ module ApplicationHelper
     end
   end
 
+  def i18n_simple_form_id(model, key)
+    if key.to_s.include?(".")
+      model2, key2 = key.to_s.split(".")
+      return [model, model2, "attributes", key2].join("_")
+    end
+    [model, key].join("_")
+  end
+
   def i18n_simple_form_label(model, key)
-    translation = I18n.t("simple_form.labels.#{model}.#{key}", default: "")
-    translation = I18n.t("simple_form.labels.defaults.#{key}", default: "") if translation.blank?
-    translation = I18n.t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
+    if key.to_s.include?(".")
+      model, key = key.to_s.split(".")
+    end
+    translation = t("activerecord.attributes.#{model}.#{key}", default: "")
+    translation = t("activerecord.attributes.defaults.#{key}", default: "") if translation.blank?
+    translation = t("simple_form.labels.#{model}.#{key}", default: "") if translation.blank?
+    translation = t("simple_form.labels.defaults.#{key}", default: "") if translation.blank?
+    translation = t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
     translation
   end
 
   def dossier_opal_url(numero)
     "#{ENV['OPAL_API_BASE_URI']}sio/ctrl/accueil?FORM_DTO_ID=DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE&FORM_ACTION=RECHERCHER_RAPIDE_DOSSIER&$DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE$DOS_NUMERO=#{numero}"
+  end
+
+  def number_to_power_consumption(number)
+    [number, I18n.t('helpers.units.power_consumption')].join(' ')
   end
 end

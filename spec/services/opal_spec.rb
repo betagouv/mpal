@@ -30,12 +30,12 @@ describe Opal do
   let(:client) { OpalClientMock.new(201, "OK", { dosNumero: "09500840", dosId: 959496 }) }
 
   describe "#create_dossier!" do
-    let(:projet) {            create :projet, :transmis_pour_instruction, demandeurs_count: 1, occupants_a_charge_count: 1 }
+    let(:projet) {            create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
     let(:instructeur) {       create :instructeur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
 
     context "en cas de succès" do
-      before { projet.demandeur_principal.update(nom: 'Strâbe', prenom: 'ōlaf') }
+      before { projet.demandeur.update(nom: 'Strâbe', prenom: 'ōlaf') }
       subject! { Opal.new(client).create_dossier!(projet, agent_instructeur) }
 
       it "envoie les informations sérialisées" do
@@ -59,7 +59,7 @@ describe Opal do
         expect(adresse_postale["adpCodePostal"]).to eq "75008"
 
         immeuble = body["immeuble"]
-        expect(immeuble["immAnneeAchevement"]).to eq 1975
+        expect(immeuble["immAnneeAchevement"]).to eq 2010
 
         adresse_geographique = immeuble["adresseGeographique"]
         expect(adresse_geographique["adgLigne1"]).to eq "12 rue de la Mare"

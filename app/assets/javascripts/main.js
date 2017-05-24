@@ -1,15 +1,16 @@
 $(document).ready(function() {
-  // show/hide personne de confiance
-  if (!$("#contact-diff").is(':checked')) {
-    $(".dem-diff").hide();
-  }
-  $(".dem-contact input:radio").change(function() {
-    if ($("#contact-diff").is(':checked')) {
-      $(".dem-diff").slideDown("fast");
-    } else {
-      $(".dem-diff").slideUp("fast");
+  function bindReliablePersonForm() {
+    if (!$("#js-reliable-person-select-yes").is(":checked")) {
+      $(".js-reliable-person-form").hide();
     }
-  });
+    $(".js-reliable-person-select input:radio").change(function() {
+      if ($("#js-reliable-person-select-yes").is(":checked")) {
+        $(".js-reliable-person-form").slideDown("fast");
+      } else {
+        $(".js-reliable-person-form").slideUp("fast");
+      }
+    });
+  }
 
   // Toggle block page projet
   $(".block h3").each( function(index) {
@@ -30,22 +31,25 @@ $(document).ready(function() {
     wtf.scrollTop(height);
   });
 
-  // Open by defaut last block
+  // Open by default last block
   $(".block").last().children().addClass("is-open").slideDown(0);
 
-  // Smouth scroll anchor
-  $('a[href*="#"]:not([href="#"])').click(function() {
-    if (location.pathname.replace(/^\//,'') == this.pathname.replace(/^\//,'') && location.hostname == this.hostname) {
-      var target = $(this.hash);
-      target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
-      if (target.length) {
-        $('html, body').animate({
-          scrollTop: target.offset().top
-        }, 500);
-        return false;
+  // Smooth scroll anchor
+  function bindSmoothScrolling() {
+    $('a[href*="#"]:not([href="#"])').click(function() {
+      if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) +']');
+        if (target.length) {
+          $('html, body').animate({
+            scrollTop: target.offset().top
+          }, 500);
+          history.pushState(null, null, this.href);
+          return false;
+        }
       }
-    }
-  });
+    });
+  }
 
   // Input file custom
   var $fileInput = $('.file-input');
@@ -115,6 +119,38 @@ $(document).ready(function() {
     }
   }
 
+  function sumPublicHelps() {
+    var helps = Array.from($(".js-public-help"));
+    var sum = helps.reduce(parseAmountAndSum, 0).toFixed(2);
+    $("#js-public-helps-sum")[0].value = sum.toString().replace('.', ',');
+  }
+
+  function sumFundings() {
+    var fundings = Array.from($(".js-funding"));
+    var sum = fundings.reduce(parseAmountAndSum, 0).toFixed(2);
+    $("#js-fundings-sum")[0].value = sum.toString().replace('.', ',');
+  }
+
+  function parseAmountAndSum(accumulator, element) {
+    var field_value = parseFloat(element.value.replace(',', '.'));
+    field_value = isNaN(field_value) ? 0 : field_value;
+    return accumulator + field_value;
+  }
+
+  var public_helps = $(".js-public-help");
+  if (public_helps.length) {
+    sumPublicHelps();
+    public_helps.keyup(sumPublicHelps);
+  }
+
+  var fundings = $(".js-funding");
+  if (fundings.length) {
+    sumFundings();
+    fundings.keyup(sumFundings);
+  }
+
+  bindReliablePersonForm();
+  bindSmoothScrolling();
   bindLoginHelpers();
   bindPopins();
   var engagement = $(".js-engagement");

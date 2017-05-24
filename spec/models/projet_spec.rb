@@ -13,15 +13,21 @@ describe Projet do
     it { is_expected.not_to validate_presence_of(:email) }
     it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.not_to validate_presence_of(:date_de_visite) }
-    it { is_expected.to validate_presence_of(:date_de_visite).on(:proposition) }
+    it { is_expected.to validate_presence_of(:date_de_visite).with_message(:blank_feminine).on(:proposition) }
+    it { is_expected.to validate_presence_of(:assiette_subventionnable_amount).with_message(:blank_feminine).on(:proposition) }
+    it { is_expected.to validate_presence_of(:travaux_ht_amount).on(:proposition) }
+    it { is_expected.to validate_presence_of(:travaux_ttc_amount).on(:proposition) }
     it { is_expected.to validate_inclusion_of(:note_degradation).in_range(0..1) }
     it { is_expected.to validate_inclusion_of(:note_insalubrite).in_range(0..1) }
+    it { is_expected.to validate_numericality_of(:consommation_avant_travaux).is_greater_than_or_equal_to(0).allow_nil }
+    it { is_expected.to validate_numericality_of(:consommation_apres_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to have_one :demande }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
     it { is_expected.to belong_to :operateur }
     it { is_expected.to belong_to :adresse_postale }
-    it { is_expected.to have_and_belong_to_many :prestations }
+    it { is_expected.to have_many(:prestations).through(:prestation_choices)}
+    it { is_expected.to have_many(:aides).through(:projet_aides)}
     it { is_expected.to have_and_belong_to_many :themes }
     it { is_expected.to belong_to :agent_operateur }
     it { is_expected.to belong_to :agent_instructeur }
@@ -32,7 +38,7 @@ describe Projet do
       expect(projet.errors[:email]).to be_empty
     end
 
-    it "rejete les emails invalides" do
+    it "rejette les emails invalides" do
       projet.email = "invalid-email@lol"
       projet.valid?
       expect(projet.errors[:email]).to be_present
@@ -44,7 +50,7 @@ describe Projet do
       expect(projet.errors[:tel]).to be_empty
     end
 
-    it "rejete les numéros de téléphone invalides" do
+    it "rejette les numéros de téléphone invalides" do
       projet.tel = "111"
       projet.valid?
       expect(projet.errors[:tel]).to be_present
@@ -76,10 +82,10 @@ describe Projet do
         it { is_expected.to allow_updating_of(:agent_instructeur_id).with(create(:agent).id) }
         it { is_expected.not_to allow_updating_of(:note_degradation) }
         it { is_expected.not_to allow_updating_of(:note_insalubrite) }
-        it { is_expected.not_to allow_updating_of(:montant_travaux_ht) }
-        it { is_expected.not_to allow_updating_of(:montant_travaux_ttc) }
-        it { is_expected.not_to allow_updating_of(:reste_a_charge) }
-        it { is_expected.not_to allow_updating_of(:pret_bancaire) }
+        it { is_expected.not_to allow_updating_of(:travaux_ht_amount) }
+        it { is_expected.not_to allow_updating_of(:travaux_ttc_amount) }
+        it { is_expected.not_to allow_updating_of(:personal_funding_amount) }
+        it { is_expected.not_to allow_updating_of(:loan_amount) }
         it { is_expected.not_to allow_updating_of(:adresse_postale_id).with(create(:adresse).id) }
         it { is_expected.not_to allow_updating_of(:adresse_a_renover_id).with(create(:adresse).id) }
       end
@@ -122,26 +128,50 @@ describe Projet do
     end
   end
 
+  describe "#with_demandeur" do
+    let!(:projet1) { create :projet, :with_demandeur }
+    let!(:projet2) { create :projet, :with_demandeur }
+    let!(:projet3) { create :projet }
+
+    it { expect(Projet.with_demandeur).to include(projet1, projet2) }
+    it { expect(Projet.with_demandeur).not_to include(projet3) }
+  end
+
   describe '#for_agent' do
-    context "en tant qu'operateur" do
-      let(:instructeur) {       create :instructeur }
-      let(:operateur1) {        create :operateur }
-      let(:operateur2) {        create :operateur }
-      let(:operateur3) {        create :operateur }
-      let(:agent_instructeur) { create :agent, intervenant: instructeur }
-      let(:agent_operateur1) {  create :agent, intervenant: operateur1 }
-      let(:agent_operateur2) {  create :agent, intervenant: operateur2 }
-      let(:agent_operateur3) {  create :agent, intervenant: operateur3 }
-      let(:projet1) {           create :projet }
-      let(:projet2) {           create :projet }
-      let(:projet3) {           create :projet }
-      let!(:invitation1) {       create :invitation, intervenant: operateur1, projet: projet1 }
-      let!(:invitation2) {       create :invitation, intervenant: operateur1, projet: projet2 }
-      let!(:invitation3) {       create :invitation, intervenant: operateur2, projet: projet3 }
+    let(:instructeur)       { create :instructeur }
+    let(:operateur1)        { create :operateur }
+    let(:operateur2)        { create :operateur }
+    let(:operateur3)        { create :operateur }
+    let(:operateur4)        { create :operateur }
+    let(:agent_instructeur) { create :agent, intervenant: instructeur }
+    let(:agent_operateur1)  { create :agent, intervenant: operateur1 }
+    let(:agent_operateur2)  { create :agent, intervenant: operateur2 }
+    let(:agent_operateur3)  { create :agent, intervenant: operateur3 }
+    let(:agent_operateur4)  { create :agent, intervenant: operateur4 }
+    let(:projet1)           { create :projet, :with_demandeur }
+    let(:projet2)           { create :projet, :with_demandeur }
+    let(:projet3)           { create :projet, :with_demandeur }
+    let(:projet4)           { create :projet, :with_demandeur }
+    let(:projet5)           { create :projet }
+    let!(:invitation1)      { create :invitation, intervenant: operateur1, projet: projet1 }
+    let!(:invitation2)      { create :invitation, intervenant: operateur1, projet: projet2 }
+    let!(:invitation3)      { create :invitation, intervenant: operateur2, projet: projet3 }
+
+    before { projet4.suggest_operateurs! [operateur4.id] }
+
+    describe "un opérateur voit les projets sur lesquels il est affecté ou recommandé" do
       it { expect(Projet.for_agent(agent_operateur1).length).to eq(2) }
       it { expect(Projet.for_agent(agent_operateur2).length).to eq(1) }
       it { expect(Projet.for_agent(agent_operateur3).length).to eq(0) }
-      it { expect(Projet.for_agent(agent_instructeur).length).to eq(3) }
+      it { expect(Projet.for_agent(agent_operateur4).length).to eq(1) }
+    end
+
+    it "un instructeur voit tous les projets avec un demandeur" do
+      expect(Projet.for_agent(agent_instructeur)).to include(projet1)
+      expect(Projet.for_agent(agent_instructeur)).to include(projet2)
+      expect(Projet.for_agent(agent_instructeur)).to include(projet3)
+      expect(Projet.for_agent(agent_instructeur)).to include(projet4)
+      expect(Projet.for_agent(agent_instructeur)).not_to include(projet5)
     end
   end
 
@@ -170,7 +200,7 @@ describe Projet do
   end
 
   describe '#nb_occupants_a_charge' do
-    let(:projet) { create :projet, :with_demandeurs, demandeurs_count: 1, occupants_a_charge_count: 2 }
+    let(:projet) { create :projet, :with_demandeur, declarants_count: 1, occupants_a_charge_count: 2 }
     it { expect(projet.nb_occupants_a_charge).to eq(2) }
   end
 
@@ -184,19 +214,19 @@ describe Projet do
 
   describe '#preeligibilite' do
     let(:annee) { 2015 }
-    let(:projet) { create :projet, :with_avis_imposition, demandeurs_count: 2, occupants_a_charge_count: 2 }
+    let(:projet) { create :projet, :with_avis_imposition, declarants_count: 2, occupants_a_charge_count: 2 }
     it { expect(projet.preeligibilite(annee)).to eq(:tres_modeste) }
   end
 
   describe '#nom_occupants' do
-    let(:projet) { create :projet, :with_demandeurs, demandeurs_count: 2, occupants_a_charge_count: 0 }
+    let(:projet) { create :projet, :with_demandeur, declarants_count: 2, occupants_a_charge_count: 0 }
     let(:occupant_1) { projet.occupants.first }
     let(:occupant_2) { projet.occupants.last }
     it { expect(projet.nom_occupants).to eq("#{occupant_1.nom.upcase} ET #{occupant_2.nom.upcase}") }
   end
 
   describe '#prenom_occupants' do
-    let(:projet) { create :projet, :with_demandeurs, demandeurs_count: 2, occupants_a_charge_count: 0 }
+    let(:projet) { create :projet, :with_demandeur, declarants_count: 2, occupants_a_charge_count: 0 }
     let(:occupant_1) { projet.occupants.first }
     let(:occupant_2) { projet.occupants.last }
     it { expect(projet.prenom_occupants).to eq("#{occupant_1.prenom.capitalize} et #{occupant_2.prenom.capitalize}") }
@@ -250,18 +280,69 @@ describe Projet do
   end
 
   describe "#change_demandeur" do
-    let(:projet) { create :projet, :with_demandeurs }
+    let(:projet) { create :projet, :with_demandeur }
 
     it "change le demandeur" do
-      expect(projet.demandeur_principal).to eq projet.occupants.first
-      new_demandeur_principal = projet.occupants.last
-      projet.change_demandeur(new_demandeur_principal.id)
-      expect(projet.demandeur_principal).to eq new_demandeur_principal
+      expect(projet.demandeur).to eq projet.occupants.first
+      new_demandeur = projet.occupants.last
+      projet.change_demandeur(new_demandeur.id)
+      expect(projet.demandeur).to eq new_demandeur
+    end
+  end
+
+  describe "#has_house_evaluation?" do
+    let(:projet_without_house_evaluation) { create :projet }
+    let(:projet_with_house_evaluation)    { create :projet, note_degradation: 1 }
+
+    it "retourne vrai si un élément de l'évaluation du logement est renseigné" do
+      expect(projet_without_house_evaluation.has_house_evaluation?).to be_falsy
+      expect(projet_with_house_evaluation.has_house_evaluation?).to be_truthy
+    end
+  end
+
+  describe "#has_energy_evaluation?" do
+    let(:projet_without_energy_evaluation) { create :projet }
+    let(:projet_with_energy_evaluation)    { create :projet, etiquette_apres_travaux: 'A' }
+
+    it "retourne vrai si un élément de l'évaluation énergétique est renseigné" do
+      expect(projet_without_energy_evaluation.has_energy_evaluation?).to be_falsy
+      expect(projet_with_energy_evaluation.has_energy_evaluation?).to be_truthy
+    end
+  end
+
+  describe "#has_fundings?" do
+    let(:projet_without_fundings) { create :projet }
+    let(:projet_with_fundings)    { create :projet, travaux_ht_amount: 1 }
+
+    it "retourne vrai si un élément de financement est renseigné" do
+      expect(projet_without_fundings.has_fundings?).to be_falsy
+      expect(projet_with_fundings.has_fundings?).to be_truthy
+    end
+  end
+
+  describe "#pris_suggested_operateurs" do
+    let(:projet)     { create :projet }
+    let(:operateur1) { create :operateur }
+    let(:operateur2) { create :operateur }
+    let(:operateur3) { create :operateur }
+    let(:operateur4) { create :operateur }
+
+    before do
+      create :invitation, projet_id: projet.id, intervenant_id: operateur1.id, suggested: true
+      create :invitation, projet_id: projet.id, intervenant_id: operateur2.id, suggested: true
+      create :invitation, projet_id: projet.id, intervenant_id: operateur3.id, contacted: true
+    end
+
+    it "retourne les opérateurs recommandés par le PRIS" do
+      suggested_operateurs = projet.pris_suggested_operateurs
+
+      expect(suggested_operateurs).to     include(operateur1, operateur2)
+      expect(suggested_operateurs).not_to include(operateur3, operateur4)
     end
   end
 
   describe "#suggest_operateurs!" do
-    let(:projet)     { create :projet, :with_suggested_operateurs }
+    let(:projet)     { create :projet }
     let(:operateurA) { create :operateur }
     let(:operateurB) { create :operateur }
 
@@ -269,7 +350,7 @@ describe Projet do
       expect(ProjetMailer).to receive(:recommandation_operateurs).and_call_original
       result = projet.suggest_operateurs!([operateurA.id, operateurB.id])
       expect(result).to be true
-      expect(projet.suggested_operateurs.count).to eq 2
+      expect(projet.pris_suggested_operateurs.count).to eq 2
       expect(projet.errors).to be_empty
     end
 
@@ -278,92 +359,133 @@ describe Projet do
       expect(result).to be false
       expect(projet.errors).to be_present
     end
+
+    context "avec un opérateur déjà recommandé" do
+      before do
+        projet.suggest_operateurs!([operateurA.id])
+        projet.suggest_operateurs!([operateurB.id])
+      end
+
+      it "remplace l'opérateur précédemment recommandé" do
+        expect(Invitation.find_by(intervenant_id: operateurA.id).blank?).to   eq true
+        expect(Invitation.find_by(intervenant_id: operateurB.id).present?).to eq true
+      end
+    end
   end
 
-  describe "#invite_intervenant!" do
-    context "sans intervenant invité au préalable" do
+  describe "#contact_operateur!" do
+    context "sans opérateur invité au préalable" do
       let(:projet)    { create :projet }
       let(:operateur) { create :operateur }
 
-      it "sélectionne et notifie l'intervenant" do
+      it "sélectionne et notifie l'opérateur" do
         expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
-        projet.invite_intervenant!(operateur)
+        projet.contact_operateur!(operateur)
         expect(projet.invitations.count).to eq(1)
-        expect(projet.invited_operateur).to eq(operateur)
+        expect(projet.contacted_operateur).to eq(operateur)
       end
     end
 
-    context "avec un PRIS invité auparavant" do
-      let(:projet)        { create :projet, :prospect, :with_invited_pris }
-      let(:new_operateur) { create :operateur }
+    context "avec des opérateurs recommandés par un PRIS" do
+      let(:projet)    { create :projet, :prospect, :with_suggested_operateurs }
+      let(:operateur) { projet.invitations.last.intervenant }
 
-      it "sélectionne le nouvel intervenant" do
-        projet.invite_intervenant!(new_operateur)
-        expect(projet.invitations.count).to eq(2)
-        expect(projet.invited_pris).not_to be_nil
-        expect(projet.invited_operateur).to eq(new_operateur)
+      context "dont un opérateur contacté" do
+        before { projet.invitations.first.update(contacted: true) }
+
+        it "ne supprime pas la suggestion sur contact d'un autre opérateur" do
+          projet.contact_operateur!(operateur)
+          expect(projet.invitations.count).to eq 2
+          expect(projet.invitations.first.suggested).to eq true
+          expect(projet.invitations.first.contacted).to eq false
+        end
       end
     end
 
     context "avec un opérateur invité auparavant" do
-      context "et un nouveau PRIS" do
-        let(:projet)    { create :projet, :prospect, :with_invited_operateur }
-        let(:operateur) { projet.invited_operateur }
-        let(:pris)      { create :pris }
-
-        it "rajoute l’opérateur et conserve la relation avec le PRIS" do
-          projet.invite_intervenant!(pris)
-          expect(projet.invitations.count).to eq(2)
-          expect(projet.invited_operateur).to eq(operateur)
-          expect(projet.invited_pris).to eq(pris)
-        end
-      end
+      let(:projet) { create :projet, :prospect, :with_contacted_operateur }
 
       context "et un nouvel opérateur différent du précédent" do
-        let(:projet)             { create :projet, :prospect, :with_invited_operateur }
-        let(:previous_operateur) { projet.invited_operateur }
-        let(:new_operateur)      { create :operateur }
+        let(:new_operateur) { create :operateur }
 
         it "sélectionne le nouvel opérateur, et notifie l'ancien opérateur" do
           expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
           expect(ProjetMailer).to receive(:resiliation_operateur).and_call_original
-          projet.invite_intervenant!(new_operateur)
+          projet.contact_operateur!(new_operateur)
           expect(projet.invitations.count).to eq(1)
-          expect(projet.invited_operateur).to eq(new_operateur)
+          expect(projet.contacted_operateur).to eq(new_operateur)
         end
       end
 
       context "et un nouvel opérateur identique au précédent" do
-        let(:projet)    { create :projet, :prospect, :with_invited_operateur }
-        let(:operateur) { projet.invited_operateur }
+        let(:operateur) { projet.contacted_operateur }
 
         it "ne change rien" do
-          projet.invite_intervenant!(operateur)
-          expect(projet.invitations.count).to eq(1)
-          expect(projet.invited_operateur).to eq(operateur)
+          projet.contact_operateur!(operateur)
+          expect(projet.invitations.count).to eq 1
+          expect(projet.contacted_operateur).to eq operateur
         end
       end
     end
 
     context "avec un opérateur engagé auparavant" do
+      let(:projet) { create :projet, :prospect, :with_committed_operateur }
+
       context "et un nouvel opérateur différent de celui déjà engagé" do
-        let(:projet)             { create :projet, :prospect, :with_committed_operateur }
-        let(:new_operateur)      { create :operateur }
+        let(:new_operateur) { create :operateur }
 
         it "ne change rien et lève une exception" do
-          expect { projet.invite_intervenant!(new_operateur) }.to raise_error RuntimeError
-          expect(projet.invitations.count).to eq(1)
-          expect(projet.invited_operateur).to eq(projet.operateur)
+          expect { projet.contact_operateur!(new_operateur) }.to raise_error RuntimeError
+          expect(projet.invitations.count).to eq 1
+          expect(projet.contacted_operateur).to eq projet.operateur
         end
       end
 
       context "et un nouvel opérateur identique au précédent" do
-        let(:projet)    { create :projet, :en_cours }
         let(:operateur) { projet.operateur }
 
         it "ne change rien" do
-          projet.invite_intervenant!(operateur)
-          expect(projet.operateur).to eq(operateur)
+          projet.contact_operateur!(operateur)
+          expect(projet.operateur).to eq operateur
+        end
+      end
+    end
+  end
+
+  describe "#invite_pris!" do
+    context "sans PRIS invité au préalable" do
+      let(:projet) { create :projet }
+      let(:pris)   { create :pris }
+
+      it "sélectionne et notifie le PRIS" do
+        expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+        projet.invite_pris!(pris)
+        expect(projet.invitations.count).to eq(1)
+        expect(projet.invited_pris).to eq(pris)
+      end
+    end
+
+    context "avec un PRIS invité auparavant" do
+      let(:projet) { create :projet, :prospect, :with_invited_pris }
+
+      context "et un nouveau PRIS différent du précédent" do
+        let(:new_pris) { create :pris }
+
+        it "sélectionne le nouveau PRIS, et notifie l'ancien PRIS" do
+          expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+          projet.invite_pris!(new_pris)
+          expect(projet.invitations.count).to eq(1)
+          expect(projet.invited_pris).to eq(new_pris)
+        end
+      end
+
+      context "et un nouveau PRIS identique au précédent" do
+        let(:pris) { projet.invited_pris }
+
+        it "ne change rien" do
+          projet.invite_pris!(pris)
+          expect(projet.invitations.count).to eq 1
+          expect(projet.invited_pris).to eq pris
         end
       end
     end
@@ -385,22 +507,13 @@ describe Projet do
     let(:projet) { create :projet, :en_cours }
 
     context "quand les attributs sont valides" do
-      let(:attributes) do { note_degradation: 0.1, date_de_visite: Time.now } end
+      let(:attributes) do { note_degradation: 0.1 } end
 
       it "enregistre les modifications au projet" do
         expect(projet.save_proposition!(attributes)).to be true
         expect(projet.changed?).to be false
         expect(projet.statut).to eq(:proposition_enregistree.to_s)
         expect(projet.note_degradation).to eq 0.1
-      end
-    end
-
-    context "quand des attributs requis sont manquants" do
-      let(:attributes) do { date_de_visite: nil } end
-
-      it "ajoute une erreur de validation" do
-        expect(projet.save_proposition!(attributes)).to be false
-        expect(projet.errors).not_to be_blank
       end
     end
   end
@@ -483,4 +596,18 @@ describe Projet do
       expect(projet.status_for_operateur).to eq :en_cours_d_instruction
     }
   end
+
+  describe "localizedamo_amount=" do
+    let(:projet) { create :projet }
+
+    it {
+      projet.localized_amo_amount = '4,2'
+      expect(projet[:amo_amount].to_s).to eq '4.2'
+    }
+    it {
+      projet.localized_amo_amount = '1 400,2'
+      expect(projet[:amo_amount].to_s).to eq '1400.2'
+    }
+  end
+
 end

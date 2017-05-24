@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_ban_helper'
 
 describe DemandeursController do
-  let(:projet) { create :projet, :prospect, demandeurs_count: 2 }
+  let(:projet) { create :projet, :prospect, declarants_count: 2 }
 
   before(:each) do
     authenticate_as_particulier(projet.numero_fiscal)
@@ -14,17 +14,36 @@ describe DemandeursController do
       get :show, projet_id: projet.id
     end
 
-    it "renders the template" do
+    it "affiche le template" do
       expect(response).to render_template(:show)
       expect(assigns(:page_heading)).to eq 'Inscription'
+      expect(assigns(:demandeur)).to eq projet.demandeur
+    end
+
+    context "quand il n'y a qu'un seul déclarant" do
+      let(:projet) { create :projet, :prospect, declarants_count: 1 }
+      it "propose l'unique déclarant possible comme demandeur" do
+        expect(assigns(:declarants_prompt)).to be nil
+      end
+    end
+
+    context "quand il y a plusieurs déclarants" do
+      let(:projet) { create :projet, :prospect, declarants_count: 2 }
+      it "laisse l'utilisateur choisir le demandeur" do
+        expect(assigns(:declarants_prompt)).to   eq I18n.t('demarrage_projet.demandeur.select')
+      end
     end
   end
 
   describe "#update" do
+    let(:departements_enabled) { [Tools::DEPARTEMENTS_WILDCARD] }
     let(:projet_params) do {} end
     let(:params) do
-      default_params = { adresse_postale: projet.adresse_postale.description }
-      {
+      default_params = {
+        demandeur:       projet.demandeur.id,
+        adresse_postale: projet.adresse_postale.description
+      }
+      return {
         contact: "1",
         projet_id: projet.id,
         projet:    default_params.merge(projet_params)
@@ -32,6 +51,7 @@ describe DemandeursController do
     end
 
     before(:each) do
+      allow(Tools).to receive(:departements_enabled).and_return(departements_enabled)
       post :update, params
       projet.reload
     end
@@ -39,8 +59,9 @@ describe DemandeursController do
     context "lorsque les informations changent" do
       let(:projet_params) do
         {
-          tel:   '01 02 03 04 05',
-          email: 'particulier@exemple.fr'
+          tel:       '01 02 03 04 05',
+          email:     'particulier@exemple.fr',
+          demandeur: projet.occupants.last.id,
         }
       end
 
@@ -48,6 +69,7 @@ describe DemandeursController do
         expect(response).to redirect_to projet_avis_impositions_path(projet)
         expect(projet.tel).to eq   '01 02 03 04 05'
         expect(projet.email).to eq 'particulier@exemple.fr'
+        expect(projet.demandeur).to eq projet.occupants.last
       end
     end
 
@@ -154,35 +176,56 @@ describe DemandeursController do
       end
     end
 
-    context "lorsque je renseigne le déclarant" do
-      let(:projet_params) do
+    context "lorsque le demandeur n'est pas sélectionné" do
+      let(:params) do
         {
-            demandeur_id: projet.occupants.last.id,
+          projet_id: projet.id,
+          projet: {
+            adresse_postale: projet.adresse_postale.description,
+            demandeur_id: nil
+          }
         }
       end
 
-      it "enregistre les informations modifiées" do
-        expect(response).to redirect_to projet_avis_impositions_path(projet)
-        expect(projet.demandeur_principal).to eq projet.occupants.last
+      it "affiche une erreur" do
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.missing_demandeur')
+      end
+    end
+
+    context "lorsque une information est erronée" do
+      let(:params) do
+        {
+          projet_id: projet.id,
+          projet: {
+            adresse_postale: nil,
+            demandeur_id: projet.occupants.last.id
+          }
+        }
+      end
+
+      it "affiche une erreur" do
+        expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.adresse_vide')
+        expect(assigns(:demandeur)).to eq projet.demandeur
+      end
+    end
+
+    context "lorsque l'adresse n'est pas dans un département éligible" do
+      let(:departements_enabled) { [] }
+      it "redirige vers une page d'information" do
+        expect(response).to redirect_to projet_demandeur_departement_non_eligible_path(projet)
       end
     end
   end
 
-  context "lorsque une information est erronée" do
+  describe "#departement_non_eligible" do
     before do
-      projet.demandeur_principal.update_attribute(:civilite, nil)
-      post :update, {
-        contact: "1",
-        projet_id: projet.id,
-        projet: {
-          adresse_postale: projet.adresse_postale.description,
-          demandeur_id: projet.demandeur_principal.id
-        }
-      }
+      allow(Tools).to receive(:departements_enabled).and_return(['25', '26'])
+      get :departement_non_eligible, projet_id: projet.id
     end
 
-    it "affiche une erreur" do
-      expect(flash[:alert]).to eq I18n.t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
+    it "affiche la page" do
+      expect(response).to render_template(:departement_non_eligible)
+      expect(assigns(:departements)).to eq ['25', '26']
     end
   end
 end

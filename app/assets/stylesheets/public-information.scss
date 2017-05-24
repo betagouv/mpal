@@ -1,0 +1,24 @@
+.public-information {
+  position: relative;
+  padding: 20px;
+  background-color: white;
+}
+.public-information__heading {
+  text-align: center;
+}
+.public-information__title {
+  margin: 1em 0;
+  color: black;
+}
+.public-information__p {
+  margin-top: 1em;
+}
+.public-information__item {
+  display: list-item;
+  list-style-type: square;
+  margin-left: 1em;
+}
+.public-information__a {
+  text-decoration: underline;
+}
+

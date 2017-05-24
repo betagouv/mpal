@@ -8,13 +8,11 @@ Rails.application.routes.draw do
     resources :avis_impositions,   only: [:index, :new, :create, :destroy]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
-    resource :demandeur,         only: [:show, :update]
-    resource :demande,           only: [:show, :update]
-    resource :mise_en_relation,  only: [:show, :update]
+    resource  :demandeur,         only: [:show, :update]
+    resource  :demande,           only: [:show, :update]
+    resource  :mise_en_relation,  only: [:show, :update]
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
-    get       :proposition
-    put       :proposition
   end
 
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
@@ -27,6 +25,7 @@ Rails.application.routes.draw do
     get  '/', to: 'projets#show', as: 'projet'
     post '/plan_financements', to: 'plans_financements#create', as: 'projet_plan_financements'
   end
+
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
@@ -34,10 +33,14 @@ Rails.application.routes.draw do
       get  :recommander_operateurs
       post :recommander_operateurs
       get  :proposer
+      get  :proposition
+      put  :proposition
+      get  :indicateurs, on: :collection
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     resources :projets, only: [], concerns: :projectable do
+      get      'demandeur/departement_non_eligible', action: :departement_non_eligible, controller: 'demandeurs'
       get      :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch    :choix_operateur,      action: :choose, controller: 'choix_operateur'
       get      :engagement_operateur, action: :new,    controller: 'engagement_operateur'
@@ -45,7 +48,10 @@ Rails.application.routes.draw do
       get      :transmission,         action: :new,    controller: 'transmission'
       post     :transmission,         action: :create, controller: 'transmission'
     end
+
     resources :projets, only: [:show, :edit, :update], param: :projet_id
+
+
 
     get   '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post  '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'
@@ -69,11 +75,22 @@ Rails.application.routes.draw do
 
   get  '/deconnexion', to: 'sessions#deconnexion'
   resources :dossiers, only: []
-  get  '/informations/faq', to: 'informations#faq'
-  get  '/informations/cgu', to: 'informations#cgu'
-  get  '/informations/mentions_legales', to: 'informations#mentions_legales'
+
+  get  '/informations/about',        to: 'informations#about'
+  get  '/informations/faq',          to: 'informations#faq'
+  get  '/informations/terms_of_use', to: 'informations#terms_of_use'
+  get  '/informations/legal',        to: 'informations#legal'
+
+  get  '/patterns',                  to: 'patterns#index'
+  get  '/patterns/forms',            to: 'patterns#forms'
+  get  '/patterns/icons',            to: 'patterns#icons'
+
+  get  '/debug_exception',           to: 'application#debug_exception'
 
   resources :contacts, only: [:index, :new, :create]
+
+  get "/404", to: "errors#not_found"
+  get "/500", to: "errors#internal_server_error"
 
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

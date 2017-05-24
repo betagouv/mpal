@@ -79,21 +79,53 @@ describe ProjetInitializer do
     let(:projet) { create :projet }
 
     context "lorsque les identifiants sont valides" do
-      it "crée un avis d’imposition avec les informations du contribuable" do
-        expect(projet.avis_impositions.length).to eq(0)
+      before { projet_initializer.initialize_avis_imposition(projet, '15', '1515') }
+      let(:avis_imposition) { projet.avis_impositions.first }
 
-        projet_initializer.initialize_avis_imposition(projet, '15', '1515')
+      it "crée un avis d’imposition" do
         expect(projet.avis_impositions.length).to eq(1)
+      end
 
-        avis_imposition = projet.avis_impositions.first
+      it "remplit l'avis d'imposition avec les informations générales" do
         expect(avis_imposition.numero_fiscal).to eq('15')
         expect(avis_imposition.reference_avis).to eq('1515')
+        expect(avis_imposition.annee).to eq 2015
         expect(avis_imposition.nombre_personnes_charge).to eq(3)
+      end
+
+      it "remplit l'avis d'imposition avec les informations des déclarants" do
+        expect(avis_imposition.declarant_1).to eq "Jean Martin"
+        expect(avis_imposition.declarant_2).to be nil
+
+        declarant = avis_imposition.occupants.first
+        expect(declarant.prenom).to eq "Jean"
+        expect(declarant.nom).to eq "Martin"
+        expect(declarant.date_de_naissance).to eq DateTime.new(1980, 04, 19)
+        expect(declarant).to be_declarant
+        expect(declarant).not_to be_demandeur
+      end
+
+      it "ajoute des occupants à partir du nombre de personnes à charge" do
         expect(avis_imposition.occupants.length).to eq(4)
 
-        occupant = avis_imposition.occupants.first
-        expect(occupant).to be_declarant
-        expect(occupant.nom).to eq('Martin')
+        occupants = avis_imposition.occupants
+        expect(occupants[1].prenom).to eq "Occupant "
+        expect(occupants[1].nom).to eq "2"
+        expect(occupants[1].date_de_naissance).to be_nil
+        expect(occupants[1]).not_to be_declarant
+        expect(occupants[1]).not_to be_demandeur
+
+        expect(occupants[2].prenom).to eq "Occupant "
+        expect(occupants[2].nom).to eq "3"
+        expect(occupants[2].date_de_naissance).to be_nil
+        expect(occupants[2]).not_to be_declarant
+        expect(occupants[2]).not_to be_demandeur
+
+        expect(occupants[3].prenom).to eq "Occupant "
+        expect(occupants[3].nom).to eq "4"
+        expect(occupants[3].date_de_naissance).to be_nil
+        expect(occupants[3]).not_to be_declarant
+        expect(occupants[3]).not_to be_demandeur
       end
     end
 

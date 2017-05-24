@@ -28,7 +28,6 @@
   padding: 20px 0 30px;
   font-size: 20px;
   text-align: center;
-  line-height: 30px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .login-intro__baseline-title {
@@ -38,12 +37,10 @@
 }
 .login-intro__p {
   margin-bottom: 1em;
-  line-height: 20px;
 }
 .login-intro__a {
   display: inline-block;
-  margin-top: 20px;
-  font-size: 13px;
+  margin-top: 1em;
   color: #e7235a;
   text-decoration: underline;
 }

@@ -1,11 +1,13 @@
 - if resource && resource.errors.present?
+  - model = resource.class.to_s.underscore
   .row
     .col-xxs-12
       div.form-errors.alert.alert-danger
-        - if resource.errors.count == 1
-          p = resource.errors.full_messages.first
-        - else
-          = "#{resource.errors.count} erreurs :"
-          ul
-            - resource.errors.full_messages.each do |message|
-              li = message
+        = %(#{pluralize resource.errors.count, "erreur"} :)
+        ul.form-errors__list
+          - resource.errors.each do |error, message|
+            - id = i18n_simple_form_id(model, error)
+            - label = i18n_simple_form_label(model, error)
+            li.form-errors__item
+              label for=id class="form-errors__label" = [label, message].join(" ")
+

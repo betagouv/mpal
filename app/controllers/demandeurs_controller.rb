@@ -11,10 +11,14 @@ class DemandeursController < ApplicationController
 
   def update
     if save_demandeur
-      return redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
+      return redirect_to_next_step
     else
       render_show
     end
+  end
+
+  def departement_non_eligible
+    @departements = Tools.departements_enabled
   end
 
 private
@@ -22,10 +26,12 @@ private
 
   def render_show
     @projet_courant.personne ||= Personne.new
-    @demandeur ||= @projet_courant.demandeur_principal
+    @demandeur ||= @projet_courant.demandeur
+    @demandeur ||= Occupant.new
 
     @page_heading = 'Inscription'
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
+    @declarants_prompt = @declarants.length <= 1 ? nil : t('demarrage_projet.demandeur.select')
 
     render :show
   end
@@ -34,7 +40,6 @@ private
 
   def projet_params
     params.require(:projet).permit(
-      :civilite,
       :tel,
       :email,
     )
@@ -54,8 +59,8 @@ private
     )
   end
 
-  def demandeur_principal_params
-    params.fetch(:demandeur_principal, {}).permit(:civilite)
+  def demandeur_params
+    params[:projet].fetch(:occupant, {}).permit(:civility)
   end
 
   def save_demandeur
@@ -93,9 +98,12 @@ private
       return false
     end
 
-    demandeur_id = params[:projet][:demandeur_id]
-    needs_saving_demandeur = demandeur_id.present?
-    if needs_saving_demandeur && !assign_demandeur(demandeur_id)
+    demandeur_id = params[:projet][:demandeur]
+    if demandeur_id.blank?
+      flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.missing_demandeur')
+      return false
+    end
+    if !assign_demandeur(demandeur_id)
       flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
       return false
     end
@@ -105,7 +113,16 @@ private
 
   def assign_demandeur(demandeur_id)
     @demandeur = @projet_courant.change_demandeur(demandeur_id)
-    @demandeur.assign_attributes(demandeur_principal_params)
+    @demandeur.assign_attributes(demandeur_params)
     @demandeur.save
   end
+
+  def redirect_to_next_step
+    if Tools.departement_enabled?(@projet_courant.departement)
+      return redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
+    else
+      return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)
+    end
+  end
 end
+

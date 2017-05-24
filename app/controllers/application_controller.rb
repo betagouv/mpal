@@ -8,11 +8,9 @@ class ApplicationController < ActionController::Base
   def authentifie_sans_redirection
     if agent_signed_in?
       @role_utilisateur = :agent
-      @utilisateur_courant = current_agent
     elsif @role_utilisateur.blank?
       @role_utilisateur = :demandeur
       if @projet_courant
-        @utilisateur_courant = @projet_courant.demandeur_principal
         @utilisateur_invalide = true if session[:numero_fiscal] != @projet_courant.numero_fiscal
       end
     end
@@ -56,6 +54,10 @@ class ApplicationController < ActionController::Base
       @page_heading = "Dossier : #{I18n.t(@projet_courant.statut, scope: "projets.statut").downcase}"
     end
     true
+  end
+
+  def debug_exception
+    raise "Exception de test"
   end
 
   # Routing ------------------------

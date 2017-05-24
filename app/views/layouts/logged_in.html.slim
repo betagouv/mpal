@@ -3,14 +3,14 @@
 - content_for :content do
   .page-projet.clearfix(class=(@projet_courant ? 'page-projet-2-cols' : ''))
     - if @projet_courant
-      aside.col.col-left
+      aside.col.col-left.col-projet
         - if current_agent
           section
             = link_to t('tableau_de_bord.titre_section'), dossiers_path
         section.personal-information
           h2
-            span.firstname= @projet_courant.demandeur_principal.prenom
-            span.lastname<= @projet_courant.demandeur_principal.nom
+            span.firstname= @projet_courant.demandeur.prenom
+            span.lastname<= @projet_courant.demandeur.nom
           ul
             - if @projet_courant.tel.present?
               li= @projet_courant.tel

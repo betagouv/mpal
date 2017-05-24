@@ -1,0 +1,8 @@
+section.section
+  h2.section__title= t("demarrage_projet.demandeur.departement_non_eligible.title")
+
+  p.chapo= t("demarrage_projet.demandeur.departement_non_eligible.sorry", count: @departements.count, departements: @departements.to_sentence, departement: @departements.first)
+
+  p.chapo= t("demarrage_projet.demandeur.departement_non_eligible.please_contact_pris")
+
+  = btn name: t("demarrage_projet.demandeur.departement_non_eligible.action"), class: "btn-large btn-centered", icon: "info-sign", href: "http://www.renovation-info-service.gouv.fr/trouver-un-conseiller/step1"

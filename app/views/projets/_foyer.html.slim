@@ -17,8 +17,8 @@ article.block.occupants
     h4 Demandeur :
     p
       strong
-        span.firstname= @projet_courant.demandeur_principal.prenom
-        span.lastname<= @projet_courant.demandeur_principal.nom
+        span.firstname= @projet_courant.demandeur.prenom
+        span.lastname<= @projet_courant.demandeur.nom
       - if @projet_courant.adresse_postale.present?
         br/
         = @projet_courant.adresse_postale.description
@@ -39,5 +39,8 @@ article.block.occupants
             td
               span.firstname= occupant.prenom
               span.lastname<= occupant.nom
-            td= occupant.date_de_naissance.year
-
+            td
+              - if occupant.date_de_naissance
+                = occupant.date_de_naissance.year
+              - else
+                | -

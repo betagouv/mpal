@@ -235,6 +235,10 @@ select.form-control-lg {
     }
   }
 
+  > .radio ~ .radio {
+    margin-left: 2em;
+  }
+
   &.disabled {
     .checkbox label {
       color: $text-muted;

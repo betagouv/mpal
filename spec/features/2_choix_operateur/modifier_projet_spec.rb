@@ -37,7 +37,7 @@ feature "Modifier le projet :" do
       end
 
       expect(page).to have_current_path resource_demandeur_path(projet)
-      expect(find('#demandeur_principal_civilite_mr')).to be_checked
+      expect(find('#projet_occupant_civility_mr')).to be_checked
       expect(page).to have_field('Adresse postale', with: '65 rue de Rome, 75008 Paris')
 
       fill_in :projet_adresse_postale,   with: Fakeweb::ApiBan::ADDRESS_PORT

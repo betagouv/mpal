@@ -21,8 +21,7 @@ class Opal
   end
 
 private
-  OPAL_CIVILITE_M   = 1
-  OPAL_CIVILITE_MME = 2
+  OPAL_CIVILITY_MAPPING = { "mrs" => 2, "mr" => 1 }
 
   def ajoute_id_opal(projet, reponse_body)
     opal = JSON.parse(reponse_body)
@@ -35,7 +34,7 @@ private
   end
 
   def serialize_civilite(demandeur)
-    (demandeur.civilite == Occupant.civilites.keys[0]) ? OPAL_CIVILITE_M : OPAL_CIVILITE_MME
+    OPAL_CIVILITY_MAPPING[demandeur.civility] || 1
   end
 
   def serialize_prenom(demandeur)
@@ -64,9 +63,9 @@ private
         "qdmId": 29,
         "cadId": 2,
         "personnePhysique": {
-          "civId":            serialize_civilite(projet.demandeur_principal),
-          "pphNom":           serialize_nom(projet.demandeur_principal),
-          "pphPrenom":        serialize_prenom(projet.demandeur_principal),
+          "civId":            serialize_civilite(projet.demandeur),
+          "pphNom":           serialize_nom(projet.demandeur),
+          "pphPrenom":        serialize_prenom(projet.demandeur),
           "adressePostale": {
             "payId": 1,
             "adpLigne1":     lignes_adresse_postale[0],
@@ -78,7 +77,7 @@ private
         }
       },
       "immeuble": {
-        "immAnneeAchevement": projet.annee_construction || 0,
+        "immAnneeAchevement": projet.demande.annee_construction || 0,
         "ntrId": 1,
         "immSiArretePeril": false,
         "immSiGrilleDegradation": false,

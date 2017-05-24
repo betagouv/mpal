@@ -1,4 +1,6 @@
 .main-content-block.dashboard-dossiers
+  - if current_agent.instructeur?
+    = btn name: "Indicateurs", href: indicateurs_dossiers_path, icon: "zoom-in", class: "align-right btn-secondary"
   - if @dossiers.blank?
     p Aucun dossier.
   - else
@@ -37,8 +39,8 @@
             - if current_agent.operateur?
               td= link_to (projet.opal_numero || ' '), edit_url
             td= link_to edit_url
-              span.firstname= projet.demandeur_principal.prenom
-              span.lastname<= projet.demandeur_principal.nom
+              span.firstname= projet.demandeur.prenom
+              span.lastname<= projet.demandeur.nom
             - if current_agent.operateur?
               td= link_to projet.adresse.try(:region), edit_url
               td class='departement' = link_to projet.adresse.try(:departement), edit_url
@@ -54,7 +56,7 @@
                 - if projet.themes.present?
                   = projet.themes.map(&:libelle).join(', ')
             td= link_to edit_url do
-              = projet.invited_operateur.raison_sociale rescue ' '
+              = projet.contacted_operateur.raison_sociale rescue ' '
               - if projet.agent_operateur && (current_agent.instructeur? || current_agent.operateur?)
                 br/
                 span.firstname= projet.agent_operateur.prenom

@@ -2,8 +2,8 @@ fr:
   helpers:
     label:
       projet:
-        demandeur_principal_nom: Nom
-        demandeur_principal_prenom: Prénom
+        demandeur_nom: Nom
+        demandeur_prenom: Prénom
         email: Email
         adresse: Adresse
         adresse_logement: "Adresse du logement à rénover si différente"
@@ -14,22 +14,8 @@ fr:
         prenom: Prénom
         tel: Téléphone
         email: Email
-        lien_avec_demandeur: 'Lien avec vous ?'
+        lien_avec_demandeur: "Quel est votre lien avec le demandeur ?"
       demande:
-        travaux_fenetres: "Fenêtres"
-        froid: "Vous avez froid, votre logement est mal isolé"
-        probleme_deplacement: "Vous avez du mal à vous déplacer"
-        changement_chauffage: "Votre chauffage vous coûte trop cher"
-        adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
-        accessibilite: "Vous avez des difficultés dans les escaliers"
-        hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
-        autre: "Autre"
-        travaux_isolation: "Isolation"
-        travaux_chauffage: "Chauffage"
-        travaux_adaptation_sdb: "Adaptation salle de bain"
-        travaux_monte_escalier: "Monte-escalier"
-        travaux_amenagement_ext: "Aménagement extérieur"
-        travaux_autres: "Autre"
         complement: "Précisez votre projet"
         date_achevement_15_ans: "Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?"
         annee_construction: "Si vous la connaissez, indiquez l’année d’achèvement de votre logement :"
@@ -45,17 +31,25 @@ fr:
         auto_rehabilitation: "Ces travaux seront-ils réalisés en auto-réhabilitation ?"
         remarques_diagnostic: "Autres remarques"
       proposition:
-        gain_energetique: "Gain énergétique"
+        consommation_avant_travaux: "Consommation énergétique avant travaux"
+        consommation_apres_travaux: "Consommation énergétique après travaux"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
         etiquette_apres_travaux: "Étiquette énergétique après travaux"
-        montant: "Montant"
-        montant_travaux_ht: "Montant total HT"
-        montant_travaux_ttc: "Montant total TTC"
-        reste_a_charge: "Reste à charge"
-        financement_personnel: "Financement personnel"
-        pret_bancaire: "Prêt bancaire"
+        fundings_sum: "Total des financements"
+        gain_energetique: "Gain énergétique"
+        travaux_ht_amount: "Coût des travaux à réaliser HT"
+        assiette_subventionnable_amount: "Travaux : assiette subventionnable HT"
+        amo_amount: "Coût Assistance à Maîtrise d’Ouvrage (AMO)"
+        maitrise_oeuvre_amount: "Coût Maîtrise d’Œuvre"
+        travaux_ttc_amount: "Montant global TTC"
+        personal_funding: "Apport de fonds personnels"
+        loan_amount: "Prêt"
         precisions_travaux: "Précisions travaux proposés"
         precisions_financement: "Précisions financement"
+        public_helps_sum: "Total des aides publiques"
+    units:
+      power: "kWh"
+      power_consumption: "kWh/m²/an"
 
   # ----------------------- Page d’accueil ---------------------
   accueil:
@@ -78,12 +72,24 @@ fr:
   agrements:
     attestation_communiquer_infos_occupants: "J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur revenu fiscal de référence auprès de la direction générale des finances publiques."
     autorisation_acces_donnees_intervenants: "Je suis informé(e) que les intervenants avec lesquels je vais être mis(e) en relation ou que je vais inviter à consulter mon dossier ont accès aux données que j’ai renseignées."
-  # ----------------------- Liste des liens du menu bas ---------------------
-  menu_bas:
-    cgu: "CGU"
+  # ----------------------- Liste des liens du menu ---------------------
+  menu:
+    about: "À propos"
     contact: "Contact"
-    faq: "Faq"
-    mentions_legales: "Mentions légales"
+    faq: "FAQ"
+    homepage: "Accueil"
+    legal: "Mentions légales"
+    terms_of_use: "Conditions générales d’utilisation"
+
+  # ----------------------- Liste des liens du menu patterns ---------------------
+  menu_patterns:
+    forms:
+      title: "Formulaires"
+      buttons: "Boutons"
+      inputs: "Inputs"
+      inline_inputs: "Inputs horizontaux"
+    icons:
+      title: "Icônes"
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
@@ -94,19 +100,21 @@ fr:
         adresse_vide: "Votre adresse doit être renseignée"
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
         enregistrement_demandeur: "Une erreur s’est produite lors de l’enregistrement de vos informations personnelles."
+        missing_demandeur: "Veuillez sélectionner le prénom et nom du demandeur"
       section_demandeur: "Demandeur"
-      recapitulatif_informations: "Veuillez vérifier les champs ci-dessous et les compléter."
-      personne_confiance: "Qui contacter pour les démarches à venir ?"
-      personne_confiance_choix1: Vous-même
-      personne_confiance_choix2: "Une personne chargée du suivi du dossier (pour vous)"
-      telephone: "Numéro de téléphone"
-      email: "Votre adresse email"
-      civilite: "Civilite"
-      personne_de_confiance_prenom: "Prénom"
-      personne_de_confiance_nom: "Nom"
-      personne_de_confiance_lien: "Quel est votre lien avec le demandeur ?"
-      personne_de_confiance_placeholder: "Enfant, voisin…"
+      demandeur_identity: "Prénom et nom"
+      select: "Sélectionnez le propriétaire demandeur"
+      reliable_person: "Qui contacter pour les démarches à venir ?"
+      reliable_person_select_no: "Vous-même"
+      reliable_person_select_yes: "Une personne chargée du suivi du dossier"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
+      departement_non_eligible:
+        title: Désolé, les logements dans votre département ne sont pas encore éligibles
+        sorry:
+          one:   "Nous sommes désolés, mais ce site n’est pour l’instant disponible que dans un seul département (le %{departement})."
+          other: "Nous sommes désolés, mais ce site n’est pour l’instant disponible que dans %{count} départements (les %{departements})."
+        please_contact_pris: "Pour déposer votre demande d’aides, nous vous recommandons de contacter le Point Rénovation Info Service de votre département, qui pourra vous conseiller pour remplir votre demande."
+        action: "Contacter un Point Rénovation Info Service"
 
     # ----------------------- Ma demande ---------------------
     demande:
@@ -349,15 +357,17 @@ fr:
       recommandation_operateurs:
         sujet: "[Anah] Voici nos recommandations pour votre projet de rénovation"
       invitation_intervenant:
-        sujet: "[Anah] Invitation de %{demandeur_principal} à consulter son projet"
+        sujet: "[Anah] Invitation de %{demandeur} à consulter son projet"
       notification_invitation_intervenant:
         sujet: "[Anah] Invitation de %{intervenant} à consulter votre projet"
-      notification_choix_intervenant:
-        sujet: "[Anah] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur_principal} pour l’accompagner sur son projet"
+      notification_engagement_operateur:
+        sujet: "[Anah] Félicitations, %{intervenant}, vous avez été choisi par %{demandeur} pour l’accompagner sur son projet"
       resiliation_operateur:
-        sujet: "[Anah] %{demandeur_principal} a changé d’opérateur pour son projet"
+        sujet: "[Anah] %{demandeur} a changé d’opérateur pour son projet"
       mise_en_relation_intervenant:
         sujet: "[Anah] Mise en relation par %{intermediaire}"
+      notification_validation_dossier:
+        sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
         sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
 
@@ -386,31 +396,37 @@ fr:
   # ---------------------- Active Record -----------------------------
   activerecord:
     attributes:
-      projet:
+      defaults:
         email: "L’adresse email"
+      projet:
         tel: "Le numéro de téléphone"
         note_degradation: "La note de dégradation"
         note_insalubrite: "La note d’insalubrité"
         date_de_visite: "La date de visite du logement"
+        consommation_avant_travaux: "Consommation énergétique avant travaux"
+        consommation_apres_travaux: "Consommation énergétique après travaux"
       occupant:
         civilite: "La civilité"
         nom: "Nom"
         prenom: "Prénom"
         date_de_naissance: "Date de naissance"
     errors:
+      messages:
+        blank_feminine: "doit être renseignée"
+        blank_masculine: "doit être renseigné"
       models:
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"
           attributes:
-            date_de_visite:
-              blank: "doit être renseignée."
             note_degradation:
               inclusion: "doit être comprise entre zéro et un."
             note_insalubrite:
               inclusion: "doit être comprise entre zéro et un."
+            consommation_avant_travaux:
+              greater_than_or_equal_to: "doit être supérieure ou égale à %{count}"
+            consommation_apres_travaux:
+              greater_than_or_equal_to: "doit être supérieure ou égale à %{count}"
         occupant:
           attributes:
-            civilite:
-              blank: "doit être renseignée."
             date_de_naissance:
               not_in_past: "invalide : merci d’indiquer une date dans le passé."

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170426125658) do
+ActiveRecord::Schema.define(version: 20170523120121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,8 @@ ActiveRecord::Schema.define(version: 20170426125658) do
 
   create_table "aides", force: :cascade do |t|
     t.string  "libelle"
-    t.integer "type_aide_id"
+    t.boolean "active",  default: true, null: false
+    t.boolean "public",  default: true, null: false
   end
 
   create_table "avis_impositions", force: :cascade do |t|
@@ -68,12 +69,6 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   end
 
   add_index "avis_impositions", ["projet_id"], name: "index_avis_impositions_on_projet_id", using: :btree
-
-  create_table "cad_references", force: :cascade do |t|
-    t.integer "opal_id"
-    t.string  "code"
-    t.text    "libelle"
-  end
 
   create_table "commentaires", force: :cascade do |t|
     t.integer  "projet_id"
@@ -107,7 +102,7 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.boolean "adaptation_salle_de_bain"
     t.boolean "accessibilite"
     t.boolean "ptz"
-    t.string  "annee_construction"
+    t.integer "annee_construction"
     t.text    "complement"
     t.text    "autre"
     t.boolean "hospitalisation"
@@ -133,13 +128,6 @@ ActiveRecord::Schema.define(version: 20170426125658) do
 
   add_index "documents", ["projet_id"], name: "index_documents_on_projet_id", using: :btree
 
-  create_table "engagements", force: :cascade do |t|
-    t.string   "nom"
-    t.boolean  "valeur"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "evenements", force: :cascade do |t|
     t.integer  "projet_id"
     t.string   "label"
@@ -156,7 +144,7 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.string "adresse_postale"
     t.string "themes",                                      array: true
     t.string "departements",                                array: true
-    t.string "email"
+    t.string "email",                          null: false
     t.string "roles",                                       array: true
     t.text   "informations"
     t.string "clavis_service_id"
@@ -174,17 +162,13 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.integer  "intermediaire_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "suggested",        default: false, null: false
+    t.boolean  "contacted",        default: false, null: false
   end
 
   add_index "invitations", ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree
   add_index "invitations", ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
   add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
-
-  create_table "ntr_references", force: :cascade do |t|
-    t.integer "opal_id"
-    t.string  "code"
-    t.text    "libelle"
-  end
 
   create_table "occupants", force: :cascade do |t|
     t.integer  "projet_id"
@@ -198,6 +182,7 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.boolean  "demandeur"
     t.integer  "avis_imposition_id"
     t.boolean  "declarant",          default: false, null: false
+    t.string   "civility"
   end
 
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
@@ -211,32 +196,28 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.string "civilite"
   end
 
-  create_table "prestations", force: :cascade do |t|
-    t.string   "libelle"
-    t.string   "entreprise"
-    t.float    "montant"
-    t.boolean  "recevable"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "scenario"
-    t.boolean  "souhaite",   default: false, null: false
-    t.boolean  "preconise",  default: false, null: false
-    t.boolean  "retenu",     default: false, null: false
-    t.boolean  "active",     default: true,  null: false
-  end
-
-  create_table "prestations_projets", force: :cascade do |t|
+  create_table "prestation_choices", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "prestation_id"
+    t.boolean "desired",       default: false, null: false
+    t.boolean "recommended",   default: false, null: false
+    t.boolean "selected",      default: false, null: false
   end
 
-  add_index "prestations_projets", ["prestation_id"], name: "index_prestations_projets_on_prestation_id", using: :btree
-  add_index "prestations_projets", ["projet_id"], name: "index_prestations_projets_on_projet_id", using: :btree
+  add_index "prestation_choices", ["prestation_id"], name: "index_prestation_choices_on_prestation_id", using: :btree
+  add_index "prestation_choices", ["projet_id"], name: "index_prestation_choices_on_projet_id", using: :btree
+
+  create_table "prestations", force: :cascade do |t|
+    t.string   "libelle"
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.boolean  "active",     default: true, null: false
+  end
 
   create_table "projet_aides", force: :cascade do |t|
     t.integer "projet_id"
     t.integer "aide_id"
-    t.float   "montant"
+    t.decimal "amount",    precision: 10, scale: 2
   end
 
   add_index "projet_aides", ["aide_id"], name: "index_projet_aides_on_aide_id", using: :btree
@@ -249,10 +230,9 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.datetime "updated_at"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                                                            array: true
-    t.integer  "nb_occupants_a_charge",                                 default: 0
-    t.integer  "annee_construction"
-    t.integer  "statut",                                                default: 0
+    t.string   "themes",                                                               array: true
+    t.integer  "nb_occupants_a_charge",                                    default: 0
+    t.integer  "statut",                                                   default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"
     t.string   "opal_id"
@@ -267,27 +247,32 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.boolean  "handicap"
     t.boolean  "demandeur_salarie"
     t.boolean  "entreprise_plus_10_personnes"
-    t.decimal  "note_degradation",             precision: 10, scale: 6
-    t.decimal  "note_insalubrite",             precision: 10, scale: 6
+    t.decimal  "note_degradation",                precision: 10, scale: 6
+    t.decimal  "note_insalubrite",                precision: 10, scale: 6
     t.boolean  "ventilation_adaptee"
     t.boolean  "presence_humidite"
     t.boolean  "auto_rehabilitation"
     t.text     "remarques_diagnostic"
     t.string   "etiquette_apres_travaux"
     t.integer  "gain_energetique"
-    t.float    "montant_travaux_ht"
-    t.float    "montant_travaux_ttc"
-    t.float    "pret_bancaire"
+    t.decimal  "travaux_ht_amount",               precision: 10, scale: 2
+    t.decimal  "travaux_ttc_amount",              precision: 10, scale: 2
+    t.decimal  "loan_amount",                     precision: 10, scale: 2
     t.text     "precisions_travaux"
     t.text     "precisions_financement"
     t.boolean  "autonomie"
     t.string   "plateforme_id"
-    t.float    "reste_a_charge"
+    t.decimal  "personal_funding_amount",         precision: 10, scale: 2
     t.integer  "agent_operateur_id"
     t.integer  "agent_instructeur_id"
     t.integer  "adresse_postale_id"
     t.integer  "adresse_a_renover_id"
     t.date     "date_de_visite"
+    t.decimal  "amo_amount",                      precision: 10, scale: 2
+    t.decimal  "maitrise_oeuvre_amount",          precision: 10, scale: 2
+    t.decimal  "assiette_subventionnable_amount", precision: 10, scale: 2
+    t.integer  "consommation_avant_travaux"
+    t.integer  "consommation_apres_travaux"
   end
 
   add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
@@ -322,10 +307,6 @@ ActiveRecord::Schema.define(version: 20170426125658) do
     t.string "libelle"
   end
 
-  create_table "type_aides", force: :cascade do |t|
-    t.string "libelle"
-  end
-
   add_foreign_key "agents", "intervenants"
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "commentaires", "projets"
@@ -335,8 +316,8 @@ ActiveRecord::Schema.define(version: 20170426125658) do
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
-  add_foreign_key "prestations_projets", "prestations"
-  add_foreign_key "prestations_projets", "projets"
+  add_foreign_key "prestation_choices", "prestations"
+  add_foreign_key "prestation_choices", "projets"
   add_foreign_key "projet_aides", "aides"
   add_foreign_key "projet_aides", "projets"
   add_foreign_key "projets", "adresses", column: "adresse_a_renover_id"

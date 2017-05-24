@@ -1,8 +1,10 @@
+@import "variables";
+
 .inscription {
   position: relative;
   margin: 15px auto 0;
   padding: 0 0 30px;
-  background-color: #ffffff;
+  background-color: white;
   box-shadow: 0 1px 2px 0 rgba(95, 121, 150, 0.2);
   border: solid 1px #f2f6fa;
   border-radius: 4px;
@@ -14,7 +16,7 @@
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
     font-size: 18px;
     font-weight: bold;
-    color: #56869a;
+    color: $font-color;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
     padding: 15px 30px;
   }
@@ -22,6 +24,8 @@
     padding: 20px 30px 0;
     font-weight: 600;
   }
+}
+.inscription-legacy {
   input[type="text"], input[type="tel"], input[type=date], textarea {
     border-radius: 3px;
     background-color: #f2f6fa;
@@ -43,46 +47,6 @@
     height: 90px;
   }
 
-  .ins-form-civilite {
-    margin: 10px 30px;
-
-    li {
-      display: inline-block;
-      margin-right: -4px;
-      width: 50%;
-      padding: 10px 0 10px;
-    }
-    li.full {
-      width: 100%;
-      input[type="text"] {
-        width: 90%;
-      }
-    }
-    li.radio, li.checkbox {
-      width: 200px;
-      padding-bottom: 0;
-      input {
-        display: inline-block;
-        vertical-align: middle;
-      }
-      label {
-        display: inline-block;
-        width: auto;
-        margin-left: 5px;
-        vertical-align: middle;
-      }
-    }
-    li.checkbox {
-      width: 50%;
-      &.full {
-        width: 100%;
-      }
-    }
-    li label {
-      display: block;
-      padding: 5px 0;
-    }
-  }
   .ins-form {
     margin: 10px 30px;
     li {
@@ -146,22 +110,7 @@
     font-weight: bold;
   }
 }
-
-.form-control {
-  border-radius: 3px;
-  background-color: #f2f6fa;
-  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  border: solid 1px #909eaf;
-  padding: 9px 10px 8px;
-  width: 90%;
-}
-
 .inscription {
-  .dem-diff {
-    width: 80%;
-    padding: 10px 0 15px 6%;
-    background: #eef1f7;
-  }
   .occupants .occupants-heading {
     border-bottom: 1px solid white;
   }
@@ -187,13 +136,13 @@
     border-collapse: collapse;
     width: 80%;
     margin: 20px auto 0;
+    text-align: left;
     th {
       padding: 10px;
     }
     td {
       border: 1px solid #eef1f7;
       padding: 10px;
-      text-align: center;
       input {
         padding: 2px 0;
         font-size: 14px;
@@ -254,7 +203,7 @@
     display: none;
   }
   input[type="radio"]:checked + label {
-    border-color: #56869a;
+    border-color: $color-primary;
     background-color: #eef1f7;
   }
   label {

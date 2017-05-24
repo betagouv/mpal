@@ -12,6 +12,6 @@ fieldset.row
     = form.input :comment, input_html: { rows: 4 }
     = form.input :description, input_html: { rows: 4, class: "tinymce" }
     / Relation: select one
-    = form.input :foobar_id, collection: @foobars, input_html: { class: "size-m select2" }
+    = form.input :foobar_id, collection: @foobars, wrapper_html: { class: "size-m select2" }
     / Relation: select many
-    = form.input :foobar_ids, collection: @foobars, selected: @item.foobars.map { |x| x.id.to_s }, input_html: { class: "size-m", multiple: true }
+    = form.input :foobar_ids, collection: @foobars, selected: @item.foobars.map { |x| x.id.to_s }, wrapper_html: { class: "size-m", multiple: true }

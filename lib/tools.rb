@@ -1,10 +1,23 @@
 module Tools
+  DEPARTEMENTS_WILDCARD = '*'
+
   def self.demo?
     ENV['DEMO'] == 'true'
   end
 
   def self.zone(departement)
     ['75','77','78','91','92','93','94','95'].include?(departement) ? :idf : :province
+  end
+
+  def self.departements_enabled
+    ENV['DEPARTEMENTS_ENABLED'].delete(' ').split(',')
+  end
+
+  def self.departement_enabled?(departement)
+    if departements_enabled.first == DEPARTEMENTS_WILDCARD
+      return true
+    end
+    departements_enabled.include?(departement)
   end
 
   def self.calcule_preeligibilite(revenu_global, departement, nb_occupants)

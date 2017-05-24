@@ -1,33 +1,21 @@
-/* Occupant inline form **************************/
-
 .occupant-inline-form__title {
-  margin-bottom: 10px;
+  margin-bottom: 1em;
   font-size: 1em;
-  font-weight: 600;
+  font-weight: bold;
+}
+
+.occupant-inline-form__fields {
+  @extend .clearfix;
 }
 
 .occupant-inline-form__field {
-  display: inline-block;
-  margin-right: 20px;
+  float: left;
+  margin-right: 2em;
+  max-width: 210px;
 }
 
-.occupant-inline-form__field label {
-  display: block;
-  margin-bottom: 5px;
+.occupant-inline-form__submit {
+  float: left;
+  margin-top: 2em;
 }
 
-.occupant-inline-form__field input {
-  margin-bottom: 10px;
-}
-
-.occupant-inline-form__prenom {
-  width: 150px !important;
-}
-
-.occupant-inline-form__nom {
-  width: 200px !important;
-}
-
-.occupant-inline-form__dob {
-  width: 150px !important;
-}

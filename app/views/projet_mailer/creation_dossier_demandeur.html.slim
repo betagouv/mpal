@@ -1,0 +1,6 @@
+p Bonjour,
+p= "#{@demandeur.fullname} souhaite effectuer des travaux dans son logement (#{@projet.description_adresse})"
+p Voici une description des travaux qu’il souhaite effectuer :
+br
+p= affiche_demande_souhaitee(@projet.demande)
+p= link_to "Pour visualiser le projet, cliquer sur ce lien", dossier_url(@projet)

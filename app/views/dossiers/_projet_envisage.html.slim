@@ -11,7 +11,7 @@ article.block.projet
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/
       h4 Organisme choisi pour accompagner le projet :
-      - operateur = @projet_courant.intervenants.pour_role(:operateur).first
+      - operateur = @projet_courant.contacted_operateur
       - if operateur.present?
         .description-operateur
           strong= operateur.raison_sociale
@@ -25,10 +25,11 @@ article.block.projet
       - else
         p
           = t('projets.envisage.operateur.aucun')
-        - if @projet_courant.suggested_operateurs.present?
+        - suggested_operateurs = @projet_courant.pris_suggested_operateurs
+        - if suggested_operateurs.present?
           h4 = t('projets.envisage.operateurs_recommandes')
           ul
-          - @projet_courant.suggested_operateurs.each do |operateur|
+          - suggested_operateurs.each do |operateur|
             li = operateur.raison_sociale
           = btn name: t('recommander_operateurs.modifier'), href: dossier_recommander_operateurs_path(@projet_courant)
         - else

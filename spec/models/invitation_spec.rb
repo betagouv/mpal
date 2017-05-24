@@ -12,12 +12,12 @@ describe Invitation do
 
   it { is_expected.to be_valid }
 
-  it { is_expected.to delegate_method(:demandeur_principal).to(:projet) }
+  it { is_expected.to delegate_method(:demandeur).to(:projet) }
   it { is_expected.to delegate_method(:description_adresse).to(:projet) }
 
   describe '#projet_email' do
     it "devrait retourner l'email du projet" do
-      expect(invitation.projet_email).to eq('prenom.nom@site.com')
+      expect(invitation.projet.email).to eq('prenom.nom@site.com')
     end
   end
 end

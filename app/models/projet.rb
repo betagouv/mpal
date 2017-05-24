@@ -2,6 +2,13 @@ class Projet < ActiveRecord::Base
   include LocalizedModelConcern
   extend CsvProperties, ApplicationHelper
 
+  TYPE_LOGEMENT_VALUES     = ["Maison", "Appartement"]
+  ETAGE_VALUES             = ["0", "1", "2", "3", "4", "5", "Plus de 5"]
+  NB_PIECES_VALUES         = ["1", "2", "3", "4", "5", "Plus de 5"]
+  HOUSE_EVALUATION_FIELDS  = [:autonomie, :niveau_gir, :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation, :remarques_diagnostic]
+  ENERGY_EVALUATION_FIELDS = [:consommation_apres_travaux, :etiquette_apres_travaux, :gain_energetique]
+  FUNDING_FIELDS           = [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount, :personal_funding_amount, :loan_amount]
+
   enum statut: {
     prospect: 0,
     en_cours: 1,
@@ -16,6 +23,8 @@ class Projet < ActiveRecord::Base
   accepts_nested_attributes_for :personne
 
   has_one :demande, dependent: :destroy
+  accepts_nested_attributes_for :demande
+
   belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
   belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 
@@ -36,25 +45,28 @@ class Projet < ActiveRecord::Base
   has_many :aides, through: :projet_aides
   accepts_nested_attributes_for :projet_aides, reject_if: :all_blank, allow_destroy: true
 
-  has_and_belongs_to_many :prestations
+  has_many :prestation_choices, dependent: :destroy
+  has_many :prestations, through: :prestation_choices
+  accepts_nested_attributes_for :prestation_choices, reject_if: :all_blank, allow_destroy: true
+
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
 
+  amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
+
   validates :numero_fiscal, :reference_avis, presence: true
-  validates :email, email: true, allow_blank: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
+  validates :email, email: true, allow_blank: true
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
-  validates :date_de_visite, presence: true, on: :proposition
+  validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
+  validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
+  validates :consommation_avant_travaux, :consommation_apres_travaux, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
-  localized_numeric_setter :montant_travaux_ht
-  localized_numeric_setter :montant_travaux_ttc
-  localized_numeric_setter :reste_a_charge
-  localized_numeric_setter :pret_bancaire
 
   before_create do
     self.plateforme_id = Time.now.to_i
@@ -62,11 +74,15 @@ class Projet < ActiveRecord::Base
 
   before_save :clean_numero_fiscal, :clean_reference_avis
 
-  scope :for_agent, ->(agent) {
-    next where(nil) if agent.instructeur?
-    joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
-  }
   scope :ordered, -> { order("projets.id desc") }
+  scope :with_demandeur, -> { joins(:occupants).where('occupants.demandeur = true').distinct  }
+  scope :for_agent, ->(agent) {
+    if agent.instructeur?
+      with_demandeur
+    else
+      joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
+    end
+  }
 
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')
@@ -101,7 +117,7 @@ class Projet < ActiveRecord::Base
   end
 
   def nb_occupants_a_charge
-    occupants.count - demandeurs.count
+    occupants.count - declarants.count
   end
 
   def intervenants_disponibles(role: nil)
@@ -112,8 +128,26 @@ class Projet < ActiveRecord::Base
     intervenants.pour_role(:instructeur).first
   end
 
-  def invited_operateur
-    intervenants.pour_role(:operateur).first
+  def has_house_evaluation?
+    HOUSE_EVALUATION_FIELDS.any? { |field| send(field).present? }
+  end
+
+  def has_energy_evaluation?
+    ENERGY_EVALUATION_FIELDS.any? { |field| send(field).present? }
+  end
+
+  def has_fundings?
+    FUNDING_FIELDS.any? { |field| send(field).present? }
+  end
+
+  def pris_suggested_operateurs
+    pris_suggested_operateur_ids = invitations.where(suggested: true).map(&:intervenant_id)
+    intervenants.pour_role(:operateur).find(pris_suggested_operateur_ids)
+  end
+
+  def contacted_operateur
+    contacted_operateur_ids = invitations.where(contacted: true).map(&:intervenant_id)
+    intervenants.pour_role(:operateur).find(contacted_operateur_ids).first
   end
 
   def invited_pris
@@ -125,11 +159,11 @@ class Projet < ActiveRecord::Base
   end
 
   def can_switch_operateur?
-    statut.to_sym == :prospect && invited_operateur.present?
+    statut.to_sym == :prospect && contacted_operateur.present?
   end
 
   def can_validate_operateur?
-    invited_operateur.present? && operateur.blank?
+    contacted_operateur.present? && operateur.blank?
   end
 
   FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
@@ -163,28 +197,16 @@ class Projet < ActiveRecord::Base
     demandeur
   end
 
-  def demandeurs
-    occupants.where(demandeur: true)
+  def declarants
+    occupants.where(declarant: true)
   end
 
-  def demandeur_principal
-    demandeurs.first
-  end
-
-  def demandeur_principal_nom
-    demandeur_principal.nom
-  end
-
-  def demandeur_principal_prenom
-    demandeur_principal.prenom
-  end
-
-  def demandeur_principal_civilite
-    demandeur_principal.civilite
+  def demandeur
+    occupants.where(demandeur: true).first
   end
 
   def usager
-    occupant = demandeur_principal
+    occupant = demandeur
     occupant.to_s if occupant
   end
 
@@ -211,8 +233,25 @@ class Projet < ActiveRecord::Base
   end
 
   def suggest_operateurs!(operateur_ids)
-    self.suggested_operateur_ids = operateur_ids
-    if validate_suggested_operateurs && save
+    if operateur.present?
+      raise "Cannot suggest an operator: the projet is already committed with an operator (#{operateur.raison_sociale})"
+    end
+
+    if operateur_ids.blank?
+      errors[:base] << I18n.t('recommander_operateurs.errors.blank')
+      return false
+    end
+
+    invitations.where(suggested: true).each do |invitation|
+      invitation.update(suggested: false)
+      invitation.destroy! unless invitation.contacted
+    end
+
+    operateur_ids.each do |operateur_id|
+      self.invitations.find_or_create_by(intervenant_id: operateur_id).update(suggested: true)
+    end
+
+    if save
       ProjetMailer.recommandation_operateurs(self).deliver_later!
       true
     else
@@ -220,32 +259,44 @@ class Projet < ActiveRecord::Base
     end
   end
 
-  def invite_intervenant!(intervenant)
-    return if intervenants.include? intervenant
+  def contact_operateur!(operateur_to_contact)
+    previous_operateur = contacted_operateur
+    return if previous_operateur == operateur_to_contact
 
-    if intervenant.operateur? && operateur.present?
+    if operateur.present?
       raise "Cannot invite an operator: the projet is already committed with an operator (#{operateur.raison_sociale})"
     end
 
-    previous_operateur = invited_operateur
-    previous_pris = invited_pris
+    invitation = Invitation.find_or_create_by!(projet: self, intervenant: operateur_to_contact)
+    invitation.update(contacted: true)
+    notify_intervenant_of(invitation)
 
-    invitation = Invitation.new(projet: self, intervenant: intervenant)
-    invitation.save!
-    ProjetMailer.invitation_intervenant(invitation).deliver_later!
-    ProjetMailer.notification_invitation_intervenant(invitation).deliver_later!
-    EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
-
-    if intervenant.operateur? && previous_operateur
+    if previous_operateur
       previous_invitation = invitations.where(intervenant: previous_operateur).first
       ProjetMailer.resiliation_operateur(previous_invitation).deliver_later!
-      previous_invitation.destroy!
+      if previous_invitation.suggested
+        previous_invitation.update(contacted: false)
+      else
+        previous_invitation.destroy!
+      end
     end
+  end
 
-    if intervenant.pris? && previous_pris
-      previous_invitation = invitations.where(intervenant: previous_pris).first
-      previous_invitation.destroy!
-    end
+  def invite_pris!(pris)
+    previous_pris = invited_pris
+    return if previous_pris == pris
+
+    invitation = Invitation.new(projet: self, intervenant: pris)
+    invitation.save!
+    notify_intervenant_of(invitation)
+
+    invitations.where(intervenant: previous_pris).first.try(:destroy!)
+  end
+
+  def notify_intervenant_of(invitation)
+    ProjetMailer.invitation_intervenant(invitation).deliver_later! if invitation.intervenant.email.present?
+    ProjetMailer.notification_invitation_intervenant(invitation).deliver_later! if invitation.projet.email.present?
+    EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
   end
 
   def commit_with_operateur!(committed_operateur)
@@ -261,16 +312,16 @@ class Projet < ActiveRecord::Base
   def save_proposition!(attributes)
     assign_attributes(attributes)
     self.statut = :proposition_enregistree
-    save(context: :proposition)
+    save
   end
 
   def transmettre!(instructeur)
     invitation = Invitation.new(projet: self, intermediaire: operateur, intervenant: instructeur)
     if invitation.save
+      self.statut = :transmis_pour_instruction
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
       ProjetMailer.accuse_reception(self).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'transmis_instructeur', projet: self, producteur: invitation)
-      self.statut = :transmis_pour_instruction
       return self.save
     end
     false
@@ -341,11 +392,11 @@ class Projet < ActiveRecord::Base
       Projet.for_agent(agent).each do |projet|
         line = [
           projet.numero_plateforme,
-          projet.demandeur_principal.fullname,
+          projet.demandeur.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
-          projet.invited_operateur.try(:raison_sociale),
+          projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_operateur, scope: "projets.statut"),
         ]
@@ -358,13 +409,5 @@ class Projet < ActiveRecord::Base
       end
     end
     utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
-  end
-
-  def validate_suggested_operateurs
-    if suggested_operateurs.blank?
-      errors[:base] << I18n.t('recommander_operateurs.errors.blank')
-      return false
-    end
-    valid?
   end
 end

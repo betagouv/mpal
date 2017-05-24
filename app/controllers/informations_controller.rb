@@ -1,15 +1,16 @@
 class InformationsController < ApplicationController
-  layout 'informations'
+  layout "informations"
 
   def faq
-    @page_heading = "FAQ"
+    @page_heading = t("menu.faq")
   end
 
-  def cgu
-    @page_heading = "Conditions générales d’utilisation"
+  def terms_of_use
+    @page_heading = t("menu.terms_of_use")
   end
 
-  def mentions_legales
-    @page_heading = "Mentions légales"
+  def legal
+    @page_heading = t("menu.legal")
   end
 end
+

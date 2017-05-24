@@ -4,6 +4,8 @@
 
 # Termine le script à la première commande en erreur
 set -e
+# Termine le script si une variable n'est pas définie
+set -u
 
 # Récupère le nom de la remote principale du projet (généralement 'origin' ou 'upstream')
 function remote_name {
@@ -77,7 +79,8 @@ function perform_merge {
 source_branch="staging"
 target_branch="master"
 remote_name=$(remote_name)
-target_head="$remote_name/master"
+source_head="$remote_name/$source_branch"
+target_head="$remote_name/$target_branch"
 
 # Exécution du script
 assert_working_copy_clean

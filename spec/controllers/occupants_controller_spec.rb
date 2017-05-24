@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_helper'
 
 describe OccupantsController do
-  let(:projet) { create :projet, :with_demandeurs }
+  let(:projet) { create :projet, :with_demandeur }
 
   before(:each) do
     authenticate_as_particulier(projet.numero_fiscal)
@@ -41,15 +41,7 @@ describe OccupantsController do
           end
 
           it "affiche les occupants" do
-            expect(response).to have_http_status(:success)
-            expect(response).to render_template("index")
-            expect(assigns(:occupants)).to eq projet.occupants
-          end
-
-          it "réinitialise les champs du formulaire" do
-            expect(assigns(:occupant).prenom).to            be_blank
-            expect(assigns(:occupant).nom).to               be_blank
-            expect(assigns(:occupant).date_de_naissance).to be_blank
+            expect(response).to redirect_to projet_occupants_path(projet)
           end
         end
 
@@ -65,7 +57,7 @@ describe OccupantsController do
 
           it "affiche les erreurs de validation" do
             occupant = assigns(:occupant)
-            expect(occupant.errors).to be_present
+            expect(occupant.errors).to be_added :date_de_naissance, :blank
             expect(response.body).to include occupant.errors.full_messages.first
           end
         end
