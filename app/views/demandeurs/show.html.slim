@@ -6,7 +6,7 @@
       .js-demandeur-civility
         = f.fields_for @demandeur do |ff|
           = ff.input :civility, as: :radio_buttons, collection: Occupant::CIVILITIES, required: true
-      = f.input :demandeur, collection: @declarants, selected: @projet_courant.demandeur.try(:id), wrapper_html: { class: "size-m" }, required: true, prompt: @declarants_prompt
+      = f.input :demandeur, collection: @declarants, selected: @projet_courant.demandeur.try(:id), wrapper_html: { class: "size-m" }, prompt: @declarants_prompt, required: @declarants_prompt.present?
       = f.input :adresse_postale, as: :string, input_html: { value: @projet_courant.adresse_postale.try(:description) }
       = f.input :adresse_a_renover, as: :string, input_html: { value: @projet_courant.adresse_a_renover.try(:description)}
       = f.input :tel, wrapper_html: { class: "size-s" }
