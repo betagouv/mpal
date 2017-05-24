@@ -66,7 +66,7 @@ function perform_merge {
   git checkout "$target_branch"
   git reset --hard "$target_head"
   git merge --no-edit "$source_branch"
-  git push "$remote_name" "$target_branch"
+  git push "$remote_name" "$target_branch:$target_branch"
   git checkout -
 
   echo
