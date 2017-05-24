@@ -4,6 +4,8 @@
 
 # Termine le script à la première commande en erreur
 set -e
+# Termine le script si une variable n'est pas définie
+set -u
 
 # Récupère le nom de la remote principale du projet (généralement 'origin' ou 'upstream')
 function remote_name {
