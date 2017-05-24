@@ -88,6 +88,8 @@ fr:
       buttons: "Boutons"
       inputs: "Inputs"
       inline_inputs: "Inputs horizontaux"
+    icons:
+      title: "Icônes"
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:

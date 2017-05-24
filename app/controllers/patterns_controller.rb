@@ -7,5 +7,8 @@ class PatternsController < ApplicationController
 
   def forms
   end
+
+  def icons
+  end
 end
 
