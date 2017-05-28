@@ -57,7 +57,7 @@ class Projet < ActiveRecord::Base
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
-  validates :email, email: true, allow_blank: true
+  validates :email, email: true, presence: true, on: :update
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
@@ -68,6 +68,8 @@ class Projet < ActiveRecord::Base
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
+
+  attr_accessor :accepts
 
   before_create do
     self.plateforme_id = Time.now.to_i

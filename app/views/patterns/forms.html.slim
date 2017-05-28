@@ -68,6 +68,12 @@ h3 Groupes d’inputs
     = f.input_field :surface_habitable
     span.input-group-addon m²
 
+h3 Boolean
+
+= simple_form_for Projet.new, url: "#", html: { class: "form" } do |f|
+  = f.input :accepts, as: :boolean
+  = f.input :accepts, as: :boolean, required: true
+
 h3 Select
 
 = simple_form_for Occupant.new, url: "#", html: { class: "form" } do |f|

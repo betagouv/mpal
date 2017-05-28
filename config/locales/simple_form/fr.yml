@@ -19,6 +19,7 @@ fr:
       default_message: "Merci de corriger les problèmes suivants :"
     labels:
       defaults:
+        accepts: "J’accepte les informations ci-dessus"
         active: "Actif"
         address: "Adresse"
         birthday: "Date de naissance"

@@ -209,7 +209,7 @@ fr:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
-      confirmation: "J’ai lu, j’accepte les informations ci-dessus et je confirme cette adresse email"
+      confirmation: "J’ai lu, j’accepte les informations ci-dessus"
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
         erreur_depot_document: "Une erreur est survenue. Votre document n’a pas été ajouté au projet"
