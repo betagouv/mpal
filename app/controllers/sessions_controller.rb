@@ -19,9 +19,11 @@ class SessionsController < ApplicationController
       flash.now[:alert] = t('sessions.invalid_credentials')
       return render :new
     end
-    session[:numero_fiscal] = param_numero_fiscal
-    projet = Projet.find_by(numero_fiscal: param_numero_fiscal)
+    projet = Projet.where(numero_fiscal: params[:numero_fiscal], reference_avis: params[:reference_avis]).first
     if projet
+      if session[:project_id] != projet.id
+        session[:project_id] = projet.id
+      end
       redirect_to_next_step(projet)
     else
       create_projet_and_redirect
@@ -34,6 +36,7 @@ class SessionsController < ApplicationController
       EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
       notice = t('projets.messages.creation.corps')
       flash[:notice_titre] = t('projets.messages.creation.titre')
+      session[:project_id] = projet.id
       redirect_to projet_demandeur_path(projet), notice: notice
     else
       redirect_to new_session_path, alert: t('sessions.erreur_creation_projet')

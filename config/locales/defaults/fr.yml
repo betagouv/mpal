@@ -152,6 +152,10 @@ fr:
       un_pris_va_vous_contacter: "Le Point Rénovation Info Service de votre département, « %{pris} », va vous contacter prochainement."
       disponibilite_placeholder: "Le matin, entre 8h et 11h"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+    # ----------------------- Compte utilisateur -------------------
+    users:
+      section_name: "Identifiants"
+      explanations: "Choisissez un mot de passe pour pouvoir suivre l’avancement de votre dossier. Ce seront vos identifiants de connexion."
 
   # ----------------------- Page de visualisation du projet ---------------------
   projets:

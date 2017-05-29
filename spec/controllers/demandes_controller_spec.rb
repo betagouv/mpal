@@ -6,7 +6,7 @@ describe DemandesController do
   let(:projet) { create :projet, :prospect, demande: nil }
 
   before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
+    authenticate_as_user(projet.id)
   end
 
   describe "#show" do
@@ -31,7 +31,7 @@ describe DemandesController do
         }
         projet.demande.reload
         expect(projet.demande.changement_chauffage).to be true
-        expect(response).to redirect_to projet_mise_en_relation_path(projet)
+        expect(response).to redirect_to new_user_registration_path
         expect(flash[:alert]).to be_blank
       end
     end

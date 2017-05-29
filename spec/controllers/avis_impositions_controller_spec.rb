@@ -6,7 +6,7 @@ describe AvisImpositionsController do
   let(:projet) { create :projet }
 
   before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
+    authenticate_as_user(projet.id)
   end
 
   describe "#new" do

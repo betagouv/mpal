@@ -23,6 +23,10 @@ class Projet < ActiveRecord::Base
   belongs_to :personne, dependent: :destroy
   accepts_nested_attributes_for :personne
 
+  # Compte utilisateur
+  belongs_to :user, dependent: :destroy
+
+  # Demande
   has_one :demande, dependent: :destroy
   accepts_nested_attributes_for :demande
 

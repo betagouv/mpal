@@ -22,6 +22,7 @@ describe Projet do
     it { is_expected.to validate_numericality_of(:consommation_avant_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to validate_numericality_of(:consommation_apres_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to have_one :demande }
+    it { is_expected.to belong_to :user }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
     it { is_expected.to belong_to :operateur }

@@ -6,7 +6,7 @@ describe MisesEnRelationController do
   let(:projet) { create :projet, :prospect }
 
   before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
+    authenticate_as_user(projet.id)
   end
 
   describe "#show" do

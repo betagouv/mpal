@@ -123,7 +123,7 @@ fr:
       accepted: doit être accepté(e)
       blank: doit être rempli(e)
       present: doit être vide
-      confirmation: ne concorde pas avec %{attribute}
+      confirmation: ne concorde pas avec le mot de passe
       empty: doit être rempli(e)
       equal_to: doit être égal à %{count}
       even: doit être pair

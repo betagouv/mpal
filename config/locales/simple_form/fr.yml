@@ -37,6 +37,7 @@ fr:
         name: "Nom"
         nom: "Nom"
         password: "Mot de passe"
+        password_confirmation: "Vérification du mot de passe"
         phone: "Téléphone"
         prenom: "Prénom"
         result_per_page: "Résultats"

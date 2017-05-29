@@ -5,7 +5,7 @@ describe TransmissionController do
   let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles }
 
   before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
+    authenticate_as_user(projet.id)
   end
 
   describe "#create" do
