@@ -8,8 +8,7 @@ class ChoixOperateurController < ApplicationController
 
   def new
     @suggested_operateurs = @projet_courant.pris_suggested_operateurs.shuffle
-    @other_operateurs = @projet_courant.intervenants_disponibles(role: :operateur).shuffle - @suggested_operateurs
-    #@other_operateurs = fetch_operateurs.shuffle - @suggested_operateurs
+    @other_operateurs = fetch_operateurs.shuffle - @suggested_operateurs
     @operateur = @projet_courant.contacted_operateur
 
     if @operateur.present?
@@ -38,7 +37,8 @@ class ChoixOperateurController < ApplicationController
 private
   def fetch_operateurs
     if ENV['ROD_ENABLED'] == 'true'
-      Rod.new(RodClient).query_for(@projet_courant).operateurs
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      rod_response.operateurs
     else
       @projet_courant.intervenants_disponibles(role: :operateur)
     end
