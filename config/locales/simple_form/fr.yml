@@ -19,6 +19,7 @@ fr:
       default_message: "Merci de corriger les problèmes suivants :"
     labels:
       defaults:
+        accepts: "J’accepte les informations ci-dessus"
         active: "Actif"
         address: "Adresse"
         birthday: "Date de naissance"
@@ -36,6 +37,7 @@ fr:
         name: "Nom"
         nom: "Nom"
         password: "Mot de passe"
+        password_confirmation: "Vérification du mot de passe"
         phone: "Téléphone"
         prenom: "Prénom"
         result_per_page: "Résultats"

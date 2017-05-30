@@ -1,0 +1,11 @@
+= simple_form_for resource, as: resource_name, url: user_registration_path, html: { class: "form" } do |f|
+  section.section.projet
+    h2.section__title= t("demarrage_projet.users.section_name")
+    .section__content
+      p= t("demarrage_projet.users.explanations")
+      = render "shared/errors", resource: resource
+      = f.input :email, required: true, autofocus: true
+      = f.input :password, required: true
+      = f.input :password_confirmation, required: true
+  = btn name: t("demarrage_projet.action"), class: "btn-large btn-centered", icon: "arrow-right"
+

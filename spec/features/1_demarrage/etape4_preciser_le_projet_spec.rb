@@ -6,8 +6,6 @@ require 'support/api_ban_helper'
 feature "Préciser le projet :" do
   let(:projet) { Projet.last }
 
-  before { create :pris }
-
   context "en tant que demandeur" do
     scenario "je peux décrire mes besoins pour ma demande de travaux" do
       signin_for_new_projet
@@ -35,7 +33,7 @@ feature "Préciser le projet :" do
       fill_in :demande_travaux_autres, with: "Aménager une chambre au RDC"
 
       click_button I18n.t('demarrage_projet.action')
-      expect(page.current_path).to eq(projet_mise_en_relation_path(projet))
+      expect(page.current_path).to eq(new_user_registration_path)
 
       projet.reload
       expect(projet.demande.froid).to be_truthy

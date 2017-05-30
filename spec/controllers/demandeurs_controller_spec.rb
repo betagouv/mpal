@@ -6,7 +6,7 @@ describe DemandeursController do
   let(:projet) { create :projet, :prospect, declarants_count: 2 }
 
   before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
+    authenticate_as_user(projet.id)
   end
 
   describe "#show" do

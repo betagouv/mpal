@@ -76,6 +76,9 @@
       display: block;
     }
   }
+  .form-check-label > input {
+    margin-right: 0.5em;
+  }
   .text-muted {
     color: #888;
   }

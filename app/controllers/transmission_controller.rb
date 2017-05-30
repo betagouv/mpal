@@ -11,15 +11,6 @@ class TransmissionController < ApplicationController
   end
 
   def create
-    email = params[:projet][:email]
-    if email.blank?
-      return redirect_to projet_transmission_path(@projet_courant), alert: t('projets.transmission.messages.validation_email_vide')
-    end
-
-    unless @projet_courant.update(email: email)
-      return redirect_to projet_transmission_path(@projet_courant), alert: t('projets.transmission.messages.validation_email')
-    end
-
     instructeur = Intervenant.instructeur_pour(@projet_courant)
     if @projet_courant.transmettre!(instructeur)
       infos = [instructeur.raison_sociale, instructeur.adresse_postale, instructeur.phone].reject(&:blank?)
@@ -34,3 +25,4 @@ private
     @page_heading = 'Accepter la proposition'
   end
 end
+

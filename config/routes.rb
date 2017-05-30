@@ -15,16 +15,16 @@ Rails.application.routes.draw do
     get       :preeligibilite
   end
 
+  devise_for :users, controllers: {
+    registrations: "users/registrations",
+  }
+
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
   devise_scope :agent do
     get '/agents/signed_out', to: 'my_cas#signed_out'
   end
 
   root 'sessions#new'
-  namespace :api, path: '/api/v1/projets/:projet_id' do
-    get  '/', to: 'projets#show', as: 'projet'
-    post '/plan_financements', to: 'plans_financements#create', as: 'projet_plan_financements'
-  end
 
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [], concerns: :projectable do
@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     resources :projets, only: [], concerns: :projectable do
+      resource :users, only: [:new, :create]
       get      'demandeur/departement_non_eligible', action: :departement_non_eligible, controller: 'demandeurs'
       get      :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch    :choix_operateur,      action: :choose, controller: 'choix_operateur'

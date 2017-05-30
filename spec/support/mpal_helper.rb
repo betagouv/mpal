@@ -1,5 +1,5 @@
-def authenticate_as_particulier(numero_fiscal)
-  session[:numero_fiscal] = numero_fiscal
+def authenticate_as_user(project_id)
+  session[:project_id] = project_id
 end
 
 def authenticate_as_agent(agent)

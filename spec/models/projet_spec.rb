@@ -10,7 +10,7 @@ describe Projet do
     it { is_expected.to validate_presence_of :reference_avis }
     it { is_expected.not_to validate_presence_of(:adresse_postale).on(:create) }
     it { is_expected.to validate_presence_of(:adresse_postale).on(:update) }
-    it { is_expected.not_to validate_presence_of(:email) }
+    it { is_expected.to validate_presence_of(:email).on(:update) }
     it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.not_to validate_presence_of(:date_de_visite) }
     it { is_expected.to validate_presence_of(:date_de_visite).with_message(:blank_feminine).on(:proposition) }
@@ -22,6 +22,7 @@ describe Projet do
     it { is_expected.to validate_numericality_of(:consommation_avant_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to validate_numericality_of(:consommation_apres_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to have_one :demande }
+    it { is_expected.to belong_to :user }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
     it { is_expected.to belong_to :operateur }
@@ -34,13 +35,13 @@ describe Projet do
 
     it "accepte les emails valides" do
       projet.email = "email@exemple.fr"
-      projet.valid?
+      projet.valid?(:update)
       expect(projet.errors[:email]).to be_empty
     end
 
     it "rejette les emails invalides" do
       projet.email = "invalid-email@lol"
-      projet.valid?
+      projet.valid?(:update)
       expect(projet.errors[:email]).to be_present
     end
 

@@ -5,7 +5,7 @@ describe OccupantsController do
   let(:projet) { create :projet, :with_demandeur }
 
   before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
+    authenticate_as_user(projet.id)
   end
 
   describe "#index" do

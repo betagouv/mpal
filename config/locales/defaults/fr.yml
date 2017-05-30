@@ -152,6 +152,10 @@ fr:
       un_pris_va_vous_contacter: "Le Point Rénovation Info Service de votre département, « %{pris} », va vous contacter prochainement."
       disponibilite_placeholder: "Le matin, entre 8h et 11h"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+    # ----------------------- Compte utilisateur -------------------
+    users:
+      section_name: "Identifiants"
+      explanations: "Choisissez un mot de passe pour pouvoir suivre l’avancement de votre dossier. Ce seront vos identifiants de connexion."
 
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
@@ -209,7 +213,7 @@ fr:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
-      confirmation: "J’ai lu, j’accepte les informations ci-dessus et je confirme cette adresse email"
+      confirmation: "J’ai lu, j’accepte les informations ci-dessus"
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
         erreur_depot_document: "Une erreur est survenue. Votre document n’a pas été ajouté au projet"
