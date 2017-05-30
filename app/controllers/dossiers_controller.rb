@@ -81,6 +81,7 @@ class DossiersController < ApplicationController
     end
 
     @available_operateurs = @projet_courant.intervenants_disponibles(role: :operateur).to_a
+    #@available_operateurs = fetch_operateurs.to_a
     if @projet_courant.pris_suggested_operateurs.blank? && !request.post?
       @available_operateurs.shuffle!
     end
@@ -121,6 +122,13 @@ class DossiersController < ApplicationController
   end
 
 private
+  def fetch_operateurs
+    if ENV['ROD_ENABLED'] == 'true'
+      Rod.new(RodClient).query_for(@projet_courant).operateurs
+    else
+      @projet_courant.intervenants_disponibles(role: :operateur)
+    end
+  end
 
   def assign_projet_if_needed
     if !@projet_courant.agent_operateur && current_agent
