@@ -6,6 +6,25 @@ module Fakeweb
       FakeWeb.register_uri(
         :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants|,
         body: JSON.generate({
+          "service_instructeur":
+            [
+              {
+                "id_clavis": 5054,
+                "raison_sociale": "Direction Départementale des Territoires du Doubs",
+                "email": "ddt@doubs.gouv.fr",
+                "siret": "",
+                "adresse_postale":
+                  {
+                    "adresse1": "6 Rue Roussillon",
+                    "adresse2": "",
+                    "adresse3": "",
+                    "code_postal": "25003",
+                    "ville": "BESANCON CEDEX"
+                  },
+                "tel": "03 81 65 62 62",
+                "web": ""
+              }
+            ],
           "pris_anah":
             [
               {

@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/mpal_helper'
+require 'support/rod_helper'
 
 describe TransmissionController do
   let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles }
