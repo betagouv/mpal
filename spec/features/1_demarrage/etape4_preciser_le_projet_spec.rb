@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
+require 'support/rod_helper'
 
 feature "Préciser le projet :" do
   let(:projet) { Projet.last }
