@@ -6,8 +6,6 @@ require 'support/api_ban_helper'
 feature "Préciser le projet :" do
   let(:projet) { Projet.last }
 
-  before { create :pris }
-
   context "en tant que demandeur" do
     scenario "je peux décrire mes besoins pour ma demande de travaux" do
       signin_for_new_projet

@@ -24,5 +24,14 @@ FactoryGirl.define do
       departement '75'
       region      'Île-de-France'
     end
+
+    trait :rue_des_brosses do
+      ligne_1     '10 rue des Brosses'
+      code_insee  '25000'
+      code_postal '25000'
+      ville       'Besançon'
+      departement '25'
+      region      'Bourgogne Franche-Comté'
+    end
   end
 end
