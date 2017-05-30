@@ -34,7 +34,8 @@ class MisesEnRelationController < ApplicationController
 private
   def fetch_pris
     if ENV['ROD_ENABLED'] == 'true'
-      Rod.new(RodClient).query_for(@projet_courant).pris
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      rod_response.pris
     else
       @projet_courant.intervenants_disponibles(role: :pris).first
     end

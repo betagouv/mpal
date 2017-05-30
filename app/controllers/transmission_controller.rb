@@ -11,7 +11,7 @@ class TransmissionController < ApplicationController
   end
 
   def create
-    instructeur = Intervenant.instructeur_pour(@projet_courant)
+    instructeur = fetch_instructeur
     if @projet_courant.transmettre!(instructeur)
       infos = [instructeur.raison_sociale, instructeur.adresse_postale, instructeur.phone].reject(&:blank?)
       redirect_to projet_path(@projet_courant), notice: t('projets.transmission.messages.success', instructeur: infos.join(", "))
@@ -21,6 +21,15 @@ class TransmissionController < ApplicationController
   end
 
 private
+  def fetch_instructeur
+    if ENV['ROD_ENABLED'] == 'true'
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      rod_response.instructeur
+    else
+      @projet_courant.instructeur_pour(@projet_courant)
+    end
+  end
+
   def init_view
     @page_heading = 'Accepter la proposition'
   end
