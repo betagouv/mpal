@@ -7,25 +7,26 @@
 .help__button {
   display: inline-block;
   color: white;
-  background-color: #E00648;
+  background-color: $color-steel;
   width: 66px;
   height: 66px;
-  line-height: 66px;
-  border-radius: 33px;
   margin-left: 15px;
   margin-bottom: 15px;
-  box-shadow: 0px 2px 3px #62042ECC;
+  border-radius: 33px;
+  box-shadow: 0px 2px 4px -1px darken($color-steel, 30);
+  line-height: 66px;
   text-align: center;
   font-size: 30px;
   font-weight: bold;
+  text-shadow: 0px -1px 0 rgba(0, 0, 0, 0.2);
 
   transition: transform 0.1s, box-shadow 0.1s;
 
   &:hover, &:active {
     transform: scale(1.15);
-    box-shadow: 0px 2px 5px #62042ECC;
+    box-shadow: 0px 2px 6px -1px darken($color-steel, 30);
   }
   &:focus {
-    background-color: #B00648;
+    background-color: darken($color-steel, 10);
   }
 }
