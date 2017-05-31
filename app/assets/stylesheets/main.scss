@@ -100,10 +100,26 @@ fieldset {
   background: image-url("background.jpg") 0 0 no-repeat;
   background-size: cover;
 }
+.main-container-login {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background-size: cover;
+}
 
 .centered-page {
   position: relative;
   margin: 0 auto;
+  max-width: 1200px;
+  @media screen and (min-width: 1200px) {
+    padding-top: 30px;
+  }
+}
+.centered-page-projet {
+  position: relative;
+  margin: 0 auto;
+  padding: 5px;
   max-width: 1200px;
   @media screen and (min-width: 1200px) {
     padding-top: 30px;
@@ -154,6 +170,11 @@ fieldset {
 .logo-anah {
   display: block;
   width: 123px;
+}
+.logo-anah-projet {
+  display: block;
+  width: 123px;
+  margin: 20px 20px 20px 0;
 }
 .project-header {
   position: relative;
@@ -651,6 +672,17 @@ fieldset {
   padding: 30px 0;
   a {
     color: white;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.main-footer-projet {
+  padding: 30px 0;
+  color: black;
+  a {
+    color: black;
     &:hover {
       text-decoration: underline;
     }

@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
+    get  '/projet/new',        to: 'projets#new'
     resources :projets, only: [], concerns: :projectable do
       resource :users, only: [:new, :create]
       get      'demandeur/departement_non_eligible', action: :departement_non_eligible, controller: 'demandeurs'
@@ -92,6 +93,7 @@ Rails.application.routes.draw do
 
   get "/404", to: "errors#not_found"
   get "/500", to: "errors#internal_server_error"
+
 
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

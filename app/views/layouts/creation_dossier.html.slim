@@ -11,13 +11,13 @@ html lang="fr"
     = csrf_meta_tag
     = javascript_include_tag 'application', async: Rails.env.production?
   body
-    .main-container
+    .main-container-login-projet
       #beta-ribbon
-      .centered-page
+      .centered-page-projet
         = yield :header
         = render 'shared/messages'
         = content_for?(:content) ? yield(:content) : yield
-        footer.main-footer
+        footer.main-footer-projet
           /= link_to t("menu.homepage"), root_path
           /|  - 
           /= link_to t("menu.about"), informations_about_path
@@ -30,3 +30,5 @@ html lang="fr"
           /|  - 
           /= link_to t("menu.contact"), new_contact_path
     = yield :popins
+
+ 
