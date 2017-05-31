@@ -26,7 +26,7 @@ private
       rod_response = Rod.new(RodClient).query_for(@projet_courant)
       rod_response.instructeur
     else
-      @projet_courant.instructeur_pour(@projet_courant)
+      @projet_courant.intervenants_disponibles(role: :instructeur).first
     end
   end
 
