@@ -27,5 +27,8 @@ module Mpal
     config.active_job.queue_adapter = ENV['SIDEKIQ_DISABLED'] == 'true' ? :inline : :sidekiq
 
     config.autoload_paths += %W(#{config.root}/lib)
+
+    # Serve error pages from the Rails app itself
+    config.exceptions_app = self.routes
   end
 end

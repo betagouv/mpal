@@ -90,8 +90,8 @@ Rails.application.routes.draw do
 
   resources :contacts, only: [:index, :new, :create]
 
-  get "/404", to: "errors#not_found"
-  get "/500", to: "errors#internal_server_error"
+  match "/404", via: :all, to: "errors#not_found"
+  match "/500", via: :all, to: "errors#internal_server_error"
 
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
