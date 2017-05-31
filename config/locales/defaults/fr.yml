@@ -396,10 +396,18 @@ fr:
       explication_html: "<b>Choisir un intervenant vous engage</b><p>L’opérateur est chargé de vous conseiller tout au long de la démarche. Il vous accompagne danss l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.</p><p>Lorsqu’une subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de la subvention.</p><p>Cette prestation payante peut être totalement ou opartiellement couverte par le complément de subvention qui complète la subvention pour travaux"
       action: "Je choisis cet opérateur"
 
+  # --------------------------- Admin --------------------------------
+
   admin:
     intervenants:
       importer_fichier: "Importer le fichier"
       import_reussi: "Les intervenants ont été importés."
+
+  # ---------------------------- Aide --------------------------------
+  help:
+    button:
+      label: "?"
+      tooltip: "Un problème, une question ? Demandez de l’aide !"
 
   # ---------------------- Active Record -----------------------------
   activerecord:

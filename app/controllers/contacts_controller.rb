@@ -8,7 +8,7 @@ class ContactsController < ApplicationController
   def new
     @contact = Contact.new
     @contact.subject = "J’ai une question…" if @contact.subject.blank?
-    @page_heading = "Demande de contact"
+    render_new
   end
 
   def create
@@ -18,7 +18,14 @@ class ContactsController < ApplicationController
       ContactMailer.contact(@contact).deliver_later!
       return redirect_to(new_contact_path), notice: "Votre message a bien été envoyé"
     end
+    render_new
+  end
+
+private
+
+  def render_new
     @page_heading = "Demande de contact"
+    @display_help = false
     render :new
   end
 end

@@ -31,3 +31,5 @@ html lang="fr"
           /= link_to t("menu.contact"), new_contact_path
     = yield :popins
 
+    - if @display_help
+      = render 'shared/help'
