@@ -26,12 +26,12 @@ private
     end
   end
 
-  def parse_pris(json_pris)
-    create_or_update_intervenant!("pris", json_pris["pris_anah"].first)
+  def parse_pris(json)
+    create_or_update_intervenant!("pris", json["pris_anah"].first)
   end
 
-  def parse_instructeur(json_instructeur)
-    create_or_update_intervenant!("instructeur", json_instructeur["service_instructeur"].first)
+  def parse_instructeur(json)
+    create_or_update_intervenant!("instructeur", json["service_instructeur"].first)
   end
 
   def parse_operateurs(json)
