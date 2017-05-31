@@ -56,6 +56,8 @@
         = btn name: t("occupants.nouveau.action"), class: "occupant-inline-form__submit", icon: "plus"
 
     .checkbox-validation
-      input#dif1 type="checkbox" class="js-engagement"
-      label for="dif1" = t("agrements.attestation_communiquer_infos_occupants")
+      label.form-control-label
+        input type="checkbox" class="js-engagement"
+        = t("agrements.attestation_communiquer_infos_occupants")
+
   = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "arrow-right", html: { name: :submit_button }

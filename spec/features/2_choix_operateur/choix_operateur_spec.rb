@@ -20,7 +20,7 @@ feature "Choisir un opérateur:" do
         expect(page).not_to have_selector("input[checked]")
 
         choose new_operateur.raison_sociale
-        fill_in I18n.t('helpers.label.projet.disponibilite'), with: "Plutôt le matin"
+        fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
         check I18n.t('agrements.autorisation_acces_donnees_intervenants')
         click_button I18n.t('choix_operateur.actions.contacter')
 
@@ -48,7 +48,7 @@ feature "Choisir un opérateur:" do
         expect(page).not_to have_selector("input[checked]")
 
         choose suggested_operateur1.raison_sociale
-        fill_in I18n.t('helpers.label.projet.disponibilite'), with: "Plutôt le matin"
+        fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
         check I18n.t('agrements.autorisation_acces_donnees_intervenants')
         click_button I18n.t('choix_operateur.actions.contacter')
 
@@ -72,7 +72,7 @@ feature "Choisir un opérateur:" do
         new_operateur = projet.intervenants_disponibles(role: :operateur).first
 
         choose new_operateur.raison_sociale
-        fill_in I18n.t('helpers.label.projet.disponibilite'), with: "Plutôt le soir"
+        fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le soir"
         check I18n.t('agrements.autorisation_acces_donnees_intervenants')
         click_button I18n.t('choix_operateur.actions.changer')
 

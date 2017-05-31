@@ -28,7 +28,7 @@ feature "En tant que demandeur, un PRIS est automatiquement assigné à mon proj
       signin(projet.numero_fiscal, projet.reference_avis)
 
       visit projet_mise_en_relation_path(projet)
-      fill_in I18n.t('helpers.label.projet.disponibilite'), with: "Plutôt le matin"
+      fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
       check I18n.t('agrements.autorisation_acces_donnees_intervenants')
       click_button I18n.t('demarrage_projet.action')
 
