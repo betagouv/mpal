@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/mpal_helper'
+require 'support/rod_helper'
 
 describe DossiersController do
   context "en tant qu'agent, si je ne suis pas connecté" do
