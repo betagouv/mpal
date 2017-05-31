@@ -5,6 +5,7 @@ class ToolsController < ApplicationController
       Demande.destroy_all
       Occupant.destroy_all
       Projet.destroy_all
+      User.destroy_all
       reset_session
       redirect_to root_path, notice: t('reinitialisation.succes')
     else
