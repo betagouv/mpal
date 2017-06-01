@@ -6,7 +6,6 @@ class ProjetsController < ApplicationController
   before_action :authentifie, except: [:new, :create]
   before_action :authentifie_sans_redirection
 
-
   def show
     render_show
   end
@@ -33,7 +32,7 @@ class ProjetsController < ApplicationController
     projet = Projet.where(numero_fiscal: params[:numero_fiscal], reference_avis: params[:reference_avis]).first
     if projet
       if session[:project_id] != projet.id
-        session[:project_id] = projet.id
+         session[:project_id] = projet.id
       end
       redirect_to_next_step(projet)
     else
@@ -43,11 +42,6 @@ class ProjetsController < ApplicationController
 
     @page_heading = "Création de dossier"
     # render layout: "creation_dossier"
-  end
-
-  def deconnexion
-    reset_session
-    render :new, notice: t('sessions.confirmation_deconnexion')
   end
 
 private
