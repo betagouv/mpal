@@ -7,7 +7,7 @@ class MisesEnRelationController < ApplicationController
 
   def show
     @demande = @projet_courant.demande
-    fetch_pris_and_instructeur
+    fetch_intervenants
     if @pris_departement.blank?
       Rails.logger.error "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement} (projet_id: #{@projet_courant.id})"
       return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)
@@ -19,7 +19,7 @@ class MisesEnRelationController < ApplicationController
   def update
     begin
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
-      fetch_pris_and_instructeur
+      fetch_intervenants
       unless @projet_courant.intervenants.include? @pris_departement
         @projet_courant.invite_pris! @pris_departement
         flash[:notice_titre] = t('invitations.messages.succes_titre')
@@ -34,7 +34,7 @@ class MisesEnRelationController < ApplicationController
   end
 
 private
-  def fetch_pris_and_instructeur
+  def fetch_intervenants
     if ENV['ROD_ENABLED'] == 'true'
       rod_response = Rod.new(RodClient).query_for(@projet_courant)
       @pris_departement = rod_response.pris

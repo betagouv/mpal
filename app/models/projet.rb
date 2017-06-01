@@ -295,7 +295,7 @@ class Projet < ActiveRecord::Base
     return if previous_pris == pris
 
     invitation = Invitation.create! projet: self, intervenant: pris
-    notify_intervenant_of(invitation)
+    notify_intervenant_of invitation
 
     invitations.where(intervenant: previous_pris).first.try(:destroy!)
   end
@@ -304,8 +304,7 @@ class Projet < ActiveRecord::Base
     previous_instructeur = invited_instructeur
     return if previous_instructeur == instructeur
 
-    invitation = Invitation.create! projet: self, intervenant: instructeur
-    notify_intervenant_of invitation
+    Invitation.create! projet: self, intervenant: instructeur
 
     invitations.where(intervenant: previous_instructeur).first.try(:destroy!)
   end
