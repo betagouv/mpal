@@ -18,7 +18,7 @@ class DemandeursController < ApplicationController
   end
 
   def departement_non_eligible
-    @departements = Tools.departements_enabled
+    @departements = Tools.departements_enabled - [Tools::DEPARTEMENTS_WILDCARD]
   end
 
 private

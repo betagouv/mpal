@@ -9,7 +9,8 @@ class MisesEnRelationController < ApplicationController
     @demande = @projet_courant.demande
     @pris_departement = fetch_pris
     if @pris_departement.blank?
-      raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
+      Rails.logger.error "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement} (projet_id: #{@projet_courant.id})"
+      return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)
     end
     @page_heading = 'Inscription'
     @action_label = action_label
@@ -18,7 +19,7 @@ class MisesEnRelationController < ApplicationController
   def update
     begin
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
-      @pris_departement ||= fetch_pris
+      @pris_departement = fetch_pris
       unless @projet_courant.intervenants.include? @pris_departement
         @projet_courant.invite_pris!(@pris_departement)
         flash[:notice_titre] = t('invitations.messages.succes_titre')
