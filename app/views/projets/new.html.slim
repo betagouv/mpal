@@ -27,8 +27,14 @@ section.login-fields
   = link_to "J'ai déjà un dossier", "#content", class: "login-fields__link"
   p.login-fields__commentaire Tous les champs sont obligatoires
 
-  
-  = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'login-fields__form-projet', id: 'js-login-form') do
+  / = simple_form_for @projet, html: { class: "form form-with-alerts form-contact" } do |f|
+  /   = render "shared/errors", resource: @projet
+  /   = f.input :numero_fiscal, wrapper_html: { class: "size-m" }, required: true
+  /   = f.input :reference_avis, wrapper_html: { class: "size-m" }, required: true
+  /   = btn name: t("sessions.commencer"), class: "login-fields__btn js-login-btn js-engagement", icon: "ok"
+
+
+  = form_tag({ controller: 'projets', action: 'create' }, method: 'post', class: 'login-fields__form-projet', id: 'js-login-form') do
     p.login-fields__label.login-fields__label--p.login-fields__label--first Êtes-vous propriétaire de votre résidence principale ?
     - proprietaire = params[:proprietaire] == "1"
     label.login-fields__proprietaire-label for="lab-proprietaire-yes"

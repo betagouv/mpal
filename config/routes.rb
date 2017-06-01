@@ -39,8 +39,9 @@ Rails.application.routes.draw do
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
-    get  '/projet/new',        to: 'projets#new'
-    get  '/projet/create',        to: 'projets#create'
+    get  '/projets/new',        to: 'projets#new'
+    post  '/projets/',     to: 'projets#create'
+
     resources :projets, only: [], concerns: :projectable do
       resource :users, only: [:new, :create]
       get      'demandeur/departement_non_eligible', action: :departement_non_eligible, controller: 'demandeurs'
@@ -77,6 +78,7 @@ Rails.application.routes.draw do
   end
 
   get  '/deconnexion', to: 'sessions#deconnexion'
+  get  'projets/deconnexion', to: 'projets#deconnexion'
   resources :dossiers, only: []
 
   get  '/informations/about',        to: 'informations#about'
