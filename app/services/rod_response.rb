@@ -27,19 +27,19 @@ private
   end
 
   def parse_pris(json)
-    create_or_update_intervenant!("pris", json["pris_anah"].first)
+    create_or_update_intervenant!("pris", json["pris_anah"].first) rescue nil
   end
 
   def parse_instructeur(json)
-    create_or_update_intervenant!("instructeur", json["service_instructeur"].first)
+    create_or_update_intervenant!("instructeur", json["service_instructeur"].first) rescue nil
   end
 
   def parse_operateurs(json)
     json_operateurs = json["operation_programmee"].present? ?
-                      json["operation_programmee"].map{ |op| op["operateurs"] }.flatten :
+                      json["operation_programmee"].map { |op| op["operateurs"] }.flatten :
                       json["operateurs"]
 
-    operateurs_ids = json_operateurs.map do |attributes|
+    operateurs_ids = (json_operateurs || []).map do |attributes|
       operateur = create_or_update_intervenant!("operateur", attributes)
       operateur.id
     end
