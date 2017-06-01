@@ -40,7 +40,7 @@ Rails.application.routes.draw do
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     get  '/projets/new',        to: 'projets#new'
-    post  '/projets/',     to: 'projets#create'
+    get  '/projets/',     to: 'projets#create'
 
     resources :projets, only: [], concerns: :projectable do
       resource :users, only: [:new, :create]
@@ -78,7 +78,6 @@ Rails.application.routes.draw do
   end
 
   get  '/deconnexion', to: 'sessions#deconnexion'
-  get  'projets/deconnexion', to: 'projets#deconnexion'
   resources :dossiers, only: []
 
   get  '/informations/about',        to: 'informations#about'
