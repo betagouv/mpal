@@ -37,6 +37,7 @@ describe MisesEnRelationController do
       it "met à jour le projet" do
         expect(projet.disponibilite).to eq "plutôt le matin"
         expect(projet.invited_pris).to be_present
+        expect(projet.invited_instructeur).to be_present
       end
 
       it "redirige vers la page principale du projet" do

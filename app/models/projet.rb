@@ -294,11 +294,20 @@ class Projet < ActiveRecord::Base
     previous_pris = invited_pris
     return if previous_pris == pris
 
-    invitation = Invitation.new(projet: self, intervenant: pris)
-    invitation.save!
+    invitation = Invitation.create! projet: self, intervenant: pris
     notify_intervenant_of(invitation)
 
     invitations.where(intervenant: previous_pris).first.try(:destroy!)
+  end
+
+  def invite_instructeur!(instructeur)
+    previous_instructeur = invited_instructeur
+    return if previous_instructeur == instructeur
+
+    invitation = Invitation.create! projet: self, intervenant: instructeur
+    notify_intervenant_of invitation
+
+    invitations.where(intervenant: previous_instructeur).first.try(:destroy!)
   end
 
   def notify_intervenant_of(invitation)
@@ -324,8 +333,8 @@ class Projet < ActiveRecord::Base
   end
 
   def transmettre!(instructeur)
-    invitation = Invitation.new(projet: self, intermediaire: operateur, intervenant: instructeur)
-    if invitation.save
+    invitation = invitations.find_by(intervenant: instructeur)
+    if invitation.update(intermediaire: operateur)
       self.statut = :transmis_pour_instruction
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
       ProjetMailer.accuse_reception(self).deliver_later!

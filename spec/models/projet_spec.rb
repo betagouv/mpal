@@ -492,6 +492,43 @@ describe Projet do
     end
   end
 
+  describe "#invite_instructeur!" do
+    context "sans instructeur invité au préalable" do
+      let(:projet)      { create :projet }
+      let(:instructeur) { create :instructeur }
+
+      it "sélectionne l'intructeur" do
+        projet.invite_instructeur! instructeur
+        expect(projet.invitations.count).to   eq 1
+        expect(projet.invited_instructeur).to eq instructeur
+      end
+    end
+
+    context "avec un instructeur invité auparavant" do
+      let(:projet) { create :projet, :prospect, :with_invited_instructeur }
+
+      context "et un nouveau instructeur différent du précédent" do
+        let(:new_instructeur) { create :instructeur }
+
+        it "sélectionne le nouvel instructeur" do
+          projet.invite_instructeur! new_instructeur
+          expect(projet.invitations.count).to   eq 1
+          expect(projet.invited_instructeur).to eq new_instructeur
+        end
+      end
+
+      context "et un nouvel instructeur identique au précédent" do
+        let(:instructeur) { projet.invited_instructeur }
+
+        it "ne change rien" do
+          projet.invite_instructeur! instructeur
+          expect(projet.invitations.count).to   eq 1
+          expect(projet.invited_instructeur).to eq instructeur
+        end
+      end
+    end
+  end
+
   describe "#commit_to_operateur!" do
     let(:projet)    { create :projet, :prospect }
     let(:operateur) { create :operateur }
@@ -520,10 +557,10 @@ describe Projet do
   end
 
   describe "#transmettre!" do
-    let(:projet) { create :projet, :proposition_proposee }
+    let(:projet) { create :projet, :proposition_proposee, :with_invited_instructeur }
 
     context "avec un instructeur valide" do
-      let(:instructeur) { create :instructeur }
+      let(:instructeur) { projet.invited_instructeur }
       it "rajoute l'instructeur au projet" do
         result = projet.transmettre!(instructeur)
         expect(result).to be true
@@ -535,16 +572,6 @@ describe Projet do
         expect(ProjetMailer).to receive(:mise_en_relation_intervenant).and_call_original
         expect(ProjetMailer).to receive(:accuse_reception).and_call_original
         projet.transmettre!(instructeur)
-      end
-    end
-
-    context "avec un instructeur invalide" do
-      let(:instructeur) { nil }
-      it "ne change rien" do
-        result = projet.transmettre!(instructeur)
-        expect(result).to be false
-        expect(projet.statut.to_sym).not_to eq(:transmis_pour_instruction)
-        expect(projet.invitations.count).to eq(1)
       end
     end
   end
