@@ -94,12 +94,10 @@
   color: grey;
 }
 
-// .login-fields__link {
-//   a {
-//   text-decoration: underline;
-//   font-weight: bold;
-//   &:hover {
-//     font-style: italic;
-//     }
-//   }
-// }
+.login-fields__link {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+    color: $color-primary;
+  }
+}

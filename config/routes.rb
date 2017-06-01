@@ -40,6 +40,7 @@ Rails.application.routes.draw do
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
     get  '/projet/new',        to: 'projets#new'
+    get  '/projet/create',        to: 'projets#create'
     resources :projets, only: [], concerns: :projectable do
       resource :users, only: [:new, :create]
       get      'demandeur/departement_non_eligible', action: :departement_non_eligible, controller: 'demandeurs'

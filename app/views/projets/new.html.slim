@@ -17,15 +17,17 @@
         = btn name: "Fermer", href: "#", class: "popin__close"
 
 section.login-fields
-  = link_to "Aller au contenu", class: "login-fields__link"
+  = link_to "Aller au contenu", "#content", class: "login-fields__link"
   br/ 
   br/
   = image_tag "logo-anah.png", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat", title: "Les aides de l’Anah - Agence Nationale de l’Habitat", class: "login-intro__heading-image logo-anah-projet"
   = image_tag "logo-rf.png", alt: "République Française - Marianne", title: "République Française - Marianne", class: "login-intro__heading-image logo-anah-projet"
+  
   h3.login-fields__heading-projet Remplir mon dossier
-  = link_to "J'ai déjà un dossier", class: "login-fields__link"
+  = link_to "J'ai déjà un dossier", "#content", class: "login-fields__link"
   p.login-fields__commentaire Tous les champs sont obligatoires
 
+  
   = form_tag({ controller: 'sessions', action: 'create' }, method: 'post', class: 'login-fields__form-projet', id: 'js-login-form') do
     p.login-fields__label.login-fields__label--p.login-fields__label--first Êtes-vous propriétaire de votre résidence principale ?
     - proprietaire = params[:proprietaire] == "1"
