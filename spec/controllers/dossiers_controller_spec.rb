@@ -159,21 +159,23 @@ describe DossiersController do
       end
 
       context "si je suis affecté à un projet" do
-        let!(:current_agent_project)    { create :projet, :proposition_proposee, agent_instructeur: current_agent }
-        let!(:same_department_project)  { create :projet, :en_cours }
-        let!(:other_department_project) { create :projet, :en_cours }
+        let(:other_department_project) { create :projet, :en_cours }
 
-        before { other_department_project.adresse.update(departement: "03") }
+        before do
+          create :projet, :proposition_proposee, agent_instructeur: current_agent
+          create :projet, :proposition_enregistree
+          create :projet, :en_cours_d_instruction
+          create :projet, :transmis_pour_instruction
+          other_department_project.adresse.update(departement: "03")
+        end
 
         it "je peux voir la liste des projets qui concernent mon département" do
           get :indicateurs
-          expect(assigns(:projets_count)).to eq 2
+          expect(assigns(:projets_count)).to eq 4
           expect(assigns(:projets)[:prospect]).to eq 0
-          expect(assigns(:projets)[:en_cours]).to eq 1
-          expect(assigns(:projets)[:proposition_enregistree]).to eq 0
-          expect(assigns(:projets)[:proposition_proposee]).to eq 1
-          expect(assigns(:projets)[:transmis_pour_instruction]).to eq 0
-          expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
+          expect(assigns(:projets)[:en_cours_de_montage]).to eq 2
+          expect(assigns(:projets)[:depose]).to eq 1
+          expect(assigns(:projets)[:en_cours_d_instruction]).to eq 1
         end
       end
     end
@@ -181,11 +183,14 @@ describe DossiersController do
     context "en tant que ANAH Siège connecté non affecté à un projet" do
       let(:siege)         { create :siege }
       let(:current_agent) { create :agent, :siege, intervenant: siege }
+      let(:projet_01)     { create :projet, :proposition_proposee }
+      let(:projet_34)     { create :projet, :en_cours }
+      let(:projet_56)     { create :projet, :en_cours }
 
       before do
-        (create :projet, :proposition_proposee).adresse.update(departement: "01")
-        (create :projet, :en_cours).adresse.update(departement: "56")
-        (create :projet, :en_cours).adresse.update(departement: "34")
+        projet_01.adresse.update(departement: "01")
+        projet_34.adresse.update(departement: "34")
+        projet_56.adresse.update(departement: "56")
       end
 
       it "je peux voir la liste de tous les projets" do
@@ -193,10 +198,8 @@ describe DossiersController do
         expect(response).to render_template(:indicateurs)
         expect(assigns(:projets_count)).to eq 3
         expect(assigns(:projets)[:prospect]).to eq 0
-        expect(assigns(:projets)[:en_cours]).to eq 2
-        expect(assigns(:projets)[:proposition_proposee]).to eq 1
-        expect(assigns(:projets)[:proposition_enregistree]).to eq 0
-        expect(assigns(:projets)[:transmis_pour_instruction]).to eq 0
+        expect(assigns(:projets)[:en_cours_de_montage]).to eq 3
+        expect(assigns(:projets)[:depose]).to eq 0
         expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
       end
     end

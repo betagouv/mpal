@@ -9,7 +9,8 @@ class Projet < ActiveRecord::Base
   ENERGY_EVALUATION_FIELDS = [:consommation_apres_travaux, :etiquette_apres_travaux, :gain_energetique]
   FUNDING_FIELDS           = [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount, :personal_funding_amount, :loan_amount]
 
-  STATUSES = [:prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :transmis_pour_instruction, :en_cours_d_instruction]
+  STATUSES             = [:prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :transmis_pour_instruction, :en_cours_d_instruction]
+  INTERVENANT_STATUSES = [:prospect, :en_cours_de_montage, :depose, :en_cours_d_instruction]
   enum statut: {
     prospect: 0,
     en_cours: 1,
@@ -365,7 +366,7 @@ class Projet < ActiveRecord::Base
     end
   end
 
-  def status_for_operateur
+  def status_for_intervenant
     return if statut.blank?
     statuses_map = {
       prospect:                :prospect,
@@ -405,7 +406,7 @@ class Projet < ActiveRecord::Base
           projet.themes.map(&:libelle).join(", "),
           projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
-          I18n.t(projet.status_for_operateur, scope: "projets.statut"),
+          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
         line.insert 6, projet.agent_operateur.try(:fullname)   if agent.instructeur? || agent.operateur?
         line.insert 4, projet.agent_instructeur.try(:fullname) if agent.instructeur? || agent.operateur?
