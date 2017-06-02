@@ -25,10 +25,9 @@
       tbody
         - @invitations.each do |invitation|
           - projet = invitation.projet
-          - anonymized = (invitation.suggested && !invitation.contacted && projet.operateur != invitation.intervenant)
 
           tr id="projet_#{projet.id}"
-            - if anonymized
+            - if projet.is_anonymized_for? invitation.intervenant
               td= projet.numero_plateforme
               td= projet.opal_numero
               td

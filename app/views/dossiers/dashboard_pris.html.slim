@@ -20,10 +20,9 @@
       tbody
         - @invitations.each do |invitation|
           - projet = invitation.projet
-          - anonymized = projet.statut.to_sym != :prospect
 
           tr id="projet_#{projet.id}"
-            - if anonymized
+            - if projet.is_anonymized_for? invitation.intervenant
               td= projet.numero_plateforme
               td
               td= projet.adresse.try(:ville)

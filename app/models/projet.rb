@@ -399,7 +399,7 @@ class Projet < ActiveRecord::Base
       Projet.for_agent(agent).each do |projet|
         line = [
           projet.numero_plateforme,
-          projet.demandeur.fullname,
+          projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
@@ -416,5 +416,18 @@ class Projet < ActiveRecord::Base
       end
     end
     utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
+  end
+
+  def is_anonymized_for?(intervenant)
+    if intervenant.pris?
+      statut.to_sym != :prospect
+    elsif intervenant.instructeur?
+      STATUSES.split(:transmis_pour_instruction).first.include? statut.to_sym
+    elsif intervenant.operateur?
+      invitation = invitations.find_by(intervenant: intervenant)
+      invitation.suggested && !invitation.contacted && invitation.intervenant != operateur
+    else
+      false
+    end
   end
 end
