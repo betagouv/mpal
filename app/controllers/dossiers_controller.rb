@@ -94,27 +94,18 @@ class DossiersController < ApplicationController
     @page_heading = 'Indicateurs'
 
     if current_agent.instructeur?
-      @projets_departement = []
-      current_agent.intervenant.departements.each do |departement|
-        Projet.all.each do |projet|
-          if projet.adresse.departement == departement
-            @projets_departement << projet
-          end
-        end
-      end
-      @projets_count = @projets_departement.count
-      all_projets_statut = @projets_departement.map(&:statut)
-      @projets = {}
-      Projet::STATUSES.each do |statut|
-        @projets[statut] = all_projets_statut.count(statut.to_s)
-      end
+      departements = current_agent.intervenant.departements
+      projets = departements.map { |d| Projet.all.select { |p| p.adresse.try(:departement) == d } }.flatten
+
+      all_projets_status = projets.map(&:status_for_intervenant)
+      @projets_count = projets.count
+      status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
+      @projets = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
     elsif current_agent.siege?
-      @all_projets_statut = Projet.all.map(&:statut)
-      @projets_count = @all_projets_statut.count
-      @projets = {}
-      Projet::STATUSES.each do |statut|
-        @projets[statut] = @all_projets_statut.count(statut.to_s)
-      end
+      all_projets_status = Projet.all.map(&:status_for_intervenant)
+      @projets_count = all_projets_status.count
+      status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
+      @projets = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
     else
       redirect_to dossiers_path, alert: t('sessions.access_forbidden')
     end
