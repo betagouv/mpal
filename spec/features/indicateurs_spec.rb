@@ -53,22 +53,22 @@ feature "Affichage de la page Indicateurs" do
   let(:agent_siege) { create :agent, :siege, intervenant: siege }
 
   let!(:projet1) { create :projet, :en_cours }
-  let!(:projet2) { create :projet, :transmis_pour_instruction }
-  let!(:projet3) { create :projet, :en_cours_d_instruction }
+  let!(:projet2) { create :projet, :transmis_pour_instruction, email: "prenom.nom2@site.com" }
+  let!(:projet3) { create :projet, :en_cours_d_instruction, email: "prenom.nom3@site.com" }
 
   before do
     login_as current_agent, scope: :agent
-    create :projet, :prospect
-    create :projet, :prospect
-    create :projet, :prospect
-    create :projet, :en_cours
-    create :projet, :en_cours
-    create :projet, :en_cours
-    create :projet, :en_cours
-    create :projet, :proposition_enregistree
-    create :projet, :proposition_proposee
-    create :projet, :en_cours_d_instruction
-    create :projet, :en_cours_d_instruction
+    create :projet, :prospect,                email: "prenom.nom4@site.com"
+    create :projet, :prospect,                email: "prenom.nom5@site.com"
+    create :projet, :prospect,                email: "prenom.com6@site.com"
+    create :projet, :en_cours,                email: "prenom.nom7@site.com"
+    create :projet, :en_cours,                email: "prenom.nom8@site.com"
+    create :projet, :en_cours,                email: "prenom.nom9@site.com"
+    create :projet, :en_cours,                email: "prenom.nom10@site.com"
+    create :projet, :proposition_enregistree, email: "prenom.nom11@site.com"
+    create :projet, :proposition_proposee,    email: "prenom.nom12@site.com"
+    create :projet, :en_cours_d_instruction,  email: "prenom.nom13@site.com"
+    create :projet, :en_cours_d_instruction,  email: "prenom.nom14@site.com"
     projet1.adresse.update(departement: "03")
     projet2.adresse.update(departement: "23")
     projet3.adresse.update(departement: "35")

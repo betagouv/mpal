@@ -11,6 +11,7 @@ describe Projet do
     it { is_expected.not_to validate_presence_of(:adresse_postale).on(:create) }
     it { is_expected.to validate_presence_of(:adresse_postale).on(:update) }
     it { is_expected.to validate_presence_of(:email).on(:update) }
+    it { is_expected.to validate_uniqueness_of(:email).case_insensitive.on(:update) }
     it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.not_to validate_presence_of(:date_de_visite) }
     it { is_expected.to validate_presence_of(:date_de_visite).with_message(:blank_feminine).on(:proposition) }

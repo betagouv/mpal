@@ -162,10 +162,10 @@ describe DossiersController do
         let(:other_department_project) { create :projet, :en_cours }
 
         before do
-          create :projet, :proposition_proposee, agent_instructeur: current_agent
-          create :projet, :proposition_enregistree
-          create :projet, :en_cours_d_instruction
-          create :projet, :transmis_pour_instruction
+          create :projet, :proposition_proposee, agent_instructeur: current_agent, email: "prenom.nom2@site.com"
+          create :projet, :proposition_enregistree,   email: "prenom.nom3@site.com"
+          create :projet, :en_cours_d_instruction,    email: "prenom.nom4@site.com"
+          create :projet, :transmis_pour_instruction, email: "prenom.nom5@site.com"
           other_department_project.adresse.update(departement: "03")
         end
 
@@ -184,8 +184,8 @@ describe DossiersController do
       let(:siege)         { create :siege }
       let(:current_agent) { create :agent, :siege, intervenant: siege }
       let(:projet_01)     { create :projet, :proposition_proposee }
-      let(:projet_34)     { create :projet, :en_cours }
-      let(:projet_56)     { create :projet, :en_cours }
+      let(:projet_34)     { create :projet, :en_cours, email: "prenom.nom2@site.com" }
+      let(:projet_56)     { create :projet, :en_cours, email: "prenom.nom3@site.com" }
 
       before do
         projet_01.adresse.update(departement: "01")
