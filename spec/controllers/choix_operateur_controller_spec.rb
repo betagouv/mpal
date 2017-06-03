@@ -5,7 +5,7 @@ require 'support/rod_helper'
 describe ChoixOperateurController do
   let(:projet) { create :projet }
 
-  before(:each) { authenticate_as_user(projet.id) }
+  before(:each) { authenticate_as_project(projet.id) }
 
   describe "#new" do
     it "affiche les opérateurs disponibles" do

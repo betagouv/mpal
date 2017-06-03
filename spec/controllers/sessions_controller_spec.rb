@@ -1,10 +1,33 @@
 require 'rails_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
+require 'support/mpal_helper'
 
 describe SessionsController do
   describe "#new" do
-    context "quand j’ai un `project_id` dans ma session" do
+    context "quand le demandeur est identifié" do
+      let(:user) { create :user }
+      before(:each) { authenticate_as_user(user) }
+
+      context "si le projet existe" do
+        let!(:projet) { create :projet, :en_cours, user: user }
+
+        it "redirige sur la page projet" do
+          get :new
+          expect(response).to redirect_to projet_path(projet)
+        end
+      end
+
+      context "si le projet n’existe pas" do
+        it "affiche le formulaire" do
+          get :new
+          expect(response).to have_http_status(:success)
+          expect(response).to render_template("new")
+        end
+      end
+    end
+
+    context "quand le demandeur a un `project_id` dans sa session" do
       context "si le projet existe" do
         let(:projet) { create :projet, :en_cours }
 

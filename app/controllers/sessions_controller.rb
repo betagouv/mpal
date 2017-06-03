@@ -7,6 +7,13 @@ class SessionsController < ApplicationController
     if agent_signed_in?
       return redirect_to dossiers_path
     end
+    if user_signed_in?
+      @projet_courant = current_user.projet
+      if @projet_courant
+        return redirect_to projet_path(@projet_courant)
+      end
+      sign_out current_user
+    end
     if session[:project_id].present?
       @projet_courant = Projet.find_by_locator(session[:project_id])
       if @projet_courant

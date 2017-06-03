@@ -44,9 +44,9 @@ fr:
       updated: "Votre compte a été modifié avec succès."
     sessions:
       section_name: "Me connecter"
-      signed_in: "Connecté."
-      signed_out: "Déconnecté."
-      already_signed_out: "Déconnecté."
+      signed_in: "Vous êtes connecté."
+      signed_out: "Vous êtes déconnecté."
+      already_signed_out: "Vous êtes déconnecté."
     unlocks:
       send_instructions: "Vous allez recevoir les instructions nécessaires au déverrouillage de votre compte dans quelques instants"
       send_paranoid_instructions: "Si votre compte existe, vous allez bientôt recevoir un e-mail contenant les instructions pour le déverrouiller."
