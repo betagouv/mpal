@@ -5,7 +5,14 @@ class SessionsController < ApplicationController
 
   def new
     if agent_signed_in?
-      redirect_to dossiers_path
+      return redirect_to dossiers_path
+    end
+    if session[:project_id].present?
+      @projet_courant = Projet.find_by_locator(session[:project_id])
+      if @projet_courant
+        return redirect_to projet_path(@projet_courant)
+      end
+      session.delete :project_id
     end
   end
 
