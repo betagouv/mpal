@@ -17,6 +17,7 @@ Rails.application.routes.draw do
 
   devise_for :users, controllers: {
     registrations: "users/registrations",
+    sessions:      "users/sessions",
   }
 
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }

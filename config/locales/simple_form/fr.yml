@@ -40,6 +40,7 @@ fr:
         password_confirmation: "Vérification du mot de passe"
         phone: "Téléphone"
         prenom: "Prénom"
+        remember_me: "Se souvenir de moi"
         result_per_page: "Résultats"
         tel: "Téléphone"
         updated_at: "Dernière modification le"
