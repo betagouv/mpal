@@ -30,7 +30,7 @@ fr:
         country: "Pays"
         created_at: "Créé le"
         description: "Description"
-        email: "Adresse email"
+        email: "Adresse e-mail"
         first_name: "Prénom"
         last_name: "Nom"
         login: "Identifiant"

@@ -1,17 +1,16 @@
 fr:
   sessions:
     nouvelle:
-      titre: Connectez-vous
-      conseil: "À l’aide de votre avis d’imposition 2014 (ou 2015 si vous n’avez pas celui de 2014) veuillez renseigner les deux champs ci-dessous."
-      conseil2: ""
-      action: "Se connecter"
+      titre: "Connectez-vous"
+      action: "Me connecter"
     commencer: "Commencer"
-    invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
-    access_forbidden: Vous n’avez pas accès à cette page
-    erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
+    invalid_credentials: "Votre numéro fiscal ou votre avis de référence sont invalides"
+    access_forbidden: "Vous n’avez pas accès à cette page"
+    erreur_creation_projet: "Une erreur est survenue lors de la création du projet"
     erreur_proprietaire_html: "L’Anah accorde des aides à des personnes propriétaires de leur logement. Si vous êtes locataire c’est à votre propriétaire de faire la demande de subvention auprès de l’Anah. Vous trouverez d'avantage d'information sur le site %{anil}"
     confirmation_deconnexion: "Vous avez été déconnecté(e) avec succès"
     confirmation_deconnexion_clavis: "Vous avez été déconnecté de Clavis"
     lien_deconnexion: "Déconnexion"
     authentification_clavis: "Vous êtes intervenant ? Identifiez-vous via %{clavis}"
     authentification_clavis_logged: "Je m’identifie via %{clavis}"
+
