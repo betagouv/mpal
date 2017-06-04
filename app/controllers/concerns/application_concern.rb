@@ -19,12 +19,15 @@ module ApplicationConcern
       elsif current_agent
         @projet_courant = Projet.find_by_locator(params[:dossier_id])
         unless @projet_courant && @projet_courant.accessible_for_agent?(current_agent)
-          return redirect_to dossiers_path, alert: t('sessions.access_forbidden')
+          return redirect_to dossiers_path, alert: t("sessions.access_forbidden")
         end
       else
         @projet_courant = Projet.find_by_locator(session[:project_id])
         unless @projet_courant
-          return redirect_to root_path, alert: t('sessions.access_forbidden')
+          return redirect_to root_path, alert: t("sessions.access_forbidden")
+        end
+        if @projet_courant.user
+          return redirect_to new_user_session_path, alert: t("sessions.user_exists")
         end
       end
       if @projet_courant
