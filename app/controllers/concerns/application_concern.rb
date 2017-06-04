@@ -5,29 +5,19 @@ module ApplicationConcern
     layout "logged_in"
 
     def authentifie_sans_redirection
-      if agent_signed_in?
-        @role_utilisateur = :agent
-      elsif session[:project_id].present?
-        @role_utilisateur = :demandeur
-      elsif user_signed_in?
-        @role_utilisateur = :demandeur
-      else
-        return false
-      end
-      true
+      user_signed_in? || agent_signed_in? || session[:project_id].present?
     end
 
     def authentifie
       authentifie_sans_redirection
-      if @utilisateur_invalide
-        return redirect_to new_session_path, alert: t('sessions.access_forbidden')
-      end
       true
     end
 
     def assert_projet_courant
-      if current_agent
-        @projet_courant = Projet.find_by_locator(params[:dossier_id]) if params[:dossier_id]
+      if current_user
+        @projet_courant = current_user.projet
+      elsif current_agent
+        @projet_courant = Projet.find_by_locator(params[:dossier_id])
         unless @projet_courant && @projet_courant.accessible_for_agent?(current_agent)
           return redirect_to dossiers_path, alert: t('sessions.access_forbidden')
         end

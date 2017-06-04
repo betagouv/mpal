@@ -19,9 +19,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    @projet_courant.update_attributes!(user: current_user)
+    session.delete :project_id
+  end
 
   # GET /resource/edit
   # def edit

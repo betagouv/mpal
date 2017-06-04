@@ -3,18 +3,18 @@ header.project-header.clearfix
   = link_to logo_path, class: "logo-link", title: "Agence Nationale de l’Habitat - Anah" do
     = image_tag "logo-anah.png", alt: "Agence Nationale de l’Habitat - Anah", class: "logo-anah"
   h1.heading= @page_heading || "Bonjour"
-  - if current_agent || demandeur?
+  - if current_agent
     .connection
-      - if current_agent
-        - if current_agent.intervenant
-          p.nom-intervenant= current_agent.intervenant.raison_sociale
-        - else
-          p.nom-intervenant-error
-            | Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", "mailto:#{ENV['EMAIL_CONTACT']}"}
-        p.nom-agent
-          span.firstname= current_agent.prenom
-          span.lastname<= current_agent.nom
-        = btn name: t('sessions.lien_deconnexion'), href: destroy_agent_session_path, class: 'btn-secondary btn-small', icon: 'off'
+      - if current_agent.intervenant
+        p.nom-intervenant= current_agent.intervenant.raison_sociale
       - else
-        = btn name: t('sessions.lien_deconnexion'), href: deconnexion_path, class: 'btn-secondary btn-small', icon: 'off'
+        p.nom-intervenant-error
+          | Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", "mailto:#{ENV['EMAIL_CONTACT']}"}
+      p.nom-agent
+        span.firstname= current_agent.prenom
+        span.lastname<= current_agent.nom
+      = btn name: t('sessions.lien_deconnexion'), href: destroy_agent_session_path, class: 'btn-secondary btn-small', icon: 'off'
+  - else
+    .connection
+      = btn name: t('sessions.lien_deconnexion'), href: deconnexion_path, class: 'btn-secondary btn-small', icon: 'off'
 
