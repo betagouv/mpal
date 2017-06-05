@@ -1,8 +1,6 @@
 class SessionsController < ApplicationController
   layout 'application'
 
-  before_action :authentifie_sans_redirection
-
   def new
     if agent_signed_in?
       return redirect_to dossiers_path

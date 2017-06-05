@@ -4,18 +4,11 @@ module ApplicationConcern
   included do
     layout "logged_in"
 
-    def authentifie_sans_redirection
-      user_signed_in? || agent_signed_in? || session[:project_id].present?
-    end
-
-    def authentifie
-      authentifie_sans_redirection
-      true
-    end
-
     def assert_projet_courant
+      projet_or_dossier
       if current_user
         @projet_courant = current_user.projet
+        # NOTE: an user should have a project (at least); if not, let’s drama happen…
       elsif current_agent
         @projet_courant = Projet.find_by_locator(params[:dossier_id])
         unless @projet_courant && @projet_courant.accessible_for_agent?(current_agent)
@@ -39,7 +32,7 @@ module ApplicationConcern
     # Routing ------------------------
 
     # Demandeurs access their projects through '/projets/' URLs;
-    # Intervenants access their projects through '/dossiers/' URLs.
+    # Agents access their projects through '/dossiers/' URLs.
     def projet_or_dossier
       @projet_or_dossier = current_agent ? "dossier" : "projet"
     end

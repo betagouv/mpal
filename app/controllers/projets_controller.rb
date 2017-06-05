@@ -1,10 +1,7 @@
 class ProjetsController < ApplicationController
   include ProjetConcern
 
-  before_action :projet_or_dossier
   before_action :assert_projet_courant, except: [:new, :create]
-  before_action :authentifie, except: [:new, :create]
-  before_action :authentifie_sans_redirection
 
   def show
     render_show
