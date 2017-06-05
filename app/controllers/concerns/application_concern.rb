@@ -8,6 +8,9 @@ module ApplicationConcern
       projet_or_dossier
       if current_user
         @projet_courant = current_user.projet
+        if params[:projet_id] && params[:projet_id].to_i != @projet_courant.id
+          return redirect_to controller: params[:controller], action: params[:action], projet_id: @projet_courant.id
+        end
         # NOTE: an user should have a project (at least); if not, let’s drama happen…
       elsif current_agent
         @projet_courant = Projet.find_by_locator(params[:dossier_id])
