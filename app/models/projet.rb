@@ -9,7 +9,8 @@ class Projet < ActiveRecord::Base
   ENERGY_EVALUATION_FIELDS = [:consommation_apres_travaux, :etiquette_apres_travaux, :gain_energetique]
   FUNDING_FIELDS           = [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount, :personal_funding_amount, :loan_amount]
 
-  STATUSES = [:prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :transmis_pour_instruction, :en_cours_d_instruction]
+  STATUSES             = [:prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :transmis_pour_instruction, :en_cours_d_instruction]
+  INTERVENANT_STATUSES = [:prospect, :en_cours_de_montage, :depose, :en_cours_d_instruction]
   enum statut: {
     prospect: 0,
     en_cours: 1,
@@ -61,7 +62,7 @@ class Projet < ActiveRecord::Base
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
-  validates :email, email: true, presence: true, on: :update
+  validates :email, email: true, presence: true, uniqueness: { case_sensitive: false }, on: :update
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
@@ -365,7 +366,7 @@ class Projet < ActiveRecord::Base
     end
   end
 
-  def status_for_operateur
+  def status_for_intervenant
     return if statut.blank?
     statuses_map = {
       prospect:                :prospect,
@@ -399,13 +400,13 @@ class Projet < ActiveRecord::Base
       Projet.for_agent(agent).each do |projet|
         line = [
           projet.numero_plateforme,
-          projet.demandeur.fullname,
+          projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
           projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
-          I18n.t(projet.status_for_operateur, scope: "projets.statut"),
+          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
         line.insert 6, projet.agent_operateur.try(:fullname)   if agent.instructeur? || agent.operateur?
         line.insert 4, projet.agent_instructeur.try(:fullname) if agent.instructeur? || agent.operateur?
@@ -416,5 +417,18 @@ class Projet < ActiveRecord::Base
       end
     end
     utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
+  end
+
+  def is_anonymized_for?(intervenant)
+    if intervenant.pris?
+      statut.to_sym != :prospect
+    elsif intervenant.instructeur?
+      STATUSES.split(:transmis_pour_instruction).first.include? statut.to_sym
+    elsif intervenant.operateur?
+      invitation = invitations.find_by(intervenant: intervenant)
+      invitation.suggested && !invitation.contacted && invitation.intervenant != operateur
+    else
+      false
+    end
   end
 end

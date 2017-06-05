@@ -1,12 +1,11 @@
 require 'rails_helper'
 require 'support/mpal_helper'
+require 'support/rod_helper'
 
 describe ChoixOperateurController do
   let(:projet) { create :projet }
 
-  before(:each) do
-    authenticate_as_user(projet.id)
-  end
+  before(:each) { authenticate_as_user(projet.id) }
 
   describe "#new" do
     it "affiche les opérateurs disponibles" do
@@ -17,7 +16,7 @@ describe ChoixOperateurController do
 
   describe "#choose" do
     let(:projet)    { create :projet, :prospect, :with_intervenants_disponibles }
-    let(:operateur) { projet.intervenants_disponibles(role: :operateur).first }
+    let(:operateur) { Intervenant.pour_role(:operateur).first }
 
     it "invite un opérateur sur le projet" do
       patch :choose, projet_id: projet.id,

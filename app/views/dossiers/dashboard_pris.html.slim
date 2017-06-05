@@ -20,10 +20,9 @@
       tbody
         - @invitations.each do |invitation|
           - projet = invitation.projet
-          - anonymized = projet.statut.to_sym != :prospect
 
           tr id="projet_#{projet.id}"
-            - if anonymized
+            - if projet.is_anonymized_for? invitation.intervenant
               td= projet.numero_plateforme
               td
               td= projet.adresse.try(:ville)
@@ -43,7 +42,7 @@
               td
                 - if projet.date_de_visite.present?
                   = format_date(projet.date_de_visite)
-              td= t(projet.status_for_operateur, scope: "projets.statut")
+              td= t(projet.status_for_intervenant, scope: "projets.statut")
               /TODO Status Updated At
 
             - else
@@ -71,5 +70,5 @@
               td= link_to edit_url do
                 - if projet.date_de_visite.present?
                   = format_date(projet.date_de_visite)
-              td= link_to t(projet.status_for_operateur, scope: "projets.statut"), edit_url
+              td= link_to t(projet.status_for_intervenant, scope: "projets.statut"), edit_url
               /TODO Status Updated At

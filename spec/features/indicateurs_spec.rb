@@ -52,26 +52,26 @@ feature "Affichage de la page Indicateurs" do
   let(:agent_instructeur) { create :agent, :instructeur, intervenant: instructeur }
   let(:agent_siege) { create :agent, :siege, intervenant: siege }
 
-  let!(:projet0)   { create :projet, :prospect }
-  let!(:projet0b)  { create :projet, :prospect }
-  let!(:projet0c)  { create :projet, :prospect }
-  let!(:projet1)   { create :projet, :en_cours }
-  let!(:projet1b)  { create :projet, :en_cours }
-  let!(:projet1c)  { create :projet, :en_cours }
-  let!(:projet1d)  { create :projet, :en_cours }
-  let!(:projet1e)  { create :projet, :en_cours }
-  let!(:projet2)   { create :projet, :proposition_enregistree }
-  let!(:projet3)   { create :projet, :proposition_proposee }
-  let!(:projet5)   { create :projet, :transmis_pour_instruction }
-  let!(:projet6)   { create :projet, :en_cours_d_instruction }
-  let!(:projet6b)  { create :projet, :en_cours_d_instruction }
-  let!(:projet6c)  { create :projet, :en_cours_d_instruction }
+  let!(:projet1) { create :projet, :en_cours }
+  let!(:projet2) { create :projet, :transmis_pour_instruction, email: "prenom.nom2@site.com" }
+  let!(:projet3) { create :projet, :en_cours_d_instruction, email: "prenom.nom3@site.com" }
 
   before do
     login_as current_agent, scope: :agent
-    projet1b.adresse.update(departement: "03")
-    projet5.adresse.update(departement: "23")
-    projet6.adresse.update(departement: "35")
+    create :projet, :prospect,                email: "prenom.nom4@site.com"
+    create :projet, :prospect,                email: "prenom.nom5@site.com"
+    create :projet, :prospect,                email: "prenom.com6@site.com"
+    create :projet, :en_cours,                email: "prenom.nom7@site.com"
+    create :projet, :en_cours,                email: "prenom.nom8@site.com"
+    create :projet, :en_cours,                email: "prenom.nom9@site.com"
+    create :projet, :en_cours,                email: "prenom.nom10@site.com"
+    create :projet, :proposition_enregistree, email: "prenom.nom11@site.com"
+    create :projet, :proposition_proposee,    email: "prenom.nom12@site.com"
+    create :projet, :en_cours_d_instruction,  email: "prenom.nom13@site.com"
+    create :projet, :en_cours_d_instruction,  email: "prenom.nom14@site.com"
+    projet1.adresse.update(departement: "03")
+    projet2.adresse.update(departement: "23")
+    projet3.adresse.update(departement: "35")
   end
 
   context "si je suis instructeur" do
@@ -81,28 +81,20 @@ feature "Affichage de la page Indicateurs" do
       visit indicateurs_dossiers_path
       expect(page).to have_content("Il y a 11 projets.")
       within "#projet_prospect" do
-        expect(page).to have_content("prospect")
+        expect(page).to have_content("En prospection")
         expect(page).to have_content("3")
       end
-      within "#projet_en_cours" do
-        expect(page).to have_content("En cours")
-        expect(page).to have_content("4")
-      end
-      within "#projet_proposition_enregistree" do
-        expect(page).to have_content("Proposition enregistrée")
-        expect(page).to have_content("1")
-      end
-      within "#projet_proposition_proposee" do
-        expect(page).to have_content("Proposition proposée")
-        expect(page).to have_content("1")
-      end
-      within "#projet_transmis_pour_instruction" do
-        expect(page).to have_content("Transmis aux services instructeurs")
-        expect(page).to have_content("0")
+      within "#projet_en_cours_de_montage" do
+        expect(page).to have_content("En cours de montage")
+        expect(page).to have_content("6")
       end
       within "#projet_en_cours_d_instruction" do
         expect(page).to have_content("En cours d’instruction")
         expect(page).to have_content("2")
+      end
+      within "#projet_depose" do
+        expect(page).to have_content("Déposé par le demandeur")
+        expect(page).to have_content("0")
       end
     end
   end
@@ -113,18 +105,14 @@ feature "Affichage de la page Indicateurs" do
     scenario "la page affiche le nombre total de projets par statut" do
       visit indicateurs_dossiers_path
       expect(page).to have_content("Il y a 14 projets.")
-      expect(page).to have_content("prospect")
+      expect(page).to have_content("En prospection")
       expect(page).to have_content("3")
-      expect(page).to have_content("En cours")
-      expect(page).to have_content("5")
-      expect(page).to have_content("Proposition enregistrée")
-      expect(page).to have_content("1")
-      expect(page).to have_content("Proposition proposée")
-      expect(page).to have_content("1")
-      expect(page).to have_content("Transmis aux services instructeurs")
-      expect(page).to have_content("1")
+      expect(page).to have_content("En cours de montage")
+      expect(page).to have_content("7")
       expect(page).to have_content("En cours d’instruction")
       expect(page).to have_content("3")
+      expect(page).to have_content("Déposé par le demandeur")
+      expect(page).to have_content("1")
     end
   end
 

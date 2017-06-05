@@ -11,6 +11,7 @@ describe Projet do
     it { is_expected.not_to validate_presence_of(:adresse_postale).on(:create) }
     it { is_expected.to validate_presence_of(:adresse_postale).on(:update) }
     it { is_expected.to validate_presence_of(:email).on(:update) }
+    it { is_expected.to validate_uniqueness_of(:email).case_insensitive.on(:update) }
     it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.not_to validate_presence_of(:date_de_visite) }
     it { is_expected.to validate_presence_of(:date_de_visite).with_message(:blank_feminine).on(:proposition) }
@@ -562,39 +563,39 @@ describe Projet do
     end
   end
 
-  describe "#status_for_operateur" do
+  describe "#status_for_intervenant" do
     let(:projet) { build :projet }
     it {
       projet.statut = :prospect
-      expect(projet.status_for_operateur).to eq :prospect
+      expect(projet.status_for_intervenant).to eq :prospect
     }
     it {
       projet.statut = "prospect"
-      expect(projet.status_for_operateur).to eq :prospect
+      expect(projet.status_for_intervenant).to eq :prospect
     }
     it {
       projet.statut = nil
-      expect(projet.status_for_operateur).to eq nil
+      expect(projet.status_for_intervenant).to eq nil
     }
     it {
       projet.statut = :en_cours
-      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+      expect(projet.status_for_intervenant).to eq :en_cours_de_montage
     }
     it {
       projet.statut = :proposition_enregistree
-      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+      expect(projet.status_for_intervenant).to eq :en_cours_de_montage
     }
     it {
       projet.statut = :proposition_proposee
-      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+      expect(projet.status_for_intervenant).to eq :en_cours_de_montage
     }
     it {
       projet.statut = :transmis_pour_instruction
-      expect(projet.status_for_operateur).to eq :depose
+      expect(projet.status_for_intervenant).to eq :depose
     }
     it {
       projet.statut = :en_cours_d_instruction
-      expect(projet.status_for_operateur).to eq :en_cours_d_instruction
+      expect(projet.status_for_intervenant).to eq :en_cours_d_instruction
     }
   end
 
