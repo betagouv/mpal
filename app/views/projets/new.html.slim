@@ -1,0 +1,68 @@
+/ PROJET ANAH PROJET/NEW
+
+- content_for :popins do
+  #numero-fiscal.popin.popin--numero-fiscal
+    .popin__container
+      = image_tag "numero-fiscal.png", class: "popin__image popin__image--numero-fiscal"
+      p.popin__p Le numéro fiscal est un identifiant unique composé de 13 chiffres.
+      p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
+      p.popin__p.popin__p--centered
+        = btn name: "Fermer", href: "#", class: "popin__close"
+  #reference-avis.popin.popin--reference-avis
+    .popin__container
+      = image_tag "reference-avis.png", class: "popin__image popin__image--reference-avis"
+      p.popin__p La référence de l’avis est un identifiant unique composé de 13 caractères.
+      p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
+      p.popin__p.popin__p--centered
+        = btn name: "Fermer", href: "#", class: "popin__close"
+
+section.login-fields
+  = link_to "Aller au contenu", "#content", class: "login-fields__link"
+  br/ 
+  br/
+  = image_tag "logo-anah.png", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat", title: "Les aides de l’Anah - Agence Nationale de l’Habitat", class: "login-intro__heading-image logo-anah-projet"
+  = image_tag "logo-rf.png", alt: "République Française - Marianne", title: "République Française - Marianne", class: "login-intro__heading-image logo-anah-projet"
+  
+  h3.login-fields__heading-projet Remplir mon dossier
+  = link_to "J'ai déjà un dossier", "#content", class: "login-fields__link"
+  p.login-fields__commentaire Tous les champs sont obligatoires
+
+  / = simple_form_for @projet, html: { class: "form form-with-alerts form-contact" } do |f|
+  /   = render "shared/errors", resource: @projet
+  /   = f.input :numero_fiscal, wrapper_html: { class: "size-m" }, required: true
+  /   = f.input :reference_avis, wrapper_html: { class: "size-m" }, required: true
+  /   = btn name: t("sessions.commencer"), class: "login-fields__btn js-login-btn js-engagement", icon: "ok"
+
+
+  = form_tag({ controller: 'projets', action: 'create' }, method: 'post', class: 'login-fields__form-projet', id: 'js-login-form') do
+    p.login-fields__label.login-fields__label--p.login-fields__label--first Êtes-vous propriétaire de votre résidence principale ?
+    - proprietaire = params[:proprietaire] == "1"
+    label.login-fields__proprietaire-label for="lab-proprietaire-yes"
+      = radio_button_tag "proprietaire", "1", proprietaire, class: "login-fields__proprietaire-input", id: "lab-proprietaire-yes"
+      | Oui
+    label.login-fields__proprietaire-label for="lab-proprietaire-no"
+      = radio_button_tag "proprietaire", "0", !proprietaire, class: "login-fields__proprietaire-input", id: "lab-proprietaire-no"
+      | Non
+    br/
+    = label_tag "form-nf", "Numéro fiscal", class: "login-fields__label"
+    a.info-point.info-point--light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
+    = text_field_tag :numero_fiscal, params[:numero_fiscal], placeholder: "Ex : 12 34 567 890 123", id: "form-nf", class: "login-fields__input"
+    = label_tag "form-ra", "Référence de l’avis", class: "login-fields__label"
+    a.info-point.info-point--light.js-popin data-target="#reference-avis" title="Où trouver la référence de l’avis ?" ?
+    = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : 12 34 A123456 78", id: "form-ra", class: "login-fields__input"
+    .login-fields__mentions
+      = check_box_tag "autorisation", "1", params[:autorisation], class: "login-fields__mentions-input js-engagement", id: "lab-rfr"
+      label.login-fields__mentions-label-projet for="lab-rfr"
+        | J’autorise l’
+        abbr.login-fields__mentions-abbr-projet title=("Agence nationale de l’habitat") Anah
+        |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon 
+        abbr.login-fields__mentions-abbr-projet title=("Revenu fiscal de référence") RFR
+    = btn name: t('sessions.commencer'), icon: 'log-in', class: 'login-fields__btn js-login-btn js-engagement'
+
+  / - if Tools.demo?
+  /   section.login-demo
+      / = render 'demo_actions'
+      / - if ENV['DISPLAY_DEMO_CREDENTIALS'] == 'true'
+      /   = render 'demo_credentials'
+      / -else
+      /   = render 'staging_credentials'

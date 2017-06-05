@@ -14,6 +14,12 @@
   padding: 30px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
+.login-fields__heading-projet {
+  font-size: 30px;
+  font-weight: bold;
+  padding: 30px 0 30px 0;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
 .login-fields__p {
   margin-bottom: 1em;
   padding: 0 30px;
@@ -24,6 +30,13 @@
   padding: 25px 30px;
   background: $color-primary;
   color: white;
+}
+
+.login-fields__form-projet {
+  font-size: 16px;
+  padding: 25px 30px 25px 0;
+  background: white;
+  color: black;
 }
 .login-fields__input {
   display: block;
@@ -65,8 +78,26 @@
 .login-fields__mentions-label {
   color: #fff;
 }
+.login-fields__mentions-label-projet{
+  color: black;
+}
 .login-fields__mentions-abbr {
   color: white;
   border-bottom-color: white;
 }
+.login-fields__mentions-abbr-projet {
+  color: black;
+  border-bottom-color: white;
+}
 
+.login-fields__commentaire {
+  color: grey;
+}
+
+.login-fields__link {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+    color: $color-primary;
+  }
+}

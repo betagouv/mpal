@@ -5,6 +5,7 @@ fr:
       conseil: "À l’aide de votre avis d’imposition 2014 (ou 2015 si vous n’avez pas celui de 2014) veuillez renseigner les deux champs ci-dessous."
       conseil2: ""
       action: "Se connecter"
+    commencer: "Commencer"
     invalid_credentials: Votre numéro fiscal ou votre avis de référence sont invalides
     access_forbidden: Vous n’avez pas accès à cette page
     erreur_creation_projet: 'Une erreur est survenue lors de la création du projet'
@@ -14,4 +15,3 @@ fr:
     lien_deconnexion: "Déconnexion"
     authentification_clavis: "Vous êtes intervenant ? Identifiez-vous via %{clavis}"
     authentification_clavis_logged: "Je m’identifie via %{clavis}"
-

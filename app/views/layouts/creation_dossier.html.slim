@@ -1,0 +1,34 @@
+- @page_title ||= [@page_heading, "Les aides de l’Anah"].compact.join(" - ")
+doctype html
+html lang="fr"
+  head
+    meta charset="utf-8" /
+    meta content="width=device-width, initial-scale=1" name="viewport" /
+    meta content="ie=edge" http-equiv="x-ua-compatible" /
+    title= @page_title
+    link rel="icon" type="image/png" href="#{image_path('favicon.png')}" /
+    = stylesheet_link_tag    'application', media: 'all'
+    = csrf_meta_tag
+    = javascript_include_tag 'application', async: Rails.env.production?
+  body
+    .main-container-login-projet
+      #beta-ribbon
+      .centered-page-projet
+        = yield :header
+        = render 'shared/messages'
+        = content_for?(:content) ? yield(:content) : yield
+        footer.main-footer-projet
+          /= link_to t("menu.homepage"), root_path
+          /|  - 
+          /= link_to t("menu.about"), informations_about_path
+          /|  - 
+          /= link_to t("menu.terms_of_use"), informations_terms_of_use_path
+          /|  - 
+          /= link_to t("menu.faq"), informations_faq_path
+          /|  - 
+          = link_to t("menu.legal"), informations_legal_path
+          /|  - 
+          /= link_to t("menu.contact"), new_contact_path
+    = yield :popins
+
+ 
