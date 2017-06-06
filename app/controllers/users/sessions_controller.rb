@@ -1,7 +1,7 @@
 class Users::SessionsController < Devise::SessionsController
   include ApplicationConcern
 
-  layout "inscription"
+  layout "creation_dossier"
 
   # before_action :configure_sign_in_params, only: [:create]
 
@@ -27,3 +27,4 @@ class Users::SessionsController < Devise::SessionsController
   #   devise_parameter_sanitizer.permit(:sign_in, keys: [:attribute])
   # end
 end
+
