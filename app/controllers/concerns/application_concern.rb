@@ -4,37 +4,26 @@ module ApplicationConcern
   included do
     layout "logged_in"
 
-    def authentifie_sans_redirection
-      if agent_signed_in?
-        @role_utilisateur = :agent
-      elsif session[:project_id].present?
-        @role_utilisateur = :demandeur
-      elsif user_signed_in?
-        @role_utilisateur = :demandeur
-      else
-        return false
-      end
-      true
-    end
-
-    def authentifie
-      authentifie_sans_redirection
-      if @utilisateur_invalide
-        return redirect_to new_session_path, alert: t('sessions.access_forbidden')
-      end
-      true
-    end
-
     def assert_projet_courant
-      if current_agent
-        @projet_courant = Projet.find_by_locator(params[:dossier_id]) if params[:dossier_id]
+      projet_or_dossier
+      if current_user
+        @projet_courant = current_user.projet
+        if params[:projet_id] && params[:projet_id].to_i != @projet_courant.id
+          return redirect_to controller: params[:controller], action: params[:action], projet_id: @projet_courant.id
+        end
+        # NOTE: an user should have a project (at least); if not, let’s drama happen…
+      elsif current_agent
+        @projet_courant = Projet.find_by_locator(params[:dossier_id])
         unless @projet_courant && @projet_courant.accessible_for_agent?(current_agent)
-          return redirect_to dossiers_path, alert: t('sessions.access_forbidden')
+          return redirect_to dossiers_path, alert: t("sessions.access_forbidden")
         end
       else
         @projet_courant = Projet.find_by_locator(session[:project_id])
         unless @projet_courant
-          return redirect_to root_path, alert: t('sessions.access_forbidden')
+          return redirect_to root_path, alert: t("sessions.access_forbidden")
+        end
+        if @projet_courant.user
+          return redirect_to new_user_session_path, alert: t("sessions.user_exists")
         end
       end
       if @projet_courant
@@ -46,7 +35,7 @@ module ApplicationConcern
     # Routing ------------------------
 
     # Demandeurs access their projects through '/projets/' URLs;
-    # Intervenants access their projects through '/dossiers/' URLs.
+    # Agents access their projects through '/dossiers/' URLs.
     def projet_or_dossier
       @projet_or_dossier = current_agent ? "dossier" : "projet"
     end

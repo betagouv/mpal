@@ -1,34 +1,14 @@
-- @page_title ||= [@page_heading, "Les aides de l’Anah"].compact.join(" - ")
-doctype html
-html lang="fr"
-  head
-    meta charset="utf-8" /
-    meta content="width=device-width, initial-scale=1" name="viewport" /
-    meta content="ie=edge" http-equiv="x-ua-compatible" /
-    title= @page_title
-    link rel="icon" type="image/png" href="#{image_path('favicon.png')}" /
-    = stylesheet_link_tag    'application', media: 'all'
-    = csrf_meta_tag
-    = javascript_include_tag 'application', async: Rails.env.production?
-  body
-    .main-container-login-projet
-      #beta-ribbon
-      .centered-page-projet
-        = yield :header
-        = render 'shared/messages'
-        = content_for?(:content) ? yield(:content) : yield
-        footer.main-footer-projet
-          /= link_to t("menu.homepage"), root_path
-          /|  - 
-          /= link_to t("menu.about"), informations_about_path
-          /|  - 
-          /= link_to t("menu.terms_of_use"), informations_terms_of_use_path
-          /|  - 
-          /= link_to t("menu.faq"), informations_faq_path
-          /|  - 
-          = link_to t("menu.legal"), informations_legal_path
-          /|  - 
-          /= link_to t("menu.contact"), new_contact_path
-    = yield :popins
+- content_for :header do
+  .header
+    .header__top-links
+      = link_to "Aller au contenu", "#content", class: "header__top-link"
+    .header__logos
+      = link_to root_path do
+        = image_tag "logo-anah.png", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat", title: "Les aides de l’Anah - Agence Nationale de l’Habitat", class: "header__logo header__logo--anah"
+      = image_tag "logo-rf.png", alt: "République Française - Ministère du logement et de l’habitat durable", title: "République Française - Ministère du logement et de l’habitat durable", class: "header__logo header__logo--rf"
 
- 
+- content_for :content do
+  = yield
+
+= render template: "layouts/application"
+

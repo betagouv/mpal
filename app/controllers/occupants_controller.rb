@@ -1,9 +1,7 @@
 class OccupantsController < ApplicationController
   layout 'inscription'
 
-  before_action :projet_or_dossier
   before_action :assert_projet_courant
-  before_action :authentifie
 
   def index
     @occupant = @projet_courant.avis_impositions.first.occupants.build(occupant_params)

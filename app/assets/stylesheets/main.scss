@@ -111,9 +111,11 @@ fieldset {
 .centered-page {
   position: relative;
   margin: 0 auto;
+  padding: 10px 20px 0;
   max-width: 1200px;
+  background-color: white;
   @media screen and (min-width: 1200px) {
-    padding-top: 30px;
+    padding: 10px 30px 0;
   }
 }
 .centered-page-projet {
@@ -138,7 +140,9 @@ fieldset {
   padding: 5px;
   font-size: 15px;
   font-weight: bold;
-  margin-bottom: 15px;
+  @media screen and (min-width: 1200px) {
+    margin-bottom: 15px;
+  }
   @media screen and (min-width: 1200px) {
     position: absolute;
     top: 0;
@@ -666,29 +670,6 @@ fieldset {
   }
 }
 
-/** FOOTER **/
-.main-footer {
-  text-align: center;
-  padding: 30px 0;
-  a {
-    color: white;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.main-footer-projet {
-  padding: 30px 0;
-  color: black;
-  a {
-    color: black;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
 /** MOBILE IMPORT **/
 /** PRINT **/
 @media print {
@@ -696,3 +677,4 @@ fieldset {
     overflow: visible !important;
   }
 }
+

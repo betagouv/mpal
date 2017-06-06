@@ -3,9 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   layout "inscription"
 
-  before_action :projet_or_dossier
   before_action :assert_projet_courant
-  before_action :authentifie
 
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
@@ -19,9 +17,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    if resource.valid?
+      @projet_courant.update_attributes!(user: current_user)
+      session.delete :project_id
+    end
+  end
 
   # GET /resource/edit
   # def edit

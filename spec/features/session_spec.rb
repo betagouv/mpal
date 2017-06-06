@@ -13,14 +13,16 @@ feature "Identification :" do
 end
 
 feature "Réinitialisation de la session :" do
-  let(:projet) {          create :projet, :prospect }
+  let(:user) {            create :user }
+  let(:projet) {          create :projet, :prospect, user: user }
   let(:operateur) {       create :operateur, departements: [projet.departement] }
   let(:invitation) {      create :invitation, projet: projet, intervenant: operateur }
   let(:agent_operateur) { create :agent, intervenant: operateur }
 
   context "en tant que demandeur" do
+    before { login_as user, scope: :user }
+
     scenario "je vois le lien pour se déconnecter s'il y a un projet et un message qui m'annonce que je me suis bien deconnecté(e)" do
-      signin(projet.numero_fiscal, projet.reference_avis)
       visit projet_path(projet)
       expect(page).to have_content("Martin")
       expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
@@ -29,15 +31,16 @@ feature "Réinitialisation de la session :" do
     end
   end
 
-  context "en tant qu'intervenant" do
+  context "en tant qu’agent" do
     before { login_as agent_operateur, scope: :agent }
+
     scenario "j'ai un bouton pour me déconnecter" do
       visit dossier_path(invitation.projet)
       expect(page).to have_link(I18n.t('sessions.lien_deconnexion'))
     end
   end
 
-  context "en tant qu'intervenant" do
+  context "en tant qu’agent" do
     scenario "j'ai une notification de déconnexion" do
       visit agents_signed_out_path
       expect(page).to have_content(I18n.t('sessions.confirmation_deconnexion_clavis'))

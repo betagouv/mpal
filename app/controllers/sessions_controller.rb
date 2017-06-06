@@ -1,11 +1,23 @@
 class SessionsController < ApplicationController
   layout 'application'
 
-  before_action :authentifie_sans_redirection
-
   def new
     if agent_signed_in?
-      redirect_to dossiers_path
+      return redirect_to dossiers_path
+    end
+    if user_signed_in?
+      @projet_courant = current_user.projet
+      if @projet_courant
+        return redirect_to projet_path(@projet_courant)
+      end
+      sign_out current_user
+    end
+    if session[:project_id].present?
+      @projet_courant = Projet.find_by_locator(session[:project_id])
+      if @projet_courant
+        return redirect_to projet_path(@projet_courant)
+      end
+      session.delete :project_id
     end
   end
 
@@ -45,7 +57,7 @@ class SessionsController < ApplicationController
 
   def deconnexion
     reset_session
-    redirect_to projets_new_path, notice: t('sessions.confirmation_deconnexion')
+    redirect_to root_path, notice: t('sessions.confirmation_deconnexion')
   end
   #
   # def newdossier

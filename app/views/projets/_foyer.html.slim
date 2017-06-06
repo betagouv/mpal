@@ -1,9 +1,9 @@
 article.block.occupants
   h3 Détails du foyer
-  - if demandeur?
-    = edit_projet_button(@projet_courant, projet_demandeur_path(@projet_courant))
-  - elsif current_agent.operateur?
+  - if current_agent && current_agent.operateur?
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
+  - else
+    = edit_projet_button(@projet_courant, projet_demandeur_path(@projet_courant))
   .occupants-recap
     ul
       li

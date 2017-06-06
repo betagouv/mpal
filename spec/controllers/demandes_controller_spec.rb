@@ -5,9 +5,7 @@ require 'support/api_ban_helper'
 describe DemandesController do
   let(:projet) { create :projet, :prospect, demande: nil }
 
-  before(:each) do
-    authenticate_as_user(projet.id)
-  end
+  before(:each) { authenticate_as_project(projet.id) }
 
   describe "#show" do
     before do

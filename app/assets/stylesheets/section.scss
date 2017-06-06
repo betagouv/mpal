@@ -1,5 +1,7 @@
 .section__content {
-  padding: 1.5em;
+  @media screen and (min-width: 600px) {
+    padding: 1.5em;
+  }
   @media screen and (min-width: 920px) {
     padding: 2.5em;
   }

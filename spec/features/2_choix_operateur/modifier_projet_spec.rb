@@ -138,10 +138,11 @@ feature "Modifier le projet :" do
     end
   end
 
-  let(:projet) { create(:projet, :prospect, :with_committed_operateur) }
+  let(:user) { create :user }
+  let(:projet) { create :projet, :prospect, :with_committed_operateur, user: user }
 
   context "en tant que demandeur" do
-    before { signin(projet.numero_fiscal, projet.reference_avis) }
+    before { login_as user, scope: :user }
 
     it_behaves_like :can_edit_demandeur,        "projet"
     it_behaves_like :can_edit_avis_impositions, "projet"

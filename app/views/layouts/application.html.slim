@@ -17,7 +17,7 @@ html lang="fr"
         = yield :header
         = render 'shared/messages'
         = content_for?(:content) ? yield(:content) : yield
-        footer.main-footer
+        footer.footer
           /= link_to t("menu.homepage"), root_path
           /|  - 
           /= link_to t("menu.about"), informations_about_path
