@@ -1,0 +1,13 @@
+@import "variables";
+
+.footer {
+  text-align: center;
+  padding: 30px 0;
+  a {
+    color: #222;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
