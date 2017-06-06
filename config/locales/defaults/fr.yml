@@ -6,7 +6,7 @@ fr:
         demandeur_prenom: Prénom
         email: Email
         adresse: Adresse
-        adresse_logement: "Adresse du logement à rénover si différente"
+        adresse_logement: "Adresse du bien à rénover si différente"
         tel: Téléphone
       personne:
         nom: 'Nom'
