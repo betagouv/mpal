@@ -54,7 +54,7 @@ fr:
         lien_avec_demandeur: "Lien avec le demandeur"
       projet:
         adresse_postale: "Adresse postale"
-        adresse_a_renover: "Adresse à rénover"
+        adresse_a_renover: "Adresse du bien à rénover si différente"
         date_de_visite: "Date de visite"
         demandeur: "Prénom et nom"
         etage: "Votre étage"
