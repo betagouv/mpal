@@ -670,29 +670,6 @@ fieldset {
   }
 }
 
-/** FOOTER **/
-.main-footer {
-  text-align: center;
-  padding: 30px 0;
-  a {
-    color: white;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.main-footer-projet {
-  padding: 30px 0;
-  color: black;
-  a {
-    color: black;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
 /** MOBILE IMPORT **/
 /** PRINT **/
 @media print {
@@ -700,3 +677,4 @@ fieldset {
     overflow: visible !important;
   }
 }
+
