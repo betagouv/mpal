@@ -1,5 +1,3 @@
-/ PROJET ANAH PROJET/NEW
-
 - content_for :popins do
   #numero-fiscal.popin.popin--numero-fiscal
     .popin__container
@@ -17,12 +15,6 @@
         = btn name: "Fermer", href: "#", class: "popin__close"
 
 section.login-fields
-  = link_to "Aller au contenu", "#content", class: "login-fields__link"
-  br/ 
-  br/
-  = image_tag "logo-anah.png", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat", title: "Les aides de l’Anah - Agence Nationale de l’Habitat", class: "login-intro__heading-image logo-anah-projet"
-  = image_tag "logo-rf.png", alt: "République Française - Marianne", title: "République Française - Marianne", class: "login-intro__heading-image logo-anah-projet"
-  
   h3.login-fields__heading-projet Remplir mon dossier
   = link_to "J'ai déjà un dossier", "#content", class: "login-fields__link"
   p.login-fields__commentaire Tous les champs sont obligatoires
