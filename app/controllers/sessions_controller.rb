@@ -57,7 +57,7 @@ class SessionsController < ApplicationController
 
   def deconnexion
     reset_session
-    redirect_to projets_new_path, notice: t('sessions.confirmation_deconnexion')
+    redirect_to root_path, notice: t('sessions.confirmation_deconnexion')
   end
   #
   # def newdossier
