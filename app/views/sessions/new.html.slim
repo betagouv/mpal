@@ -58,12 +58,12 @@
         = radio_button_tag "proprietaire", "0", !proprietaire, class: "login-fields__proprietaire-input", id: "lab-proprietaire-no"
         | Non
       br/
-      = label_tag "form-nf", "Numéro fiscal", class: "login-fields__label"
+      = label_tag "projet_numero_fiscal", "Numéro fiscal", class: "login-fields__label"
       a.info-point.info-point--light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
-      = text_field_tag :numero_fiscal, params[:numero_fiscal], placeholder: "Ex : 12 34 567 890 123", id: "form-nf", class: "login-fields__input"
-      = label_tag "form-ra", "Référence de l’avis", class: "login-fields__label"
+      = text_field_tag :numero_fiscal, params[:numero_fiscal], placeholder: "Ex : 12 34 567 890 123", id: "projet_numero_fiscal", class: "login-fields__input"
+      = label_tag "projet_reference_avis", "Référence de l’avis", class: "login-fields__label"
       a.info-point.info-point--light.js-popin data-target="#reference-avis" title="Où trouver la référence de l’avis ?" ?
-      = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : 12 34 A123456 78", id: "form-ra", class: "login-fields__input"
+      = text_field_tag :reference_avis, params[:reference_avis], placeholder: "Ex : 12 34 A123456 78", id: "projet_reference_avis", class: "login-fields__input"
       .login-fields__mentions
         = check_box_tag "autorisation", "1", params[:autorisation], class: "login-fields__mentions-input js-engagement", id: "lab-rfr"
         label.login-fields__mentions-label for="lab-rfr"
