@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528164200) do
+ActiveRecord::Schema.define(version: 20170607115959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,14 @@ ActiveRecord::Schema.define(version: 20170528164200) do
   add_index "intervenants", ["roles"], name: "index_intervenants_on_roles", using: :gin
   add_index "intervenants", ["themes"], name: "index_intervenants_on_themes", using: :gin
 
+  create_table "intervenants_operations", force: :cascade do |t|
+    t.integer "intervenant_id"
+    t.integer "operation_id"
+  end
+
+  add_index "intervenants_operations", ["intervenant_id"], name: "index_intervenants_operations_on_intervenant_id", using: :btree
+  add_index "intervenants_operations", ["operation_id"], name: "index_intervenants_operations_on_operation_id", using: :btree
+
   create_table "invitations", force: :cascade do |t|
     t.integer  "projet_id"
     t.integer  "intervenant_id"
@@ -186,6 +194,13 @@ ActiveRecord::Schema.define(version: 20170528164200) do
   end
 
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
+
+  create_table "operations", force: :cascade do |t|
+    t.string   "libelle",    default: "", null: false
+    t.string   "code_opal",  default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "personnes", force: :cascade do |t|
     t.string "prenom"
@@ -334,6 +349,8 @@ ActiveRecord::Schema.define(version: 20170528164200) do
   add_foreign_key "demandes", "projets"
   add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
+  add_foreign_key "intervenants_operations", "intervenants"
+  add_foreign_key "intervenants_operations", "operations"
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"

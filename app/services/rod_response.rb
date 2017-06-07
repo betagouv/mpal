@@ -1,10 +1,11 @@
 class RodResponse
-  attr_accessor :pris, :instructeur, :operateurs
+  attr_accessor :pris, :instructeur, :operateurs, :operations
 
   def initialize(json)
-    @pris        = parse_pris(json)
+    @pris = parse_pris(json)
     @instructeur = parse_instructeur(json)
-    @operateurs  = parse_operateurs(json)
+    @operateurs = parse_operateurs(json)
+    @operations  = parse_operations(json)
   end
 
 private
@@ -39,10 +40,28 @@ private
                       json["operation_programmee"].map { |op| op["operateurs"] }.flatten :
                       json["operateurs"]
 
-    operateurs_ids = (json_operateurs || []).map do |attributes|
+    operateur_ids = (json_operateurs || []).map do |attributes|
       operateur = create_or_update_intervenant!("operateur", attributes)
       operateur.id
     end
-    Intervenant.where(id: operateurs_ids)
+    Intervenant.where id: operateur_ids
+  end
+
+  def parse_operations(json)
+    operation_ids = (json["operation_programmee"] || []).map do |attributes|
+      libelle              = attributes["libelle"]
+      code_opal            = attributes["code_opal"]
+      operateur_clavis_ids = attributes["operateurs"].map { |o| o["id_clavis"] }
+
+      operateurs = Intervenant.where clavis_service_id: operateur_clavis_ids
+      operation  = Operation.find_by_code_opal code_opal
+      if operation.blank?
+        operation = Operation.create! libelle: libelle, code_opal: code_opal, operateurs: operateurs
+      else
+        operation.update! libelle: libelle, operateurs: operateurs
+      end
+      operation.id
+    end
+    Operation.where id: operation_ids
   end
 end

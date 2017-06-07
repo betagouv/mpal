@@ -46,7 +46,7 @@ module Fakeweb
       )
     end
 
-    def self.register_query_for_success_with_operation_programmee
+    def self.register_query_for_success_with_operation
       FakeWeb.register_uri(
         :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants|,
         body: JSON.generate(
@@ -57,8 +57,45 @@ module Fakeweb
               [
                 {
                   "libelle": "PIG",
-                   "code_opal": "",
-                   "operateurs":
+                  "code_opal": "1A",
+                  "operateurs":
+                    [
+                      {
+                        "id_clavis": 5262,
+                        "raison_sociale": "SOLIHA 25-90",
+                        "email": "demo-operateur@anah.gouv.fr",
+                        "siret": "",
+                        "adresse_postale":
+                          {
+                            "adresse": "30 rue Caporal Peugeot",
+                            "code_postal": "25000",
+                            "ville": "Besançon"
+                          },
+                        "tel": "",
+                        "web": ""
+                      }
+                    ]
+                }
+              ],
+          }.merge(other_intervenants)
+        ),
+        status: [200, "OK"]
+      )
+    end
+
+    def self.register_query_for_success_with_operations
+      FakeWeb.register_uri(
+        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants|,
+        body: JSON.generate(
+          {
+            "code_commune": "25411",
+            "type_departement": "Non déployé",
+            "operation_programmee":
+              [
+                {
+                  "libelle": "PIG",
+                  "code_opal": "1A",
+                  "operateurs":
                     [
                       {
                         "id_clavis": 5262,
@@ -78,7 +115,7 @@ module Fakeweb
                 },
                 {
                   "libelle": "PORCINET",
-                  "code_opal": "",
+                  "code_opal": "1B",
                   "operateurs":
                     [
                       {
