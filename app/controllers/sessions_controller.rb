@@ -59,9 +59,6 @@ class SessionsController < ApplicationController
     reset_session
     redirect_to root_path, notice: t('sessions.confirmation_deconnexion')
   end
-  #
-  # def newdossier
-  # end
 
 private
   def param_numero_fiscal

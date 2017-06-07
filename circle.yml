@@ -3,8 +3,8 @@ machine:
     API_PARTICULIER_KEY: test-token
     API_PARTICULIER_DOMAIN: apiparticulier-test.sgmap.fr
     API_BAN_DOMAIN: api-adresse.data.gouv.fr
+    EMAIL_CONTACT: assistance.monprojet@anah.gouv.fr
     DOMAIN: localhost
-    NO_REPLY_FROM: admin+noreply@anah.beta.gouv.fr
     OPAL_API_BASE_URI: "http://gene.anah.gouv.fr/sio/json"
 
 database:
