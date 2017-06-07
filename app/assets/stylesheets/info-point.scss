@@ -20,11 +20,11 @@
   }
 }
 .info-point--light {
-  color: white;
-  border-color: white;
+  color: #111;
+  border-color: #111;
   &:hover {
-    color: #111;
-    border-color: #111;
+    color: $color-primary;
+    border-color: $color-primary;
   }
 }
 

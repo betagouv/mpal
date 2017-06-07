@@ -75,8 +75,8 @@
 
   - if Tools.demo?
     section.login-demo
-      = render 'demo_actions'
+      = render 'projets/demo_actions'
       - if ENV['DISPLAY_DEMO_CREDENTIALS'] == 'true'
-        = render 'demo_credentials'
-      -else
-        = render 'staging_credentials'
+        = render 'projets/demo_credentials'
+      - else
+        = render 'projets/staging_credentials'

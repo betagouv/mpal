@@ -17,38 +17,57 @@ class ProjetsController < ApplicationController
   end
 
   def create
+    @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
+
+    if @projet
+      if @projet.user
+        return redirect_to new_user_session_path, alert: t("sessions.user_exists")
+      end
+      if session[:project_id] != @projet.id
+         session[:project_id] = @projet.id
+      end
+      return redirect_to_next_step(@projet)
+    end
+
+    @page_heading = "Création de dossier"
+
+    begin
+      @projet = ProjetInitializer.new.initialize_projet(param_numero_fiscal, param_reference_avis)
+    rescue => e
+      @projet = Projet.new(params[:projet].permit(:numero_fiscal, :reference_avis))
+      flash.now[:alert] =  "Erreur : #{e.message}"
+      return render :new, layout: "creation_dossier"
+    end
+
     unless "1" == params[:proprietaire]
       flash.now[:alert] = t('sessions.erreur_proprietaire_html', anil: view_context.link_to('Anil.org', 'https://www.anil.org/')).html_safe
       return render :new, layout: 'creation_dossier'
     end
+
     contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
     unless contribuable
       flash.now[:alert] = t('sessions.invalid_credentials')
       return render :new, layout: 'creation_dossier'
     end
-    projet = Projet.where(numero_fiscal: params[:numero_fiscal], reference_avis: params[:reference_avis]).first
-    if projet
-      if session[:project_id] != projet.id
-         session[:project_id] = projet.id
-      end
-      redirect_to_next_step(projet)
-    else
-      create_projet_and_redirect
+
+    if @projet.save
+      EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: @projet)
+      notice = t('projets.messages.creation.corps')
+      flash.now[:notice_titre] = t('projets.messages.creation.titre')
+      session[:project_id] = @projet.id
+      return redirect_to projet_demandeur_path(@projet), notice: notice
     end
-
-
-    @page_heading = "Création de dossier"
-    # render layout: "creation_dossier"
+    render :new, layout: "creation_dossier", alert: t('sessions.erreur_creation_projet')
   end
 
 private
 
   def param_numero_fiscal
-    params[:numero_fiscal].to_s.gsub(/\D+/, '')
+    params[:projet][:numero_fiscal].to_s.gsub(/\D+/, '')
   end
 
   def param_reference_avis
-    params[:reference_avis].to_s.gsub(/\W+/, '').upcase
+    params[:projet][:reference_avis].to_s.gsub(/\W+/, '').upcase
   end
 
   def create_projet_and_redirect
