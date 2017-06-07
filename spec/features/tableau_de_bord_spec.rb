@@ -6,6 +6,41 @@ require 'support/api_ban_helper'
 feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
   before { login_as current_agent, scope: :agent }
 
+  context "en tant que siège" do
+    let(:siege)         { create :siege }
+    # let(:agent_siege)   { create :agent, :siege, intervenant: siege }
+    let(:current_agent) { create :agent, :siege, intervenant: siege }
+    let(:projet)     { create :projet, :proposition_proposee }
+    let(:projet_34)     { create :projet, :en_cours, email: "prenom.nom2@site.com" }
+    let(:projet)     { create :projet, :en_cours_d_instruction, email: "prenom.nom3@site.com" }
+
+    before do
+      projet.adresse.update(departement: "01")
+      projet_34.adresse.update(departement: "34")
+      projet.adresse.update(departement: "56")
+    end
+    scenario "je vois absolument tous les dossiers France" do
+      visit dossiers_path
+      within "#projet_#{projet.id}" do
+        expect(page).to have_content(projet.numero_plateforme)
+        expect(page).to have_content(projet.opal_numero)
+        expect(page).to have_content(projet.demandeur.fullname)
+        expect(page).to have_content(projet.adresse.region)
+        expect(page).to have_css('td.departement', text: projet.adresse.departement)
+        expect(page).to have_content(projet.adresse.ville)
+        expect(page).to have_content(projet.agent_instructeur.intervenant.raison_sociale)
+        expect(page).to have_content(projet.agent_instructeur.fullname)
+        # #TODO Theme
+        expect(page).to have_content(projet.agent_operateur.intervenant.raison_sociale)
+        expect(page).to have_content(projet.agent_operateur.fullname)
+        expect(page).to have_content(I18n.t("projets.statut.en_cours_d_instruction"))
+        #TODO Update Status At
+      end
+
+
+    end
+  end
+
   context "pour un projet en cours d'instruction" do
     let(:projet)            { create :projet, :en_cours_d_instruction }
     let(:agent_operateur)   { projet.agent_operateur}

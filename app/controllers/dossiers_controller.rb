@@ -5,6 +5,7 @@ class DossiersController < ApplicationController
   before_action :assert_projet_courant, except: [:index, :indicateurs]
 
   def index
+    @dossiers = Projet.all
     @invitations = Invitation.where(intervenant_id: current_agent.intervenant.id).includes(:projet)
     respond_to do |format|
       format.html {
@@ -16,9 +17,10 @@ class DossiersController < ApplicationController
         return render text: Projet.to_csv(current_agent)
       }
     end
+    return render "dossiers/dashboard_siege"       if current_agent.siege?
     return render "dossiers/dashboard_operateur"   if current_agent.operateur?
-    return render "dossiers/dashboard_instructeur" if current_agent.instructeur? || current_agent.siege?
-    render "dossiers/dashboard_pris"
+    return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
+    return render "dossiers/dashboard_pris"
   end
 
   def affecter_agent
