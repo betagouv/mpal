@@ -1,7 +1,7 @@
 class ProjetMailer < ActionMailer::Base
   add_template_helper(ApplicationHelper)
   default delivery_method: Proc.new { Rails.env.production? && !Tools.demo? ? :smtp : :letter_opener_web }
-  default from: ENV["NO_REPLY_FROM"]
+  default from: ENV["EMAIL_CONTACT"]
 
   def recommandation_operateurs(projet)
     @projet = projet
