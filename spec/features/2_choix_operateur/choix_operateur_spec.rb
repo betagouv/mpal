@@ -8,26 +8,28 @@ feature "Choisir un opérateur:" do
   context "en tant que demandeur" do
     let(:operateurs) { Rod.new(RodClient).query_for(projet).operateurs }
 
-    context "avant que le PRIS ne me recommande des opérateurs" do
-      let(:projet)        { create :projet, :prospect }
-      let(:new_operateur) { operateurs.first }
+    context "si il y a une opération programmée" do
+      let(:projet)    { create :projet, :prospect }
+      let(:operateur) { operateurs.first }
+
+      before { Fakeweb::Rod.register_query_for_success_with_operation }
 
       scenario "je peux choisir un opérateur moi-même" do
         signin(projet.numero_fiscal, projet.reference_avis)
-        expect(page).to have_content I18n.t('projets.visualisation.le_pris_selectionne_des_operateurs')
+        expect(page).to have_content I18n.t('projets.visualisation.selectionner_operateur_sans_pris')
         click_link I18n.t('projets.visualisation.choisir_operateur')
 
         expect(page).to have_current_path projet_choix_operateur_path(projet)
-        expect(page).to have_content(new_operateur.raison_sociale)
+        expect(page).to have_content(operateur.raison_sociale)
         expect(page).not_to have_selector("input[checked]")
 
-        choose new_operateur.raison_sociale
+        choose operateur.raison_sociale
         fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
         check I18n.t('agrements.autorisation_acces_donnees_intervenants')
         click_button I18n.t('choix_operateur.actions.contacter')
 
         expect(page).to have_content(I18n.t('invitations.messages.succes_titre'))
-        expect(page).to have_content(new_operateur.raison_sociale)
+        expect(page).to have_content(operateur.raison_sociale)
         expect(page).to have_content('Plutôt le matin')
       end
     end
