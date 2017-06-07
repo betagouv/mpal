@@ -5,7 +5,7 @@ require 'support/api_ban_helper'
 
 feature "Transmettre à l'instructeur :" do
   context "avant que le dossier ne soit transmis" do
-    let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles }
+    let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles, :with_invited_instructeur }
     let(:instructeur) { projet.invited_instructeur }
 
     context "en tant que demandeur" do

@@ -53,8 +53,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
     context "en tant qu'instructeur" do
       let(:current_agent) { agent_instructeur }
 
-      # Attention les instructeurs voient tous les dossiers ! En attente de la règle métier
-      scenario "j'ai accès au tableau de bord avec les informations disponibles pour les instructeurs" do
+      scenario "j'ai accès au tableau de bord avec toutes les informations disponibles" do
         visit dossiers_path
         within "#projet_#{projet.id}" do
           expect(page).to     have_content(projet.numero_plateforme)
@@ -89,23 +88,13 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
     context "en tant que PRIS" do
       let(:current_agent) { create :agent, :pris, intervenant: projet.invited_pris }
 
-      # Attention les PRIS voient tous les dossiers ! En attente de la règle métier
       scenario "j'ai accès au tableau de bord avec des données anonymisées" do
         visit dossiers_path
         within "#projet_#{projet.id}" do
-          expect(page).to     have_content(projet.plateforme_id)
           expect(page).not_to have_content(projet.opal_numero)
           expect(page).not_to have_content(projet.demandeur.fullname)
-          expect(page).not_to have_content(projet.adresse.region)
-          expect(page).not_to have_css('td.departement')
-          expect(page).to     have_content(projet.adresse.ville)
-          expect(page).to     have_content(projet.agent_instructeur.intervenant.raison_sociale)
-          expect(page).not_to have_content(projet.agent_instructeur.fullname)
-          #TODO Themes
           expect(page).to     have_content(projet.agent_operateur.intervenant.raison_sociale)
           expect(page).not_to have_content(projet.agent_operateur.fullname)
-          expect(page).to     have_content(I18n.t("projets.statut.en_cours_d_instruction"))
-          #TODO Update Status At
         end
       end
 
@@ -117,13 +106,14 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
   end
 
   context "pour un projet en prospect" do
-    let(:projet)          { create :projet, :prospect, :with_invited_pris }
-    let(:operateur)       { create :operateur }
-    let(:agent_pris)      { create :agent, :pris, intervenant: projet.invited_pris }
+    let(:projet)            { create :projet, :prospect, :with_invited_pris, :with_invited_instructeur }
+    let(:operateur)         { create :operateur }
+    let(:agent_pris)        { create :agent, :pris,        intervenant: projet.invited_pris }
+    let(:agent_instructeur) { create :agent, :instructeur, intervenant: projet.invited_instructeur }
 
     context "en tant qu'opérateur" do
       let(:agent_operateur) { create :agent, :operateur, intervenant: operateur }
-      let(:current_agent) { agent_operateur }
+      let(:current_agent)   { agent_operateur }
 
       context "recommandé par un PRIS" do
         before { projet.suggest_operateurs!([operateur.id]) }
@@ -138,9 +128,21 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       end
 
       context "non recommandé par un PRIS" do
-        scenario "j'ai accès au tableau de bord avec des données non anonymisées" do
+        scenario "je ne vois pas le projet" do
           visit dossiers_path
           expect(page).not_to have_css("#projet_#{projet.id}")
+        end
+      end
+    end
+
+    context "en tant qu'instructeur" do
+      let(:current_agent) { agent_instructeur }
+
+      scenario "j'ai accès au tableau de bord avec des données anonymisées" do
+        visit dossiers_path
+        within "#projet_#{projet.id}" do
+          expect(page).not_to have_content(projet.demandeur.fullname)
+          expect(page).to have_no_link(projet.numero_plateforme)
         end
       end
     end
@@ -148,7 +150,6 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
     context "en tant que PRIS" do
       let(:current_agent) { agent_pris }
 
-      # Attention les PRIS voient tous les dossiers ! En attente de la règle métier
       scenario "j'ai accès au tableau de bord avec des données non anonymisées" do
         visit dossiers_path
         within "#projet_#{projet.id}" do
@@ -157,6 +158,8 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
           expect(page).not_to have_content(projet.adresse.region)
           expect(page).not_to have_css('td.departement')
           expect(page).to     have_content(projet.adresse.ville)
+          expect(page).to     have_content(agent_instructeur.intervenant.raison_sociale)
+          expect(page).not_to have_content(agent_instructeur.fullname)
           #TODO Themes
           expect(page).to     have_content(I18n.t("projets.statut.prospect"))
           #TODO Update Status At
