@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/rod_helper'
 
 describe ChoixOperateurController do
-  let(:projet) { create :projet }
+  let(:projet) { create :projet, :prospect }
 
   before(:each) { authenticate_as_project(projet.id) }
 

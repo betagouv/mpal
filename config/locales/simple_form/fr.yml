@@ -72,6 +72,8 @@ fr:
         accessibilite: "Vous avez des difficultés dans les escaliers"
         hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
         adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
+        arrete: "Votre logement (immeuble) fait l’objet d’un arrêté : insalubrité, péril, travaux de sécurité"
+        saturnisme: "Vous disposez d’un justificatif de saturnisme"
         autre: "Autre"
         # Travaux
         travaux_fenetres: "Fenêtres"

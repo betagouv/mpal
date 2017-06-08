@@ -41,6 +41,8 @@ private
       :accessibilite,
       :hospitalisation,
       :adaptation_salle_de_bain,
+      :arrete,
+      :saturnisme,
       :autre,
       :travaux_fenetres,
       :travaux_isolation,

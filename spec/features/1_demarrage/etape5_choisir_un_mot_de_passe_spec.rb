@@ -5,8 +5,8 @@ require 'support/api_ban_helper'
 require 'support/rod_helper'
 
 feature "Choisir un mot de passe :" do
-  let!(:projet) { create(:projet, :with_demandeur) }
-  let!(:pris) {   create(:pris, departements: ["75"]) }
+  let!(:projet) { create :projet, :prospect }
+  let!(:pris) {   create :pris, departements: ["75"] }
 
   context "en tant que demandeur" do
     scenario "je peux choisir mon mot de passe" do

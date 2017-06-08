@@ -42,6 +42,7 @@ feature "En tant que demandeur, un PRIS est automatiquement assigné à mon proj
 
     scenario "je suis notifié de ma non éligibilité" do
       signin_for_new_projet_non_eligible
+      projet.build_demande.update froid: true
       visit projet_mise_en_relation_path(projet)
       expect(page).to have_content(I18n.t('demarrage_projet.mise_en_relation.votre_projet_est_non_eligible'))
       expect(page).to have_content(I18n.t('demarrage_projet.mise_en_relation.non_eligible_recontacter',  { pris: pris.raison_sociale }))
