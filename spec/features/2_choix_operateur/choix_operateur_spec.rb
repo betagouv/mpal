@@ -16,7 +16,7 @@ feature "Choisir un opérateur:" do
 
       scenario "je peux choisir un opérateur moi-même" do
         signin(projet.numero_fiscal, projet.reference_avis)
-        expect(page).to have_content I18n.t('projets.visualisation.selectionner_operateur_sans_pris')
+        expect(page).to have_content I18n.t('projets.visualisation.select_operator_without_pris')
         click_link I18n.t('projets.visualisation.choisir_operateur')
 
         expect(page).to have_current_path projet_choix_operateur_path(projet)

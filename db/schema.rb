@@ -196,7 +196,7 @@ ActiveRecord::Schema.define(version: 20170607115959) do
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
 
   create_table "operations", force: :cascade do |t|
-    t.string   "libelle",    default: "", null: false
+    t.string   "name",       default: "", null: false
     t.string   "code_opal",  default: "", null: false
     t.datetime "created_at"
     t.datetime "updated_at"

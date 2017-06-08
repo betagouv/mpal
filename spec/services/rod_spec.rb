@@ -61,10 +61,10 @@ describe Rod do
         before { Fakeweb::Rod.register_query_for_success_with_operations }
 
         it "crée les opérations programmées" do
-          expect(rod_response.operations.first.libelle).to   eq "PIG"
+          expect(rod_response.operations.first.name).to      eq "PIG"
           expect(rod_response.operations.first.code_opal).to eq "1A"
 
-          expect(rod_response.operations.last.libelle).to   eq "PORCINET"
+          expect(rod_response.operations.last.name).to      eq "PORCINET"
           expect(rod_response.operations.last.code_opal).to eq "1B"
         end
 
@@ -110,11 +110,11 @@ describe Rod do
 
         it "met à jour les informations des opérations programmées" do
           expect(rod_response.operations.first.id).to        eq operation1.id
-          expect(rod_response.operations.first.libelle).to   eq "PIG"
+          expect(rod_response.operations.first.name).to      eq "PIG"
           expect(rod_response.operations.first.code_opal).to eq "1A"
 
           expect(rod_response.operations.last.id).to        eq operation2.id
-          expect(rod_response.operations.last.libelle).to   eq "PORCINET"
+          expect(rod_response.operations.last.name).to      eq "PORCINET"
           expect(rod_response.operations.last.code_opal).to eq "1B"
         end
 

@@ -150,7 +150,7 @@ fr:
       assignement_pris_titre: "Un contact pour vous aider"
       non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée"
       un_pris_va_vous_contacter: "Le Point Rénovation Info Service de votre département, « %{pris} », va vous contacter prochainement."
-      vers_operateur: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l'aurez sélectionné, il lui sera alors possible d'entrer en relation avec vous."
+      to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Par exemple : Le matin, entre 8h et 11h"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     # ----------------------- Compte utilisateur -------------------
@@ -257,7 +257,7 @@ fr:
       invitation_relance_intervenant: "Je relance l’intervenant"
       le_pris_selectionne_des_operateurs: "Le Point Rénovation Info-Service de votre département est en train de faire une sélection d’opérateurs recommandés pour votre projet."
       le_pris_a_recommande_des_operateurs: "Le Point Rénovation Info-Service de votre département vous a recommandé des opérateurs pour vous accompagner dans votre projet."
-      selectionner_operateur_sans_pris: "Vous pouvez dès à present contacter un opérateur qui vous aidera à constituer votre dossier."
+      select_operator_without_pris: "Vous pouvez dès à present contacter un opérateur qui vous aidera à constituer votre dossier."
       mise_en_relation_intervenant: "Je mets en relation"
       choisir_operateur: "Contacter un opérateur"
       choisir_operateur_recommande: "Choisir un des opérateurs recommandés"

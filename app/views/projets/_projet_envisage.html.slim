@@ -38,6 +38,6 @@ article.block.projet
         - unless current_agent
           = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)
       - else
-        p= t('projets.visualisation.selectionner_operateur_sans_pris')
+        p= t('projets.visualisation.select_operator_without_pris')
         - unless current_agent
           = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)

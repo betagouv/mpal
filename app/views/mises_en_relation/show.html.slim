@@ -15,7 +15,7 @@
           - if @non_eligible
             = t('demarrage_projet.mise_en_relation.non_eligible_recontacter',  { pris: @pris.raison_sociale})
           - elsif @operations.count == 1 && @operateurs.count == 1
-            = t('demarrage_projet.mise_en_relation.vers_operateur')
+            = t('demarrage_projet.mise_en_relation.to_operator')
           - else
             = t('demarrage_projet.mise_en_relation.un_pris_va_vous_contacter', { pris: @pris.raison_sociale})
             p.chapo Il pourra vous recommander un opérateur chargé de vous accompagner tout au long de votre démarche.
