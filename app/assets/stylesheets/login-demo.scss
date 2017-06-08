@@ -1,6 +1,9 @@
 .login-demo {
-  display: flex;
   background-color: #e6eaed;
+  margin-top: 2em;
+  @media screen and (min-width: 1000px) {
+    display: flex;
+  }
 }
 
 .login-demo__subtitle {
@@ -12,8 +15,10 @@
 }
 
 .login-demo__column {
-  width: 50%;
   padding: 30px;
+  @media screen and (min-width: 1000px) {
+    width: 50%;
+  }
 }
 
 .login-demo__table {
@@ -34,4 +39,3 @@
     }
   }
 }
-

@@ -1,0 +1,62 @@
+.new-project {
+  background: white;
+  vertical-align: top;
+  box-sizing: border-box;
+}
+
+.new-project__heading-projet {
+  font-size: 26px;
+  font-weight: bold;
+  margin: 30px 0;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.new-project__label {
+  display: inline-block;
+  margin-top: 1em;
+  font-weight: bold;
+  line-height: 32px;
+}
+.new-project__label--p {
+  display: block;
+}
+.new-project__label--first {
+  margin-top: 0;
+}
+.new-project__proprietaire-input {
+  margin-right: 10px;
+}
+.new-project__proprietaire-label {
+  margin-right: 20px;
+}
+.new-project__btn {
+  display: table;
+  margin: 1em 0 0;
+}
+.new-project__mentions {
+  margin-top: 1em;
+}
+.new-project__mentions-input {
+  margin-right: 10px;
+}
+.new-project__mentions-label-projet{
+  color: black;
+}
+.new-project__mentions-abbr-projet {
+  color: black;
+  border-bottom-color: white;
+}
+.new-project__commentaire {
+  color: grey;
+  margin-bottom: 1em
+}
+.new-project__links {
+  margin-bottom: 1em;
+}
+.new-project__link {
+  text-decoration: underline;
+  &:hover {
+    color: $color-primary;
+    text-decoration: underline;
+  }
+}

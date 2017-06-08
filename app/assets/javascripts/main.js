@@ -88,8 +88,8 @@ $(document).ready(function() {
       }
       e.preventDefault();
       e.stopPropagation();
-      $("#form-nf").val(link.data("numero-fiscal"));
-      $("#form-ra").val(link.data("reference-avis"));
+      $("#projet_numero_fiscal").val(link.data("numero-fiscal"));
+      $("#projet_reference_avis").val(link.data("reference-avis"));
       $("html, body").animate({
         scrollTop: $("#js-login-form").offset().top
       }, 500);
