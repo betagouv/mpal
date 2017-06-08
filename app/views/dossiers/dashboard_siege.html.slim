@@ -1,0 +1,57 @@
+.main-content-block.dashboard-dossiers
+  = btn name: "Indicateurs", href: indicateurs_dossiers_path, icon: "zoom-in", class: "align-top-right btn-secondary"
+  - if @dossiers.blank?
+    p Aucun dossier.
+  - else
+    = btn name: "Export CSV", href: dossiers_path(format: :csv), icon: "download", class: "btn-export"
+    table.table.table-hovered.table-stripped
+      thead
+        tr
+          th
+            abbr title="Identifiant plateforme" ID PF
+          th
+            abbr title="Identifiant OPAL" ID OPAL
+          th Demandeur
+          th Région
+          th
+            abbr title="Département" Dép.
+          th Ville
+          th Instructeur
+          th Types d’intervention
+          th Opérateur
+          th Visité le
+          th État
+          / TODO
+          / th Depuis
+      tbody
+        - @dossiers.each do |projet|
+          tr id="projet_#{projet.id}"
+            - edit_url = dossier_path(projet)
+            td= link_to projet.numero_plateforme, edit_url
+            td= link_to (projet.opal_numero || ' '), edit_url
+            td= link_to edit_url do
+              span.firstname= projet.demandeur.prenom
+              span.lastname<= projet.demandeur.nom
+            td= link_to projet.adresse.try(:region), edit_url
+            td class='departement' = link_to projet.adresse.try(:departement), edit_url
+            td= link_to projet.adresse.try(:ville), edit_url
+            td= link_to edit_url do
+              = projet.invited_instructeur.try(:raison_sociale)
+              - if projet.agent_instructeur
+                br/
+                span.firstname= projet.agent_instructeur.prenom
+                span.lastname<= projet.agent_instructeur.nom
+            td= link_to edit_url do
+              - if projet.themes.present?
+                = projet.themes.map(&:libelle).join(', ')
+            td= link_to edit_url do
+              = projet.contacted_operateur.try(:raison_sociale)
+              - if projet.agent_operateur
+                br/
+                span.firstname= projet.agent_operateur.prenom
+                span.lastname<= projet.agent_operateur.nom
+            td= link_to edit_url do
+              - if projet.date_de_visite.present?
+                = format_date(projet.date_de_visite)
+            td= link_to t(projet.status_for_intervenant, scope: "projets.statut"), edit_url
+            /TODO Status Updated At

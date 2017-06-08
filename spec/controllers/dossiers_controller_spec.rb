@@ -20,8 +20,7 @@ describe DossiersController do
     end
   end
 
-  context "en tant qu'opérateur connecté" do
-    describe "#proposition" do
+  describe "#proposition" do
       let!(:prestation_1) { create :prestation }
       let!(:prestation_2) { create :prestation }
       let!(:prestation_3) { create :prestation }
@@ -30,6 +29,7 @@ describe DossiersController do
 
       before(:each) { authenticate_as_agent projet.agent_operateur }
 
+    context "en tant qu'opérateur connecté" do
       context "si aucune prestation n'était retenue" do
         it "je définis des prestations souhaitées/préconisées/retenues" do
           projet_params = {
@@ -193,7 +193,7 @@ describe DossiersController do
         projet_56.adresse.update(departement: "56")
       end
 
-      it "je peux voir la liste de tous les projets" do
+      it "je peux voir la liste de tous les projets dans la page indicateurs" do
         get :indicateurs
         expect(response).to render_template(:indicateurs)
         expect(assigns(:projets_count)).to eq 3

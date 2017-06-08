@@ -6,6 +6,72 @@ require 'support/api_ban_helper'
 feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
   before { login_as current_agent, scope: :agent }
 
+  context "en tant que siège" do
+    let(:siege)         { create :siege }
+    let(:current_agent) { create :agent, :siege, intervenant: siege }
+    let(:projet_34)     { create :projet, :en_cours, email: "prenom.nom1@site.com" }
+    let(:projet_01)     { create :projet, :proposition_proposee, email: "prenom.nom2@site.com" }
+    let(:projet_56)     { create :projet, :en_cours_d_instruction, email: "prenom.nom3@site.com" }
+
+    before do
+      projet_34.adresse.update(departement: "34")
+      projet_01.adresse.update(departement: "01")
+      projet_56.adresse.update(departement: "56")
+    end
+
+    scenario "je vois absolument tous les dossiers France" do
+      visit dossiers_path
+
+      within "#projet_#{projet_34.id}" do
+        expect(page).to have_content(projet_34.numero_plateforme)
+        expect(page).to have_content(projet_34.opal_numero)
+        expect(page).to have_content(projet_34.demandeur.fullname)
+        expect(page).to have_content(projet_34.adresse.region)
+        expect(page).to have_css('td.departement', text: projet_34.adresse.departement)
+        expect(page).to have_content(projet_34.adresse.ville)
+        expect(projet_34.agent_instructeur).to be_nil
+        expect(projet_34.agent_instructeur).to be_nil
+        # #TODO Theme
+        expect(projet_34.agent_operateur).to be_nil
+        expect(projet_34.agent_operateur).to be_nil
+        expect(page).to have_content(I18n.t("projets.statut.en_cours_de_montage"))
+        #TODO Update Status At
+      end
+
+      within "#projet_#{projet_01.id}" do
+        expect(page).to have_content(projet_01.numero_plateforme)
+        expect(page).to have_content(projet_01.opal_numero)
+        expect(page).to have_content(projet_01.demandeur.fullname)
+        expect(page).to have_content(projet_01.adresse.region)
+        expect(page).to have_css('td.departement', text: projet_01.adresse.departement)
+        expect(page).to have_content(projet_01.adresse.ville)
+        expect(projet_01.agent_instructeur).to be_nil
+        expect(projet_01.agent_instructeur).to be_nil
+        # #TODO Theme
+        expect(page).to have_content(projet_01.agent_operateur.intervenant.raison_sociale)
+        expect(page).to have_content(projet_01.agent_operateur.fullname)
+        expect(page).to have_content(I18n.t("projets.statut.en_cours_de_montage"))
+        #TODO Update Status At
+      end
+
+      within "#projet_#{projet_56.id}" do
+        expect(page).to have_content(projet_56.numero_plateforme)
+        expect(page).to have_content(projet_56.opal_numero)
+        expect(page).to have_content(projet_56.demandeur.fullname)
+        expect(page).to have_content(projet_56.adresse.region)
+        expect(page).to have_css('td.departement', text: projet_56.adresse.departement)
+        expect(page).to have_content(projet_56.adresse.ville)
+        expect(page).to have_content(projet_56.agent_instructeur.intervenant.raison_sociale)
+        expect(page).to have_content(projet_56.agent_instructeur.fullname)
+        # #TODO Theme
+        expect(page).to have_content(projet_56.agent_operateur.intervenant.raison_sociale)
+        expect(page).to have_content(projet_56.agent_operateur.fullname)
+        expect(page).to have_content(I18n.t("projets.statut.en_cours_d_instruction"))
+        #TODO Update Status At
+      end
+    end
+  end
+
   context "pour un projet en cours d'instruction" do
     let(:projet)            { create :projet, :en_cours_d_instruction }
     let(:agent_operateur)   { projet.agent_operateur}
