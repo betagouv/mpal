@@ -155,7 +155,7 @@ private
                         :suggested_operateur_ids => [],
                         :prestation_choices_attributes => [:prestation_id, :desired, :recommended, :selected],
                         :projet_aides_attributes => [:aide_id, :localized_amount],
-                        :demande => [:annee_construction],
+                        :demande_attributes => [:annee_construction],
                 )
     clean_projet_aides(attributs)
     clean_prestation_choices(attributs)
