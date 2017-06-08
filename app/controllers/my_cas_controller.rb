@@ -7,7 +7,7 @@ class MyCasController < Devise::CasSessionsController
 
   def signed_out
     flash.notice = t('sessions.confirmation_deconnexion_clavis') unless current_agent
-    redirect_to new_session_path
+    redirect_to root_path
   end
 
 private

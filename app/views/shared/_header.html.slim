@@ -14,7 +14,7 @@ header.project-header.clearfix
         span.firstname= current_agent.prenom
         span.lastname<= current_agent.nom
       = btn name: t('sessions.lien_deconnexion'), href: destroy_agent_session_path, class: 'btn-secondary btn-small', icon: 'off'
-  - else
+  - elsif current_user || session[:project_id].present?
     .connection
       = btn name: t('sessions.lien_deconnexion'), href: deconnexion_path, class: 'btn-secondary btn-small', icon: 'off'
 

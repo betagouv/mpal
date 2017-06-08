@@ -23,6 +23,7 @@ module ApplicationConcern
           return redirect_to root_path, alert: t("sessions.access_forbidden")
         end
         if @projet_courant.user
+          session.delete :project_id
           return redirect_to new_user_session_path, alert: t("sessions.user_exists")
         end
       end

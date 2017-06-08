@@ -247,8 +247,7 @@ fr:
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
-        titre: 'Félicitations'
-        corps: Votre projet démarre aujourd’hui.
+        corps: Félicitations ! Votre projet démarre aujourd’hui.
     visualisation:
       lien_edition_projet: 'Modifier le projet'
       lien_edition: 'Modifier'
