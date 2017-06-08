@@ -48,6 +48,26 @@ feature "Occupants :" do
       expect(page).not_to have_css("tr[data-occupant-id='#{occupant_to_delete.id}']")
     end
 
+    scenario "je peux ajouter un enfant à naître" do
+      signin(projet.numero_fiscal, projet.reference_avis)
+      visit projet_occupants_path(projet)
+
+      check I18n.t("simple_form.labels.projet.future_birth")
+      click_button I18n.t('demarrage_projet.action')
+      visit projet_path(projet)
+
+      expect(page).to have_content I18n.t("projets.visualisation.future_birth")
+      expect(page).to have_content "+ enfant(s) à naître"
+
+      visit projet_occupants_path(projet)
+      uncheck I18n.t("simple_form.labels.projet.future_birth")
+      click_button I18n.t('demarrage_projet.action')
+      visit projet_path(projet)
+
+      expect(page).to have_no_content I18n.t("projets.visualisation.future_birth")
+      expect(page).to have_no_content "+ enfant(s) à naître"
+    end
+
     scenario "je peux passer à l'étape suivante" do
       signin(projet.numero_fiscal, projet.reference_avis)
       visit projet_occupants_path(projet)

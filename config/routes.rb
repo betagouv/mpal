@@ -15,16 +15,18 @@ Rails.application.routes.draw do
     get       :preeligibilite
   end
 
+  devise_for :users, controllers: {
+    passwords:     "users/passwords",
+    registrations: "users/registrations",
+    sessions:      "users/sessions",
+  }
+
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
   devise_scope :agent do
     get '/agents/signed_out', to: 'my_cas#signed_out'
   end
 
-  root 'sessions#new'
-  namespace :api, path: '/api/v1/projets/:projet_id' do
-    get  '/', to: 'projets#show', as: 'projet'
-    post '/plan_financements', to: 'plans_financements#create', as: 'projet_plan_financements'
-  end
+  root 'homepage#index'
 
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [], concerns: :projectable do
@@ -39,7 +41,11 @@ Rails.application.routes.draw do
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
+    get  '/projets/new',        to: 'projets#new'
+    post  '/projets/',           to: 'projets#create'
+
     resources :projets, only: [], concerns: :projectable do
+      resource :users, only: [:new, :create]
       get      'demandeur/departement_non_eligible', action: :departement_non_eligible, controller: 'demandeurs'
       get      :choix_operateur,      action: :new,    controller: 'choix_operateur'
       patch    :choix_operateur,      action: :choose, controller: 'choix_operateur'
@@ -60,9 +66,6 @@ Rails.application.routes.draw do
     get '/reset' => 'tools#reset_base'
 
     get '/instruction', to: 'instruction#show', as: 'instruction'
-  end
-  scope(path_names: { new: 'nouvelle' }) do
-    resources :sessions, only: [:new, :create]
   end
 
   namespace :admin do
@@ -89,8 +92,9 @@ Rails.application.routes.draw do
 
   resources :contacts, only: [:index, :new, :create]
 
-  get "/404", to: "errors#not_found"
-  get "/500", to: "errors#internal_server_error"
+  match "/404", via: :all, to: "errors#not_found"
+  match "/500", via: :all, to: "errors#internal_server_error"
+
 
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

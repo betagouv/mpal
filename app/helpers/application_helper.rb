@@ -18,6 +18,7 @@ module ApplicationHelper
   # * href: optional, URL to link to, if present change default `tag` to `a`
   # * class: optional, CSS classes to append
   # * icon: optional, glyphicon to use (without prefix), cf http://getbootstrap.com/components/#glyphicons-glyphs
+  # * html: optional, any html attribute you want
   def btn(opts = {})
     p = {}
     p[:class] = ['btn']
@@ -25,6 +26,7 @@ module ApplicationHelper
     p[:class] << 'btn-icon' if opts[:icon].present?
     p[:class] = p[:class].flatten
     p[:href] = opts[:href] if opts[:href].present?
+    p.merge!(opts[:html]) if opts[:html].present?
     opts[:tag] ||= :a if opts[:href].present?
     capture do
       content_tag (opts[:tag] || :button), p do
@@ -44,10 +46,6 @@ module ApplicationHelper
   def copyright_years
     year = Time.now.year
     year > SITE_START_YEAR ? "#{SITE_START_YEAR}&ndash;#{year}".html_safe : year.to_s
-  end
-
-  def demandeur?
-    @role_utilisateur && @role_utilisateur.to_sym == :demandeur
   end
 
   def format_date(date, format = :default)

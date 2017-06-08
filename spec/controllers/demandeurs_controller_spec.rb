@@ -5,9 +5,7 @@ require 'support/api_ban_helper'
 describe DemandeursController do
   let(:projet) { create :projet, :prospect, declarants_count: 2 }
 
-  before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
-  end
+  before(:each) { authenticate_as_project(projet.id) }
 
   describe "#show" do
     before do

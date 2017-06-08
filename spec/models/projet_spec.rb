@@ -10,7 +10,8 @@ describe Projet do
     it { is_expected.to validate_presence_of :reference_avis }
     it { is_expected.not_to validate_presence_of(:adresse_postale).on(:create) }
     it { is_expected.to validate_presence_of(:adresse_postale).on(:update) }
-    it { is_expected.not_to validate_presence_of(:email) }
+    it { is_expected.to validate_presence_of(:email).on(:update) }
+    it { is_expected.to validate_uniqueness_of(:email).case_insensitive.on(:update) }
     it { is_expected.not_to validate_presence_of(:tel) }
     it { is_expected.not_to validate_presence_of(:date_de_visite) }
     it { is_expected.to validate_presence_of(:date_de_visite).with_message(:blank_feminine).on(:proposition) }
@@ -22,6 +23,7 @@ describe Projet do
     it { is_expected.to validate_numericality_of(:consommation_avant_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to validate_numericality_of(:consommation_apres_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to have_one :demande }
+    it { is_expected.to belong_to :user }
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
     it { is_expected.to belong_to :operateur }
@@ -34,13 +36,13 @@ describe Projet do
 
     it "accepte les emails valides" do
       projet.email = "email@exemple.fr"
-      projet.valid?
+      projet.valid?(:update)
       expect(projet.errors[:email]).to be_empty
     end
 
     it "rejette les emails invalides" do
       projet.email = "invalid-email@lol"
-      projet.valid?
+      projet.valid?(:update)
       expect(projet.errors[:email]).to be_present
     end
 
@@ -157,21 +159,25 @@ describe Projet do
     let!(:invitation2)      { create :invitation, intervenant: operateur1, projet: projet2 }
     let!(:invitation3)      { create :invitation, intervenant: operateur2, projet: projet3 }
 
-    before { projet4.suggest_operateurs! [operateur4.id] }
+    before do
+      projet3.invite_instructeur! instructeur
+      projet4.invite_instructeur! instructeur
+      projet4.suggest_operateurs! [operateur4.id]
+    end
 
     describe "un opérateur voit les projets sur lesquels il est affecté ou recommandé" do
-      it { expect(Projet.for_agent(agent_operateur1).length).to eq(2) }
-      it { expect(Projet.for_agent(agent_operateur2).length).to eq(1) }
-      it { expect(Projet.for_agent(agent_operateur3).length).to eq(0) }
-      it { expect(Projet.for_agent(agent_operateur4).length).to eq(1) }
+      it { expect(Projet.for_agent(agent_operateur1).length).to eq 2 }
+      it { expect(Projet.for_agent(agent_operateur2).length).to eq 1 }
+      it { expect(Projet.for_agent(agent_operateur3).length).to eq 0 }
+      it { expect(Projet.for_agent(agent_operateur4).length).to eq 1 }
     end
 
     it "un instructeur voit tous les projets avec un demandeur" do
-      expect(Projet.for_agent(agent_instructeur)).to include(projet1)
-      expect(Projet.for_agent(agent_instructeur)).to include(projet2)
-      expect(Projet.for_agent(agent_instructeur)).to include(projet3)
-      expect(Projet.for_agent(agent_instructeur)).to include(projet4)
-      expect(Projet.for_agent(agent_instructeur)).not_to include(projet5)
+      expect(Projet.for_agent(agent_instructeur)).not_to include projet1
+      expect(Projet.for_agent(agent_instructeur)).not_to include projet2
+      expect(Projet.for_agent(agent_instructeur)).to     include projet3
+      expect(Projet.for_agent(agent_instructeur)).to     include projet4
+      expect(Projet.for_agent(agent_instructeur)).not_to include projet5
     end
   end
 
@@ -491,6 +497,43 @@ describe Projet do
     end
   end
 
+  describe "#invite_instructeur!" do
+    context "sans instructeur invité au préalable" do
+      let(:projet)      { create :projet }
+      let(:instructeur) { create :instructeur }
+
+      it "sélectionne l'intructeur" do
+        projet.invite_instructeur! instructeur
+        expect(projet.invitations.count).to   eq 1
+        expect(projet.invited_instructeur).to eq instructeur
+      end
+    end
+
+    context "avec un instructeur invité auparavant" do
+      let(:projet) { create :projet, :prospect, :with_invited_instructeur }
+
+      context "et un nouveau instructeur différent du précédent" do
+        let(:new_instructeur) { create :instructeur }
+
+        it "sélectionne le nouvel instructeur" do
+          projet.invite_instructeur! new_instructeur
+          expect(projet.invitations.count).to   eq 1
+          expect(projet.invited_instructeur).to eq new_instructeur
+        end
+      end
+
+      context "et un nouvel instructeur identique au précédent" do
+        let(:instructeur) { projet.invited_instructeur }
+
+        it "ne change rien" do
+          projet.invite_instructeur! instructeur
+          expect(projet.invitations.count).to   eq 1
+          expect(projet.invited_instructeur).to eq instructeur
+        end
+      end
+    end
+  end
+
   describe "#commit_to_operateur!" do
     let(:projet)    { create :projet, :prospect }
     let(:operateur) { create :operateur }
@@ -519,10 +562,10 @@ describe Projet do
   end
 
   describe "#transmettre!" do
-    let(:projet) { create :projet, :proposition_proposee }
+    let(:projet) { create :projet, :proposition_proposee, :with_invited_instructeur }
 
     context "avec un instructeur valide" do
-      let(:instructeur) { create :instructeur }
+      let(:instructeur) { projet.invited_instructeur }
       it "rajoute l'instructeur au projet" do
         result = projet.transmettre!(instructeur)
         expect(result).to be true
@@ -534,16 +577,6 @@ describe Projet do
         expect(ProjetMailer).to receive(:mise_en_relation_intervenant).and_call_original
         expect(ProjetMailer).to receive(:accuse_reception).and_call_original
         projet.transmettre!(instructeur)
-      end
-    end
-
-    context "avec un instructeur invalide" do
-      let(:instructeur) { nil }
-      it "ne change rien" do
-        result = projet.transmettre!(instructeur)
-        expect(result).to be false
-        expect(projet.statut.to_sym).not_to eq(:transmis_pour_instruction)
-        expect(projet.invitations.count).to eq(1)
       end
     end
   end
@@ -561,39 +594,39 @@ describe Projet do
     end
   end
 
-  describe "#status_for_operateur" do
+  describe "#status_for_intervenant" do
     let(:projet) { build :projet }
     it {
       projet.statut = :prospect
-      expect(projet.status_for_operateur).to eq :prospect
+      expect(projet.status_for_intervenant).to eq :prospect
     }
     it {
       projet.statut = "prospect"
-      expect(projet.status_for_operateur).to eq :prospect
+      expect(projet.status_for_intervenant).to eq :prospect
     }
     it {
       projet.statut = nil
-      expect(projet.status_for_operateur).to eq nil
+      expect(projet.status_for_intervenant).to eq nil
     }
     it {
       projet.statut = :en_cours
-      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+      expect(projet.status_for_intervenant).to eq :en_cours_de_montage
     }
     it {
       projet.statut = :proposition_enregistree
-      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+      expect(projet.status_for_intervenant).to eq :en_cours_de_montage
     }
     it {
       projet.statut = :proposition_proposee
-      expect(projet.status_for_operateur).to eq :en_cours_de_montage
+      expect(projet.status_for_intervenant).to eq :en_cours_de_montage
     }
     it {
       projet.statut = :transmis_pour_instruction
-      expect(projet.status_for_operateur).to eq :depose
+      expect(projet.status_for_intervenant).to eq :depose
     }
     it {
       projet.statut = :en_cours_d_instruction
-      expect(projet.status_for_operateur).to eq :en_cours_d_instruction
+      expect(projet.status_for_intervenant).to eq :en_cours_d_instruction
     }
   end
 

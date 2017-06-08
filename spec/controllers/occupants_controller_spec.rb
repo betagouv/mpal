@@ -4,9 +4,7 @@ require 'support/mpal_helper'
 describe OccupantsController do
   let(:projet) { create :projet, :with_demandeur }
 
-  before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
-  end
+  before(:each) { authenticate_as_project(projet.id) }
 
   describe "#index" do
     context "get" do
@@ -19,8 +17,10 @@ describe OccupantsController do
     end
 
     context "post" do
+      let(:submit_button_params) { nil }
+
       before do
-        post :index, projet_id: projet.id, occupant: occupant_params
+        post :index, projet_id: projet.id, occupant: occupant_params, submit_button: submit_button_params
       end
 
       context "quand un nouvel occupant est renseigné" do
@@ -63,17 +63,51 @@ describe OccupantsController do
         end
       end
 
-      context "sans occupant renseigné" do
+      context "avec une naissance prévue" do
+        render_views
         let(:occupant_params) do
           {
             prenom:            "",
             nom:               "",
-            date_de_naissance: ""
+            date_de_naissance: "",
+            projet: {
+              future_birth: "1"
+            }
           }
         end
 
-        it "passe à l'étape suivante" do
-          expect(response).to redirect_to(projet_demande_path(projet))
+        it "enregistre l’information" do
+          projet.reload
+          expect(projet.future_birth).to be_truthy # or to be alive
+        end
+      end
+
+      context "sans occupant renseigné" do
+        render_views
+        let(:occupant_params) do
+          {
+            prenom:            "",
+            nom:               "",
+            date_de_naissance: "",
+          }
+        end
+
+        context "si je clique sur le bouton de soumission" do
+          let(:submit_button_params) { "" }
+
+          it "je passe à l'étape suivante" do
+            expect(response).to redirect_to(projet_demande_path(projet))
+          end
+        end
+
+        context "si je clique sur l’ajout d’occupant" do
+          it "affiche les erreurs de validation" do
+            occupant = assigns(:occupant)
+            expect(occupant.errors).to be_added :date_de_naissance, :blank
+            expect(occupant.errors).to be_added :prenom, :blank
+            expect(occupant.errors).to be_added :nom, :blank
+            expect(response.body).to include occupant.errors.full_messages.first
+          end
         end
       end
     end

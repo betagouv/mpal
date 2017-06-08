@@ -9,6 +9,8 @@ class Projet < ActiveRecord::Base
   ENERGY_EVALUATION_FIELDS = [:consommation_apres_travaux, :etiquette_apres_travaux, :gain_energetique]
   FUNDING_FIELDS           = [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount, :personal_funding_amount, :loan_amount]
 
+  STATUSES             = [:prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :transmis_pour_instruction, :en_cours_d_instruction]
+  INTERVENANT_STATUSES = [:prospect, :en_cours_de_montage, :depose, :en_cours_d_instruction]
   enum statut: {
     prospect: 0,
     en_cours: 1,
@@ -22,6 +24,10 @@ class Projet < ActiveRecord::Base
   belongs_to :personne, dependent: :destroy
   accepts_nested_attributes_for :personne
 
+  # Compte utilisateur
+  belongs_to :user, dependent: :destroy
+
+  # Demande
   has_one :demande, dependent: :destroy
   accepts_nested_attributes_for :demande
 
@@ -56,7 +62,7 @@ class Projet < ActiveRecord::Base
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
-  validates :email, email: true, allow_blank: true
+  validates :email, email: true, presence: true, uniqueness: { case_sensitive: false }, on: :update
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
@@ -68,6 +74,8 @@ class Projet < ActiveRecord::Base
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
 
+  attr_accessor :accepts
+
   before_create do
     self.plateforme_id = Time.now.to_i
   end
@@ -78,7 +86,9 @@ class Projet < ActiveRecord::Base
   scope :with_demandeur, -> { joins(:occupants).where('occupants.demandeur = true').distinct  }
   scope :for_agent, ->(agent) {
     if agent.instructeur?
-      with_demandeur
+      joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id').with_demandeur
+    elsif agent.siege?
+      all
     else
       joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
     end
@@ -97,7 +107,7 @@ class Projet < ActiveRecord::Base
   end
 
   def accessible_for_agent?(agent)
-    agent.instructeur? || intervenants.include?(agent.intervenant)
+    agent.instructeur? || intervenants.include?(agent.intervenant) || agent.siege?
   end
 
   def clean_numero_fiscal
@@ -286,11 +296,19 @@ class Projet < ActiveRecord::Base
     previous_pris = invited_pris
     return if previous_pris == pris
 
-    invitation = Invitation.new(projet: self, intervenant: pris)
-    invitation.save!
-    notify_intervenant_of(invitation)
+    invitation = Invitation.create! projet: self, intervenant: pris
+    notify_intervenant_of invitation
 
     invitations.where(intervenant: previous_pris).first.try(:destroy!)
+  end
+
+  def invite_instructeur!(instructeur)
+    previous_instructeur = invited_instructeur
+    return if previous_instructeur == instructeur
+
+    Invitation.create! projet: self, intervenant: instructeur
+
+    invitations.where(intervenant: previous_instructeur).first.try(:destroy!)
   end
 
   def notify_intervenant_of(invitation)
@@ -316,8 +334,8 @@ class Projet < ActiveRecord::Base
   end
 
   def transmettre!(instructeur)
-    invitation = Invitation.new(projet: self, intermediaire: operateur, intervenant: instructeur)
-    if invitation.save
+    invitation = invitations.find_by(intervenant: instructeur)
+    if invitation.update(intermediaire: operateur)
       self.statut = :transmis_pour_instruction
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
       ProjetMailer.accuse_reception(self).deliver_later!
@@ -358,7 +376,7 @@ class Projet < ActiveRecord::Base
     end
   end
 
-  def status_for_operateur
+  def status_for_intervenant
     return if statut.blank?
     statuses_map = {
       prospect:                :prospect,
@@ -383,31 +401,44 @@ class Projet < ActiveRecord::Base
         'État',
         'Depuis',
       ]
-      titles.insert 6, 'Agent opérateur'   if agent.instructeur? || agent.operateur?
-      titles.insert 4, 'Agent instructeur' if agent.instructeur? || agent.operateur?
-      titles.insert 2, 'Département'       if agent.operateur?
-      titles.insert 2, 'Région'            if agent.operateur?
-      titles.insert 1, 'Identifiant OPAL'  if agent.instructeur? || agent.operateur?
+      titles.insert 6, 'Agent opérateur'   if agent.siege? || agent.instructeur? || agent.operateur?
+      titles.insert 4, 'Agent instructeur' if agent.siege? || agent.instructeur? || agent.operateur?
+      titles.insert 2, 'Département'       if agent.siege? || agent.operateur?
+      titles.insert 2, 'Région'            if agent.siege? || agent.operateur?
+      titles.insert 1, 'Identifiant OPAL'  if agent.siege? || agent.instructeur? || agent.operateur?
       csv << titles
       Projet.for_agent(agent).each do |projet|
         line = [
           projet.numero_plateforme,
-          projet.demandeur.fullname,
+          projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
           projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
-          I18n.t(projet.status_for_operateur, scope: "projets.statut"),
+          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
-        line.insert 6, projet.agent_operateur.try(:fullname)   if agent.instructeur? || agent.operateur?
-        line.insert 4, projet.agent_instructeur.try(:fullname) if agent.instructeur? || agent.operateur?
-        line.insert 2, projet.adresse.try(:departement)        if agent.operateur?
-        line.insert 2, projet.adresse.try(:region)             if agent.operateur?
-        line.insert 1, projet.opal_numero                      if agent.instructeur? || agent.operateur?
+        line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
+        line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
+        line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?
+        line.insert 2, projet.adresse.try(:region)             if agent.siege? || agent.operateur?
+        line.insert 1, projet.opal_numero                      if agent.siege? || agent.instructeur? || agent.operateur?
         csv << line
       end
     end
     utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
+  end
+
+  def is_anonymized_for?(intervenant)
+    if intervenant.pris?
+      statut.to_sym != :prospect
+    elsif intervenant.instructeur?
+      STATUSES.split(:transmis_pour_instruction).first.include? statut.to_sym
+    elsif intervenant.operateur?
+      invitation = invitations.find_by(intervenant: intervenant)
+      invitation.suggested && !invitation.contacted && invitation.intervenant != operateur
+    else
+      false
+    end
   end
 end

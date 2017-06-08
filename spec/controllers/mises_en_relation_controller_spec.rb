@@ -1,16 +1,17 @@
 require 'rails_helper'
 require 'support/mpal_helper'
+require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
+require 'support/rod_helper'
 
 describe MisesEnRelationController do
   let(:projet) { create :projet, :prospect }
 
-  before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
-  end
+  before(:each) { authenticate_as_project(projet.id) }
 
   describe "#show" do
     before do
+      create :pris
       get :show, projet_id: projet.id
     end
 
@@ -22,40 +23,77 @@ describe MisesEnRelationController do
 
   describe "#update" do
     context "quand les paramètres sont valides" do
-      let(:pris) { create :pris }
+      context "sans opérations programmées" do
+        before do
+          patch :update, {
+            projet_id: projet.id,
+            projet: {
+              disponibilite: 'plutôt le matin'
+            }
+          }
+          projet.reload
+        end
 
-      before do
-        patch :update, {
-          projet_id: projet.id,
-          projet: {
-            disponibilite: 'plutôt le matin'
-          },
-          intervenant: pris.id
-        }
-        projet.reload
+        it "met à jour le projet et invite le PRIS et l'instructeur" do
+          expect(projet.disponibilite).to eq "plutôt le matin"
+          expect(projet.invited_pris).to be_present
+          expect(projet.invited_instructeur).to be_present
+        end
+
+        it "redirige vers la page principale du projet" do
+          expect(response).to redirect_to projet_path(projet)
+          expect(flash[:notice_titre]).to eq I18n.t('invitations.messages.succes_titre')
+          expect(flash[:notice]).to eq I18n.t('invitations.messages.succes', intervenant: projet.invited_pris.raison_sociale)
+        end
       end
 
-      it "met à jour le projet" do
-        expect(projet.disponibilite).to eq "plutôt le matin"
-        expect(projet.invited_pris).to eq pris
+      context "avec une seule opération programmée avec un opérateur" do
+        before do
+          Fakeweb::Rod.register_query_for_success_with_operation
+          patch :update, {
+            projet_id: projet.id,
+            projet: {
+              disponibilite: 'plutôt le matin'
+            }
+          }
+          projet.reload
+        end
+
+        it "met à jour le projet, n'invite pas le PRIS et invite l'instructeur" do
+          expect(projet.disponibilite).to eq "plutôt le matin"
+          expect(projet.invited_pris).not_to be_present
+          expect(projet.invited_instructeur).to be_present
+        end
       end
 
-      it "redirige vers la page principale du projet" do
-        expect(response).to redirect_to projet_path(projet)
-        expect(flash[:notice_titre]).to eq I18n.t('invitations.messages.succes_titre')
-        expect(flash[:notice]).to eq I18n.t('invitations.messages.succes', intervenant: pris.raison_sociale)
-      end
-    end
+      context "quand il y a plusieurs opérations programmées" do
+        before do
+          Fakeweb::Rod.register_query_for_success_with_operations
+          patch :update, {
+            projet_id: projet.id,
+            projet: {
+              disponibilite: 'plutôt le matin'
+            }
+          }
+          projet.reload
+        end
 
-    context "quand une erreur se produit lors de l'enregistrement" do
-      it "affiche une erreur" do
-        patch :update, {
-          projet_id: projet.id,
-          projet: nil,
-          intervenant_id: nil
-        }
-        expect(response).to redirect_to projet_mise_en_relation_path(projet)
-        expect(flash[:alert]).to eq I18n.t('demarrage_projet.mise_en_relation.error')
+        it "met à jour le projet et invite le PRIS et l'instructeur" do
+          expect(projet.disponibilite).to eq "plutôt le matin"
+          expect(projet.invited_pris).to be_present
+          expect(projet.invited_instructeur).to be_present
+        end
+      end
+
+      context "quand une erreur se produit lors de l'enregistrement" do
+        it "affiche une erreur" do
+          patch :update, {
+            projet_id: projet.id,
+            projet: nil,
+          }
+          expect(response).to redirect_to projet_mise_en_relation_path(projet)
+          expect(flash[:alert]).to eq I18n.t('demarrage_projet.mise_en_relation.error')
+        end
       end
     end
   end

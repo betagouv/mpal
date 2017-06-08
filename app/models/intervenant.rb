@@ -4,6 +4,7 @@ class Intervenant < ActiveRecord::Base
   has_many :projets, through: :invitations
   has_many :agents
 
+  has_and_belongs_to_many :operations, order: :id
   has_and_belongs_to_many :suggested_on_projets, class_name: 'Projet', join_table: 'suggested_operateurs'
 
   validates :raison_sociale, presence: true
@@ -52,5 +53,13 @@ class Intervenant < ActiveRecord::Base
 
   def pris?
     (roles || []).include?('pris')
+  end
+
+  def siege?
+    (roles || []).include?('siege')
+  end
+
+  def dreal?
+    (roles || []).include?('dreal')
   end
 end

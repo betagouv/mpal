@@ -1,4 +1,4 @@
-= form_for @projet_courant, url: {controller: 'choix_operateur', action: 'choose'}, method: 'patch', html: { class:'ui form'}  do |f|
+= simple_form_for @projet_courant, url: {controller: 'choix_operateur', action: 'choose'}, method: 'patch', html: { class:'ui form'}  do |f|
     <div>
       section.intervenant
         h2 = t('choix_operateur.title')
@@ -26,10 +26,11 @@
                 h3= operateur.raison_sociale
                 p= operateur.description_adresse
                 = btn tag: :div, name: t('projets.visualisation.invitation_intervenant')
-        - else
+          hr/
+        - elsif @projet_courant.invited_pris.present?
           p.chapo
             strong Le Point Rénovation Info-Service de votre département n’a pas encore recommandé d’opérateurs pour vous accompagner dans votre démarche.
-        hr/
+          hr/
         - if @other_operateurs.present?
           p.chapo
             | Vous pouvez également choisir parmi les autres opérateurs suivants :
@@ -41,6 +42,6 @@
                   p= operateur.description_adresse
                   = btn tag: :a, name: t('projets.visualisation.invitation_intervenant')
           hr/
-        = render 'mises_en_relation/disponibilite_form'
+        = render 'mises_en_relation/disponibilite_form', simple_form_builder: f
         = btn name: @action_label, class: 'btn-large btn-centered js-engagement', icon: 'ok'
     </div><!-- Workaround for allowing slim to honor the scope of the submit tag -->

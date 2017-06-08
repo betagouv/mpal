@@ -1,9 +1,9 @@
 require 'support/api_particulier_helper'
 
 def signin(numero_fiscal, reference_avis)
-  visit new_session_path
-  fill_in :numero_fiscal,  with: numero_fiscal
-  fill_in :reference_avis, with: reference_avis
+  visit projets_new_path
+  fill_in :projet_numero_fiscal,  with: numero_fiscal
+  fill_in :projet_reference_avis, with: reference_avis
   choose 'Oui'
   find('.js-login-btn').click
 end

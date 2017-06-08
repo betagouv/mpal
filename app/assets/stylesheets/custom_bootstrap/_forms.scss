@@ -229,7 +229,6 @@ select.form-control-lg {
     margin-bottom: $form-check-margin-bottom;
 
     label {
-      padding-left: $form-check-input-gutter;
       margin-bottom: 0; // Override default `<label>` bottom margin
       cursor: pointer;
     }
@@ -248,7 +247,7 @@ select.form-control-lg {
 
   .form-check-input {
     &:only-child {
-      margin-right: 5px;
+      margin-right: 0.5em;
     }
   }
 }

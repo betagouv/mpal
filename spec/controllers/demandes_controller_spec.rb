@@ -5,9 +5,7 @@ require 'support/api_ban_helper'
 describe DemandesController do
   let(:projet) { create :projet, :prospect, demande: nil }
 
-  before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
-  end
+  before(:each) { authenticate_as_project(projet.id) }
 
   describe "#show" do
     before do
@@ -31,7 +29,7 @@ describe DemandesController do
         }
         projet.demande.reload
         expect(projet.demande.changement_chauffage).to be true
-        expect(response).to redirect_to projet_mise_en_relation_path(projet)
+        expect(response).to redirect_to new_user_registration_path
         expect(flash[:alert]).to be_blank
       end
     end

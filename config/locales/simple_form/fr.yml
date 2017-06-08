@@ -19,6 +19,7 @@ fr:
       default_message: "Merci de corriger les problèmes suivants :"
     labels:
       defaults:
+        accepts: "J’accepte les informations ci-dessus"
         active: "Actif"
         address: "Adresse"
         birthday: "Date de naissance"
@@ -29,15 +30,17 @@ fr:
         country: "Pays"
         created_at: "Créé le"
         description: "Description"
-        email: "Adresse email"
+        email: "Adresse e-mail"
         first_name: "Prénom"
         last_name: "Nom"
         login: "Identifiant"
         name: "Nom"
         nom: "Nom"
         password: "Mot de passe"
+        password_confirmation: "Vérification du mot de passe"
         phone: "Téléphone"
         prenom: "Prénom"
+        remember_me: "Se souvenir de moi"
         result_per_page: "Résultats"
         tel: "Téléphone"
         updated_at: "Dernière modification le"
@@ -51,11 +54,12 @@ fr:
         lien_avec_demandeur: "Lien avec le demandeur"
       projet:
         adresse_postale: "Adresse postale"
-        adresse_a_renover: "Adresse à rénover"
+        adresse_a_renover: "Adresse du bien à rénover si différente"
         date_de_visite: "Date de visite"
         demandeur: "Prénom et nom"
         etage: "Votre étage"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
+        future_birth: "Enfant(s) à naître"
         nb_pieces: "Nombre de pièces"
         surface_habitable: "Surface habitable"
         theme_ids: "Types d’interventions"
@@ -68,6 +72,8 @@ fr:
         accessibilite: "Vous avez des difficultés dans les escaliers"
         hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
         adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
+        arrete: "Votre logement (immeuble) fait l’objet d’un arrêté : insalubrité, péril, travaux de sécurité"
+        saturnisme: "Vous disposez d’un justificatif de saturnisme"
         autre: "Autre"
         # Travaux
         travaux_fenetres: "Fenêtres"
@@ -94,4 +100,3 @@ fr:
         date_de_naissance: "JJ/MM/AAAA"
       personne:
         lien_avec_demandeur: "Enfant, voisin…"
-

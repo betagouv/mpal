@@ -1,15 +1,15 @@
 class MisesEnRelationController < ApplicationController
   layout 'inscription'
 
-  before_action :projet_or_dossier
   before_action :assert_projet_courant
-  before_action :authentifie
 
   def show
     @demande = @projet_courant.demande
-    @pris_departement = @projet_courant.intervenants_disponibles(role: :pris).first
-    if @pris_departement.blank?
-      raise "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement}"
+    @non_eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) == :plafond_depasse
+    fetch_intervenants_and_operations
+    if @pris.blank?
+      Rails.logger.error "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement} (projet_id: #{@projet_courant.id})"
+      return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)
     end
     @page_heading = 'Inscription'
     @action_label = action_label
@@ -18,12 +18,13 @@ class MisesEnRelationController < ApplicationController
   def update
     begin
       @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
-      intervenant = Intervenant.find_by_id(params[:intervenant])
-      unless @projet_courant.intervenants.include? intervenant
-        @projet_courant.invite_pris!(intervenant)
+      fetch_intervenants_and_operations
+      unless @projet_courant.intervenants.include?(@pris) || (@operations.count == 1 && @operateurs.count == 1)
+        @projet_courant.invite_pris!(@pris)
         flash[:notice_titre] = t('invitations.messages.succes_titre')
-        flash[:notice] = t('invitations.messages.succes', intervenant: intervenant.raison_sociale)
+        flash[:notice] = t('invitations.messages.succes', intervenant: @pris.raison_sociale)
       end
+      @projet_courant.invite_instructeur! @instructeur
       redirect_to projet_path(@projet_courant)
     rescue => e
       logger.error e.message
@@ -32,6 +33,20 @@ class MisesEnRelationController < ApplicationController
   end
 
 private
+  def fetch_intervenants_and_operations
+    if ENV['ROD_ENABLED'] == 'true'
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      @pris        = rod_response.pris
+      @instructeur = rod_response.instructeur
+      @operateurs  = rod_response.operateurs
+      @operations  = rod_response.operations
+    else
+      @pris        = @projet_courant.intervenants_disponibles(role: :pris).first
+      @instructeur = @projet_courant.intervenants_disponibles(role: :instructeur).first
+      @operateurs  = []
+      @operations  = []
+    end
+  end
 
   def action_label
     if needs_mise_en_relation?

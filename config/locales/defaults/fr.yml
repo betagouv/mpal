@@ -6,9 +6,8 @@ fr:
         demandeur_prenom: Prénom
         email: Email
         adresse: Adresse
-        adresse_logement: "Adresse du logement à rénover si différente"
+        adresse_logement: "Adresse du bien à rénover si différente"
         tel: Téléphone
-        disponibilite: "À quel moment souhaitez-vous être contacté ?"
       personne:
         nom: 'Nom'
         prenom: Prénom
@@ -111,8 +110,9 @@ fr:
       departement_non_eligible:
         title: Désolé, les logements dans votre département ne sont pas encore éligibles
         sorry:
-          one:   "Nous sommes désolés, mais ce site n’est pour l’instant disponible que dans un seul département (le %{departement})."
-          other: "Nous sommes désolés, mais ce site n’est pour l’instant disponible que dans %{count} départements (les %{departements})."
+          zero:  "Nous sommes désolés, mais ce service n’est pour l’instant pas disponible dans votre département."
+          one:   "Nous sommes désolés, mais ce service n’est pour l’instant disponible que dans un seul département (le %{departement})."
+          other: "Nous sommes désolés, mais ce service n’est pour l’instant disponible que dans %{count} départements (les %{departements})."
         please_contact_pris: "Pour déposer votre demande d’aides, nous vous recommandons de contacter le Point Rénovation Info Service de votre département, qui pourra vous conseiller pour remplir votre demande."
         action: "Contacter un Point Rénovation Info Service"
 
@@ -150,8 +150,13 @@ fr:
       assignement_pris_titre: "Un contact pour vous aider"
       non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée"
       un_pris_va_vous_contacter: "Le Point Rénovation Info Service de votre département, « %{pris} », va vous contacter prochainement."
-      disponibilite_placeholder: "Le matin, entre 8h et 11h"
+      to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
+      disponibilite_placeholder: "Par exemple : Le matin, entre 8h et 11h"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+    # ----------------------- Compte utilisateur -------------------
+    users:
+      section_name: "Identifiants"
+      explanations: "Choisissez un mot de passe pour pouvoir suivre l’avancement de votre dossier. Ce seront vos identifiants de connexion."
 
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
@@ -209,7 +214,7 @@ fr:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
-      confirmation: "J’ai lu, j’accepte les informations ci-dessus et je confirme cette adresse email"
+      confirmation: "J’ai lu, j’accepte les informations ci-dessus"
       messages:
         succes_depot_document: 'Votre document a été ajouté au projet avec succès'
         erreur_depot_document: "Une erreur est survenue. Votre document n’a pas été ajouté au projet"
@@ -242,8 +247,7 @@ fr:
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
-        titre: 'Félicitations'
-        corps: Votre projet démarre aujourd’hui.
+        corps: Félicitations ! Votre projet démarre aujourd’hui.
     visualisation:
       lien_edition_projet: 'Modifier le projet'
       lien_edition: 'Modifier'
@@ -252,6 +256,7 @@ fr:
       invitation_relance_intervenant: "Je relance l’intervenant"
       le_pris_selectionne_des_operateurs: "Le Point Rénovation Info-Service de votre département est en train de faire une sélection d’opérateurs recommandés pour votre projet."
       le_pris_a_recommande_des_operateurs: "Le Point Rénovation Info-Service de votre département vous a recommandé des opérateurs pour vous accompagner dans votre projet."
+      select_operator_without_pris: "Vous pouvez dès à present contacter un opérateur qui vous aidera à constituer votre dossier."
       mise_en_relation_intervenant: "Je mets en relation"
       choisir_operateur: "Contacter un opérateur"
       choisir_operateur_recommande: "Choisir un des opérateurs recommandés"
@@ -261,6 +266,7 @@ fr:
       remplir_le_projet: "Je remplis le projet"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
+      future_birth: "Enfant(s) à naître dans le foyer"
       titre_infos_demandeur: "Mes infos"
       titre_identification_demandeur: "Identification du demandeur"
       titre_liste_occupants: "Liste des occupants"
@@ -305,6 +311,10 @@ fr:
       changer: 'Contacter cet autre opérateur'
     erreurs:
       changement_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur."
+
+  # ----------------------- Proposer un dossier ---------------------
+  notification_validation_dossier:
+    succes: 'La proposition a bien été envoyée au demandeur'
 
   # ----------------------- Invitation d’un intervenant ---------------------
   invitations:
@@ -388,10 +398,18 @@ fr:
       explication_html: "<b>Choisir un intervenant vous engage</b><p>L’opérateur est chargé de vous conseiller tout au long de la démarche. Il vous accompagne danss l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.</p><p>Lorsqu’une subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de la subvention.</p><p>Cette prestation payante peut être totalement ou opartiellement couverte par le complément de subvention qui complète la subvention pour travaux"
       action: "Je choisis cet opérateur"
 
+  # --------------------------- Admin --------------------------------
+
   admin:
     intervenants:
       importer_fichier: "Importer le fichier"
       import_reussi: "Les intervenants ont été importés."
+
+  # ---------------------------- Aide --------------------------------
+  help:
+    button:
+      label: "?"
+      tooltip: "Un problème, une question ? Demandez de l’aide !"
 
   # ---------------------- Active Record -----------------------------
   activerecord:
@@ -405,6 +423,7 @@ fr:
         date_de_visite: "La date de visite du logement"
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
+        disponibilite: "À quel moment souhaitez-vous être contacté ?"
       occupant:
         civilite: "La civilité"
         nom: "Nom"

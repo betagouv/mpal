@@ -1,0 +1,40 @@
+@import "variables";
+
+.header {
+  margin-bottom: 2em;
+}
+.header__top-links {
+  margin-bottom: 1em;
+}
+.header__top-link {
+  text-decoration: underline;
+  &:hover {
+    text-decoration: underline;
+    color: $color-primary;
+  }
+}
+.header__logos {
+  @extend .clearfix;
+}
+.header__logo {
+  float: left;
+}
+.header__logo--anah {
+  //width: 93px;
+  height: 60px;
+  @media screen and (min-width: 820px) {
+    width: 93px;
+    height: 80px;
+  }
+}
+.header__logo--rf {
+  //width: 255px;
+  height: 60px;
+  margin-left: 1em;
+  @media screen and (min-width: 820px) {
+    width: 255px;
+    height: 80px;
+    margin-left: 3em;
+  }
+}
+

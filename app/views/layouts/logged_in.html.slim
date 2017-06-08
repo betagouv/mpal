@@ -8,9 +8,10 @@
           section
             = link_to t('tableau_de_bord.titre_section'), dossiers_path
         section.personal-information
-          h2
-            span.firstname= @projet_courant.demandeur.prenom
-            span.lastname<= @projet_courant.demandeur.nom
+          - if @projet_courant.demandeur
+            h2
+              span.firstname= @projet_courant.demandeur.prenom
+              span.lastname<= @projet_courant.demandeur.nom
           ul
             - if @projet_courant.tel.present?
               li= @projet_courant.tel

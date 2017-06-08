@@ -5,9 +5,7 @@ require 'support/mpal_helper'
 describe AvisImpositionsController do
   let(:projet) { create :projet }
 
-  before(:each) do
-    authenticate_as_particulier(projet.numero_fiscal)
-  end
+  before(:each) { authenticate(projet.id) }
 
   describe "#new" do
     it "affiche le formulaire d'ajout d'un avis" do

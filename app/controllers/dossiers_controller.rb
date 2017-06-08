@@ -2,11 +2,14 @@ class DossiersController < ApplicationController
   include ProjetConcern, CsvProperties
 
   before_action :authenticate_agent!
-  before_action :projet_or_dossier
   before_action :assert_projet_courant, except: [:index, :indicateurs]
 
   def index
-    @dossiers = Projet.for_agent(current_agent)
+    if current_agent.siege?
+      @dossiers = Projet.all
+    else
+      @invitations = Invitation.where(intervenant_id: current_agent.intervenant.id).includes(:projet)
+    end
     respond_to do |format|
       format.html {
         @page_heading = I18n.t('tableau_de_bord.titre_section')
@@ -14,9 +17,13 @@ class DossiersController < ApplicationController
       format.csv {
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render text: Projet.to_csv(current_agent)
+        return render text: Projet.to_csv(current_agent)
       }
     end
+    return render "dossiers/dashboard_siege"       if current_agent.siege?
+    return render "dossiers/dashboard_operateur"   if current_agent.operateur?
+    return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
+    render "dossiers/dashboard_pris"
   end
 
   def affecter_agent
@@ -77,7 +84,7 @@ class DossiersController < ApplicationController
       end
     end
 
-    @available_operateurs = @projet_courant.intervenants_disponibles(role: :operateur).to_a
+    @available_operateurs = fetch_operateurs.to_a
     if @projet_courant.pris_suggested_operateurs.blank? && !request.post?
       @available_operateurs.shuffle!
     end
@@ -88,19 +95,35 @@ class DossiersController < ApplicationController
   end
 
   def indicateurs
-    unless current_agent.instructeur?
+    @page_heading = 'Indicateurs'
+
+    if current_agent.instructeur?
+      departements = current_agent.intervenant.departements
+      projets = departements.map { |d| Projet.all.select { |p| p.adresse.try(:departement) == d } }.flatten
+
+      all_projets_status = projets.map(&:status_for_intervenant)
+      @projets_count = projets.count
+      status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
+      @projets = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
+    elsif current_agent.siege?
+      all_projets_status = Projet.all.map(&:status_for_intervenant)
+      @projets_count = all_projets_status.count
+      status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
+      @projets = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
+    else
       redirect_to dossiers_path, alert: t('sessions.access_forbidden')
     end
-    @all_projets = Projet.all
-    @all_prospect = Projet.where(statut: 0)
-    @all_en_cours = Projet.where(statut: 1)
-    @all_proposition_enregistree = Projet.where(statut: 2)
-    @all_proposition_proposee = Projet.where(statut: 3)
-    @all_transmis_pour_instruction = Projet.where(statut: 5)
-    @all_en_cours_d_instruction = Projet.where(statut: 6)
   end
 
 private
+  def fetch_operateurs
+    if ENV['ROD_ENABLED'] == 'true'
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      rod_response.operateurs
+    else
+      @projet_courant.intervenants_disponibles(role: :operateur)
+    end
+  end
 
   def assign_projet_if_needed
     if !@projet_courant.agent_operateur && current_agent
@@ -132,7 +155,7 @@ private
                         :suggested_operateur_ids => [],
                         :prestation_choices_attributes => [:prestation_id, :desired, :recommended, :selected],
                         :projet_aides_attributes => [:aide_id, :localized_amount],
-                        :demande => [:annee_construction],
+                        :demande_attributes => [:annee_construction],
                 )
     clean_projet_aides(attributs)
     clean_prestation_choices(attributs)

@@ -1,0 +1,61 @@
+- content_for :popins do
+  #numero-fiscal.popin.popin--numero-fiscal
+    .popin__container
+      = image_tag "numero-fiscal.png", class: "popin__image popin__image--numero-fiscal"
+      p.popin__p Le numéro fiscal est un identifiant unique composé de 13 chiffres.
+      p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
+      p.popin__p.popin__p--centered
+        = btn name: "Fermer", href: "#", class: "popin__close"
+  #reference-avis.popin.popin--reference-avis
+    .popin__container
+      = image_tag "reference-avis.png", class: "popin__image popin__image--reference-avis"
+      p.popin__p La référence de l’avis est un identifiant unique composé de 13 caractères.
+      p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
+      p.popin__p.popin__p--centered
+        = btn name: "Fermer", href: "#", class: "popin__close"
+
+section.new-project
+  h1.new-project__heading-projet Remplir mon dossier
+  p.new-project__links
+    = link_to "J’ai déjà un dossier", new_user_session_path, class: "new-project__link"
+  p.new-project__commentaire Tous les champs sont obligatoires
+
+  = simple_form_for @projet, html: { id: "js-login-form", class: "form" } do |f|
+    = render "shared/errors", resource: @projet
+    
+    p.new-project__label.new-project__label--p.new-project__label--first Êtes-vous propriétaire de votre résidence principale ?
+    - proprietaire = params[:proprietaire] == "1"
+    label.new-project__proprietaire-label for="lab-proprietaire-yes"
+      = radio_button_tag "proprietaire", "1", proprietaire, class: "new-project__proprietaire-input", id: "lab-proprietaire-yes"
+      | Oui
+    label.new-project__proprietaire-label for="lab-proprietaire-no"
+      = radio_button_tag "proprietaire", "0", !proprietaire, class: "new-project__proprietaire-input", id: "lab-proprietaire-no"
+      | Non
+    br/
+    
+    .labeled-info-point
+      = f.label :numero_fiscal
+      a.info-point.info-point--light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
+    = f.input :numero_fiscal, wrapper_html: { class: "size-m" }, required: true, label: false
+
+    .labeled-info-point
+      = f.label :reference_avis
+      a.info-point.info-point--light.js-popin data-target="#reference-avis" title="Où trouver la référence de l’avis ?" ?
+    = f.input :reference_avis, wrapper_html: { class: "size-m" }, required: true, label: false
+
+    .new-project__mentions
+      = check_box_tag "autorisation", "1", params[:autorisation], class: "new-project__mentions-input js-engagement", id: "lab-rfr"
+      label.new-project__mentions-label-projet for="lab-rfr"
+        | J’autorise l’
+        abbr.new-project__mentions-abbr-projet title=("Agence nationale de l’habitat") Anah
+        |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon 
+        abbr.new-project__mentions-abbr-projet title=("Revenu fiscal de référence") RFR
+    = btn name: t("sessions.commencer"), class: "new-project__btn js-login-btn js-engagement", icon: "ok"
+
+  - if Tools.demo?
+    section.login-demo
+      = render 'demo_actions'
+      - if ENV['DISPLAY_DEMO_CREDENTIALS'] == 'true'
+        = render 'demo_credentials'
+      - else
+        = render 'staging_credentials'

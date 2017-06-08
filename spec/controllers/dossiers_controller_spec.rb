@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/mpal_helper'
+require 'support/rod_helper'
 
 describe DossiersController do
   context "en tant qu'agent, si je ne suis pas connecté" do
@@ -19,8 +20,7 @@ describe DossiersController do
     end
   end
 
-  context "en tant qu'opérateur connecté" do
-    describe "#proposition" do
+  describe "#proposition" do
       let!(:prestation_1) { create :prestation }
       let!(:prestation_2) { create :prestation }
       let!(:prestation_3) { create :prestation }
@@ -29,6 +29,7 @@ describe DossiersController do
 
       before(:each) { authenticate_as_agent projet.agent_operateur }
 
+    context "en tant qu'opérateur connecté" do
       context "si aucune prestation n'était retenue" do
         it "je définis des prestations souhaitées/préconisées/retenues" do
           projet_params = {
@@ -88,6 +89,22 @@ describe DossiersController do
         end
       end
 
+      it "sauvegarder l'année de construction si elle est modifiée" do
+        projet_params = {
+          prestation_choices_attributes: {
+            '1' => { id: '', prestation_id: prestation_1.id, recommended: true },
+          },
+          demande_attributes: {
+            annee_construction: "1980"
+          }
+        }
+        put :proposition, dossier_id: projet.id, projet: projet_params
+        projet.reload
+
+        expect(projet.prestation_choices.count).to eq 1
+        expect(projet.demande.annee_construction).to eq 1980
+      end
+
       it "je ne peux pas créer de doublon" do
         projet_params = {
           prestation_choices_attributes: {
@@ -108,56 +125,8 @@ describe DossiersController do
     end
   end
 
-  context "en tant qu'instructeur connecté non affecté à un projet" do
-    let(:instructeur)       { create :instructeur }
-    let(:agent_instructeur) { create :agent, :instructeur, intervenant: instructeur }
-    before { authenticate_as_agent agent_instructeur }
-
-    describe "#indicateurs" do
-      it "je peux accéder aux indicateurs" do
-        get :indicateurs
-        expect(response).to render_template(:indicateurs)
-      end
-    end
-
-    describe "#indicateurs" do
-      before do
-        create :projet, :proposition_enregistree
-        create :projet, :en_cours
-        create :projet, :en_cours
-      end
-
-      it "je peux voir la liste des projets" do
-        get :indicateurs
-
-        expect(assigns(:all_projets).count).to eq 3
-        expect(assigns(:all_prospect).count).to eq 0
-        expect(assigns(:all_en_cours).count).to eq 2
-        expect(assigns(:all_proposition_enregistree).count).to eq 1
-        expect(assigns(:all_proposition_proposee).count).to eq 0
-        expect(assigns(:all_transmis_pour_instruction).count).to eq 0
-        expect(assigns(:all_en_cours_d_instruction).count).to eq 0
-      end
-    end
-  end
-
-  context "si je suis utilisateur connecté non affecté à un projet" do
-    let(:operateur)       { create :operateur }
-    let(:agent_operateur) { create :agent, :operateur, intervenant: operateur }
-    before { authenticate_as_agent agent_operateur }
-
-
-    context "quand j'essaie d'accéder aux indicateurs" do
-      subject { get :indicateurs }
-      it { is_expected.to redirect_to(dossiers_path()) }
-    end
-  end
-
-  context "en tant qu'opérateur connecté affecté à un projet" do
-    let(:projet)  { create :projet, :proposition_enregistree }
-    before(:each) { authenticate_as_agent projet.agent_operateur }
-
-    describe "#proposer" do
+  describe "#proposer" do
+    context "en tant qu'opérateur connecté affecté à un projet" do
       let(:projet)  { create :projet, :proposition_enregistree }
       before(:each) { authenticate_as_agent projet.agent_operateur }
 
@@ -181,5 +150,75 @@ describe DossiersController do
         end
       end
     end
+  end
+
+  describe "#indicateurs" do
+    before { authenticate_as_agent current_agent }
+
+    context "si je suis agent opérateur connecté" do
+      let(:operateur)     { create :operateur }
+      let(:current_agent) { create :agent, :operateur, intervenant: operateur }
+
+      context "je ne peux pas accéder aux indicateurs" do
+        subject { get :indicateurs }
+        it { is_expected.to redirect_to(dossiers_path()) }
+      end
+    end
+
+    context "en tant qu'instructeur connecté" do
+      let(:instructeur)   { create :instructeur }
+      let(:current_agent) { create :agent, :instructeur, intervenant: instructeur }
+
+      it "je peux accéder aux indicateurs" do
+        get :indicateurs
+        expect(response).to render_template(:indicateurs)
+      end
+
+      context "si je suis affecté à un projet" do
+        let(:other_department_project) { create :projet, :en_cours }
+
+        before do
+          create :projet, :proposition_proposee, agent_instructeur: current_agent, email: "prenom.nom2@site.com"
+          create :projet, :proposition_enregistree,   email: "prenom.nom3@site.com"
+          create :projet, :en_cours_d_instruction,    email: "prenom.nom4@site.com"
+          create :projet, :transmis_pour_instruction, email: "prenom.nom5@site.com"
+          other_department_project.adresse.update(departement: "03")
+        end
+
+        it "je peux voir la liste des projets qui concernent mon département" do
+          get :indicateurs
+          expect(assigns(:projets_count)).to eq 4
+          expect(assigns(:projets)[:prospect]).to eq 0
+          expect(assigns(:projets)[:en_cours_de_montage]).to eq 2
+          expect(assigns(:projets)[:depose]).to eq 1
+          expect(assigns(:projets)[:en_cours_d_instruction]).to eq 1
+        end
+      end
+    end
+
+    context "en tant que ANAH Siège connecté non affecté à un projet" do
+      let(:siege)         { create :siege }
+      let(:current_agent) { create :agent, :siege, intervenant: siege }
+      let(:projet_01)     { create :projet, :proposition_proposee }
+      let(:projet_34)     { create :projet, :en_cours, email: "prenom.nom2@site.com" }
+      let(:projet_56)     { create :projet, :en_cours, email: "prenom.nom3@site.com" }
+
+      before do
+        projet_01.adresse.update(departement: "01")
+        projet_34.adresse.update(departement: "34")
+        projet_56.adresse.update(departement: "56")
+      end
+
+      it "je peux voir la liste de tous les projets dans la page indicateurs" do
+        get :indicateurs
+        expect(response).to render_template(:indicateurs)
+        expect(assigns(:projets_count)).to eq 3
+        expect(assigns(:projets)[:prospect]).to eq 0
+        expect(assigns(:projets)[:en_cours_de_montage]).to eq 3
+        expect(assigns(:projets)[:depose]).to eq 0
+        expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
+      end
+    end
+
   end
 end

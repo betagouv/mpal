@@ -1,9 +1,7 @@
 class TransmissionController < ApplicationController
   layout 'inscription'
 
-  before_action :projet_or_dossier
   before_action :assert_projet_courant
-  before_action :authentifie
   before_action :init_view
 
   def new
@@ -11,16 +9,7 @@ class TransmissionController < ApplicationController
   end
 
   def create
-    email = params[:projet][:email]
-    if email.blank?
-      return redirect_to projet_transmission_path(@projet_courant), alert: t('projets.transmission.messages.validation_email_vide')
-    end
-
-    unless @projet_courant.update(email: email)
-      return redirect_to projet_transmission_path(@projet_courant), alert: t('projets.transmission.messages.validation_email')
-    end
-
-    instructeur = Intervenant.instructeur_pour(@projet_courant)
+    instructeur = @projet_courant.invited_instructeur
     if @projet_courant.transmettre!(instructeur)
       infos = [instructeur.raison_sociale, instructeur.adresse_postale, instructeur.phone].reject(&:blank?)
       redirect_to projet_path(@projet_courant), notice: t('projets.transmission.messages.success', instructeur: infos.join(", "))
@@ -34,3 +23,4 @@ private
     @page_heading = 'Accepter la proposition'
   end
 end
+

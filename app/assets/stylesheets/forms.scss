@@ -6,7 +6,7 @@
 }
 
 .form {
-  abbr[title] {
+  .form-required-mark abbr[title] {
     position: absolute;
     left: -15px;
     text-decoration: none;
@@ -75,6 +75,9 @@
     > label {
       display: block;
     }
+  }
+  .form-check-label > input {
+    margin-right: 0.5em;
   }
   .text-muted {
     color: #888;

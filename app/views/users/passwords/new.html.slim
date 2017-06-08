@@ -1,0 +1,8 @@
+= simple_form_for resource, as: resource_name, url: password_path(resource_name), html: { class: "form" } do |f|
+  section.section.projet
+    h2.section__title= t("devise.passwords.section_name_new")
+    .section__content--no-padding
+      p.section__content-p= link_to "Me connecter", new_user_session_path, class: "section__content-link"
+      = f.input :email, required: true, autofocus: true
+      = btn name: t("devise.passwords.action"), class: "btn-large", icon: "arrow-right"
+

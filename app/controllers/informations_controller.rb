@@ -13,4 +13,3 @@ class InformationsController < ApplicationController
     @page_heading = t("menu.legal")
   end
 end
-

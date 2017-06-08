@@ -100,10 +100,28 @@ fieldset {
   background: image-url("background.jpg") 0 0 no-repeat;
   background-size: cover;
 }
+.main-container-login {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background-size: cover;
+}
 
 .centered-page {
   position: relative;
   margin: 0 auto;
+  padding: 10px 20px 0;
+  max-width: 1200px;
+  background-color: white;
+  @media screen and (min-width: 1200px) {
+    padding: 10px 30px 0;
+  }
+}
+.centered-page-projet {
+  position: relative;
+  margin: 0 auto;
+  padding: 5px;
   max-width: 1200px;
   @media screen and (min-width: 1200px) {
     padding-top: 30px;
@@ -117,12 +135,14 @@ fieldset {
   height: 30px;
   text-align: center;
   text-transform: uppercase;
-  background-color: #008cba;
+  background-color: $color-steel;
   color: white;
   padding: 5px;
   font-size: 15px;
   font-weight: bold;
-  margin-bottom: 15px;
+  @media screen and (min-width: 1200px) {
+    margin-bottom: 15px;
+  }
   @media screen and (min-width: 1200px) {
     position: absolute;
     top: 0;
@@ -154,6 +174,11 @@ fieldset {
 .logo-anah {
   display: block;
   width: 123px;
+}
+.logo-anah-projet {
+  display: block;
+  width: 123px;
+  margin: 20px 20px 20px 0;
 }
 .project-header {
   position: relative;
@@ -645,18 +670,6 @@ fieldset {
   }
 }
 
-/** FOOTER **/
-.main-footer {
-  text-align: center;
-  padding: 30px 0;
-  a {
-    color: white;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
 /** MOBILE IMPORT **/
 /** PRINT **/
 @media print {
@@ -664,3 +677,4 @@ fieldset {
     overflow: visible !important;
   }
 }
+

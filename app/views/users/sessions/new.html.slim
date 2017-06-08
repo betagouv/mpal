@@ -1,0 +1,11 @@
+= simple_form_for resource, as: resource_name, url: session_path(resource_name), html: { class: "form" } do |f|
+  section.section.projet
+    h2.section__title= t("devise.sessions.section_name")
+    .section__content--no-padding
+      p.section__content-p= link_to "Ou créer un compte", projets_new_path, class: "section__content-link"
+      = f.input :email, required: true, autofocus: true
+      = f.input :password, required: true
+      p.section__content-p= link_to "Mot de passe oublié ?", new_user_password_path, class: "section__content-link"
+      = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+      = btn name: t("sessions.nouvelle.action"), class: "btn-large", icon: "log-in"
+

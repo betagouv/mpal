@@ -1,9 +1,7 @@
 class DemandesController < ApplicationController
   layout 'inscription'
 
-  before_action :projet_or_dossier
   before_action :assert_projet_courant
-  before_action :authentifie
 
   def show
     @demande = projet_demande
@@ -43,6 +41,8 @@ private
       :accessibilite,
       :hospitalisation,
       :adaptation_salle_de_bain,
+      :arrete,
+      :saturnisme,
       :autre,
       :travaux_fenetres,
       :travaux_isolation,
@@ -68,9 +68,10 @@ private
 
   def redirect_to_next_step
     if needs_next_step?
-      redirect_to projet_mise_en_relation_path(@projet_courant)
+      redirect_to new_user_registration_path
     else
       redirect_to projet_or_dossier_path(@projet_courant)
     end
   end
 end
+

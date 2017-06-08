@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170523120121) do
+ActiveRecord::Schema.define(version: 20170608132330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -114,6 +114,8 @@ ActiveRecord::Schema.define(version: 20170523120121) do
     t.boolean "travaux_amenagement_ext"
     t.text    "travaux_autres"
     t.boolean "date_achevement_15_ans"
+    t.boolean "arrete",                   default: false, null: false
+    t.boolean "saturnisme",               default: false, null: false
   end
 
   add_index "demandes", ["projet_id"], name: "index_demandes_on_projet_id", using: :btree
@@ -156,6 +158,14 @@ ActiveRecord::Schema.define(version: 20170523120121) do
   add_index "intervenants", ["roles"], name: "index_intervenants_on_roles", using: :gin
   add_index "intervenants", ["themes"], name: "index_intervenants_on_themes", using: :gin
 
+  create_table "intervenants_operations", force: :cascade do |t|
+    t.integer "intervenant_id"
+    t.integer "operation_id"
+  end
+
+  add_index "intervenants_operations", ["intervenant_id"], name: "index_intervenants_operations_on_intervenant_id", using: :btree
+  add_index "intervenants_operations", ["operation_id"], name: "index_intervenants_operations_on_operation_id", using: :btree
+
   create_table "invitations", force: :cascade do |t|
     t.integer  "projet_id"
     t.integer  "intervenant_id"
@@ -186,6 +196,13 @@ ActiveRecord::Schema.define(version: 20170523120121) do
   end
 
   add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
+
+  create_table "operations", force: :cascade do |t|
+    t.string   "name",       default: "", null: false
+    t.string   "code_opal",  default: "", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "personnes", force: :cascade do |t|
     t.string "prenom"
@@ -230,7 +247,7 @@ ActiveRecord::Schema.define(version: 20170523120121) do
     t.datetime "updated_at"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                                                               array: true
+    t.string   "themes",                                                                                array: true
     t.integer  "nb_occupants_a_charge",                                    default: 0
     t.integer  "statut",                                                   default: 0
     t.integer  "operateur_id"
@@ -273,6 +290,8 @@ ActiveRecord::Schema.define(version: 20170523120121) do
     t.decimal  "assiette_subventionnable_amount", precision: 10, scale: 2
     t.integer  "consommation_avant_travaux"
     t.integer  "consommation_apres_travaux"
+    t.boolean  "future_birth",                                             default: false, null: false
+    t.integer  "user_id"
   end
 
   add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
@@ -282,6 +301,7 @@ ActiveRecord::Schema.define(version: 20170523120121) do
   add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
   add_index "projets", ["personne_id"], name: "index_projets_on_personne_id", using: :btree
   add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
+  add_index "projets", ["user_id"], name: "index_projets_on_user_id", using: :btree
 
   create_table "projets_themes", id: false, force: :cascade do |t|
     t.integer "projet_id"
@@ -307,12 +327,32 @@ ActiveRecord::Schema.define(version: 20170523120121) do
     t.string "libelle"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string   "email",                  default: "", null: false
+    t.string   "encrypted_password",     default: "", null: false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          default: 0,  null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.inet     "current_sign_in_ip"
+    t.inet     "last_sign_in_ip"
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
+  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
   add_foreign_key "agents", "intervenants"
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "commentaires", "projets"
   add_foreign_key "demandes", "projets"
   add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
+  add_foreign_key "intervenants_operations", "intervenants"
+  add_foreign_key "intervenants_operations", "operations"
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
@@ -326,4 +366,5 @@ ActiveRecord::Schema.define(version: 20170523120121) do
   add_foreign_key "projets", "agents", column: "agent_operateur_id"
   add_foreign_key "projets", "intervenants", column: "operateur_id"
   add_foreign_key "projets", "personnes"
+  add_foreign_key "projets", "users"
 end
