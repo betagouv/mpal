@@ -3,6 +3,8 @@ class Users::SessionsController < Devise::SessionsController
 
   layout "creation_dossier"
 
+  before_action :redirect_to_project_if_exists, only: [:new, :create]
+
   # before_action :configure_sign_in_params, only: [:create]
 
   # GET /resource/sign_in
