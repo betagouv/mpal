@@ -2,7 +2,7 @@ class ProjetsController < ApplicationController
   include ProjetConcern
 
   before_action :assert_projet_courant, except: [:new, :create]
-  before_action :assert_new_project, only: [:new, :create]
+  before_action :redirect_to_project_if_exists, only: [:new, :create]
 
   def show
     render_show
@@ -60,21 +60,6 @@ class ProjetsController < ApplicationController
   end
 
 private
-  def assert_new_project
-    projet_or_dossier
-    if current_user && current_user.projet
-      return redirect_to projet_path(current_user.projet)
-    elsif session[:project_id]
-      project = Projet.find_by_id(session[:project_id])
-      if project
-        return redirect_to projet_path(session[:project_id])
-      else
-        session.delete :project_id
-      end
-    end
-    true
-  end
-
   def param_numero_fiscal
     params[:projet][:numero_fiscal].to_s.gsub(/\D+/, '')
   end

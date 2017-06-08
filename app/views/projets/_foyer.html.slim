@@ -14,20 +14,21 @@ article.block.occupants
         span= " #{@projet_courant.annee_fiscale_reference} : "
         span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
   .content-block
-    h4 Demandeur :
-    p
-      strong
-        span.firstname= @projet_courant.demandeur.prenom
-        span.lastname<= @projet_courant.demandeur.nom
-      - if @projet_courant.adresse_postale.present?
-        br/
-        = @projet_courant.adresse_postale.description
-      - if @projet_courant.tel.present?
-        br/
-        = @projet_courant.tel
-      - if @projet_courant.email.present?
-        br/
-        = @projet_courant.email
+    - if @projet_courant.demandeur
+      h4 Demandeur :
+      p
+        strong
+          span.firstname= @projet_courant.demandeur.prenom
+          span.lastname<= @projet_courant.demandeur.nom
+        - if @projet_courant.adresse_postale.present?
+          br/
+          = @projet_courant.adresse_postale.description
+        - if @projet_courant.tel.present?
+          br/
+          = @projet_courant.tel
+        - if @projet_courant.email.present?
+          br/
+          = @projet_courant.email
     h4 Occupants :
     span= t('projets.visualisation.future_birth') if @projet_courant.future_birth
     table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
