@@ -159,21 +159,25 @@ describe Projet do
     let!(:invitation2)      { create :invitation, intervenant: operateur1, projet: projet2 }
     let!(:invitation3)      { create :invitation, intervenant: operateur2, projet: projet3 }
 
-    before { projet4.suggest_operateurs! [operateur4.id] }
+    before do
+      projet3.invite_instructeur! instructeur
+      projet4.invite_instructeur! instructeur
+      projet4.suggest_operateurs! [operateur4.id]
+    end
 
     describe "un opérateur voit les projets sur lesquels il est affecté ou recommandé" do
-      it { expect(Projet.for_agent(agent_operateur1).length).to eq(2) }
-      it { expect(Projet.for_agent(agent_operateur2).length).to eq(1) }
-      it { expect(Projet.for_agent(agent_operateur3).length).to eq(0) }
-      it { expect(Projet.for_agent(agent_operateur4).length).to eq(1) }
+      it { expect(Projet.for_agent(agent_operateur1).length).to eq 2 }
+      it { expect(Projet.for_agent(agent_operateur2).length).to eq 1 }
+      it { expect(Projet.for_agent(agent_operateur3).length).to eq 0 }
+      it { expect(Projet.for_agent(agent_operateur4).length).to eq 1 }
     end
 
     it "un instructeur voit tous les projets avec un demandeur" do
-      expect(Projet.for_agent(agent_instructeur)).to include(projet1)
-      expect(Projet.for_agent(agent_instructeur)).to include(projet2)
-      expect(Projet.for_agent(agent_instructeur)).to include(projet3)
-      expect(Projet.for_agent(agent_instructeur)).to include(projet4)
-      expect(Projet.for_agent(agent_instructeur)).not_to include(projet5)
+      expect(Projet.for_agent(agent_instructeur)).not_to include projet1
+      expect(Projet.for_agent(agent_instructeur)).not_to include projet2
+      expect(Projet.for_agent(agent_instructeur)).to     include projet3
+      expect(Projet.for_agent(agent_instructeur)).to     include projet4
+      expect(Projet.for_agent(agent_instructeur)).not_to include projet5
     end
   end
 
