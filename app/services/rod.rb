@@ -23,9 +23,14 @@ class Rod
 
 private
   def serialize_demande(projet)
+    thematiques = []
+    thematiques << "energie"     if projet.demande.blank? || projet.demande.is_about_energy?
+    thematiques << "autonomie"   if projet.demande.blank? || projet.demande.is_about_self_sufficiency?
+    thematiques << "insalubrite" if projet.demande.blank? || projet.demande.is_about_unhealthiness?
+
     {
       "adresse": projet.adresse.description,
-      "thematiques": 'energie,autonomie',
+      "thematiques": thematiques.join(','),
     }
   end
 
