@@ -33,10 +33,16 @@ section.new-project
       | Non
     br/
     
-    = f.input :numero_fiscal, wrapper_html: { class: "size-m" }, required: true
-    a.info-point.info-point--light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
-    = f.input :reference_avis, wrapper_html: { class: "size-m" }, required: true
-    a.info-point.info-point--light.js-popin data-target="#reference-avis" title="Où trouver la référence de l’avis ?" ?
+    .labeled-info-point
+      = f.label :numero_fiscal
+      a.info-point.info-point--light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
+    = f.input :numero_fiscal, wrapper_html: { class: "size-m" }, required: true, label: false
+
+    .labeled-info-point
+      = f.label :reference_avis
+      a.info-point.info-point--light.js-popin data-target="#reference-avis" title="Où trouver la référence de l’avis ?" ?
+    = f.input :reference_avis, wrapper_html: { class: "size-m" }, required: true, label: false
+
     .new-project__mentions
       = check_box_tag "autorisation", "1", params[:autorisation], class: "new-project__mentions-input js-engagement", id: "lab-rfr"
       label.new-project__mentions-label-projet for="lab-rfr"
