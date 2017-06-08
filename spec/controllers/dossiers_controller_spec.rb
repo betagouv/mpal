@@ -3,7 +3,6 @@ require 'support/mpal_helper'
 require 'support/rod_helper'
 
 describe DossiersController do
-
   context "en tant qu'agent, si je ne suis pas connecté" do
     context "quand j'essaie d'accéder au tableau de bord" do
       subject { get :index }

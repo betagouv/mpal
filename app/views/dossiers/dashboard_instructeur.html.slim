@@ -21,7 +21,6 @@
           / TODO
           / th Depuis
       tbody
-        - @invitations.sort_by {|invitation| invitation.projet.statut }
         - @invitations.each do |invitation|
           - projet = invitation.projet
 
