@@ -86,7 +86,7 @@ class Projet < ActiveRecord::Base
   scope :with_demandeur, -> { joins(:occupants).where('occupants.demandeur = true').distinct  }
   scope :for_agent, ->(agent) {
     if agent.instructeur?
-      with_demandeur
+      joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id').with_demandeur
     elsif agent.siege?
       all
     else
