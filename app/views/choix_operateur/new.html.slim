@@ -26,10 +26,11 @@
                 h3= operateur.raison_sociale
                 p= operateur.description_adresse
                 = btn tag: :div, name: t('projets.visualisation.invitation_intervenant')
-        - else
+          hr/
+        - elsif @projet_courant.invited_pris.present?
           p.chapo
             strong Le Point Rénovation Info-Service de votre département n’a pas encore recommandé d’opérateurs pour vous accompagner dans votre démarche.
-        hr/
+          hr/
         - if @other_operateurs.present?
           p.chapo
             | Vous pouvez également choisir parmi les autres opérateurs suivants :

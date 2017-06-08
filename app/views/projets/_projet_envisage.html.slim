@@ -33,7 +33,11 @@ article.block.projet
         - unless current_agent
           .button-group
             = btn name: t('projets.visualisation.choisir_operateur_recommande'), href: projet_choix_operateur_path(@projet_courant)
-      - else
+      - elsif @projet_courant.invited_pris.present?
         p= t('projets.visualisation.le_pris_selectionne_des_operateurs')
+        - unless current_agent
+          = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)
+      - else
+        p= t('projets.visualisation.select_operator_without_pris')
         - unless current_agent
           = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)

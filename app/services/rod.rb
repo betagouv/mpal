@@ -25,7 +25,7 @@ private
   def serialize_demande(projet)
     {
       "adresse": projet.adresse.description,
-      "thematiques": 'energie,autonomie,insalubrite',
+      "thematiques": 'energie,autonomie',
     }
   end
 
