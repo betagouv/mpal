@@ -29,7 +29,8 @@ fr:
       failure: "Nous n’avons pas pu vous authentifier via %{kind} : \"%{reason}\"."
       success: "Authentifié avec succès via %{kind}."
     passwords:
-      section_name: "Mot de passe perdu ?"
+      section_name_new: "Mot de passe perdu ?"
+      section_name_update: "Changement de mot de passe"
       action: "Continuer"
       no_token: "Vous ne pouvez accéder à cette page sans passer par un e-mail de réinitialisation de mot de passe. Si vous êtes passé par un e-mail de ce type, assurez-vous d’utiliser l’URL complète."
       send_instructions: "Dans quelques instants, vous allez recevoir un e-mail avec un lien pour réinitialisation votre mot de passe."
