@@ -67,9 +67,6 @@ Rails.application.routes.draw do
 
     get '/instruction', to: 'instruction#show', as: 'instruction'
   end
-  scope(path_names: { new: 'nouvelle' }) do
-    resources :sessions, only: [:new, :create]
-  end
 
   namespace :admin do
     root to: 'home#index'

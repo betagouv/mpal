@@ -16,7 +16,6 @@ feature "Demandeur :" do
   scenario "mes informations personnelles sont récupérées à partir de l'avis d'imposition" do
     signin_for_new_projet
     expect(page.current_path).to eq(projet_demandeur_path(projet))
-    expect(page).to have_content(I18n.t('projets.messages.creation.titre'))
     expect(page).to have_content(I18n.t('projets.messages.creation.corps'))
     expect(page).to have_content(I18n.t('demarrage_projet.demandeur.section_demandeur'))
     expect(page).to have_select(I18n.t('demarrage_projet.demandeur.demandeur_identity'))
