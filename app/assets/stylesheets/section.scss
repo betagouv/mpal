@@ -7,6 +7,18 @@
   }
 }
 
+.section__content-p {
+  margin-bottom: 1em;
+}
+.section__content-link {
+  text-decoration: underline;
+  color: $color-primary;
+  &:hover {
+    text-decoration: underline;
+    color: #111;
+  }
+}
+
 .content__question {
   margin-bottom: 1em;
 }

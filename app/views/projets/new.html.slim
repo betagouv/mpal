@@ -17,7 +17,7 @@
 section.new-project
   h1.new-project__heading-projet Remplir mon dossier
   p.new-project__links
-    = link_to "J'ai déjà un dossier", new_user_session_path, class: "new-project__link"
+    = link_to "J’ai déjà un dossier", new_user_session_path, class: "new-project__link"
   p.new-project__commentaire Tous les champs sont obligatoires
 
   = simple_form_for @projet, html: { id: "js-login-form", class: "form" } do |f|

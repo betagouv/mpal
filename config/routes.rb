@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     get '/agents/signed_out', to: 'my_cas#signed_out'
   end
 
-  root 'sessions#new'
+  root 'homepage#index'
 
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [], concerns: :projectable do
