@@ -14,6 +14,17 @@ describe ApplicationHelper do
       expect(demande.froid).to be_truthy
       expect(helper.affiche_demande_souhaitee(demande)).to include(I18n.t('demarrage_projet.demande.froid'))
     end
+
+    it "affiche les travaux souhaités s'il y en a" do
+      demande.travaux_fenetres = true
+      expect(demande.travaux_fenetres).to be_truthy
+      expect(helper.affiche_demande_souhaitee(demande)).to include("Travaux envisagés")
+    end
+
+    it "n'affiche pas les travaux souhaités s'il y n'en a pas" do
+      expect(demande.travaux_fenetres).to be_falsy
+      expect(helper.affiche_demande_souhaitee(demande)).not_to include("Travaux envisagés")
+    end
   end
 
   describe ".i18n_simple_form_id" do
@@ -28,4 +39,3 @@ describe ApplicationHelper do
     it { expect(i18n_simple_form_label(:projet, :"personne.lien_avec_demandeur")).to eq "Lien avec le demandeur" }
   end
 end
-

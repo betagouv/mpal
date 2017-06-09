@@ -6,7 +6,7 @@ class DossiersController < ApplicationController
 
   def index
     if current_agent.siege?
-      @dossiers = Projet.all
+      @dossiers = Projet.all.with_demandeur
     else
       @invitations = Invitation.where(intervenant_id: current_agent.intervenant.id).includes(:projet)
     end
