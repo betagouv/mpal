@@ -12,6 +12,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
     let(:projet_34)     { create :projet, :en_cours, email: "prenom.nom1@site.com" }
     let(:projet_01)     { create :projet, :proposition_proposee, email: "prenom.nom2@site.com" }
     let(:projet_56)     { create :projet, :en_cours_d_instruction, email: "prenom.nom3@site.com" }
+    let(:projet_blank)     { create :projet }
 
     before do
       projet_34.adresse.update(departement: "34")
@@ -19,7 +20,12 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       projet_56.adresse.update(departement: "56")
     end
 
-    scenario "je vois absolument tous les dossiers France" do
+    it "génère une erreur si un dossier sans demandeur" do
+      expect(projet_blank.demandeur).to be_nil
+      expect { visit dossiers_path }.not_to raise_error
+    end
+
+    scenario "je vois absolument tous les dossiers France avec un demandeur" do
       visit dossiers_path
 
       within "#projet_#{projet_34.id}" do
