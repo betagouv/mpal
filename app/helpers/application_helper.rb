@@ -101,7 +101,7 @@ module ApplicationHelper
       demande.projet.prestations.each {|prestation| travaux << prestation.libelle}
     end
     html << content_tag(:ul) do
-      if travaux != []
+      if travaux.present?
         html << content_tag(:h4, "Travaux envisagés")
         travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
       end

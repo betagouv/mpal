@@ -17,7 +17,6 @@ describe ApplicationHelper do
 
     it "affiche les travaux souhaités s'il y en a" do
       demande.travaux_fenetres = true
-      expect(demande.travaux_fenetres).to be_truthy
       expect(helper.affiche_demande_souhaitee(demande)).to include("Travaux envisagés")
     end
 
