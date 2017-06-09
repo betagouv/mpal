@@ -88,7 +88,6 @@ module ApplicationHelper
     html << content_tag(:ul) do
       besoins.map { |besoin| content_tag(:li, besoin.html_safe) }.join.html_safe
     end
-    html << content_tag(:h4, "Travaux envisagés")
     travaux = []
     if demande.projet.prestations.blank?
       travaux << t("demarrage_projet.demande.travaux_fenetres") if demande.travaux_fenetres
@@ -102,7 +101,10 @@ module ApplicationHelper
       demande.projet.prestations.each {|prestation| travaux << prestation.libelle}
     end
     html << content_tag(:ul) do
-      travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
+      if travaux.present?
+        html << content_tag(:h4, "Travaux envisagés")
+        travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
+      end
     end
     html << content_tag(:h4, "Informations supplémentaires")
     complements = []
