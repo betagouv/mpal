@@ -84,17 +84,6 @@ describe MisesEnRelationController do
           expect(projet.invited_instructeur).to be_present
         end
       end
-
-      context "quand une erreur se produit lors de l'enregistrement" do
-        it "affiche une erreur" do
-          patch :update, {
-            projet_id: projet.id,
-            projet: nil,
-          }
-          expect(response).to redirect_to projet_mise_en_relation_path(projet)
-          expect(flash[:alert]).to eq I18n.t('demarrage_projet.mise_en_relation.error')
-        end
-      end
     end
   end
 end
