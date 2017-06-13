@@ -45,6 +45,8 @@ private
   end
 end
 
+raise "/!\\ SEEDS ARE FORBIDDEN ON PRODUCTION /!\\" unless "true" == ENV["DEMO"]
+
 start = Time.now
 seeds = Dir[File.expand_path('../seeds/*.rb', __FILE__)].sort
 filter = (ENV['SEEDS'] || ENV['SEED']).to_s.downcase.split(',').reject(&:blank?).sort.uniq
