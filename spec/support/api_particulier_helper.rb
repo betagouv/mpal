@@ -23,7 +23,7 @@ module Fakeweb
               "prenoms": "Anne",
               "dateNaissance": "05/06/1979"
           },
-          "anneeImpots": "2016",
+          "anneeRevenus": "2015",
           "nombrePersonnesCharge": 2,
           "foyerFiscal": {
             "adresse": "12 rue de la Mare, 75010 Paris"
@@ -43,7 +43,7 @@ module Fakeweb
                 "prenoms": "Pierre",
                 "dateNaissance": "19/03/1980"
             },
-            "anneeImpots": "2016",
+            "anneeRevenus": "2015",
             "nombrePersonnesCharge": 0,
             "foyerFiscal": {
                 "adresse": "12 rue de la Mare, 75010 Paris"

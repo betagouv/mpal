@@ -65,9 +65,11 @@ describe AvisImpositionsController do
     end
 
     context "quand il y a plusieurs avis d'imposition" do
-      let(:projet)      { create :projet, :with_avis_imposition }
-      let(:first_avis)  { projet.avis_impositions.first }
-      let(:last_avis)   { create :avis_imposition, numero_fiscal: 13, reference_avis: 16 }
+      let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE }
+      let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE }
+      let(:projet)         { create :projet, :with_avis_imposition }
+      let(:first_avis)     { projet.avis_impositions.first }
+      let(:last_avis)      { create :avis_imposition, numero_fiscal: numero_fiscal, reference_avis: reference_avis }
 
       before { projet.avis_impositions << last_avis }
 

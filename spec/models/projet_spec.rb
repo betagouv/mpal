@@ -212,14 +212,13 @@ describe Projet do
 
   describe '#annee_fiscale_reference' do
     let(:projet) { create :projet }
-    let!(:avis_imposition_1) { create :avis_imposition, projet: projet, numero_fiscal: '42', annee: 2014 }
-    let!(:avis_imposition_2) { create :avis_imposition, projet: projet, numero_fiscal: '43', annee: 2015 }
-    let!(:avis_imposition_3) { create :avis_imposition, projet: projet, numero_fiscal: '44', annee: 2016 }
-    it { expect(projet.annee_fiscale_reference).to eq(2015) }
+    let!(:avis_imposition_1) { create :avis_imposition, projet: projet, numero_fiscal: '42', annee: 2013 }
+    let!(:avis_imposition_2) { create :avis_imposition, projet: projet, numero_fiscal: '43', annee: 2014 }
+    it { expect(projet.annee_fiscale_reference).to eq 2014 }
   end
 
   describe '#preeligibilite' do
-    let(:annee) { 2016 }
+    let(:annee) { 2015 }
     let(:projet) { create :projet, :with_avis_imposition, declarants_count: 2, occupants_a_charge_count: 2 }
     it { expect(projet.preeligibilite(annee)).to eq(:tres_modeste) }
   end
