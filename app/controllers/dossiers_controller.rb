@@ -168,7 +168,8 @@ private
         projet_aide_to_modify = ProjetAide.where(aide_id: projet_aide[:aide_id], projet_id: @projet_courant.id).first
         projet_aide[:id] = projet_aide_to_modify.try(:id)
 
-        projet_aide[:_destroy] = true if projet_aide[:localized_amount].blank?
+        amount = projet_aide[:localized_amount]
+        projet_aide[:_destroy] = true if amount.blank? || BigDecimal(amount) == 0
       end
     end
   end
