@@ -132,7 +132,7 @@ $(document).ready(function() {
   }
 
   function parseAmountAndSum(accumulator, element) {
-    var field_value = parseFloat(element.value.replace(',', '.'));
+    var field_value = parseFloat(element.value.replace(',', '.').replace(' ', ''));
     field_value = isNaN(field_value) ? 0 : field_value;
     return accumulator + field_value;
   }
