@@ -145,7 +145,7 @@ class Projet < ActiveRecord::Base
   end
 
   def has_fundings?
-    FUNDING_FIELDS.any? { |field| send(field).present? }
+    FUNDING_FIELDS.any? { |field| send(field).present? } || aides.present?
   end
 
   def pris_suggested_operateurs
