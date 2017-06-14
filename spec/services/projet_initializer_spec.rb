@@ -40,7 +40,7 @@ describe ProjetInitializer do
     MonServiceContribuable.new(
       adresse: "12 rue de la Mare, 75020 Paris",
       declarants: [ {prenom: 'Jean', nom: 'Martin', date_de_naissance: '19/04/1980'}],
-      annee_impots: "2015",
+      annee_impots: "2016",
       nombre_personnes_charge: 3,
       numero_fiscal: '15',
       reference_avis: '1515'
@@ -89,7 +89,7 @@ describe ProjetInitializer do
       it "remplit l'avis d'imposition avec les informations générales" do
         expect(avis_imposition.numero_fiscal).to eq('15')
         expect(avis_imposition.reference_avis).to eq('1515')
-        expect(avis_imposition.annee).to eq 2015
+        expect(avis_imposition.annee).to eq 2016
         expect(avis_imposition.nombre_personnes_charge).to eq(3)
       end
 
