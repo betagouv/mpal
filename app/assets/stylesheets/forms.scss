@@ -84,17 +84,36 @@
   }
 }
 
-.form-inline {
-  .form-control-label, .form-field {
-    float: left;
+.form-horizontal {
+  .form-group {
+    display: flex;
   }
   .form-control-label {
     padding-right: 1em;
+    width: 30%;
   }
-  @include media-breakpoint-up(480px) {
-    .form-control-label { max-width: percentage((4 / $grid-columns)); }
-    .form-field         { max-width: percentage((8 / $grid-columns)); }
-    .form-field-label   { margin-left: percentage((4 / $grid-columns)); }
+  .form-field {
+    max-width: 50%;
+    flex: 1;
+  }
+  .form-check-hacked {
+    flex: 1;
+    > label {
+      display: inline-block;
+    }
+  }
+  .form-group.check_boxes {
+    display: block;
+  }
+  .vertical-booleans {
+    .form-field {
+      margin-left: 0;
+    }
+    .form-control-label {
+      max-width: 100%;
+      width: auto;
+      padding-right: 0;
+    }
   }
 }
 
