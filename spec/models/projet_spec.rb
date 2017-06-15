@@ -317,12 +317,15 @@ describe Projet do
   end
 
   describe "#has_fundings?" do
+    let(:aide)                    { create :aide }
     let(:projet_without_fundings) { create :projet }
     let(:projet_with_fundings)    { create :projet, travaux_ht_amount: 1 }
+    let(:projet_with_helps)       { create :projet, aides: [aide] }
 
     it "retourne vrai si un élément de financement est renseigné" do
       expect(projet_without_fundings.has_fundings?).to be_falsy
-      expect(projet_with_fundings.has_fundings?).to be_truthy
+      expect(projet_with_fundings.has_fundings?).to    be_truthy
+      expect(projet_with_helps.has_fundings?).to       be_truthy
     end
   end
 
