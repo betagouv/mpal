@@ -116,13 +116,13 @@ h2#inline_inputs= t("menu_patterns.forms.inline_inputs")
 
 h3 Input
 
-= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-horizontal" } do |f|
   = f.input :prenom, required: false
   = f.input :nom
 
 h3 Groupes d’inputs
 
-= simple_form_for Projet.new, url: "#", html: { class: "form form-inline" } do |f|
+= simple_form_for Projet.new, url: "#", html: { class: "form form-horizontal" } do |f|
   = f.input :email, wrapper: "prepend" do
     span.input-group-addon @
     = f.input_field :email
@@ -135,22 +135,22 @@ h3 Groupes d’inputs
 
 h3 Select
 
-= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-horizontal" } do |f|
   = f.input :civility, collection: Occupant::CIVILITIES, prompt: "Sélectionner"
-= simple_form_for Projet.new, url: "#", html: { class: "form" } do |f|
+= simple_form_for Projet.new, url: "#", html: { class: "form form-horizontal" } do |f|
   = f.input :theme_ids, collection: Theme.all, prompt: "Sélectionner"
 
 h3 Radio buttons
 
-= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-horizontal" } do |f|
   = f.input :civility, as: :radio_buttons, collection: Occupant::CIVILITIES
 
 h3 Check boxes
 
-= simple_form_for Projet.new, url: "#", html: { class: "form form-inline" } do |f|
+= simple_form_for Projet.new, url: "#", html: { class: "form form-horizontal" } do |f|
   = f.input :theme_ids, as: :check_boxes, collection: Theme.all
 
-= simple_form_for Demande.new, url: "#", html: { class: "form form-inline" } do |f|
+= simple_form_for Demande.new, url: "#", html: { class: "form form-horizontal" } do |f|
   .vertical-booleans
     label.vertical-booleans__title= t("demarrage_projet.demande.titre_besoins")
     = f.input :changement_chauffage
@@ -160,13 +160,13 @@ h3 Check boxes
 
 h3 Dates
 
-= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-horizontal" } do |f|
   = f.input :date_de_naissance
   = f.input :date_de_naissance, as: :string
 
 h3 Tailles
 
-= simple_form_for Occupant.new, url: "#", html: { class: "form form-inline" } do |f|
+= simple_form_for Occupant.new, url: "#", html: { class: "form form-horizontal" } do |f|
   = f.input :prenom, wrapper_html: { class: "size-xs" }
   = f.input :prenom, wrapper_html: { class: "size-s" }
   = f.input :prenom, wrapper_html: { class: "size-m" }
