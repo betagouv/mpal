@@ -191,6 +191,7 @@ fr:
         messages:
           erreur: "Vous n’avez pas accès à cet avis d’imposition"
           non_trouve: "Cet avis d’imposition n’existe pas"
+          annee_invalide: "L'avis d'imposition renseigné doit se baser sur les revenus %{year}"
         visualisation:
           sections:
             declarants: "Déclarants"

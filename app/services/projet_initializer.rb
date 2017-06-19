@@ -30,7 +30,6 @@ class ProjetInitializer
       contribuable = @service_particulier.retrouve_contribuable
       return unless contribuable
     end
-    is_new_project = 0 == projet.avis_impositions.length
 
     declarant_count = contribuable.declarants[1].present? ? 2 : 1
     avis_imposition = projet.avis_impositions.build

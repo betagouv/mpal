@@ -30,6 +30,17 @@ class ProjetsController < ApplicationController
       return redirect_to_next_step(@projet)
     end
 
+    contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
+    unless contribuable
+      flash.now[:alert] = t('sessions.invalid_credentials')
+      return render :new, layout: 'creation_dossier'
+    end
+
+    unless "1" == params[:proprietaire]
+      flash.now[:alert] = t('sessions.erreur_proprietaire_html', anil: view_context.link_to('Anil.org', 'https://www.anil.org/')).html_safe
+      return render :new, layout: 'creation_dossier'
+    end
+
     @page_heading = "Création de dossier"
 
     begin
@@ -40,15 +51,9 @@ class ProjetsController < ApplicationController
       return render :new, layout: "creation_dossier"
     end
 
-    unless "1" == params[:proprietaire]
-      flash.now[:alert] = t('sessions.erreur_proprietaire_html', anil: view_context.link_to('Anil.org', 'https://www.anil.org/')).html_safe
-      return render :new, layout: 'creation_dossier'
-    end
-
-    contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
-    unless contribuable
-      flash.now[:alert] = t('sessions.invalid_credentials')
-      return render :new, layout: 'creation_dossier'
+    unless @projet.avis_impositions.map(&:is_valid_for_current_year?).all?
+      flash.now[:alert] =  I18n.t("projets.composition_logement.avis_imposition.messages.annee_invalide", year: 2.years.ago.year)
+      return render :new, layout: "creation_dossier"
     end
 
     if @projet.save
@@ -56,6 +61,7 @@ class ProjetsController < ApplicationController
       session[:project_id] = @projet.id
       return redirect_to projet_demandeur_path(@projet), notice: t('projets.messages.creation.corps')
     end
+
     render :new, layout: "creation_dossier", alert: t('sessions.erreur_creation_projet')
   end
 
@@ -68,17 +74,6 @@ private
     params[:projet][:reference_avis].to_s.gsub(/\W+/, '').upcase
   end
 
-  def create_projet_and_redirect
-    projet = ProjetInitializer.new.initialize_projet(param_numero_fiscal, param_reference_avis)
-    if projet.save
-      EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
-      session[:project_id] = projet.id
-      redirect_to projet_demandeur_path(projet), notice: t('projets.messages.creation.corps')
-    else
-      redirect_to new_users_session_path, alert: t('sessions.erreur_creation_projet')
-    end
-  end
-
   def redirect_to_next_step(projet)
     if projet.demandeur.blank?
       redirect_to projet_demandeur_path(projet)
@@ -86,5 +81,4 @@ private
       redirect_to projet
     end
   end
-
 end
