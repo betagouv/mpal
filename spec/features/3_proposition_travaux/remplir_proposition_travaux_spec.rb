@@ -278,9 +278,6 @@ feature "Remplir la proposition de travaux" do
         click_link 'Je soumets le projet au demandeur pour dépôt'
         expect(page).to have_content('Coût des travaux à réaliser HT doit être rempli(e)')
 
-        within 'article.projet-ope' do
-          click_link I18n.t('projets.visualisation.lien_edition')
-        end
         fill_in 'projet_date_de_visite', with: '28/12/2016'
         fill_in I18n.t('helpers.label.proposition.travaux_ht_amount'), with: '1 111'
         click_on 'Enregistrer cette proposition'
