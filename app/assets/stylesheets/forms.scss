@@ -84,35 +84,37 @@
   }
 }
 
-.form-horizontal {
-  .form-group {
-    display: flex;
-  }
-  .form-control-label {
-    padding-right: 1em;
-    width: 30%;
-  }
-  .form-field {
-    max-width: 50%;
-    flex: 1;
-  }
-  .form-check-hacked {
-    flex: 1;
-    > label {
-      display: inline-block;
-    }
-  }
-  .form-group.check_boxes {
-    display: block;
-  }
-  .vertical-booleans {
-    .form-field {
-      margin-left: 0;
+@media screen and (min-width: 900px) {
+  .form-horizontal {
+    .form-group {
+      display: flex;
     }
     .form-control-label {
-      max-width: 100%;
-      width: auto;
-      padding-right: 0;
+      padding-right: 1em;
+      width: 30%;
+    }
+    .form-field {
+      max-width: 50%;
+      flex: 1;
+    }
+    .form-check-hacked {
+      flex: 1;
+      > label {
+        display: inline-block;
+      }
+    }
+    .form-group.check_boxes {
+      display: block;
+    }
+    .vertical-booleans {
+      .form-field {
+        margin-left: 0;
+      }
+      .form-control-label {
+        max-width: 100%;
+        width: auto;
+        padding-right: 0;
+      }
     }
   }
 }
