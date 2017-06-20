@@ -1,0 +1,18 @@
+h2.stats__heading Depuis la création du service…
+
+.stats
+  .stats__metric
+    p.stats__metric-value= Tools.enabled_state_count
+    p.stats__metric-name départements ouverts
+  .stats__metric
+    p.stats__metric-value= @project_count
+    p.stats__metric-name demandes de projet
+
+h2.stats__heading Ces 30 derniers jours…
+
+.stats
+  - @project_count_by_status.each do |status, count|
+    .stats__metric
+      p.stats__metric-value= count
+      p.stats__metric-name= t("stats.status.#{status}")
+

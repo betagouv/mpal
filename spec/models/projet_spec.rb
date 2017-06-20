@@ -633,7 +633,24 @@ describe Projet do
     }
   end
 
-  describe "localizedamo_amount=" do
+  describe "#updated_since" do
+    let(:now) { Time.new(2001, 2, 3, 4, 5, 6) }
+
+    context "retourne les projets modifiés après" do
+      let!(:projet) { create :projet, updated_at: now + 1.day }
+
+      it { expect(Projet.updated_since(now).length).to eq 1 }
+      it { expect(Projet.updated_since(now)).to include projet }
+    end
+
+    context "ne retourne pas les projets modifiés avant" do
+      let!(:projet) { create :projet, updated_at: now - 1.day }
+
+      it { expect(Projet.updated_since(now).length).to eq 0 }
+    end
+  end
+
+  describe "localized_amo_amount=" do
     let(:projet) { create :projet }
 
     it {
