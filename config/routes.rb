@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
+      put  :edit_rfr, controller: 'avis_impositions', action: 'edit_rfr'
       get  :affecter_agent
       get  :recommander_operateurs
       post :recommander_operateurs

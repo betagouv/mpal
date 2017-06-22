@@ -1,0 +1,6 @@
+= simple_form_for @projet_courant, url: {controller: "avis_impositions", action: "edit_rfr"}, html: {class: "form"} do |f|
+  = render "shared/errors", resource: @projet_courant
+  .occupant-inline-form
+    .occupant-inline-form__fields
+      = f.input :modified_revenu_fiscal_reference, required: false, label: 'Modifier le RFR'
+  = btn name: t("demarrage_projet.action"), href: projet_or_dossier_occupants_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"
