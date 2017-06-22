@@ -310,6 +310,9 @@ fieldset {
             margin-right: 20px; }
             .page-projet .col-right .content-projet .block .occupants-recap li span {
               color: #5ab0ee; }
+              .page-projet .col-right .content-projet .block .occupants-recap li span.modified {
+                color: $font-color;
+                background-color: #dba8bc;}
         .page-projet .col-right .content-projet .block.messagerie .nbr-message {
           display: inline-block;
           position: absolute;
