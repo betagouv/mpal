@@ -15,9 +15,8 @@
           - if @projet_courant.modified_revenu_fiscal_reference == 0 || @projet_courant.modified_revenu_fiscal_reference == nil
             span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
           - else
-            /changer la couleur
-            span= number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)
-
+            span.modified= "modification #{number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)}"
+            span= " (initialement #{number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)})"
     p.chapo= t("occupants.confirmer_nombre_personnes")
 
     table.occ-table

@@ -85,42 +85,29 @@ describe "En tant qu'opérateur ou demandeur, je peux modifier le projet :" do
     end
   end
 
-=begin
   shared_examples :can_edit_occupants do |resource_name|
     let(:resource_name) { resource_name }
 
     scenario "je peux modifier les occupants du foyer" do
-      visit resource_path(projet)
-      within 'article.occupants' do
-        click_link I18n.t('projets.visualisation.lien_edition')
-      end
-
-      expect(page).to have_current_path resource_demandeur_path(projet)
-      click_button I18n.t('demarrage_projet.action')
-
-      expect(page).to have_current_path resource_avis_impositions_path(projet)
-      click_link I18n.t('demarrage_projet.action')
-
       # Add new occupant
-      visit dossier_occupants_path(projet)
-      expect(page).to have_current_path dossier_occupants_path(projet)
+      visit resource_occupants_path(projet)
+      expect(page).to have_current_path resource_occupants_path(projet)
       fill_in "Nom",               with: "Marielle"
       fill_in "Prénom",            with: "Jean-Pierre"
       fill_in "Date de naissance", with: "20/05/2010"
       click_button I18n.t("occupants.nouveau.action")
 
-      expect(page).to have_current_path(dossier_occupants_path(projet))
+      expect(page).to have_current_path(resource_occupants_path(projet))
       expect(page).to have_content("Jean-Pierre Marielle")
 
       # Delete occupant
       within "table tr:last-child" do
         click_link I18n.t('occupants.delete.action')
       end
-      expect(page).to have_current_path(dossier_occupants_path(projet))
+      expect(page).to have_current_path(resource_occupants_path(projet))
       expect(page).to have_content("Jean-Pierre Marielle")
     end
   end
-=end
 
   shared_examples :can_edit_demande do |resource_name|
     let(:resource_name) { resource_name }
@@ -159,7 +146,7 @@ describe "En tant qu'opérateur ou demandeur, je peux modifier le projet :" do
 
     it_behaves_like :can_edit_demandeur,        "dossier"
     it_behaves_like :can_edit_avis_impositions, "dossier"
-    it_behaves_like :can_edit_occupants,        "projet"
+    it_behaves_like :can_edit_occupants,        "dossier"
     it_behaves_like :can_edit_demande,          "dossier"
   end
 end
@@ -201,6 +188,12 @@ describe "En tant qu'opérateur je peux modifier le RFR :" do
     end
 
     it "met en avant la modification" do
+      visit dossier_avis_impositions_path(projet)
+      fill_in I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference"), with: '123'
+      click_button I18n.t('demarrage_projet.action')
+      visit dossier_path(projet)
+      expect(page).to have_content 123
+      expect(page).to have_content "modification 123 €"
     end
   end
 end
@@ -210,7 +203,7 @@ describe "En tant que demandeur :" do
   let(:projet) { create :projet, user: user, modified_revenu_fiscal_reference: 111 }
   before { login_as user, scope: :user }
 
-  context "Je ne peux pas modifier le RFR" do
+  context "affichage du RFR" do
     it "je ne peux jamais modifier le RFR" do
       visit projet_avis_impositions_path(projet)
       expect(page).to_not have_content "RFR Modifié"

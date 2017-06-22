@@ -108,6 +108,7 @@ fr:
       reliable_person_select_no: "Vous-même"
       reliable_person_select_yes: "Une personne chargée du suivi du dossier"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
+      modified_revenu_fiscal_reference: "MODIFICATION : Total Revenu Fiscal de Référence"
       departement_non_eligible:
         title: Désolé, les logements dans votre département ne sont pas encore éligibles
         sorry:
