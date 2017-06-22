@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/api_ban_helper'
 
-feature "Modifier le projet :" do
+describe "En tant qu'opérateur ou demandeur, je peux modifier le projet :" do
   def resource_path(projet)
     send("#{resource_name}_path", projet)
   end
@@ -85,6 +85,7 @@ feature "Modifier le projet :" do
     end
   end
 
+=begin
   shared_examples :can_edit_occupants do |resource_name|
     let(:resource_name) { resource_name }
 
@@ -101,23 +102,25 @@ feature "Modifier le projet :" do
       click_link I18n.t('demarrage_projet.action')
 
       # Add new occupant
-      expect(page).to have_current_path resource_occupants_path(projet)
+      visit dossier_occupants_path(projet)
+      expect(page).to have_current_path dossier_occupants_path(projet)
       fill_in "Nom",               with: "Marielle"
       fill_in "Prénom",            with: "Jean-Pierre"
       fill_in "Date de naissance", with: "20/05/2010"
       click_button I18n.t("occupants.nouveau.action")
 
-      expect(page).to have_current_path(resource_occupants_path(projet))
+      expect(page).to have_current_path(dossier_occupants_path(projet))
       expect(page).to have_content("Jean-Pierre Marielle")
 
       # Delete occupant
       within "table tr:last-child" do
         click_link I18n.t('occupants.delete.action')
       end
-      expect(page).to have_current_path(resource_occupants_path(projet))
+      expect(page).to have_current_path(dossier_occupants_path(projet))
       expect(page).to have_content("Jean-Pierre Marielle")
     end
   end
+=end
 
   shared_examples :can_edit_demande do |resource_name|
     let(:resource_name) { resource_name }
@@ -133,7 +136,7 @@ feature "Modifier le projet :" do
       click_button I18n.t('projets.edition.action')
 
       expect(page).to have_current_path resource_path(projet)
-      expect(page).to have_content(1950)
+      expect(page).to have_content 1950
       # TODO: tester la modification des travaux demandés
     end
   end
@@ -156,7 +159,66 @@ feature "Modifier le projet :" do
 
     it_behaves_like :can_edit_demandeur,        "dossier"
     it_behaves_like :can_edit_avis_impositions, "dossier"
-    it_behaves_like :can_edit_occupants,        "dossier"
+    it_behaves_like :can_edit_occupants,        "projet"
     it_behaves_like :can_edit_demande,          "dossier"
+  end
+end
+
+describe "En tant qu'opérateur je peux modifier le RFR :" do
+  let(:user) { create :user }
+  let(:projet) { create :projet, :prospect, :with_committed_operateur, user: user }
+  let(:agent_operateur) { create :agent, intervenant: projet.operateur }
+  before { login_as agent_operateur, scope: :agent }
+
+  context "si le modified RFR est vide ou nul" do
+    it "affiche le RFR total " do
+      expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
+      visit dossier_path(projet)
+      expect(page).to have_content projet.reload.modified_revenu_fiscal_reference
+      visit dossier_avis_impositions_path(projet)
+      expect(page).to have_content "RFR Modifié"
+      fill_in I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference"), with: 'Abc'
+      click_button I18n.t('demarrage_projet.action')
+      visit dossier_path(projet)
+      expect(page).to have_content projet.reload.modified_revenu_fiscal_reference
+    end
+  end
+
+  context "si le modified RFR est rempli" do
+    it "affiche le modified RFR" do
+      expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
+      visit dossier_avis_impositions_path(projet)
+      fill_in I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference"), with: '123'
+      click_button I18n.t('demarrage_projet.action')
+      expect(page).to have_current_path dossier_occupants_path(projet)
+      expect(projet.reload.modified_revenu_fiscal_reference).to eq 123
+      expect(page).to have_content 123
+      visit dossier_avis_impositions_path(projet)
+      fill_in I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference"), with: '111'
+      click_button I18n.t('demarrage_projet.action')
+      expect(page).to have_current_path dossier_occupants_path(projet)
+      expect(projet.reload.modified_revenu_fiscal_reference).to eq 111
+    end
+
+    it "met en avant la modification" do
+    end
+  end
+end
+
+describe "En tant que demandeur :" do
+  let(:user) { create :user }
+  let(:projet) { create :projet, user: user, modified_revenu_fiscal_reference: 111 }
+  before { login_as user, scope: :user }
+
+  context "Je ne peux pas modifier le RFR" do
+    it "je ne peux jamais modifier le RFR" do
+      visit projet_avis_impositions_path(projet)
+      expect(page).to_not have_content "RFR Modifié"
+    end
+
+    it "affiche le modified RFR" do
+      visit projet_path(projet)
+      expect(page).to have_content("111")
+    end
   end
 end

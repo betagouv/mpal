@@ -58,7 +58,7 @@ private
   end
 
   def serialize_dossier(projet, agent_instructeur)
-    lignes_adresse_postale  = split_adresse_into_lines(projet.adresse_postale.ligne_1)
+  lignes_adresse_postale  = split_adresse_into_lines(projet.adresse_postale.ligne_1)
     lignes_adresse_geo      = split_adresse_into_lines(projet.adresse.ligne_1)
 
     {

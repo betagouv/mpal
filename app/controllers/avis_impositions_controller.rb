@@ -7,6 +7,16 @@ class AvisImpositionsController < ApplicationController
   def index
   end
 
+  def edit_rfr
+    begin
+      @projet_courant.update!(modified_revenu_fiscal_reference: params[:projet][:modified_revenu_fiscal_reference])
+      redirect_to projet_or_dossier_occupants_path(@projet_courant)
+    rescue => e
+      flash.now[:alert] = e.message
+      render :index
+    end
+  end
+
   def new
     @avis_imposition = @projet_courant.avis_impositions.new
   end
