@@ -231,8 +231,12 @@ class Projet < ActiveRecord::Base
 
   def calcul_revenu_fiscal_reference_total(annee_revenus)
     total_revenu_fiscal_reference = 0
-    avis_impositions.where(annee: annee_revenus).each do |avis_imposition|
-      total_revenu_fiscal_reference += avis_imposition.revenu_fiscal_reference
+    if modified_revenu_fiscal_reference != nil && modified_revenu_fiscal_reference != 0
+      total_revenu_fiscal_reference = modified_revenu_fiscal_reference
+    else
+      avis_impositions.where(annee: annee_revenus).each do |avis_imposition|
+        total_revenu_fiscal_reference += avis_imposition.revenu_fiscal_reference
+      end
     end
     total_revenu_fiscal_reference
   end
