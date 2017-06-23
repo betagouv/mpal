@@ -21,7 +21,6 @@ class ProjetsController < ApplicationController
     @page_heading = "Création de dossier"
 
     @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
-
     if @projet
       if @projet.user
         return redirect_to new_user_session_path, alert: t("sessions.user_exists")

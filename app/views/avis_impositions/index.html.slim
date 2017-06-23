@@ -16,7 +16,7 @@ section.avis-imposition
           tr
             td= avis_imposition.numero_fiscal
             td= avis_imposition.reference_avis
-            td= number_to_currency(avis_imposition.revenu_fiscal_reference, precision: 0, locale: :fr)
+            td= number_to_currency(avis_imposition.api_revenu_fiscal_reference, precision: 0, locale: :fr)
             td= avis_imposition.declarant_1
             td= avis_imposition.declarant_2
             td= avis_imposition.nombre_personnes_charge
