@@ -92,6 +92,18 @@ describe Opal do
       end
 
       context "quand aucun message d'erreur n'est présent" do
+        let(:error_code) { 403 }
+        let(:error_status) { "Forbidden" }
+        let(:payload) {
+          File.read("spec/files/opal_error_403.html").force_encoding Encoding::ISO_8859_1
+        }
+
+        it "lève une exception avec un message d'erreur par défaut" do
+          expect { opal.create_dossier!(projet, agent_instructeur) }.to raise_error OpalError, "Accès interdit par Opal"
+        end
+      end
+
+      context "quand aucun message d'erreur n'est présent" do
         let(:error_code) { 503 }
         let(:error_status) { "Service Unavailable" }
         let(:payload) do "<html><body>Server down</body></html>" end
