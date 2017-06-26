@@ -7,23 +7,20 @@ class Opal
   end
 
   def create_dossier!(projet, agent_instructeur)
-    Rails.logger.info "[OPAL] begin dossier creation"
+    Rails.logger.info "[OPAL] dossier creation"
     body = serialize_dossier(projet, agent_instructeur).to_json
     Rails.logger.info "[OPAL] dossier serialized"
     response = @client.post('/createDossier', body: body)
-    Rails.logger.info "[OPAL] response received"
+    Rails.logger.info "[OPAL] response received (#{response.code})"
     if response.code != 201
-      Rails.logger.info "[OPAL] invalid response status code (#{response.code})"
       if response.code == 403
         message = "Accès interdit par Opal"
       else
-        Rails.logger.info "[OPAL] response.body: #{response.body}"
         message = parse_error_message(response)
       end
       Rails.logger.error "[OPAL] request failed with code '#{response.code}': #{message || response.body}"
       raise OpalError, message
     end
-    Rails.logger.info "[OPAL] response is OK"
 
     ajoute_id_opal(projet, response.body)
     met_a_jour_statut(projet)
