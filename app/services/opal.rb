@@ -13,15 +13,17 @@ class Opal
     response = @client.post('/createDossier', body: body)
     Rails.logger.info "[OPAL] response received"
     if response.code != 201
-      Rails.logger.info "[OPAL] invalid response status code"
+      Rails.logger.info "[OPAL] invalid response status code (#{response.code})"
       if response.code == 403
         message = "Accès interdit par Opal"
       else
+        Rails.logger.info "[OPAL] response.body: #{response.body}"
         message = parse_error_message(response)
       end
       Rails.logger.error "[OPAL] request failed with code '#{response.code}': #{message || response.body}"
       raise OpalError, message
     end
+    Rails.logger.info "[OPAL] response is OK"
 
     ajoute_id_opal(projet, response.body)
     met_a_jour_statut(projet)
