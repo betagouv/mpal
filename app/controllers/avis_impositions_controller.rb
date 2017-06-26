@@ -9,7 +9,11 @@ class AvisImpositionsController < ApplicationController
 
   def edit_rfr
     begin
-      @projet_courant.update!(modified_revenu_fiscal_reference: params[:projet][:modified_revenu_fiscal_reference])
+      if params[:projet][:modified_revenu_fiscal_reference] =~ /\d+/
+        @projet_courant.update!(modified_revenu_fiscal_reference: params[:projet][:modified_revenu_fiscal_reference])
+      else
+        @projet_courant.update!(modified_revenu_fiscal_reference: nil)
+      end
       redirect_to projet_or_dossier_occupants_path(@projet_courant)
     rescue => e
       flash.now[:alert] = e.message

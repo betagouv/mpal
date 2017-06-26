@@ -15,7 +15,6 @@ class OccupantsController < ApplicationController
           return redirect_to projet_or_dossier_occupants_path(@projet_courant)
         end
       elsif !occupant_params? || @occupant.save(context: :user_action)
-
         return redirect_to_next_step
       end
     end

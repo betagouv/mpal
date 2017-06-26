@@ -157,34 +157,29 @@ describe "En tant qu'opérateur je peux modifier le RFR :" do
   let(:agent_operateur) { create :agent, intervenant: projet.operateur }
   before { login_as agent_operateur, scope: :agent }
 
-  context "si le modified RFR est vide ou nul" do
-    it "affiche le RFR total " do
-      expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
-      visit dossier_path(projet)
-      expect(page).to have_content projet.reload.modified_revenu_fiscal_reference
+  context "si le modified RFR est vide" do
+    it "affiche le RFR total initial" do
       visit dossier_avis_impositions_path(projet)
       expect(page).to have_content "RFR Modifié"
       fill_in I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference"), with: 'Abc'
       click_button I18n.t('demarrage_projet.action')
       visit dossier_path(projet)
-      expect(page).to have_content projet.reload.modified_revenu_fiscal_reference
+      expect(page).to have_content "29 880 €"
+      expect(page).to_not have_content "modification"
     end
   end
 
   context "si le modified RFR est rempli" do
     it "affiche le modified RFR" do
-      expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
       visit dossier_avis_impositions_path(projet)
       fill_in I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference"), with: '123'
       click_button I18n.t('demarrage_projet.action')
       expect(page).to have_current_path dossier_occupants_path(projet)
-      expect(projet.reload.modified_revenu_fiscal_reference).to eq 123
       expect(page).to have_content 123
       visit dossier_avis_impositions_path(projet)
       fill_in I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference"), with: '111'
       click_button I18n.t('demarrage_projet.action')
       expect(page).to have_current_path dossier_occupants_path(projet)
-      expect(projet.reload.modified_revenu_fiscal_reference).to eq 111
     end
 
     it "met en avant la modification" do
@@ -194,13 +189,14 @@ describe "En tant qu'opérateur je peux modifier le RFR :" do
       visit dossier_path(projet)
       expect(page).to have_content 123
       expect(page).to have_content "modification 123 €"
+      expect(page).to have_content "(initialement 29 880 €)"
     end
   end
 end
 
 describe "En tant que demandeur :" do
   let(:user) { create :user }
-  let(:projet) { create :projet, user: user, modified_revenu_fiscal_reference: 111 }
+  let(:projet) { create :projet, :with_avis_imposition, user: user, modified_revenu_fiscal_reference: 111 }
   before { login_as user, scope: :user }
 
   context "affichage du RFR" do
@@ -211,7 +207,8 @@ describe "En tant que demandeur :" do
 
     it "affiche le modified RFR" do
       visit projet_path(projet)
-      expect(page).to have_content("111")
+      expect(page).to have_content("modification 111 €")
+      expect(page).to have_content("initialement 29 880 €")
     end
   end
 end
