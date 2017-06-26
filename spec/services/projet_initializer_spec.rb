@@ -1,11 +1,11 @@
 require 'rails_helper'
 
 class MonServiceContribuable
-  attr_reader :adresse, :declarants, :annee_impots, :nombre_personnes_charge
+  attr_reader :adresse, :declarants, :annee_revenus, :nombre_personnes_charge
   def initialize(params)
     @adresse = params[:adresse]
     @declarants = params[:declarants]
-    @annee_impots = params[:annee_impots]
+    @annee_revenus = params[:annee_revenus]
     @nombre_personnes_charge = params[:nombre_personnes_charge]
   end
 
@@ -40,7 +40,7 @@ describe ProjetInitializer do
     MonServiceContribuable.new(
       adresse: "12 rue de la Mare, 75020 Paris",
       declarants: [ {prenom: 'Jean', nom: 'Martin', date_de_naissance: '19/04/1980'}],
-      annee_impots: "2015",
+      annee_revenus: "2015",
       nombre_personnes_charge: 3,
       numero_fiscal: '15',
       reference_avis: '1515'

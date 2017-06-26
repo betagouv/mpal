@@ -15,8 +15,8 @@ describe AvisImpositionsController do
   end
 
   describe "#create" do
-    let(:projet)          { create :projet, :with_avis_imposition }
-    let(:first_avis)      { projet.avis_impositions.first }
+    let(:projet)     { create :projet, :with_avis_imposition }
+    let(:first_avis) { projet.avis_impositions.first }
 
     context "quand le numéro et la référence sont valides" do
       let(:numero_fiscal)   { Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE }
@@ -34,6 +34,18 @@ describe AvisImpositionsController do
 
         expect(flash[:notice]).to be_present
         expect(response).to redirect_to projet_avis_impositions_path(projet)
+      end
+    end
+
+    context "quand l'année de revenus n'est pas valide" do
+      let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL_ANNEE_INVALIDE }
+      let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS_ANNEE_INVALIDE }
+
+      it "il obtient un message d'erreur" do
+        post :create, projet_id: projet.id,
+             avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+        expect(response).to redirect_to new_projet_avis_imposition_path projet
+        expect(flash[:alert]).to be_present
       end
     end
 
@@ -65,9 +77,11 @@ describe AvisImpositionsController do
     end
 
     context "quand il y a plusieurs avis d'imposition" do
-      let(:projet)      { create :projet, :with_avis_imposition }
-      let(:first_avis)  { projet.avis_impositions.first }
-      let(:last_avis)   { create :avis_imposition, numero_fiscal: 13, reference_avis: 16 }
+      let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE }
+      let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE }
+      let(:projet)         { create :projet, :with_avis_imposition }
+      let(:first_avis)     { projet.avis_impositions.first }
+      let(:last_avis)      { create :avis_imposition, numero_fiscal: numero_fiscal, reference_avis: reference_avis }
 
       before { projet.avis_impositions << last_avis }
 

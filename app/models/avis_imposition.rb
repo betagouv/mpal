@@ -9,4 +9,8 @@ class AvisImposition < ActiveRecord::Base
     contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable
     contribuable ? contribuable.revenu_fiscal_reference : 0
   end
+
+  def is_valid_for_current_year?
+    annee.to_i >= 2.years.ago.year
+  end
 end

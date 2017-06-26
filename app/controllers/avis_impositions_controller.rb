@@ -8,28 +8,29 @@ class AvisImpositionsController < ApplicationController
   end
 
   def new
-    init_view
+    @avis_imposition = @projet_courant.avis_impositions.new
   end
 
   def create
-    avis_imposition = @projet_courant.avis_impositions.new(strong_params_hash)
-    @avis_imposition = ProjetInitializer.new.initialize_avis_imposition(@projet_courant, avis_imposition.numero_fiscal, avis_imposition.reference_avis)
-    unless @avis_imposition
+    @avis_imposition = ProjetInitializer.new.initialize_avis_imposition(@projet_courant, avis_imposition_params[:numero_fiscal], avis_imposition_params[:reference_avis])
+
+    if @avis_imposition.blank?
       flash[:alert] = t("sessions.invalid_credentials")
-      return redirect_to new_projet_or_dossier_avis_imposition_path(@projet_courant)
+      redirect_to new_projet_or_dossier_avis_imposition_path @projet_courant
+    elsif @avis_imposition.is_valid_for_current_year?
+      @avis_imposition.save!
+      flash[:notice] = "Avis d’imposition ajouté"
+      redirect_to projet_or_dossier_avis_impositions_path @projet_courant
+    else
+      flash[:alert] = t("projets.composition_logement.avis_imposition.messages.annee_invalide", year: 2.years.ago.year)
+      redirect_to new_projet_or_dossier_avis_imposition_path @projet_courant
     end
-    unless @avis_imposition.save
-      return redirect_to new_projet_or_dossier_avis_imposition_path(@projet_courant)
-    end
-    flash[:notice] = "Avis d’imposition ajouté"
-    redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
   end
 
   def destroy
     avis_imposition = @projet_courant.avis_impositions.find(params[:id])
     if avis_imposition != @projet_courant.avis_impositions.first
       avis_imposition.destroy!
-      @avis_imposition = avis_imposition
       flash[:notice] = "Avis d’imposition supprimé"
     end
     redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
@@ -40,20 +41,8 @@ private
     @page_heading = "Inscription"
   end
 
-  def strong_params_hash
-    (params || {}).require(:avis_imposition).permit(strong_params)
-  end
-
-  def strong_params
-    %w(numero_fiscal reference_avis)
-  end
-
-  def param_numero_fiscal
-    params[:avis_imposition][:numero_fiscal].try(:delete, ' ')
-  end
-
-  def param_reference_avis
-    params[:avis_imposition][:reference_avis].try(:delete, ' ')
+  def avis_imposition_params
+    (params || {}).require(:avis_imposition)
   end
 end
 

@@ -49,7 +49,6 @@ describe ProjetsController do
   end
 
   describe "#create" do
-
     context "quand le projet n'existe pas encore" do
       let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL }
       let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS }
@@ -80,6 +79,17 @@ describe ProjetsController do
         it "je suis redirigé vers la page de démarrage du projet" do
           post :create, projet: {  numero_fiscal: numero_fiscal, reference_avis: reference_avis}, proprietaire: "1"
           expect(response).to redirect_to projet_demandeur_path(projet)
+        end
+      end
+
+      context "quand l'année de revenus n'est pas valide" do
+        let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL_ANNEE_INVALIDE }
+        let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS_ANNEE_INVALIDE }
+
+        it "il obtient un message d'erreur" do
+          post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1" }
+          expect(response).to render_template("new")
+          expect(flash[:alert]).to be_present
         end
       end
 

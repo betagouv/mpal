@@ -71,8 +71,8 @@ feature "Modifier le projet :" do
       expect(page).to have_current_path resource_avis_impositions_path(projet)
       click_link 'Ajouter un avis d’imposition'
       expect(page).to have_current_path new_resource_avis_imposition_path(projet)
-      fill_in 'avis_imposition_numero_fiscal',  with: 13
-      fill_in 'avis_imposition_reference_avis', with: 16
+      fill_in 'avis_imposition_numero_fiscal',  with: Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE
+      fill_in 'avis_imposition_reference_avis', with: Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE
       click_button 'Ajouter'
 
       expect(page).to have_current_path resource_avis_impositions_path(projet)

@@ -30,13 +30,12 @@ class ProjetInitializer
       contribuable = @service_particulier.retrouve_contribuable
       return unless contribuable
     end
-    is_new_project = 0 == projet.avis_impositions.length
 
     declarant_count = contribuable.declarants[1].present? ? 2 : 1
     avis_imposition = projet.avis_impositions.build
     avis_imposition.reference_avis = reference_avis
     avis_imposition.numero_fiscal = numero_fiscal
-    avis_imposition.annee = contribuable.annee_impots
+    avis_imposition.annee = contribuable.annee_revenus
     avis_imposition.declarant_1 = "#{contribuable.declarants[0][:prenom]} #{contribuable.declarants[0][:nom]}"
     avis_imposition.declarant_2 = "#{contribuable.declarants[1][:prenom]} #{contribuable.declarants[1][:nom]}" if 2 <= declarant_count
     avis_imposition.nombre_personnes_charge = contribuable.nombre_personnes_charge
