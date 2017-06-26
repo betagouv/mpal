@@ -1,0 +1,29 @@
+@import "variables";
+
+.stats {
+  @extend .clearfix;
+}
+.stats__heading {
+  margin-bottom: 1em;
+}
+.stats__metric {
+  float: left;
+  margin-right: 30px;
+  margin-bottom: 30px;
+  width: 170px;
+  height: 150px;
+  padding: 20px 5px 0;
+  border-radius: 3px;
+  text-align: center;
+  color: $color-black;
+  background-color: $color-light-grey;
+  &:last-child {
+    margin-right: 0;
+  }
+}
+.stats__metric-value {
+  font-size: 42px;
+  line-height: 1.5em;
+  font-weight: bold;
+}
+

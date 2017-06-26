@@ -78,6 +78,7 @@ fr:
     faq: "FAQ"
     homepage: "Accueil"
     legal: "Mentions légales"
+    stats: "Statistiques"
     terms_of_use: "Conditions générales d’utilisation"
 
   # ----------------------- Liste des liens du menu patterns ---------------------
@@ -364,6 +365,14 @@ fr:
     civilite:
       mme: Madame
       mr: Monsieur
+
+  # --------------------- Statistiques ----------------
+  stats:
+    status:
+      prospect: "demandes de projet"
+      en_cours_de_montage: "projets en cours"
+      depose: "projets déposés"
+      en_cours_d_instruction: "projets en cours d’instruction"
 
   # ----------------------- Mailers ---------------------
   mailers:

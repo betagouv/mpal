@@ -91,6 +91,9 @@ class Projet < ActiveRecord::Base
       joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
     end
   }
+  scope :updated_since, ->(datetime) {
+    where("updated_at >= ?", datetime)
+  }
 
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')
