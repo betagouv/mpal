@@ -668,7 +668,7 @@ describe Projet do
     let!(:avis2)  { create :avis_imposition, projet: projet, numero_fiscal: 13, reference_avis: 16,  annee: 2015 }
 
 
-    it "calcule le RFR total si le modifié est vide ou nul" do
+    it "calcule le RFR total si celui modifié est vide ou nul" do
       avis1.update(revenu_fiscal_reference: 50)
       avis2.update(revenu_fiscal_reference: 50)
       expect(projet.revenu_fiscal_reference_total).to eq 100
@@ -677,7 +677,7 @@ describe Projet do
     context "calcule le RFR total si le modifié est vide ou nul" do
       before { projet.update!(modified_revenu_fiscal_reference: 111) }
 
-      it "prend le RFR modifié s'il n'est pas nil ou vide" do
+      it "prend le RFR modifié s'il est présent" do
         expect(projet.revenu_fiscal_reference_total).to eq 111
       end
     end

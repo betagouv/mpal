@@ -12,7 +12,8 @@ describe AvisImpositionsController do
       get :new, projet_id: projet.id
       expect(response).to render_template('new')
     end
-  end
+    end
+
 
   describe "#create" do
     let(:projet)     { create :projet, :with_avis_imposition }
@@ -24,7 +25,7 @@ describe AvisImpositionsController do
 
       it "ajoute un avis d'imposition au projet" do
         post :create, projet_id: projet.id,
-            avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+        avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
         projet.reload
         expect(projet.avis_impositions.count).to eq 2
         expect(projet.avis_impositions.first).to eq first_avis
@@ -43,7 +44,7 @@ describe AvisImpositionsController do
 
       it "il obtient un message d'erreur" do
         post :create, projet_id: projet.id,
-             avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+        avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
         expect(response).to redirect_to new_projet_avis_imposition_path projet
         expect(flash[:alert]).to be_present
       end
@@ -55,13 +56,34 @@ describe AvisImpositionsController do
 
       it "n'ajoute pas un avis d'imposition au projet" do
         post :create, projet_id: projet.id,
-            avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+        avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
         projet.reload
         expect(projet.avis_impositions.count).to eq 1
         expect(projet.avis_impositions.first).to eq first_avis
 
         expect(flash[:alert]).to be_present
         expect(response).to redirect_to new_projet_avis_imposition_path(projet)
+      end
+    end
+  end
+
+  describe "#edit_rfr" do
+    let(:projet) { create :projet }
+
+    context "si le modified RFR est mal ou n'est pas complété" do
+      it "le modified RFR est nul" do
+        expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
+        projet.reload.modified_revenu_fiscal_reference = "acdz"
+        expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
+      end
+    end
+
+    context "si le modified RFR est rempli" do
+      it "modifie le modified_rfr" do
+        projet.modified_revenu_fiscal_reference = 123
+        expect(projet.modified_revenu_fiscal_reference).to eq 123
+        projet.modified_revenu_fiscal_reference = 111
+        expect(projet.modified_revenu_fiscal_reference).to eq 111
       end
     end
   end
