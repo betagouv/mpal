@@ -18,6 +18,8 @@ class ProjetsController < ApplicationController
   end
 
   def create
+    @page_heading = "Création de dossier"
+
     @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
 
     if @projet
@@ -25,9 +27,17 @@ class ProjetsController < ApplicationController
         return redirect_to new_user_session_path, alert: t("sessions.user_exists")
       end
       if session[:project_id] != @projet.id
-         session[:project_id] = @projet.id
+        session[:project_id] = @projet.id
       end
       return redirect_to_next_step(@projet)
+    end
+
+    begin
+      @projet = ProjetInitializer.new.initialize_projet(param_numero_fiscal, param_reference_avis)
+    rescue => e
+      @projet = Projet.new(params[:projet].permit(:numero_fiscal, :reference_avis))
+      flash.now[:alert] =  "Erreur : #{e.message}"
+      return render :new, layout: "creation_dossier"
     end
 
     contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
@@ -39,16 +49,6 @@ class ProjetsController < ApplicationController
     unless "1" == params[:proprietaire]
       flash.now[:alert] = t('sessions.erreur_proprietaire_html', anil: view_context.link_to('Anil.org', 'https://www.anil.org/')).html_safe
       return render :new, layout: 'creation_dossier'
-    end
-
-    @page_heading = "Création de dossier"
-
-    begin
-      @projet = ProjetInitializer.new.initialize_projet(param_numero_fiscal, param_reference_avis)
-    rescue => e
-      @projet = Projet.new(params[:projet].permit(:numero_fiscal, :reference_avis))
-      flash.now[:alert] =  "Erreur : #{e.message}"
-      return render :new, layout: "creation_dossier"
     end
 
     unless @projet.avis_impositions.map(&:is_valid_for_current_year?).all?
