@@ -5,7 +5,7 @@ class MisesEnRelationController < ApplicationController
 
   def show
     @demande = @projet_courant.demande
-    @non_eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) == :plafond_depasse
+    @not_eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) == :plafond_depasse
     fetch_intervenants_and_operations
     if @pris.blank?
       Rails.logger.error "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement} (projet_id: #{@projet_courant.id})"
@@ -17,7 +17,7 @@ class MisesEnRelationController < ApplicationController
 
   def update
     begin
-      @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite])
+      @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite]) if params[:projet].present?
       fetch_intervenants_and_operations
       unless @projet_courant.intervenants.include?(@pris) || (@operations.count == 1 && @operateurs.count == 1)
         @projet_courant.invite_pris!(@pris)

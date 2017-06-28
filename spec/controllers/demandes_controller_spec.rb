@@ -29,7 +29,7 @@ describe DemandesController do
         }
         projet.demande.reload
         expect(projet.demande.changement_chauffage).to be true
-        expect(response).to redirect_to new_user_registration_path
+        expect(response).to redirect_to projet_eligibility_path projet
         expect(flash[:alert]).to be_blank
       end
     end

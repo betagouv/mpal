@@ -146,15 +146,20 @@ fr:
       ptz: "PTZ"
       annee_construction: "Année de construction"
       precisions: "Précisions"
+    # ----------------------- Eligibilité ---------------------
+    eligibility:
+      section_eligibility: "Éligibilité"
+      eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
+      not_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation peut être réalisé."
+      section_conditions: "Conditions de financement"
+      informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consultez %{conditions}"
+
     # ----------------------- Mise en relation ---------------------
     mise_en_relation:
-      votre_projet_est_eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
-      votre_projet_est_non_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation va être prochainement réalisé. Un interlocuteur va prendre contact avec vous."
       titre: "Choisissez votre opérateur"
-      section_eligibilite: "Accompagnement"
       assignement_pris_titre: "Un contact pour vous aider"
       non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée"
-      un_pris_va_vous_contacter: "Le Point Rénovation Info Service de votre département, « %{pris} », va vous contacter prochainement."
+      information_pris: "Le Point Rénovation Info Service de votre département est « %{pris} »."
       to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Par exemple : Le matin, entre 8h et 11h"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."

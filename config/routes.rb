@@ -11,6 +11,7 @@ Rails.application.routes.draw do
     resource  :demandeur,         only: [:show, :update]
     resource  :demande,           only: [:show, :update]
     resource  :mise_en_relation,  only: [:show, :update]
+    resource  :eligibility,       only: :show
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
   end
