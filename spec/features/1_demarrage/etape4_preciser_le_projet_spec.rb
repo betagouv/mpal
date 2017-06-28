@@ -34,7 +34,7 @@ feature "Préciser le projet :" do
       fill_in :demande_travaux_autres, with: "Aménager une chambre au RDC"
 
       click_button I18n.t('demarrage_projet.action')
-      expect(page.current_path).to eq(new_user_registration_path)
+      expect(page).to have_current_path projet_eligibility_path projet
 
       projet.reload
       expect(projet.demande.froid).to be_truthy
@@ -59,10 +59,22 @@ feature "Préciser le projet :" do
 
     scenario "je ne peux pas passer à l'étape suivante tant que je n'ai pas rempli au moins un besoin" do
       signin_for_new_projet
-      visit projet_demande_path(projet)
+      visit projet_demande_path projet
       click_button I18n.t('demarrage_projet.action')
-      expect(page.current_path).to eq(projet_demande_path(projet))
-      expect(page).to have_content(I18n.t("demarrage_projet.demande.erreurs.besoin_obligatoire"))
+      expect(page).to have_current_path projet_demande_path projet
+      expect(page).to have_content I18n.t("demarrage_projet.demande.erreurs.besoin_obligatoire")
+    end
+
+    scenario "je suis notifié de mon éligibilité" do
+      signin_for_new_projet
+      visit projet_eligibility_path projet
+      expect(page).to have_content I18n.t('demarrage_projet.eligibility.eligible')
+    end
+
+    scenario "je suis notifié de ma non éligibilité" do
+      signin_for_new_projet_non_eligible
+      visit projet_eligibility_path projet
+      expect(page).to have_content I18n.t('demarrage_projet.eligibility.not_eligible')
     end
   end
 end
