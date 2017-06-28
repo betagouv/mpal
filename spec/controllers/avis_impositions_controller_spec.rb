@@ -12,7 +12,7 @@ describe AvisImpositionsController do
       get :new, projet_id: projet.id
       expect(response).to render_template('new')
     end
-    end
+  end
 
 
   describe "#create" do
