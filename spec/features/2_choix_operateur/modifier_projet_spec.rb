@@ -165,7 +165,7 @@ describe "En tant qu'opérateur je peux modifier le RFR :" do
       click_button I18n.t('demarrage_projet.action')
       visit dossier_path(projet)
       expect(page).to have_content "29 880 €"
-      expect(page).to_not have_content "modification"
+      expect(page).to_not have_content "initialement"
     end
   end
 
@@ -188,7 +188,7 @@ describe "En tant qu'opérateur je peux modifier le RFR :" do
       click_button I18n.t('demarrage_projet.action')
       visit dossier_path(projet)
       expect(page).to have_content 123
-      expect(page).to have_content "modification 123 €"
+      expect(page).to have_content "123 €"
       expect(page).to have_content "(initialement 29 880 €)"
     end
   end
@@ -207,7 +207,7 @@ describe "En tant que demandeur :" do
 
     it "affiche le modified RFR" do
       visit projet_path(projet)
-      expect(page).to have_content("modification 111 €")
+      expect(page).to have_content("111 €")
       expect(page).to have_content("initialement 29 880 €")
     end
   end
