@@ -64,7 +64,7 @@ fr:
         surface_habitable: "Surface habitable"
         theme_ids: "Types d’interventions"
         type_logement: "Type de logement"
-        modified_revenu_fiscal_reference: "Modifier le Revenu Fiscal global du foyer :"
+        modified_revenu_fiscal_reference: "Revenu Fiscal Modifié"
 
       demande:
         # Difficultés
