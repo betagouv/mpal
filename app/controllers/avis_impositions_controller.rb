@@ -63,5 +63,3 @@ private
     current_agent && current_agent.operateur?
   end
 end
-
-

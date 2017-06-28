@@ -13,8 +13,7 @@ describe AvisImpositionsController do
       expect(response).to render_template('new')
     end
   end
-
-
+  
   describe "#create" do
     let(:projet)     { create :projet, :with_avis_imposition }
     let(:first_avis) { projet.avis_impositions.first }
