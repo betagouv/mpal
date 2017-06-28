@@ -160,7 +160,7 @@ describe "En tant qu'opérateur je peux modifier le RFR :" do
   context "si le modified RFR est vide" do
     it "affiche le RFR total initial" do
       visit dossier_avis_impositions_path(projet)
-      expect(page).to have_content "RFR Modifié"
+      expect(page).to have_content I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference")
       fill_in I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference"), with: 'Abc'
       click_button I18n.t('demarrage_projet.action')
       visit dossier_path(projet)
@@ -202,7 +202,7 @@ describe "En tant que demandeur :" do
   context "affichage du RFR" do
     it "je ne peux jamais modifier le RFR" do
       visit projet_avis_impositions_path(projet)
-      expect(page).to_not have_content "RFR Modifié"
+      expect(page).to_not have_content I18n.t("simple_form.labels.projet.modified_revenu_fiscal_reference")
     end
 
     it "affiche le modified RFR" do
