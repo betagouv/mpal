@@ -14,6 +14,7 @@
           th Demandeur
           th Ville
           th Instructeur
+          th Type d'opération
           th Types d’intervention
           th Opérateur
           th Visité le
@@ -35,6 +36,8 @@
                 br/
                 span.firstname= projet.agent_instructeur.prenom
                 span.lastname<= projet.agent_instructeur.nom
+              td
+                p name
               td
                 - if projet.themes.present?
                   = projet.themes.map(&:libelle).join(', ')

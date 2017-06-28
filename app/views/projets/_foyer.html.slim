@@ -39,6 +39,9 @@ article.block.occupants
       = "Numéro Fiscal : #{@projet_courant.numero_fiscal}"
       br/
       = "Référence de l'avis : #{@projet_courant.reference_avis}"
+      - if current_agent
+        br/
+        = link_to "Vérification de l'avis fiscal", "https://cfsmsp.impots.gouv.fr/secavis/", target: :_blank
 
     h4 Occupants :
     span= t('projets.visualisation.future_birth') if @projet_courant.future_birth
