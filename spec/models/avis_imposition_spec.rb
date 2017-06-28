@@ -38,7 +38,6 @@ describe AvisImposition do
 
       it "récupère le revenu fiscal" do
         revenu_fiscal = contribuable.revenu_fiscal_reference
-
         expect(avis_imposition.revenu_fiscal_reference).to eq(revenu_fiscal)
       end
     end

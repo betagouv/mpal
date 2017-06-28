@@ -68,6 +68,7 @@ class Projet < ActiveRecord::Base
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
   validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
   validates :consommation_avant_travaux, :consommation_apres_travaux, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
 
@@ -231,8 +232,12 @@ class Projet < ActiveRecord::Base
 
   def calcul_revenu_fiscal_reference_total(annee_revenus)
     total_revenu_fiscal_reference = 0
-    avis_impositions.where(annee: annee_revenus).each do |avis_imposition|
-      total_revenu_fiscal_reference += avis_imposition.revenu_fiscal_reference
+    if modified_revenu_fiscal_reference != nil
+      total_revenu_fiscal_reference = modified_revenu_fiscal_reference
+    else
+      avis_impositions.where(annee: annee_revenus).each do |avis_imposition|
+        total_revenu_fiscal_reference += avis_imposition.revenu_fiscal_reference
+      end
     end
     total_revenu_fiscal_reference
   end
