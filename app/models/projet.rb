@@ -68,6 +68,7 @@ class Projet < ActiveRecord::Base
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
   validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
   validates :consommation_avant_travaux, :consommation_apres_travaux, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
 

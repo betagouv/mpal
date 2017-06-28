@@ -67,23 +67,24 @@ describe AvisImpositionsController do
     end
   end
 
-  describe "#edit_rfr" do
-    let(:projet) { create :projet }
+  describe "#update_project_rfr" do
+    let(:projet) { create :projet, :with_assigned_operateur, :with_avis_imposition }
 
-    context "si le modified RFR est mal ou n'est pas complété" do
+    before(:each) { authenticate_as_agent projet.agent_operateur }
+
+    context "si le modified_RFR est mal ou n'est pas complété" do
       it "le modified RFR est nul" do
-        expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
-        projet.reload.modified_revenu_fiscal_reference = "acdz"
+        put :update_project_rfr, dossier_id: projet.id, projet: { modified_revenu_fiscal_reference: "abc" }
         expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
       end
     end
 
-    context "si le modified RFR est rempli" do
+    context "si le modified_RFR est rempli" do
       it "modifie le modified_rfr" do
-        projet.modified_revenu_fiscal_reference = 123
-        expect(projet.modified_revenu_fiscal_reference).to eq 123
-        projet.modified_revenu_fiscal_reference = 111
-        expect(projet.modified_revenu_fiscal_reference).to eq 111
+        put :update_project_rfr, dossier_id: projet.id, projet: { modified_revenu_fiscal_reference: "123" }
+        expect(projet.reload.modified_revenu_fiscal_reference).to eq 123
+        put :update_project_rfr, dossier_id: projet.id, projet: { modified_revenu_fiscal_reference: "111" }
+        expect(projet.reload.modified_revenu_fiscal_reference).to eq 111
       end
     end
   end

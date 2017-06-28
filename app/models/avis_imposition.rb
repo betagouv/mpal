@@ -6,10 +6,6 @@ class AvisImposition < ActiveRecord::Base
   validates :numero_fiscal, uniqueness: { scope: :projet_id, case_sensitive: false }
 
   before_create :store_rfr
-
-  def api_revenu_fiscal_reference
-    return revenu_fiscal_reference
-  end
   
   def is_valid_for_current_year?
     annee.to_i >= 2.years.ago.year
