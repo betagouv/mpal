@@ -3,8 +3,18 @@ class AvisImpositionsController < ApplicationController
 
   before_action :assert_projet_courant
   before_action :init_view
+  before_action :authenticate_agent!, only: [:update_project_rfr]
+  before_action :check_agent_operateur, only: [:update_project_rfr]
 
   def index
+  end
+
+  def update_project_rfr
+    unless @projet_courant.update(modified_revenu_fiscal_reference: modified_revenu_fiscal_reference)
+      return render :index
+      # ATTENTION PAS MSG ERREUR MAIS CA MARCHE
+    end
+    redirect_to dossier_occupants_path(@projet_courant)
   end
 
   def new
@@ -43,6 +53,13 @@ private
 
   def avis_imposition_params
     (params || {}).require(:avis_imposition)
+    end
+
+  def modified_revenu_fiscal_reference
+    (params || {}).require(:projet).permit(:modified_revenu_fiscal_reference)[:modified_revenu_fiscal_reference]
+  end
+
+  def check_agent_operateur
+    current_agent && current_agent.operateur?
   end
 end
-

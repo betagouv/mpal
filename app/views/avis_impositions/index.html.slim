@@ -25,5 +25,10 @@ section.avis-imposition
                 = link_to "Supprimer", projet_or_dossier_avis_imposition_path(@projet_courant, avis_imposition), method: :delete, data: { confirm: "Êtes-vous sûr de vouloir supprimer cet avis d’imposition ?" }
     p.content__question= "Parmi les occupants du logement actuel y a-t-il d’autres avis d’imposition pour l’année #{@projet_courant.annee_fiscale_reference} ?"
     = btn name: "Ajouter un avis d’imposition", href: new_projet_or_dossier_avis_imposition_path(@projet_courant), icon: "plus"
-= btn name: t('demarrage_projet.action'), href: projet_or_dossier_occupants_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"
-
+  .section__content
+    - if current_agent && current_agent.operateur?
+      = simple_form_for @projet_courant, url: dossier_update_project_rfr_path(@projet_courant), html: { method: :put, class: "form" } do |f|
+        = f.input :modified_revenu_fiscal_reference, as: :string, wrapper_html: { class: "size-s" }
+        = btn name: t("demarrage_projet.action"), class: "btn-large btn-centered", icon: "arrow-right"
+    - else
+      = btn name: t("demarrage_projet.action"), href: projet_or_dossier_occupants_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"
