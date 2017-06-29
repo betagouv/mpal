@@ -19,6 +19,7 @@ body {
 
 a {
   color: #353940;
+  text-decoration: underline;
 }
 
 .clearfix::after {
@@ -223,7 +224,6 @@ fieldset {
     a {
       color: #bf0000;
       font-weight: bold;
-      text-decoration: underline;
       &:hover {
         color: #900;
       }
@@ -344,8 +344,6 @@ fieldset {
             position: relative;
             margin-top: 5px;
             font-style: italic; }
-            .page-projet .col-right .content-projet .block.messagerie .chat p a {
-              text-decoration: underline; }
           .page-projet .col-right .content-projet .block.messagerie .chat date {
             display: block;
             font-size: 12px;
