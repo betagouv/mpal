@@ -264,6 +264,30 @@ describe DossiersController do
       end
     end
 
+    context "en tant que dreal connecté non affecté à un projet" do
+      let(:dreal)         { create :dreal, departements: ["01", "34"] }
+      let(:current_agent) { create :agent, :dreal, intervenant: dreal }
+      let(:projet_01)     { create :projet, :proposition_proposee }
+      let(:projet_34)     { create :projet, :en_cours, email: "prenom.nom2@site.com" }
+      let(:projet_56)     { create :projet, :en_cours, email: "prenom.nom3@site.com" }
+
+      before do
+        projet_01.adresse.update(departement: "01")
+        projet_34.adresse.update(departement: "34")
+        projet_56.adresse.update(departement: "56")
+      end
+
+      it "je peux voir la liste de tous les projets de ma région dans la page indicateurs" do
+        get :indicateurs
+        expect(response).to render_template(:indicateurs)
+        expect(assigns(:projets_count)).to eq 2
+        expect(assigns(:projets)[:prospect]).to eq 0
+        expect(assigns(:projets)[:en_cours_de_montage]).to eq 2
+        expect(assigns(:projets)[:depose]).to eq 0
+        expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
+      end
+    end
+
     context "en tant que ANAH Siège connecté non affecté à un projet" do
       let(:siege)         { create :siege }
       let(:current_agent) { create :agent, :siege, intervenant: siege }
@@ -287,6 +311,5 @@ describe DossiersController do
         expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
       end
     end
-
   end
 end
