@@ -8,12 +8,13 @@ Rails.application.routes.draw do
     resources :avis_impositions,   only: [:index, :new, :create, :destroy]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
-    resource  :demandeur,         only: [:show, :update]
-    resource  :demande,           only: [:show, :update]
-    resource  :mise_en_relation,  only: [:show, :update]
-    resource  :eligibility,       only: :show
+    resource  :demandeur,          only: [:show, :update]
+    resource  :demande,            only: [:show, :update]
+    resource  :mise_en_relation,   only: [:show, :update]
+    resource  :eligibility,        only: :show
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
+    get       '/payment_registry', to: 'payment_registries#show'
   end
 
   devise_for :users, controllers: {
@@ -40,6 +41,7 @@ Rails.application.routes.draw do
       get  :proposition
       put  :proposition
       get  :indicateurs, on: :collection
+      post '/payment_registry', to: 'payment_registries#create'
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
