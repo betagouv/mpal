@@ -204,6 +204,15 @@ ActiveRecord::Schema.define(version: 20170703122407) do
     t.datetime "updated_at"
   end
 
+  create_table "payment_registries", force: :cascade do |t|
+    t.integer  "statut",     default: 0, null: false
+    t.integer  "projet_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "payment_registries", ["projet_id"], name: "index_payment_registries_on_projet_id", using: :btree
+
   create_table "personnes", force: :cascade do |t|
     t.string "prenom"
     t.string "nom"
@@ -358,6 +367,7 @@ ActiveRecord::Schema.define(version: 20170703122407) do
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
+  add_foreign_key "payment_registries", "projets"
   add_foreign_key "prestation_choices", "prestations"
   add_foreign_key "prestation_choices", "projets"
   add_foreign_key "projet_aides", "aides"
