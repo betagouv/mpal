@@ -5,6 +5,10 @@ class DossiersController < ApplicationController
   before_action :assert_projet_courant, except: [:index, :indicateurs]
 
   def index
+    if current_agent.dreal?
+      return redirect_to indicateurs_dossiers_path
+    end
+
     if current_agent.siege?
       @dossiers = Projet.all.with_demandeur
     else
@@ -20,6 +24,7 @@ class DossiersController < ApplicationController
         return render text: Projet.to_csv(current_agent)
       }
     end
+
     return render "dossiers/dashboard_siege"       if current_agent.siege?
     return render "dossiers/dashboard_operateur"   if current_agent.operateur?
     return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
@@ -97,7 +102,7 @@ class DossiersController < ApplicationController
   def indicateurs
     @page_heading = 'Indicateurs'
 
-    if current_agent.instructeur?
+    if current_agent.instructeur? || current_agent.dreal?
       departements = current_agent.intervenant.departements
       projets = departements.map { |d| Projet.all.select { |p| p.adresse.try(:departement) == d } }.flatten
 
