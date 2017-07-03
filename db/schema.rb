@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170616135257) do
+ActiveRecord::Schema.define(version: 20170703122407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -293,6 +293,7 @@ ActiveRecord::Schema.define(version: 20170616135257) do
     t.boolean  "future_birth",                                              default: false, null: false
     t.integer  "user_id"
     t.integer  "modified_revenu_fiscal_reference"
+    t.datetime "locked_at"
   end
 
   add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
