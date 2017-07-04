@@ -80,6 +80,7 @@ module ApplicationConcern
     expose_routing_helper :new_projet_or_dossier_avis_imposition_path
     expose_routing_helper :projet_or_dossier_occupants_path
     expose_routing_helper :projet_or_dossier_occupant_path
+    expose_routing_helper :projet_or_dossier_demande_path
   end
 end
 

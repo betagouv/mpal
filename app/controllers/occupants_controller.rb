@@ -72,7 +72,7 @@ private
 
   def redirect_to_next_step
     if needs_next_step?
-      redirect_to projet_demande_path(@projet_courant)
+      redirect_to projet_or_dossier_demande_path(@projet_courant)
     else
       redirect_to projet_or_dossier_path(@projet_courant)
     end

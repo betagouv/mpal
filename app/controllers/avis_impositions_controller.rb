@@ -14,7 +14,7 @@ class AvisImpositionsController < ApplicationController
       return render :index
       # ATTENTION PAS MSG ERREUR MAIS CA MARCHE
     end
-    redirect_to dossier_occupants_path(@projet_courant)
+    redirect_to projet_or_dossier_occupants_path(@projet_courant)
   end
 
   def new
