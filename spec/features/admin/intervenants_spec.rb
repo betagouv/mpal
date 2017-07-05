@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/mpal_features_helper'
 
-feature "Administration des intervenants" do
+feature "Administration des intervenants", skip: true do
   let!(:intervenant1) { create :operateur }
   let!(:intervenant2) { create :instructeur }
   let!(:intervenant3) { create :pris }
