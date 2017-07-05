@@ -34,7 +34,6 @@
 .env.production
 # Fichiers générés par rubymine
 .idea/
-/config/database.yml
 
 dump.rdb
 erd.pdf
