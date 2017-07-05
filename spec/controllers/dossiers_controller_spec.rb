@@ -159,9 +159,6 @@ describe DossiersController do
 
       it "sauvegarder l'année de construction si elle est modifiée" do
         projet_params = {
-          prestation_choices_attributes: {
-            '1' => { id: '', prestation_id: prestation_1.id, recommended: true },
-          },
           demande_attributes: {
             annee_construction: "1980"
           }
@@ -169,8 +166,19 @@ describe DossiersController do
         put :proposition, dossier_id: projet.id, projet: projet_params
         projet.reload
 
-        expect(projet.prestation_choices.count).to eq 1
         expect(projet.demande.annee_construction).to eq 1980
+      end
+
+      it "n'écrase pas la demande si l'année de construction n'est pas renseignée" do
+        projet_params = {
+          demande_attributes: {
+            annee_construction: nil
+          }
+        }
+        put :proposition, dossier_id: projet.id, projet: projet_params
+        projet.reload
+
+        expect(projet.demande.complete?).to be_truthy
       end
 
       it "je ne peux pas créer de doublon" do
