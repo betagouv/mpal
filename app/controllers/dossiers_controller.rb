@@ -46,7 +46,7 @@ class DossiersController < ApplicationController
     end
 
     if request.put?
-      if @projet_courant.save_proposition!(projet_params)
+      if @projet_courant.save_proposition!(projet_params) && @projet_courant.demande.update(annee_construction: demande_params[:annee_construction])
         return redirect_to projet_or_dossier_path(@projet_courant), notice: t('projets.edition_projet.messages.succes')
       else
         flash.now[:alert] = t('projets.edition_projet.messages.erreur')
@@ -160,11 +160,15 @@ private
                         :suggested_operateur_ids => [],
                         :prestation_choices_attributes => [:prestation_id, :desired, :recommended, :selected],
                         :projet_aides_attributes => [:aide_id, :localized_amount],
-                        :demande_attributes => [:annee_construction],
                 )
     clean_projet_aides(attributs)
     clean_prestation_choices(attributs)
     attributs
+  end
+
+  def demande_params
+    attributs = params.require(:projet).permit(:demande_attributes => [:annee_construction])[:demande_attributes]
+    attributs ? attributs : {}
   end
 
   def clean_projet_aides(attributs)
