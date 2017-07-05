@@ -2,6 +2,7 @@ class DemandesController < ApplicationController
   layout 'inscription'
 
   before_action :assert_projet_courant
+  load_and_authorize_resource
 
   def show
     @demande = projet_demande

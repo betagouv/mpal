@@ -469,3 +469,7 @@ fr:
           attributes:
             date_de_naissance:
               not_in_past: "invalide : merci d’indiquer une date dans le passé."
+
+  # ---------------------- Active Record -----------------------------
+  unauthorized:
+      default: "Vous n’avez pas accès à cette page."

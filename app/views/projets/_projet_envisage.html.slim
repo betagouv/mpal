@@ -1,6 +1,7 @@
 article.block.projet
   h3 Projet envisagé
-  = edit_projet_button(@projet_courant, projet_demande_path(@projet_courant))
+  - if can? :update, @projet_courant
+     = edit_projet_button(@projet_courant, projet_demande_path(@projet_courant))
   .content-block
     - if @projet_courant.demande.blank?
       - if current_agent

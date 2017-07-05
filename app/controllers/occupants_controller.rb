@@ -2,6 +2,7 @@ class OccupantsController < ApplicationController
   layout 'inscription'
 
   before_action :assert_projet_courant
+  load_and_authorize_resource
 
   def index
     @occupant = @projet_courant.avis_impositions.first.occupants.build(occupant_params)
