@@ -17,12 +17,16 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    #TODO add user management?
-    @current_ability ||= Ability.new(current_agent)
+    @current_ability ||= Ability.new(current_agent || current_user, @projet_courant)
   end
 
   def debug_exception
     raise "Exception de test"
   end
-end
 
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.html { redirect_to root_path, alert: exception.message }
+    end
+  end
+end

@@ -2,6 +2,7 @@ class DemandeursController < ApplicationController
   layout 'inscription'
 
   before_action :assert_projet_courant
+  authorize_resource :class => false
 
   def show
     render_show

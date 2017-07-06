@@ -5,6 +5,7 @@ class AvisImpositionsController < ApplicationController
   before_action :init_view
   before_action :authenticate_agent!, only: [:update_project_rfr]
   before_action :check_agent_operateur, only: [:update_project_rfr]
+  load_and_authorize_resource
 
   def index
   end
@@ -14,7 +15,7 @@ class AvisImpositionsController < ApplicationController
       return render :index
       # ATTENTION PAS MSG ERREUR MAIS CA MARCHE
     end
-    redirect_to dossier_occupants_path(@projet_courant)
+    redirect_to projet_or_dossier_occupants_path(@projet_courant)
   end
 
   def new
@@ -52,7 +53,7 @@ private
   end
 
   def avis_imposition_params
-    (params || {}).require(:avis_imposition)
+    (params || {}).require(:avis_imposition).permit(:numero_fiscal, :reference_avis)
     end
 
   def modified_revenu_fiscal_reference
