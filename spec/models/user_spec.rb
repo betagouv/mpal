@@ -18,16 +18,18 @@ describe User do
       it { is_expected.not_to be_able_to(:manage, :demandeur) }
       it { is_expected.not_to be_able_to(:manage, Occupant) }
       it { is_expected.not_to be_able_to(:manage, Projet) }
+      it { is_expected.not_to be_able_to(:read,   PaymentRegistry) }
     end
 
     context "when project is not locked" do
-      let(:projet) { create :projet }
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
 
       it { is_expected.to be_able_to(:manage, AvisImposition) }
       it { is_expected.to be_able_to(:manage, Demande) }
       it { is_expected.to be_able_to(:manage, :demandeur) }
       it { is_expected.to be_able_to(:manage, Occupant) }
       it { is_expected.to be_able_to(:manage, Projet) }
+      it { is_expected.to be_able_to(:read,   PaymentRegistry) }
     end
   end
 

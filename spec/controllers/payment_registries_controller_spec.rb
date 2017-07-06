@@ -32,11 +32,10 @@ describe PaymentRegistriesController do
     context "si le projet n'a pas encore été transmis pour instruction" do
       let(:projet) { create :projet, :proposition_proposee }
 
-      it "affiche une erreur et redirige vers la page projet" do
+      it "affiche une erreur" do
         post :create, dossier_id: projet.id
         expect(flash[:alert]).to be_present
         expect(PaymentRegistry.all.count).to eq 0
-        expect(response).to redirect_to dossier_path(projet)
       end
     end
 
@@ -58,8 +57,9 @@ describe PaymentRegistriesController do
       it "redirige vers le registre" do
         post :create, dossier_id: projet.id
         projet.reload
+        expect(flash[:alert]).to be_present
+        expect(PaymentRegistry.all.count).to eq 1
         expect(projet.payment_registry).to eq payment_registry
-        expect(response).to redirect_to dossier_payment_registry_path(projet)
       end
     end
   end

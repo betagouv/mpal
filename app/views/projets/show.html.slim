@@ -5,5 +5,4 @@ section.content-projet
   = render "projet_envisage"
   - if @projet_courant.statut != "prospect"
     = render "projet_#{@projet_courant.statut}"
-  - if Projet::STATUSES.split(:transmis_pour_instruction).first.exclude? @projet_courant.statut.to_sym
-    = render "projets/payment_registry"
+  = render "projets/payment_registry"
