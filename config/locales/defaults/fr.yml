@@ -151,9 +151,9 @@ fr:
       section_eligibility: "Éligibilité"
       section_conditions: "Conditions de financement"
       eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
-      not_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation peut être réalisé."
+      not_eligible: "D’après les éléments renseignés, vous n’êtes a priori pas éligible, pour s’en assurer un complément d'étude de votre situation peut être réalisé."
       section_conditions: "Conditions de financement"
-      informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consultez %{conditions}"
+      informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consulter %{conditions}."
 
     # ----------------------- Mise en relation ---------------------
     mise_en_relation:
