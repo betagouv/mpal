@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/mpal_features_helper'
 
-feature "Administration des thèmes" do
+feature "Administration des thèmes", skip: true do
   before do
     create :theme, libelle: "Autonomie"
     create :theme, libelle: "Autres travaux"
