@@ -36,7 +36,7 @@ class Projet < ActiveRecord::Base
 
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
-  belongs_to :operateur, class_name: 'Intervenant'
+  belongs_to :operateur, class_name: "Intervenant"
   belongs_to :agent_operateur, class_name: "Agent"
   belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
@@ -57,6 +57,7 @@ class Projet < ActiveRecord::Base
 
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
+  has_and_belongs_to_many :operations
 
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
 
@@ -405,6 +406,7 @@ class Projet < ActiveRecord::Base
         'État',
         'Depuis',
       ]
+      titles.insert 6, 'Opération'         if agent.instructeur?
       titles.insert 6, 'Agent opérateur'   if agent.siege? || agent.instructeur? || agent.operateur?
       titles.insert 4, 'Agent instructeur' if agent.siege? || agent.instructeur? || agent.operateur?
       titles.insert 2, 'Département'       if agent.siege? || agent.operateur?
@@ -422,11 +424,12 @@ class Projet < ActiveRecord::Base
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
-        line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
-        line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
-        line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?
-        line.insert 2, projet.adresse.try(:region)             if agent.siege? || agent.operateur?
-        line.insert 1, projet.opal_numero                      if agent.siege? || agent.instructeur? || agent.operateur?
+        line.insert 6, projet.operations.map(&:name).join(', ') if agent.instructeur?
+        line.insert 6, projet.agent_operateur.try(:fullname)    if agent.siege? || agent.instructeur? || agent.operateur?
+        line.insert 4, projet.agent_instructeur.try(:fullname)  if agent.siege? || agent.instructeur? || agent.operateur?
+        line.insert 2, projet.adresse.try(:departement)         if agent.siege? || agent.operateur?
+        line.insert 2, projet.adresse.try(:region)              if agent.siege? || agent.operateur?
+        line.insert 1, projet.opal_numero                       if agent.siege? || agent.instructeur? || agent.operateur?
         csv << line
       end
     end
