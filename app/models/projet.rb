@@ -36,7 +36,7 @@ class Projet < ActiveRecord::Base
 
   has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
-  belongs_to :operateur, class_name: 'Intervenant'
+  belongs_to :operateur, class_name: "Intervenant"
   belongs_to :agent_operateur, class_name: "Agent"
   belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
@@ -57,6 +57,7 @@ class Projet < ActiveRecord::Base
 
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
+  has_and_belongs_to_many :operations
 
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
 

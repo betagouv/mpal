@@ -8,5 +8,6 @@ describe Operation do
     it { is_expected.to validate_presence_of :code_opal }
     it { is_expected.to validate_uniqueness_of :code_opal }
     it { is_expected.to have_and_belong_to_many :operateurs }
+    it { is_expected.to have_and_belong_to_many :projets }
   end
 end

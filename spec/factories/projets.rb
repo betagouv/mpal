@@ -112,6 +112,12 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_operation do
+      after(:build) do |projet|
+        projet.operations << create(:operation)
+      end
+    end
+
     # Project states
 
     trait :initial do
