@@ -5,6 +5,11 @@ class ProjetsController < ApplicationController
   before_action :redirect_to_project_if_exists, only: [:new, :create]
 
   def show
+    if @projet_courant.locked_at && @projet_courant.user.blank?
+      return redirect_to projet_eligibility_path(@projet_courant), alert: t('sessions.access_forbidden')
+    elsif @projet_courant.user && @projet_courant.invitations.blank?
+      return redirect_to projet_mise_en_relation_path(@projet_courant), alert: t('sessions.access_forbidden')
+    end
     render_show
   end
 
