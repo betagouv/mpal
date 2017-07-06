@@ -207,7 +207,7 @@ class Projet < ActiveRecord::Base
   end
 
   def validate_payment_registry
-    if payment_registry.present? && STATUSES.split(:transmis_pour_instruction).first.include?(statut.to_sym)
+    if payment_registry.present? && status_not_yet(:transmis_pour_instruction)
       errors.add(:payment_registry, "Vous ne pouvez ajouter un registre de paiement que si le projet a été transmis pour instruction")
     end
   end
@@ -401,6 +401,10 @@ class Projet < ActiveRecord::Base
     statuses_map[statut.to_sym] || :depose
   end
 
+  def status_not_yet(status)
+    STATUSES.split(status).first.include? self.statut.to_sym
+  end
+
   def self.to_csv(agent)
     utf8 = CSV.generate(csv_options) do |csv|
       titles = [
@@ -446,7 +450,7 @@ class Projet < ActiveRecord::Base
     if intervenant.pris?
       statut.to_sym != :prospect
     elsif intervenant.instructeur?
-      STATUSES.split(:transmis_pour_instruction).first.include? statut.to_sym
+      status_not_yet(:transmis_pour_instruction)
     elsif intervenant.operateur?
       invitation = invitations.find_by(intervenant: intervenant)
       invitation.suggested && !invitation.contacted && invitation.intervenant != operateur

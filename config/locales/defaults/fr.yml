@@ -477,4 +477,8 @@ fr:
 
   # ---------------------- Active Record -----------------------------
   unauthorized:
-      default: "Vous n’avez pas accès à cette page."
+    default: "Vous n’avez pas accès à cette page."
+    read:
+      payment_registry: "Aucun dossier de paiement n'a été trouvé"
+    create:
+      payment_registry: "Vous ne pouvez créer un nouveau dossier de paiement"
