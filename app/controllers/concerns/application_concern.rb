@@ -6,7 +6,7 @@ module ApplicationConcern
 
     def redirect_to_project_if_exists
       projet_or_dossier
-      if current_user && current_user.projet
+      if current_user.try(:projet)
         if current_user.projet.invitations.blank?
           return redirect_to projet_mise_en_relation_path(current_user.projet)
         end

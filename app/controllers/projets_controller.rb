@@ -76,7 +76,7 @@ private
   def redirect_to_next_step(projet)
     if projet.demandeur.blank?
       redirect_to projet_demandeur_path(projet)
-    elsif @projet.locked_at && !@projet.user
+    elsif @projet.locked_at && @projet.user.blank?
       redirect_to projet_eligibility_path(projet)
     else
       redirect_to projet
