@@ -4,7 +4,7 @@ fr:
       titre: "Connectez-vous"
       action: "Me connecter"
     commencer: "Commencer"
-    invalid_credentials: "Votre numéro fiscal ou votre avis de référence sont invalides."
+    invalid_credentials: "Votre numéro fiscal et/ou votre référence d’avis sont invalides."
     access_forbidden: "Vous n’avez pas accès à cette page."
     erreur_creation_projet: "Une erreur est survenue lors de la création du projet."
     erreur_proprietaire_html: "L’Anah accorde des aides à des personnes propriétaires de leur logement. Si vous êtes locataire c’est à votre propriétaire de faire la demande de subvention auprès de l’Anah. Vous trouverez d'avantage d'information sur le site %{anil}."
