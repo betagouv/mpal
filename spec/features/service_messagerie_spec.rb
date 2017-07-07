@@ -4,15 +4,16 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature 'messagerie' do
+  let(:user)              { create :user }
+  let(:projet)            { create(:projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6)) }
   let(:message_demandeur) { "Bonjour ! J'ai une question sur mon projet." }
   let(:message_operateur) { "J'attend votre question." }
-  let(:projet)            { create :projet, :prospect }
   let(:operateur)         { create :operateur, departements: [projet.departement] }
   let(:agent_operateur)   { create :agent, intervenant: operateur }
   let!(:invitation)       { create :invitation, intervenant: operateur, projet: projet }
 
-  context "en tant que demandeur" do
-    before { signin(projet.numero_fiscal, projet.reference_avis) }
+  context "en tant que demandeur dont l’éligibilité est figée" do
+    before { login_as user, scope: :user }
 
     scenario "je veux ajouter un commentaire" do
       visit projet_path(projet)
