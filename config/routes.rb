@@ -42,6 +42,8 @@ Rails.application.routes.draw do
       put  :proposition
       get  :indicateurs, on: :collection
       post '/payment_registry', to: 'payment_registries#create'
+      get  '/payments/new', to: 'payments#new'
+      post '/payments',     to: 'payments#create'
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 

@@ -88,6 +88,11 @@ fr:
         # Autre
         complement: "Informations complémentaires"
         ptz: "Prêt à taux zéro contracté"
+
+      payment:
+        beneficiaire: "Bénéficiaire"
+        type_paiement: "Type de demande"
+        personne_morale: "Personne morale"
     hints:
       defaults:
         birthday: "JJ/MM/AAAA"

@@ -5,6 +5,7 @@ class Ability
     agent_or_user ||= User.new
 
     define_payment_registry_abilities(agent_or_user, projet)
+    define_payment_abilities(agent_or_user, projet)
 
     if agent_or_user.is_a? Agent
       if agent_or_user.admin?
@@ -38,6 +39,12 @@ private
 
     can :create, PaymentRegistry if agent_or_user.try(:operateur?) && project_transmited && projet.payment_registry.blank?
     can :read,   PaymentRegistry if projet.payment_registry.present?
+  end
+
+  def define_payment_abilities(agent_or_user, projet)
+    alias_action :new, :create, to: :add
+
+    can :add, Payment if agent_or_user.try(:operateur?) && projet.payment_registry.present?
   end
 
 end
