@@ -5,12 +5,14 @@ require 'support/api_ban_helper'
 require 'support/rod_helper'
 
 feature "En tant que demandeur" do
-  let(:projet) { create :projet, :prospect }
+  let(:user)   { create :user }
+  let(:projet) { create :projet, :prospect, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
   let(:pris)   { Intervenant.pour_role('pris').last }
+
 
   context "quand je suis en diffu (pris assigné à mon projet)" do
     scenario "je valide ma mise en relation avec le PRIS et renseigne mes disponibilités" do
-      signin(projet.numero_fiscal, projet.reference_avis)
+      login_as user, scope: :user
 
       visit projet_mise_en_relation_path(projet)
       expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.assignement_pris_titre')
@@ -29,7 +31,7 @@ feature "En tant que demandeur" do
     before { Fakeweb::Rod.register_query_for_success_with_operation }
 
     scenario "Je suis informé qu'un contact va m'être proposé et je peux le contacter" do
-      signin(projet.numero_fiscal, projet.reference_avis)
+      login_as user, scope: :user
 
       visit projet_mise_en_relation_path(projet)
       expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.to_operator')

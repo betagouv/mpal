@@ -26,7 +26,11 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      format.html { redirect_to root_path, alert: exception.message }
+      if @projet_courant.locked_at && @projet_courant.user.blank?
+        format.html { redirect_to projet_eligibility_path(@projet_courant), alert: exception.message }
+      elsif
+        format.html { redirect_to root_path, alert: exception.message }
+      end
     end
   end
 end

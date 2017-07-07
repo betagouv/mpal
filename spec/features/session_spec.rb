@@ -13,13 +13,13 @@ feature "Identification :" do
 end
 
 feature "Réinitialisation de la session :" do
-  let(:user) {            create :user }
-  let(:projet) {          create :projet, :prospect, user: user }
-  let(:operateur) {       create :operateur, departements: [projet.departement] }
-  let(:invitation) {      create :invitation, projet: projet, intervenant: operateur }
-  let(:agent_operateur) { create :agent, intervenant: operateur }
+  let(:user)             { create :user }
+  let(:projet)           { create :projet, :prospect, :with_invited_pris, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
+  let(:operateur)        { create :operateur, departements: [projet.departement] }
+  let(:invitation)       { create :invitation, projet: projet, intervenant: operateur }
+  let(:agent_operateur)  { create :agent, intervenant: operateur }
 
-  context "en tant que demandeur" do
+  context "en tant qu'utilisateur connecté" do
     before { login_as user, scope: :user }
 
     scenario "je vois le lien pour se déconnecter s'il y a un projet et un message qui m'annonce que je me suis bien deconnecté(e)" do
