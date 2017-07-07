@@ -4,7 +4,7 @@ require 'support/after_party_helper'
 describe '20170707114549_migrate_dreals_siege' do
   include_context 'after_party'
 
-  let!(:intervenant_a_modifier) { create :intervenant, raison_sociale: "DREAL Bourgogne France-Comté" }
+  let!(:intervenant_a_modifier) { create :intervenant, raison_sociale: "DREAL Bourgogne Franche-Comté" }
   let!(:intervenant_existant)   { create :intervenant, raison_sociale: "DREAL Ile-de-France",
                                                        departements: ["75", "77", "78", "91", "92", "93", "94", "95"],
                                                        clavis_service_id: "5025",
@@ -36,8 +36,8 @@ describe '20170707114549_migrate_dreals_siege' do
   end
 
   it "met à jour les intervenants qui existent" do
-    expect(Intervenant.where(raison_sociale: "DREAL Bourgogne France-Comté").count).to eq 1
-    expect(intervenant_a_modifier.raison_sociale).to eq "DREAL Bourgogne France-Comté"
+    expect(Intervenant.where(raison_sociale: "DREAL Bourgogne Franche-Comté").count).to eq 1
+    expect(intervenant_a_modifier.raison_sociale).to eq "DREAL Bourgogne Franche-Comté"
     expect(intervenant_a_modifier.departements).to eq ["21", "25", "39", "58", "70", "71", "89", "90"]
     expect(intervenant_a_modifier.clavis_service_id).to eq "5268"
     expect(intervenant_a_modifier.email).to eq "dreal-bourgogne-franchecomte@anah.gouv.fr"
