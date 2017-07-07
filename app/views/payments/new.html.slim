@@ -1,0 +1,10 @@
+= simple_form_for @payment, url: { controller: "payments", action: "create" }, html: { class: "form" } do |f|
+  section.section
+    h2.section__title= "Paiement"
+    = render "shared/errors", resource: @payment
+    .section__content
+      = f.input :type_paiement, as: :radio_buttons, collection: Payment::TYPES, required: true
+      = f.input :beneficiaire, as: :string, input_html: { value: @projet_courant.demandeur.fullname }, wrapper_html: { class: "size-m" }, required: true
+      = f.input :personne_morale, as: :radio_buttons, label: "S'agit-il d'une personne morale ?", collection: [["Oui", true], ["Non", false]], checked: false
+
+  = btn name: "Créer", class: "btn-large btn-centered", icon: "arrow-right"
