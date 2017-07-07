@@ -4,7 +4,7 @@ namespace :after_party do
     puts "Running deploy task 'migrate_dreals_siege'" unless Rake.application.options.quiet
 
     new_intervenants.each do |new_intervenant|
-      intervenant = Intervenant.all.find_by_raison_sociale(new_intervenant[:raison_sociale])
+      intervenant = Intervenant.all.find_by_clavis_service_id(new_intervenant[:clavis_service_id])
       if intervenant.blank?
         Intervenant.create! departements: new_intervenant[:departements], raison_sociale: new_intervenant[:raison_sociale], clavis_service_id: new_intervenant[:clavis_service_id], adresse_postale: new_intervenant[:adresse_postale], email: new_intervenant[:email], roles: new_intervenant[:roles]
       else

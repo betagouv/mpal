@@ -4,7 +4,8 @@ require 'support/after_party_helper'
 describe '20170707114549_migrate_dreals_siege' do
   include_context 'after_party'
 
-  let!(:intervenant_a_modifier) { create :intervenant, raison_sociale: "DREAL Bourgogne Franche-Comté" }
+  let!(:intervenant_a_modifier) { create :intervenant, raison_sociale: "DREAL Bourgogne France-Comté",
+                                                       clavis_service_id: "5268" }
   let!(:intervenant_existant)   { create :intervenant, raison_sociale: "DREAL Ile-de-France",
                                                        departements: ["75", "77", "78", "91", "92", "93", "94", "95"],
                                                        clavis_service_id: "5025",
