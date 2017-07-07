@@ -23,7 +23,7 @@ def new_intervenants
   [
     {
       departements: ["21", "25", "39", "58", "70", "71", "89", "90"],
-      raison_sociale: "DREAL Bourgogne France-Comté",
+      raison_sociale: "DREAL Bourgogne Franche-Comté",
       clavis_service_id: "5268",
       adresse_postale: "",
       email: "dreal-bourgogne-franchecomte@anah.gouv.fr",
