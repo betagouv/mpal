@@ -4,15 +4,16 @@ class PaymentRegistry < ActiveRecord::Base
     :avance_demandee,
     :avance_en_cours_d_instruction,
     :avance_payee,
-    :accompte_demande,
-    :accompte_en_cours_d_instruction,
-    :accompte_paye,
+    :acompte_demande,
+    :acompte_en_cours_d_instruction,
+    :acompte_paye,
     :solde_demande,
     :solde_en_cours_d_instruction,
     :solde_paye,
   ]
 
   belongs_to :projet
+  has_many   :payments, dependent: :destroy
 
   def demandeur
     projet.demandeur.fullname
