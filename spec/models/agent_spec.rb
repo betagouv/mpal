@@ -13,16 +13,36 @@ describe Agent do
 
   describe "abilities" do
     let(:agent)       { create :agent }
-    let(:projet)      { create :projet }
     subject(:ability) { Ability.new(agent, projet) }
 
-    context "when is an admin" do
-      before { agent.update! admin: true }
+    context "when a payment registry exists" do
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+      it { is_expected.to be_able_to(:read, PaymentRegistry) }
+    end
 
+    context "when is an operator" do
+      let(:operateur) { create :operateur }
+      before { agent.update! intervenant: operateur }
+
+      context "when a payment registry doesn't exist" do
+        let(:projet) { create :projet, :transmis_pour_instruction }
+        it { is_expected.to be_able_to(:create, PaymentRegistry) }
+      end
+
+      context "when a payment registry exists" do
+        let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+        it { is_expected.not_to be_able_to(:create, PaymentRegistry) }
+      end
+    end
+
+    context "when is an admin" do
+      let(:projet) { create :projet }
+      before { agent.update! admin: true }
       it { is_expected.to be_able_to(:manage, :all) }
     end
 
     context "when is not an admin" do
+      let(:projet) { create :projet }
       it { is_expected.to be_able_to(:manage, AvisImposition) }
       it { is_expected.to be_able_to(:manage, Demande) }
       it { is_expected.to be_able_to(:manage, :demandeur) }

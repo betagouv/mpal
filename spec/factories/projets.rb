@@ -112,6 +112,13 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_payment_registry do
+      after(:build) do |projet|
+        payment_registry = create(:payment_registry)
+        projet.update payment_registry: payment_registry
+      end
+    end
+
     # Project states
 
     trait :initial do

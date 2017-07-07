@@ -300,6 +300,11 @@ fr:
       titre: 'Modification du projet'
       description: 'Vous pouvez mettre à jour les informations concernant votre projet.'
 
+  # ----------------------- Registre de Paiement ---------------------
+  payment_registry:
+    info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."
+    no_paiement: "Aucun dossier de paiement"
+
   # ----------------------- Messagerie ---------------------
   conversation:
     titre_section: "Chat"
@@ -472,4 +477,8 @@ fr:
 
   # ---------------------- Active Record -----------------------------
   unauthorized:
-      default: "Vous n’avez pas accès à cette page."
+    default: "Vous n’avez pas accès à cette page."
+    read:
+      payment_registry: "Aucun dossier de paiement n'a été trouvé"
+    create:
+      payment_registry: "Vous ne pouvez créer un nouveau dossier de paiement"

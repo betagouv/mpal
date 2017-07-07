@@ -58,6 +58,8 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
 
+  has_one :payment_registry, dependent: :destroy
+
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
 
   validates :numero_fiscal, :reference_avis, presence: true
@@ -71,6 +73,7 @@ class Projet < ActiveRecord::Base
   validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
+  validate  :validate_payment_registry, on: :update
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
@@ -201,6 +204,12 @@ class Projet < ActiveRecord::Base
       return false
     end
     true
+  end
+
+  def validate_payment_registry
+    if payment_registry.present? && status_not_yet(:transmis_pour_instruction)
+      errors.add(:payment_registry, "Vous ne pouvez ajouter un registre de paiement que si le projet a été transmis pour instruction")
+    end
   end
 
   def change_demandeur(demandeur_id)
@@ -392,6 +401,10 @@ class Projet < ActiveRecord::Base
     statuses_map[statut.to_sym] || :depose
   end
 
+  def status_not_yet(status)
+    STATUSES.split(status).first.include? self.statut.to_sym
+  end
+
   def self.to_csv(agent)
     utf8 = CSV.generate(csv_options) do |csv|
       titles = [
@@ -437,7 +450,7 @@ class Projet < ActiveRecord::Base
     if intervenant.pris?
       statut.to_sym != :prospect
     elsif intervenant.instructeur?
-      STATUSES.split(:transmis_pour_instruction).first.include? statut.to_sym
+      status_not_yet(:transmis_pour_instruction)
     elsif intervenant.operateur?
       invitation = invitations.find_by(intervenant: intervenant)
       invitation.suggested && !invitation.contacted && invitation.intervenant != operateur
