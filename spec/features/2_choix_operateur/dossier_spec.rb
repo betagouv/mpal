@@ -4,7 +4,8 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Accéder au informations du dossier :" do
-  let(:projet)      { create(:projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris) }
+  let(:user)        { create :user }
+  let(:projet)      { create(:projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6)) }
   let(:operateur)   { projet.contacted_operateur }
   let(:instructeur) { projet.invited_instructeur }
   let(:pris)        { projet.invited_pris }
@@ -25,8 +26,8 @@ feature "Accéder au informations du dossier :" do
     end
   end
 
-  context "en tant que demandeur" do
-    before { signin(projet.numero_fiscal, projet.reference_avis) }
+  context "en tant que demandeur dont l'éligibilité est figée" do
+    before { login_as user, scope: :user }
     it_behaves_like "je peux consulter mon projet"
   end
 

@@ -3,11 +3,12 @@ require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 
 feature "S'engager avec un opérateur :" do
-  let(:projet)    { create(:projet, :prospect, :with_contacted_operateur) }
+  let(:user)      { create :user }
+  let(:projet)    { create :projet, :prospect, :with_contacted_operateur, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
   let(:operateur) { projet.contacted_operateur }
 
   scenario "en tant que demandeur, je peux m'engager avec un opérateur" do
-    signin(projet.numero_fiscal, projet.reference_avis)
+    login_as user, scope: :user
     visit projet_path(projet)
     click_link I18n.t('projets.visualisation.s_engager_avec_operateur')
     click_button I18n.t('projets.visualisation.engagement_action')

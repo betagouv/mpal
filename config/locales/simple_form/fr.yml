@@ -59,7 +59,7 @@ fr:
         demandeur: "Prénom et nom"
         etage: "Votre étage"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
-        future_birth: "Enfant(s) à naître"
+        future_birth: "Enfant(s) à naître dans le foyer"
         nb_pieces: "Nombre de pièces"
         surface_habitable: "Surface habitable"
         theme_ids: "Types d’interventions"
