@@ -1,8 +1,8 @@
 section.content-projet
-  = render 'shared/errors', resource: @projet_courant
+  = render "shared/errors", resource: @projet_courant
   = render "projets/messagerie"
   = render "projets/foyer"
   = render "projet_envisage"
   - if @projet_courant.statut != "prospect"
     = render "projet_#{@projet_courant.statut}"
-
+  = render "projets/payment_registry"
