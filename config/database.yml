@@ -1,0 +1,19 @@
+default: &default
+  adapter:  postgresql
+  database: <%= ENV["POSTGRES_DATABASE"] %>
+  encoding: unicode
+  username: <%= ENV["POSTGRES_USERNAME"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  pool:     <%= ENV["POSTGRES_POOL"] || 5 %>
+  port:     <%= ENV["POSTGRES_PORT"] || 5432 %>
+  host:     <%= ENV["POSTGRES_HOST"] %>
+
+production:
+  <<: *default
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+  database: mpal_test

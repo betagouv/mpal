@@ -75,9 +75,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'home#index'
     resources :themes
-    resources :intervenants do
-      post 'import', on: :collection
-    end
+    resources :intervenants
   end
 
   get  '/deconnexion', to: 'sessions#deconnexion'
