@@ -16,8 +16,8 @@ fr:
         lien_avec_demandeur: "Quel est votre lien avec le demandeur ?"
       demande:
         complement: "Précisez votre projet"
-        date_achevement_15_ans: "Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?"
-        annee_construction: "Si vous la connaissez, indiquez l’année d’achèvement de votre logement :"
+        date_achevement_15_ans: "Votre logement (maison ou immeuble) a-t-il été construit il y a plus de 15 ans ?"
+        annee_construction: "Si vous la connaissez, indiquez l’année de construction (précise ou estimée) de votre logement :"
         ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
       diagnostic:
         autonomie: "Ce projet concerne-t-il la perte d’autonomie ou le handicap ?"

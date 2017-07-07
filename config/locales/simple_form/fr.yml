@@ -87,7 +87,6 @@ fr:
         travaux_autres: "Autre"
         # Autre
         complement: "Informations complémentaires"
-        date_achevement_15_ans: "Logement achevé depuis plus ou moins de 15 ans"
         ptz: "Prêt à taux zéro contracté"
     hints:
       defaults:
