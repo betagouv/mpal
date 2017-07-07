@@ -4,13 +4,17 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Transmettre à l'instructeur :" do
+  let(:user)   { create :user }
+
   context "avant que le dossier ne soit transmis" do
-    let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles, :with_invited_instructeur }
+    let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles, :with_invited_instructeur, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
     let(:instructeur) { projet.invited_instructeur }
 
     context "en tant que demandeur" do
       scenario "j'accepte la proposition et je transmets mon projet aux services instructeurs" do
-        signin(projet.numero_fiscal, projet.reference_avis)
+        login_as user, scope: :user
+
+        visit projet_path(projet)
         expect(page).to have_current_path(projet_path(projet))
         click_link I18n.t('projets.transmission.bouton_accepter')
 
@@ -26,7 +30,7 @@ feature "Transmettre à l'instructeur :" do
 
   context "après transmission aux services instructeurs" do
     context "pour tous les intervenants" do
-      let(:projet) { create :projet, :transmis_pour_instruction }
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_intervenants_disponibles, :with_invited_instructeur, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
 
       shared_examples "le dossier n'est plus modifiable" do
         specify do
@@ -41,7 +45,7 @@ feature "Transmettre à l'instructeur :" do
 
       context "en tant que demandeur" do
         before do
-          signin(projet.numero_fiscal, projet.reference_avis)
+          login_as user, scope: :user
           visit projet_path(projet.id)
         end
         it_behaves_like "le dossier n'est plus modifiable"
