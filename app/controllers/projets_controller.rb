@@ -3,13 +3,9 @@ class ProjetsController < ApplicationController
 
   before_action :assert_projet_courant, except: [:new, :create]
   before_action :redirect_to_project_if_exists, only: [:new, :create]
+  before_action :redirect_if_no_account, only: :show
 
   def show
-    if @projet_courant.locked_at && @projet_courant.user.blank?
-      return redirect_to projet_eligibility_path(@projet_courant), alert: t('sessions.access_forbidden')
-    elsif @projet_courant.user && @projet_courant.invitations.blank?
-      return redirect_to projet_mise_en_relation_path(@projet_courant), alert: t('sessions.access_forbidden')
-    end
     render_show
   end
 
@@ -76,6 +72,16 @@ private
 
   def param_reference_avis
     params[:projet][:reference_avis].to_s.gsub(/\W+/, '').upcase
+  end
+
+  def redirect_if_no_account
+    if @projet_courant.locked_at.nil?
+      return redirect_to projet_demandeur_path(@projet_courant), alert: t('sessions.access_forbidden')
+    elsif @projet_courant.locked_at && @projet_courant.user.blank?
+      return redirect_to projet_eligibility_path(@projet_courant), alert: t('sessions.access_forbidden')
+    elsif @projet_courant.user && @projet_courant.invitations.blank?
+      return redirect_to projet_mise_en_relation_path(@projet_courant), alert: t('sessions.access_forbidden')
+    end
   end
 
   def redirect_to_next_step(projet)
