@@ -8,4 +8,13 @@ class Payment < ActiveRecord::Base
   validates :beneficiaire, :type_paiement, presence: true
 
   belongs_to :payment_registry
+
+  def description
+    description_map = {
+      avance:  "Demande d'avance",
+      acompte: "Demande d'acompte",
+      solde:   "Demande de solde",
+    }
+    description_map[type_paiement.to_sym]
+  end
 end
