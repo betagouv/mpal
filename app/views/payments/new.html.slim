@@ -1,10 +1,15 @@
+= render "shared/ribbon_header"
 = simple_form_for @payment, url: { controller: "payments", action: "create" }, html: { class: "form" } do |f|
-  section.section
-    h2.section__title= "Paiement"
-    = render "shared/errors", resource: @payment
-    .section__content
-      = f.input :type_paiement, as: :radio_buttons, collection: Payment::TYPES, required: true
-      = f.input :beneficiaire, as: :string, input_html: { value: @projet_courant.demandeur.fullname }, wrapper_html: { class: "size-m" }, required: true
-      = f.input :personne_morale, as: :radio_buttons, label: "S'agit-il d'une personne morale ?", collection: [["Oui", true], ["Non", false]], checked: false
+  .payment__title
+    h2= t("payment.creation")
+  = render "shared/errors", resource: @payment
+  .payment__content
+    = f.input :type_paiement,   as: :radio_buttons, collection: Payment::TYPES, required: true
+    = f.input :beneficiaire,    as: :string,        label: "À qui voulez-vous que les fonds soient versés ?", input_html: { value: @projet_courant.demandeur.fullname }, wrapper_html: { class: "size-m" }, required: true
+    = f.input :personne_morale, as: :radio_buttons, label: "S'agit-il d'une personne morale ?", collection: [["Oui", true], ["Non", false]], checked: false
 
-  = btn name: "Créer", class: "btn-large btn-centered", icon: "arrow-right"
+  .payment__button_group
+    = link_to dossier_payment_registry_path(@projet_courant), class: "btn btn-icon payment__button"
+      = "Annuler"
+      i.glyphicon.glyphicon-remove
+    = btn name: "Créer", class: "payment__button", icon: "ok"
