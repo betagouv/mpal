@@ -42,7 +42,7 @@
                 span.lastname<= agent_operateur.nom
             - else
               p Ce dossier n'est pas encore affecté.
-            - if @projet_courant.opal_numero.present?
+            - if @projet_courant.opal_numero.present? && current_agent.instructeur?
               p Numéro OPAL : #{link_to @projet_courant.opal_numero, dossier_opal_url(@projet_courant.opal_numero), target: '_blank'}
     .col.col-right
       section.main-content
