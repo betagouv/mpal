@@ -305,6 +305,9 @@ fr:
     info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."
     no_paiement: "Aucun dossier de paiement"
 
+  payment:
+    creation: "Je crée une demande de paiement"
+
   # ----------------------- Messagerie ---------------------
   conversation:
     titre_section: "Chat"

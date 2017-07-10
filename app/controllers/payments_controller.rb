@@ -6,6 +6,7 @@ class PaymentsController < ApplicationController
 
   def new
     @payment = Payment.new
+    @payment_registry = @projet_courant.payment_registry
   end
 
   def create
