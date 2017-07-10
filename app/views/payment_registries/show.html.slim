@@ -5,4 +5,17 @@
     p= t("payment_registry.info_only_prepare")
 
 .registry__content
-  p= t("payment_registry.no_paiement")
+  - if @payment_registry.payments.blank?
+    p= t("payment_registry.no_paiement")
+  - else
+    - @payment_registry.payments.each do |payment|
+      .registry__entry
+        .registry__entry_header
+          h3.registry__title= payment.description
+        p.registry__details= payment.personne_morale ? t("payment_registry.legal_person", beneficiaire: payment.beneficiaire) : t("payment_registry.physical_person", beneficiaire: payment.beneficiaire)
+
+- if can? :add, Payment
+  .registry__button_group
+    = link_to dossier_payments_new_path(@projet_courant), class: "btn btn-icon btn-centered registry__add_button"
+      = t("payment_registry.add_payment")
+      i.glyphicon.glyphicon-plus

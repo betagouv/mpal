@@ -15,5 +15,31 @@
   color: $alert-info-text;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   padding: 1em;
-  margin: 1em 0;
+  margin-bottom: 1em;
+}
+
+.registry__entry {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 1em;
+}
+.registry__entry_header {
+  background-color: $color-light-grey;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+.registry__title {
+  font-size: 18px;
+  font-weight: bold;
+  color: $font-color;
+}
+.registry__details {
+  font-style: italic;
+  padding: 15px 30px;
+}
+
+.registry__button_group {
+  margin: 2em;
+}
+.registry__add_button {
+  text-decoration: none;
 }

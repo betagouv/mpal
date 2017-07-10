@@ -5,8 +5,8 @@
   = render "shared/errors", resource: @payment
   .payment__content
     = f.input :type_paiement,   as: :radio_buttons, collection: Payment::TYPES, required: true
-    = f.input :beneficiaire,    as: :string,        label: "À qui voulez-vous que les fonds soient versés ?", input_html: { value: @projet_courant.demandeur.fullname }, wrapper_html: { class: "size-m" }, required: true
-    = f.input :personne_morale, as: :radio_buttons, label: "S'agit-il d'une personne morale ?", collection: [["Oui", true], ["Non", false]], checked: false
+    = f.input :beneficiaire,    as: :string,        label: t("payment.beneficiaire_question"), input_html: { value: @projet_courant.demandeur.fullname }, wrapper_html: { class: "size-m" }, required: true
+    = f.input :personne_morale, as: :radio_buttons, label: t("payment.personne_morale_question"), collection: [["Une personne physique", false], ["Une personne morale", true]], checked: false
 
   .payment__button_group
     = link_to dossier_payment_registry_path(@projet_courant), class: "btn btn-icon payment__button"
