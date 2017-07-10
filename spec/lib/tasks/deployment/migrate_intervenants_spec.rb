@@ -4,7 +4,8 @@ require 'support/after_party_helper'
 describe '20170531075149_migrate_intervenants' do
   include_context 'after_party'
 
-  let!(:intervenant_a_modifier) { create :intervenant, raison_sociale: "PRIS DDT 62" }
+  let!(:intervenant_a_modifier) { create :intervenant, raison_sociale: "PRIS DDT 62",
+                                         clavis_service_id: "5280" }
   let!(:intervenant_existant)   { create :intervenant, raison_sociale: "ADIL 25",
                                                        departements: ["25"],
                                                        clavis_service_id: "5264",
@@ -23,7 +24,7 @@ describe '20170531075149_migrate_intervenants' do
   end
 
   it "crée le nombre d'intervenants attendu" do
-    expect(Intervenant.all.count).to eq(29)
+    expect(Intervenant.all.count).to eq(25)
   end
 
   it "ne change pas les intervenants à jour" do
