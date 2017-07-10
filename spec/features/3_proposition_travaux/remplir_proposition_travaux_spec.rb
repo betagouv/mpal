@@ -275,7 +275,7 @@ feature "Remplir la proposition de travaux" do
         click_on 'Enregistrer cette proposition'
         expect(page).to have_current_path dossier_path(projet)
 
-        click_link 'Proposer le projet au demandeur'
+        click_link 'Je soumets le projet au demandeur pour dépôt'
         expect(page).to have_content('Coût des travaux à réaliser HT doit être rempli(e)')
 
         within 'article.projet-ope' do
@@ -285,7 +285,7 @@ feature "Remplir la proposition de travaux" do
         fill_in I18n.t('helpers.label.proposition.travaux_ht_amount'), with: '1 111'
         click_on 'Enregistrer cette proposition'
 
-        click_link 'Proposer le projet au demandeur'
+        click_link 'Je soumets le projet au demandeur pour dépôt'
         expect(page).to have_no_content('Coût des travaux à réaliser HT doit être rempli(e)')
       end
     end
