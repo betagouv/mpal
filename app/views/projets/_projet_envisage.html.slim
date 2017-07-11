@@ -1,6 +1,7 @@
 article.block.projet
   h3 Projet envisagé
-  = edit_projet_button(@projet_courant, projet_demande_path(@projet_courant))
+  - if can? :update, @projet_courant
+     = edit_projet_button(@projet_courant, projet_demande_path(@projet_courant))
   .content-block
     - if @projet_courant.demande.blank?
       - if current_agent
@@ -17,6 +18,8 @@ article.block.projet
         .description-operateur
           strong= operateur.raison_sociale
           p= operateur.description_adresse
+          p= operateur.email
+          p= operateur.phone
         - unless current_agent
           br
           br
@@ -35,8 +38,6 @@ article.block.projet
             = btn name: t('projets.visualisation.choisir_operateur_recommande'), href: projet_choix_operateur_path(@projet_courant)
       - elsif @projet_courant.invited_pris.present?
         p= t('projets.visualisation.le_pris_selectionne_des_operateurs')
-        - unless current_agent
-          = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)
       - else
         p= t('projets.visualisation.select_operator_without_pris')
         - unless current_agent

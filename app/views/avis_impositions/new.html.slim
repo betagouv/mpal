@@ -1,11 +1,8 @@
-section.section__imposition
-  h2 Ajouter un avis d’imposition
-  = form_for @projet_courant, url: { controller: 'avis_impositions', action: 'create' }, method: 'post', html: { class: 'form' }  do |f|
-    ul.imposition-form
-      li.imposition-form__field
-        = f.label :numero_fiscal, 'Numéro fiscal', class: 'imposition-form__label'
-        = text_field_tag 'avis_imposition[numero_fiscal]', '', class: 'imposition-form__input'
-      li.imposition-form__field
-        = f.label :reference_avis, 'Référence de l’avis', class: 'imposition-form__label'
-        = text_field_tag 'avis_imposition[reference_avis]', '', class: 'imposition-form__input'
-    = btn name: 'Ajouter', class: 'btn-large btn-centered', icon: 'plus'
+= simple_form_for @avis_imposition, url: { controller: "avis_impositions", action: "create" }, html: { class: "form" } do |f|
+  section.section
+    h2.section__title Ajouter un avis d’imposition
+    = render "shared/errors", resource: @avis_imposition
+    .section__content
+      = f.input :numero_fiscal,  wrapper_html: { class: "size-s" }, required: true
+      = f.input :reference_avis, wrapper_html: { class: "size-s" }, required: true
+  = btn name: "Ajouter", class: "btn-large btn-centered", icon: "arrow-right"

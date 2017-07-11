@@ -17,6 +17,16 @@ describe AvisImposition do
     it { expect(avis_imposition_2).not_to be_valid }
   end
 
+  describe "#is_valid_for_current_year?" do
+    let(:avis_imposition_1) { create :avis_imposition, annee: 2014 }
+    let(:avis_imposition_2) { create :avis_imposition, annee: 2015 }
+    let(:avis_imposition_3) { create :avis_imposition, annee: 2016 }
+
+    it { expect(avis_imposition_1.is_valid_for_current_year?).to be_falsy }
+    it { expect(avis_imposition_2.is_valid_for_current_year?).to be_truthy }
+    it { expect(avis_imposition_3.is_valid_for_current_year?).to be_truthy }
+  end
+
   describe "#revenu_fiscal_reference" do
     let(:avis_imposition) { create :avis_imposition }
 
@@ -28,7 +38,6 @@ describe AvisImposition do
 
       it "récupère le revenu fiscal" do
         revenu_fiscal = contribuable.revenu_fiscal_reference
-
         expect(avis_imposition.revenu_fiscal_reference).to eq(revenu_fiscal)
       end
     end

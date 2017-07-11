@@ -19,6 +19,7 @@ body {
 
 a {
   color: #353940;
+  text-decoration: underline;
 }
 
 .clearfix::after {
@@ -223,7 +224,6 @@ fieldset {
     a {
       color: #bf0000;
       font-weight: bold;
-      text-decoration: underline;
       &:hover {
         color: #900;
       }
@@ -310,6 +310,9 @@ fieldset {
             margin-right: 20px; }
             .page-projet .col-right .content-projet .block .occupants-recap li span {
               color: #5ab0ee; }
+              .page-projet .col-right .content-projet .block .occupants-recap li span.modified {
+                color: $font-color;
+                background-color: #dba8bc;}
         .page-projet .col-right .content-projet .block.messagerie .nbr-message {
           display: inline-block;
           position: absolute;
@@ -341,8 +344,6 @@ fieldset {
             position: relative;
             margin-top: 5px;
             font-style: italic; }
-            .page-projet .col-right .content-projet .block.messagerie .chat p a {
-              text-decoration: underline; }
           .page-projet .col-right .content-projet .block.messagerie .chat date {
             display: block;
             font-size: 12px;

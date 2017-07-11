@@ -1,0 +1,19 @@
+.eligibility
+  h2.eligibility__heading = t('demarrage_projet.eligibility.section_eligibility')
+  .eligibility__content
+    - if @eligible
+      .eligibility__positive
+        i.glyphicon.glyphicon-ok.eligibility__icon-positive
+        p.eligibility__answer = t('demarrage_projet.eligibility.eligible')
+    - else
+      .eligibility__negative
+        i.glyphicon.glyphicon-remove.eligibility__icon-negative
+        p.eligibility__answer = t('demarrage_projet.eligibility.not_eligible')
+
+  h2.eligibility__heading = t('demarrage_projet.eligibility.section_conditions')
+  .eligibility__content
+    .eligibility__conditions
+      i.glyphicon.glyphicon-list-alt.eligibility__icon-conditions
+      p.eligibility__answer = t('demarrage_projet.eligibility.informations', conditions: link_to("les conditions générales à remplir", "http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-generales-a-remplir/", target: :_blank, class: "eligibility__link")).html_safe
+
+= btn name: "Suivant", href: new_user_registration_path, class: "btn-large btn-centered", icon: "arrow-right"

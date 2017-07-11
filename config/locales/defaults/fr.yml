@@ -16,8 +16,8 @@ fr:
         lien_avec_demandeur: "Quel est votre lien avec le demandeur ?"
       demande:
         complement: "Précisez votre projet"
-        date_achevement_15_ans: "Votre logement (maison ou immeuble) est-il achevé depuis plus de 15 ans ?"
-        annee_construction: "Si vous la connaissez, indiquez l’année d’achèvement de votre logement :"
+        date_achevement_15_ans: "Votre logement (maison ou immeuble) a-t-il été construit il y a plus de 15 ans ?"
+        annee_construction: "Si vous la connaissez, indiquez l’année de construction (précise ou estimée) de votre logement :"
         ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
       diagnostic:
         autonomie: "Ce projet concerne-t-il la perte d’autonomie ou le handicap ?"
@@ -78,6 +78,7 @@ fr:
     faq: "FAQ"
     homepage: "Accueil"
     legal: "Mentions légales"
+    stats: "Statistiques"
     terms_of_use: "Conditions générales d’utilisation"
 
   # ----------------------- Liste des liens du menu patterns ---------------------
@@ -145,15 +146,21 @@ fr:
       ptz: "PTZ"
       annee_construction: "Année de construction"
       precisions: "Précisions"
+    # ----------------------- Eligibilité ---------------------
+    eligibility:
+      section_eligibility: "Éligibilité"
+      section_conditions: "Conditions de financement"
+      eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
+      not_eligible: "D’après les éléments renseignés, vous n’êtes a priori pas éligible, pour s’en assurer un complément d'étude de votre situation peut être réalisé."
+      section_conditions: "Conditions de financement"
+      informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consulter %{conditions}."
+
     # ----------------------- Mise en relation ---------------------
     mise_en_relation:
-      votre_projet_est_eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
-      votre_projet_est_non_eligible: "D’après les éléments renseignés, vous n’êtes à priori pas éligible, pour s’en assurer un complément d'étude de votre situation va être prochainement réalisé. Un interlocuteur va prendre contact avec vous."
       titre: "Choisissez votre opérateur"
-      section_eligibilite: "Accompagnement"
       assignement_pris_titre: "Un contact pour vous aider"
       non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée"
-      un_pris_va_vous_contacter: "Le Point Rénovation Info Service de votre département, « %{pris} », va vous contacter prochainement."
+      information_pris: "Le Point Rénovation Info Service de votre département est « %{pris} »."
       to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Par exemple : Le matin, entre 8h et 11h"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
@@ -191,6 +198,7 @@ fr:
         messages:
           erreur: "Vous n’avez pas accès à cet avis d’imposition"
           non_trouve: "Cet avis d’imposition n’existe pas"
+          annee_invalide: "L'avis d'imposition renseigné doit se baser sur les revenus %{year}"
         visualisation:
           sections:
             declarants: "Déclarants"
@@ -292,6 +300,11 @@ fr:
       titre: 'Modification du projet'
       description: 'Vous pouvez mettre à jour les informations concernant votre projet.'
 
+  # ----------------------- Registre de Paiement ---------------------
+  payment_registry:
+    info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."
+    no_paiement: "Aucun dossier de paiement"
+
   # ----------------------- Messagerie ---------------------
   conversation:
     titre_section: "Chat"
@@ -365,6 +378,14 @@ fr:
       mme: Madame
       mr: Monsieur
 
+  # --------------------- Statistiques ----------------
+  stats:
+    status:
+      prospect: "demandes de projet"
+      en_cours_de_montage: "projets en cours"
+      depose: "projets déposés"
+      en_cours_d_instruction: "projets en cours d’instruction"
+
   # ----------------------- Mailers ---------------------
   mailers:
     projet_mailer:
@@ -401,13 +422,6 @@ fr:
     nouveau:
       explication_html: "<b>Choisir un intervenant vous engage</b><p>L’opérateur est chargé de vous conseiller tout au long de la démarche. Il vous accompagne danss l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.</p><p>Lorsqu’une subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de la subvention.</p><p>Cette prestation payante peut être totalement ou opartiellement couverte par le complément de subvention qui complète la subvention pour travaux"
       action: "Je choisis cet opérateur"
-
-  # --------------------------- Admin --------------------------------
-
-  admin:
-    intervenants:
-      importer_fichier: "Importer le fichier"
-      import_reussi: "Les intervenants ont été importés."
 
   # ---------------------------- Aide --------------------------------
   help:
@@ -453,3 +467,11 @@ fr:
           attributes:
             date_de_naissance:
               not_in_past: "invalide : merci d’indiquer une date dans le passé."
+
+  # ---------------------- Active Record -----------------------------
+  unauthorized:
+    default: "Vous n’avez pas accès à cette page."
+    read:
+      payment_registry: "Aucun dossier de paiement n'a été trouvé"
+    create:
+      payment_registry: "Vous ne pouvez créer un nouveau dossier de paiement"

@@ -9,18 +9,18 @@ describe ApiParticulier do
   end
 
   context "eligible" do
-    let(:numero_fiscal) { "12" }
-    let(:reference_avis) { "15" }
+    let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL }
+    let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS }
 
     it "renvoie un objet Contribuable" do
       contribuable = subject.retrouve_contribuable
 
-      expect(contribuable.declarants[0][:prenom]).to eq('Pierre')
-      expect(contribuable.declarants[0][:nom]).to eq('Martin')
-      expect(contribuable.annee_impots).to eq('2015')
-      expect(contribuable.nombre_personnes_charge).to eq(2)
-      expect(contribuable.adresse).to eq('12 rue de la Mare, 75010 Paris')
-      expect(contribuable.revenu_fiscal_reference).to eq(29880)
+      expect(contribuable.declarants[0][:prenom]).to eq "Pierre"
+      expect(contribuable.declarants[0][:nom]).to eq "Martin"
+      expect(contribuable.annee_revenus).to eq "2015"
+      expect(contribuable.nombre_personnes_charge).to eq 2
+      expect(contribuable.adresse).to eq "12 rue de la Mare, 75010 Paris"
+      expect(contribuable.revenu_fiscal_reference).to eq 29880
     end
 
     it "met en cache le résultat" do
@@ -35,18 +35,18 @@ describe ApiParticulier do
   end
 
   context "non_eligible" do
-    let(:numero_fiscal) { "13" }
-    let(:reference_avis) { "16" }
+    let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE }
+    let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE }
 
     it "renvoie un objet Contribuable" do
       contribuable = subject.retrouve_contribuable
 
-      expect(contribuable.declarants[0][:prenom]).to eq('Pierre')
-      expect(contribuable.declarants[0][:nom]).to eq('Martin')
-      expect(contribuable.annee_impots).to eq('2015')
-      expect(contribuable.nombre_personnes_charge).to eq(0)
-      expect(contribuable.adresse).to eq('12 rue de la Mare, 75010 Paris')
-      expect(contribuable.revenu_fiscal_reference).to eq(1000000)
+      expect(contribuable.declarants[0][:prenom]).to eq "Pierre"
+      expect(contribuable.declarants[0][:nom]).to eq "Martin"
+      expect(contribuable.annee_revenus).to eq "2015"
+      expect(contribuable.nombre_personnes_charge).to eq 0
+      expect(contribuable.adresse).to eq "12 rue de la Mare, 75010 Paris"
+      expect(contribuable.revenu_fiscal_reference).to eq 1000000
     end
 
     it "met en cache le résultat" do
@@ -61,8 +61,8 @@ describe ApiParticulier do
   end
 
   context "on error" do
-    let(:numero_fiscal) { "INVALID" }
-    let(:reference_avis) { "INVALID" }
+    let(:numero_fiscal)  { Fakeweb::ApiParticulier::INVALID }
+    let(:reference_avis) { Fakeweb::ApiParticulier::INVALID }
 
     it "renvoie nil en cas d'erreur" do
       contribuable = subject.retrouve_contribuable

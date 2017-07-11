@@ -1,0 +1,26 @@
+.ribbon_heading
+  h2= @payment_registry.demandeur
+  p= @payment_registry.adresse
+  p= "Plateforme : #{@payment_registry.plateforme_id}" + (@payment_registry.code_opal.present? ? " / Op@l : #{@payment_registry.code_opal}" : "")
+
+  .ribbon_heading__icon_list
+    .ribbon_heading__icon_element
+      = link_to projet_or_dossier_path(@projet_courant)
+        span.ribbon_heading__icon.glyphicon.glyphicon-folder-open
+        span.ribbon_heading__text Mon Dossier
+    .ribbon_heading__icon_element
+      = link_to projet_or_dossier_payment_registry_path(@projet_courant)
+        span.ribbon_heading__icon--active.glyphicon.glyphicon-euro
+        span.ribbon_heading__text--active Mes Paiements
+    .ribbon_heading__icon_element
+      - deconnect_link = current_agent ? destroy_agent_session_path : deconnexion_path
+      = link_to deconnect_link
+        span.ribbon_heading__icon.glyphicon.glyphicon-off
+        span.ribbon_heading__text Déconnexion
+
+- unless @payment_registry.code_opal
+  .registry__info
+    p= t("payment_registry.info_only_prepare")
+
+.registry__content
+  p= t("payment_registry.no_paiement")

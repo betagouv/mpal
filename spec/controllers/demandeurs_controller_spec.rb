@@ -34,7 +34,7 @@ describe DemandeursController do
   end
 
   describe "#update" do
-    let(:departements_enabled) { [Tools::DEPARTEMENTS_WILDCARD] }
+    let(:departements_enabled) { [Tools::STATES_WILDCARD] }
     let(:projet_params) do {} end
     let(:params) do
       default_params = {

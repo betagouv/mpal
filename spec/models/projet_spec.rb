@@ -4,6 +4,23 @@ require 'support/api_particulier_helper'
 
 describe Projet do
   describe 'validations' do
+    matcher :allow_updating_of do |attribute|
+      def with(value)
+        @value = value
+        self
+      end
+      match do |projet|
+        projet.send("#{attribute}=", @value || "dummy")
+        projet.validate
+        projet.errors[attribute].blank?
+      end
+      match_when_negated do |projet|
+        projet.send("#{attribute}=", @value || "dummy")
+        projet.validate
+        projet.errors[attribute].present?
+      end
+    end
+
     let(:projet) { build :projet }
     it { expect(projet).to be_valid }
     it { is_expected.to validate_presence_of :numero_fiscal }
@@ -33,6 +50,7 @@ describe Projet do
     it { is_expected.to have_and_belong_to_many :themes }
     it { is_expected.to belong_to :agent_operateur }
     it { is_expected.to belong_to :agent_instructeur }
+    it { is_expected.to have_one :payment_registry }
 
     it "accepte les emails valides" do
       projet.email = "email@exemple.fr"
@@ -59,23 +77,6 @@ describe Projet do
     end
 
     describe "#validate_frozen_attributes" do
-      matcher :allow_updating_of do |attribute|
-        def with(value)
-          @value = value
-          self
-        end
-        match do |projet|
-          projet.send("#{attribute}=", @value || "dummy")
-          projet.validate
-          projet.errors[attribute].blank?
-        end
-        match_when_negated do |projet|
-          projet.send("#{attribute}=", @value || "dummy")
-          projet.validate
-          projet.errors[attribute].present?
-        end
-      end
-
       context "quand le projet est figé" do
         subject(:projet) { create :projet, :transmis_pour_instruction }
         it { is_expected.to allow_updating_of(:statut).with(:en_cours_d_instruction) }
@@ -90,6 +91,20 @@ describe Projet do
         it { is_expected.not_to allow_updating_of(:loan_amount) }
         it { is_expected.not_to allow_updating_of(:adresse_postale_id).with(create(:adresse).id) }
         it { is_expected.not_to allow_updating_of(:adresse_a_renover_id).with(create(:adresse).id) }
+      end
+    end
+
+    describe "#validate_payment_registry" do
+      let(:payment_registry) { create :payment_registry }
+
+      context "quand le projet n'a pas été transmis pour instruction" do
+        subject(:projet) { create :projet, :proposition_proposee }
+        it {is_expected.not_to allow_updating_of(:payment_registry).with(payment_registry) }
+      end
+
+      context "quand le projet a été transmis pour instruction" do
+        subject(:projet) { create :projet, :transmis_pour_instruction }
+        it { is_expected.to allow_updating_of(:payment_registry).with(payment_registry) }
       end
     end
   end
@@ -214,8 +229,7 @@ describe Projet do
     let(:projet) { create :projet }
     let!(:avis_imposition_1) { create :avis_imposition, projet: projet, numero_fiscal: '42', annee: 2013 }
     let!(:avis_imposition_2) { create :avis_imposition, projet: projet, numero_fiscal: '43', annee: 2014 }
-    let!(:avis_imposition_3) { create :avis_imposition, projet: projet, numero_fiscal: '44', annee: 2015 }
-    it { expect(projet.annee_fiscale_reference).to eq(2014) }
+    it { expect(projet.annee_fiscale_reference).to eq 2014 }
   end
 
   describe '#preeligibilite' do
@@ -317,12 +331,15 @@ describe Projet do
   end
 
   describe "#has_fundings?" do
+    let(:aide)                    { create :aide }
     let(:projet_without_fundings) { create :projet }
     let(:projet_with_fundings)    { create :projet, travaux_ht_amount: 1 }
+    let(:projet_with_helps)       { create :projet, aides: [aide] }
 
     it "retourne vrai si un élément de financement est renseigné" do
       expect(projet_without_fundings.has_fundings?).to be_falsy
-      expect(projet_with_fundings.has_fundings?).to be_truthy
+      expect(projet_with_fundings.has_fundings?).to    be_truthy
+      expect(projet_with_helps.has_fundings?).to       be_truthy
     end
   end
 
@@ -630,7 +647,24 @@ describe Projet do
     }
   end
 
-  describe "localizedamo_amount=" do
+  describe "#updated_since" do
+    let(:now) { Time.new(2001, 2, 3, 4, 5, 6) }
+
+    context "retourne les projets modifiés après" do
+      let!(:projet) { create :projet, updated_at: now + 1.day }
+
+      it { expect(Projet.updated_since(now).length).to eq 1 }
+      it { expect(Projet.updated_since(now)).to include projet }
+    end
+
+    context "ne retourne pas les projets modifiés avant" do
+      let!(:projet) { create :projet, updated_at: now - 1.day }
+
+      it { expect(Projet.updated_since(now).length).to eq 0 }
+    end
+  end
+
+  describe "localized_amo_amount=" do
     let(:projet) { create :projet }
 
     it {
@@ -643,4 +677,26 @@ describe Projet do
     }
   end
 
+  describe "Calculs des RFR" do
+    let!(:projet) { create :projet}
+    let!(:avis1)  { create :avis_imposition, projet: projet, numero_fiscal: 12, reference_avis: 15,  annee: 2015 }
+    let!(:avis2)  { create :avis_imposition, projet: projet, numero_fiscal: 13, reference_avis: 16,  annee: 2015 }
+
+
+    it "calcule le RFR total si celui modifié est vide ou nul" do
+      avis1.update(revenu_fiscal_reference: 50)
+      avis2.update(revenu_fiscal_reference: 50)
+      expect(projet.revenu_fiscal_reference_total).to eq 100
+    end
+
+    context "calcule le RFR total si le modifié est vide ou nul" do
+      before { projet.update!(modified_revenu_fiscal_reference: 111) }
+
+      it "prend le RFR modifié s'il est présent" do
+        expect(projet.revenu_fiscal_reference_total).to eq 111
+      end
+    end
+
+
+  end
 end

@@ -1,0 +1,84 @@
+@import "variables";
+
+.eligibility__heading {
+  background-color: $color-light-grey;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  font-weight: bold;
+  color: $font-color;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  padding: 15px 30px;
+}
+.eligibility__content {
+  @media screen and (min-width: 600px) {
+    padding: 0.75em;
+  }
+  @media screen and (min-width: 920px) {
+    padding: 1.25em;
+  }
+}
+
+.eligibility__positive {
+  @media screen and (min-width: 600px) {
+    margin: 0.75em;
+  }
+  @media screen and (min-width: 920px) {
+    margin: 1.25em;
+  }
+  display: flex;
+  align-items: center;
+  border-radius: 0.5em;
+  padding: 1em;
+  color: $color-black;
+  background-color: $color-light-green;
+}
+.eligibility__negative {
+  @media screen and (min-width: 600px) {
+    margin: 0.75em;
+  }
+  @media screen and (min-width: 920px) {
+    margin: 1.25em;
+  }
+  display: flex;
+  align-items: center;
+  border-radius: 0.5em;
+  padding: 1em;
+  color: $color-black;
+  background-color: $color-light-red;
+}
+.eligibility__conditions {
+  @media screen and (min-width: 600px) {
+    margin: 0.75em;
+  }
+  @media screen and (min-width: 920px) {
+    margin: 1.25em;
+  }
+  display: flex;
+  align-items: center;
+  border-radius: 0.5em;
+  padding: 1em;
+  color: $color-black;
+  background-color: $color-light-yellow;
+}
+
+.eligibility__icon-positive {
+  color: $color-dark-green;
+  margin: 1em;
+}
+.eligibility__icon-negative {
+  color: $color-dark-red;
+  margin: 1em;
+}
+.eligibility__icon-conditions {
+  color: $color-brown;
+  margin: 1em;
+}
+
+.eligibility__answer {
+  color: $color-black;
+  margin: 1em;
+}
+.eligibility__link {
+  color: $color-brown;
+  font-weight: bold;
+}

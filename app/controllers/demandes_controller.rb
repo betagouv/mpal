@@ -2,9 +2,11 @@ class DemandesController < ApplicationController
   layout 'inscription'
 
   before_action :assert_projet_courant
+  load_and_authorize_resource
 
   def show
     @demande = projet_demande
+
     @page_heading = 'Inscription'
     @action_label = action_label
   end
@@ -15,7 +17,7 @@ class DemandesController < ApplicationController
       @projet_courant.demande.update_attributes(demande_params)
       redirect_to_next_step
     else
-      redirect_to projet_demande_path(@projet_courant), alert: t('demarrage_projet.demande.erreurs.besoin_obligatoire')
+      redirect_to projet_or_dossier_demande_path(@projet_courant), alert: t('demarrage_projet.demande.erreurs.besoin_obligatoire')
     end
   end
 
@@ -68,9 +70,9 @@ private
 
   def redirect_to_next_step
     if needs_next_step?
-      redirect_to new_user_registration_path
+      redirect_to projet_eligibility_path @projet_courant
     else
-      redirect_to projet_or_dossier_path(@projet_courant)
+      redirect_to projet_or_dossier_path @projet_courant
     end
   end
 end

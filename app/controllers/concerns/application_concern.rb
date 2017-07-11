@@ -6,7 +6,10 @@ module ApplicationConcern
 
     def redirect_to_project_if_exists
       projet_or_dossier
-      if current_user && current_user.projet
+      if current_user.try(:projet)
+        if current_user.projet.invitations.blank?
+          return redirect_to projet_mise_en_relation_path(current_user.projet)
+        end
         return redirect_to projet_path(current_user.projet)
       elsif current_agent
         return redirect_to dossiers_path
@@ -28,7 +31,7 @@ module ApplicationConcern
         if params[:projet_id] && params[:projet_id].to_i != @projet_courant.id
           return redirect_to controller: params[:controller], action: params[:action], projet_id: @projet_courant.id
         end
-        # NOTE: an user should have a project (at least); if not, let’s drama happen…
+        # NOTE: a user should have one project (at least); if not, let the drama begin…
       elsif current_agent
         @projet_courant = Projet.find_by_locator(params[:dossier_id])
         unless @projet_courant && @projet_courant.accessible_for_agent?(current_agent)
@@ -80,6 +83,8 @@ module ApplicationConcern
     expose_routing_helper :new_projet_or_dossier_avis_imposition_path
     expose_routing_helper :projet_or_dossier_occupants_path
     expose_routing_helper :projet_or_dossier_occupant_path
+    expose_routing_helper :projet_or_dossier_demande_path
+    expose_routing_helper :projet_or_dossier_payment_registry_path
   end
 end
 

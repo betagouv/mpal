@@ -3,7 +3,8 @@ article.block.occupants
   - if current_agent && current_agent.operateur?
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
   - else
-    = edit_projet_button(@projet_courant, projet_demandeur_path(@projet_courant))
+    - if can? :update, @projet_courant
+      = edit_projet_button(@projet_courant, projet_demandeur_path(@projet_courant))
   .occupants-recap
     ul
       li
@@ -12,9 +13,13 @@ article.block.occupants
       li
         = t('demarrage_projet.demandeur.revenu_fiscal_reference')
         span= " #{@projet_courant.annee_fiscale_reference} : "
-        span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
+        - if @projet_courant.modified_revenu_fiscal_reference == nil
+          span= number_to_currency(@projet_courant.avis_impositions.first.revenu_fiscal_reference, precision: 0)
+        - else
+          span.modified= number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)
+          span= " (initialement #{number_to_currency(@projet_courant.avis_impositions.first.revenu_fiscal_reference, precision: 0)})"
   .content-block
-    - if @projet_courant.demandeur
+    - if @projet_courant.demandeur.present?
       h4 Demandeur :
       p
         strong
@@ -29,6 +34,16 @@ article.block.occupants
         - if @projet_courant.email.present?
           br/
           = @projet_courant.email
+
+    h4 Avis Fiscal :
+    p
+      = "Numéro Fiscal : #{@projet_courant.numero_fiscal}"
+      br/
+      = "Référence de l'avis : #{@projet_courant.reference_avis}"
+      - if current_agent
+        br/
+        = link_to "Vérification de l'avis fiscal", "https://cfsmsp.impots.gouv.fr/secavis/", target: :_blank
+
     h4 Occupants :
     span= t('projets.visualisation.future_birth') if @projet_courant.future_birth
     table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"

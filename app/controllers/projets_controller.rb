@@ -3,6 +3,7 @@ class ProjetsController < ApplicationController
 
   before_action :assert_projet_courant, except: [:new, :create]
   before_action :redirect_to_project_if_exists, only: [:new, :create]
+  before_action :redirect_if_no_account, only: :show
 
   def show
     render_show
@@ -18,19 +19,18 @@ class ProjetsController < ApplicationController
   end
 
   def create
-    @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
+    @page_heading = "Création de dossier"
 
+    @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
     if @projet
       if @projet.user
         return redirect_to new_user_session_path, alert: t("sessions.user_exists")
       end
       if session[:project_id] != @projet.id
-         session[:project_id] = @projet.id
+        session[:project_id] = @projet.id
       end
       return redirect_to_next_step(@projet)
     end
-
-    @page_heading = "Création de dossier"
 
     begin
       @projet = ProjetInitializer.new.initialize_projet(param_numero_fiscal, param_reference_avis)
@@ -40,15 +40,20 @@ class ProjetsController < ApplicationController
       return render :new, layout: "creation_dossier"
     end
 
+    contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
+    unless contribuable
+      flash.now[:alert] = t('sessions.invalid_credentials')
+      return render :new, layout: 'creation_dossier'
+    end
+
     unless "1" == params[:proprietaire]
       flash.now[:alert] = t('sessions.erreur_proprietaire_html', anil: view_context.link_to('Anil.org', 'https://www.anil.org/')).html_safe
       return render :new, layout: 'creation_dossier'
     end
 
-    contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
-    unless contribuable
-      flash.now[:alert] = t('sessions.invalid_credentials')
-      return render :new, layout: 'creation_dossier'
+    unless @projet.avis_impositions.map(&:is_valid_for_current_year?).all?
+      flash.now[:alert] =  I18n.t("projets.composition_logement.avis_imposition.messages.annee_invalide", year: 2.years.ago.year)
+      return render :new, layout: "creation_dossier"
     end
 
     if @projet.save
@@ -56,6 +61,7 @@ class ProjetsController < ApplicationController
       session[:project_id] = @projet.id
       return redirect_to projet_demandeur_path(@projet), notice: t('projets.messages.creation.corps')
     end
+
     render :new, layout: "creation_dossier", alert: t('sessions.erreur_creation_projet')
   end
 
@@ -68,23 +74,23 @@ private
     params[:projet][:reference_avis].to_s.gsub(/\W+/, '').upcase
   end
 
-  def create_projet_and_redirect
-    projet = ProjetInitializer.new.initialize_projet(param_numero_fiscal, param_reference_avis)
-    if projet.save
-      EvenementEnregistreurJob.perform_later(label: 'creation_projet', projet: projet)
-      session[:project_id] = projet.id
-      redirect_to projet_demandeur_path(projet), notice: t('projets.messages.creation.corps')
-    else
-      redirect_to new_users_session_path, alert: t('sessions.erreur_creation_projet')
+  def redirect_if_no_account
+    if @projet_courant.locked_at.nil?
+      return redirect_to projet_demandeur_path(@projet_courant), alert: t('sessions.access_forbidden')
+    elsif @projet_courant.locked_at && @projet_courant.user.blank?
+      return redirect_to projet_eligibility_path(@projet_courant), alert: t('sessions.access_forbidden')
+    elsif @projet_courant.user && @projet_courant.invitations.blank?
+      return redirect_to projet_mise_en_relation_path(@projet_courant), alert: t('sessions.access_forbidden')
     end
   end
 
   def redirect_to_next_step(projet)
     if projet.demandeur.blank?
       redirect_to projet_demandeur_path(projet)
+    elsif @projet.locked_at && @projet.user.blank?
+      redirect_to projet_eligibility_path(projet)
     else
       redirect_to projet
     end
   end
-
 end

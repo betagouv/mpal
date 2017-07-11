@@ -125,6 +125,10 @@
       span {
         color: #5ab0ee;
       }
+      .modified {
+        color: $font-color;
+        background-color: #dba8bc;
+      }
     }
   }
   .occupants .occupant-inline-form {
@@ -238,8 +242,4 @@
       margin-left: -80px;
     }
   }
-}
-
-.assignement-pris {
-  margin-top: 1em;
 }

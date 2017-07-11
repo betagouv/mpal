@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170608132330) do
+ActiveRecord::Schema.define(version: 20170703122407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -204,6 +204,15 @@ ActiveRecord::Schema.define(version: 20170608132330) do
     t.datetime "updated_at"
   end
 
+  create_table "payment_registries", force: :cascade do |t|
+    t.integer  "statut",     default: 0, null: false
+    t.integer  "projet_id"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "payment_registries", ["projet_id"], name: "index_payment_registries_on_projet_id", using: :btree
+
   create_table "personnes", force: :cascade do |t|
     t.string "prenom"
     t.string "nom"
@@ -247,9 +256,9 @@ ActiveRecord::Schema.define(version: 20170608132330) do
     t.datetime "updated_at"
     t.string   "email"
     t.string   "tel"
-    t.string   "themes",                                                                                array: true
-    t.integer  "nb_occupants_a_charge",                                    default: 0
-    t.integer  "statut",                                                   default: 0
+    t.string   "themes",                                                                                 array: true
+    t.integer  "nb_occupants_a_charge",                                     default: 0
+    t.integer  "statut",                                                    default: 0
     t.integer  "operateur_id"
     t.string   "opal_numero"
     t.string   "opal_id"
@@ -264,34 +273,36 @@ ActiveRecord::Schema.define(version: 20170608132330) do
     t.boolean  "handicap"
     t.boolean  "demandeur_salarie"
     t.boolean  "entreprise_plus_10_personnes"
-    t.decimal  "note_degradation",                precision: 10, scale: 6
-    t.decimal  "note_insalubrite",                precision: 10, scale: 6
+    t.decimal  "note_degradation",                 precision: 10, scale: 6
+    t.decimal  "note_insalubrite",                 precision: 10, scale: 6
     t.boolean  "ventilation_adaptee"
     t.boolean  "presence_humidite"
     t.boolean  "auto_rehabilitation"
     t.text     "remarques_diagnostic"
     t.string   "etiquette_apres_travaux"
     t.integer  "gain_energetique"
-    t.decimal  "travaux_ht_amount",               precision: 10, scale: 2
-    t.decimal  "travaux_ttc_amount",              precision: 10, scale: 2
-    t.decimal  "loan_amount",                     precision: 10, scale: 2
+    t.decimal  "travaux_ht_amount",                precision: 10, scale: 2
+    t.decimal  "travaux_ttc_amount",               precision: 10, scale: 2
+    t.decimal  "loan_amount",                      precision: 10, scale: 2
     t.text     "precisions_travaux"
     t.text     "precisions_financement"
     t.boolean  "autonomie"
     t.string   "plateforme_id"
-    t.decimal  "personal_funding_amount",         precision: 10, scale: 2
+    t.decimal  "personal_funding_amount",          precision: 10, scale: 2
     t.integer  "agent_operateur_id"
     t.integer  "agent_instructeur_id"
     t.integer  "adresse_postale_id"
     t.integer  "adresse_a_renover_id"
     t.date     "date_de_visite"
-    t.decimal  "amo_amount",                      precision: 10, scale: 2
-    t.decimal  "maitrise_oeuvre_amount",          precision: 10, scale: 2
-    t.decimal  "assiette_subventionnable_amount", precision: 10, scale: 2
+    t.decimal  "amo_amount",                       precision: 10, scale: 2
+    t.decimal  "maitrise_oeuvre_amount",           precision: 10, scale: 2
+    t.decimal  "assiette_subventionnable_amount",  precision: 10, scale: 2
     t.integer  "consommation_avant_travaux"
     t.integer  "consommation_apres_travaux"
-    t.boolean  "future_birth",                                             default: false, null: false
+    t.boolean  "future_birth",                                              default: false, null: false
     t.integer  "user_id"
+    t.integer  "modified_revenu_fiscal_reference"
+    t.datetime "locked_at"
   end
 
   add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
@@ -356,6 +367,7 @@ ActiveRecord::Schema.define(version: 20170608132330) do
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "occupants", "projets"
+  add_foreign_key "payment_registries", "projets"
   add_foreign_key "prestation_choices", "prestations"
   add_foreign_key "prestation_choices", "projets"
   add_foreign_key "projet_aides", "aides"

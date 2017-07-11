@@ -13,8 +13,8 @@ feature "Avis d'imposition :" do
       click_link 'Ajouter un avis d’imposition'
 
       expect(page.current_path).to eq(new_projet_avis_imposition_path(projet))
-      fill_in 'avis_imposition_numero_fiscal',  with: 13
-      fill_in 'avis_imposition_reference_avis', with: 16
+      fill_in 'avis_imposition_numero_fiscal',  with: Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE
+      fill_in 'avis_imposition_reference_avis', with: Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE
       click_button 'Ajouter'
 
       expect(page.current_path).to eq(projet_avis_impositions_path(projet))
@@ -28,8 +28,8 @@ feature "Avis d'imposition :" do
       click_link 'Ajouter un avis d’imposition'
 
       expect(page.current_path).to eq(new_projet_avis_imposition_path(projet))
-      fill_in 'avis_imposition_numero_fiscal',  with: 'INVALID'
-      fill_in 'avis_imposition_reference_avis', with: 'INVALID'
+      fill_in 'avis_imposition_numero_fiscal',  with: Fakeweb::ApiParticulier::INVALID
+      fill_in 'avis_imposition_reference_avis', with: Fakeweb::ApiParticulier::INVALID
       click_button 'Ajouter'
 
       expect(page.current_path).to eq(new_projet_avis_imposition_path(projet))
@@ -38,7 +38,9 @@ feature "Avis d'imposition :" do
   end
 
   context "en tant que demandeur avec un avis d'imposition supplémentaire" do
-    let(:avis_imposition_2) { create :avis_imposition, numero_fiscal: 13, reference_avis: 16 }
+    let(:numero_fiscal)     { Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE }
+    let(:reference_avis)    { Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE }
+    let(:avis_imposition_2) { create :avis_imposition, numero_fiscal: numero_fiscal, reference_avis: reference_avis }
     before { projet.avis_impositions << avis_imposition_2 }
 
     scenario "je peux supprimer cet avis d'imposition" do

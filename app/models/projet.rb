@@ -58,6 +58,8 @@ class Projet < ActiveRecord::Base
   has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
 
+  has_one :payment_registry, dependent: :destroy
+
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
 
   validates :numero_fiscal, :reference_avis, presence: true
@@ -68,8 +70,10 @@ class Projet < ActiveRecord::Base
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
   validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
   validates :consommation_avant_travaux, :consommation_apres_travaux, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
+  validate  :validate_payment_registry, on: :update
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
@@ -90,6 +94,9 @@ class Projet < ActiveRecord::Base
     else
       joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
     end
+  }
+  scope :updated_since, ->(datetime) {
+    where("updated_at >= ?", datetime)
   }
 
   def self.find_by_locator(locator)
@@ -145,7 +152,7 @@ class Projet < ActiveRecord::Base
   end
 
   def has_fundings?
-    FUNDING_FIELDS.any? { |field| send(field).present? }
+    FUNDING_FIELDS.any? { |field| send(field).present? } || aides.present?
   end
 
   def pris_suggested_operateurs
@@ -199,6 +206,12 @@ class Projet < ActiveRecord::Base
     true
   end
 
+  def validate_payment_registry
+    if payment_registry.present? && status_not_yet(:transmis_pour_instruction)
+      errors.add(:payment_registry, "Vous ne pouvez ajouter un registre de paiement que si le projet a été transmis pour instruction")
+    end
+  end
+
   def change_demandeur(demandeur_id)
     demandeur = Occupant.find(demandeur_id)
     occupants.each { |occupant| occupant.update_attribute(:demandeur, (occupant == demandeur)) }
@@ -219,8 +232,7 @@ class Projet < ActiveRecord::Base
   end
 
   def annee_fiscale_reference
-    annee_imposition = avis_impositions.maximum(:annee)
-    annee_revenus = annee_imposition ? annee_imposition - 1 : nil
+    avis_impositions.maximum(:annee)
   end
 
   def revenu_fiscal_reference_total
@@ -229,9 +241,12 @@ class Projet < ActiveRecord::Base
 
   def calcul_revenu_fiscal_reference_total(annee_revenus)
     total_revenu_fiscal_reference = 0
-    annee_imposition = annee_revenus ? annee_revenus + 1 : nil
-    avis_impositions.where(annee: annee_imposition).each do |avis_imposition|
-      total_revenu_fiscal_reference += avis_imposition.revenu_fiscal_reference
+    if modified_revenu_fiscal_reference != nil
+      total_revenu_fiscal_reference = modified_revenu_fiscal_reference
+    else
+      avis_impositions.where(annee: annee_revenus).each do |avis_imposition|
+        total_revenu_fiscal_reference += avis_imposition.revenu_fiscal_reference
+      end
     end
     total_revenu_fiscal_reference
   end
@@ -386,6 +401,10 @@ class Projet < ActiveRecord::Base
     statuses_map[statut.to_sym] || :depose
   end
 
+  def status_not_yet(status)
+    STATUSES.split(status).first.include? self.statut.to_sym
+  end
+
   def self.to_csv(agent)
     utf8 = CSV.generate(csv_options) do |csv|
       titles = [
@@ -431,7 +450,7 @@ class Projet < ActiveRecord::Base
     if intervenant.pris?
       statut.to_sym != :prospect
     elsif intervenant.instructeur?
-      STATUSES.split(:transmis_pour_instruction).first.include? statut.to_sym
+      status_not_yet(:transmis_pour_instruction)
     elsif intervenant.operateur?
       invitation = invitations.find_by(intervenant: intervenant)
       invitation.suggested && !invitation.contacted && invitation.intervenant != operateur

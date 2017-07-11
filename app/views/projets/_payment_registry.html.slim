@@ -1,0 +1,12 @@
+- if can? :create, PaymentRegistry
+  article.block.payment_registry
+    h3 Dossiers de paiement
+    .content-block
+      = link_to dossier_payment_registry_path(@projet_courant), method: :post, class: "btn btn-icon"
+        = "Créer"
+        i.glyphicon.glyphicon-edit
+- elsif can? :read, @projet_courant.payment_registry
+  article.block.payment_registry
+    h3 Dossiers de paiement
+    .content-block
+      = btn name: "Accéder", href: projet_or_dossier_payment_registry_path(@projet_courant), icon: "arrow-right"

@@ -1,12 +1,14 @@
 module Tools
-  DEPARTEMENTS_WILDCARD = '*'
+  STATE_COUNT_IN_FRANCE = 96
+  STATES_IN_IDF = ["75", "77", "78", "91", "92", "93", "94", "95"]
+  STATES_WILDCARD = "*"
 
   def self.demo?
     ENV['DEMO'] == 'true'
   end
 
   def self.zone(departement)
-    ['75','77','78','91','92','93','94','95'].include?(departement) ? :idf : :province
+    STATES_IN_IDF.include?(departement) ? :idf : :province
   end
 
   def self.departements_enabled
@@ -14,14 +16,19 @@ module Tools
   end
 
   def self.departement_enabled?(departement)
-    if departements_enabled.first == DEPARTEMENTS_WILDCARD
+    if departements_enabled.include? STATES_WILDCARD
       return true
     end
     departements_enabled.include?(departement)
   end
 
+  def self.enabled_state_count
+    return STATE_COUNT_IN_FRANCE if departements_enabled.include? STATES_WILDCARD
+    departements_enabled.count
+  end
+
+  # Source : http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/
   def self.calcule_preeligibilite(revenu_global, departement, nb_occupants)
-    # Source : http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/
     plafond_ressources = {
       idf: {
         1 => { tres_modeste: 19875, modeste: 24194 },
@@ -60,3 +67,4 @@ module Tools
   end
 
 end
+

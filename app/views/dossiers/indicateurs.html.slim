@@ -1,6 +1,8 @@
 .main-content-block
   h1 Indicateurs
-  = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-top-right btn-secondary"
+
+  - unless current_agent.dreal?
+     = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-top-right btn-secondary"
 
   h3=  "Il y a #{ pluralize( @projets_count, 'projet' ) }."
 

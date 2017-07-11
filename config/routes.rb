@@ -8,11 +8,13 @@ Rails.application.routes.draw do
     resources :avis_impositions,   only: [:index, :new, :create, :destroy]
     resources :documents,          only: [:create, :destroy]
     resources :intervenants
-    resource  :demandeur,         only: [:show, :update]
-    resource  :demande,           only: [:show, :update]
-    resource  :mise_en_relation,  only: [:show, :update]
+    resource  :demandeur,          only: [:show, :update]
+    resource  :demande,            only: [:show, :update]
+    resource  :mise_en_relation,   only: [:show, :update]
+    resource  :eligibility,        only: :show
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
+    get       '/payment_registry', to: 'payment_registries#show'
   end
 
   devise_for :users, controllers: {
@@ -31,6 +33,7 @@ Rails.application.routes.draw do
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
+      put  :update_project_rfr, controller: 'avis_impositions', action: 'update_project_rfr'
       get  :affecter_agent
       get  :recommander_operateurs
       post :recommander_operateurs
@@ -38,6 +41,7 @@ Rails.application.routes.draw do
       get  :proposition
       put  :proposition
       get  :indicateurs, on: :collection
+      post '/payment_registry', to: 'payment_registries#create'
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
@@ -71,9 +75,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'home#index'
     resources :themes
-    resources :intervenants do
-      post 'import', on: :collection
-    end
+    resources :intervenants
   end
 
   get  '/deconnexion', to: 'sessions#deconnexion'
@@ -83,6 +85,7 @@ Rails.application.routes.draw do
   get  '/informations/faq',          to: 'informations#faq'
   get  '/informations/terms_of_use', to: 'informations#terms_of_use'
   get  '/informations/legal',        to: 'informations#legal'
+  get  '/stats',                     to: 'informations#stats'
 
   get  '/patterns',                  to: 'patterns#index'
   get  '/patterns/forms',            to: 'patterns#forms'

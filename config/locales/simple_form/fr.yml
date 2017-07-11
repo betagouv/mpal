@@ -59,11 +59,13 @@ fr:
         demandeur: "Prénom et nom"
         etage: "Votre étage"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
-        future_birth: "Enfant(s) à naître"
+        future_birth: "Enfant(s) à naître dans le foyer"
         nb_pieces: "Nombre de pièces"
         surface_habitable: "Surface habitable"
         theme_ids: "Types d’interventions"
         type_logement: "Type de logement"
+        modified_revenu_fiscal_reference: "Revenu Fiscal Modifié"
+
       demande:
         # Difficultés
         changement_chauffage: "Votre chauffage vous coûte trop cher"
@@ -85,7 +87,6 @@ fr:
         travaux_autres: "Autre"
         # Autre
         complement: "Informations complémentaires"
-        date_achevement_15_ans: "Logement achevé depuis plus ou moins de 15 ans"
         ptz: "Prêt à taux zéro contracté"
     hints:
       defaults:

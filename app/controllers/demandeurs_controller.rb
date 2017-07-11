@@ -2,6 +2,7 @@ class DemandeursController < ApplicationController
   layout 'inscription'
 
   before_action :assert_projet_courant
+  authorize_resource :class => false
 
   def show
     render_show
@@ -16,7 +17,7 @@ class DemandeursController < ApplicationController
   end
 
   def departement_non_eligible
-    @departements = Tools.departements_enabled - [Tools::DEPARTEMENTS_WILDCARD]
+    @departements = Tools::departements_enabled - [Tools::STATES_WILDCARD]
   end
 
 private
