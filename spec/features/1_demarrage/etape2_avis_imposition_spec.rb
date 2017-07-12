@@ -38,9 +38,7 @@ feature "Avis d'imposition :" do
   end
 
   context "en tant que demandeur avec un avis d'imposition supplémentaire" do
-    let(:numero_fiscal)     { Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE }
-    let(:reference_avis)    { Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE }
-    let(:avis_imposition_2) { create :avis_imposition, numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+    let(:avis_imposition_2) { create :avis_imposition, numero_fiscal: 1, reference_avis: 2, revenu_fiscal_reference: 1000000 }
     before { projet.avis_impositions << avis_imposition_2 }
 
     scenario "je peux supprimer cet avis d'imposition" do

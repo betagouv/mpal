@@ -26,20 +26,4 @@ describe AvisImposition do
     it { expect(avis_imposition_2.is_valid_for_current_year?).to be_truthy }
     it { expect(avis_imposition_3.is_valid_for_current_year?).to be_truthy }
   end
-
-  describe "#revenu_fiscal_reference" do
-    let(:avis_imposition) { create :avis_imposition }
-
-    context "pour un avis donné" do
-      let(:numero_fiscal)   { avis_imposition.numero_fiscal }
-      let(:reference_avis)  { avis_imposition.reference_avis }
-
-      subject(:contribuable) { ApiParticulier.new(numero_fiscal, reference_avis).retrouve_contribuable }
-
-      it "récupère le revenu fiscal" do
-        revenu_fiscal = contribuable.revenu_fiscal_reference
-        expect(avis_imposition.revenu_fiscal_reference).to eq(revenu_fiscal)
-      end
-    end
-  end
 end
