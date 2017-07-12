@@ -3,6 +3,7 @@ FactoryGirl.define do
     numero_fiscal 12
     reference_avis 15
     annee 2015
+    revenu_fiscal_reference 29880
 
     association :projet, strategy: :build
 
