@@ -12,18 +12,17 @@ describe Agent do
   end
 
   describe "abilities" do
-    let(:agent)       { create :agent }
     subject(:ability) { Ability.new(agent, projet) }
 
     context "when a payment registry exists" do
+      let(:agent) { create :agent }
       let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
       it { is_expected.to be_able_to(:read, PaymentRegistry) }
     end
 
     describe "when is an operator" do
       context "when the status is prospect and he is contacted by user" do
-        let(:operateur) { projet.contacted_operateur }
-        before {agent.update! intervenant: operateur}
+        let(:agent) { create :agent, intervenant: projet.contacted_operateur }
 
         context "can read a project but not modify it" do
           let(:projet) { create :projet, :prospect, :with_contacted_operateur }
@@ -32,13 +31,13 @@ describe Agent do
           it { is_expected.not_to be_able_to(:manage, Demande) }
           it { is_expected.not_to be_able_to(:manage, :demandeur) }
           it { is_expected.not_to be_able_to(:manage, Occupant) }
+          it { is_expected.not_to be_able_to(:manage, :eligibility) }
           it { is_expected.to be_able_to(:read, Projet) }
         end
       end
 
       context "wwhen he is engaged with user" do
-        let(:operateur) { projet.operateur }
-        before {agent.update! intervenant: operateur}
+        let(:agent) { create :agent, intervenant: projet.operateur }
 
         context "can manage an entire project he is on until 'transmis pour instruction'" do
           let(:projet) { create :projet, :en_cours}
@@ -47,6 +46,7 @@ describe Agent do
             it { is_expected.to be_able_to(:manage, Demande) }
             it { is_expected.to be_able_to(:manage, :demandeur) }
             it { is_expected.to be_able_to(:manage, Occupant) }
+          it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.to be_able_to(:manage, Projet) }
           end
 
@@ -55,8 +55,9 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, AvisImposition) }
             it { is_expected.not_to be_able_to(:manage, Demande) }
             it { is_expected.not_to be_able_to(:manage, :demandeur) }
-            it { is_expected.not_to be_able_to(:manage, Occupant) }
-            it { is_expected.not_to be_able_to(:manage, Projet) }
+          it { is_expected.not_to be_able_to(:manage, :eligibility) }
+          it { is_expected.not_to be_able_to(:manage, Occupant) }
+          it { is_expected.not_to be_able_to(:manage, Projet) }
             it { is_expected.to be_able_to(:read, Projet) }
           end
 
@@ -72,9 +73,70 @@ describe Agent do
       end
 
       context "when is an admin" do
+        let(:agent)  { create :agent, admin: true }
         let(:projet) { create :projet }
-        before { agent.update! admin: true }
         it { is_expected.to be_able_to(:manage, :all) }
+      end
+    end
+
+    describe "when is an PRIS" do
+      let(:agent) { create :agent, intervenant: projet.invited_pris }
+
+      context "before the user is engaged with operator" do
+        context "can read a project but not modify it" do
+          let(:projet) { create :projet, :prospect, :with_invited_pris }
+
+          it { is_expected.not_to be_able_to(:manage, AvisImposition) }
+          it { is_expected.not_to be_able_to(:manage, Demande) }
+          it { is_expected.not_to be_able_to(:manage, :demandeur) }
+          it { is_expected.not_to be_able_to(:manage, :eligibility) }
+          it { is_expected.not_to be_able_to(:manage, Occupant) }
+          it { is_expected.to be_able_to(:read, Projet) }
+        end
+      end
+
+      context "after the user is engaged with operator" do
+        context "cannot access or modify a project" do
+          let(:projet) { create :projet, :en_cours, :with_invited_pris }
+
+          it { is_expected.not_to be_able_to(:read, AvisImposition) }
+          it { is_expected.not_to be_able_to(:read, Demande) }
+          it { is_expected.not_to be_able_to(:read, :demandeur) }
+          it { is_expected.not_to be_able_to(:manage, :eligibility) }
+          it { is_expected.not_to be_able_to(:read, Occupant) }
+          it { is_expected.not_to be_able_to(:read, Projet) }
+        end
+      end
+    end
+
+    describe "when is an Instructeur" do
+      context "before the project is 'transmis_pour_instruction'" do
+        context "cannot read or modify a project" do
+          let(:projet)      { create :projet, :prospect, :with_invited_instructeur }
+          let(:instructeur) { create :instructeur }
+          let(:agent)       { create :agent, intervenant: instructeur }
+
+          it { is_expected.not_to be_able_to(:read, AvisImposition) }
+          it { is_expected.not_to be_able_to(:read, Demande) }
+          it { is_expected.not_to be_able_to(:read, :demandeur) }
+          it { is_expected.not_to be_able_to(:manage, :eligibility) }
+          it { is_expected.not_to be_able_to(:read, Occupant) }
+          it { is_expected.not_to be_able_to(:read, Projet) }
+        end
+      end
+
+      context "after the project is 'transmis_pour_instruction'" do
+        context "can access project" do
+          let(:projet) { create :projet, :transmis_pour_instruction, :with_committed_instructeur }
+          let(:agent)  { projet.agent_instructeur }
+
+          it { is_expected.not_to be_able_to(:read, AvisImposition) }
+          it { is_expected.not_to be_able_to(:read, Demande) }
+          it { is_expected.not_to be_able_to(:read, :demandeur) }
+          it { is_expected.not_to be_able_to(:manage, :eligibility) }
+          it { is_expected.not_to be_able_to(:read, Occupant) }
+          it { is_expected.to be_able_to(:read, Projet) }
+        end
       end
     end
   end
