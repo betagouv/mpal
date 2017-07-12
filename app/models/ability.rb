@@ -8,9 +8,8 @@ class Ability
     if agent_or_user.is_a? Agent
       if agent_or_user.admin?
         can :manage, :all
-        # TODO gérer pris
-      elsif agent_or_user.pris?
-        can [:read, :recommander_operateurs], Projet
+      elsif agent_or_user.pris? && projet.present?
+        can [:read, :recommander_operateurs], Projet if (projet.statut.to_sym == :prospect && projet.invited_pris == agent_or_user.intervenant)
       elsif agent_or_user.operateur? && (projet.try(:contacted_operateur) == agent_or_user.intervenant)
         if (projet.statut.to_sym == :prospect)
           can :read, Projet
