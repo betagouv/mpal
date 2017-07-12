@@ -49,7 +49,7 @@ feature "Accéder aux informations du dossier :" do
     it_behaves_like "je peux consulter un dossier"
   end
 
-  context "en tant que PRIS", skip: true do
+  context "en tant que PRIS" do
     let(:agent) { create :agent, intervenant: pris }
     before { login_as agent, scope: :agent }
     it_behaves_like "je peux consulter un dossier"
