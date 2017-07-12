@@ -5,8 +5,7 @@ require 'support/opal_helper'
 feature "Créer le dossier dans Opal" do
   let(:projet) { create :projet, statut }
 
-  # en attente car en cours de refacto des autorisations
-  context "en tant qu'agent instructeur", skip:true do
+  context "en tant qu'agent instructeur" do
     let(:instructeur) { projet.intervenants.instructeur.first }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
     before { login_as agent_instructeur, scope: :agent }

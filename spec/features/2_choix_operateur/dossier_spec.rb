@@ -42,10 +42,12 @@ feature "Accéder aux informations du dossier :" do
     end
   end
 
-  # en attente car en cours de refacto des autorisations
-  context "en tant qu'instructeur", skip: true do
+  context "en tant qu'instructeur dont mon projet à un statut au moins 'transmis pour instruction'" do
     let(:agent) { create :agent, intervenant: instructeur }
-    before { login_as agent, scope: :agent }
+    before do
+      projet.update(statut: "transmis_pour_instruction")
+      login_as agent, scope: :agent
+    end
     it_behaves_like "je peux consulter un dossier"
   end
 
