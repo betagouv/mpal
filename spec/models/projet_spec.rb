@@ -677,26 +677,13 @@ describe Projet do
     }
   end
 
-  describe "Calculs des RFR" do
+  describe "#revenu_fiscal_reference_total" do
     let!(:projet) { create :projet}
-    let!(:avis1)  { create :avis_imposition, projet: projet, numero_fiscal: 12, reference_avis: 15,  annee: 2015 }
-    let!(:avis2)  { create :avis_imposition, projet: projet, numero_fiscal: 13, reference_avis: 16,  annee: 2015 }
+    let!(:avis1)  { create :avis_imposition, projet: projet, numero_fiscal: 12, reference_avis: 15,  annee: 2015, revenu_fiscal_reference: 50 }
+    let!(:avis2)  { create :avis_imposition, projet: projet, numero_fiscal: 13, reference_avis: 16,  annee: 2015, revenu_fiscal_reference: 60 }
 
-
-    it "calcule le RFR total si celui modifié est vide ou nul" do
-      avis1.update(revenu_fiscal_reference: 50)
-      avis2.update(revenu_fiscal_reference: 50)
-      expect(projet.revenu_fiscal_reference_total).to eq 100
+    it "calcule le RFR total" do
+      expect(projet.revenu_fiscal_reference_total).to eq 110
     end
-
-    context "calcule le RFR total si le modifié est vide ou nul" do
-      before { projet.update!(modified_revenu_fiscal_reference: 111) }
-
-      it "prend le RFR modifié s'il est présent" do
-        expect(projet.revenu_fiscal_reference_total).to eq 111
-      end
-    end
-
-
   end
 end
