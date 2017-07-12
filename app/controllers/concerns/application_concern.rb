@@ -34,9 +34,11 @@ module ApplicationConcern
         # NOTE: a user should have one project (at least); if not, let the drama begin…
       elsif current_agent
         @projet_courant = Projet.find_by_locator(params[:dossier_id])
+=begin
         unless @projet_courant && @projet_courant.accessible_for_agent?(current_agent)
           return redirect_to dossiers_path, alert: t("sessions.access_forbidden")
         end
+=end
       else
         @projet_courant = Projet.find_by_locator(session[:project_id])
         unless @projet_courant

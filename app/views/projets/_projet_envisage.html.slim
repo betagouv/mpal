@@ -1,15 +1,7 @@
 article.block.projet
   h3 Projet envisagé
-  - if can? :update, @projet_courant
-     = edit_projet_button(@projet_courant, projet_demande_path(@projet_courant))
   .content-block
-    - if @projet_courant.demande.blank?
-      - if current_agent
-        p Le demandeur n’a pas encore rempli le projet.
-      - else
-        .button-group
-          = btn name: 'Remplir le projet', href: projet_demande_path(@projet_courant), icon: 'edit'
-    - else
+    - if @projet_courant.demande.present?
       = affiche_demande_souhaitee(@projet_courant.demande)
       hr/
       h4 Organisme qui vous accompagne pour la suite de votre projet :
@@ -33,12 +25,10 @@ article.block.projet
             = btn name: t('projets.visualisation.changer_intervenant'), href: projet_choix_operateur_path(@projet_courant)
       - elsif @projet_courant.pris_suggested_operateurs.present?
         p= t('projets.visualisation.le_pris_a_recommande_des_operateurs')
-        - unless current_agent
-          .button-group
-            = btn name: t('projets.visualisation.choisir_operateur_recommande'), href: projet_choix_operateur_path(@projet_courant)
+        .button-group
+          = btn name: t('projets.visualisation.choisir_operateur_recommande'), href: projet_choix_operateur_path(@projet_courant)
       - elsif @projet_courant.invited_pris.present?
         p= t('projets.visualisation.le_pris_selectionne_des_operateurs')
       - else
         p= t('projets.visualisation.select_operator_without_pris')
-        - unless current_agent
-          = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)
+        = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)
