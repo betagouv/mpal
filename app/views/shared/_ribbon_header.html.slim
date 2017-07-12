@@ -1,0 +1,24 @@
+.ribbon_heading
+  h2= @projet_courant.payment_registry.demandeur
+  p= @projet_courant.payment_registry.adresse
+  - code_opal = @projet_courant.payment_registry.code_opal
+  p= "Plateforme : #{@projet_courant.payment_registry.plateforme_id}" + (code_opal.present? ? " / Op@l : #{code_opal}" : "")
+
+  .ribbon_heading__icon_list
+    -if current_agent
+      .ribbon_heading__icon_element
+        = link_to dossiers_path
+          span.ribbon_heading__icon.glyphicon.glyphicon-list
+          span.ribbon_heading__text= "Tableau de bord"
+    .ribbon_heading__icon_element
+      = link_to projet_or_dossier_path(@projet_courant)
+        span.ribbon_heading__icon.glyphicon.glyphicon-folder-open
+        span.ribbon_heading__text= current_agent ? "Dossier" : "Mon Dossier"
+    .ribbon_heading__icon_element
+      = link_to projet_or_dossier_payment_registry_path(@projet_courant)
+        span.ribbon_heading__icon--active.glyphicon.glyphicon-euro
+        span.ribbon_heading__text--active= current_agent ? "Paiements" : "Mes Paiements"
+    .ribbon_heading__icon_element
+      = link_to (current_agent ? destroy_agent_session_path : deconnexion_path)
+        span.ribbon_heading__icon.glyphicon.glyphicon-off
+        span.ribbon_heading__text Déconnexion

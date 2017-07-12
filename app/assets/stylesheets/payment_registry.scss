@@ -1,50 +1,5 @@
 @import "variables";
 
-.ribbon_heading {
-  background-color: $color-light-grey;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-  font-size: 18px;
-  font-weight: bold;
-  color: $font-color;
-  padding: 1em;
-}
-
-.ribbon_heading__icon_list {
-  display: flex;
-  padding-top: 0.5em;
-}
-.ribbon_heading__icon_element {
-  display: flex;
-  flex-direction: column;
-  margin-right: 1em;
-
-  a {
-    text-decoration: none;
-  }
-}
-.ribbon_heading__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5em;
-}
-.ribbon_heading__icon--active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5em;
-  color: $color-steel;
-}
-
-.ribbon_heading__text {
-  font-size: 0.75em;
-
-}
-.ribbon_heading__text--active {
-  font-size: 0.75em;
-  color: $color-steel;
-}
-
 .registry__content {
   @media screen and (min-width: 600px) {
     padding: 0.75em;
@@ -60,5 +15,31 @@
   color: $alert-info-text;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   padding: 1em;
-  margin: 1em 0;
+  margin-bottom: 1em;
+}
+
+.registry__entry {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 1em;
+}
+.registry__entry_header {
+  background-color: $color-light-grey;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+.registry__title {
+  font-size: 18px;
+  font-weight: bold;
+  color: $font-color;
+}
+.registry__details {
+  font-style: italic;
+  padding: 15px 30px;
+}
+
+.registry__button_group {
+  margin: 2em;
+}
+.registry__add_button {
+  text-decoration: none;
 }
