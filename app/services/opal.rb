@@ -57,6 +57,10 @@ private
     code_insee[2, code_insee.length]
   end
 
+  def serialize_revenu_fiscal(projet)
+    projet.modified_revenu_fiscal_reference ? projet.modified_revenu_fiscal_reference : projet.revenu_fiscal_reference_total
+  end
+
   def serialize_dossier(projet, agent_instructeur)
     lignes_adresse_postale  = split_adresse_into_lines(projet.adresse_postale.ligne_1)
     lignes_adresse_geo      = split_adresse_into_lines(projet.adresse.ligne_1)
@@ -67,7 +71,7 @@ private
       "utiIdClavis": agent_instructeur.clavis_id,
       "demandeur": {
         "dmdNbOccupants": projet.nb_total_occupants,
-        "dmdRevenuOccupants": projet.revenu_fiscal_reference_total,
+        "dmdRevenuOccupants": serialize_revenu_fiscal(projet),
         "qdmId": 29,
         "cadId": 2,
         "personnePhysique": {
