@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
     respond_to do |format|
       if current_user && @projet_courant.locked_at && @projet_courant.user.blank?
         format.html { redirect_to projet_eligibility_path(@projet_courant), alert: exception.message }
-      elsif
+      else
         format.html { redirect_to root_path, alert: exception.message }
       end
     end

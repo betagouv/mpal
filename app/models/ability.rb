@@ -19,8 +19,14 @@ class Ability
 
       if agent_or_user.pris? && projet.statut.to_sym == :prospect && projet.invited_pris == agent_or_user.intervenant
         can [:read, :recommander_operateurs], Projet
-      elsif agent_or_user.instructeur? && !projet.status_not_yet(:transmis_pour_instruction) &&  projet.invited_instructeur == agent_or_user.intervenant
-        can :read, Projet
+      elsif agent_or_user.instructeur?
+        if !projet.status_not_yet(:transmis_pour_instruction) &&  projet.invited_instructeur == agent_or_user.intervenant
+          can :read, Projet
+        end
+        if projet.statut.to_sym == :transmis_pour_instruction &&  projet.invited_instructeur == agent_or_user.intervenant
+          can :manage, :dossiers_opal
+        end
+
       elsif agent_or_user.operateur? && projet.contacted_operateur == agent_or_user.intervenant
         if projet.statut.to_sym == :prospect
           can :read, Projet
