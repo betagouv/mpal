@@ -121,8 +121,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         end
       end
     end
-    # en attente car en cours de refacto des autorisations
-    context "en tant qu'instructeur", skip:true do
+    context "en tant qu'instructeur" do
       let(:current_agent) { agent_instructeur }
 
       scenario "j'ai accès au tableau de bord avec toutes les informations disponibles" do

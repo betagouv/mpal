@@ -9,7 +9,9 @@ class Ability
       if agent_or_user.admin?
         can :manage, :all
       elsif agent_or_user.pris? && projet.present?
-        can [:read, :recommander_operateurs], Projet if (projet.statut.to_sym == :prospect && projet.invited_pris == agent_or_user.intervenant)
+        can [:read, :recommander_operateurs], Projet if ( projet.statut.to_sym == :prospect && projet.invited_pris == agent_or_user.intervenant )
+      elsif agent_or_user.instructeur? && projet.present?
+        (can :read, Projet) if ( !projet.status_not_yet(:transmis_pour_instruction) &&  projet.invited_instructeur == agent_or_user.intervenant )
       elsif agent_or_user.operateur? && (projet.try(:contacted_operateur) == agent_or_user.intervenant)
         if (projet.statut.to_sym == :prospect)
           can :read, Projet
