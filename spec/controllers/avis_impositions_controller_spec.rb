@@ -67,7 +67,7 @@ describe AvisImpositionsController do
   end
 
   describe "#update_project_rfr" do
-    let(:projet) { create :projet, :with_assigned_operateur, :with_avis_imposition }
+    let!(:projet) { create :projet, :en_cours }
 
     before(:each) { authenticate_as_agent projet.agent_operateur }
 

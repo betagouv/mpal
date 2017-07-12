@@ -3,6 +3,8 @@ class DossiersController < ApplicationController
 
   before_action :authenticate_agent!
   before_action :assert_projet_courant, except: [:index, :indicateurs]
+  load_and_authorize_resource class: "Projet"
+  skip_load_and_authorize_resource only: [:index, :indicateurs]
 
   def index
     if current_agent.dreal?

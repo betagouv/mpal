@@ -1,8 +1,6 @@
 article.block.projet
   h3 Projet envisagé
-  - if current_user
-    = edit_projet_button(@projet_courant, projet_demande_path(@projet_courant))
-  - elsif current_agent && current_agent.operateur?
+  - if can? :update, @projet_courant
     = edit_projet_button(@projet_courant, dossier_demande_path(@projet_courant))
   .content-block
     - if @projet_courant.demande.blank?

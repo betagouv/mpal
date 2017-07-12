@@ -3,7 +3,6 @@ class AvisImpositionsController < ApplicationController
 
   before_action :assert_projet_courant
   before_action :init_view
-  before_action :authenticate_agent!, only: [:update_project_rfr]
   before_action :check_agent_operateur, only: [:update_project_rfr]
   load_and_authorize_resource
 

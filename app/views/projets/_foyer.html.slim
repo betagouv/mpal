@@ -1,10 +1,7 @@
 article.block.occupants
   h3 Détails du foyer
-  - if current_agent && current_agent.operateur?
+  - if can? :update, @projet_courant
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
-  - else
-    - if can? :update, @projet_courant
-      = edit_projet_button(@projet_courant, projet_demandeur_path(@projet_courant))
   .occupants-recap
     ul
       li

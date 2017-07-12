@@ -1,6 +1,6 @@
 require "rails_helper"
 require "cancan/matchers"
-require 'support/mpal_features_helper'
+require "support/mpal_features_helper"
 
 describe Agent do
   describe "validations" do
@@ -20,34 +20,62 @@ describe Agent do
       it { is_expected.to be_able_to(:read, PaymentRegistry) }
     end
 
-    context "when is an operator" do
-      let(:operateur) { create :operateur }
-      before { agent.update! intervenant: operateur }
+    describe "when is an operator" do
+      context "when the status is prospect and he is contacted by user" do
+        let(:operateur) { projet.contacted_operateur }
+        before {agent.update! intervenant: operateur}
 
-      context "when a payment registry doesn't exist" do
-        let(:projet) { create :projet, :transmis_pour_instruction }
-        it { is_expected.to be_able_to(:create, PaymentRegistry) }
+        context "can read a project but not modify it" do
+          let(:projet) { create :projet, :prospect, :with_contacted_operateur }
+
+          it { is_expected.not_to be_able_to(:manage, AvisImposition) }
+          it { is_expected.not_to be_able_to(:manage, Demande) }
+          it { is_expected.not_to be_able_to(:manage, :demandeur) }
+          it { is_expected.not_to be_able_to(:manage, Occupant) }
+          it { is_expected.to be_able_to(:read, Projet) }
+        end
       end
 
-      context "when a payment registry exists" do
-        let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
-        it { is_expected.not_to be_able_to(:create, PaymentRegistry) }
+      context "wwhen he is engaged with user" do
+        let(:operateur) { projet.operateur }
+        before {agent.update! intervenant: operateur}
+
+        context "can manage an entire project he is on until 'transmis pour instruction'" do
+          let(:projet) { create :projet, :en_cours}
+
+            it { is_expected.to be_able_to(:manage, AvisImposition) }
+            it { is_expected.to be_able_to(:manage, Demande) }
+            it { is_expected.to be_able_to(:manage, :demandeur) }
+            it { is_expected.to be_able_to(:manage, Occupant) }
+            it { is_expected.to be_able_to(:manage, Projet) }
+          end
+
+        context "can only read after 'transmis pour instruction'" do
+          let(:projet) { create :projet, :transmis_pour_instruction }
+            it { is_expected.not_to be_able_to(:manage, AvisImposition) }
+            it { is_expected.not_to be_able_to(:manage, Demande) }
+            it { is_expected.not_to be_able_to(:manage, :demandeur) }
+            it { is_expected.not_to be_able_to(:manage, Occupant) }
+            it { is_expected.not_to be_able_to(:manage, Projet) }
+            it { is_expected.to be_able_to(:read, Projet) }
+          end
+
+        context "when a payment registry doesn't exist" do
+          let(:projet) { create :projet, :transmis_pour_instruction }
+          it { is_expected.to be_able_to(:create, PaymentRegistry) }
+        end
+
+        context "when a payment registry exists" do
+          let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+          it { is_expected.not_to be_able_to(:create, PaymentRegistry) }
+        end
       end
-    end
 
-    context "when is an admin" do
-      let(:projet) { create :projet }
-      before { agent.update! admin: true }
-      it { is_expected.to be_able_to(:manage, :all) }
-    end
-
-    context "when is not an admin" do
-      let(:projet) { create :projet }
-      it { is_expected.to be_able_to(:manage, AvisImposition) }
-      it { is_expected.to be_able_to(:manage, Demande) }
-      it { is_expected.to be_able_to(:manage, :demandeur) }
-      it { is_expected.to be_able_to(:manage, Occupant) }
-      it { is_expected.to be_able_to(:manage, Projet) }
+      context "when is an admin" do
+        let(:projet) { create :projet }
+        before { agent.update! admin: true }
+        it { is_expected.to be_able_to(:manage, :all) }
+      end
     end
   end
 

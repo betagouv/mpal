@@ -5,11 +5,10 @@ require 'support/api_ban_helper'
 
 feature "Les information personnelles syntéthiques sont visibles" do
   let(:user)            { create :user }
-  let(:projet)          { create(:projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, user: user, personne: personne, locked_at: Time.new(2001, 2, 3, 4, 5, 6)) }
+  let(:projet)          { create(:projet, :prospect, :with_assigned_operateur, :with_invited_instructeur, :with_invited_pris, user: user, personne: personne, locked_at: Time.new(2001, 2, 3, 4, 5, 6)) }
   let(:personne)        { create :personne }
-  let(:operateur)       { create :operateur, departements: [projet.departement] }
-  let(:agent_operateur) { create :agent, intervenant: operateur }
-  let!(:invitation)     { create :invitation, intervenant: operateur, projet: projet }
+  let(:operateur)       { projet.operateur }
+  let(:agent_operateur) { projet.agent_operateur }
 
   scenario "en tant que demandeur dont l’éligibilité est figée" do
     login_as user, scope: :user

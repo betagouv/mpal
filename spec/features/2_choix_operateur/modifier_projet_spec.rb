@@ -3,8 +3,8 @@ require 'support/mpal_features_helper'
 require 'support/api_ban_helper'
 require 'support/rod_helper'
 
-describe "En tant qu'opérateur" do
-  let(:projet) { create :projet, :prospect, :with_committed_operateur }
+describe "En tant qu'opérateur engagé avec le demandeur" do
+  let(:projet) { create :projet, :en_cours, :with_committed_operateur }
   let(:agent_operateur) { create :agent, intervenant: projet.operateur }
 
   before { login_as agent_operateur, scope: :agent }
@@ -14,7 +14,6 @@ describe "En tant qu'opérateur" do
     within 'article.occupants' do
       click_link I18n.t('projets.visualisation.lien_edition')
     end
-
     expect(page).to have_current_path dossier_demandeur_path(projet)
     expect(find('#projet_occupant_civility_mr')).to be_checked
     expect(page).to have_field('Adresse postale', with: '65 rue de Rome, 75008 Paris')
