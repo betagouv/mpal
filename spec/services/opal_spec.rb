@@ -30,8 +30,8 @@ describe Opal do
   let(:client) { OpalClientMock.new(201, "OK", { dosNumero: "09500840", dosId: 959496 }) }
 
   describe "#create_dossier!" do
-    let(:projet) {            create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
-    let(:instructeur) {       create :instructeur }
+    let(:projet)            { create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
+    let(:instructeur)       { create :instructeur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
 
     context "en cas de succès" do
@@ -74,6 +74,16 @@ describe Opal do
         expect(projet.opal_numero).to eq("09500840")
         expect(projet.statut).to eq('en_cours_d_instruction')
         expect(projet.agent_instructeur).to eq(agent_instructeur)
+      end
+
+      context "avec un rfr modifié" do
+        let(:projet) { create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1, modified_revenu_fiscal_reference: 10 }
+
+        it "envoie le rfr modifié dans Opal" do
+          body = JSON.parse(client.body)
+          demandeur = body["demandeur"]
+          expect(demandeur["dmdRevenuOccupants"]).to eq projet.modified_revenu_fiscal_reference
+        end
       end
     end
 

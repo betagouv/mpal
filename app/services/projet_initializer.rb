@@ -39,6 +39,7 @@ class ProjetInitializer
     avis_imposition.declarant_1 = "#{contribuable.declarants[0][:prenom]} #{contribuable.declarants[0][:nom]}"
     avis_imposition.declarant_2 = "#{contribuable.declarants[1][:prenom]} #{contribuable.declarants[1][:nom]}" if 2 <= declarant_count
     avis_imposition.nombre_personnes_charge = contribuable.nombre_personnes_charge
+    avis_imposition.revenu_fiscal_reference = contribuable.revenu_fiscal_reference
 
     contribuable.declarants.each_with_index do |declarant, index|
       avis_imposition.occupants.build(

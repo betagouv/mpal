@@ -240,15 +240,7 @@ class Projet < ActiveRecord::Base
   end
 
   def calcul_revenu_fiscal_reference_total(annee_revenus)
-    total_revenu_fiscal_reference = 0
-    if modified_revenu_fiscal_reference != nil
-      total_revenu_fiscal_reference = modified_revenu_fiscal_reference
-    else
-      avis_impositions.where(annee: annee_revenus).each do |avis_imposition|
-        total_revenu_fiscal_reference += avis_imposition.revenu_fiscal_reference
-      end
-    end
-    total_revenu_fiscal_reference
+    avis_impositions.where(annee: annee_revenus).map(&:revenu_fiscal_reference).inject(0,:+)
   end
 
   def preeligibilite(annee_revenus)
