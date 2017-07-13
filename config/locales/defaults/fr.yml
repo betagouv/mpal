@@ -313,6 +313,12 @@ fr:
     edition: "Je modifie ma demande de paiement"
     beneficiaire_question: "À qui voulez-vous que les fonds soient versés ?"
     personne_morale_question: "Cette personne est :"
+    actions:
+      create: "Créer"
+      modify: "Modifier"
+      delete: "Supprimer"
+      cancel: "Annuler"
+      ask_for_validation: "Envoyer pour validation"
 
   # ----------------------- Messagerie ---------------------
   conversation:
