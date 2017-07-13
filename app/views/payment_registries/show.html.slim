@@ -1,14 +1,14 @@
 = render "shared/ribbon_header"
 
-- unless @payment_registry.code_opal
+- unless @projet_courant.payment_registry.code_opal
   .registry__info
     p= t("payment_registry.info_only_prepare")
 
 .registry__content
-  - if @payment_registry.payments.blank?
+  - if @payments.blank?
     p= t("payment_registry.no_paiement")
   - else
-    - @payment_registry.payments.each do |payment|
+    - @payments.each do |payment|
       .registry__entry
         .registry__entry_header
           .registry__title_header
