@@ -69,9 +69,15 @@ private
   end
 
   def define_payment_abilities(agent_or_user, projet)
-    alias_action :new, :create, to: :add
+    alias_action :new,  :create, to: :add
+    alias_action :edit, :update, to: :modify
 
-    can :add, Payment if agent_or_user.try(:operateur?) && projet.payment_registry.present?
+    if agent_or_user.try(:operateur?) && projet.payment_registry.present?
+      can :add,                Payment
+      can :destroy,            Payment, payment_registry_id: projet.payment_registry.id, statut: 0
+      can :modify,             Payment, payment_registry_id: projet.payment_registry.id, statut: 0..1
+      can :send_to_validation, Payment, payment_registry_id: projet.payment_registry.id, statut: 0..1 unless projet.status_not_yet(:en_cours_d_instruction)
+    end
   end
 
 end

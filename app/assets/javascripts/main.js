@@ -35,18 +35,18 @@ $(document).ready(function() {
   $(".block").last().children().addClass("is-open").slideDown(0);
 
   // Toggle registry details for payment_registries
-  $(".registry__entry .registry__entry_header").each( function(index) {
-    if ( !$(this).hasClass("is-open") ){
-      $(this).parent().find(".registry__details").slideUp(0);
+  $(".registry__title_header").each( function(index) {
+    if ( !$(this).parent().hasClass("is-open") ){
+      $(this).parent().parent().find(".registry__details").slideUp(0);
     }
   })
-  $(".registry__entry .registry__entry_header").click(function(){
-    if ( $(this).hasClass("is-open") ){
-      $(this).removeClass("is-open");
-      $(this).parent().find(".registry__details").slideUp("fast");
+  $(".registry__title_header").click(function(){
+    if ( $(this).parent().hasClass("is-open") ){
+      $(this).parent().removeClass("is-open");
+      $(this).parent().parent().find(".registry__details").slideUp("fast");
     } else {
-      $(this).parent().find(".registry__details").slideDown("fast");
-      $(this).addClass("is-open");
+      $(this).parent().parent().find(".registry__details").slideDown("fast");
+      $(this).parent().addClass("is-open");
     }
   });
 

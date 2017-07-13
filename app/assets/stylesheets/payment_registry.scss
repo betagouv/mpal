@@ -23,15 +23,41 @@
   margin-bottom: 1em;
 }
 .registry__entry_header {
+  display: flex;
+  align-items: center;
   background-color: $color-light-grey;
   padding: 15px 30px;
+}
+
+.registry__title_header {
+  display: flex;
+  align-items: center;
+  flex: 1;
   cursor: pointer;
 }
 .registry__title {
+  display: flex;
+  align-items: center;
   font-size: 18px;
   font-weight: bold;
   color: $font-color;
 }
+
+.registry__actions_header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.registry__action {
+  text-decoration: none;
+  margin-left: 1em;
+}
+.registry__action_text {
+}
+.registry__action_icon {
+  margin-left: 0.5em;
+}
+
 .registry__details {
   font-style: italic;
   padding: 15px 30px;

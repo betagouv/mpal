@@ -1,5 +1,5 @@
 class Payment < ActiveRecord::Base
-  STATUSES = [ :en_cours_de_montage, :a_valider, :a_modifier, :demande, :en_cours_d_instruction, :paye ]
+  STATUSES = [ :en_cours_de_montage, :a_modifier, :a_valider, :demande, :en_cours_d_instruction, :paye ]
   TYPES = [ :avance, :acompte, :solde ]
 
   enum statut: STATUSES

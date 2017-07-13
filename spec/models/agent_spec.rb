@@ -67,8 +67,42 @@ describe Agent do
         end
 
         context "when a payment registry exists" do
-          let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+          let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry }
           it { is_expected.not_to be_able_to(:create, PaymentRegistry) }
+          it { is_expected.to be_able_to(:add, Payment) }
+
+          context "when a payment exists" do
+            let(:payment) { create :payment }
+            before { projet.payment_registry.payments << payment }
+
+            context "when payment is creating" do
+              it { is_expected.to be_able_to(:modify,  payment) }
+              it { is_expected.to be_able_to(:destroy, payment) }
+              it { is_expected.to     be_able_to(:send_to_validation, payment) }
+            end
+
+            context "when payment is to modify" do
+              before { payment.update! statut: :a_modifier }
+
+              it { is_expected.to     be_able_to(:modify,  payment) }
+              it { is_expected.not_to be_able_to(:destroy, payment) }
+              it { is_expected.to     be_able_to(:send_to_validation, payment) }
+            end
+
+            context "when payment is to validate" do
+              before { payment.update! statut: :a_valider }
+
+              it { is_expected.not_to be_able_to(:modify,  payment) }
+              it { is_expected.not_to be_able_to(:destroy, payment) }
+              it { is_expected.not_to be_able_to(:send_to_validation, payment) }
+            end
+
+            context "when status not yet en_cours_d_instruction" do
+              let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+
+              it { is_expected.not_to be_able_to(:send_to_validation, payment) }
+            end
+          end
         end
       end
 
