@@ -11,11 +11,25 @@
     - @payment_registry.payments.each do |payment|
       .registry__entry
         .registry__entry_header
-          h3.registry__title= payment.description
+          .registry__title_header
+            h3.registry__title= payment.description
+          .registry__actions_header
+            - if can? :destroy, payment
+              = link_to dossier_payment_path(@projet_courant, payment), method: :delete, class: "registry__action"
+                span.registry__action_text Supprimer
+                i.registry__action_icon.glyphicon.glyphicon-remove
+            - if can? :modify, payment
+              = link_to edit_dossier_payment_path(@projet_courant, payment), class: "registry__action"
+                span.registry__action_text Modifier
+                i.registry__action_icon.glyphicon.glyphicon-edit
+            - if can? :send_to_validation, payment
+              = link_to send_to_validation_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+                span.registry__action_text Envoyer
+                i.registry__action_icon.glyphicon.glyphicon-send
         p.registry__details= payment.personne_morale ? t("payment_registry.legal_person", beneficiaire: payment.beneficiaire) : t("payment_registry.physical_person", beneficiaire: payment.beneficiaire)
 
 - if can? :add, Payment
   .registry__button_group
-    = link_to dossier_payments_new_path(@projet_courant), class: "btn btn-icon btn-centered registry__add_button"
+    = link_to new_dossier_payment_path(@projet_courant), class: "btn btn-icon btn-centered registry__add_button"
       = t("payment_registry.add_payment")
       i.glyphicon.glyphicon-plus

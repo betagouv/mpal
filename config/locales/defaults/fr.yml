@@ -310,6 +310,7 @@ fr:
 
   payment:
     creation: "Je crée une demande de paiement"
+    edition: "Je modifie ma demande de paiement"
     beneficiaire_question: "À qui voulez-vous que les fonds soient versés ?"
     personne_morale_question: "Cette personne est :"
 

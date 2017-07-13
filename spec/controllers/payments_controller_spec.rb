@@ -20,6 +20,7 @@ describe PaymentsController do
           personne_morale: "0"
         }
         expect(Payment.all.count).to eq 0
+        expect(response).to render_template :new
       end
     end
 
@@ -37,6 +38,64 @@ describe PaymentsController do
         expect(payment.beneficiaire).to eq "SOLIHA"
         expect(payment.personne_morale).to eq true
         expect(response).to redirect_to dossier_payment_registry_path(projet)
+      end
+    end
+  end
+
+  context "avec une demande de paiement" do
+    let(:payment) { create :payment, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+
+    describe "#edit" do
+      before { get :edit, dossier_id: projet.id, payment_id: payment.id }
+      it { is_expected.to render_template :edit }
+    end
+
+    describe "#update" do
+      context "avec des paramètres requis non remplis" do
+        it "ne modifie pas la demande de paiement" do
+          put :update, dossier_id: projet.id, payment_id: payment.id, payment: {
+            type_paiement: "solde",
+            personne_morale: "1"
+          }
+          payment.reload
+          expect(Payment.all.count).to       eq 1
+          expect(payment.type_paiement).to   eq "avance"
+          expect(payment.beneficiaire).to    eq "Emile Lévesque"
+          expect(payment.personne_morale).to eq false
+          expect(response).to render_template :edit
+        end
+      end
+
+      context "avec tous les paramètres requis" do
+        it "modifie la demande de paiement" do
+          put :update, dossier_id: projet.id, payment_id: payment.id, payment: {
+            type_paiement: "solde",
+            beneficiaire: "SOLIHA",
+            personne_morale: "1"
+          }
+          payment.reload
+          expect(Payment.all.count).to       eq 1
+          expect(payment.type_paiement).to   eq "solde"
+          expect(payment.beneficiaire).to    eq "SOLIHA"
+          expect(payment.personne_morale).to eq true
+          expect(response).to redirect_to dossier_payment_registry_path(projet)
+        end
+      end
+    end
+
+    describe "#destroy" do
+      it "supprime la demande de paiement" do
+        delete :destroy, dossier_id: projet.id, payment_id: payment.id
+        expect(Payment.all.count).to eq 0
+        expect(response).to redirect_to dossier_payment_registry_path(projet)
+      end
+
+      context "si une erreur survient lors de la suppression" do
+        it "affiche un message d'erreur" do
+          delete :destroy, dossier_id: projet.id, payment_id: (payment.id + 1)
+          expect(flash[:alert]).to be_present
+          expect(response).to redirect_to dossier_payment_registry_path(projet)
+        end
       end
     end
   end
