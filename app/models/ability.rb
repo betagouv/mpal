@@ -72,12 +72,22 @@ private
     alias_action :new,  :create, to: :add
     alias_action :edit, :update, to: :modify
 
-    if agent_or_user.try(:operateur?) && projet.payment_registry.present?
-      can :add,                Payment
-      can :destroy,            Payment, payment_registry_id: projet.payment_registry.id, statut: 0
-      can :modify,             Payment, payment_registry_id: projet.payment_registry.id, statut: 0..1
-      can :send_to_validation, Payment, payment_registry_id: projet.payment_registry.id, statut: 0..1 unless projet.status_not_yet(:en_cours_d_instruction)
+    if projet.payment_registry.present?
+      if agent_or_user.try(:operateur?)
+        can :add,                Payment
+        can :read,               Payment, payment_registry_id: projet.payment_registry.id
+        can :destroy,            Payment, payment_registry_id: projet.payment_registry.id, statut: 0
+        can :modify,             Payment, payment_registry_id: projet.payment_registry.id, statut: 0..1
+        can :send_to_validation, Payment, payment_registry_id: projet.payment_registry.id, statut: 0..1 unless projet.status_not_yet(:en_cours_d_instruction)
+      end
+
+      if agent_or_user.try(:instructeur?)
+        can :read,               Payment, payment_registry_id: projet.payment_registry.id, statut: 3..5
+      end
+
+      if agent_or_user.is_a? User
+        can :read,               Payment, payment_registry_id: projet.payment_registry.id, statut: 1..5
+      end
     end
   end
-
 end
