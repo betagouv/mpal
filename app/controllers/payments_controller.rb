@@ -49,7 +49,8 @@ class PaymentsController < ApplicationController
   def ask_for_validation
     payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
     begin
-      payment.update! statut: :a_valider
+      payment.update! action: :a_valider
+      payment.update! statut: :propose if payment.statut.to_sym == :en_cours_de_montage
     rescue => e
       flash[:alert] = e.message
     end
