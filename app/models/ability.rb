@@ -62,9 +62,13 @@ class Ability
 private
   def define_payment_registry_abilities(agent_or_user, projet)
     if projet.present?
-      project_transmited = !projet.status_not_yet(:transmis_pour_instruction)
-      can :create, PaymentRegistry if agent_or_user.try(:operateur?) && project_transmited && projet.payment_registry.blank?
-      can :read,   PaymentRegistry if projet.payment_registry.present?
+      if projet.payment_registry.blank?
+        project_transmited = !projet.status_not_yet(:transmis_pour_instruction)
+
+        can :create, PaymentRegistry if agent_or_user.try(:operateur?) && project_transmited
+      else
+        can :read,   PaymentRegistry, projet_id: projet.id
+      end
     end
   end
 
@@ -74,19 +78,23 @@ private
 
     if projet.payment_registry.present?
       if agent_or_user.try(:operateur?)
-        can :add,                Payment
-        can :read,               Payment, payment_registry_id: projet.payment_registry.id
-        can :destroy,            Payment, payment_registry_id: projet.payment_registry.id, statut: 0
-        can :modify,             Payment, payment_registry_id: projet.payment_registry.id, statut: 0..1
-        can :send_to_validation, Payment, payment_registry_id: projet.payment_registry.id, statut: 0..1 unless projet.status_not_yet(:en_cours_d_instruction)
+        can :add,                  Payment
+        can :read,                 Payment, payment_registry_id: projet.payment_registry.id
+        can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, statut: 0
+        can :modify,               Payment, payment_registry_id: projet.payment_registry.id, statut: 0..2, action: 0..1
+        can :ask_for_validation,   Payment, payment_registry_id: projet.payment_registry.id, statut: 0..2, action: 0..1 unless projet.status_not_yet(:en_cours_d_instruction)
       end
 
       if agent_or_user.try(:instructeur?)
-        can :read,               Payment, payment_registry_id: projet.payment_registry.id, statut: 3..5
+        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: 2..4
+        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: 3
+        can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: 3
       end
 
       if agent_or_user.is_a? User
-        can :read,               Payment, payment_registry_id: projet.payment_registry.id, statut: 1..5
+        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: 1..4
+        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: 2
+        can :ask_for_instruction,  Payment, payment_registry_id: projet.payment_registry.id, action: 2
       end
     end
   end
