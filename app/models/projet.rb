@@ -65,6 +65,7 @@ class Projet < ActiveRecord::Base
   has_one :payment_registry, dependent: :destroy
 
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
+  # validate  :validate_number_less_than_9_digits, on: :proposition
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
@@ -73,7 +74,7 @@ class Projet < ActiveRecord::Base
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
   validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
-  validates :consommation_avant_travaux, :consommation_apres_travaux, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :consommation_avant_travaux, :consommation_apres_travaux, :gain_energetique, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 999999999 }, allow_nil: true
   validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
@@ -267,6 +268,17 @@ class Projet < ActiveRecord::Base
   def validate_payment_registry
     if payment_registry.present? && status_not_yet(:transmis_pour_instruction)
       errors.add(:payment_registry, "Vous ne pouvez ajouter un registre de paiement que si le projet a été transmis pour instruction")
+    end
+  end
+
+  def validate_number_less_than_9_digits
+    FUNDING_FIELDS.each do |field|
+      value = send(field)
+      # Rails.logger.debug "========= #{field} : #{value}"
+      if value !=~ /^\d{0,8}([\.\,]?\d{0,2})?$/ && value != nil
+        # Rails.logger.debug "========= #{field} : #{value} match"
+        errors.add(field, "Vous pouvez inscrire au maximum 10 chiffres")
+      end
     end
   end
 
