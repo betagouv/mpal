@@ -121,7 +121,6 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         end
       end
     end
-
     context "en tant qu'instructeur" do
       let(:current_agent) { agent_instructeur }
 

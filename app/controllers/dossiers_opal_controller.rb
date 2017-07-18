@@ -1,7 +1,7 @@
 class DossiersOpalController < ApplicationController
   before_action :authenticate_agent!
-  before_action :check_agent_instructeur
   before_action :assert_projet_courant
+  authorize_resource :class => false
 
   def create
     begin
@@ -17,10 +17,4 @@ private
     @opal_api ||= Opal.new(OpalClient)
   end
 
-  def check_agent_instructeur
-    unless current_agent.instructeur?
-      return redirect_to(dossier_path(@projet_courant), alert: t('sessions.access_forbidden'))
-    end
-    true
-  end
 end
