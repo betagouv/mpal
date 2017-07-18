@@ -36,7 +36,7 @@ describe Agent do
         end
       end
 
-      context "wwhen he is engaged with user" do
+      context "when he is engaged with user" do
         let(:agent) { create :agent, intervenant: projet.operateur }
 
         context "can manage an entire project he is on until 'transmis pour instruction'" do
