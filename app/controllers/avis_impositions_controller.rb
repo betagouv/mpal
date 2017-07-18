@@ -3,8 +3,6 @@ class AvisImpositionsController < ApplicationController
 
   before_action :assert_projet_courant
   before_action :init_view
-  before_action :authenticate_agent!, only: [:update_project_rfr]
-  before_action :check_agent_operateur, only: [:update_project_rfr]
   load_and_authorize_resource
 
   def index
@@ -58,9 +56,5 @@ private
 
   def modified_revenu_fiscal_reference
     (params || {}).require(:projet).permit(:modified_revenu_fiscal_reference)[:modified_revenu_fiscal_reference]
-  end
-
-  def check_agent_operateur
-    current_agent && current_agent.operateur?
   end
 end

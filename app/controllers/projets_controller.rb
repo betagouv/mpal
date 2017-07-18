@@ -4,6 +4,8 @@ class ProjetsController < ApplicationController
   before_action :assert_projet_courant, except: [:new, :create]
   before_action :redirect_to_project_if_exists, only: [:new, :create]
   before_action :redirect_if_no_account, only: :show
+  load_and_authorize_resource
+  skip_load_and_authorize_resource only: [:new, :create]
 
   def show
     render_show

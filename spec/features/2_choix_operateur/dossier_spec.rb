@@ -3,7 +3,7 @@ require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
-feature "Accéder au informations du dossier :" do
+feature "Accéder aux informations du dossier :" do
   let(:user)        { create :user }
   let(:projet)      { create(:projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6)) }
   let(:operateur)   { projet.contacted_operateur }
@@ -42,9 +42,12 @@ feature "Accéder au informations du dossier :" do
     end
   end
 
-  context "en tant qu'instructeur" do
+  context "en tant qu'instructeur dont mon projet à un statut au moins 'transmis pour instruction'" do
     let(:agent) { create :agent, intervenant: instructeur }
-    before { login_as agent, scope: :agent }
+    before do
+      projet.update(statut: "transmis_pour_instruction")
+      login_as agent, scope: :agent
+    end
     it_behaves_like "je peux consulter un dossier"
   end
 
