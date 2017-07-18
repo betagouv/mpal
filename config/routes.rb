@@ -42,7 +42,7 @@ Rails.application.routes.draw do
       put  :proposition
       get  :indicateurs, on: :collection
       post '/payment_registry', to: 'payment_registries#create'
-      resources :payments, except: :index, param: :payment_id do
+      resources :payments, except: [:index, :show], param: :payment_id do
         put 'ask_for_validation', on: :member
       end
     end

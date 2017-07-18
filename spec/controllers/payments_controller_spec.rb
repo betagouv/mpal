@@ -98,5 +98,25 @@ describe PaymentsController do
         end
       end
     end
+
+    describe "#ask_for_validation" do
+      let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry }
+
+      it "passe la demande en proposé au demandeur pour validation" do
+        put :ask_for_validation, dossier_id: projet.id, payment_id: payment.id
+        payment.reload
+        expect(payment.action).to eq "a_valider"
+        expect(payment.statut).to eq "propose"
+        expect(response).to redirect_to dossier_payment_registry_path(projet)
+      end
+
+      context "si une erreur survient lors de la suppression" do
+        it "affiche un message d'erreur" do
+          delete :destroy, dossier_id: projet.id, payment_id: (payment.id + 1)
+          expect(flash[:alert]).to be_present
+          expect(response).to redirect_to dossier_payment_registry_path(projet)
+        end
+      end
+    end
   end
 end
