@@ -26,7 +26,7 @@ feature "Créer le dossier dans Opal" do
         end
       end
 
-      context "quand la création du dossier écshoue" do
+      context "quand la création du dossier échoue" do
         before { Fakeweb::Opal.register_create_dossier_failure }
 
         scenario "je reçois un message d'erreur" do
