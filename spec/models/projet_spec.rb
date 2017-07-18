@@ -746,5 +746,21 @@ describe Projet do
       expect(projet.revenu_fiscal_reference_total).to eq 110
     end
   end
+
+  describe "#validate_number_less_than_9_digits" do
+    let!(:projet) { create :projet}
+
+    it {
+      projet.localized_travaux_ht_amount = "42,53"
+      projet.validate_number_less_than_9_digits
+      expect(projet.travaux_ht_amount).to eq 42.53
+    }
+
+    it {
+      projet.localized_travaux_ht_amount = "123 456 789,53"
+      projet.validate_number_less_than_9_digits
+      expect(projet.errors[:travaux_ht_amount]).to be_present
+    }
+  end
 end
  

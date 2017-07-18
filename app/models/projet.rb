@@ -65,7 +65,7 @@ class Projet < ActiveRecord::Base
   has_one :payment_registry, dependent: :destroy
 
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
-  # validate  :validate_number_less_than_9_digits, on: :proposition
+  validate  :validate_number_less_than_9_digits
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
@@ -273,11 +273,9 @@ class Projet < ActiveRecord::Base
 
   def validate_number_less_than_9_digits
     FUNDING_FIELDS.each do |field|
-      value = send(field)
-      # Rails.logger.debug "========= #{field} : #{value}"
-      if value !=~ /^\d{0,8}([\.\,]?\d{0,2})?$/ && value != nil
-        # Rails.logger.debug "========= #{field} : #{value} match"
-        errors.add(field, "Vous pouvez inscrire au maximum 10 chiffres")
+      value = send("localized_#{field}").to_s.gsub(/\s+/, "")
+      unless value =="" || value =~ /^\d{1,8}(,?\d{0,2})?$/
+        errors.add(field, "doit être inférieur à '100 000 000'")
       end
     end
   end
