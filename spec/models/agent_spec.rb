@@ -159,12 +159,11 @@ describe Agent do
         let(:payment_en_cours_d_instruction) { create :payment, statut: :en_cours_d_instruction }
         let(:payment_paye)                   { create :payment, statut: :paye }
 
-        let(:payment_no_action)              { create :payment, action: :aucune }
+        let(:payment_a_rediger)              { create :payment, action: :a_rediger }
         let(:payment_a_modifier)             { create :payment, action: :a_modifier }
         let(:payment_a_valider)              { create :payment, action: :a_valider }
         let(:payment_a_instruire)            { create :payment, action: :a_instruire }
-
-        let(:payment_sent_in_opal)           { create :payment, statut: :en_cours_d_instruction, action: :aucune }
+        let(:payment_no_action)              { create :payment, action: :aucune }
 
         before do
           projet.payment_registry.payments << [ payment_en_cours_de_montage,
@@ -172,11 +171,11 @@ describe Agent do
                                                 payment_demande,
                                                 payment_en_cours_d_instruction,
                                                 payment_paye,
-                                                payment_no_action,
+                                                payment_a_rediger,
                                                 payment_a_modifier,
                                                 payment_a_valider,
                                                 payment_a_instruire,
-                                                payment_sent_in_opal,
+                                                payment_no_action,
           ]
         end
 
@@ -196,17 +195,17 @@ describe Agent do
           it { is_expected.not_to be_able_to(:ask_for_instruction,  Payment) }
           it { is_expected.not_to be_able_to(:send_in_opal,         Payment) }
 
-          it { is_expected.to     be_able_to(:modify, payment_no_action) }
+          it { is_expected.to     be_able_to(:modify, payment_a_rediger) }
           it { is_expected.to     be_able_to(:modify, payment_a_modifier) }
           it { is_expected.not_to be_able_to(:modify, payment_a_valider) }
           it { is_expected.not_to be_able_to(:modify, payment_a_instruire) }
-          it { is_expected.not_to be_able_to(:modify, payment_sent_in_opal) }
+          it { is_expected.not_to be_able_to(:modify, payment_no_action) }
 
-          it { is_expected.to     be_able_to(:destroy, payment_en_cours_de_montage) }
-          it { is_expected.not_to be_able_to(:destroy, payment_propose) }
-          it { is_expected.not_to be_able_to(:destroy, payment_demande) }
-          it { is_expected.not_to be_able_to(:destroy, payment_en_cours_d_instruction) }
-          it { is_expected.not_to be_able_to(:destroy, payment_paye) }
+          it { is_expected.to     be_able_to(:destroy, payment_a_rediger) }
+          it { is_expected.not_to be_able_to(:destroy, payment_a_modifier) }
+          it { is_expected.not_to be_able_to(:destroy, payment_a_valider) }
+          it { is_expected.not_to be_able_to(:destroy, payment_a_instruire) }
+          it { is_expected.not_to be_able_to(:destroy, payment_no_action) }
 
           context "when status not yet en_cours_d_instruction" do
             let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
@@ -215,13 +214,13 @@ describe Agent do
           end
 
           context "when status has been en_cours_d_instruction" do
-            let(:projet)               { create :projet, :en_cours_d_instruction, :with_payment_registry }
+            let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry }
 
-            it { is_expected.to     be_able_to(:ask_for_validation, payment_no_action) }
+            it { is_expected.to     be_able_to(:ask_for_validation, payment_a_rediger) }
             it { is_expected.to     be_able_to(:ask_for_validation, payment_a_modifier) }
             it { is_expected.not_to be_able_to(:ask_for_validation, payment_a_valider) }
             it { is_expected.not_to be_able_to(:ask_for_validation, payment_a_instruire) }
-            it { is_expected.not_to be_able_to(:ask_for_validation, payment_sent_in_opal) }
+            it { is_expected.not_to be_able_to(:ask_for_validation, payment_no_action) }
           end
         end
 
@@ -240,15 +239,17 @@ describe Agent do
           it { is_expected.to     be_able_to(:read, payment_en_cours_d_instruction) }
           it { is_expected.to     be_able_to(:read, payment_paye) }
 
-          it { is_expected.not_to be_able_to(:ask_for_modification, payment_no_action) }
+          it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_rediger) }
           it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_modifier) }
           it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_valider) }
           it { is_expected.to     be_able_to(:ask_for_modification, payment_a_instruire) }
-
           it { is_expected.not_to be_able_to(:ask_for_modification, payment_no_action) }
-          it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_modifier) }
-          it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_valider) }
+
+          it { is_expected.not_to be_able_to(:send_in_opal, payment_a_rediger) }
+          it { is_expected.not_to be_able_to(:send_in_opal, payment_a_modifier) }
+          it { is_expected.not_to be_able_to(:send_in_opal, payment_a_valider) }
           it { is_expected.to     be_able_to(:send_in_opal, payment_a_instruire) }
+          it { is_expected.not_to be_able_to(:send_in_opal, payment_no_action) }
         end
       end
     end
