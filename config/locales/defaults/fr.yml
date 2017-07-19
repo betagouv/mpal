@@ -319,6 +319,8 @@ fr:
       delete: "Supprimer"
       cancel: "Annuler"
       ask_for_validation: "Envoyer pour validation"
+      ask_for_modification: "Demander une modification"
+      ask_for_instruction: "Déposer"
 
   # ----------------------- Messagerie ---------------------
   conversation:
