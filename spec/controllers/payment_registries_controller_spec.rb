@@ -5,14 +5,24 @@ describe PaymentRegistriesController do
   let(:agent_operateur) { projet.agent_operateur }
 
   describe "#show" do
-    let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    let(:projet)             { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    let(:payment_en_montage) { create :payment, statut: :en_cours_de_montage }
+    let(:payment_demande)    { create :payment, statut: :demande }
+
+    before do
+      projet.payment_registry.payments << payment_en_montage
+      projet.payment_registry.payments << payment_demande
+    end
 
     context "en tant que demandeur" do
       before { authenticate_as_project projet.id }
 
       it "affiche le registre de paiement" do
         get :show, projet_id: projet.id
+        payments = assigns[:payments]
         expect(response).to render_template :show
+        expect(payments).not_to include payment_en_montage
+        expect(payments).to     include payment_demande
       end
     end
 
@@ -21,7 +31,10 @@ describe PaymentRegistriesController do
 
       it "affiche le registre de paiement" do
         get :show, dossier_id: projet.id
+        payments = assigns[:payments]
         expect(response).to render_template :show
+        expect(payments).to include payment_en_montage
+        expect(payments).to include payment_demande
       end
     end
   end

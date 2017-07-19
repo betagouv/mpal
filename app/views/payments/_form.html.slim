@@ -1,0 +1,6 @@
+- if form.present?
+  = render "shared/errors", resource: @payment
+  .payment__content
+    = form.input :type_paiement,   as: :radio_buttons, collection: Payment::TYPES, required: true
+    = form.input :beneficiaire,    as: :string,        label: t("payment.beneficiaire_question"), wrapper_html: { class: "size-m" }, required: true
+    = form.input :personne_morale, as: :radio_buttons, label: t("payment.personne_morale_question"), collection: [["Une personne physique", false], ["Une personne morale", true]]
