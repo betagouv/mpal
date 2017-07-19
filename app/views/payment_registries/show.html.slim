@@ -1,21 +1,50 @@
 = render "shared/ribbon_header"
 
-- unless @payment_registry.code_opal
+- unless @projet_courant.payment_registry.code_opal
   .registry__info
     p= t("payment_registry.info_only_prepare")
 
 .registry__content
-  - if @payment_registry.payments.blank?
+  - if @payments.blank?
     p= t("payment_registry.no_paiement")
   - else
-    - @payment_registry.payments.each do |payment|
+    - @payments.each do |payment|
       .registry__entry
         .registry__entry_header
-          h3.registry__title= payment.description
-        p.registry__details= payment.personne_morale ? t("payment_registry.legal_person", beneficiaire: payment.beneficiaire) : t("payment_registry.physical_person", beneficiaire: payment.beneficiaire)
+          .registry__title_header
+            h3.registry__title= payment.description
+          .registry__actions_header
+
+            - if can? :destroy, payment
+              = link_to dossier_payment_path(@projet_courant, payment), method: :delete, class: "registry__action"
+                span.registry__action_text= t("payment.actions.delete")
+                i.registry__action_icon.glyphicon.glyphicon-remove
+
+            - if can? :modify, payment
+              = link_to edit_dossier_payment_path(@projet_courant, payment), class: "registry__action"
+                span.registry__action_text= t("payment.actions.modify")
+                i.registry__action_icon.glyphicon.glyphicon-edit
+
+            - if can? :ask_for_validation, payment
+              = link_to ask_for_validation_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+                span.registry__action_text= t("payment.actions.ask_for_validation")
+                i.registry__action_icon.glyphicon.glyphicon-send
+
+            - if can? :ask_for_modification, payment
+              = link_to ask_for_modification_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+                span.registry__action_text= t("payment.actions.ask_for_modification")
+                i.registry__action_icon.glyphicon.glyphicon-edit
+
+            - if can? :ask_for_instruction, payment
+              = link_to ask_for_instruction_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+                span.registry__action_text= t("payment.actions.ask_for_instruction")
+                i.registry__action_icon.glyphicon.glyphicon-send
+
+        p.registry__details= t("payment_registry.#{payment.personne_morale ? :legal_person : :physical_person}", beneficiaire: payment.beneficiaire)
+
 
 - if can? :add, Payment
   .registry__button_group
-    = link_to dossier_payments_new_path(@projet_courant), class: "btn btn-icon btn-centered registry__add_button"
+    = link_to new_dossier_payment_path(@projet_courant), class: "btn btn-icon btn-centered registry__add_button"
       = t("payment_registry.add_payment")
       i.glyphicon.glyphicon-plus

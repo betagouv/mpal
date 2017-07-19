@@ -34,25 +34,6 @@ $(document).ready(function() {
   // Open by default last block
   $(".block").last().children().addClass("is-open").slideDown(0);
 
-  // Toggle registry details for payment_registries
-  $(".registry__entry .registry__entry_header").each( function(index) {
-    if ( !$(this).hasClass("is-open") ){
-      $(this).parent().find(".registry__details").slideUp(0);
-    }
-  })
-  $(".registry__entry .registry__entry_header").click(function(){
-    if ( $(this).hasClass("is-open") ){
-      $(this).removeClass("is-open");
-      $(this).parent().find(".registry__details").slideUp("fast");
-    } else {
-      $(this).parent().find(".registry__details").slideDown("fast");
-      $(this).addClass("is-open");
-    }
-  });
-
-  // Open by default first entry
-  $(".registry__entry").first().children().addClass("is-open").slideDown(0);
-
   // Smooth scroll anchor
   function bindSmoothScrolling() {
     $('a[href*="#"]:not([href="#"])').click(function() {

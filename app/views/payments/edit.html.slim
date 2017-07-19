@@ -1,10 +1,10 @@
 = render "shared/ribbon_header"
-= simple_form_for @payment, url: { controller: "payments", action: "create" }, html: { class: "form" } do |f|
+= simple_form_for @payment, url: { controller: "payments", action: "update" }, html: { method: :put, class: "form" } do |f|
   .payment__title
-    h2= t("payment.creation")
+    h2= t("payment.edition")
   = render "payments/form", form: f
   .payment__button_group
     = link_to dossier_payment_registry_path(@projet_courant), class: "btn btn-icon btn-secondary payment__button"
       = t("payment.actions.cancel")
       i.glyphicon.glyphicon-remove
-    = btn name: t("payment.actions.create"), class: "payment__button", icon: "ok"
+    = btn name: t("payment.actions.modify"), class: "payment__button", icon: "edit"
