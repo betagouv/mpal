@@ -1,13 +1,12 @@
 class Payment < ActiveRecord::Base
   STATUSES = [ :en_cours_de_montage, :propose, :demande, :en_cours_d_instruction, :paye ]
-  ACTIONS = [ :aucune, :a_modifier, :a_valider, :a_instruire ]
+  ACTIONS = [ :a_rediger, :a_modifier, :a_valider, :a_instruire, :aucune ]
   TYPES = [ :avance, :acompte, :solde ]
 
-  enum statut: STATUSES
-  enum action: ACTIONS
-  enum type_paiement: TYPES
+  after_initialize :initialize_params
 
-  validates :beneficiaire, :type_paiement, presence: true
+  validates :beneficiaire, :type_paiement, :statut, :action, presence: true
+  validate  :validate_params
 
   belongs_to :payment_registry
 
@@ -18,5 +17,17 @@ class Payment < ActiveRecord::Base
       solde:   "Demande de solde",
     }
     description_map[type_paiement.to_sym]
+  end
+
+private
+  def initialize_params
+    self.statut ||= :en_cours_de_montage
+    self.action ||= :a_rediger
+  end
+
+  def validate_params
+    errors.add(:statut,        :invalid) if statut.present?        && (STATUSES.exclude? statut.to_sym)
+    errors.add(:action,        :invalid) if action.present?        && (ACTIONS.exclude?  action.to_sym)
+    errors.add(:type_paiement, :invalid) if type_paiement.present? && (TYPES.exclude?    type_paiement.to_sym)
   end
 end

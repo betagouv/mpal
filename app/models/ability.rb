@@ -80,21 +80,21 @@ private
       if agent_or_user.try(:operateur?)
         can :add,                  Payment
         can :read,                 Payment, payment_registry_id: projet.payment_registry.id
-        can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, statut: 0
-        can :modify,               Payment, payment_registry_id: projet.payment_registry.id, statut: 0..2, action: 0..1
-        can :ask_for_validation,   Payment, payment_registry_id: projet.payment_registry.id, statut: 0..2, action: 0..1 unless projet.status_not_yet(:en_cours_d_instruction)
+        can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, action:  "a_rediger"
+        can :modify,               Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"]
+        can :ask_for_validation,   Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"] unless projet.status_not_yet(:en_cours_d_instruction)
       end
 
       if agent_or_user.try(:instructeur?)
-        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: 2..4
-        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: 3
-        can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: 3
+        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["demande", "en_cours_d_instruction", "paye"]
+        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
+        can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
       end
 
       if agent_or_user.is_a? User
-        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: 1..4
-        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: 2
-        can :ask_for_instruction,  Payment, payment_registry_id: projet.payment_registry.id, action: 2
+        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
+        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
+        can :ask_for_instruction,  Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
       end
     end
   end
