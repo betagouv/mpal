@@ -1,8 +1,12 @@
 = render "shared/ribbon_header"
 
 - unless @projet_courant.payment_registry.code_opal
-  .registry__info
+  .registry__warning
     p= t("payment_registry.info_only_prepare")
+
+- if can? :send_in_opal, Payment
+  .registry__warning
+    p= t("payment_registry.info_no_opal")
 
 .registry__content
   - if @payments.blank?
