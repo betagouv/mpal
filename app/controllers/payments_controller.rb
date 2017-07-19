@@ -47,6 +47,9 @@ class PaymentsController < ApplicationController
     begin
       payment.update! action: :a_valider
       payment.update! statut: :propose if payment.statut.to_sym == :en_cours_de_montage
+
+      PaymentMailer.notification_validation_dossier_paiement(payment).deliver_later!
+      flash[:notice] = I18n.t('notification_validation_dossier_paiement.succes')
     rescue => e
       flash[:alert] = e.message
     end
@@ -57,6 +60,9 @@ class PaymentsController < ApplicationController
     payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
     begin
       payment.update! action: :a_modifier
+
+      PaymentMailer.demande_modification(payment).deliver_later!
+      flash[:notice] = I18n.t('demande_modification_dossier_paiement.succes', intervenant: @projet_courant.operateur.raison_sociale)
     rescue => e
       flash[:alert] = e.message
     end
@@ -68,6 +74,11 @@ class PaymentsController < ApplicationController
     begin
       payment.update! action: :a_instruire
       payment.update! statut: :demande if payment.statut.to_sym == :propose
+
+      PaymentMailer.notification_validation_dossier_paiement(payment).deliver_later!
+      PaymentMailer.accuse_reception_dossier_paiement(payment).deliver_later!
+      flash[:notice] = I18n.t('depot_dossier_paiement.succes',
+                       instructeur: @projet_courant.invited_instructeur.raison_sociale)
     rescue => e
       flash[:alert] = e.message
     end
