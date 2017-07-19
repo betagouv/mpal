@@ -53,6 +53,27 @@ class PaymentsController < ApplicationController
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
+  def ask_for_modification
+    payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
+    begin
+      payment.update! action: :a_modifier
+    rescue => e
+      flash[:alert] = e.message
+    end
+    redirect_to dossier_payment_registry_path @projet_courant
+  end
+
+  def ask_for_instruction
+    payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
+    begin
+      payment.update! action: :a_instruire
+      payment.update! statut: :demande if payment.statut.to_sym == :propose
+    rescue => e
+      flash[:alert] = e.message
+    end
+    redirect_to dossier_payment_registry_path @projet_courant
+  end
+
 private
   def payment_params
     params.require(:payment).permit(:type_paiement, :beneficiaire, :personne_morale)
