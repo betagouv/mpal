@@ -1,0 +1,11 @@
+p Bonjour #{@demandeur.fullname},
+
+p #{@projet.operateur.raison_sociale} vient de supprimer la demande de paiement :
+
+ul
+  li= "Numéro de la demande de paiement : #{@payment.id}"
+  li= "Statut de la demande de paiement : #{@payment.statut}"
+  li= "Bénéficiaire : #{@payment.beneficiaire}"
+  li= "Montant : #{@payment.montant}"
+
+p= link_to "Pour visualiser visualiser vos demandes de paiement, cliquer sur ce lien", dossier_payment_registry_url(@projet)

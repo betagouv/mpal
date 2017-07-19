@@ -1,0 +1,11 @@
+p Bonjour #{@projet.demandeur.fullname},
+
+p #{@projet.operateur.raison_sociale} a complété votre demande de paiement et attend votre validation afin de continuer la procédure.
+p Informations sur votre dossier de paiement :
+ul
+  li= "Numéro de la demande de paiement : #{@payment.id}"
+  li= "Statut de la demande de paiement : #{@payment.statut}"
+  li= "Bénéficiaire : #{@payment.beneficiaire}"
+  li= "Montant : #{@payment.montant}"
+
+  p= link_to "Pour visualiser le dossier de paiement, cliquer sur ce lien", dossier_payment_registry_url(@projet)
