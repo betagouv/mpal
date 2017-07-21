@@ -4,17 +4,14 @@ class Ability
   def initialize(agent_or_user, projet)
     agent_or_user ||= User.new
 
+    return can :index, Projet if projet.blank?
+
     define_payment_registry_abilities(agent_or_user, projet)
     define_payment_abilities(agent_or_user, projet)
 
     if agent_or_user.is_a? Agent
       if agent_or_user.admin?
         can :manage, :all
-        return
-      end
-
-      if projet.blank?
-        can :index, Projet
         return
       end
 

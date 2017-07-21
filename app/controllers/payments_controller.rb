@@ -62,7 +62,7 @@ class PaymentsController < ApplicationController
       payment.update! action: :a_modifier
 
       PaymentMailer.demande_modification(payment).deliver_later!
-      flash[:notice] = I18n.t('demande_modification_dossier_paiement.succes', intervenant: @projet_courant.operateur.raison_sociale)
+      flash[:notice] = I18n.t('demande_modification_dossier_paiement.succes', operateur: @projet_courant.operateur.raison_sociale)
     rescue => e
       flash[:alert] = e.message
     end

@@ -9,7 +9,7 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.cc).to eq([projet.personne.email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.dossier_paiement_mailer.notification_validation_dossier_paiement.sujet')) }
+    it { expect(email.subject).to eq(I18n.t('mailers.dossier_paiement_mailer.validation.sujet')) }
     it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
     it { expect(email.body.encoded).to match(projet.operateur.raison_sociale) }
     it { expect(email.body).to include("a complété votre demande de paiement") }
@@ -52,19 +52,4 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.body).to include(projet.demandeur.fullname) }
     it { expect(email.body).to include("souhaite modifier la demande de paiement suivante") }
   end
-
-  #    VERIFIER AVEC CELINE L'UTILITE DE FAIRE CA
-  # describe "notifie le demandeur de la suppression d'une demande de paiement" do
-  #   let(:projet)    { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
-  #   let(:payment)   { create :payment, payment_registry: projet.payment_registry }
-  #   subject(:email) { PaymentMailer.suppression_dossier_paiement(payment) }
-  #
-  #   it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
-  #   it { expect(email.to).to eq([projet.email]) }
-  #   it { expect(email.cc).to eq([projet.personne.email]) }
-  #   it { expect(email.subject).to eq(I18n.t('mailers.dossier_paiement_mailer.suppression_dossier_paiement.sujet')) }
-  #   it { expect(email.body).to include(projet.demandeur.fullname) }
-  #   it { expect(email.body).to include("") }
-  # end
-
 end

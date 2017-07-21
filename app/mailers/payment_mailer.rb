@@ -1,5 +1,4 @@
 class PaymentMailer < ActionMailer::Base
-  add_template_helper(ApplicationHelper)
   default delivery_method: Proc.new { Rails.env.production? && !Tools.demo? ? :smtp : :letter_opener_web }
   default from: ENV["EMAIL_CONTACT"]
 
@@ -9,7 +8,7 @@ class PaymentMailer < ActionMailer::Base
     mail(
       to: @projet.email,
       cc: @projet.personne.try(:email),
-      subject: t('mailers.dossier_paiement_mailer.notification_validation_dossier_paiement.sujet')
+      subject: t('mailers.dossier_paiement_mailer.validation.sujet')
     )
   end
 
@@ -41,19 +40,4 @@ class PaymentMailer < ActionMailer::Base
         subject: t('mailers.dossier_paiement_mailer.demande_modification.sujet', demandeur: @projet.demandeur.fullname)
     )
   end
-
-#    VERIFIER AVEC CELINE L'UTILITE DE FAIRE CA
-#   def suppression_dossier_paiement(payment)
-#     @payment = payment
-#     @projet = payment.payment_registry.projet
-#     @demandeur = @projet.demandeur
-#
-#     mail(
-#         to: @projet.email,
-#         cc: @projet.personne.try(:email),
-#         subject: t('mailers.dossier_paiement_mailer.suppression_dossier_paiement.sujet')
-#     )
-#   end
-
-
 end

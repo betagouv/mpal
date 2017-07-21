@@ -1,7 +1,7 @@
-p Bonjour #{@projet.demandeur.fullname},
+p= "Bonjour #{@projet.demandeur.fullname},"
 
-p Vous avez déposé auprès de l’Agence nationale de l’habitat – Anah – une demande de paiement pour des travaux effectués ou envisagés.
-p Voici un récapitulatif du dossier de paiement :
+p= "Vous avez déposé auprès de l’Agence nationale de l’habitat – Anah – une demande de paiement pour des travaux effectués ou envisagés."
+p= "Voici un récapitulatif du dossier de paiement :"
 ul
   li= "Numéro de la demande de paiement : #{@payment.id}"
   li= "Statut de la demande de paiement : #{@payment.statut}"
