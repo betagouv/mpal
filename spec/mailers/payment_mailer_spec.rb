@@ -18,12 +18,12 @@ describe PaymentMailer, type: :mailer do
   describe "notifie l'instructeur et l'opérateur qu'un demandeur a transmis un dossier de paiement" do
     let(:projet)     { create :projet, :en_cours_d_instruction, :with_payment_registry }
     let(:payment)    { create :payment, payment_registry: projet.payment_registry }
-    let(:email)   { PaymentMailer.depot_dossier_paiement(payment) }
+    let(:email)      { PaymentMailer.depot_dossier_paiement(payment) }
 
     it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
     it { expect(email.to).to eq([projet.invited_instructeur.email]) }
     it { expect(email.cc).to eq([projet.operateur.email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.dossier_paiement_mailer.depot_dossier_paiement.sujet', demandeur: projet.demandeur.fullname)) }
+    it { expect(email.subject).to eq(I18n.t('mailers.dossier_paiement_mailer.depot.sujet', demandeur: projet.demandeur.fullname)) }
     it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
     it { expect(email.body).to include("déposer le dosssier de paiement") }
   end
@@ -31,7 +31,7 @@ describe PaymentMailer, type: :mailer do
   describe "notifie le demandeur que sa demande a été transmise au service instructeur" do
     let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
     let(:payment)    { create :payment, payment_registry: projet.payment_registry }
-    subject(:email) { PaymentMailer.accuse_reception_dossier_paiement(payment) }
+    subject(:email)  { PaymentMailer.accuse_reception_dossier_paiement(payment) }
 
     it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
     it { expect(email.to).to eq([projet.email]) }
@@ -44,12 +44,24 @@ describe PaymentMailer, type: :mailer do
   describe "notifie l'opérateur que le demandeur souhaite modifier le dossier de paiement" do
     let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
     let(:payment)    { create :payment, payment_registry: projet.payment_registry }
-    subject(:email) { PaymentMailer.demande_modification(payment) }
+    subject(:email)  { PaymentMailer.demande_modification_demandeur(payment) }
 
     it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
     it { expect(email.to).to eq([projet.operateur.email]) }
-    it { expect(email.subject).to eq(I18n.t('mailers.dossier_paiement_mailer.demande_modification.sujet', demandeur: projet.demandeur.fullname)) }
+    it { expect(email.subject).to eq(I18n.t('mailers.dossier_paiement_mailer.demande_modification_demandeur.sujet', demandeur: projet.demandeur.fullname)) }
     it { expect(email.body).to include(projet.demandeur.fullname) }
+    it { expect(email.body).to include("souhaite modifier la demande de paiement suivante") }
+  end
+
+  describe "notifie l'opérateur que l'instructeur souhaite modifier le dossier de paiement" do
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
+    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    subject(:email)  { PaymentMailer.demande_modification_instructeur(payment) }
+
+    it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
+    it { expect(email.to).to eq([projet.operateur.email]) }
+    it { expect(email.subject).to eq(I18n.t('mailers.dossier_paiement_mailer.demande_modification_instructeur.sujet', instructeur: projet.invited_instructeur.raison_sociale)) }
+    it { expect(email.body).to include(projet.invited_instructeur.raison_sociale) }
     it { expect(email.body).to include("souhaite modifier la demande de paiement suivante") }
   end
 end

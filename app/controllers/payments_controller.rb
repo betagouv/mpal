@@ -60,8 +60,11 @@ class PaymentsController < ApplicationController
     payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
     begin
       payment.update! action: :a_modifier
-
-      PaymentMailer.demande_modification(payment).deliver_later!
+      if current_user?
+        PaymentMailer.demande_modification_demandeur(payment).deliver_later!
+      else
+        PaymentMailer.demande_modification_instructeur(payment).deliver_later!
+      end
       flash[:notice] = I18n.t('demande_modification_dossier_paiement.succes', operateur: @projet_courant.operateur.raison_sociale)
     rescue => e
       flash[:alert] = e.message

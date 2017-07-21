@@ -3,9 +3,7 @@ p= "Bonjour #{@projet.demandeur.fullname},"
 p= "Vous avez déposé auprès de l’Agence nationale de l’habitat – Anah – une demande de paiement pour des travaux effectués ou envisagés."
 p= "Voici un récapitulatif du dossier de paiement :"
 ul
-  li= "Numéro de la demande de paiement : #{@payment.id}"
-  li= "Statut de la demande de paiement : #{@payment.statut}"
+  li= "Type de paiement : #{@payment.type_paiement}"
   li= "Bénéficiaire : #{@payment.beneficiaire}"
-  li= "Montant : #{@payment.montant}"
 
 p= link_to "Pour visualiser le dossier de paiement, cliquer sur ce lien", dossier_payment_registry_url(@projet)
