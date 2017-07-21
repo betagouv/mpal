@@ -331,18 +331,17 @@ fr:
   depot_dossier_paiement:
     succes: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
   # ----------------------- Page de visualisation du dossier de paiement ---------------------
-  payment_registry:
+  payment:
     statut:
-      en_cours_montage: "En cours de montage"
-      avance_demandee: "Avance demandée"
-      acompte_demande: "Acompte demandé"
-      solde_demande: "Solde demandé"
-      avance_en_cours_d_instruction: "Avance en cours d'instruction"
-      acompte_en_cours_d_instruction: "Acompte en cours d'instruction"
-      solde_en_cours_d_instruction: "Sole en cours d'instruction"
-      avance_payee: "Avance payée"
-      acompte_paye: "Acompte payé"
-      solde_paye: "Solde payé"
+      en_cours_de_montage: "en cours de montage"
+      propose: "proposé(e)"
+      demande: "demandé(e)"
+      en_cours_d_instruction: "en cours d'instruction"
+      paye: "payé(e)"
+    type_paiement:
+      avance: "Avance"
+      acompte: "Acompte"
+      solde: "Solde"
 
   # ----------------------- Messagerie ---------------------
   conversation:
