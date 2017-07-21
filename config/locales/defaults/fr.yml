@@ -46,7 +46,6 @@ fr:
         precisions_travaux: "Précisions travaux proposés"
         precisions_financement: "Précisions financement"
         public_helps_sum: "Total des aides publiques"
-      demande_paiement:
     units:
       power: "kWh"
       power_consumption: "kWh/m²/an"

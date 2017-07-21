@@ -19,11 +19,7 @@ class PaymentRegistry < ActiveRecord::Base
   end
 
   def statuses
-    registry_payments_statuses = []
-    payments.each do |payment|
-      registry_payments_statuses << ["#{I18n.t("payment.type_paiement.#{payment.type_paiement}")} #{I18n.t("payment.statut.#{payment.statut}")}"]
-    end
-    registry_payments_statuses.join("<br/><br/>").html_safe
+    payments.map { |payment| "#{I18n.t("payment.type_paiement.#{payment.type_paiement}")} #{I18n.t("payment.statut.#{payment.statut}")}" }.join("<br/><br/>").html_safe
   end
 end
 

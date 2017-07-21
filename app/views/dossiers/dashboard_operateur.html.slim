@@ -20,7 +20,7 @@
           th Opérateur
           th Visité le
           th État
-          th Etat Dossier de Paiement
+          th État des paiements
           / TODO
           / th Depuis
       tbody
@@ -42,7 +42,7 @@
                   span.lastname<= projet.agent_instructeur.nom
               td
                 - if projet.themes.present?
-                = projet.themes.map(&:libelle).join(', ')
+                  = projet.themes.map(&:libelle).join(', ')
               td= projet.contacted_operateur.try(:raison_sociale)
                 - if projet.agent_operateur
                   br/
@@ -53,7 +53,7 @@
                   = format_date(projet.date_de_visite)
               td= t(projet.status_for_intervenant, scope: "projets.statut")
               td
-                - if projet.payment_registry ?
+                - if projet.payment_registry
                   = projet.payment_registry.statuses
               /TODO Status Updated At
 
@@ -87,7 +87,7 @@
                   = format_date(projet.date_de_visite)
               td= link_to t(projet.status_for_intervenant, scope: "projets.statut"), edit_url
               td
-                - if projet.payment_registry ?
+                - if projet.payment_registry
                   = link_to projet.payment_registry.statuses, edit_url
 
               /TODO Status Updated At
