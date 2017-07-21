@@ -322,6 +322,13 @@ fr:
       ask_for_modification: "Demander une modification"
       ask_for_instruction: "Déposer"
 
+  notification_validation_dossier_paiement:
+    succes: 'La proposition a bien été envoyée au demandeur'
+  demande_modification_dossier_paiement:
+    success: "Votre demande de modification a bien été envoyée auprès de %{operateur}"
+  depot_dossier_paiement:
+    success: "Dépôt de la demande de paiement effectuée auprès du service en charge de l’instruction : %{instructeur}"
+
   # ----------------------- Messagerie ---------------------
   conversation:
     titre_section: "Chat"
@@ -422,6 +429,18 @@ fr:
         sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
         sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
+
+    dossier_paiement_mailer:
+      validation:
+        sujet: "[Anah] Vous pouvez aller valider et envoyer votre demande de paiement"
+      depot:
+        sujet: "[Anah] %{demandeur} a déposé sa demande de paiement"
+      accuse_reception:
+        sujet: "[Anah] Accusé de réception électronique de votre demande de paiement"
+      demande_modification_demandeur:
+        sujet: "[Anah] %{demandeur} souhaite modifier son dossier de paiement"
+      demande_modification_instructeur:
+        sujet: "[Anah] %{instructeur} souhaite modifier son dossier de paiement"
 
   # ----------------------- Gestion d’évènements  ---------------------
   evenements:
