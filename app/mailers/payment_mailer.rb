@@ -18,7 +18,7 @@ class PaymentMailer < ActionMailer::Base
     mail(
       to: @projet.invited_instructeur.email,
       cc: @projet.operateur.email,
-      subject: t('mailers.dossier_paiement_mailer.depot_dossier_paiement.sujet', demandeur: @projet.demandeur.fullname)
+      subject: t('mailers.dossier_paiement_mailer.depot.sujet', demandeur: @projet.demandeur.fullname)
     )
     end
 
@@ -32,12 +32,21 @@ class PaymentMailer < ActionMailer::Base
     )
   end
 
-  def demande_modification(payment)
+  def demande_modification_demandeur(payment)
     @payment = payment
     @projet = @payment.payment_registry.projet
     mail(
         to: @projet.operateur.email,
-        subject: t('mailers.dossier_paiement_mailer.demande_modification.sujet', demandeur: @projet.demandeur.fullname)
+        subject: t('mailers.dossier_paiement_mailer.demande_modification_demandeur.sujet', demandeur: @projet.demandeur.fullname)
+    )
+  end
+
+  def demande_modification_instructeur(payment)
+    @payment = payment
+    @projet = @payment.payment_registry.projet
+    mail(
+        to: @projet.operateur.email,
+        subject: t('mailers.dossier_paiement_mailer.demande_modification_instructeur.sujet', instructeur: @projet.invited_instructeur.raison_sociale)
     )
   end
 end
