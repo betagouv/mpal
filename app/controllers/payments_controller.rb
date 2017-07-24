@@ -60,7 +60,7 @@ class PaymentsController < ApplicationController
     payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
     begin
       payment.update! action: :a_modifier
-      if current_user?
+      if current_user
         PaymentMailer.demande_modification_demandeur(payment).deliver_later!
       else
         PaymentMailer.demande_modification_instructeur(payment).deliver_later!
@@ -80,8 +80,7 @@ class PaymentsController < ApplicationController
 
       PaymentMailer.notification_validation_dossier_paiement(payment).deliver_later!
       PaymentMailer.accuse_reception_dossier_paiement(payment).deliver_later!
-      flash[:notice] = I18n.t('depot_dossier_paiement.succes',
-                       instructeur: @projet_courant.invited_instructeur.raison_sociale)
+      flash[:notice] = I18n.t('depot_dossier_paiement.succes', instructeur: @projet_courant.invited_instructeur.raison_sociale)
     rescue => e
       flash[:alert] = e.message
     end
