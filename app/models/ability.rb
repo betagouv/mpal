@@ -77,7 +77,7 @@ private
       if agent_or_user.try(:operateur?)
         can :add,                  Payment
         can :read,                 Payment, payment_registry_id: projet.payment_registry.id
-        can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, action:  "a_rediger"
+        can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, statut: ["en_cours_de_montage", "propose"], action: ["a_rediger", "a_modifier"]
         can :modify,               Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"]
         can :ask_for_validation,   Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"] unless projet.status_not_yet(:en_cours_d_instruction)
       end
