@@ -5,7 +5,7 @@ class PaymentRegistriesController < ApplicationController
   load_and_authorize_resource
 
   def show
-    @payments = @projet_courant.payment_registry.payments.order(:statut, created_at: :desc).select { |p| can? :read, p }
+    @payments = @projet_courant.payment_registry.payments.order(updated_at: :desc).select { |p| can? :read, p }
   end
 
   def create

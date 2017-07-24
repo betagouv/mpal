@@ -12,11 +12,29 @@ class Payment < ActiveRecord::Base
 
   def description
     description_map = {
-      avance:  "Demande d'avance",
-      acompte: "Demande d'acompte",
+      avance:  "Demande d’avance",
+      acompte: "Demande d’acompte",
       solde:   "Demande de solde",
     }
     description_map[type_paiement.to_sym]
+  end
+
+  def status_with_action
+    status_map = {
+      en_cours_de_montage:    "En cours de montage",
+      propose:                "Proposée",
+      demande:                "Déposée",
+      en_cours_d_instruction: "En cours d’instruction",
+      paye:                   "Payée",
+    }
+    action_map = {
+      a_rediger:   "",
+      a_modifier:  " en attente de modification",
+      a_valider:   " en attente de validation",
+      a_instruire: " en attente d’instruction",
+      aucune:      "",
+    }
+    status_map[statut.to_sym] + action_map[action.to_sym]
   end
 
 private

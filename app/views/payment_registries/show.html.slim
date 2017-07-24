@@ -40,8 +40,11 @@
                 span.registry__action_text= t("payment.actions.ask_for_instruction")
                 i.registry__action_icon.glyphicon.glyphicon-send
 
-        p.registry__details= t("payment_registry.#{payment.personne_morale ? :legal_person : :physical_person}", beneficiaire: payment.beneficiaire)
-
+        .registry__details
+          .registry__status
+            = payment.status_with_action
+          .registry__beneficiary
+            = t("payment_registry.#{payment.personne_morale ? :legal_person : :physical_person}", beneficiaire: payment.beneficiaire)
 
 - if can? :add, Payment
   .registry__button_group
