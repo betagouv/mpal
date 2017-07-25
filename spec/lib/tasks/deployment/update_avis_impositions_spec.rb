@@ -7,11 +7,13 @@ describe '20170616080910_update_avis_impositions' do
 
   let!(:avis_imposition_up_to_date) { create :avis_imposition, numero_fiscal: Fakeweb::ApiParticulier::NUMERO_FISCAL,              reference_avis: Fakeweb::ApiParticulier::REFERENCE_AVIS }
   let!(:avis_imposition_to_update)  { create :avis_imposition, numero_fiscal: Fakeweb::ApiParticulier::NUMERO_FISCAL_NON_ELIGIBLE, reference_avis: Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE, annee: 2014 }
+  let!(:avis_imposition_invalid)    { create :avis_imposition, numero_fiscal: Fakeweb::ApiParticulier::INVALID,                    reference_avis: Fakeweb::ApiParticulier::INVALID, annee: 2014 }
 
   before do
     subject.invoke
     avis_imposition_up_to_date.reload
     avis_imposition_to_update.reload
+    avis_imposition_invalid.reload
   end
 
   it "charge l'environment Rails" do
@@ -21,8 +23,10 @@ describe '20170616080910_update_avis_impositions' do
   it "met à jour les années des avis avec l'année de revenus et les revenus" do
     expect(avis_imposition_up_to_date.annee).to eq 2015
     expect(avis_imposition_to_update.annee).to  eq 2015
+    expect(avis_imposition_invalid.annee).to    eq 2014
 
     expect(avis_imposition_up_to_date.revenu_fiscal_reference).to eq 29880
     expect(avis_imposition_to_update.revenu_fiscal_reference).to  eq 1000000
+    expect(avis_imposition_invalid.revenu_fiscal_reference).to    eq 29880
   end
 end
