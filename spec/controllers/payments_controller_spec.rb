@@ -93,8 +93,7 @@ describe PaymentsController do
       context "si une erreur survient lors de la suppression" do
         it "affiche un message d'erreur" do
           delete :destroy, dossier_id: projet.id, payment_id: (payment.id + 1)
-          expect(flash[:alert]).to be_present
-          expect(response).to redirect_to dossier_payment_registry_path(projet)
+          expect(response).to redirect_to '/404'
         end
       end
     end
@@ -113,8 +112,7 @@ describe PaymentsController do
       context "si une erreur survient lors de la suppression" do
         it "affiche un message d'erreur" do
           delete :destroy, dossier_id: projet.id, payment_id: (payment.id + 1)
-          expect(flash[:alert]).to be_present
-          expect(response).to redirect_to dossier_payment_registry_path(projet)
+          expect(response).to redirect_to '/404'
         end
       end
     end

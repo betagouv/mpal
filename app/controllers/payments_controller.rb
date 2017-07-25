@@ -2,7 +2,17 @@ class PaymentsController < ApplicationController
   layout "creation_dossier"
 
   before_action :assert_projet_courant
+  before_action :find_payment, only: [:edit, :destroy, :ask_for_validation, :ask_for_modification, :ask_for_instruction]
   load_and_authorize_resource
+
+  rescue_from do |exception|
+    flash[:alert] = exception.message
+    redirect_to dossier_payment_registry_path @projet_courant
+  end
+
+  rescue_from ActiveRecord::RecordNotFound do
+    redirect_to '/404'
+  end
 
   def new
     @payment = Payment.new beneficiaire: @projet_courant.demandeur.fullname
@@ -19,12 +29,11 @@ class PaymentsController < ApplicationController
   end
 
   def edit
-    @payment = Payment.find_by_id params[:payment_id]
   end
 
   def update
     @payment = Payment.new payment_params
-    payment_to_update = Payment.find_by_id params[:payment_id]
+    payment_to_update = Payment.find params[:payment_id]
     if @payment.valid? && payment_to_update.update(payment_params)
       redirect_to dossier_payment_registry_path @projet_courant
     else
@@ -33,62 +42,62 @@ class PaymentsController < ApplicationController
   end
 
   def destroy
-    payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
-    begin
-      payment.destroy!
-    rescue => e
-      flash[:alert] = e.message
-    end
+    send_mail_for_destruction if @payment.action.to_sym == :a_modifier
+    @payment.destroy!
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_validation
-    payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
-    begin
-      payment.update! action: :a_valider
-      payment.update! statut: :propose if payment.statut.to_sym == :en_cours_de_montage
-
-      PaymentMailer.notification_validation_dossier_paiement(payment).deliver_later!
-      flash[:notice] = I18n.t('notification_validation_dossier_paiement.succes')
-    rescue => e
-      flash[:alert] = e.message
-    end
+    @payment.update! action: :a_valider
+    @payment.update! statut: :propose if @payment.statut.to_sym == :en_cours_de_montage
+    send_mail_for_validation
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_modification
-    payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
-    begin
-      payment.update! action: :a_modifier
-      if current_user
-        PaymentMailer.demande_modification_demandeur(payment).deliver_later!
-      else
-        PaymentMailer.demande_modification_instructeur(payment).deliver_later!
-      end
-      flash[:notice] = I18n.t('demande_modification_dossier_paiement.succes', operateur: @projet_courant.operateur.raison_sociale)
-    rescue => e
-      flash[:alert] = e.message
-    end
+    @payment.update! action: :a_modifier
+    send_mail_for_modification
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_instruction
-    payment = @projet_courant.payment_registry.payments.find_by_id params[:payment_id]
-    begin
-      payment.update! action: :a_instruire
-      payment.update! statut: :demande if payment.statut.to_sym == :propose
-
-      PaymentMailer.notification_validation_dossier_paiement(payment).deliver_later!
-      PaymentMailer.accuse_reception_dossier_paiement(payment).deliver_later!
-      flash[:notice] = I18n.t('depot_dossier_paiement.succes', instructeur: @projet_courant.invited_instructeur.raison_sociale)
-    rescue => e
-      flash[:alert] = e.message
-    end
+    @payment.update! action: :a_instruire
+    @payment.update! statut: :demande if @payment.statut.to_sym == :propose
+    send_mail_for_instruction
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
 private
   def payment_params
     params.require(:payment).permit(:type_paiement, :beneficiaire, :personne_morale)
+  end
+
+  def find_payment
+    @payment = Payment.find params[:payment_id]
+  end
+
+  def send_mail_for_destruction
+    PaymentMailer.destruction_dossier_paiement(@payment).deliver_later!
+    flash[:notice] = I18n.t('destruction_dossier_paiement.succes')
+  end
+
+  def send_mail_for_validation
+    PaymentMailer.validation_dossier_paiement(@payment).deliver_later!
+    flash[:notice] = I18n.t('demande_validation_dossier_paiement.succes')
+  end
+
+  def send_mail_for_modification
+    if current_user
+      PaymentMailer.modification_demandeur(@payment).deliver_later!
+    else
+      PaymentMailer.modification_instructeur(@payment).deliver_later!
+    end
+    flash[:notice] = I18n.t('demande_modification_dossier_paiement.succes', operateur: @projet_courant.operateur.raison_sociale)
+  end
+
+  def send_mail_for_instruction
+    PaymentMailer.validation_dossier_paiement(@payment).deliver_later!
+    PaymentMailer.accuse_reception_dossier_paiement(@payment).deliver_later!
+    flash[:notice] = I18n.t('depot_dossier_paiement.succes', instructeur: @projet_courant.invited_instructeur.raison_sociale)
   end
 end
