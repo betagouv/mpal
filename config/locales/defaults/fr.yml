@@ -303,6 +303,7 @@ fr:
   # ----------------------- Registre de Paiement ---------------------
   payment_registry:
     info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."
+    info_no_opal: "Vous ne pouvez pour l'instant pas déposer de demande de paiement dans Op@l."
     no_paiement: "Aucune demande de paiement"
     legal_person: "Au bénéfice de la personne morale : %{beneficiaire}"
     physical_person: "Au bénéfice de la personne physique : %{beneficiaire}"

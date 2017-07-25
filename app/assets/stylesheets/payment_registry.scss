@@ -3,10 +3,10 @@
 .registry__content {
 }
 
-.registry__info {
-  background-color: $alert-info-bg;
-  border-color: $alert-info-border;
-  color: $alert-info-text;
+.registry__warning {
+  background-color: $alert-warning-bg;
+  border-color: $alert-warning-border;
+  color: $alert-warning-text;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   padding: 1em;
   margin-bottom: 1em;
