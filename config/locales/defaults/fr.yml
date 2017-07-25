@@ -305,7 +305,7 @@ fr:
     info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."
     no_paiement: "Aucune demande de paiement"
     legal_person: "Au bénéfice de la personne morale : %{beneficiaire}"
-    physical_person: "Au bénéfice de : %{beneficiaire}"
+    physical_person: "Au bénéfice de la personne physique : %{beneficiaire}"
     add_payment: "Ajouter une demande de paiement"
 
   payment:
@@ -325,9 +325,9 @@ fr:
   notification_validation_dossier_paiement:
     succes: 'La proposition a bien été envoyée au demandeur'
   demande_modification_dossier_paiement:
-    success: "Votre demande de modification a bien été envoyée auprès de %{operateur}"
+    succes: "La demande de modification a bien été envoyée auprès de %{operateur}"
   depot_dossier_paiement:
-    success: "Dépôt de la demande de paiement effectuée auprès du service en charge de l’instruction : %{instructeur}"
+    succes: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
 
   # ----------------------- Messagerie ---------------------
   conversation:
