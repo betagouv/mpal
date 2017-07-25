@@ -202,10 +202,16 @@ describe Agent do
           it { is_expected.not_to be_able_to(:modify, payment_no_action) }
 
           it { is_expected.to     be_able_to(:destroy, payment_a_rediger) }
-          it { is_expected.not_to be_able_to(:destroy, payment_a_modifier) }
+          it { is_expected.to     be_able_to(:destroy, payment_a_modifier) }
           it { is_expected.not_to be_able_to(:destroy, payment_a_valider) }
           it { is_expected.not_to be_able_to(:destroy, payment_a_instruire) }
           it { is_expected.not_to be_able_to(:destroy, payment_no_action) }
+
+          it { is_expected.to     be_able_to(:destroy, payment_en_cours_de_montage) }
+          it { is_expected.to     be_able_to(:destroy, payment_propose) }
+          it { is_expected.not_to be_able_to(:destroy, payment_demande) }
+          it { is_expected.not_to be_able_to(:destroy, payment_en_cours_d_instruction) }
+          it { is_expected.not_to be_able_to(:destroy, payment_paye) }
 
           context "when status not yet en_cours_d_instruction" do
             let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
