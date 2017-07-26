@@ -129,11 +129,11 @@ describe PaymentsController do
       before { authenticate_as_project projet.id }
 
       it "passe la demande a l'opérateur pour modification" do
-        put :ask_for_modification, dossier_id: projet.id, payment_id: payment.id
+        put :ask_for_modification, projet_id: projet.id, payment_id: payment.id
         payment.reload
         expect(payment.action).to eq "a_modifier"
         expect(payment.statut).to eq "propose"
-        expect(response).to redirect_to dossier_payment_registry_path(projet)
+        expect(response).to redirect_to projet_payment_registry_path(projet)
       end
     end
 
@@ -145,12 +145,12 @@ describe PaymentsController do
       before { authenticate_as_project projet.id }
 
       it "passe la demande a l'opérateur pour modification" do
-        put :ask_for_instruction, dossier_id: projet.id, payment_id: payment.id
+        put :ask_for_instruction, projet_id: projet.id, payment_id: payment.id
         payment.reload
         expect(payment.action).to eq "a_instruire"
         expect(payment.statut).to eq "demande"
         expect(payment.submitted_at).to eq submit_time
-        expect(response).to redirect_to dossier_payment_registry_path(projet)
+        expect(response).to redirect_to projet_payment_registry_path(projet)
       end
     end
   end

@@ -35,12 +35,12 @@
                 i.registry__action_icon.glyphicon.glyphicon-send
 
             - if can? :ask_for_modification, payment
-              = link_to ask_for_modification_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+              = link_to ask_for_modification_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
                 span.registry__action_text= t("payment.actions.ask_for_modification.label")
                 i.registry__action_icon.glyphicon.glyphicon-edit
 
             - if can? :ask_for_instruction, payment
-              = link_to ask_for_instruction_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+              = link_to ask_for_instruction_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
                 span.registry__action_text= t("payment.actions.ask_for_instruction.label")
                 i.registry__action_icon.glyphicon.glyphicon-send
 

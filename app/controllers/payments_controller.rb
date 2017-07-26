@@ -7,7 +7,7 @@ class PaymentsController < ApplicationController
 
   rescue_from do |exception|
     flash[:alert] = exception.message
-    redirect_to dossier_payment_registry_path @projet_courant
+    redirect_to projet_or_dossier_payment_registry_path @projet_courant
   end
 
   rescue_from ActiveRecord::RecordNotFound do
@@ -58,7 +58,7 @@ class PaymentsController < ApplicationController
   def ask_for_modification
     @payment.update! action: :a_modifier
     send_mail_for_modification
-    redirect_to dossier_payment_registry_path @projet_courant
+    redirect_to projet_or_dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_instruction
@@ -69,7 +69,7 @@ class PaymentsController < ApplicationController
     else
       send_mail_for_correction_after_instruction
     end
-    redirect_to dossier_payment_registry_path @projet_courant
+    redirect_to projet_or_dossier_payment_registry_path @projet_courant
   end
 
 private
