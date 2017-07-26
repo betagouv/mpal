@@ -64,7 +64,7 @@ class PaymentsController < ApplicationController
   def ask_for_instruction
     @payment.update! action: :a_instruire
     if @payment.statut.to_sym == :propose
-      @payment.update! statut: :demande
+      @payment.update! statut: :demande, submitted_at: Time.now
       send_mail_for_instruction
     else
       send_mail_for_correction_after_instruction
