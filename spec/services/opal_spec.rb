@@ -170,4 +170,17 @@ describe Opal do
       end
     end
   end
+
+  # describe "#date_de_transmission_pour_instruction" do
+  #   let(:projet_propose)  { create :projet, :proposition_proposee, :with_invited_instructeur }
+  #   let(:projet_transmis) { create :projet, :transmis_pour_instruction }
+  #   let(:invitation_updated_at) { Time.new(1789, 7, 14, 16, 0, 0)
+  #
+  #   it { expect(projet_propose).invitations.where.not(intermediaire: nil).count.to eq 0 }
+  #   it { expect(projet_transmis).invitations.where.not(intermediaire: nil).count.to eq 1 }
+  #
+  #   it { expect(projet_transmis).invitations.where.not(intermediaire: nil).first.updated_at.to eq invitation_updated_at }
+  #
+  #
+  # end
 end

@@ -341,6 +341,7 @@ class Projet < ActiveRecord::Base
   def transmettre!(instructeur)
     invitation = invitations.find_by(intervenant: instructeur)
     if invitation.update(intermediaire: operateur)
+
       self.statut = :transmis_pour_instruction
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
       ProjetMailer.accuse_reception(self).deliver_later!
@@ -373,12 +374,7 @@ class Projet < ActiveRecord::Base
   # TODO Attention : cette date est importante à conserver alors que les invitations
   # sont faciles à supprimer. En attente de mise en place de l’historisation.
   def date_depot
-    invitation_intervenant = invitations.where(intervenant: invited_instructeur).first
-    if invitation_intervenant
-      invitation_intervenant.created_at
-    else
-      nil
-    end
+    invitations.where.not(intermediaire: nil).first.try(:updated_at)
   end
 
   def status_for_intervenant

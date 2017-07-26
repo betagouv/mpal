@@ -193,7 +193,8 @@ ul.ctr-ope
       = with_semicolon(t('helpers.label.proposition.precisions_financement'))
       span= @projet_courant.precisions_financement
 
-date= l(Time.now.to_date)
+- if @projet_courant.date_depot.present?
+  date= l(@projet_courant.date_depot.to_date)
 
 - if @projet_courant.documents.present?
   h4 Pièces jointes
