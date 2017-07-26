@@ -410,11 +410,14 @@ class Projet < ActiveRecord::Base
         'État',
         'Depuis',
       ]
-      titles.insert 6, 'Agent opérateur'   if agent.siege? || agent.instructeur? || agent.operateur?
-      titles.insert 4, 'Agent instructeur' if agent.siege? || agent.instructeur? || agent.operateur?
-      titles.insert 2, 'Département'       if agent.siege? || agent.operateur?
-      titles.insert 2, 'Région'            if agent.siege? || agent.operateur?
-      titles.insert 1, 'Identifiant OPAL'  if agent.siege? || agent.instructeur? || agent.operateur?
+
+
+      titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
+      titles.insert 6, 'Agent opérateur'    if agent.siege? || agent.instructeur? || agent.operateur?
+      titles.insert 4, 'Agent instructeur'  if agent.siege? || agent.instructeur? || agent.operateur?
+      titles.insert 2, 'Département'        if agent.siege? || agent.operateur?
+      titles.insert 2, 'Région'             if agent.siege? || agent.operateur?
+      titles.insert 1, 'Identifiant OPAL'   if agent.siege? || agent.instructeur? || agent.operateur?
       csv << titles
       Projet.for_agent(agent).each do |projet|
         line = [
@@ -427,6 +430,7 @@ class Projet < ActiveRecord::Base
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
+        line.insert 9, projet.payment_registry.statuses        if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?

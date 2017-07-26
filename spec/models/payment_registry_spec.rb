@@ -17,7 +17,7 @@ describe PaymentRegistry do
     before { payment_registry.update!(payments: [payment1, payment2]) }
 
     it { expect(payment_registry.payments.count).to eq 2 }
-    it { expect(payment_registry.statuses).to eq("Solde en cours de montage<br/><br/>Acompte payé(e)") }
+    it { expect(payment_registry.statuses).to eq("Solde en cours de montage - Acompte payé(e)") }
     it { expect(payment_registry_blank.payments.count).to eq 0 }
     it { expect(payment_registry_blank.statuses).to eq("") }
   end
