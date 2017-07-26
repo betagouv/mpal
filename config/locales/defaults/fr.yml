@@ -325,22 +325,24 @@ fr:
       acompte: "Acompte"
       solde: "Solde"
     actions:
-      create: "Créer"
-      modify: "Modifier"
-      delete: "Supprimer"
-      cancel: "Annuler"
-      ask_for_validation: "Envoyer pour validation"
-      ask_for_modification: "Demander une modification"
-      ask_for_instruction: "Déposer"
-
-  destruction_dossier_paiement:
-    succes: 'La demande de paiement a bien été supprimée'
-  demande_validation_dossier_paiement:
-    succes: 'La proposition a bien été envoyée au demandeur'
-  demande_modification_dossier_paiement:
-    succes: "La demande de modification a bien été envoyée auprès de %{operateur}"
-  depot_dossier_paiement:
-    succes: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
+      create:
+        label: "Créer"
+      modify:
+        label: "Modifier"
+      cancel:
+        label: "Annuler"
+      delete:
+        label: "Supprimer"
+        success: "La demande de paiement a bien été supprimée"
+      ask_for_validation:
+        label: "Envoyer pour validation"
+        success: "La proposition a bien été envoyée au demandeur"
+      ask_for_modification:
+        label: "Demander une modification"
+        success: "La demande de modification a bien été envoyée auprès de %{operateur}"
+      ask_for_instruction:
+        label: "Déposer"
+        success: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
 
   # ----------------------- Messagerie ---------------------
   conversation:

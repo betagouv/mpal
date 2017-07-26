@@ -21,27 +21,27 @@
 
             - if can? :destroy, payment
               = link_to dossier_payment_path(@projet_courant, payment), method: :delete, class: "registry__action"
-                span.registry__action_text= t("payment.actions.delete")
+                span.registry__action_text= t("payment.actions.delete.label")
                 i.registry__action_icon.glyphicon.glyphicon-remove
 
             - if can? :modify, payment
               = link_to edit_dossier_payment_path(@projet_courant, payment), class: "registry__action"
-                span.registry__action_text= t("payment.actions.modify")
+                span.registry__action_text= t("payment.actions.modify.label")
                 i.registry__action_icon.glyphicon.glyphicon-edit
 
             - if can? :ask_for_validation, payment
               = link_to ask_for_validation_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
-                span.registry__action_text= t("payment.actions.ask_for_validation")
+                span.registry__action_text= t("payment.actions.ask_for_validation.label")
                 i.registry__action_icon.glyphicon.glyphicon-send
 
             - if can? :ask_for_modification, payment
               = link_to ask_for_modification_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
-                span.registry__action_text= t("payment.actions.ask_for_modification")
+                span.registry__action_text= t("payment.actions.ask_for_modification.label")
                 i.registry__action_icon.glyphicon.glyphicon-edit
 
             - if can? :ask_for_instruction, payment
               = link_to ask_for_instruction_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
-                span.registry__action_text= t("payment.actions.ask_for_instruction")
+                span.registry__action_text= t("payment.actions.ask_for_instruction.label")
                 i.registry__action_icon.glyphicon.glyphicon-send
 
         .registry__details

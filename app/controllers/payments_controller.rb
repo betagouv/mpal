@@ -11,7 +11,7 @@ class PaymentsController < ApplicationController
   end
 
   rescue_from ActiveRecord::RecordNotFound do
-    redirect_to '/404'
+    redirect_to "/404"
   end
 
   def new
@@ -44,6 +44,7 @@ class PaymentsController < ApplicationController
   def destroy
     send_mail_for_destruction if @payment.action.to_sym == :a_modifier
     @payment.destroy!
+    flash[:notice] = I18n.t("payment.actions.delete.success")
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
@@ -78,12 +79,11 @@ private
 
   def send_mail_for_destruction
     PaymentMailer.destruction_dossier_paiement(@payment).deliver_later!
-    flash[:notice] = I18n.t('destruction_dossier_paiement.succes')
   end
 
   def send_mail_for_validation
     PaymentMailer.validation_dossier_paiement(@payment).deliver_later!
-    flash[:notice] = I18n.t('demande_validation_dossier_paiement.succes')
+    flash[:notice] = I18n.t("payment.actions.ask_for_validation.success")
   end
 
   def send_mail_for_modification
@@ -92,12 +92,12 @@ private
     else
       PaymentMailer.modification_instructeur(@payment).deliver_later!
     end
-    flash[:notice] = I18n.t('demande_modification_dossier_paiement.succes', operateur: @projet_courant.operateur.raison_sociale)
+    flash[:notice] = I18n.t("payment.actions.ask_for_modification.success", operateur: @projet_courant.operateur.raison_sociale)
   end
 
   def send_mail_for_instruction
     PaymentMailer.validation_dossier_paiement(@payment).deliver_later!
     PaymentMailer.accuse_reception_dossier_paiement(@payment).deliver_later!
-    flash[:notice] = I18n.t('depot_dossier_paiement.succes', instructeur: @projet_courant.invited_instructeur.raison_sociale)
+    flash[:notice] = I18n.t("payment.actions.ask_for_instruction.success", instructeur: @projet_courant.invited_instructeur.raison_sociale)
   end
 end
