@@ -219,6 +219,7 @@ fr:
       default: "%d %B %Y %Hh %Mmin %Ss"
       long: "%A %d %B %Y %Hh%M"
       short: "%d %b %Hh%M"
+      humanized: "%A %d %B %Y à %Hh%M"
     pm: pm
   will_paginate:
     previous_label: "&laquo; Précédent"

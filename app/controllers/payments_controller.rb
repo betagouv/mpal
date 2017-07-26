@@ -63,8 +63,12 @@ class PaymentsController < ApplicationController
 
   def ask_for_instruction
     @payment.update! action: :a_instruire
-    @payment.update! statut: :demande if @payment.statut.to_sym == :propose
-    send_mail_for_instruction
+    if @payment.statut.to_sym == :propose
+      @payment.update! statut: :demande
+      send_mail_for_instruction
+    else
+      send_mail_for_correction_after_instruction
+    end
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
@@ -78,26 +82,32 @@ private
   end
 
   def send_mail_for_destruction
-    PaymentMailer.destruction_dossier_paiement(@payment).deliver_later!
+    PaymentMailer.destruction(@payment).deliver_later!
   end
 
   def send_mail_for_validation
-    PaymentMailer.validation_dossier_paiement(@payment).deliver_later!
+    PaymentMailer.demande_validation(@payment).deliver_later!
     flash[:notice] = I18n.t("payment.actions.ask_for_validation.success")
   end
 
   def send_mail_for_modification
     if current_user
-      PaymentMailer.modification_demandeur(@payment).deliver_later!
+      PaymentMailer.demande_modification_demandeur(@payment).deliver_later!
     else
-      PaymentMailer.modification_instructeur(@payment).deliver_later!
+      PaymentMailer.demande_modification_instructeur(@payment).deliver_later!
     end
     flash[:notice] = I18n.t("payment.actions.ask_for_modification.success", operateur: @projet_courant.operateur.raison_sociale)
   end
 
   def send_mail_for_instruction
-    PaymentMailer.validation_dossier_paiement(@payment).deliver_later!
-    PaymentMailer.accuse_reception_dossier_paiement(@payment).deliver_later!
+    PaymentMailer.depot(@payment).deliver_later!
+    PaymentMailer.accuse_reception_depot(@payment).deliver_later!
+    flash[:notice] = I18n.t("payment.actions.ask_for_instruction.success", instructeur: @projet_courant.invited_instructeur.raison_sociale)
+  end
+
+  def send_mail_for_correction_after_instruction
+    PaymentMailer.correction_depot(@payment).deliver_later!
+    PaymentMailer.accuse_reception_correction_depot(@payment).deliver_later!
     flash[:notice] = I18n.t("payment.actions.ask_for_instruction.success", instructeur: @projet_courant.invited_instructeur.raison_sociale)
   end
 end
