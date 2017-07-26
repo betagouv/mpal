@@ -5,6 +5,6 @@
   = render "payments/form", form: f
   .payment__button_group
     = link_to dossier_payment_registry_path(@projet_courant), class: "btn btn-icon btn-secondary payment__button"
-      = t("payment.actions.cancel")
+      = t("payment.actions.cancel.label")
       i.glyphicon.glyphicon-remove
-    = btn name: t("payment.actions.modify"), class: "payment__button", icon: "edit"
+    = btn name: t("payment.actions.modify.label"), class: "payment__button", icon: "edit"

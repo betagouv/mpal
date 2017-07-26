@@ -2,33 +2,63 @@ class PaymentMailer < ActionMailer::Base
   default delivery_method: Proc.new { Rails.env.production? && !Tools.demo? ? :smtp : :letter_opener_web }
   default from: ENV["EMAIL_CONTACT"]
 
-  def notification_validation_dossier_paiement(payment)
+  def destruction(payment)
     @payment = payment
     @projet = @payment.payment_registry.projet
     mail(
       to: @projet.email,
       cc: @projet.personne.try(:email),
-      subject: t('mailers.dossier_paiement_mailer.validation.sujet')
+      subject: t('mailers.paiement_mailer.destruction.sujet', operateur: @projet.operateur.raison_sociale)
     )
   end
 
-  def depot_dossier_paiement(payment)
+  def demande_validation(payment)
+    @payment = payment
+    @projet = @payment.payment_registry.projet
+    mail(
+      to: @projet.email,
+      cc: @projet.personne.try(:email),
+      subject: t('mailers.paiement_mailer.demande_validation.sujet')
+    )
+  end
+
+  def depot(payment)
     @payment = payment
     @projet = @payment.payment_registry.projet
     mail(
       to: @projet.invited_instructeur.email,
       cc: @projet.operateur.email,
-      subject: t('mailers.dossier_paiement_mailer.depot.sujet', demandeur: @projet.demandeur.fullname)
+      subject: t('mailers.paiement_mailer.depot.sujet', demandeur: @projet.demandeur.fullname)
     )
-    end
+  end
 
-  def accuse_reception_dossier_paiement(payment)
+  def accuse_reception_depot(payment)
     @payment = payment
     @projet = @payment.payment_registry.projet
     mail(
-        to: @projet.email,
-        cc: @projet.personne.try(:email),
-        subject: t('mailers.dossier_paiement_mailer.accuse_reception.sujet')
+      to: @projet.email,
+      cc: @projet.personne.try(:email),
+      subject: t('mailers.paiement_mailer.accuse_reception_depot.sujet')
+    )
+  end
+
+  def correction_depot(payment)
+    @payment = payment
+    @projet = @payment.payment_registry.projet
+    mail(
+      to: @projet.invited_instructeur.email,
+      cc: @projet.operateur.email,
+      subject: t('mailers.paiement_mailer.correction_depot.sujet', demandeur: @projet.demandeur.fullname)
+    )
+  end
+
+  def accuse_reception_correction_depot(payment)
+    @payment = payment
+    @projet = @payment.payment_registry.projet
+    mail(
+      to: @projet.email,
+      cc: @projet.personne.try(:email),
+      subject: t('mailers.paiement_mailer.accuse_reception_correction_depot.sujet')
     )
   end
 
@@ -36,8 +66,8 @@ class PaymentMailer < ActionMailer::Base
     @payment = payment
     @projet = @payment.payment_registry.projet
     mail(
-        to: @projet.operateur.email,
-        subject: t('mailers.dossier_paiement_mailer.demande_modification_demandeur.sujet', demandeur: @projet.demandeur.fullname)
+      to: @projet.operateur.email,
+      subject: t('mailers.paiement_mailer.demande_modification_demandeur.sujet', demandeur: @projet.demandeur.fullname)
     )
   end
 
@@ -45,8 +75,9 @@ class PaymentMailer < ActionMailer::Base
     @payment = payment
     @projet = @payment.payment_registry.projet
     mail(
-        to: @projet.operateur.email,
-        subject: t('mailers.dossier_paiement_mailer.demande_modification_instructeur.sujet', instructeur: @projet.invited_instructeur.raison_sociale)
+      to: @projet.operateur.email,
+      cc: [@projet.email, @projet.personne.try(:email)],
+      subject: t('mailers.paiement_mailer.demande_modification_instructeur.sujet', instructeur: @projet.invited_instructeur.raison_sociale)
     )
   end
 end

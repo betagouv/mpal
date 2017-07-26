@@ -5,14 +5,17 @@ describe PaymentsController do
   let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
   let(:agent_operateur) { projet.agent_operateur }
 
-  before(:each) { authenticate_as_agent agent_operateur }
-
   describe "#new" do
-    before { get :new, dossier_id: projet.id }
+    before do
+      authenticate_as_agent agent_operateur
+      get :new, dossier_id: projet.id
+    end
     it { is_expected.to render_template :new }
   end
 
   describe "#create" do
+    before(:each) { authenticate_as_agent agent_operateur }
+
     context "avec des paramètres requis non remplis" do
       it "ne crée pas de demande de paiement" do
         post :create, dossier_id: projet.id, payment: {
@@ -46,11 +49,16 @@ describe PaymentsController do
     let(:payment) { create :payment, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
 
     describe "#edit" do
-      before { get :edit, dossier_id: projet.id, payment_id: payment.id }
+      before do
+        authenticate_as_agent agent_operateur
+        get :edit, dossier_id: projet.id, payment_id: payment.id
+      end
       it { is_expected.to render_template :edit }
     end
 
     describe "#update" do
+      before(:each) { authenticate_as_agent agent_operateur }
+
       context "avec des paramètres requis non remplis" do
         it "ne modifie pas la demande de paiement" do
           put :update, dossier_id: projet.id, payment_id: payment.id, payment: {
@@ -84,6 +92,8 @@ describe PaymentsController do
     end
 
     describe "#destroy" do
+      before(:each) { authenticate_as_agent agent_operateur }
+
       it "supprime la demande de paiement" do
         delete :destroy, dossier_id: projet.id, payment_id: payment.id
         expect(Payment.all.count).to eq 0
@@ -93,14 +103,15 @@ describe PaymentsController do
       context "si une erreur survient lors de la suppression" do
         it "affiche un message d'erreur" do
           delete :destroy, dossier_id: projet.id, payment_id: (payment.id + 1)
-          expect(flash[:alert]).to be_present
-          expect(response).to redirect_to dossier_payment_registry_path(projet)
+          expect(response).to redirect_to "/404"
         end
       end
     end
 
     describe "#ask_for_validation" do
       let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry }
+
+      before { authenticate_as_agent agent_operateur }
 
       it "passe la demande en proposé au demandeur pour validation" do
         put :ask_for_validation, dossier_id: projet.id, payment_id: payment.id
@@ -109,13 +120,37 @@ describe PaymentsController do
         expect(payment.statut).to eq "propose"
         expect(response).to redirect_to dossier_payment_registry_path(projet)
       end
+    end
 
-      context "si une erreur survient lors de la suppression" do
-        it "affiche un message d'erreur" do
-          delete :destroy, dossier_id: projet.id, payment_id: (payment.id + 1)
-          expect(flash[:alert]).to be_present
-          expect(response).to redirect_to dossier_payment_registry_path(projet)
-        end
+    describe "#ask_for_modification" do
+      let(:projet)  { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:payment) { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+
+      before { authenticate_as_project projet.id }
+
+      it "passe la demande a l'opérateur pour modification" do
+        put :ask_for_modification, projet_id: projet.id, payment_id: payment.id
+        payment.reload
+        expect(payment.action).to eq "a_modifier"
+        expect(payment.statut).to eq "propose"
+        expect(response).to redirect_to projet_payment_registry_path(projet)
+      end
+    end
+
+    describe "#ask_for_instruction" do
+      let(:projet)      { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:payment)     { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+      let(:submit_time) { Time.now }
+
+      before { authenticate_as_project projet.id }
+
+      it "passe la demande a l'opérateur pour modification" do
+        put :ask_for_instruction, projet_id: projet.id, payment_id: payment.id
+        payment.reload
+        expect(payment.action).to eq "a_instruire"
+        expect(payment.statut).to eq "demande"
+        expect(payment.submitted_at).to eq submit_time
+        expect(response).to redirect_to projet_payment_registry_path(projet)
       end
     end
   end
