@@ -17,4 +17,9 @@ class PaymentRegistry < ActiveRecord::Base
   def code_opal
     projet.opal_numero
   end
+
+  def statuses
+    payments.map { |payment| "#{I18n.t("payment.type_paiement.#{payment.type_paiement}")} #{I18n.t("payment.statut.#{payment.statut}")}" }.join(" - ")
+  end
 end
+

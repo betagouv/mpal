@@ -8,7 +8,7 @@ namespace :after_party do
       if contribuable.present?
         avis_imposition.update! annee: contribuable.annee_revenus, revenu_fiscal_reference: contribuable.revenu_fiscal_reference
       else
-        puts "Avis d’imposition #{avis_imposition.id} n’existe plus => Il n’a pas été mis à jour"
+        puts "Avis d’imposition #{avis_imposition.id} n’existe plus => Il n’a pas été mis à jour" unless Rake.application.options.quiet
       end
     end
 

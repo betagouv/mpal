@@ -3,7 +3,7 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 
 describe Projet do
-  describe 'validations' do
+  describe "validations" do
     matcher :allow_updating_of do |attribute|
       def with(value)
         @value = value
@@ -109,7 +109,7 @@ describe Projet do
     end
   end
 
-  describe '#clean_numero_fiscal' do
+  describe "#clean_numero_fiscal" do
     let(:projet) { build :projet }
     before do
       projet.numero_fiscal = numero_fiscal
@@ -220,32 +220,32 @@ describe Projet do
     end
   end
 
-  describe '#nb_occupants_a_charge' do
+  describe "#nb_occupants_a_charge" do
     let(:projet) { create :projet, :with_demandeur, declarants_count: 1, occupants_a_charge_count: 2 }
     it { expect(projet.nb_occupants_a_charge).to eq(2) }
   end
 
-  describe '#annee_fiscale_reference' do
+  describe "#annee_fiscale_reference" do
     let(:projet) { create :projet }
     let!(:avis_imposition_1) { create :avis_imposition, projet: projet, numero_fiscal: '42', annee: 2013 }
     let!(:avis_imposition_2) { create :avis_imposition, projet: projet, numero_fiscal: '43', annee: 2014 }
     it { expect(projet.annee_fiscale_reference).to eq 2014 }
   end
 
-  describe '#preeligibilite' do
+  describe "#preeligibilite" do
     let(:annee) { 2015 }
     let(:projet) { create :projet, :with_avis_imposition, declarants_count: 2, occupants_a_charge_count: 2 }
     it { expect(projet.preeligibilite(annee)).to eq(:tres_modeste) }
   end
 
-  describe '#nom_occupants' do
+  describe "#nom_occupants" do
     let(:projet) { create :projet, :with_demandeur, declarants_count: 2, occupants_a_charge_count: 0 }
     let(:occupant_1) { projet.occupants.first }
     let(:occupant_2) { projet.occupants.last }
     it { expect(projet.nom_occupants).to eq("#{occupant_1.nom.upcase} ET #{occupant_2.nom.upcase}") }
   end
 
-  describe '#prenom_occupants' do
+  describe "#prenom_occupants" do
     let(:projet) { create :projet, :with_demandeur, declarants_count: 2, occupants_a_charge_count: 0 }
     let(:occupant_1) { projet.occupants.first }
     let(:occupant_2) { projet.occupants.last }

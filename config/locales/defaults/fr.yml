@@ -329,6 +329,18 @@ fr:
     succes: "La demande de modification a bien été envoyée auprès de %{operateur}"
   depot_dossier_paiement:
     succes: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
+  # ----------------------- Page de visualisation du dossier de paiement ---------------------
+  payment:
+    statut:
+      en_cours_de_montage: "en cours de montage"
+      propose: "proposé(e)"
+      demande: "demandé(e)"
+      en_cours_d_instruction: "en cours d'instruction"
+      paye: "payé(e)"
+    type_paiement:
+      avance: "Avance"
+      acompte: "Acompte"
+      solde: "Solde"
 
   # ----------------------- Messagerie ---------------------
   conversation:
