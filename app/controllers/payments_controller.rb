@@ -100,13 +100,15 @@ private
   end
 
   def send_mail_for_instruction
-    PaymentMailer.depot(@payment).deliver_later!
+    PaymentMailer.depot_instructeur(@payment).deliver_later!
+    PaymentMailer.depot_operateur(@payment).deliver_later!
     PaymentMailer.accuse_reception_depot(@payment).deliver_later!
     flash[:notice] = I18n.t("payment.actions.ask_for_instruction.success", instructeur: @projet_courant.invited_instructeur.raison_sociale)
   end
 
   def send_mail_for_correction_after_instruction
-    PaymentMailer.correction_depot(@payment).deliver_later!
+    PaymentMailer.correction_depot_instructeur(@payment).deliver_later!
+    PaymentMailer.correction_depot_operateur(@payment).deliver_later!
     PaymentMailer.accuse_reception_correction_depot(@payment).deliver_later!
     flash[:notice] = I18n.t("payment.actions.ask_for_instruction.success", instructeur: @projet_courant.invited_instructeur.raison_sociale)
   end

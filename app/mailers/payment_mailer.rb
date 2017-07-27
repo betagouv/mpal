@@ -22,12 +22,20 @@ class PaymentMailer < ActionMailer::Base
     )
   end
 
-  def depot(payment)
+  def depot_instructeur(payment)
     @payment = payment
     @projet = @payment.payment_registry.projet
     mail(
       to: @projet.invited_instructeur.email,
-      cc: @projet.operateur.email,
+      subject: t('mailers.paiement_mailer.depot.sujet', demandeur: @projet.demandeur.fullname)
+    )
+  end
+
+  def depot_operateur(payment)
+    @payment = payment
+    @projet = @payment.payment_registry.projet
+    mail(
+      to: @projet.operateur.email,
       subject: t('mailers.paiement_mailer.depot.sujet', demandeur: @projet.demandeur.fullname)
     )
   end
@@ -42,12 +50,20 @@ class PaymentMailer < ActionMailer::Base
     )
   end
 
-  def correction_depot(payment)
+  def correction_depot_instructeur(payment)
     @payment = payment
     @projet = @payment.payment_registry.projet
     mail(
       to: @projet.invited_instructeur.email,
-      cc: @projet.operateur.email,
+      subject: t('mailers.paiement_mailer.correction_depot.sujet', demandeur: @projet.demandeur.fullname)
+    )
+  end
+
+  def correction_depot_operateur(payment)
+    @payment = payment
+    @projet = @payment.payment_registry.projet
+    mail(
+      to: @projet.operateur.email,
       subject: t('mailers.paiement_mailer.correction_depot.sujet', demandeur: @projet.demandeur.fullname)
     )
   end
