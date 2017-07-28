@@ -5,4 +5,5 @@ section.content-projet
   = render "projet_envisage"
   - if @projet_courant.statut != "prospect"
     = render "projet_#{@projet_courant.statut}"
-  = render "projets/payment_registry"
+  - if ENV["PAYMENTS_ENABLED"] == "true"
+    = render "projets/payment_registry"
