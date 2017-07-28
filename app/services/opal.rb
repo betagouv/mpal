@@ -66,9 +66,8 @@ private
     lignes_adresse_geo      = split_adresse_into_lines(projet.adresse.ligne_1)
 
     {
-      "dosNumeroPlateforme": "#{projet.numero_plateforme}",
+      "dosNumeroPlateforme": projet.numero_plateforme,
       "dosDateDepot": projet.date_depot,
-      "dmdNbOccupants": projet.nb_total_occupants,
       "utiIdClavis": agent_instructeur.clavis_id,
       "demandeur": {
         "dmdNbOccupants": projet.nb_total_occupants,

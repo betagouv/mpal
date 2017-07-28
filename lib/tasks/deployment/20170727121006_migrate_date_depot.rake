@@ -8,8 +8,14 @@ namespace :after_party do
     end
 
     Projet.find_each do |projet|
-      if projet.date_depot.blank? && !projet.status_not_yet(:transmis_pour_instruction)
-        projet.update_attribute(:date_depot, date_depot_a_jour(projet))
+      projet_transmited = !projet.status_not_yet(:transmis_pour_instruction)
+      if projet.date_depot.blank? && projet_transmited
+        invitation_depot = projet.invitations.find_by(intermediaire: projet.operateur)
+        if invitation_depot.present?
+          projet.update_attribute(:date_depot, invitation_depot.updated_at)
+        else
+          puts "Aucune invitation relative au dépôt trouvé pour le projet #{projet.id}"
+        end
       end
     end
 
