@@ -1,0 +1,8 @@
+p= "Bonjour,"
+
+p= "#{@projet.demandeur.fullname} vient de déposer la demande de paiement ci-dessous :"
+ul
+  li= "Type de paiement : #{@payment.type_paiement}"
+  li= "Bénéficiaire : #{@payment.beneficiaire}"
+
+p= link_to "Pour visualiser la demande de paiement, cliquer sur ce lien", dossier_payment_registry_url(@projet)

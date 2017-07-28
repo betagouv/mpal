@@ -18,4 +18,8 @@ class Invitation < ActiveRecord::Base
   delegate :demandeur,           to: :projet
   delegate :description_adresse, to: :projet
 
+  scope :visible_for_operateur, -> (operateur) {
+    where(intervenant_id: operateur.id).includes(:projet).select { |i| (i.projet.operateur == operateur) || i.projet.operateur.blank? }
+  }
+
 end

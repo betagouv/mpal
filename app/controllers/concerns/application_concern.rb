@@ -31,12 +31,9 @@ module ApplicationConcern
         if params[:projet_id] && params[:projet_id].to_i != @projet_courant.id
           return redirect_to controller: params[:controller], action: params[:action], projet_id: @projet_courant.id
         end
-        # NOTE: a user should have one project (at least); if not, let the drama begin…
+        # NOTE: user should have one project (at least); if not, let the drama begin…
       elsif current_agent
         @projet_courant = Projet.find_by_locator(params[:dossier_id])
-        unless @projet_courant && @projet_courant.accessible_for_agent?(current_agent)
-          return redirect_to dossiers_path, alert: t("sessions.access_forbidden")
-        end
       else
         @projet_courant = Projet.find_by_locator(session[:project_id])
         unless @projet_courant
@@ -85,6 +82,8 @@ module ApplicationConcern
     expose_routing_helper :projet_or_dossier_occupant_path
     expose_routing_helper :projet_or_dossier_demande_path
     expose_routing_helper :projet_or_dossier_payment_registry_path
+    expose_routing_helper :ask_for_modification_projet_or_dossier_payment_path
+    expose_routing_helper :ask_for_instruction_projet_or_dossier_payment_path
   end
 end
 

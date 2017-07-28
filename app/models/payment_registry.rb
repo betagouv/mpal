@@ -1,18 +1,6 @@
 class PaymentRegistry < ActiveRecord::Base
-  enum statut: [
-    :en_cours_de_montage,
-    :avance_demandee,
-    :avance_en_cours_d_instruction,
-    :avance_payee,
-    :accompte_demande,
-    :accompte_en_cours_d_instruction,
-    :accompte_paye,
-    :solde_demande,
-    :solde_en_cours_d_instruction,
-    :solde_paye,
-  ]
-
   belongs_to :projet
+  has_many   :payments, dependent: :destroy
 
   def demandeur
     projet.demandeur.fullname
@@ -29,4 +17,9 @@ class PaymentRegistry < ActiveRecord::Base
   def code_opal
     projet.opal_numero
   end
+
+  def statuses
+    payments.map { |payment| "#{I18n.t("payment.type_paiement.#{payment.type_paiement}")} #{I18n.t("payment.statut.#{payment.statut}")}" }.join(" - ")
+  end
 end
+

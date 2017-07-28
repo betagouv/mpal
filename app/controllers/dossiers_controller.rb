@@ -3,6 +3,8 @@ class DossiersController < ApplicationController
 
   before_action :authenticate_agent!
   before_action :assert_projet_courant, except: [:index, :indicateurs]
+  load_and_authorize_resource class: "Projet"
+  skip_load_and_authorize_resource only: [:index, :indicateurs]
 
   def index
     if current_agent.dreal?
@@ -11,9 +13,12 @@ class DossiersController < ApplicationController
 
     if current_agent.siege?
       @dossiers = Projet.all.with_demandeur
+    elsif current_agent.operateur?
+      @invitations = Invitation.visible_for_operateur(current_agent.intervenant)
     else
-      @invitations = Invitation.where(intervenant_id: current_agent.intervenant.id).includes(:projet)
+      @invitations = Invitation.where(intervenant_id: current_agent.intervenant_id).includes(:projet)
     end
+
     respond_to do |format|
       format.html {
         @page_heading = I18n.t('tableau_de_bord.titre_section')

@@ -303,7 +303,46 @@ fr:
   # ----------------------- Registre de Paiement ---------------------
   payment_registry:
     info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."
-    no_paiement: "Aucun dossier de paiement"
+    info_no_opal: "Vous ne pouvez pour l'instant pas déposer de demande de paiement dans Op@l."
+    no_paiement: "Aucune demande de paiement"
+    legal_person: "Au bénéfice de la personne morale : %{beneficiaire}"
+    physical_person: "Au bénéfice de la personne physique : %{beneficiaire}"
+    add_payment: "Ajouter une demande de paiement"
+
+  payment:
+    creation: "Je crée une demande de paiement"
+    edition: "Je modifie ma demande de paiement"
+    beneficiaire_question: "À qui voulez-vous que les fonds soient versés ?"
+    personne_morale_question: "Cette personne est :"
+    statut:
+      en_cours_de_montage: "en cours de montage"
+      propose: "proposé(e)"
+      demande: "demandé(e)"
+      en_cours_d_instruction: "en cours d'instruction"
+      paye: "payé(e)"
+    type_paiement:
+      avance: "Avance"
+      acompte: "Acompte"
+      solde: "Solde"
+    actions:
+      create:
+        label: "Créer"
+      modify:
+        label: "Modifier"
+      cancel:
+        label: "Annuler"
+      delete:
+        label: "Supprimer"
+        success: "La demande de paiement a bien été supprimée"
+      ask_for_validation:
+        label: "Envoyer pour validation"
+        success: "La proposition a bien été envoyée au demandeur"
+      ask_for_modification:
+        label: "Demander une modification"
+        success: "La demande de modification a bien été envoyée auprès de %{operateur}"
+      ask_for_instruction:
+        label: "Déposer"
+        success: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
 
   # ----------------------- Messagerie ---------------------
   conversation:
@@ -405,6 +444,24 @@ fr:
         sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
         sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
+
+    paiement_mailer:
+      destruction:
+        sujet: "[Anah] %{operateur} a supprimé une demande de paiement"
+      demande_validation:
+        sujet: "[Anah] Vous pouvez aller valider et envoyer votre demande de paiement"
+      depot:
+        sujet: "[Anah] %{demandeur} a déposé sa demande de paiement"
+      accuse_reception_depot:
+        sujet: "[Anah] Accusé de réception électronique de votre demande de paiement"
+      correction_depot:
+        sujet: "[Anah] %{demandeur} a modifié sa demande de paiement"
+      accuse_reception_correction_depot:
+        sujet: "[Anah] Accusé de réception électronique de modification de votre demande de paiement"
+      demande_modification_demandeur:
+        sujet: "[Anah] %{demandeur} souhaite modifier sa demande de paiement"
+      demande_modification_instructeur:
+        sujet: "[Anah] %{instructeur} souhaite modifier une demande de paiement"
 
   # ----------------------- Gestion d’évènements  ---------------------
   evenements:

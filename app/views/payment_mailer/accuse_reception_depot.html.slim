@@ -1,0 +1,16 @@
+p= "Bonjour #{@projet.demandeur.fullname},"
+
+p= "Le #{l(@payment.updated_at, format: :humanized)}, vous avez déposé auprès de l’Agence nationale de l’habitat – Anah – une demande de paiement de subvention."
+p= "Voici un récapitulatif de la demande de paiement :"
+ul
+  li= "Type de paiement : #{@payment.type_paiement}"
+  li= "Bénéficiaire : #{@payment.beneficiaire}"
+
+p= "Votre demande sera instruite par le service suivant :"
+
+p= @projet.invited_instructeur.raison_sociale
+
+p= "Vous serez notifié si votre demande est recevable ou incomplète. Pour la consulter, cliquez sur : #{link_to("ma demande de paiement", projet_payment_registry_url(@projet))}".html_safe
+
+p= "Cordialement,"
+p= "Pour l’Anah, #{@projet.invited_instructeur.raison_sociale}"

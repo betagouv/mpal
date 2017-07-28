@@ -1,0 +1,55 @@
+@import "variables";
+
+.ribbon_heading {
+  background-color: $color-light-grey;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  font-size: 18px;
+  font-weight: bold;
+  color: $font-color;
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.ribbon_heading__icon_list {
+  display: flex;
+  padding-top: 0.5em;
+}
+.ribbon_heading__icon_element {
+  display: flex;
+  flex-direction: column;
+  margin-right: 1em;
+
+  a {
+    text-decoration: none;
+  }
+}
+.ribbon_heading__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  padding: 0 1em;
+}
+.ribbon_heading__icon--active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  padding: 0 1em;
+  color: $color-steel;
+}
+
+.ribbon_heading__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+
+}
+.ribbon_heading__text--active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+  color: $color-steel;
+}

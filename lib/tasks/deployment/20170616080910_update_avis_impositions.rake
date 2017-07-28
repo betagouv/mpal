@@ -5,7 +5,11 @@ namespace :after_party do
 
     AvisImposition.find_each do |avis_imposition|
       contribuable = ApiParticulier.new(avis_imposition.numero_fiscal, avis_imposition.reference_avis).retrouve_contribuable
-      avis_imposition.update! annee: contribuable.annee_revenus, revenu_fiscal_reference: contribuable.revenu_fiscal_reference
+      if contribuable.present?
+        avis_imposition.update! annee: contribuable.annee_revenus, revenu_fiscal_reference: contribuable.revenu_fiscal_reference
+      else
+        puts "Avis d’imposition #{avis_imposition.id} n’existe plus => Il n’a pas été mis à jour" unless Rake.application.options.quiet
+      end
     end
 
     # Update task as completed.  If you remove the line below, the task will

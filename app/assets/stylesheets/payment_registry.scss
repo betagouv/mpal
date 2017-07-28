@@ -1,64 +1,70 @@
 @import "variables";
 
-.ribbon_heading {
-  background-color: $color-light-grey;
+.registry__content {
+}
+
+.registry__warning {
+  background-color: $alert-warning-bg;
+  border-color: $alert-warning-border;
+  color: $alert-warning-text;
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  margin-bottom: 1em;
+}
+
+.registry__entry {
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 1em;
+}
+.registry__entry_header {
+  display: flex;
+  align-items: center;
+  background-color: $color-light-grey;
+  padding: 1em 2em;
+}
+
+.registry__title_header {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+.registry__title {
+  display: flex;
+  align-items: center;
   font-size: 18px;
   font-weight: bold;
   color: $font-color;
-  padding: 1em;
 }
 
-.ribbon_heading__icon_list {
-  display: flex;
-  padding-top: 0.5em;
-}
-.ribbon_heading__icon_element {
-  display: flex;
-  flex-direction: column;
-  margin-right: 1em;
-
-  a {
-    text-decoration: none;
-  }
-}
-.ribbon_heading__icon {
+.registry__actions_header {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5em;
 }
-.ribbon_heading__icon--active {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5em;
-  color: $color-steel;
+.registry__action {
+  text-decoration: none;
+  margin-left: 1em;
 }
-
-.ribbon_heading__text {
-  font-size: 0.75em;
-
+.registry__action_text {
 }
-.ribbon_heading__text--active {
-  font-size: 0.75em;
-  color: $color-steel;
+.registry__action_icon {
+  margin-left: 0.5em;
 }
 
-.registry__content {
-  @media screen and (min-width: 600px) {
-    padding: 0.75em;
-  }
-  @media screen and (min-width: 920px) {
-    padding: 1.25em;
-  }
+.registry__details {
+  padding: 1em 2em;
+}
+.registry__status {
+  text-decoration: underline;
+  margin-bottom: 1em;
+}
+.registry__beneficiary {
+  font-style: italic;
 }
 
-.registry__info {
-  background-color: $alert-info-bg;
-  border-color: $alert-info-border;
-  color: $alert-info-text;
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-  padding: 1em;
-  margin: 1em 0;
+.registry__button_group {
+  margin: 2em;
+}
+.registry__add_button {
+  text-decoration: none;
 }

@@ -1,26 +1,57 @@
-.ribbon_heading
-  h2= @payment_registry.demandeur
-  p= @payment_registry.adresse
-  p= "Plateforme : #{@payment_registry.plateforme_id}" + (@payment_registry.code_opal.present? ? " / Op@l : #{@payment_registry.code_opal}" : "")
+= render "shared/ribbon_header"
 
-  .ribbon_heading__icon_list
-    .ribbon_heading__icon_element
-      = link_to projet_or_dossier_path(@projet_courant)
-        span.ribbon_heading__icon.glyphicon.glyphicon-folder-open
-        span.ribbon_heading__text Mon Dossier
-    .ribbon_heading__icon_element
-      = link_to projet_or_dossier_payment_registry_path(@projet_courant)
-        span.ribbon_heading__icon--active.glyphicon.glyphicon-euro
-        span.ribbon_heading__text--active Mes Paiements
-    .ribbon_heading__icon_element
-      - deconnect_link = current_agent ? destroy_agent_session_path : deconnexion_path
-      = link_to deconnect_link
-        span.ribbon_heading__icon.glyphicon.glyphicon-off
-        span.ribbon_heading__text Déconnexion
-
-- unless @payment_registry.code_opal
-  .registry__info
+- unless @projet_courant.payment_registry.code_opal
+  .registry__warning
     p= t("payment_registry.info_only_prepare")
 
+- if can? :send_in_opal, Payment
+  .registry__warning
+    p= t("payment_registry.info_no_opal")
+
 .registry__content
-  p= t("payment_registry.no_paiement")
+  - if @payments.blank?
+    p= t("payment_registry.no_paiement")
+  - else
+    - @payments.each do |payment|
+      .registry__entry
+        .registry__entry_header
+          .registry__title_header
+            h3.registry__title= payment.description
+          .registry__actions_header
+
+            - if can? :destroy, payment
+              = link_to dossier_payment_path(@projet_courant, payment), method: :delete, class: "registry__action"
+                span.registry__action_text= t("payment.actions.delete.label")
+                i.registry__action_icon.glyphicon.glyphicon-remove
+
+            - if can? :modify, payment
+              = link_to edit_dossier_payment_path(@projet_courant, payment), class: "registry__action"
+                span.registry__action_text= t("payment.actions.modify.label")
+                i.registry__action_icon.glyphicon.glyphicon-edit
+
+            - if can? :ask_for_validation, payment
+              = link_to ask_for_validation_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+                span.registry__action_text= t("payment.actions.ask_for_validation.label")
+                i.registry__action_icon.glyphicon.glyphicon-send
+
+            - if can? :ask_for_modification, payment
+              = link_to ask_for_modification_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+                span.registry__action_text= t("payment.actions.ask_for_modification.label")
+                i.registry__action_icon.glyphicon.glyphicon-edit
+
+            - if can? :ask_for_instruction, payment
+              = link_to ask_for_instruction_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+                span.registry__action_text= t("payment.actions.ask_for_instruction.label")
+                i.registry__action_icon.glyphicon.glyphicon-send
+
+        .registry__details
+          .registry__status
+            = payment.status_with_action
+          .registry__beneficiary
+            = t("payment_registry.#{payment.personne_morale ? :legal_person : :physical_person}", beneficiaire: payment.beneficiaire)
+
+- if can? :add, Payment
+  .registry__button_group
+    = link_to new_dossier_payment_path(@projet_courant), class: "btn btn-icon btn-centered registry__add_button"
+      = t("payment_registry.add_payment")
+      i.glyphicon.glyphicon-plus

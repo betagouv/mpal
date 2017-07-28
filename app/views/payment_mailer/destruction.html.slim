@@ -1,0 +1,8 @@
+p= "Bonjour #{@projet.demandeur.fullname},"
+
+p=  "#{@projet.operateur.raison_sociale} a supprimé la demande de paiement suivante :"
+ul
+  li= "Type de paiement : #{@payment.type_paiement}"
+  li= "Bénéficiaire : #{@payment.beneficiaire}"
+
+p= link_to "Pour visualiser vos demandes, cliquer sur ce lien", projet_payment_registry_url(@projet)

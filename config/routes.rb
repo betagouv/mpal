@@ -42,6 +42,10 @@ Rails.application.routes.draw do
       put  :proposition
       get  :indicateurs, on: :collection
       post '/payment_registry', to: 'payment_registries#create'
+      resources :payments, only: [:new, :create, :edit, :update, :destroy, :ask_for_validation, :ask_for_modification], param: :payment_id do
+        put 'ask_for_validation',   on: :member
+        put 'ask_for_modification', on: :member
+      end
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
@@ -57,11 +61,13 @@ Rails.application.routes.draw do
       post     :engagement_operateur, action: :create, controller: 'engagement_operateur'
       get      :transmission,         action: :new,    controller: 'transmission'
       post     :transmission,         action: :create, controller: 'transmission'
+      resources :payments, only: [:ask_for_modification, :ask_for_instruction], param: :payment_id do
+        put 'ask_for_modification', on: :member
+        put 'ask_for_instruction',  on: :member
+      end
     end
 
     resources :projets, only: [:show, :edit, :update], param: :projet_id
-
-
 
     get   '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post  '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'
