@@ -583,6 +583,7 @@ describe Projet do
 
     context "avec un instructeur valide" do
       let(:instructeur) { projet.invited_instructeur }
+
       it "rajoute l'instructeur au projet" do
         result = projet.transmettre!(instructeur)
         expect(result).to be true
@@ -590,24 +591,17 @@ describe Projet do
         expect(projet.invitations.count).to eq(2)
       end
 
+      it "met à jour la date_depot" do
+        expect(projet.date_depot).to be_nil
+        projet.transmettre!(instructeur)
+        expect(projet.date_depot).to_not be_nil
+      end
+
       it "notifie l'instructeur et le demandeur" do
         expect(ProjetMailer).to receive(:mise_en_relation_intervenant).and_call_original
         expect(ProjetMailer).to receive(:accuse_reception).and_call_original
         projet.transmettre!(instructeur)
       end
-    end
-  end
-
-  describe "#date_depot" do
-    subject { projet.date_depot }
-    context "avant la transmission du dossier" do
-      let(:projet) { create :projet, :proposition_proposee }
-      it { is_expected.to be_nil }
-    end
-
-    context "après la transmission du dossier" do
-      let(:projet) { create :projet, :transmis_pour_instruction }
-      it { is_expected.to eq projet.invitations.last.created_at }
     end
   end
 
@@ -687,3 +681,4 @@ describe Projet do
     end
   end
 end
+ 

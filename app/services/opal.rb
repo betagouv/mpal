@@ -67,7 +67,7 @@ private
 
     {
       "dosNumeroPlateforme": "#{projet.numero_plateforme}",
-      "dosDateDepot": projet.date_depot.strftime("%y-%m-%d"),
+      "dosDateDepot": projet.date_depot,
       "dmdNbOccupants": projet.nb_total_occupants,
       "utiIdClavis": agent_instructeur.clavis_id,
       "demandeur": {
