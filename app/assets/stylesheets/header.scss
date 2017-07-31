@@ -3,15 +3,45 @@
 .header {
   margin-bottom: 2em;
 }
-.header__top-links {
-  margin-bottom: 1em;
-}
 .header__top-link {
   &:hover {
     text-decoration: underline;
     color: $color-primary;
   }
 }
+.header__top {
+  margin-bottom: 1em;
+  display: flex;
+}
+.header__top-links {
+  margin-bottom: 1em;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 1em;
+
+  a {
+    text-decoration: none;
+  }
+}
+.header__top-links-gap {
+  flex: 1 0 auto;
+}
+
+.header__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  padding: 0 1em;
+}
+.header__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75em;
+}
+
+
 .header__logos {
   @extend .clearfix;
 }
