@@ -1,6 +1,6 @@
-p= "Bonjour,"
+p= "Bonjour #{@intervenant.raison_sociale},"
 
-p= "#{@projet.demandeur.fullname} vient de modifier la demande de paiement ci-dessous :"
+p= "Le #{l(@payment.updated_at, format: :humanized)}, #{@projet.demandeur.fullname} a modifié la demande de paiement ci-dessous :"
 ul
   li= "Type de paiement : #{@payment.type_paiement}"
   li= "Bénéficiaire : #{@payment.beneficiaire}"

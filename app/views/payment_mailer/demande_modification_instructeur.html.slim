@@ -1,8 +1,0 @@
-p= "Bonjour #{@projet.operateur.raison_sociale},"
-
-p=  "#{@projet.invited_instructeur.raison_sociale} souhaite modifier la demande de paiement suivante :"
-ul
-  li= "Type de paiement : #{@payment.type_paiement}"
-  li= "Bénéficiaire : #{@payment.beneficiaire}"
-
-p= link_to "Pour visualiser la demande, cliquer sur ce lien", dossier_payment_registry_url(@projet)
