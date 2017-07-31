@@ -10,7 +10,10 @@ p= "Votre demande sera instruite par le service suivant :"
 
 p= @projet.invited_instructeur.raison_sociale
 
-p= "Vous serez notifié si votre demande est recevable ou incomplète. Pour la consulter, cliquez sur : #{link_to("ma demande de paiement", projet_payment_registry_url(@projet))}".html_safe
+p= "Si votre demande est incomplète, une demande de renseignements et/ou de pièces complémentaires vous sera adressée."
+p= "Si votre demande est recevable, vous serez informé(e) dans votre espace monprojet.anah.gouv.fr du versement effectué."
+
+p= "Pour consulter votre demande, cliquez sur : #{link_to("ma demande de paiement", projet_payment_registry_url(@projet))}".html_safe
 
 p= "Cordialement,"
 p= "Pour l’Anah, #{@projet.invited_instructeur.raison_sociale}"

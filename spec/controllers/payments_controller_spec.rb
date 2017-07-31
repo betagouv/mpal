@@ -100,6 +100,15 @@ describe PaymentsController do
         expect(response).to redirect_to dossier_payment_registry_path(projet)
       end
 
+      context "avec une demande de paiement vue par le demandeur" do
+        before { payment.update! statut: :propose, action: :a_modifier }
+
+        it "envoie un mail au demandeur" do
+          expect(PaymentMailer).to receive(:destruction).once.and_call_original.with(payment)
+          delete :destroy, dossier_id: projet.id, payment_id: payment.id
+        end
+      end
+
       context "si une erreur survient lors de la suppression" do
         it "affiche un message d'erreur" do
           delete :destroy, dossier_id: projet.id, payment_id: (payment.id + 1)
@@ -114,6 +123,7 @@ describe PaymentsController do
       before { authenticate_as_agent agent_operateur }
 
       it "passe la demande en proposé au demandeur pour validation" do
+        expect(PaymentMailer).to receive(:demande_validation).once.and_call_original.with(payment)
         put :ask_for_validation, dossier_id: projet.id, payment_id: payment.id
         payment.reload
         expect(payment.action).to eq "a_valider"
@@ -123,12 +133,14 @@ describe PaymentsController do
     end
 
     describe "#ask_for_modification" do
-      let(:projet)  { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:user)    { create :user }
+      let(:projet)  { create :projet, :en_cours_d_instruction, :with_payment_registry, user: user }
       let(:payment) { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
 
-      before { authenticate_as_project projet.id }
+      before { authenticate_as_user user }
 
       it "passe la demande a l'opérateur pour modification" do
+        expect(PaymentMailer).to receive(:demande_modification).once.and_call_original.with(payment, true)
         put :ask_for_modification, projet_id: projet.id, payment_id: payment.id
         payment.reload
         expect(payment.action).to eq "a_modifier"
@@ -144,7 +156,9 @@ describe PaymentsController do
 
       before { authenticate_as_project projet.id }
 
-      it "passe la demande a l'opérateur pour modification" do
+      it "passe la demande a l'instructeur pour instruction" do
+        expect(PaymentMailer).to receive(:depot).once.and_call_original.with(payment, projet.operateur)
+        expect(PaymentMailer).to receive(:depot).once.and_call_original.with(payment, projet.invited_instructeur)
         put :ask_for_instruction, projet_id: projet.id, payment_id: payment.id
         payment.reload
         expect(payment.action).to eq "a_instruire"
