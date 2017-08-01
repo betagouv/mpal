@@ -12,8 +12,8 @@
   - if @payments.blank?
     p= t("payment_registry.no_paiement")
   - else
-    - @payments.each do |payment|
-      .registry__entry
+    - @payments.each_with_index do |payment, index|
+      div id="entry_#{index}" class="registry__entry"
         .registry__entry_header
           .registry__title_header
             h3.registry__title= payment.description
