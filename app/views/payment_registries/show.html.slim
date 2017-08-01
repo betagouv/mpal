@@ -12,42 +12,39 @@
   - if @payments.blank?
     p= t("payment_registry.no_paiement")
   - else
+<<<<<<< HEAD
     - @payments.each_with_index do |payment, index|
       div id="entry_#{index}" class="registry__entry"
-        - if (can? :modify, payment) || (can? :ask_for_modification, payment) || (can? :ask_for_instruction, payment)
-          .registry__entry_header
-            .registry__title_header
-              h3.registry__title= payment.description
-            .registry__actions_header
+        - action = ((can? :modify, payment) || (can? :ask_for_modification, payment) || (can? :ask_for_instruction, payment)) ? "action" : "no_action"
+        div class="registry__entry_header_#{action}"
+          .registry__title_header
+            h3.registry__title= payment.description
+          .registry__actions_header
 
-              - if can? :destroy, payment
-                = link_to dossier_payment_path(@projet_courant, payment), method: :delete, class: "registry__action"
-                span.registry__action_text= t("payment.actions.delete.label")
-                i.registry__action_icon.glyphicon.glyphicon-remove
+            - if can? :destroy, payment
+              = link_to dossier_payment_path(@projet_courant, payment), method: :delete, class: "registry__action"
+              span.registry__action_text= t("payment.actions.delete.label")
+              i.registry__action_icon.glyphicon.glyphicon-remove
 
-              - if can? :modify, payment
-                = link_to edit_dossier_payment_path(@projet_courant, payment), class: "registry__action"
-                span.registry__action_text= t("payment.actions.modify.label")
-                i.registry__action_icon.glyphicon.glyphicon-edit
+            - if can? :modify, payment
+              = link_to edit_dossier_payment_path(@projet_courant, payment), class: "registry__action"
+              span.registry__action_text= t("payment.actions.modify.label")
+              i.registry__action_icon.glyphicon.glyphicon-edit
 
-              - if can? :ask_for_validation, payment
-                = link_to ask_for_validation_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
-                span.registry__action_text= t("payment.actions.ask_for_validation.label")
-                i.registry__action_icon.glyphicon.glyphicon-send
+            - if can? :ask_for_validation, payment
+              = link_to ask_for_validation_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+              span.registry__action_text= t("payment.actions.ask_for_validation.label")
+              i.registry__action_icon.glyphicon.glyphicon-send
 
-              - if can? :ask_for_modification, payment
-                = link_to ask_for_modification_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
-                span.registry__action_text= t("payment.actions.ask_for_modification.label")
-                i.registry__action_icon.glyphicon.glyphicon-edit
+            - if can? :ask_for_modification, payment
+              = link_to ask_for_modification_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+              span.registry__action_text= t("payment.actions.ask_for_modification.label")
+              i.registry__action_icon.glyphicon.glyphicon-edit
 
-              - if can? :ask_for_instruction, payment
-                = link_to ask_for_instruction_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
-                span.registry__action_text= t("payment.actions.ask_for_instruction.label")
-                i.registry__action_icon.glyphicon.glyphicon-send
-        - else
-          .registry__entry_header_no_action
-            .registry__title_header
-              h3.registry__title= payment.description
+            - if can? :ask_for_instruction, payment
+              = link_to ask_for_instruction_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry__action"
+              span.registry__action_text= t("payment.actions.ask_for_instruction.label")
+              i.registry__action_icon.glyphicon.glyphicon-send
 
         .registry__details
           .registry__status

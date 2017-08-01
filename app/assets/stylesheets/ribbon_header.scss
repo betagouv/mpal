@@ -11,9 +11,7 @@
 }
 .ribbon__top {
   display: flex;
-}
-.ribbon__top_gap {
-  flex: 1 0 auto;
+  justify-content: space-between;
 }
 .ribbon__top_user{
   align-items: center;

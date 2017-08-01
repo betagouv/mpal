@@ -3,7 +3,6 @@
     .ribbon__top_user
       h2= @projet_courant.payment_registry.demandeur
       p= @projet_courant.payment_registry.adresse
-    .ribbon__top_gap
     .ribbon__top_numero
       - code_opal = @projet_courant.payment_registry.code_opal
       p= "Plateforme : #{@projet_courant.payment_registry.plateforme_id}"
