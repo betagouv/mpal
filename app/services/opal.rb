@@ -78,6 +78,7 @@ private
           "civId":            serialize_civilite(projet.demandeur),
           "pphNom":           serialize_nom(projet.demandeur),
           "pphPrenom":        serialize_prenom(projet.demandeur),
+          "pphDateNaissance": projet.demandeur.date_de_naissance.strftime("%Y-%m-%d"),
           "adressePostale": {
             "payId": 1,
             "adpLigne1":     lignes_adresse_postale[0],

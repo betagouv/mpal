@@ -52,6 +52,7 @@ describe Opal do
         expect(personne_physique["civId"]).to eq 1
         expect(personne_physique["pphPrenom"]).to eq "Olaf"
         expect(personne_physique["pphNom"]).to eq "STRABE"
+        expect(personne_physique["pphDateNaissance"]).to eq "1977-06-20"
 
         adresse_postale = personne_physique["adressePostale"]
         expect(adresse_postale["adpLigne1"]).to eq "65 rue de Rome"
