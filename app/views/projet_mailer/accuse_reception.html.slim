@@ -1,6 +1,6 @@
 p Bonjour #{@demandeur.fullname},
 
-p Le #{l(@date_depot, format:'%d %B %Y à %H h %M')}, vous avez déposé auprès de l’Agence nationale de l’habitat – Anah – une demande de subvention.
+p Le l(@projet.date_depot.to_date), vous avez déposé auprès de l’Agence nationale de l’habitat – Anah – une demande de subvention.
 
 p Votre demande a été enregistrée sous le numéro « #{@projet.plateforme_id} ». Elle sera instruite par le service suivant :
 

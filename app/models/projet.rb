@@ -341,6 +341,7 @@ class Projet < ActiveRecord::Base
   def transmettre!(instructeur)
     invitation = invitations.find_by(intervenant: instructeur)
     if invitation.update(intermediaire: operateur)
+      self.date_depot = Time.now
       self.statut = :transmis_pour_instruction
       ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
       ProjetMailer.accuse_reception(self).deliver_later!
@@ -368,17 +369,6 @@ class Projet < ActiveRecord::Base
 
   def prenom_occupants
     occupants.map { |occupant| occupant.prenom.capitalize }.join(' et ')
-  end
-
-  # TODO Attention : cette date est importante à conserver alors que les invitations
-  # sont faciles à supprimer. En attente de mise en place de l’historisation.
-  def date_depot
-    invitation_intervenant = invitations.where(intervenant: invited_instructeur).first
-    if invitation_intervenant
-      invitation_intervenant.created_at
-    else
-      nil
-    end
   end
 
   def status_for_intervenant
@@ -430,7 +420,7 @@ class Projet < ActiveRecord::Base
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
-        line.insert 9, projet.payment_registry.statuses        if agent.siege? || agent.instructeur? || agent.operateur?
+        line.insert 9, projet.payment_registry.try(:statuses)        if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?
