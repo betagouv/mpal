@@ -314,6 +314,22 @@ fr:
     edition: "Je modifie ma demande de paiement"
     beneficiaire_question: "À qui voulez-vous que les fonds soient versés ?"
     personne_morale_question: "Cette personne est :"
+    description:
+      avance: "Demande d’avance"
+      acompte: "Demande d’acompte"
+      solde: "Demande de solde"
+      statut:
+        en_cours_de_montage: "en cours de montage"
+        propose: "proposée"
+        demande: "déposée"
+        en_cours_d_instruction: "en cours d’instruction"
+        paye: "payée"
+      action:
+        a_rediger: ""
+        a_modifier: "en attente de modification"
+        a_valider: "en attente de validation"
+        a_instruire: "en attente d’instruction"
+        aucune: ""
     statut:
       en_cours_de_montage: "en cours de montage"
       propose: "proposé(e)"

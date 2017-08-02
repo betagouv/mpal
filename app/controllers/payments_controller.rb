@@ -42,33 +42,27 @@ class PaymentsController < ApplicationController
   end
 
   def destroy
-    send_mail_for_destruction if @payment.action.to_sym == :a_modifier
+    send_mail_for_destruction if @payment.action?(:a_modifier)
     @payment.destroy!
     flash[:notice] = I18n.t("payment.actions.delete.success")
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_validation
-    @payment.update! action: :a_valider
-    @payment.update! statut: :propose if @payment.statut.to_sym == :en_cours_de_montage
+    @payment.ask_for_validation
     send_mail_for_validation
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_modification
-    @payment.update! action: :a_modifier
+    @payment.ask_for_modification
     send_mail_for_modification
     redirect_to projet_or_dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_instruction
-    @payment.update! action: :a_instruire
-    if @payment.statut.to_sym == :propose
-      @payment.update! statut: :demande, submitted_at: Time.now
-      send_mail_for_instruction
-    else
-      send_mail_for_correction_after_instruction
-    end
+    @payment.statut?(:propose) ? send_mail_for_instruction : send_mail_for_correction_after_instruction
+    @payment.ask_for_instruction
     redirect_to projet_or_dossier_payment_registry_path @projet_courant
   end
 

@@ -1,4 +1,5 @@
-require 'rails_helper'
+require "rails_helper"
+require "support/state_machines_helper"
 
 describe Payment do
   describe "validations" do
@@ -6,8 +7,6 @@ describe Payment do
     it { expect(payment).to be_valid }
     it { is_expected.to validate_presence_of :beneficiaire }
     it { is_expected.to validate_presence_of :type_paiement }
-    it { is_expected.to validate_presence_of :statut }
-    it { is_expected.to validate_presence_of :action }
     it { is_expected.to belong_to :payment_registry }
   end
 
@@ -39,5 +38,69 @@ describe Payment do
     it { expect(payment_demande_a_valider.status_with_action).to      eq "Déposée en attente de validation" }
     it { expect(payment_en_cours_d_instruction.status_with_action).to eq "En cours d’instruction" }
     it { expect(payment_paye.status_with_action).to                   eq "Payée" }
+  end
+
+  describe "#statut" do
+    describe "en_cours_de_montage" do
+      let(:payment) { create :payment }
+
+      it { should_have(:statut).equal_to(:en_cours_de_montage) }
+      it { should_have(:statut).equal_to(:propose).after_event(:ask_for_validation) }
+      it { should_have(:statut).equal_to(:propose).after_event(:ask_for_modification) }
+      it { should_have(:statut).equal_to(:en_cours_de_montage).after_event(:ask_for_instruction) }
+    end
+
+    describe "propose" do
+      let(:payment) { create :payment, :propose }
+      let(:submit_time) { Time.now }
+
+      it { should_have(:statut).equal_to(:propose).after_event(:ask_for_validation) }
+      it { should_have(:statut).equal_to(:propose).after_event(:ask_for_modification) }
+      it { should_have(:statut).equal_to(:demande).after_event(:ask_for_instruction) }
+      it { should_have(:submitted_at).equal_to(submit_time).after_event(:ask_for_instruction) }
+    end
+
+    describe "demande" do
+      let(:payment) { create :payment, :demande }
+
+      it { should_have(:statut).equal_to(:demande).after_event(:ask_for_validation) }
+      it { should_have(:statut).equal_to(:demande).after_event(:ask_for_modification) }
+      it { should_have(:statut).equal_to(:demande).after_event(:ask_for_instruction) }
+    end
+  end
+
+  describe "#action" do
+    describe "a_rediger" do
+      let(:payment) { create :payment }
+
+      it { should_have(:action).equal_to(:a_rediger) }
+      it { should_have(:action).equal_to(:a_valider).after_event(:ask_for_validation) }
+      it { should_have(:action).equal_to(:a_rediger).after_event(:ask_for_modification) }
+      it { should_have(:action).equal_to(:a_rediger).after_event(:ask_for_instruction) }
+    end
+
+    describe "a_valider" do
+      let(:payment) { create :payment, :propose }
+
+      it { should_have(:action).equal_to(:a_valider).after_event(:ask_for_validation) }
+      it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_modification) }
+      it { should_have(:action).equal_to(:a_instruire).after_event(:ask_for_instruction) }
+    end
+
+    describe "a_modifier" do
+      let(:payment) { create :payment, :demande, :a_modifier }
+
+      it { should_have(:action).equal_to(:a_valider).after_event(:ask_for_validation) }
+      it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_modification) }
+      it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_instruction) }
+    end
+
+    describe "a_instruire" do
+      let(:payment) { create :payment, :demande }
+
+      it { should_have(:action).equal_to(:a_instruire).after_event(:ask_for_validation) }
+      it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_modification) }
+      it { should_have(:action).equal_to(:a_instruire).after_event(:ask_for_instruction) }
+    end
   end
 end
