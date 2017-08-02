@@ -5,7 +5,10 @@ class PaymentRegistriesController < ApplicationController
   load_and_authorize_resource
 
   def show
-    @payments = @projet_courant.payment_registry.payments.order(updated_at: :desc).select { |p| can? :read, p }
+    payments_by_update = @projet_courant.payment_registry.payments.order(updated_at: :desc)
+    payments_first = payments_by_update.select { |p| ((can? :modify, p) || (can? :ask_for_modification, p) || (can? :ask_for_instruction, p)) }
+    payments_last = payments_by_update.select { |p| ( (can? :read, p) && !((can? :modify, p) || (can? :ask_for_modification, p) || (can? :ask_for_instruction, p)) )}
+    @payments = payments_first + payments_last
   end
 
   def create
