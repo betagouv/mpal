@@ -5,6 +5,7 @@ class EngagementOperateurController < ApplicationController
   before_action :init_view
 
   def new
+    return redirect_to "/404" unless @projet_courant
     @operateur = Intervenant.find(params[:operateur_id])
   end
 

@@ -84,6 +84,7 @@ FactoryGirl.define do
       end
     end
 
+
     trait :with_invited_instructeur do
       after(:build) do |projet|
         instructeur = create(:instructeur, departements: [projet.departement])
@@ -172,6 +173,7 @@ FactoryGirl.define do
       with_assigned_operateur
       with_selected_prestation
       with_invited_instructeur
+      date_depot DateTime.new(2066, 06, 06)
 
       after(:build) do |projet|
         projet.statut = :transmis_pour_instruction

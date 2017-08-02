@@ -22,12 +22,12 @@ class PaymentMailer < ActionMailer::Base
     )
   end
 
-  def depot(payment)
+  def depot(payment, intervenant)
     @payment = payment
+    @intervenant = intervenant
     @projet = @payment.payment_registry.projet
     mail(
-      to: @projet.invited_instructeur.email,
-      cc: @projet.operateur.email,
+      to: intervenant.email,
       subject: t('mailers.paiement_mailer.depot.sujet', demandeur: @projet.demandeur.fullname)
     )
   end
@@ -42,12 +42,12 @@ class PaymentMailer < ActionMailer::Base
     )
   end
 
-  def correction_depot(payment)
+  def correction_depot(payment, intervenant)
     @payment = payment
+    @intervenant = intervenant
     @projet = @payment.payment_registry.projet
     mail(
-      to: @projet.invited_instructeur.email,
-      cc: @projet.operateur.email,
+      to: intervenant.email,
       subject: t('mailers.paiement_mailer.correction_depot.sujet', demandeur: @projet.demandeur.fullname)
     )
   end
@@ -62,22 +62,22 @@ class PaymentMailer < ActionMailer::Base
     )
   end
 
-  def demande_modification_demandeur(payment)
+  def demande_modification(payment, is_from_user)
     @payment = payment
     @projet = @payment.payment_registry.projet
-    mail(
-      to: @projet.operateur.email,
-      subject: t('mailers.paiement_mailer.demande_modification_demandeur.sujet', demandeur: @projet.demandeur.fullname)
-    )
-  end
 
-  def demande_modification_instructeur(payment)
-    @payment = payment
-    @projet = @payment.payment_registry.projet
+    if is_from_user
+      cc = [@projet.email, @projet.personne.email]
+      @from_fullname = @projet.demandeur.fullname
+    else
+      cc = []
+      @from_fullname = @projet.invited_instructeur.raison_sociale
+    end
+
     mail(
       to: @projet.operateur.email,
-      cc: [@projet.email, @projet.personne.try(:email)],
-      subject: t('mailers.paiement_mailer.demande_modification_instructeur.sujet', instructeur: @projet.invited_instructeur.raison_sociale)
+      cc: cc,
+      subject: t('mailers.paiement_mailer.demande_modification.sujet', from_fullname: @from_fullname)
     )
   end
 end

@@ -14,7 +14,14 @@ class Ability
         can :manage, :all
         return
       end
-
+      if agent_or_user.siege?
+        can :read, AvisImposition
+        can :read, Demande
+        can :read, :eligibility
+        can :read, :demandeur
+        can :read, Occupant
+        can :read, Projet
+      end
       if agent_or_user.pris? && projet.statut.to_sym == :prospect && projet.invited_pris == agent_or_user.intervenant
         can [:read, :recommander_operateurs], Projet
       elsif agent_or_user.instructeur?
