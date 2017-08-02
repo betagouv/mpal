@@ -91,22 +91,21 @@ private
   end
 
   def send_mail_for_modification
-    if current_user
-      PaymentMailer.demande_modification_demandeur(@payment).deliver_later!
-    else
-      PaymentMailer.demande_modification_instructeur(@payment).deliver_later!
-    end
+    is_from_user =  current_user.present?
+    PaymentMailer.demande_modification(@payment, is_from_user).deliver_later!
     flash[:notice] = I18n.t("payment.actions.ask_for_modification.success", operateur: @projet_courant.operateur.raison_sociale)
   end
 
   def send_mail_for_instruction
-    PaymentMailer.depot(@payment).deliver_later!
+    PaymentMailer.depot(@payment, @projet_courant.invited_instructeur).deliver_later!
+    PaymentMailer.depot(@payment, @projet_courant.operateur).deliver_later!
     PaymentMailer.accuse_reception_depot(@payment).deliver_later!
     flash[:notice] = I18n.t("payment.actions.ask_for_instruction.success", instructeur: @projet_courant.invited_instructeur.raison_sociale)
   end
 
   def send_mail_for_correction_after_instruction
-    PaymentMailer.correction_depot(@payment).deliver_later!
+    PaymentMailer.correction_depot(@payment, @projet_courant.invited_instructeur).deliver_later!
+    PaymentMailer.correction_depot(@payment, @projet_courant.operateur).deliver_later!
     PaymentMailer.accuse_reception_correction_depot(@payment).deliver_later!
     flash[:notice] = I18n.t("payment.actions.ask_for_instruction.success", instructeur: @projet_courant.invited_instructeur.raison_sociale)
   end

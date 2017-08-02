@@ -458,10 +458,8 @@ fr:
         sujet: "[Anah] %{demandeur} a modifié sa demande de paiement"
       accuse_reception_correction_depot:
         sujet: "[Anah] Accusé de réception électronique de modification de votre demande de paiement"
-      demande_modification_demandeur:
-        sujet: "[Anah] %{demandeur} souhaite modifier sa demande de paiement"
-      demande_modification_instructeur:
-        sujet: "[Anah] %{instructeur} souhaite modifier une demande de paiement"
+      demande_modification:
+        sujet: "[Anah] %{from_fullname} souhaite modifier une demande de paiement"
 
   # ----------------------- Gestion d’évènements  ---------------------
   evenements:
