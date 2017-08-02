@@ -65,7 +65,6 @@ class Projet < ActiveRecord::Base
   has_one :payment_registry, dependent: :destroy
 
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
-  validate  :validate_number_less_than_9_digits
 
   validates :numero_fiscal, :reference_avis, presence: true
   validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
@@ -76,6 +75,7 @@ class Projet < ActiveRecord::Base
   validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
   validates :consommation_avant_travaux, :consommation_apres_travaux, :gain_energetique, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 999999999 }, allow_nil: true
   validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
+  validates *FUNDING_FIELDS, :big_number => true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
   validate  :validate_payment_registry, on: :update
@@ -268,15 +268,6 @@ class Projet < ActiveRecord::Base
   def validate_payment_registry
     if payment_registry.present? && status_not_yet(:transmis_pour_instruction)
       errors.add(:payment_registry, "Vous ne pouvez ajouter un registre de paiement que si le projet a été transmis pour instruction")
-    end
-  end
-
-  def validate_number_less_than_9_digits
-    FUNDING_FIELDS.each do |field|
-      value = send("localized_#{field}").to_s.gsub(/\s+/, "")
-      unless value =="" || value =~ /^\d{1,8}(,?\d{0,2})?$/
-        errors.add(field, "doit être inférieur à '100 000 000'")
-      end
     end
   end
 
