@@ -1,24 +1,31 @@
-.ribbon_heading
-  h2= @projet_courant.payment_registry.demandeur
-  p= @projet_courant.payment_registry.adresse
-  - code_opal = @projet_courant.payment_registry.code_opal
-  p= "Plateforme : #{@projet_courant.payment_registry.plateforme_id}" + (code_opal.present? ? " / Op@l : #{code_opal}" : "")
+.project-menu
+  .ribbon__top
+    .ribbon__top_user
+      h2= @projet_courant.payment_registry.demandeur
+      p= @projet_courant.payment_registry.adresse
+    .ribbon__top_numero
+      - code_opal = @projet_courant.payment_registry.code_opal
+      p= "Plateforme : #{@projet_courant.payment_registry.plateforme_id}"
+      p= (code_opal.present? ? "Op@l : #{code_opal}" : "")
 
-  .ribbon_heading__icon_list
-    -if current_agent
-      .ribbon_heading__icon_element
-        = link_to dossiers_path
-          span.ribbon_heading__icon.glyphicon.glyphicon-list
-          span.ribbon_heading__text= "Tableau de bord"
-    .ribbon_heading__icon_element
-      = link_to projet_or_dossier_path(@projet_courant)
-        span.ribbon_heading__icon.glyphicon.glyphicon-folder-open
-        span.ribbon_heading__text= current_agent ? "Dossier" : "Mon Dossier"
-    .ribbon_heading__icon_element
-      = link_to projet_or_dossier_payment_registry_path(@projet_courant)
-        span.ribbon_heading__icon--active.glyphicon.glyphicon-euro
-        span.ribbon_heading__text--active= current_agent ? "Paiements" : "Mes Paiements"
-    .ribbon_heading__icon_element
-      = link_to (current_agent ? destroy_agent_session_path : deconnexion_path)
-        span.ribbon_heading__icon.glyphicon.glyphicon-off
-        span.ribbon_heading__text Déconnexion
+  .project-menu__list.clearfix
+    /- if current_agent
+      = link_to dossiers_path, class: "project-menu__item"
+        span.project-menu__icon.glyphicon.glyphicon-list
+        span.project-menu__text= "Tableau de bord"
+    = link_to projet_or_dossier_path(@projet_courant), class: "project-menu__item"
+      span.project-menu__icon.glyphicon.glyphicon-folder-open
+      span.project-menu__text= current_agent ? "Dossier" : "Mon dossier"
+    = link_to projet_or_dossier_payment_registry_path(@projet_courant), class: "project-menu__item project-menu__item--active"
+      span.project-menu__icon.glyphicon.glyphicon-euro
+      span.project-menu__text= current_agent ? "Paiements" : "Mes paiements"
+    .project-menu__item
+      span.project-menu__icon.glyphicon.glyphicon-paperclip
+      span.project-menu__text Pièces-jointes
+    - if current_agent || current_user
+      /.project-menu__item
+        span.project-menu__icon.glyphicon.glyphicon-user
+        span.project-menu__text= current_agent ? current_agent.fullname : current_user.projet.demandeur.fullname
+      = link_to (current_agent ? destroy_agent_session_path : deconnexion_path), class: "project-menu__item"
+        span.project-menu__icon.glyphicon.glyphicon-off
+        span.project-menu__text Déconnexion

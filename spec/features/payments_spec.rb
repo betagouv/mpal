@@ -77,17 +77,18 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       create :payment, type_paiement: :solde,  statut: :demande, action: :a_instruire, payment_registry: projet.payment_registry
     end
 
-    scenario "je peux demander une modification" do
+    scenario "je peux demander une modification sur un dossier, qui s'affiche ensuite juste après les dossiers nécessitant une action" do
       visit dossier_payment_registry_path(projet)
 
       # Demande de modification
       within("#entry_0") { click_on I18n.t("payment.actions.ask_for_modification.label") }
-      within "#entry_0" do
+      expect(page).to have_content I18n.t("payment.actions.ask_for_modification.success", operateur: projet.operateur.raison_sociale)
+      visit dossier_payment_registry_path(projet)
+      within "#entry_1" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "Déposée en attente de modification"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")
       end
-      expect(page).to have_content I18n.t("payment.actions.ask_for_modification.success", operateur: projet.operateur.raison_sociale)
     end
   end
 
@@ -101,26 +102,28 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       create :payment, type_paiement: :solde,  statut: :propose, action: :a_valider, payment_registry: projet.payment_registry
     end
 
-    scenario "je peux demander une modification" do
+    scenario "je peux demander une modification, qui s'affiche ensuite juste après les dossiers nécessitant une action" do
       visit dossier_payment_registry_path(projet)
 
       # Demande de modification
       within("#entry_0") { click_on I18n.t("payment.actions.ask_for_modification.label") }
-      within "#entry_0" do
+      expect(page).to have_content I18n.t("payment.actions.ask_for_modification.success", operateur: projet.operateur.raison_sociale)
+      visit dossier_payment_registry_path(projet)
+      within "#entry_1" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "Proposée en attente de modification"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")
       end
-      expect(page).to have_content I18n.t("payment.actions.ask_for_modification.success", operateur: projet.operateur.raison_sociale)
 
       # Dépôt
-      within("#entry_1") { click_on I18n.t("payment.actions.ask_for_instruction.label") }
+      within("#entry_0") { click_on I18n.t("payment.actions.ask_for_instruction.label") }
+      expect(page).to have_content I18n.t("payment.actions.ask_for_instruction.success", instructeur: projet.invited_instructeur.raison_sociale)
+      visit dossier_payment_registry_path(projet)
       within "#entry_1" do
         expect(page).to have_content "Demande de solde"
         expect(page).to have_content "Déposée"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")
       end
-      expect(page).to have_content I18n.t("payment.actions.ask_for_instruction.success", instructeur: projet.invited_instructeur.raison_sociale)
     end
   end
 end

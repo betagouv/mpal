@@ -1,14 +1,11 @@
 - content_for :header do
-  .header
-    .header__top-links
-      = link_to "Aller au contenu", "#content", class: "header__top-link"
-    .header__logos
-      = link_to root_path do
-        = image_tag "logo-anah.png", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat", title: "Les aides de l’Anah - Agence Nationale de l’Habitat", class: "header__logo header__logo--anah"
-      = image_tag "logo-rf.png", alt: "République Française - Ministère du logement et de l’habitat durable", title: "République Française - Ministère du logement et de l’habitat durable", class: "header__logo header__logo--rf"
+  .header.clearfix
+    = link_to root_path, class: "header__logo-anah" do
+      = image_tag "logo-anah.png", class: "header__logo-anah-img", alt: "Les aides de l’Anah - Agence Nationale de l’Habitat", title: "Les aides de l’Anah - Agence Nationale de l’Habitat"
+    = image_tag "logo-rf.png", class: "header__logo-rf", alt: "République Française - Ministère du logement et de l’habitat durable", title: "République Française - Ministère du logement et de l’habitat durable"
+    h1.header__title= @page_heading
 
 - content_for :content do
   #content= yield
 
 = render template: "layouts/application"
-

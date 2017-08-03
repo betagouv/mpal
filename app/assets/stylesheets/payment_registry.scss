@@ -16,10 +16,16 @@
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 1em;
 }
-.registry__entry_header {
+.registry__entry_header_no_action {
   display: flex;
   align-items: center;
   background-color: $color-light-grey;
+  padding: 1em 2em;
+}
+.registry__entry_header_action {
+  display: flex;
+  align-items: center;
+  background-color: $state-danger-bg;
   padding: 1em 2em;
 }
 
@@ -54,6 +60,7 @@
 .registry__details {
   padding: 1em 2em;
 }
+
 .registry__status {
   text-decoration: underline;
   margin-bottom: 1em;
