@@ -1,69 +1,44 @@
 @import "variables";
 
 .header {
-  margin-bottom: 2em;
-}
-.header__top-link {
-  &:hover {
-    text-decoration: underline;
-    color: $color-primary;
+  position: relative;
+  @media screen and (min-width: 480px) {
+    margin-bottom: 20px;
   }
 }
-.header__top {
-  margin-bottom: 1em;
-  display: flex;
-}
-.header__top-links {
-  margin-bottom: 1em;
-  align-items: center;
-  flex-direction: column;
-  margin-right: 1em;
 
-  a {
-    text-decoration: none;
-  }
-}
-.header__top-links-gap {
-  flex: 1 0 auto;
-}
-
-.header__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5em;
-  padding: 0 1em;
-}
-.header__text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75em;
-}
-
-
-.header__logos {
-  @extend .clearfix;
-}
-.header__logo {
+.header__title {
   float: left;
+  line-height: 40px;
+  padding: 20px 0;
 }
-.header__logo--anah {
-  //width: 93px;
+
+.header__logo-anah {
+  float: left;
+  @media screen and (min-width: 380px) {
+    margin-right: 20px;
+  }
+}
+
+.header__logo-anah-img {
+  width: 70px;
   height: 60px;
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 420px) {
     width: 93px;
     height: 80px;
   }
 }
-.header__logo--rf {
-  //width: 255px;
+
+.header__logo-rf {
+  float: right;
+  width: 191px;
   height: 60px;
-  margin-left: 1em;
-  @media screen and (min-width: 820px) {
+  @media screen and (min-width: 420px) {
     width: 255px;
     height: 80px;
-    margin-left: 3em;
+  }
+  @media screen and (min-width: 440px) {
+    margin-left: 20px;
   }
 }
 
