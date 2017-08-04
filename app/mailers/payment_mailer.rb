@@ -67,10 +67,10 @@ class PaymentMailer < ActionMailer::Base
     @projet = @payment.payment_registry.projet
 
     if is_from_user
-      cc = [@projet.email, @projet.personne.try(:email)]
+      cc = []
       @from_fullname = @projet.demandeur.fullname
     else
-      cc = []
+      cc = [@projet.email, @projet.personne.try(:email)]
       @from_fullname = @projet.invited_instructeur.raison_sociale
     end
 
