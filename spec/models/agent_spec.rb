@@ -28,11 +28,14 @@ describe Agent do
           context "can read a project but not modify it" do
             let(:projet) { create :projet, :prospect, :with_contacted_operateur }
 
-            it { is_expected.not_to be_able_to(:manage, AvisImposition) }
-            it { is_expected.not_to be_able_to(:manage, Demande) }
-            it { is_expected.not_to be_able_to(:manage, :demandeur) }
-            it { is_expected.not_to be_able_to(:manage, Occupant) }
-            it { is_expected.not_to be_able_to(:manage, :eligibility) }
+            it { is_expected.not_to be_able_to(:read, AvisImposition) }
+            it { is_expected.not_to be_able_to(:read, Demande) }
+            it { is_expected.not_to be_able_to(:read, :demandeur) }
+            it { is_expected.not_to be_able_to(:read, Document) }
+            it { is_expected.not_to be_able_to(:manage, Document) }
+            it { is_expected.not_to be_able_to(:read, Occupant) }
+            it { is_expected.not_to be_able_to(:read, :eligibility) }
+
             it { is_expected.to     be_able_to(:read, Projet) }
           end
         end
@@ -43,15 +46,17 @@ describe Agent do
           context "can manage an entire project he is on until 'transmis pour instruction'" do
             let(:projet) { create :projet, :en_cours}
 
-            it { is_expected.to     be_able_to(:manage, AvisImposition) }
-            it { is_expected.to     be_able_to(:manage, Demande) }
-            it { is_expected.to     be_able_to(:manage, :demandeur) }
-            it { is_expected.to     be_able_to(:manage, Occupant) }
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
-            it { is_expected.to     be_able_to(:manage, Projet) }
+
+            it { is_expected.to be_able_to(:manage, AvisImposition) }
+            it { is_expected.to be_able_to(:manage, Demande) }
+            it { is_expected.to be_able_to(:manage, :demandeur) }
+            it { is_expected.to be_able_to(:manage, Document) }
+            it { is_expected.to be_able_to(:manage, Occupant) }
+            it { is_expected.to be_able_to(:manage, Projet) }
           end
 
-          context "can only read after 'transmis pour instruction'" do
+          context "can only read project after 'transmis pour instruction' and manage documents" do
             let(:projet) { create :projet, :transmis_pour_instruction }
 
             it { is_expected.not_to be_able_to(:manage, AvisImposition) }
@@ -60,7 +65,9 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.not_to be_able_to(:manage, Occupant) }
             it { is_expected.not_to be_able_to(:manage, Projet) }
-            it { is_expected.to     be_able_to(:read, Projet) }
+
+            it { is_expected.to be_able_to(:manage, Document) }
+            it { is_expected.to be_able_to(:read, Projet) }
           end
         end
       end
@@ -72,11 +79,11 @@ describe Agent do
           context "can read a project but not modify it" do
             let(:projet) { create :projet, :prospect, :with_invited_pris }
 
-            it { is_expected.not_to be_able_to(:manage, AvisImposition) }
-            it { is_expected.not_to be_able_to(:manage, Demande) }
-            it { is_expected.not_to be_able_to(:manage, :demandeur) }
-            it { is_expected.not_to be_able_to(:manage, :eligibility) }
-            it { is_expected.not_to be_able_to(:manage, Occupant) }
+            it { is_expected.not_to be_able_to(:read, AvisImposition) }
+            it { is_expected.not_to be_able_to(:read, Demande) }
+            it { is_expected.not_to be_able_to(:read, :demandeur) }
+            it { is_expected.not_to be_able_to(:read, :eligibility) }
+            it { is_expected.not_to be_able_to(:read, Occupant) }
             it { is_expected.to     be_able_to(:read, Projet) }
           end
         end
@@ -88,7 +95,8 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
-            it { is_expected.not_to be_able_to(:manage, :eligibility) }
+            it { is_expected.not_to be_able_to(:read, Document) }
+            it { is_expected.not_to be_able_to(:read, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
             it { is_expected.not_to be_able_to(:read, Projet) }
           end
@@ -105,7 +113,8 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
-            it { is_expected.not_to be_able_to(:manage, :eligibility) }
+            it { is_expected.not_to be_able_to(:read, Document) }
+            it { is_expected.not_to be_able_to(:read, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
             it { is_expected.not_to be_able_to(:read, Projet) }
           end
@@ -119,8 +128,11 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
+            it { is_expected.not_to be_able_to(:manage, Document) }
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
+
+            it { is_expected.to     be_able_to(:read, Document) }
             it { is_expected.to     be_able_to(:read, Projet) }
           end
         end

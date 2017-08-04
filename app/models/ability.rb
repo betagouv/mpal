@@ -17,6 +17,7 @@ class Ability
       if agent_or_user.siege?
         can :read, AvisImposition
         can :read, Demande
+        can :read, Document
         can :read, :eligibility
         can :read, :demandeur
         can :read, Occupant
@@ -27,6 +28,7 @@ class Ability
       elsif agent_or_user.instructeur?
         if !projet.status_not_yet(:transmis_pour_instruction) &&  projet.invited_instructeur == agent_or_user.intervenant
           can :read, Projet
+          can :read, Document
         end
         if projet.statut.to_sym == :transmis_pour_instruction &&  projet.invited_instructeur == agent_or_user.intervenant
           can :manage, :dossiers_opal
@@ -39,9 +41,11 @@ class Ability
           can :manage, AvisImposition
           can :manage, Demande
           can :manage, :demandeur
+          can :manage, Document
           can :manage, Occupant
           can :manage, Projet
         elsif projet.statut.to_sym != :en_cours && projet.statut.to_sym != :prospect
+          can :manage, Document
           can :read, Projet
         end
       end
@@ -52,13 +56,14 @@ class Ability
       if projet.locked_at.nil?
         can :manage, AvisImposition
         can :manage, Demande
-        can :manage, :eligibility
         can :manage, :demandeur
+        can :manage, :eligibility
         can :manage, Occupant
         can :manage, Projet
       else
-        can :read, Projet
+        can :read, Document
         can :read, :eligibility
+        can :read, Projet
       end
     end
   end
