@@ -61,13 +61,17 @@ private
     projet.modified_revenu_fiscal_reference ? projet.modified_revenu_fiscal_reference : projet.revenu_fiscal_reference_total
   end
 
+  def serialize_date(date)
+    date.strftime("%Y-%m-%d")
+  end
+
   def serialize_dossier(projet, agent_instructeur)
     lignes_adresse_postale  = split_adresse_into_lines(projet.adresse_postale.ligne_1)
     lignes_adresse_geo      = split_adresse_into_lines(projet.adresse.ligne_1)
 
     {
       "dosNumeroPlateforme": projet.numero_plateforme,
-      "dosDateDepot": projet.date_depot.strftime("%Y-%m-%d"),
+      "dosDateDepot": serialize_date(projet.date_depot),
       "utiIdClavis": agent_instructeur.clavis_id,
       "demandeur": {
         "dmdNbOccupants": projet.nb_total_occupants,
@@ -78,7 +82,7 @@ private
           "civId":            serialize_civilite(projet.demandeur),
           "pphNom":           serialize_nom(projet.demandeur),
           "pphPrenom":        serialize_prenom(projet.demandeur),
-          "pphDateNaissance": projet.demandeur.date_de_naissance.strftime("%Y-%m-%d"),
+          "pphDateNaissance": serialize_date(projet.demandeur.date_de_naissance),
           "adressePostale": {
             "payId": 1,
             "adpLigne1":     lignes_adresse_postale[0],
