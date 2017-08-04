@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+
+  #COMMUN ENTRE DOSSIER ET PROJETS
   concern :projectable do
     resources :occupants, only: [:index, :new, :create, :edit, :update, :destroy] do
       post :index, on: :collection
@@ -15,21 +17,45 @@ Rails.application.routes.draw do
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       '/payment_registry', to: 'payment_registries#show'
+    get       '/payment_registry/documents', to: 'documents#index_payment_registry_documents'
   end
 
-  devise_for :users, controllers: {
-    passwords:     "users/passwords",
-    registrations: "users/registrations",
-    sessions:      "users/sessions",
-  }
+  #ROOT & PAGES STATIQUES
+  root 'homepage#index'
 
+  get  '/informations/about',        to: 'informations#about'
+  get  '/informations/faq',          to: 'informations#faq'
+  get  '/informations/terms_of_use', to: 'informations#terms_of_use'
+  get  '/informations/legal',        to: 'informations#legal'
+  get  '/stats',                     to: 'informations#stats'
+
+  get  '/patterns',                  to: 'patterns#index'
+  get  '/patterns/forms',            to: 'patterns#forms'
+  get  '/patterns/icons',            to: 'patterns#icons'
+
+  get  '/debug_exception',           to: 'application#debug_exception'
+
+  match "/404", via: :all, to: "errors#not_found"
+  match "/500", via: :all, to: "errors#internal_server_error"
+
+  #CONTACTS
+  resources :contacts, only: [:index, :new, :create]
+
+  #DEVISE & SESSIONS
+  devise_for :users, controllers: {
+      passwords:     "users/passwords",
+      registrations: "users/registrations",
+      sessions:      "users/sessions",
+  }
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
   devise_scope :agent do
     get '/agents/signed_out', to: 'my_cas#signed_out'
   end
+  get  '/deconnexion', to: 'sessions#deconnexion'
 
-  root 'homepage#index'
+  #ROUTES PRINCIPALES DOSSIERS ET PROJETS
 
+  #DOSSIERS
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
     resources :dossiers, only: [], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
@@ -47,10 +73,14 @@ Rails.application.routes.draw do
         put 'ask_for_modification', on: :member
       end
     end
+    resources :dossiers, only: []
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 
-    get  '/projets/new',        to: 'projets#new'
-    post  '/projets/',           to: 'projets#create'
+
+    #PROJETS
+    get  '/projets/new', to: 'projets#new'
+    post  '/projets/',   to: 'projets#create'
+    resources :projets, only: [:show, :edit, :update], param: :projet_id
 
     resources :projets, only: [], concerns: :projectable do
       resource :users, only: [:new, :create]
@@ -67,8 +97,6 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :projets, only: [:show, :edit, :update], param: :projet_id
-
     get   '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#new', as: 'new_invitation'
     post  '/projets/:projet_id/invitations/intervenant/:intervenant_id', to: 'invitations#create', as: 'invitations'
     get   '/projets/:projet_id/invitations/edition/intervenant/:intervenant_id', to: 'invitations#edit', as: 'edit_invitation'
@@ -78,31 +106,12 @@ Rails.application.routes.draw do
     get '/instruction', to: 'instruction#show', as: 'instruction'
   end
 
+  #PAGES ADMIN
   namespace :admin do
     root to: 'home#index'
     resources :themes
     resources :intervenants
   end
-
-  get  '/deconnexion', to: 'sessions#deconnexion'
-  resources :dossiers, only: []
-
-  get  '/informations/about',        to: 'informations#about'
-  get  '/informations/faq',          to: 'informations#faq'
-  get  '/informations/terms_of_use', to: 'informations#terms_of_use'
-  get  '/informations/legal',        to: 'informations#legal'
-  get  '/stats',                     to: 'informations#stats'
-
-  get  '/patterns',                  to: 'patterns#index'
-  get  '/patterns/forms',            to: 'patterns#forms'
-  get  '/patterns/icons',            to: 'patterns#icons'
-
-  get  '/debug_exception',           to: 'application#debug_exception'
-
-  resources :contacts, only: [:index, :new, :create]
-
-  match "/404", via: :all, to: "errors#not_found"
-  match "/500", via: :all, to: "errors#internal_server_error"
 
 
   require "sidekiq/web"

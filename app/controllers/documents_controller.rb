@@ -1,4 +1,5 @@
 class DocumentsController < ApplicationController
+  layout "creation_dossier", only: [:index_payment_registry_documents]
   before_action :assert_projet_courant
 
   def create
@@ -16,5 +17,8 @@ class DocumentsController < ApplicationController
     @document = @projet_courant.documents.where(id: params[:id]).first
     @document.destroy
     redirect_to dossier_path(@projet_courant), notice: t('projets.proposition.messages.succes_suppression_document')
+  end
+
+  def index_payment_registry_documents
   end
 end
