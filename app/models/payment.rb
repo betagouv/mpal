@@ -3,49 +3,47 @@ class Payment < ActiveRecord::Base
   ACTIONS = [ :a_rediger, :a_modifier, :a_valider, :a_instruire, :aucune ]
   TYPES = [ :avance, :acompte, :solde ]
 
-  after_initialize :initialize_params
-
-  validates :beneficiaire, :type_paiement, :statut, :action, presence: true
-  validate  :validate_params
+  validates :beneficiaire, :type_paiement, presence: true
+  validate  :validate_type_paiement
 
   belongs_to :payment_registry
 
+  state_machine :action, initial: :a_rediger do
+    after_transition :a_rediger => :a_valider,   do: :update_statut_to_propose
+    after_transition :a_valider => :a_instruire, do: :update_statut_to_demande
+
+    event(:ask_for_validation)   { transition [:a_rediger, :a_modifier] => :a_valider}
+    event(:ask_for_modification) { transition [:a_valider, :a_instruire] => :a_modifier }
+    event(:ask_for_instruction)  { transition :a_valider => :a_instruire }
+
+    state *ACTIONS
+  end
+
+  state_machine :statut, initial: :en_cours_de_montage do
+    # Ensure consistent data
+    after_transition :en_cours_de_montage => :propose, do: :ask_for_validation
+    after_transition :propose => :demande do |payment, transition|
+      payment.ask_for_instruction
+      payment.update! submitted_at: Time.now
+    end
+
+    event(:update_statut_to_propose) { transition :en_cours_de_montage => :propose }
+    event(:update_statut_to_demande) { transition :propose => :demande }
+
+    state *STATUSES
+  end
+
   def description
-    description_map = {
-      avance:  "Demande d’avance",
-      acompte: "Demande d’acompte",
-      solde:   "Demande de solde",
-    }
-    description_map[type_paiement.to_sym]
+    I18n.t("payment.description.#{type_paiement}")
   end
 
   def status_with_action
-    status_map = {
-      en_cours_de_montage:    "En cours de montage",
-      propose:                "Proposée",
-      demande:                "Déposée",
-      en_cours_d_instruction: "En cours d’instruction",
-      paye:                   "Payée",
-    }
-    action_map = {
-      a_rediger:   "",
-      a_modifier:  " en attente de modification",
-      a_valider:   " en attente de validation",
-      a_instruire: " en attente d’instruction",
-      aucune:      "",
-    }
-    status_map[statut.to_sym] + action_map[action.to_sym]
+    [I18n.t("payment.description.statut.#{statut}"), I18n.t("payment.description.action.#{action}")].join(" ").strip.capitalize
   end
 
-private
-  def initialize_params
-    self.statut ||= :en_cours_de_montage
-    self.action ||= :a_rediger
-  end
+  private
 
-  def validate_params
-    errors.add(:statut,        :invalid) if statut.present?        && (STATUSES.exclude? statut.to_sym)
-    errors.add(:action,        :invalid) if action.present?        && (ACTIONS.exclude?  action.to_sym)
-    errors.add(:type_paiement, :invalid) if type_paiement.present? && (TYPES.exclude?    type_paiement.to_sym)
+  def validate_type_paiement
+    errors.add(:type_paiement, :invalid) if type_paiement.present? && (TYPES.exclude? type_paiement.to_sym)
   end
 end
