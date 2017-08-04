@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :commentaires,       only: :create
     resource  :composition
     resources :avis_impositions,   only: [:index, :new, :create, :destroy]
-    resources :documents,          only: [:create, :destroy]
+    resources :documents,          only: [:create, :destroy, :index]
     resources :intervenants
     resource  :demandeur,          only: [:show, :update]
     resource  :demande,            only: [:show, :update]
@@ -17,7 +17,6 @@ Rails.application.routes.draw do
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
     get       '/payment_registry', to: 'payment_registries#show'
-    get       '/payment_registry/documents', to: 'documents#index_payment_registry_documents'
   end
 
   #ROOT & PAGES STATIQUES
@@ -43,9 +42,9 @@ Rails.application.routes.draw do
 
   #DEVISE & SESSIONS
   devise_for :users, controllers: {
-      passwords:     "users/passwords",
-      registrations: "users/registrations",
-      sessions:      "users/sessions",
+    passwords:     "users/passwords",
+    registrations: "users/registrations",
+    sessions:      "users/sessions",
   }
   devise_for :agents, controllers: { cas_sessions: 'my_cas' }
   devise_scope :agent do
@@ -53,10 +52,11 @@ Rails.application.routes.draw do
   end
   get  '/deconnexion', to: 'sessions#deconnexion'
 
-  #ROUTES PRINCIPALES DOSSIERS ET PROJETS
 
-  #DOSSIERS
+  #ROUTES PRINCIPALES DOSSIERS ET PROJETS
   scope(path_names: { new: 'nouveau', edit: 'edition' }) do
+
+    #DOSSIERS
     resources :dossiers, only: [], concerns: :projectable do
       post :dossiers_opal, controller: 'dossiers_opal', action: 'create'
       put  :update_project_rfr, controller: 'avis_impositions', action: 'update_project_rfr'
