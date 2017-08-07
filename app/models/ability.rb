@@ -8,6 +8,7 @@ class Ability
 
     define_payment_registry_abilities(agent_or_user, projet)
     define_payment_abilities(agent_or_user, projet)
+    define_document_abilities(agent_or_user, projet)
 
     if agent_or_user.is_a? Agent
       if agent_or_user.admin?
@@ -21,6 +22,7 @@ class Ability
         can :read, :demandeur
         can :read, Occupant
         can :read, Projet
+        can :read, Document
       end
       if agent_or_user.pris? && projet.statut.to_sym == :prospect && projet.invited_pris == agent_or_user.intervenant
         can [:read, :recommander_operateurs], Projet
@@ -57,8 +59,8 @@ class Ability
         can :manage, Occupant
         can :manage, Projet
       else
-        can :read, Projet
         can :read, :eligibility
+        can :read, Projet
       end
     end
   end
@@ -100,6 +102,24 @@ private
         can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
         can :ask_for_instruction,  Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
       end
+    end
+  end
+
+  def define_document_abilities(agent_or_user, projet)
+    alias_action :new,  :create, to: :add
+    alias_action :edit, :update, to: :modify
+    alias_action :new,  :create, :edit, :update, :destroy, to: :crud
+
+    if agent_or_user.try(:operateur?) && projet.operateur == agent_or_user.intervenant
+      can :crud, Document, id: projet.documents.map { |doc| doc.id }
+    end
+
+    if agent_or_user.try(:instructeur?) && (!projet.status_not_yet(:transmis_pour_instruction) &&  projet.invited_instructeur == agent_or_user.intervenant )
+      can :read, Document, id: projet.documents.map { |doc| doc.id }
+    end
+
+    if agent_or_user.is_a?(User) && projet.locked_at.present?
+      can :read, Document, id: projet.documents.map { |doc| doc.id }
     end
   end
 end

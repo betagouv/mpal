@@ -16,6 +16,8 @@ describe User do
       it { is_expected.not_to be_able_to(:manage, AvisImposition) }
       it { is_expected.not_to be_able_to(:manage, Demande) }
       it { is_expected.not_to be_able_to(:manage, :demandeur) }
+      it { is_expected.not_to be_able_to(:update, Document) }
+      it { is_expected.not_to be_able_to(:manage, :eligibility) }
       it { is_expected.not_to be_able_to(:manage, Occupant) }
       it { is_expected.not_to be_able_to(:manage, Projet) }
     end
