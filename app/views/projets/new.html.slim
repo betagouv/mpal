@@ -33,11 +33,12 @@ section.new-project
       | Non
     br/
     br/
+    br/
+    p.new-project__label.new-project__label--p.new-project__label--first= "Avis Fiscal #{Time.current.year-1} sur les revenus de #{Time.current.year-2}"
 
     .labeled-info-point
       = f.label :numero_fiscal
       a.info-point.info-point--light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
-      p.new-project__commentaire= "Avis Fiscal #{Time.current.year-1} sur les revenus de #{Time.current.year-2}"
     = f.input :numero_fiscal, wrapper_html: { class: "size-m" }, required: true, label: false
 
     .labeled-info-point
