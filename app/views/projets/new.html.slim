@@ -16,6 +16,9 @@
 
 section.new-project
   h1.new-project__heading-projet Remplir mon dossier
+  h4 Vous souhaitez vous renseigner ou demander une aide à l’Anah. Identifiez-vous en renseignant votre numéro fiscal et la référence de l’avis d’imposition présents sur votre dernier avis d’imposition (#{Time.current.year-1} sur les revenus de #{Time.current.year-2}).
+  h4 Ces renseignements permettront d’aller rechercher directement auprès de la direction générale des finances publiques les coordonnées vous concernant ainsi que votre revenu fiscal de référence (RFR) correspondant à votre niveau de ressources.
+  br/
   p.new-project__links
     = link_to "J’ai déjà un dossier", new_user_session_path, class: "new-project__link"
   p.new-project__commentaire Tous les champs sont obligatoires
@@ -59,3 +62,7 @@ section.new-project
         = render 'demo_credentials'
       - else
         = render 'staging_credentials'
+
+
+
+
