@@ -10,7 +10,7 @@
 .header__title {
   float: left;
   line-height: 40px;
-  padding: 20px 0;
+  padding: 10px 0;
   font-size: 1.5em;
 }
 
@@ -24,20 +24,12 @@
 .header__logo-anah-img {
   width: 70px;
   height: 60px;
-  @media screen and (min-width: 420px) {
-    width: 93px;
-    height: 80px;
-  }
 }
 
 .header__logo-rf {
   float: right;
   width: 191px;
   height: 60px;
-  @media screen and (min-width: 420px) {
-    width: 255px;
-    height: 80px;
-  }
   @media screen and (min-width: 460px) {
     margin-left: 30px;
   }

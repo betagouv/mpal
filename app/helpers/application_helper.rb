@@ -1,5 +1,5 @@
 module ApplicationHelper
-  APP_NAME = "Les aides de l’Anah"
+  APP_NAME = "Mon projet Anah"
   COMPANY_NAME = "Anah"
   SITE_START_YEAR = 2017
 
@@ -31,9 +31,13 @@ module ApplicationHelper
     capture do
       content_tag (opts[:tag] || :button), p do
         if opts[:icon].present?
-          opts[:name].html_safe + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+          if opts[:name].present?
+            content_tag(:span, opts[:name].html_safe) + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+          else
+            content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+          end
         else
-          opts[:name]
+          content_tag(:span, opts[:name])
         end
       end
     end

@@ -6,16 +6,13 @@
         span.firstname= demandeur.prenom
         span.lastname<= demandeur.nom
       p #{project.adresse.ville} / #{project.themes.map(&:name).join(", ")}
+    / TODO 2017-08-07: suppression à valider avec PO
     /.project-menu__id
       - code_opal = project.payment_registry.code_opal
       p= "Plateforme : #{project.payment_registry.plateforme_id}"
       p= (code_opal.present? ? "Op@l : #{code_opal}" : "")
 
   .project-menu__list.clearfix
-    /- if current_agent
-      = link_to dossiers_path, class: "project-menu__item"
-        span.project-menu__icon.glyphicon.glyphicon-list
-        span.project-menu__text= "Tableau de bord"
     = link_to projet_or_dossier_path(project), class: "project-menu__item"
       span.project-menu__icon.glyphicon.glyphicon-folder-open
       span.project-menu__text Dossier
@@ -28,16 +25,18 @@
     .project-menu__item
       span.project-menu__icon.glyphicon.glyphicon-envelope
       span.project-menu__text Messages
+    / TODO
     /.project-menu__item
       span.project-menu__icon.glyphicon.glyphicon-user
       span.project-menu__text Contacts
     /.project-menu__item
       span.project-menu__icon.glyphicon.glyphicon-question-sign
       span.project-menu__text Aide
-    - if current_agent || current_user
+    - if current_user
+      / TODO
       /.project-menu__item
         span.project-menu__icon.glyphicon.glyphicon-user
-        span.project-menu__text= current_agent ? current_agent.fullname : current_user.projet.demandeur.fullname
-      = link_to (current_agent ? destroy_agent_session_path : deconnexion_path), class: "project-menu__item"
+        span.project-menu__text= current_user.projet.demandeur.fullname
+      = link_to deconnexion_path, class: "project-menu__item"
         span.project-menu__icon.glyphicon.glyphicon-off
         span.project-menu__text Quitter
