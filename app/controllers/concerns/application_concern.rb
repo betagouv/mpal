@@ -84,6 +84,7 @@ module ApplicationConcern
     expose_routing_helper :projet_or_dossier_payment_registry_path
     expose_routing_helper :ask_for_modification_projet_or_dossier_payment_path
     expose_routing_helper :ask_for_instruction_projet_or_dossier_payment_path
+    expose_routing_helper :projet_or_dossier_documents_path
   end
 end
 

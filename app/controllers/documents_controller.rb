@@ -6,7 +6,7 @@ class DocumentsController < ApplicationController
 
   rescue_from do |exception|
     flash[:alert] = exception.message
-    redirect_to projet_or_dossier_payment_registry_path @projet_courant
+    redirect_to projet_or_dossier_documents_path @projet_courant
   end
 
   rescue_from ActiveRecord::RecordNotFound do
@@ -15,16 +15,15 @@ class DocumentsController < ApplicationController
 
   def create
     @document = @projet_courant.documents.build
-    @document.label = params[:fichier_document]
-    @document.fichier = params[:fichier_document]
+    @document.fichier = params[:file]
     @document.save!
-    redirect_to dossier_proposition_path(@projet_courant)
+    redirect_to projet_or_dossier_documents_path(@projet_courant)
   end
 
   def destroy
     @document = @projet_courant.documents.find params[:id]
     @document.destroy!
-    redirect_to dossier_documents(@projet_courant)
+    redirect_to projet_or_dossier_documents_path(@projet_courant)
   end
 
   def index
