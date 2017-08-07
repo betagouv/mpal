@@ -32,10 +32,12 @@ section.new-project
       = radio_button_tag "proprietaire", "0", !proprietaire, class: "new-project__proprietaire-input", id: "lab-proprietaire-no"
       | Non
     br/
-    
+    br/
+
     .labeled-info-point
       = f.label :numero_fiscal
       a.info-point.info-point--light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
+      p.new-project__commentaire= "Avis Fiscal #{Time.current.year-1} sur les revenus de #{Time.current.year-2}"
     = f.input :numero_fiscal, wrapper_html: { class: "size-m" }, required: true, label: false
 
     .labeled-info-point
