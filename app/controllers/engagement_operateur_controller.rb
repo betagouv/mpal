@@ -1,5 +1,5 @@
 class EngagementOperateurController < ApplicationController
-  layout 'inscription'
+  layout "inscription"
 
   before_action :assert_projet_courant
   before_action :init_view
@@ -23,6 +23,6 @@ class EngagementOperateurController < ApplicationController
 
 private
   def init_view
-    @page_heading = 'Inscription'
+    @page_heading = "S’engager avec l’opérateur qui vous accompagnera"
   end
 end

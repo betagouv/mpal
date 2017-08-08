@@ -9,5 +9,6 @@ class EligibilitiesController < ApplicationController
     if @projet_courant.locked_at.blank?
       @projet_courant.update_attributes(locked_at: Time.now)
     end
+    @page_heading = "Éligibilité"
   end
 end

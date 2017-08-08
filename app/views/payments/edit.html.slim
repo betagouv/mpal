@@ -1,5 +1,3 @@
-= render "projets/menu", project: @projet_courant
-
 = simple_form_for @payment, url: { controller: "payments", action: "update" }, html: { method: :put, class: "form" } do |f|
   h2.payment__title= t("payment.edition")
   = render "payments/form", form: f

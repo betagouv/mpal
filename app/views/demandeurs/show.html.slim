@@ -1,35 +1,32 @@
 = simple_form_for @projet_courant, url: { controller: "demandeurs", action: "update" }, html: { class: "form" } do |f|
-  section.section
-    h2.section__title= t("demarrage_projet.demandeur.section_demandeur")
-    = render "shared/errors", resource: @projet_courant
-    .section__content
-      .js-demandeur-civility
-        = f.fields_for @demandeur do |ff|
-          = ff.input :civility, as: :radio_buttons, collection: Occupant::CIVILITIES, required: true
-      = f.input :demandeur, collection: @declarants, selected: @projet_courant.demandeur.try(:id), wrapper_html: { class: "size-m" }, prompt: @declarants_prompt, required: @declarants_prompt.present?
-      = f.input :adresse_postale, as: :string, input_html: { value: @projet_courant.adresse_postale.try(:description) }
-      = f.input :adresse_a_renover, as: :string, input_html: { value: @projet_courant.adresse_a_renover.try(:description)}
-      = f.input :tel, wrapper_html: { class: "size-s" }
-      = f.input :email, wrapper_html: { class: "size-m" }
+  = render "shared/errors", resource: @projet_courant
+  .js-demandeur-civility
+    = f.fields_for @demandeur do |ff|
+      = ff.input :civility, as: :radio_buttons, collection: Occupant::CIVILITIES, required: true
+  = f.input :demandeur, collection: @declarants, selected: @projet_courant.demandeur.try(:id), wrapper_html: { class: "size-m" }, prompt: @declarants_prompt, required: @declarants_prompt.present?
+  = f.input :adresse_postale, as: :string, input_html: { value: @projet_courant.adresse_postale.try(:description) }
+  = f.input :adresse_a_renover, as: :string, input_html: { value: @projet_courant.adresse_a_renover.try(:description)}
+  = f.input :tel, wrapper_html: { class: "size-s" }
+  = f.input :email, wrapper_html: { class: "size-m" }
 
-      .reliable-person
-        .reliable-person__header
-          p.reliable-person__question= t("demarrage_projet.demandeur.reliable_person")
-          - has_reliable_person = params[:contact] ? "1" == params[:contact] : @projet_courant.personne_id.present?
-          .js-reliable-person-select
-            label for="reliable-person-select-no"
-              input#reliable-person-select-no name="contact" type="radio" value="0" checked=(has_reliable_person ? false : "checked") /
-              = t("demarrage_projet.demandeur.reliable_person_select_no")
-            label for="js-reliable-person-select-yes"
-              input#js-reliable-person-select-yes name="contact" type="radio" value="1" checked=(has_reliable_person ? "checked" : false) /
-              = t("demarrage_projet.demandeur.reliable_person_select_yes")
-        .reliable-person__form.js-reliable-person-form
-          = f.fields_for :personne do |ff|
-            = ff.input :civilite, as: :radio_buttons, collection: Personne::CIVILITIES
-            = ff.input :prenom, wrapper_html: { class: "size-s" }
-            = ff.input :nom, wrapper_html: { class: "size-s" }
-            = ff.input :tel, wrapper_html: { class: "size-s" }
-            = ff.input :email, wrapper_html: { class: "size-m" }
-            = ff.input :lien_avec_demandeur, label: t("helpers.label.personne.lien_avec_demandeur"), wrapper_html: { class: "size-m" }
+  .reliable-person
+    .reliable-person__header
+      p.reliable-person__question= t("demarrage_projet.demandeur.reliable_person")
+      - has_reliable_person = params[:contact] ? "1" == params[:contact] : @projet_courant.personne_id.present?
+      .js-reliable-person-select
+        label for="reliable-person-select-no"
+          input#reliable-person-select-no name="contact" type="radio" value="0" checked=(has_reliable_person ? false : "checked") /
+          = t("demarrage_projet.demandeur.reliable_person_select_no")
+        label for="js-reliable-person-select-yes"
+          input#js-reliable-person-select-yes name="contact" type="radio" value="1" checked=(has_reliable_person ? "checked" : false) /
+          = t("demarrage_projet.demandeur.reliable_person_select_yes")
+    .reliable-person__form.js-reliable-person-form
+      = f.fields_for :personne do |ff|
+        = ff.input :civilite, as: :radio_buttons, collection: Personne::CIVILITIES
+        = ff.input :prenom, wrapper_html: { class: "size-s" }
+        = ff.input :nom, wrapper_html: { class: "size-s" }
+        = ff.input :tel, wrapper_html: { class: "size-s" }
+        = ff.input :email, wrapper_html: { class: "size-m" }
+        = ff.input :lien_avec_demandeur, label: t("helpers.label.personne.lien_avec_demandeur"), wrapper_html: { class: "size-m" }
   = btn name: t("demarrage_projet.action"), class: "btn-large btn-centered", icon: "arrow-right"
 

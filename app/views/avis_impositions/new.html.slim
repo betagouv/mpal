@@ -1,8 +1,5 @@
 = simple_form_for @avis_imposition, url: { controller: "avis_impositions", action: "create" }, html: { class: "form" } do |f|
-  section.section
-    h2.section__title Ajouter un avis d’imposition
-    = render "shared/errors", resource: @avis_imposition
-    .section__content
-      = f.input :numero_fiscal,  wrapper_html: { class: "size-s" }, required: true
-      = f.input :reference_avis, wrapper_html: { class: "size-s" }, required: true
+  = render "shared/errors", resource: @avis_imposition
+  = f.input :numero_fiscal,  wrapper_html: { class: "size-s" }, required: true, autofocus: true
+  = f.input :reference_avis, wrapper_html: { class: "size-s" }, required: true
   = btn name: "Ajouter", class: "btn-large btn-centered", icon: "arrow-right"

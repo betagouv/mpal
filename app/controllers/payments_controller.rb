@@ -1,6 +1,4 @@
 class PaymentsController < ApplicationController
-  layout "creation_dossier"
-
   before_action :assert_projet_courant
   before_action :find_payment, only: [:edit, :destroy, :ask_for_validation, :ask_for_modification, :ask_for_instruction]
   load_and_authorize_resource

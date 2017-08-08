@@ -49,7 +49,6 @@ class DossiersController < ApplicationController
     if @projet_courant.prospect?
       return redirect_to projet_or_dossier_path(@projet_courant), alert: t('sessions.access_forbidden')
     end
-
     if request.put?
       if @projet_courant.save_proposition!(projet_params) && @projet_courant.demande.update(annee_construction: demande_params[:annee_construction])
         return redirect_to projet_or_dossier_path(@projet_courant), notice: t('projets.edition_projet.messages.succes')
@@ -57,12 +56,7 @@ class DossiersController < ApplicationController
         flash.now[:alert] = t('projets.edition_projet.messages.erreur')
       end
     end
-
-    assign_projet_if_needed
-    @themes = Theme.ordered.all
-    @prestations_with_choices = prestations_with_choices
-    define_helps
-    render "projets/proposition"
+    render_proposition
   end
 
   def proposer
@@ -75,7 +69,7 @@ class DossiersController < ApplicationController
       redirect_to projet_or_dossier_path(@projet_courant), notice: message
     else
       @projet_courant.restore_statut!
-      render_show
+      render_proposition
     end
   end
 
@@ -209,6 +203,15 @@ private
     prestation_choice[:recommended] = prestation_choice[:recommended].present?
     prestation_choice[:selected]    = prestation_choice[:selected].present?
     prestation_choice
+  end
+
+  def render_proposition
+    assign_projet_if_needed
+    @themes = Theme.ordered.all
+    @prestations_with_choices = prestations_with_choices
+    define_helps
+    @page_heading = "Projet proposé par l’opérateur"
+    render "projets/proposition"
   end
 
   def suggested_operateurs_params

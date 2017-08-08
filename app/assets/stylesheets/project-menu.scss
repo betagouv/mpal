@@ -6,8 +6,8 @@
   color: $font-color;
   @media screen and (min-width: 440px) {
     padding: 1em;
+    border-radius: 3px;
     background-color: $color-light-grey;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   }
 }
 .project-menu__top {

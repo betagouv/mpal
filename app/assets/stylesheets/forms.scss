@@ -74,6 +74,7 @@
   .form-check-hacked {
     > label {
       display: block;
+      cursor: default;
     }
   }
   .form-check-label > input {
@@ -98,3 +99,6 @@
   }
 }
 
+.form-explanations {
+  margin-bottom: 1em;
+}

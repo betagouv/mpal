@@ -10,6 +10,6 @@ fr:
     erreur_proprietaire_html: "L’Anah accorde des aides à des personnes propriétaires de leur logement. Si vous êtes locataire, c’est à votre propriétaire de faire la demande de subvention auprès de l’Anah. Vous trouverez davantage d'informations sur le site %{anil}."
     confirmation_deconnexion: "Vous avez été déconnecté."
     confirmation_deconnexion_clavis: "Vous avez été déconnecté de Clavis."
-    lien_deconnexion: "Déconnexion"
+    lien_deconnexion: "Quitter"
     user_exists: "Merci d’utiliser vos identifiants de connexion pour accéder à votre dossier."
 

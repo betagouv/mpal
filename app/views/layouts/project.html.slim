@@ -1,0 +1,10 @@
+= nested_layout :application do
+  #content
+    - if @projet_courant
+      - if @projet_courant.locked_at.nil?
+        = render "projets/steps", project: @projet_courant
+      - else
+        = render "projets/menu", project: @projet_courant
+    - if @page_heading.present?
+      h1.page-heading= @page_heading
+    = yield

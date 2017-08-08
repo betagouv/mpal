@@ -5,12 +5,16 @@
       h2
         span.firstname= demandeur.prenom
         span.lastname<= demandeur.nom
-      p #{project.adresse.ville} / #{project.themes.map(&:name).join(", ")}
-    / TODO 2017-08-07: suppression à valider avec PO
-    /.project-menu__id
-      - code_opal = project.payment_registry.code_opal
-      p= "Plateforme : #{project.payment_registry.plateforme_id}"
-      p= (code_opal.present? ? "Op@l : #{code_opal}" : "")
+      p
+        = project.adresse.ville
+        - if project.themes.any?
+          = " / #{project.themes.map(&:name).join(", ")}"
+      / TODO 2017-08-07: suppression à valider avec PO
+      - if current_agent
+        p
+          = project.plateforme_id
+          - if project.opal_numero.present?
+            = " / Opal : #{project.opal_numero}"
 
   .project-menu__list.clearfix
     = link_to projet_or_dossier_path(project), class: "project-menu__item"
@@ -39,4 +43,5 @@
         span.project-menu__text= current_user.projet.demandeur.fullname
       = link_to deconnexion_path, class: "project-menu__item"
         span.project-menu__icon.glyphicon.glyphicon-off
-        span.project-menu__text Quitter
+        span.project-menu__text= t("sessions.lien_deconnexion")
+

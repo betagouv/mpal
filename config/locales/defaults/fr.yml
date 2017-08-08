@@ -19,16 +19,6 @@ fr:
         date_achevement_15_ans: "Votre logement (maison ou immeuble) a-t-il été construit il y a plus de 15 ans ?"
         annee_construction: "Si vous la connaissez, indiquez l’année de construction (précise ou estimée) de votre logement :"
         ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
-      diagnostic:
-        autonomie: "Ce projet concerne-t-il la perte d’autonomie ou le handicap ?"
-        niveau_gir: "Niveau GIR"
-        handicap: "MDPH / CDAPH"
-        note_degradation: "Note de dégradation"
-        note_insalubrite: "Note d’insalubrité"
-        ventilation_adaptee: "Ventilation adaptée"
-        presence_humidite: "Présence de traces d’humidité"
-        auto_rehabilitation: "Ces travaux seront-ils réalisés en auto-réhabilitation ?"
-        remarques_diagnostic: "Autres remarques"
       proposition:
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
@@ -148,7 +138,6 @@ fr:
       precisions: "Précisions"
     # ----------------------- Eligibilité ---------------------
     eligibility:
-      section_eligibility: "Éligibilité"
       section_conditions: "Conditions de financement"
       eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
       not_eligible: "D’après les éléments renseignés, vous n’êtes a priori pas éligible, pour s’en assurer un complément d'étude de votre situation peut être réalisé."
@@ -229,6 +218,10 @@ fr:
       confirmation: "J’ai lu, j’accepte les informations ci-dessus"
       messages:
         info_confirmation_email: "En vu de vous envoyer un accusé de réception et de suivre votre dossier merci de confirmer votre adresse email :"
+      state:
+        desired: "Souhaité"
+        recommended: "Préconisé"
+        selected: "Retenu"
 
     transmission:
       bouton_accepter: "Suivant"

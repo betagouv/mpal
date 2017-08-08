@@ -2,7 +2,7 @@ module ApplicationConcern
   extend ActiveSupport::Concern
 
   included do
-    layout "logged_in"
+    layout "project"
 
     def redirect_to_project_if_exists
       projet_or_dossier

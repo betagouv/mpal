@@ -1,5 +1,3 @@
-= render "projets/menu", project: @projet_courant
-
 - unless @projet_courant.payment_registry.code_opal
   .registry__warning
     p= t("payment_registry.info_only_prepare")

@@ -1,47 +1,40 @@
-= simple_form_for @projet_courant, url: {controller: 'choix_operateur', action: 'choose'}, method: 'patch', html: { class:'ui form'}  do |f|
-    <div>
-      section.intervenant
-        h2 = t('choix_operateur.title')
-        p.chapo
-          | Pour continuer votre démarche, nous vous invitons à vous rapprocher d’un organisme spécialisé, appelé « opérateur », qui vous accompagnera dans le montage de votre dossier de demande d’aide à l’
-          abbr title=("Agence nationale de l’habitat") Anah
-          |.
-          br/
-          br/
-          | L’opérateur est un intervenant chargé de vous accompagner tout au long de votre démarche. Il vous aide à élaborer votre projet de travaux et à constituer votre demande de subvention. Si la subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de celle-ci.
-          br/
-          br/
-          | Selon le secteur dans lequel le logement à rénover se situe, cette prestation d’accompagnement est payante ou gratuite. Si elle est payante, l’Anah peut vous attribuer en complément de l’aide aux travaux une aide correspondant totalement ou partiellement au montant de la prestation d’accompagnement.
-        hr/
-        - if @suggested_operateurs.present?
-          p.chapo
-            | Au vu de votre projet,
-            strong
-              |  le Point Rénovation Info-Service de votre département vous recommande plus particulièrement ces opérateurs
-            |  pour vous accompagner dans votre démarche.
-          .choose-operator.choose-operator-intervenant
-            - @suggested_operateurs.each do |operateur|
-              = radio_button_tag :operateur_id, operateur.id, operateur.id == @operateur.try(:id)
-              label for="operateur_id_#{operateur.id}"
-                h3= operateur.raison_sociale
-                p= operateur.description_adresse
-                = btn tag: :div, name: t('projets.visualisation.invitation_intervenant')
-          hr/
-        - elsif @projet_courant.invited_pris.present?
-          p.chapo
-            strong Le Point Rénovation Info-Service de votre département n’a pas encore recommandé d’opérateurs pour vous accompagner dans votre démarche.
-          hr/
-        - if @other_operateurs.present?
-          p.chapo
-            | Vous pouvez également choisir parmi les autres opérateurs suivants :
-            .choose-operator.choose-operator-intervenant
-              - @other_operateurs.each do |operateur|
-                = radio_button_tag :operateur_id, operateur.id, operateur.id == @operateur.try(:id)
-                label for="operateur_id_#{operateur.id}"
-                  h3= operateur.raison_sociale
-                  p= operateur.description_adresse
-                  = btn tag: :a, name: t('projets.visualisation.invitation_intervenant')
-          hr/
-        = render 'mises_en_relation/disponibilite_form', simple_form_builder: f
-        = btn name: @action_label, class: 'btn-large btn-centered js-engagement', icon: 'ok'
-    </div><!-- Workaround for allowing slim to honor the scope of the submit tag -->
+= simple_form_for @projet_courant, url: { controller: "choix_operateur", action: "choose"}, method: "patch", html: { class: "form" } do |f|
+  section.intervenant
+    p
+      | Pour continuer votre démarche, nous vous invitons à vous rapprocher d’un organisme spécialisé, appelé « opérateur », qui vous accompagnera dans le montage de votre dossier de demande d’aide à l’
+      abbr title=("Agence nationale de l’habitat") Anah
+      |.
+    p L’opérateur est un intervenant chargé de vous accompagner tout au long de votre démarche. Il vous aide à élaborer votre projet de travaux et à constituer votre demande de subvention. Si la subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de celle-ci.
+    p Selon le secteur dans lequel le logement à rénover se situe, cette prestation d’accompagnement est payante ou gratuite. Si elle est payante, l’Anah peut vous attribuer en complément de l’aide aux travaux une aide correspondant totalement ou partiellement au montant de la prestation d’accompagnement.
+    hr/
+    - if @suggested_operateurs.present?
+      p
+        | Au vu de votre projet,
+        strong
+          |  le Point Rénovation Info-Service de votre département vous recommande plus particulièrement ces opérateurs
+        |  pour vous accompagner dans votre démarche.
+      .choose-operator.choose-operator-intervenant
+        - @suggested_operateurs.each do |operateur|
+          = radio_button_tag :operateur_id, operateur.id, operateur.id == @operateur.try(:id)
+          label for="operateur_id_#{operateur.id}"
+            h3= operateur.raison_sociale
+            p= operateur.description_adresse
+            = btn tag: :div, name: t('projets.visualisation.invitation_intervenant')
+      hr/
+    - elsif @projet_courant.invited_pris.present?
+      p
+        strong Le Point Rénovation Info-Service de votre département n’a pas encore recommandé d’opérateurs pour vous accompagner dans votre démarche.
+      hr/
+    - if @other_operateurs.present?
+      p
+        | Vous pouvez également choisir parmi les autres opérateurs suivants :
+      .choose-operator.choose-operator-intervenant
+        - @other_operateurs.each do |operateur|
+          = radio_button_tag :operateur_id, operateur.id, operateur.id == @operateur.try(:id)
+          label for="operateur_id_#{operateur.id}"
+            h3= operateur.raison_sociale
+            p= operateur.description_adresse
+            = btn tag: :a, name: t('projets.visualisation.invitation_intervenant')
+      hr/
+    = render 'mises_en_relation/disponibilite_form', simple_form_builder: f
+    = btn name: @action_label, class: 'btn-large btn-centered js-engagement', icon: 'ok'

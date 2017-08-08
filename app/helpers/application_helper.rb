@@ -43,6 +43,10 @@ module ApplicationHelper
     end
   end
 
+  def yes_no_collection
+    [["Oui", "true"], ["Non", "false"]]
+  end
+
   def company_name
     COMPANY_NAME
   end
@@ -56,6 +60,10 @@ module ApplicationHelper
     return '' if date.blank?
     date = date.to_date unless date.is_a?(Date)
     I18n.localize(date, format: format)
+  end
+
+  def nested_layout(layout = "application", &block)
+    render inline: capture(&block), layout: "layouts/#{layout}"
   end
 
   def readable_bool(boolean)
@@ -147,6 +155,18 @@ module ApplicationHelper
     translation = t("activerecord.attributes.defaults.#{key}", default: "") if translation.blank?
     translation = t("simple_form.labels.#{model}.#{key}", default: "") if translation.blank?
     translation = t("simple_form.labels.defaults.#{key}", default: "") if translation.blank?
+    translation = t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
+    translation
+  end
+
+  def sf_label(model, key)
+    if key.to_s.include?(".")
+      model, key = key.to_s.split(".")
+    end
+    translation = t("simple_form.labels.#{model}.#{key}", default: "")
+    translation = t("simple_form.labels.defaults.#{key}", default: "") if translation.blank?
+    translation = t("activerecord.attributes.#{model}.#{key}", default: "") if translation.blank?
+    translation = t("activerecord.attributes.defaults.#{key}", default: "") if translation.blank?
     translation = t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
     translation
   end
