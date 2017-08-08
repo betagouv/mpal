@@ -14,9 +14,7 @@ class DocumentsController < ApplicationController
   end
 
   def create
-    @document = @projet_courant.documents.build
-    @document.fichier = params[:file]
-    @document.save!
+    @document = Document.create! fichier: params[:fichier], type_piece: params[:type_piece], projet: @projet_courant
     redirect_to projet_or_dossier_documents_path(@projet_courant)
   end
 
@@ -27,6 +25,9 @@ class DocumentsController < ApplicationController
   end
 
   def index
-    @documents = @projet_courant.documents
+    @types_piece = ["type1", "type2", "type3", "lazfb azldb az uaz pggougvzdaljzvdlblazjbdlajzbvdahkvzcdbvvzdaz  lazjd"]
+    @documents_by_type = @types_piece.map do |type|
+      @projet_courant.documents.where type_piece: type
+    end
   end
 end

@@ -119,6 +119,27 @@ $(document).ready(function() {
     }
   }
 
+  // Desactivate attachments send buttons if no file found
+  $('.js-document__file').each(function(index) {
+    var filePath = this.value;
+    if (filePath != "") {
+      var fileName = filePath.replace(/^.*(\\|\/|\:)/, '');
+      // Limitation du nom de fichier à faire
+      $(this).siblings('.js-document__file-added').text(fileName);
+    }
+    $(this).siblings('.js-document__send-button').prop('disabled', filePath == "");
+  });
+
+  function bindAttachmentSendButtons() {
+    $('.js-document__file').change(function(){
+      var filePath = this.value;
+      var fileName = filePath.replace(/^.*(\\|\/|\:)/, '');
+      // Limitation du nom de fichier à faire
+      $(this).siblings('.js-document__send-button').prop('disabled', filePath == "");
+      $(this).siblings('.js-document__file-added').text(fileName);
+    })
+  }
+
   function sumPublicHelps() {
     var helps = Array.from($(".js-public-help"));
     var sum = helps.reduce(parseAmountAndSum, 0).toFixed(2);
@@ -153,6 +174,7 @@ $(document).ready(function() {
   bindSmoothScrolling();
   bindLoginHelpers();
   bindPopins();
+  bindAttachmentSendButtons();
   var engagement = $(".js-engagement");
   if (engagement.length) {
     updateSubmitButton();

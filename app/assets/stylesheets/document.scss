@@ -1,0 +1,94 @@
+@import "variables";
+
+.document-panel {
+  border-top: 1px solid;
+  @media (max-width: 1199px) {
+    margin: 0 -10px;
+  }
+}
+.document-panel:last-child {
+  border-bottom: 1px solid;
+}
+.document-panel--present {
+}
+.document-panel--missing {
+  background-color: $color-light-red;
+}
+.document-panel__header {
+  font-weight: bold;
+  padding: 0.5em 1em 1em 1em;
+  @media (max-width: 1199px) {
+    font-size: 12px;
+    padding: 5px 10px 10px 10px;
+  }
+}
+.document-panel__body {
+  padding-bottom: 0.5em;
+  @media (max-width: 1199px) {
+    font-size: 12px;
+    padding-bottom: 5px;
+  }
+}
+.document-panel__footer {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 1em 1em 1em;
+  @media (max-width: 1199px) {
+    font-size: 12px;
+    padding: 0 10px 10px 10px;
+  }
+}
+.document {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-alt-grey;
+  padding: 0.5em 1em;
+  @media (max-width: 1199px) {
+    padding: 5px 10px;
+  }
+}
+.document:nth-child(even) {
+  background: $color-grey;
+}
+.document__icon {
+  font-size: 1.25em;
+}
+.document__actions {
+  font-size: 1.25em;
+}
+.document__description {
+  flex: 1;
+  margin-left: 5px;
+}
+.document__name {
+  font-weight: bold;
+}
+.document__upload-time {
+  color: $color-dark-grey;
+}
+.document__file-upload {
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+  @media (max-width: 1199px) {
+    margin-top: 5px;
+    margin-right: 10px;
+  }
+}
+.document__file-upload--invisible {
+  display: none;
+}
+.document__send-button {
+  margin-top: 0.5em;
+  margin-right: 0.5em;
+  @media (max-width: 1199px) {
+    margin-top: 5px;
+    margin-right: 10px;
+  }
+}
+.document__file-added {
+  margin-top: 0.5em;
+  @media (max-width: 1199px) {
+    margin-top: 5px;
+  }
+}

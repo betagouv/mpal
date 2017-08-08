@@ -360,6 +360,11 @@ fr:
         label: "Déposer"
         success: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
 
+  # ----------------------- Documents  ---------------------
+  document:
+    select: "Choisir un fichier"
+    send: "Téléverser"
+
   # ----------------------- Messagerie ---------------------
   conversation:
     titre_section: "Chat"
