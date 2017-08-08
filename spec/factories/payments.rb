@@ -19,6 +19,7 @@ FactoryGirl.define do
     trait :demande do
       statut :demande
       action :a_instruire
+      montant "1000.12"
     end
 
     trait :en_cours_d_instruction do
