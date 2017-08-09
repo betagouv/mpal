@@ -109,10 +109,11 @@ private
   def define_document_abilities(agent_or_user, projet)
     alias_action :new,  :create, to: :add
     alias_action :edit, :update, to: :modify
-    alias_action :edit, :update, :destroy, to: :modify_destroy
-    if agent_or_user.try(:operateur?) && projet.operateur == agent_or_user.intervenant
+    
+    if agent_or_user.try(:operateur?) && projet.contacted_operateur == agent_or_user.intervenant && !projet.status_not_yet(:en_cours)
       can :add, Document
-      can :modify_destroy, Document, id: projet.documents.map { |doc| doc.id }
+      can :modify, Document, projet_id: projet.id
+      can :destroy, Document, id: projet.documents.map { |doc| doc.id }
     end
 
     if agent_or_user.try(:instructeur?) && (!projet.status_not_yet(:transmis_pour_instruction) &&  projet.invited_instructeur == agent_or_user.intervenant )
