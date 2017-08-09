@@ -31,10 +31,7 @@ section.new-project
     label.new-project__proprietaire-label for="lab-proprietaire-no"
       = radio_button_tag "proprietaire", "0", !proprietaire, class: "new-project__proprietaire-input", id: "lab-proprietaire-no"
       | Non
-    br/
-    br/
-    br/
-    p.new-project__label.new-project__label--p.new-project__label--first= "Avis Fiscal #{Time.current.year-1} sur les revenus de #{Time.current.year-2}"
+    p.new-project__label.new-project__label--p.new-project__label--second= "Avis Fiscal #{Time.current.year-1} sur les revenus de #{Time.current.year-2} :"
 
     .labeled-info-point
       = f.label :numero_fiscal
