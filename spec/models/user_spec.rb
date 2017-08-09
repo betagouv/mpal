@@ -11,7 +11,7 @@ describe User do
     subject(:ability) { Ability.new(user, projet) }
 
     context "quand un projet est vérouillé" do
-      let(:projet) { create :projet, locked_at: Time.new(1789, 7, 14, 16, 0, 0) }
+      let(:projet) { create :projet, locked_at: Time.new(1789, 7, 14, 16, 0, 0), user: user }
 
       it { is_expected.not_to be_able_to(:manage, AvisImposition) }
       it { is_expected.not_to be_able_to(:manage, Demande) }
@@ -27,7 +27,7 @@ describe User do
     end
 
     context "quand un projet n'est pas encore vérouillé" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+      let(:projet) { create :projet, :transmis_pour_instruction, user: user }
 
       it { is_expected.not_to be_able_to(:read, Document) }
 
@@ -40,7 +40,7 @@ describe User do
     end
 
     context "quand un registre de paiement existe" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry, locked_at: Time.new(1789, 7, 14, 16, 0, 0), user: user }
 
       let(:payment_en_cours_de_montage)    { create :payment, statut: :en_cours_de_montage }
       let(:payment_propose)                { create :payment, statut: :propose }
