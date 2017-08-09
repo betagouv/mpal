@@ -67,6 +67,14 @@ describe Payment do
       it { should_have(:statut).equal_to(:demande).after_event(:ask_for_modification) }
       it { should_have(:statut).equal_to(:demande).after_event(:ask_for_instruction) }
     end
+
+    describe "en_cours_d_instruction" do
+      let(:payment) { create :payment, :en_cours_d_instruction }
+
+      it { should_have(:statut).equal_to(:en_cours_d_instruction).after_event(:ask_for_validation) }
+      it { should_have(:statut).equal_to(:en_cours_d_instruction).after_event(:ask_for_modification) }
+      it { should_have(:statut).equal_to(:en_cours_d_instruction).after_event(:ask_for_instruction) }
+    end
   end
 
   describe "#action" do

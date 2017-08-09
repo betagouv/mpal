@@ -30,23 +30,23 @@ module Fakeweb
 
     def self.add_dossier_paiement_success
       FakeWeb.register_uri(
-          :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/updateDossierPaiement|,
-          content_type: 'application/json',
-          status: [201, "Created"]
+        :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/updateDossierPaiement|,
+        content_type: 'application/json',
+        status: [201, "Created"]
       )
     end
 
-    def self.add_dossier_paiement_success
+    def self.add_dossier_paiement_failure
       FakeWeb.register_uri(
-          :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/updateDossierPaiement|,
-          content_type: 'application/json',
-          body: JSON.generate([
-                                  {
-                                      message: "Utilisateur inconnu : veuillez-vous connecter à OPAL.",
-                                      code: 1001
-                                  }
-                              ]),
-          status: [422, "Unprocessable Entity"]
+        :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/updateDossierPaiement|,
+        content_type: 'application/json',
+        body: JSON.generate([
+          {
+            message: "Utilisateur inconnu : veuillez-vous connecter à OPAL.",
+            code: 1001
+          }
+        ]),
+        status: [422, "Unprocessable Entity"]
       )
     end
   end

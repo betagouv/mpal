@@ -178,8 +178,6 @@ describe Opal do
     end
   end
 
-
-
   describe "#update_projet_with_dossier_paiement!" do
     let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
     let(:agent_instructeur) { projet.agent_instructeur }
@@ -198,13 +196,6 @@ describe Opal do
         # expect(body["dateDeDemande"]).to be_present
         expect(body["utiIdClavis"]).to eq agent_instructeur.clavis_id
         expect(body["montantDuPaiement"]).to eq "1000.12"
-      end
-
-    # Soucis car ça bloque dans Opal.rb ligne 35 : response nil
-    # response = @client.put('/updateDossierPaiement', body: body)
-      it "met à jour le dossier avec la réponse d'Opal", skip: true do
-        expect(subject).to be true
-        expect(payment.statut).to eq("en_cours_d_instruction")
       end
     end
 
