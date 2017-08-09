@@ -2,11 +2,12 @@ require "rails_helper"
 require "support/mpal_features_helper"
 
 feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
-  let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry }
+  let(:user)              { create :user }
+  let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
+  let(:agent_operateur)   { projet.agent_operateur }
+  let(:agent_instructeur) { projet.agent_instructeur }
 
   context "en tant qu'opérateur" do
-    let(:operateur)       { create :operateur }
-    let(:agent_operateur) { create :agent, intervenant: operateur }
 
     before { login_as agent_operateur, scope: :agent }
 
@@ -68,8 +69,6 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
   end
 
   context "en tant qu'instructeur" do
-    let(:instructeur)       { create :instructeur }
-    let(:agent_instructeur) { create :agent, intervenant: instructeur }
 
     before do
       login_as agent_instructeur, scope: :agent
@@ -93,7 +92,6 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
   end
 
   context "en tant que demandeur" do
-    let(:user) { create :user }
 
     before do
       login_as user, scope: :user
