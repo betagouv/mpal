@@ -160,5 +160,26 @@ describe PaymentsController do
         expect(response).to redirect_to projet_payment_registry_path(projet)
       end
     end
+
+    describe "#send_in_opal" do
+      let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:agent_instructeur) { projet.agent_instructeur }
+      let(:payment)           { create :payment, :demande, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+
+      context "en tant qu'agent instructeur" do
+        before do
+          authenticate_as_agent agent_instructeur
+          put :send_in_opal, dossier_id: projet.id, payment_id: payment.id
+          projet.reload
+          payment.reload
+        end
+
+        it "transmet la demande de paiement dans Opal" do
+          expect(Payment.all.count).to eq 1
+          expect(payment.statut).to eq "en_cours_d_instruction"
+          expect(response).to redirect_to dossier_payment_registry_path(projet)
+        end
+      end
+    end
   end
 end

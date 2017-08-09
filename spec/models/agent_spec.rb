@@ -135,8 +135,9 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
 
-            it { is_expected.to     be_able_to(:read, Document) }
-            it { is_expected.to     be_able_to(:read, Projet) }
+            it { is_expected.to be_able_to(:read, Document) }
+            it { is_expected.to be_able_to(:create, :dossiers_opal) }
+            it { is_expected.to be_able_to(:read, Projet) }
           end
         end
       end
@@ -248,29 +249,33 @@ describe Agent do
         context "en tant qu'instructeur" do
           let(:agent) { create :agent, intervenant: projet.invited_instructeur }
 
-          it { is_expected.not_to be_able_to(:add,                  Payment) }
-          it { is_expected.not_to be_able_to(:modify,               Payment) }
-          it { is_expected.not_to be_able_to(:destroy,              Payment) }
-          it { is_expected.not_to be_able_to(:ask_for_validation,   Payment) }
-          it { is_expected.not_to be_able_to(:ask_for_instruction,  Payment) }
+          context "when status has been en_cours_d_instruction" do
+            let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry }
 
-          it { is_expected.not_to be_able_to(:read, payment_en_cours_de_montage) }
-          it { is_expected.not_to be_able_to(:read, payment_propose) }
-          it { is_expected.to     be_able_to(:read, payment_demande) }
-          it { is_expected.to     be_able_to(:read, payment_en_cours_d_instruction) }
-          it { is_expected.to     be_able_to(:read, payment_paye) }
+            it { is_expected.not_to be_able_to(:add,                  Payment) }
+            it { is_expected.not_to be_able_to(:modify,               Payment) }
+            it { is_expected.not_to be_able_to(:destroy,              Payment) }
+            it { is_expected.not_to be_able_to(:ask_for_validation,   Payment) }
+            it { is_expected.not_to be_able_to(:ask_for_instruction,  Payment) }
 
-          it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_rediger) }
-          it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_modifier) }
-          it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_valider) }
-          it { is_expected.to     be_able_to(:ask_for_modification, payment_a_instruire) }
-          it { is_expected.not_to be_able_to(:ask_for_modification, payment_no_action) }
+            it { is_expected.not_to be_able_to(:read, payment_en_cours_de_montage) }
+            it { is_expected.not_to be_able_to(:read, payment_propose) }
+            it { is_expected.to     be_able_to(:read, payment_demande) }
+            it { is_expected.to     be_able_to(:read, payment_en_cours_d_instruction) }
+            it { is_expected.to     be_able_to(:read, payment_paye) }
 
-          it { is_expected.not_to be_able_to(:send_in_opal, payment_a_rediger) }
-          it { is_expected.not_to be_able_to(:send_in_opal, payment_a_modifier) }
-          it { is_expected.not_to be_able_to(:send_in_opal, payment_a_valider) }
-          it { is_expected.to     be_able_to(:send_in_opal, payment_a_instruire) }
-          it { is_expected.not_to be_able_to(:send_in_opal, payment_no_action) }
+            it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_rediger) }
+            it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_modifier) }
+            it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_valider) }
+            it { is_expected.to     be_able_to(:ask_for_modification, payment_a_instruire) }
+            it { is_expected.not_to be_able_to(:ask_for_modification, payment_no_action) }
+
+            it { is_expected.not_to be_able_to(:send_in_opal, payment_a_rediger) }
+            it { is_expected.not_to be_able_to(:send_in_opal, payment_a_modifier) }
+            it { is_expected.not_to be_able_to(:send_in_opal, payment_a_valider) }
+            it { is_expected.to     be_able_to(:send_in_opal, payment_a_instruire) }
+            it { is_expected.not_to be_able_to(:send_in_opal, payment_no_action) }
+          end
         end
       end 
     end

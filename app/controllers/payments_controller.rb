@@ -66,7 +66,21 @@ class PaymentsController < ApplicationController
     redirect_to projet_or_dossier_payment_registry_path @projet_courant
   end
 
-private
+  def send_in_opal
+    @payment = @projet_courant.payment_registry.payments.where(id: params[:payment_id]).first
+    begin
+      opal_api.update_projet_with_dossier_paiement!(@projet_courant, @payment)
+      redirect_to(dossier_payment_registry_path(@projet_courant), notice: t('payment.ajouter_a_opal.messages.succes', id_opal: @projet_courant.opal_numero))
+    rescue => e
+      redirect_to(dossier_payment_registry_path(@projet_courant), alert: t('payment.ajouter_a_opal.messages.erreur', message: e.message))
+    end
+  end
+
+  private
+  def opal_api
+    @opal_api ||= Opal.new(OpalClient)
+  end
+
   def payment_params
     params.require(:payment).permit(:type_paiement, :beneficiaire, :personne_morale)
   end
