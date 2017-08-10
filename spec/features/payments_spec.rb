@@ -1,7 +1,7 @@
 require "rails_helper"
 require "support/mpal_features_helper"
 
-feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
+feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
   let(:user)              { create :user }
   let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
   let(:agent_operateur)   { projet.agent_operateur }
