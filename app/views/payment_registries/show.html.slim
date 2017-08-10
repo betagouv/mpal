@@ -13,7 +13,7 @@
     p= t("payment_registry.no_paiement")
   - else
     - @payments.each_with_index do |payment, index|
-      div id="entry_#{index}" class="registry__entry"
+      div class="registry__entry test-entry-#{index}"
         - action = ((can? :update, payment) || (can? :ask_for_modification, payment) || (can? :ask_for_instruction, payment)) ? "action" : "no_action"
 
         div class="registry__entry_header_#{action}"

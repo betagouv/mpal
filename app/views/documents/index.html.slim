@@ -5,7 +5,7 @@ h1.document-page__title Pièces jointes
 
 - @types_piece.each_with_index do |type_piece, index|
   - documents_present = @documents_by_type[index].present?
-  div id="document-panel-#{index}" class="document-panel document-panel--#{documents_present ? "present" : "missing"}"
+  div class="document-panel document-panel--#{documents_present ? "present" : "missing"} test-document-panel-#{index}"
     .document-panel__header
       h2= type_piece
 
