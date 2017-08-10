@@ -178,36 +178,22 @@ feature "Remplir la proposition de travaux" do
       end
     end
 
-    scenario "upload d'un document sans label" do
-      skip "Pièce jointes déplacées => à modifier"
-      visit dossier_proposition_path(projet)
-      attach_file :fichier_document, Rails.root + "spec/fixtures/Ma pièce jointe.txt"
-      fill_in 'label_document', with: ''
-      click_button(I18n.t('projets.proposition.action_depot_document'))
+    scenario "upload et suppression d'un document" do
+      visit dossier_documents_path(projet)
+      within "#document-panel-0" do
+        attach_file :fichier, Rails.root + "spec/fixtures/Ma pièce jointe.txt"
+        click_button I18n.t("document.send")
+      end
 
-      expect(projet.documents.count).to eq(1)
-      expect(page).to have_content(I18n.t('projets.proposition.messages.succes_depot_document'))
-      expect(page).to have_link('Ma_pi_ce_jointe.txt', href: "/uploads/projets/#{projet.id}/Ma_pi_ce_jointe.txt")
-    end
+      document = projet.documents.first
+      expect(projet.documents.count).to be_present
+      expect(page).to have_link "Ma pièce jointe.txt"
+      expect(page).to have_content I18n.t("document.messages.success")
 
-    scenario "upload d'un document avec un label" do
-      skip "Pièce jointes déplacées => à modifier"
-      visit dossier_proposition_path(projet)
-      attach_file :fichier_document, Rails.root + "spec/fixtures/Ma pièce jointe.txt"
-      fill_in 'label_document', with: 'Titre de propriété'
-      click_button(I18n.t('projets.proposition.action_depot_document'))
-
-      expect(projet.documents.count).to eq(1)
-      expect(page).to have_content(I18n.t('projets.proposition.messages.succes_depot_document'))
-      expect(page).to have_link('Titre de propriété', href: "/uploads/projets/#{projet.id}/Ma_pi_ce_jointe.txt")
-    end
-
-    scenario "upload d'un document avec erreur" do
-      skip "Pièce jointes déplacées => à modifier"
-      visit dossier_proposition_path(projet)
-      click_button(I18n.t('projets.proposition.action_depot_document'))
-
-      expect(page).to have_content(I18n.t('projets.proposition.messages.erreur_depot_document'))
+      within "#document-panel-0" do
+        find("a[href='#{dossier_document_path(projet, document)}']").click
+      end
+      expect(page).not_to have_link "Ma pièce jointe.txt"
     end
 
     context "pour une demande déjà remplie" do

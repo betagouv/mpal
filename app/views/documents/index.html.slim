@@ -5,7 +5,7 @@ h1.document-page__title Pièces jointes
 
 - @types_piece.each_with_index do |type_piece, index|
   - documents_present = @documents_by_type[index].present?
-  div class="document-panel document-panel--#{documents_present ? "present" : "missing"}"
+  div id="document-panel-#{index}" class="document-panel document-panel--#{documents_present ? "present" : "missing"}"
     .document-panel__header
       h2= type_piece
 
@@ -15,7 +15,8 @@ h1.document-page__title Pièces jointes
           li.document
             .document__icon
               i.glyphicon.glyphicon-file
-            .document__name= document.label
+            .document__name
+              = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
             .document__upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
             .document__actions
               = link_to projet_or_dossier_document_path(@projet_courant, document), method: :delete

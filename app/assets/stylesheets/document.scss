@@ -76,6 +76,12 @@
   @media (max-width: 1199px) {
     margin-left: 5px;
   }
+  a {
+    text-decoration: none;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
   @include ellipsis();
 }
 .document__upload-time {
