@@ -10,28 +10,37 @@ describe User do
     let(:user)        { create :user }
     subject(:ability) { Ability.new(user, projet) }
 
-    context "when projet is locked" do
-      let(:projet) { create :projet, locked_at: Time.new(1789, 7, 14, 16, 0, 0) }
+    context "quand un projet est vérouillé" do
+      let(:projet) { create :projet, locked_at: Time.new(1789, 7, 14, 16, 0, 0), user: user }
 
       it { is_expected.not_to be_able_to(:manage, AvisImposition) }
       it { is_expected.not_to be_able_to(:manage, Demande) }
       it { is_expected.not_to be_able_to(:manage, :demandeur) }
+      it { is_expected.not_to be_able_to(:update, Document) }
+      it { is_expected.not_to be_able_to(:manage, :eligibility) }
       it { is_expected.not_to be_able_to(:manage, Occupant) }
       it { is_expected.not_to be_able_to(:manage, Projet) }
+
+      it { is_expected.to be_able_to(:read, Document) }
+      it { is_expected.to be_able_to(:read, :eligibility) }
+      it { is_expected.to be_able_to(:read, Projet) }
     end
 
-    context "when project is not locked" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    context "quand un projet n'est pas encore vérouillé" do
+      let(:projet) { create :projet, :transmis_pour_instruction, user: user }
+
+      it { is_expected.not_to be_able_to(:read, Document) }
 
       it { is_expected.to be_able_to(:manage, AvisImposition) }
       it { is_expected.to be_able_to(:manage, Demande) }
       it { is_expected.to be_able_to(:manage, :demandeur) }
+      it { is_expected.to be_able_to(:manage, :eligibility) }
       it { is_expected.to be_able_to(:manage, Occupant) }
       it { is_expected.to be_able_to(:manage, Projet) }
     end
 
-    context "when a payment registry exists" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    context "quand un registre de paiement existe" do
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry, locked_at: Time.new(1789, 7, 14, 16, 0, 0), user: user }
 
       let(:payment_en_cours_de_montage)    { create :payment, statut: :en_cours_de_montage }
       let(:payment_propose)                { create :payment, statut: :propose }
@@ -88,7 +97,7 @@ describe User do
   end
 
   describe "#projet" do
-    let(:user) {    create :user }
+    let(:user)    { create :user }
     let!(:projet) { create :projet, user: user }
     it { expect(user.projet).to eq(projet) }
   end

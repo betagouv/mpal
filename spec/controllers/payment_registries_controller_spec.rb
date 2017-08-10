@@ -5,7 +5,8 @@ describe PaymentRegistriesController do
   let(:agent_operateur) { projet.agent_operateur }
 
   describe "#show" do
-    let(:projet)             { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    let(:user)               { create :user}
+    let(:projet)             { create :projet, :transmis_pour_instruction, :with_payment_registry, locked_at: Time.new(2001, 2, 3, 4, 5, 6), user: user }
     let(:payment_en_montage) { create :payment, statut: :en_cours_de_montage }
     let(:payment_demande)    { create :payment, statut: :demande }
 
@@ -15,7 +16,7 @@ describe PaymentRegistriesController do
     end
 
     context "en tant que demandeur" do
-      before { authenticate_as_project projet.id }
+      before { authenticate_as_user(user) }
 
       it "affiche le registre de paiement" do
         get :show, projet_id: projet.id

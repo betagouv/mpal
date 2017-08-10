@@ -1,6 +1,7 @@
 class DocumentsController < ApplicationController
   layout "creation_dossier", only: :index
   before_action :assert_projet_courant
+  load_and_authorize_resource
 
   def create
     @document = @projet_courant.documents.build
