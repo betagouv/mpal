@@ -14,7 +14,7 @@
   - else
     - @payments.each_with_index do |payment, index|
       div id="entry_#{index}" class="registry__entry"
-        - action = ((can? :modify, payment) || (can? :ask_for_modification, payment) || (can? :ask_for_instruction, payment)) ? "action" : "no_action"
+        - action = ((can? :update, payment) || (can? :ask_for_modification, payment) || (can? :ask_for_instruction, payment)) ? "action" : "no_action"
 
         div class="registry__entry_header_#{action}"
           .registry__title_header
@@ -26,7 +26,7 @@
                 span.registry__action_text= t("payment.actions.delete.label")
                 i.registry__action_icon.glyphicon.glyphicon-remove
 
-            - if can? :modify, payment
+            - if can? :update, payment
               = link_to edit_dossier_payment_path(@projet_courant, payment), class: "registry__action"
                span.registry__action_text= t("payment.actions.modify.label")
                i.registry__action_icon.glyphicon.glyphicon-edit
@@ -52,7 +52,7 @@
           .registry__beneficiary
             = t("payment_registry.#{payment.personne_morale ? :legal_person : :physical_person}", beneficiaire: payment.beneficiaire)
 
-- if can? :add, Payment
+- if can? :create, Payment
   .registry__button_group
     = link_to new_dossier_payment_path(@projet_courant), class: "btn btn-icon btn-centered registry__add_button"
       = t("payment_registry.add_payment")

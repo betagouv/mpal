@@ -52,7 +52,7 @@ describe Agent do
             it { is_expected.to be_able_to(:manage, Demande) }
             it { is_expected.to be_able_to(:manage, :demandeur) }
             it { is_expected.to be_able_to(:manage, Occupant) }
-            it { is_expected.to be_able_to(:modify, Document) }
+            it { is_expected.to be_able_to(:update, Document) }
             it { is_expected.to be_able_to(:destroy, Document) }
             it { is_expected.to be_able_to(:manage, Projet) }
           end
@@ -67,7 +67,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, Occupant) }
             it { is_expected.not_to be_able_to(:manage, Projet) }
 
-            it { is_expected.to be_able_to(:modify, Document) }
+            it { is_expected.to be_able_to(:update, Document) }
             it { is_expected.to be_able_to(:destroy, Document) }
             it { is_expected.to be_able_to(:read, Projet) }
           end
@@ -130,7 +130,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
-            it { is_expected.not_to be_able_to(:modify, Document) }
+            it { is_expected.not_to be_able_to(:update, Document) }
             it { is_expected.not_to be_able_to(:destroy, Document) }
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
@@ -168,53 +168,39 @@ describe Agent do
       context "quand un registre de paiement existe" do
         let(:projet)                         { create :projet, :transmis_pour_instruction, :with_payment_registry }
 
-        let(:payment_en_cours_de_montage)    { create :payment, statut: :en_cours_de_montage }
-        let(:payment_propose)                { create :payment, statut: :propose }
-        let(:payment_demande)                { create :payment, statut: :demande }
-        let(:payment_en_cours_d_instruction) { create :payment, statut: :en_cours_d_instruction }
-        let(:payment_paye)                   { create :payment, statut: :paye }
+        let(:payment_en_cours_de_montage)    { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_de_montage }
+        let(:payment_propose)                { create :payment, payment_registry: projet.payment_registry, statut: :propose }
+        let(:payment_demande)                { create :payment, payment_registry: projet.payment_registry, statut: :demande }
+        let(:payment_en_cours_d_instruction) { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_d_instruction }
+        let(:payment_paye)                   { create :payment, payment_registry: projet.payment_registry, statut: :paye }
 
-        let(:payment_a_rediger)              { create :payment, action: :a_rediger }
-        let(:payment_a_modifier)             { create :payment, action: :a_modifier }
-        let(:payment_a_valider)              { create :payment, action: :a_valider }
-        let(:payment_a_instruire)            { create :payment, action: :a_instruire }
-        let(:payment_no_action)              { create :payment, action: :aucune }
-
-        before do
-          projet.payment_registry.payments << [ payment_en_cours_de_montage,
-                                                payment_propose,
-                                                payment_demande,
-                                                payment_en_cours_d_instruction,
-                                                payment_paye,
-                                                payment_a_rediger,
-                                                payment_a_modifier,
-                                                payment_a_valider,
-                                                payment_a_instruire,
-                                                payment_no_action,
-          ]
-        end
+        let(:payment_a_rediger)              { create :payment, payment_registry: projet.payment_registry, action: :a_rediger }
+        let(:payment_a_modifier)             { create :payment, payment_registry: projet.payment_registry, action: :a_modifier }
+        let(:payment_a_valider)              { create :payment, payment_registry: projet.payment_registry, action: :a_valider }
+        let(:payment_a_instruire)            { create :payment, payment_registry: projet.payment_registry, action: :a_instruire }
+        let(:payment_no_action)              { create :payment, payment_registry: projet.payment_registry, action: :aucune }
 
         context "en tant qu'agent" do
           let(:agent) { create :agent }
-          it { is_expected.to     be_able_to(:read,   PaymentRegistry) }
+          it { is_expected.not_to be_able_to(:read,   PaymentRegistry) }
           it { is_expected.not_to be_able_to(:create, PaymentRegistry) }
         end
 
         context "en tant qu'operateur" do
           let(:agent) { create :agent, intervenant: projet.operateur }
 
-          it { is_expected.to     be_able_to(:add,                  Payment) }
+          it { is_expected.to     be_able_to(:create,               Payment) }
           it { is_expected.to     be_able_to(:read,                 Payment) }
           it { is_expected.not_to be_able_to(:ask_for_validation,   Payment) }
           it { is_expected.not_to be_able_to(:ask_for_modification, Payment) }
           it { is_expected.not_to be_able_to(:ask_for_instruction,  Payment) }
           it { is_expected.not_to be_able_to(:send_in_opal,         Payment) }
 
-          it { is_expected.to     be_able_to(:modify, payment_a_rediger) }
-          it { is_expected.to     be_able_to(:modify, payment_a_modifier) }
-          it { is_expected.not_to be_able_to(:modify, payment_a_valider) }
-          it { is_expected.not_to be_able_to(:modify, payment_a_instruire) }
-          it { is_expected.not_to be_able_to(:modify, payment_no_action) }
+          it { is_expected.to     be_able_to(:update, payment_a_rediger) }
+          it { is_expected.to     be_able_to(:update, payment_a_modifier) }
+          it { is_expected.not_to be_able_to(:update, payment_a_valider) }
+          it { is_expected.not_to be_able_to(:update, payment_a_instruire) }
+          it { is_expected.not_to be_able_to(:update, payment_no_action) }
 
           it { is_expected.to     be_able_to(:destroy, payment_a_rediger) }
           it { is_expected.to     be_able_to(:destroy, payment_a_modifier) }
@@ -248,8 +234,8 @@ describe Agent do
         context "en tant qu'instructeur" do
           let(:agent) { create :agent, intervenant: projet.invited_instructeur }
 
-          it { is_expected.not_to be_able_to(:add,                  Payment) }
-          it { is_expected.not_to be_able_to(:modify,               Payment) }
+          it { is_expected.not_to be_able_to(:create,               Payment) }
+          it { is_expected.not_to be_able_to(:update,               Payment) }
           it { is_expected.not_to be_able_to(:destroy,              Payment) }
           it { is_expected.not_to be_able_to(:ask_for_validation,   Payment) }
           it { is_expected.not_to be_able_to(:ask_for_instruction,  Payment) }
