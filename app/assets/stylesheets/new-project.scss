@@ -13,7 +13,7 @@
 
 .new-project__label {
   display: inline-block;
-  margin-top: 1em;
+  margin-top: 2em;
   font-weight: bold;
   line-height: 32px;
 }
@@ -22,6 +22,9 @@
 }
 .new-project__label--first {
   margin-top: 0;
+}
+.new-project__label--second {
+  margin-bottom: 5px;
 }
 .new-project__proprietaire-input {
   margin-right: 10px;
