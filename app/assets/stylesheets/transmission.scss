@@ -18,7 +18,14 @@
   padding: 10px 0 10px;
   width: 100%;
 }
-
+.transmission__button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.transmission__button {
+  margin-top: 10px;
+}
 .ins-form .transmission__list {
   margin-top: 5px;
   margin-bottom: 10px;

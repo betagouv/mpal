@@ -25,7 +25,8 @@ class DocumentsController < ApplicationController
   end
 
   def index
-    @types_piece = ["type1", "type2", "type3", "lazfb azldb az uaz pggougvzdaljzvdlblazjbdlajzbvdahkvzcdbvvzdaz  lazjd"]
+    # A lier avec les types de pièces jointes une fois ajoutés
+    @types_piece = ["type1", "type2", "type3", ""]
     @documents_by_type = @types_piece.map do |type|
       @projet_courant.documents.where type_piece: type
     end

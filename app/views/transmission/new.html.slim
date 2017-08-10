@@ -22,6 +22,7 @@ section.popin-form
 
     = simple_form_for @projet_courant, url: { controller: "transmission", action: "create" }, html: { class: "form", method: "post" } do |f|
       = f.input :accepts, as: :boolean, label: t('projets.proposition.confirmation'), input_html: { class: "js-engagement" }, required: true
-      = btn name: t('projets.transmission.envoi_demande'), class: 'js-engagement'
-      = btn name: t('projets.transmission.modification_demande'), href: projet_path(projet_id: @projet_courant, anchor: 'messagerie'), class: 'btn-secondary'
+      .transmission__button-group
+        = btn name: t('projets.transmission.envoi_demande'), class: 'js-engagement transmission__button'
+        = btn name: t('projets.transmission.modification_demande'), href: projet_path(projet_id: @projet_courant, anchor: 'messagerie'), class: 'btn-secondary transmission__button'
 

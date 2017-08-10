@@ -1,7 +1,7 @@
 /= render "shared/ribbon_header"
 /= ATTENTION AUX CAS OU PAYMENT REGISTRIES N'EXISTE PAS ENCORE CA FAIT PLANTER LE MENU
 
-h1 Pièces jointes
+h1.document-page__title Pièces jointes
 
 - @types_piece.each_with_index do |type_piece, index|
   - documents_present = @documents_by_type[index].present?
@@ -15,9 +15,8 @@ h1 Pièces jointes
           li.document
             .document__icon
               i.glyphicon.glyphicon-file
-            .document__description
-              span.document__name= document.label
-              span.document__upload-time= " - #{document.created_at.strftime("%d/%m/%Y %Hh%M")}"
+            .document__name= document.label
+            .document__upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
             .document__actions
               = link_to projet_or_dossier_document_path(@projet_courant, document), method: :delete
                 i.glyphicon.glyphicon-trash

@@ -119,25 +119,15 @@ $(document).ready(function() {
     }
   }
 
-  // Desactivate attachments send buttons if no file found
-  $('.js-document__file').each(function(index) {
-    var filePath = this.value;
-    if (filePath != "") {
-      var fileName = filePath.replace(/^.*(\\|\/|\:)/, '');
-      // Limitation du nom de fichier à faire
-      $(this).siblings('.js-document__file-added').text(fileName);
-    }
-    $(this).siblings('.js-document__send-button').prop('disabled', filePath == "");
-  });
+  $('.js-document__file')
+    .each(displayFileNameAndToggleSendButton)
+    .change(displayFileNameAndToggleSendButton);
 
-  function bindAttachmentSendButtons() {
-    $('.js-document__file').change(function(){
-      var filePath = this.value;
-      var fileName = filePath.replace(/^.*(\\|\/|\:)/, '');
-      // Limitation du nom de fichier à faire
-      $(this).siblings('.js-document__send-button').prop('disabled', filePath == "");
-      $(this).siblings('.js-document__file-added').text(fileName);
-    })
+  function displayFileNameAndToggleSendButton(){
+    var filePath = this.value;
+    var fileName = filePath.replace(/^.*(\\|\/|\:)/, '');
+    $(this).siblings('.js-document__send-button').prop('disabled', filePath == "");
+    $(this).siblings('.js-document__file-added').text(fileName);
   }
 
   function sumPublicHelps() {
@@ -174,7 +164,6 @@ $(document).ready(function() {
   bindSmoothScrolling();
   bindLoginHelpers();
   bindPopins();
-  bindAttachmentSendButtons();
   var engagement = $(".js-engagement");
   if (engagement.length) {
     updateSubmitButton();
