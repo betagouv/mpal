@@ -250,8 +250,6 @@ describe Agent do
           let(:agent) { create :agent, intervenant: projet.invited_instructeur }
 
           context "when status has been en_cours_d_instruction" do
-            let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry }
-
             it { is_expected.not_to be_able_to(:add,                  Payment) }
             it { is_expected.not_to be_able_to(:modify,               Payment) }
             it { is_expected.not_to be_able_to(:destroy,              Payment) }

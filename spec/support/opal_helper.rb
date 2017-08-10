@@ -28,17 +28,20 @@ module Fakeweb
       )
     end
 
-    def self.add_dossier_paiement_success
+    def self.register_create_dossier_paiement_success
       FakeWeb.register_uri(
-        :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/updateDossierPaiement|,
+        :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/createDossierPaiement|,
         content_type: 'application/json',
+        body: JSON.generate({
+          "montantDuPaiement": "1000.12",
+        }),
         status: [201, "Created"]
       )
     end
 
-    def self.add_dossier_paiement_failure
+    def self.register_create_dossier_paiement_failure
       FakeWeb.register_uri(
-        :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/updateDossierPaiement|,
+        :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/createDossierPaiement|,
         content_type: 'application/json',
         body: JSON.generate([
           {
@@ -55,6 +58,6 @@ end
 RSpec.configure do |config|
   config.before(:each) do
     Fakeweb::Opal.register_create_dossier_success
-    Fakeweb::Opal.add_dossier_paiement_success
+    Fakeweb::Opal.register_create_dossier_paiement_success
   end
 end

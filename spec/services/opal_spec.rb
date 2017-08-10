@@ -33,7 +33,8 @@ private
 end
 
 describe Opal do
-  let(:client) { OpalClientMock.new(201, "OK", { dosNumero: "09500840", dosId: 959496 }) }
+  let(:client_create) { OpalClientMock.new(201, "OK", { dosNumero: "09500840", dosId: 959496 }) }
+  let(:client_create_payment) { OpalClientMock.new(201, "OK", { montantDuPaiement: "1000.12" }) }
 
   describe "#create_dossier!" do
     let(:projet)            { create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
@@ -42,10 +43,10 @@ describe Opal do
 
     context "en cas de succès" do
       before { projet.demandeur.update(nom: "Strâbe", prenom: "ōlaf") }
-      subject! { Opal.new(client).create_dossier!(projet, agent_instructeur) }
+      subject! { Opal.new(client_create).create_dossier!(projet, agent_instructeur) }
 
       it "envoie les informations sérialisées" do
-        body = JSON.parse(client.body)
+        body = JSON.parse(client_create.body)
         expect(body["dosNumeroPlateforme"]).to eq projet.numero_plateforme
         expect(body["dosDateDepot"]).to be_present
         expect(body["utiIdClavis"]).to eq agent_instructeur.clavis_id
@@ -87,7 +88,7 @@ describe Opal do
         let(:projet) { create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1, modified_revenu_fiscal_reference: 10 }
 
         it "envoie le rfr modifié dans Opal" do
-          body = JSON.parse(client.body)
+          body = JSON.parse(client_create.body)
           demandeur = body["demandeur"]
           expect(demandeur["dmdRevenuOccupants"]).to eq projet.modified_revenu_fiscal_reference
         end
@@ -133,7 +134,7 @@ describe Opal do
   end
 
   describe ".split_adresse_into_lines" do
-    let(:opal) { Opal.new(client) }
+    let(:opal) { Opal.new(client_create) }
 
     subject(:adresse_lines) { opal.send(:split_adresse_into_lines, adresse) }
 
@@ -181,21 +182,22 @@ describe Opal do
   describe "#update_projet_with_dossier_paiement!" do
     let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
     let(:agent_instructeur) { projet.agent_instructeur }
-    let(:payment)           { create :payment, :demande }
-
-    before(:each) do
-      projet.payment_registry.update(payments: [payment])
-    end
+    let(:submit_time)       { DateTime.new(1980, 01, 01) }
+    let(:payment)           { create :payment, :demande, payment_registry: projet.payment_registry, submitted_at: submit_time }
 
     context "en cas de succès" do
-      subject! { Opal.new(client).update_projet_with_dossier_paiement!(projet, payment) }
+      subject! { Opal.new(client_create_payment).update_projet_with_dossier_paiement!(projet, payment) }
 
       it "envoie les informations sérialisées" do
-        body = JSON.parse(client.body)
+        body = JSON.parse(client_create_payment.body)
         expect(body["typeDePaiement"]).to eq "avance"
-        # expect(body["dateDeDemande"]).to be_present
+        expect(body["dateDeDemande"]).to be_present
         expect(body["utiIdClavis"]).to eq agent_instructeur.clavis_id
-        expect(body["montantDuPaiement"]).to eq "1000.12"
+      end
+
+      it "met à jour le dossier avec la réponse d'Opal" do
+        expect(subject).to be true
+        expect(payment.montant).to eq 1000.12
       end
     end
 
