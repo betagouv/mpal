@@ -1,4 +1,5 @@
 class DossiersOpalController < ApplicationController
+  before_action :authenticate_agent!
   before_action :assert_projet_courant
   authorize_resource :class => false
 
