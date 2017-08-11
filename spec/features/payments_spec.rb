@@ -27,39 +27,39 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       choose "Une personne physique"
       click_on I18n.t("payment.actions.create.label")
 
-      within "#entry_0" do
+      within ".test-entry-0" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "En cours de montage"
         expect(page).to have_content I18n.t("payment_registry.legal_person", beneficiaire: "SOLIHA")
       end
 
-      within "#entry_1" do
+      within ".test-entry-1" do
         expect(page).to have_content "Demande de solde"
         expect(page).to have_content "En cours de montage"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "Emile Lévesque")
       end
 
       # Modification
-      within("#entry_0") { click_on I18n.t("payment.actions.modify.label") }
+      within(".test-entry-0") { click_on I18n.t("payment.actions.modify.label") }
       choose :acompte
       fill_in I18n.t("payment.beneficiaire_question"), with: "Jean Louis"
       choose "Une personne physique"
       click_on I18n.t("payment.actions.modify.label")
 
-      within "#entry_0" do
+      within ".test-entry-0" do
         expect(page).to have_content "Demande d’acompte"
         expect(page).to have_content "En cours de montage"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "Jean Louis")
       end
 
       # Suppression
-      within("#entry_0") { click_on I18n.t("payment.actions.delete.label") }
+      within(".test-entry-0") { click_on I18n.t("payment.actions.delete.label") }
       expect(page).to have_content I18n.t("payment.actions.delete.success")
-      expect(page).not_to have_css "#entry_1"
+      expect(page).not_to have_css ".test-entry-1"
 
       # Demande de validation
-      within("#entry_0") { click_on I18n.t("payment.actions.ask_for_validation.label") }
-      within "#entry_0" do
+      within(".test-entry-0") { click_on I18n.t("payment.actions.ask_for_validation.label") }
+      within ".test-entry-0" do
         expect(page).to have_content "Demande de solde"
         expect(page).to have_content "Proposée en attente de validation"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "Emile Lévesque")
@@ -80,10 +80,10 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       visit dossier_payment_registry_path(projet)
 
       # Demande de modification
-      within("#entry_0") { click_on I18n.t("payment.actions.ask_for_modification.label") }
+      within(".test-entry-0") { click_on I18n.t("payment.actions.ask_for_modification.label") }
       expect(page).to have_content I18n.t("payment.actions.ask_for_modification.success", operateur: projet.operateur.raison_sociale)
       visit dossier_payment_registry_path(projet)
-      within "#entry_1" do
+      within ".test-entry-1" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "Déposée en attente de modification"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")
@@ -104,20 +104,20 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       visit dossier_payment_registry_path(projet)
 
       # Demande de modification
-      within("#entry_0") { click_on I18n.t("payment.actions.ask_for_modification.label") }
+      within(".test-entry-0") { click_on I18n.t("payment.actions.ask_for_modification.label") }
       expect(page).to have_content I18n.t("payment.actions.ask_for_modification.success", operateur: projet.operateur.raison_sociale)
       visit dossier_payment_registry_path(projet)
-      within "#entry_1" do
+      within ".test-entry-1" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "Proposée en attente de modification"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")
       end
 
       # Dépôt
-      within("#entry_0") { click_on I18n.t("payment.actions.ask_for_instruction.label") }
+      within(".test-entry-0") { click_on I18n.t("payment.actions.ask_for_instruction.label") }
       expect(page).to have_content I18n.t("payment.actions.ask_for_instruction.success", instructeur: projet.invited_instructeur.raison_sociale)
       visit dossier_payment_registry_path(projet)
-      within "#entry_1" do
+      within ".test-entry-1" do
         expect(page).to have_content "Demande de solde"
         expect(page).to have_content "Déposée"
         expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")

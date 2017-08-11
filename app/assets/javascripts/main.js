@@ -119,6 +119,17 @@ $(document).ready(function() {
     }
   }
 
+  $('.js-document__file')
+    .each(displayFileNameAndToggleSendButton)
+    .change(displayFileNameAndToggleSendButton);
+
+  function displayFileNameAndToggleSendButton(){
+    var filePath = this.value;
+    var fileName = filePath.replace(/^.*(\\|\/|\:)/, '');
+    $(this).siblings('.js-document__send-button').prop('disabled', filePath == "");
+    $(this).siblings('.js-document__file-added').text(fileName);
+  }
+
   function sumPublicHelps() {
     var helps = Array.from($(".js-public-help"));
     var sum = helps.reduce(parseAmountAndSum, 0).toFixed(2);

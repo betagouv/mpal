@@ -163,6 +163,7 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
     ActiveJob::Base.queue_adapter.enqueued_jobs = []
     ActiveJob::Base.queue_adapter.performed_jobs = []
+    FileUtils.rm_rf(Dir["#{Rails.root}/spec/support/uploads"]) if Rails.env.test?
   end
 
   Warden.test_mode!
