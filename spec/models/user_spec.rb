@@ -27,7 +27,7 @@ describe User do
     end
 
     context "quand un projet n'est pas encore vérouillé" do
-      let(:projet) { create :projet, :transmis_pour_instruction, user: user }
+      let(:projet) { create :projet }
 
       it { is_expected.not_to be_able_to(:read, Document) }
 
@@ -42,36 +42,22 @@ describe User do
     context "quand un registre de paiement existe" do
       let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry, locked_at: Time.new(1789, 7, 14, 16, 0, 0), user: user }
 
-      let(:payment_en_cours_de_montage)    { create :payment, statut: :en_cours_de_montage }
-      let(:payment_propose)                { create :payment, statut: :propose }
-      let(:payment_demande)                { create :payment, statut: :demande }
-      let(:payment_en_cours_d_instruction) { create :payment, statut: :en_cours_d_instruction }
-      let(:payment_paye)                   { create :payment, statut: :paye }
+      let(:payment_en_cours_de_montage)    { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_de_montage }
+      let(:payment_propose)                { create :payment, payment_registry: projet.payment_registry, statut: :propose }
+      let(:payment_demande)                { create :payment, payment_registry: projet.payment_registry, statut: :demande }
+      let(:payment_en_cours_d_instruction) { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_d_instruction }
+      let(:payment_paye)                   { create :payment, payment_registry: projet.payment_registry, statut: :paye }
 
-      let(:payment_a_rediger)              { create :payment, action: :a_rediger }
-      let(:payment_a_modifier)             { create :payment, action: :a_modifier }
-      let(:payment_a_valider)              { create :payment, action: :a_valider }
-      let(:payment_a_instruire)            { create :payment, action: :a_instruire }
-      let(:payment_no_action)              { create :payment, action: :aucune }
-
-      before do
-        projet.payment_registry.payments << [ payment_en_cours_de_montage,
-                                              payment_propose,
-                                              payment_demande,
-                                              payment_en_cours_d_instruction,
-                                              payment_paye,
-                                              payment_a_rediger,
-                                              payment_a_modifier,
-                                              payment_a_valider,
-                                              payment_a_instruire,
-                                              payment_no_action,
-        ]
-      end
+      let(:payment_a_rediger)              { create :payment, payment_registry: projet.payment_registry, action: :a_rediger }
+      let(:payment_a_modifier)             { create :payment, payment_registry: projet.payment_registry, action: :a_modifier }
+      let(:payment_a_valider)              { create :payment, payment_registry: projet.payment_registry, action: :a_valider }
+      let(:payment_a_instruire)            { create :payment, payment_registry: projet.payment_registry, action: :a_instruire }
+      let(:payment_no_action)              { create :payment, payment_registry: projet.payment_registry, action: :aucune }
 
       it { is_expected.to be_able_to(:read, projet.payment_registry) }
 
-      it { is_expected.not_to be_able_to(:add,                Payment) }
-      it { is_expected.not_to be_able_to(:modify,             Payment) }
+      it { is_expected.not_to be_able_to(:create,             Payment) }
+      it { is_expected.not_to be_able_to(:update,             Payment) }
       it { is_expected.not_to be_able_to(:destroy,            Payment) }
       it { is_expected.not_to be_able_to(:ask_for_validation, Payment) }
       it { is_expected.not_to be_able_to(:send_in_opal,       Payment) }

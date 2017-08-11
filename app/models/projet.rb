@@ -387,6 +387,14 @@ class Projet < ActiveRecord::Base
     STATUSES.split(status).first.include? self.statut.to_sym
   end
 
+  def status_already(status)
+    if STATUSES.include? status
+      self.statut.to_sym == status || (STATUSES.split(status).last.include? self.statut.to_sym)
+    else
+      false
+    end
+  end
+
   def self.to_csv(agent)
     utf8 = CSV.generate(csv_options) do |csv|
       titles = [
