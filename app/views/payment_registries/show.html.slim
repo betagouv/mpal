@@ -22,7 +22,7 @@
           .registry__actions_header
 
             - if can? :destroy, payment
-              = link_to dossier_payment_path(@projet_courant, payment), method: :delete, class: "registry__action"
+              = link_to dossier_payment_path(@projet_courant, payment), method: :delete, class: "registry__action", data: { confirm: t("payment.actions.delete.confirmation") }
                 span.registry__action_text= t("payment.actions.delete.label")
                 i.registry__action_icon.glyphicon.glyphicon-remove
 

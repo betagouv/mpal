@@ -345,6 +345,7 @@ fr:
       delete:
         label: "Supprimer"
         success: "La demande de paiement a bien été supprimée"
+        confirmation: "Êtes-vous sûr de vouloir supprimer cette demande ?"
       ask_for_validation:
         label: "Envoyer pour validation"
         success: "La proposition a bien été envoyée au demandeur"
@@ -366,6 +367,7 @@ fr:
       delete:
         success: "Votre document a été supprimé avec succès."
         error:  "Une erreur est survenue. Votre document n’a pas été ajouté au projet."
+        confirmation: "Êtes-vous sûr de vouloir supprimer ce document ?"
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
 
   # ----------------------- Messagerie ---------------------
