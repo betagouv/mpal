@@ -48,8 +48,9 @@ class Projet < ActiveRecord::Base
   accepts_nested_attributes_for :documents
 
   has_many :projet_aides, dependent: :destroy
+
   has_many :aides, through: :projet_aides
-  accepts_nested_attributes_for :projet_aides, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :projet_aides
 
   has_many :prestation_choices, dependent: :destroy
   has_many :prestations, through: :prestation_choices
@@ -113,6 +114,16 @@ class Projet < ActiveRecord::Base
 
   def accessible_for_agent?(agent)
     agent.instructeur? || intervenants.include?(agent.intervenant) || agent.siege?
+  end
+
+  def projet_aides_sorted
+    aide_ids = self.projet_aides.map(&:aide_id)
+    Aide.active_for_projet(self).ordered.each do |aide|
+      unless aide_ids.include? aide.id
+        self.projet_aides.build(aide: aide)
+      end
+    end
+    self.projet_aides.sort_by { |x| x.libelle }
   end
 
   def clean_numero_fiscal
@@ -179,6 +190,26 @@ class Projet < ActiveRecord::Base
 
   def can_validate_operateur?
     contacted_operateur.present? && operateur.blank?
+  end
+
+  def aids_with_amounts
+    # This query be simplified by using `left_joins` once we'll be running on Rails 5
+    Aide
+      .active_for_projet(self)
+      .joins("LEFT OUTER JOIN projet_aides ON projet_aides.aide_id = aides.id AND projet_aides.projet_id = #{ActiveRecord::Base.sanitize(self.id)}")
+      .distinct
+      .select("aides.*, projet_aides.amount AS amount")
+      .order(:id)
+  end
+
+  def prestations_with_choices
+    # This query be simplified by using `left_joins` once we'll be running on Rails 5
+    Prestation
+      .active_for_projet(self)
+      .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(self.id)}")
+      .distinct
+      .select("prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id")
+      .order(:id)
   end
 
   FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
@@ -408,7 +439,6 @@ class Projet < ActiveRecord::Base
         'État',
         'Depuis',
       ]
-
 
       titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
       titles.insert 6, 'Agent opérateur'    if agent.siege? || agent.instructeur? || agent.operateur?

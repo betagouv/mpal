@@ -5,4 +5,6 @@ class ProjetAide < ActiveRecord::Base
   belongs_to :aide
 
   amountable :amount
+
+  delegate :libelle, to: :aide
 end

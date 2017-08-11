@@ -69,7 +69,7 @@ feature "Remplir la proposition de travaux" do
       fill_in aide_2.libelle, with: '7 777,77'
 
       # Section "Financement personnel"
-      fill_in I18n.t('helpers.label.proposition.personal_funding'), with: '8 888,88'
+      fill_in I18n.t('helpers.label.proposition.personal_funding_amount'), with: '8 888,88'
       fill_in I18n.t('helpers.label.proposition.loan_amount'), with: '9 999,99'
 
       # Section "Précisions"
@@ -80,25 +80,25 @@ feature "Remplir la proposition de travaux" do
       expect(page.current_path).to eq(dossier_path(projet))
 
       # Section "Logement"
-      expect(page).to have_content('28 décembre 2016')
-      expect(page).to have_content('Appartement')
-      expect(page).to have_css('.etage', text: 2)
-      expect(page).to have_css('.pieces', text:'Plus de 5')
-      expect(page).to have_content('1954')
-      expect(page).to have_content('42 m²')
-      expect(page).to have_css('.etiquette_avant', text: 'C')
-      expect(page).to have_css('.consommation_avant', text: '333')
+      expect(page).to have_css(".test-date-de-visite",     text: "28 décembre 2016")
+      expect(page).to have_css(".test-type-logement",      text: "Appartement")
+      expect(page).to have_css(".test-etage",              text: "2")
+      expect(page).to have_css(".test-pieces",             text: "Plus de 5")
+      expect(page).to have_css(".test-annee-construction", text: "1954")
+      expect(page).to have_css(".test-surface-habitable",  text: "42 m²")
+      expect(page).to have_css(".test-consommation-avant", text: "333")
+      expect(page).to have_css(".test-etiquette-avant",    text: "C")
 
       # Section "Diagnostic opérateur"
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.autonomie'))
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.niveau_gir') + ' : 712')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.handicap') + ' : Oui')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_degradation') + ' : 0,1')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.note_insalubrite') + ' : 0,2')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.ventilation_adaptee') + ' : Oui')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.presence_humidite') + ' : Oui')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.auto_rehabilitation') + ' Oui')
-      expect(page).to have_content(I18n.t('helpers.label.diagnostic.remarques_diagnostic') + ' : Le diagnostic est complet.')
+      expect(page).to have_css(".test-autonomie",            text: "Oui")
+      expect(page).to have_css(".test-niveau-gir",           text: "712")
+      expect(page).to have_css(".test-handicap",             text: "Oui")
+      expect(page).to have_css(".test-note-degradation",     text: "0,1")
+      expect(page).to have_css(".test-note-insalubrite",     text: "0,2")
+      expect(page).to have_css(".test-ventilation-adaptee",  text: "Oui")
+      expect(page).to have_css(".test-presence-humidite",    text: "Oui")
+      expect(page).to have_css(".test-auto-rehabilitation",  text: "Oui")
+      expect(page).to have_css(".test-remarques-diagnostic", text: "Le diagnostic est complet.")
 
       # Section Types d'intervention
       expect(page).to     have_content theme_1.libelle
@@ -106,45 +106,35 @@ feature "Remplir la proposition de travaux" do
 
       # Section "Description des travaux proposés"
       expect(page).to     have_content prestation_1.libelle
-      expect(page).to     have_selector "#prestation_#{prestation_1.id}_desired"
-      expect(page).not_to have_selector "#prestation_#{prestation_1.id}_recommended"
-      expect(page).not_to have_selector "#prestation_#{prestation_1.id}_selected"
+      expect(page).to     have_selector "#test-prestation-#{prestation_1.id}-desired"
+      expect(page).not_to have_selector "#test-prestation-#{prestation_1.id}-recommended"
+      expect(page).not_to have_selector "#test-prestation-#{prestation_1.id}-selected"
       expect(page).to     have_content prestation_2.libelle
-      expect(page).not_to have_selector "#prestation_#{prestation_2.id}_desired"
-      expect(page).not_to have_selector "#prestation_#{prestation_2.id}_recommended"
-      expect(page).to     have_selector "#prestation_#{prestation_2.id}_selected"
+      expect(page).not_to have_selector "#test-prestation-#{prestation_2.id}-desired"
+      expect(page).not_to have_selector "#test-prestation-#{prestation_2.id}-recommended"
+      expect(page).to     have_selector "#test-prestation-#{prestation_2.id}-selected"
       expect(page).not_to have_content prestation_3.libelle
-      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_desired"
-      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_recommended"
-      expect(page).not_to have_selector "#prestation_#{prestation_3.id}_selected"
-      expect(page).to have_content(I18n.t('helpers.label.proposition.gain_energetique'))
-      expect(page).to have_css('.gain_energetique', text: 31)
-      expect(page).to have_content(I18n.t('helpers.label.proposition.etiquette_apres_travaux'))
-      expect(page).to have_css('.etiquette_apres', text: 'A')
-      expect(page).to have_css('.consommation_apres', text: '222')
+      expect(page).not_to have_selector "#test-prestation-#{prestation_3.id}-desired"
+      expect(page).not_to have_selector "#test-prestation-#{prestation_3.id}-recommended"
+      expect(page).not_to have_selector "#test-prestation-#{prestation_3.id}-selected"
+      expect(page).to have_css(".test-gain-energetique",   text: "31")
+      expect(page).to have_css(".test-etiquette-apres",    text: "A")
+      expect(page).to have_css(".test-consommation-apres", text: "222")
 
       # Section "Financement"
-      expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ht_amount'))
-      expect(page).to have_content('1 111,00 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.assiette_subventionnable_amount'))
-      expect(page).to have_content('2 222,22 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.amo_amount'))
-      expect(page).to have_content('3 333,33 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.maitrise_oeuvre_amount'))
-      expect(page).to have_content('4 444,44 €')
-      expect(page).to have_content(I18n.t('helpers.label.proposition.travaux_ttc_amount'))
-      expect(page).to have_content('5 555,55 €')
+      expect(page).to have_css(".test-travaux-ht-amount",               text: "1 111,00")
+      expect(page).to have_css(".test-assiette-subventionnable-amount", text: "2 222,22")
+      expect(page).to have_css(".test-amo-amount",                      text: "3 333,33")
+      expect(page).to have_css(".test-maitrise-oeuvre-amount",          text: "4 444,44")
+      expect(page).to have_css(".test-travaux-ttc-amount",              text: "5 555,55")
 
       # Section "Financement"
-      expect(page).to have_content aide_1.libelle
-      expect(page).to have_content '6 666,66 €'
-      expect(page).to have_content aide_2.libelle
-      expect(page).to have_content '7 777,77 €'
-      expect(page).to have_content I18n.t('helpers.label.proposition.public_helps_sum')
-      expect(page).to have_content '14 444,43 €'
+      expect(page).to have_css(".test-projet-aide-#{aide_1.id}",        text: "6 666,66")
+      expect(page).to have_css(".test-projet-aide-#{aide_2.id}",        text: "7 777,77")
+      expect(page).to have_css(".test-public-aids-sum",                 text: "14 444,43")
 
       # Section "Financement personnel"
-      expect(page).to have_content I18n.t('helpers.label.proposition.personal_funding')
+      expect(page).to have_content I18n.t('helpers.label.proposition.personal_funding_amount')
       expect(page).to have_content '8 888,88 €'
       expect(page).to have_content I18n.t('helpers.label.proposition.loan_amount')
       expect(page).to have_content '9 999,99 €'
@@ -218,8 +208,8 @@ feature "Remplir la proposition de travaux" do
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content('42')
         expect(page).to have_content(prestation.libelle)
-        expect(page).to     have_selector "#prestation_#{prestation.id}_desired"
-        expect(page).not_to have_selector "#prestation_#{prestation.id}_selected"
+        expect(page).to     have_selector "#test-prestation-#{prestation.id}-desired"
+        expect(page).not_to have_selector "#test-prestation-#{prestation.id}-selected"
         expect(page).not_to have_content(aide_1.libelle)
       end
 
@@ -246,11 +236,11 @@ feature "Remplir la proposition de travaux" do
           old_used_aide.projet_aides.first.update(amount: 1111.1)
         end
 
-        scenario "j'ai toujours accès à cette aide" do
+        scenario "j’ai toujours accès à cette aide" do
           visit dossier_proposition_path(projet)
           expect(page).not_to have_content old_unused_aide.libelle
           expect(page).to have_content old_used_aide.libelle
-          expect(find_field(old_used_aide.libelle).value).to eq '1 111,10 '
+          expect(find_field(old_used_aide.libelle).value).to eq "1 111,10"
         end
       end
     end
@@ -268,9 +258,6 @@ feature "Remplir la proposition de travaux" do
         click_link 'Je soumets le projet au demandeur pour dépôt'
         expect(page).to have_content('Coût des travaux à réaliser HT doit être rempli(e)')
 
-        within 'article.projet-ope' do
-          click_link I18n.t('projets.visualisation.lien_edition')
-        end
         fill_in 'projet_date_de_visite', with: '28/12/2016'
         fill_in I18n.t('helpers.label.proposition.travaux_ht_amount'), with: '1 111'
         click_on 'Enregistrer cette proposition'

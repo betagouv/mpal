@@ -1,10 +1,10 @@
 .project-menu.clearfix
   .project-menu__top
     .project-menu__demandeur
-      - demandeur = project.demandeur
-      h2
-        span.firstname= demandeur.prenom
-        span.lastname<= demandeur.nom
+      - if demandeur = project.demandeur
+        h2
+          span.firstname= demandeur.prenom
+          span.lastname<= demandeur.nom
       p
         = project.adresse.ville
         - if project.themes.any?
