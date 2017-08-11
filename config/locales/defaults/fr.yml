@@ -360,9 +360,12 @@ fr:
     select: "Choisir un fichier"
     send: "Téléverser"
     messages:
-      success: "Votre document a été ajouté au projet avec succès."
-      error: "Une erreur est survenue. Votre document n’a pas été ajouté au projet."
-      delete: "Votre document a été supprimé avec succès."
+      create:
+        success: "Votre document a été ajouté au projet avec succès."
+        error: "Une erreur est survenue. Votre document n’a pas été créé."
+      delete:
+        success: "Votre document a été supprimé avec succès."
+        error:  "Une erreur est survenue. Votre document n’a pas été ajouté au projet."
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
 
   # ----------------------- Messagerie ---------------------

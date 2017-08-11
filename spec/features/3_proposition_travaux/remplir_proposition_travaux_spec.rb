@@ -188,12 +188,13 @@ feature "Remplir la proposition de travaux" do
       document = projet.documents.first
       expect(projet.documents.count).to be_present
       expect(page).to have_link "Ma pièce jointe.txt"
-      expect(page).to have_content I18n.t("document.messages.success")
+      expect(page).to have_content I18n.t("document.messages.create.success")
 
       within ".test-document-panel-0" do
         find("a[href='#{dossier_document_path(projet, document)}']").click
       end
       expect(page).not_to have_link "Ma pièce jointe.txt"
+      expect(page).to have_content I18n.t("document.messages.delete.success")
     end
 
     context "pour une demande déjà remplie" do

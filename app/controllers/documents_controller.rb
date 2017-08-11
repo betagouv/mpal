@@ -5,24 +5,27 @@ class DocumentsController < ApplicationController
   before_action :assert_file_present, only: :create
   load_and_authorize_resource
 
-  rescue_from do |exception|
-    flash[:alert] = exception.message
-    redirect_to projet_or_dossier_documents_path @projet_courant, alert: t("document.messages.error")
-  end
-
-  rescue_from ActiveRecord::RecordNotFound do
-    redirect_to "/404"
-  end
-
   def create
-    @document = Document.create! fichier: params[:fichier], type_piece: params[:type_piece], projet: @projet_courant
-    redirect_to projet_or_dossier_documents_path(@projet_courant), notice: t("document.messages.success")
+    begin
+      @document = Document.create! fichier: params[:fichier], type_piece: params[:type_piece], projet: @projet_courant
+      flash[:notice] = t("document.messages.create.success")
+    rescue => e
+      Rails.logger.error "[DocumentsController] create action failed : #{e.message}"
+      flash[:alert] = t("document.messages.create.error")
+    end
+    redirect_to projet_or_dossier_documents_path(@projet_courant)
   end
 
   def destroy
-    @document = @projet_courant.documents.find params[:id]
-    @document.destroy!
-    redirect_to projet_or_dossier_documents_path(@projet_courant), notice: t("document.messages.delete")
+    begin
+      @document = @projet_courant.documents.find params[:id]
+      @document.destroy!
+      flash[:notice] = t("document.messages.delete.success")
+    rescue => e
+      Rails.logger.error "[DocumentsController] destroy action failed : #{e.message}"
+      flash[:alert] = t("document.messages.delete.error")
+    end
+    redirect_to projet_or_dossier_documents_path(@projet_courant)
   end
 
   def index
