@@ -1,4 +1,6 @@
 - content_for :cta do
   .button-group
-    = btn name: t('projets.transmission.bouton_accepter'), href: projet_transmission_path(@projet_courant), class: 'proposal'
-= render 'projet_proposition'
+    = btn name: t("projets.transmission.bouton_accepter"), href: projet_transmission_path(@projet_courant), class: "proposal", icon: "arrow-right"
+    = btn name: t("projets.transmission.modification_demande"), href: projet_path(projet_id: @projet_courant, anchor: "messagerie", request_changes: true), class: "btn-secondary"
+
+= render "projet_proposition"

@@ -6,6 +6,8 @@ article#messagerie.block.messagerie
       | Messages
       span= commentaire_count
   .content-block
+    - if "true" == params[:request_changes]
+      .alert.alert-info Vous pouvez demander des modifications sur votre projet en utilisant la messagerie.
     - if 0 < commentaire_count
       - @projet_courant.commentaires.reverse.each do |commentaire|
         - auteur = commentaire.auteur

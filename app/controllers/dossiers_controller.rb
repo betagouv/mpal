@@ -58,11 +58,7 @@ class DossiersController < ApplicationController
       end
     end
 
-    assign_projet_if_needed
-    @themes = Theme.ordered.all
-    @prestations_with_choices = prestations_with_choices
-    define_helps
-    render "projets/proposition"
+    render_proposition
   end
 
   def proposer
@@ -72,11 +68,10 @@ class DossiersController < ApplicationController
                         demandeur: @projet_courant.demandeur.fullname)
       ProjetMailer.notification_validation_dossier(@projet_courant).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'validation_proposition', projet: @projet_courant, producteur: @projet_courant.operateur)
-      redirect_to projet_or_dossier_path(@projet_courant), notice: message
-    else
-      @projet_courant.restore_statut!
-      render_show
+      return redirect_to projet_or_dossier_path(@projet_courant), notice: message
     end
+    @projet_courant.restore_statut!
+    render_proposition
   end
 
   def recommander_operateurs
@@ -209,6 +204,14 @@ private
     prestation_choice[:recommended] = prestation_choice[:recommended].present?
     prestation_choice[:selected]    = prestation_choice[:selected].present?
     prestation_choice
+  end
+
+  def render_proposition
+    assign_projet_if_needed
+    @themes = Theme.ordered.all
+    @prestations_with_choices = prestations_with_choices
+    define_helps
+    render "proposition"
   end
 
   def suggested_operateurs_params

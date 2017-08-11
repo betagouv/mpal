@@ -5,4 +5,9 @@
     .section__content
       = f.input :numero_fiscal,  wrapper_html: { class: "size-s" }, required: true
       = f.input :reference_avis, wrapper_html: { class: "size-s" }, required: true
-  = btn name: "Ajouter", class: "btn-large btn-centered", icon: "arrow-right"
+    .checkbox-validation
+      label.form-control-label
+        input type="checkbox" class="js-engagement"
+        = t("agrements.attestation_communiquer_infos_occupants")
+  = btn name: "Ajouter", class: "btn-large btn-centered js-engagement", icon: "arrow-right"
+

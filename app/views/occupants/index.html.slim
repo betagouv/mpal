@@ -60,9 +60,4 @@
         = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form__field size-l" }, required: true
         = btn name: t("occupants.nouveau.action"), class: "occupant-inline-form__submit", icon: "plus"
 
-    .checkbox-validation
-      label.form-control-label
-        input type="checkbox" class="js-engagement"
-        = t("agrements.attestation_communiquer_infos_occupants")
-
-  = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "arrow-right", html: { name: :submit_button }
+  = btn name: @action_label, class: "btn-large btn-centered", icon: "arrow-right", html: { name: :submit_button }
