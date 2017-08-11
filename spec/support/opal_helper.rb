@@ -32,9 +32,6 @@ module Fakeweb
       FakeWeb.register_uri(
         :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/createDossierPaiement|,
         content_type: 'application/json',
-        body: JSON.generate({
-          "montantDuPaiement": "1000.12",
-        }),
         status: [201, "Created"]
       )
     end

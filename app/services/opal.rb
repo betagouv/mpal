@@ -43,8 +43,6 @@ class Opal
       Rails.logger.error "[OPAL] request failed with code '#{response.code}': #{message || response.body}"
       raise OpalError, message
     end
-    ajoute_montant_paiement(payment, response.body)
-    payment.save
   end
 
 private
@@ -163,10 +161,6 @@ private
   end
 
 #CONCERNANT LE DOSSIER DE PAIEMENT
-  def ajoute_montant_paiement(payment, reponse_body)
-    opal = JSON.parse(reponse_body)
-    payment.montant = opal["montantDuPaiement"]
-  end
 
   def serialize_dossier_paiement(projet, payment)
     {

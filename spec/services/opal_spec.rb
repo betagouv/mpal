@@ -34,7 +34,7 @@ end
 
 describe Opal do
   let(:client_create) { OpalClientMock.new(201, "OK", { dosNumero: "09500840", dosId: 959496 }) }
-  let(:client_create_payment) { OpalClientMock.new(201, "OK", { montantDuPaiement: "1000.12" }) }
+  let(:client_create_payment) { OpalClientMock.new(201, "OK", {}) }
 
   describe "#create_dossier!" do
     let(:projet)            { create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
@@ -193,11 +193,6 @@ describe Opal do
         expect(body["typeDePaiement"]).to eq "avance"
         expect(body["dateDeDemande"]).to be_present
         expect(body["utiIdClavis"]).to eq agent_instructeur.clavis_id
-      end
-
-      it "met à jour le dossier avec la réponse d'Opal" do
-        expect(subject).to be true
-        expect(payment.montant).to eq 1000.12
       end
     end
 
