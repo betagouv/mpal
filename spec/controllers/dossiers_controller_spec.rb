@@ -214,6 +214,7 @@ describe DossiersController do
           expect(assigns(:projet_courant).statut.to_sym).to eq :proposition_enregistree
           expect(assigns(:projet_courant).errors).to be_added :date_de_visite, :blank_feminine
           expect(response).to render_template(:show)
+          "hahahahahahaha ============"
         end
       end
 
