@@ -27,11 +27,34 @@ module Fakeweb
         status: [422, "Unprocessable Entity"]
       )
     end
+
+    def self.register_create_dossier_paiement_success
+      FakeWeb.register_uri(
+        :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/createDossierPaiement|,
+        content_type: 'application/json',
+        status: [201, "Created"]
+      )
+    end
+
+    def self.register_create_dossier_paiement_failure
+      FakeWeb.register_uri(
+        :put, %r|#{ENV['OPAL_API_BASE_URI']}sio/json/createDossierPaiement|,
+        content_type: 'application/json',
+        body: JSON.generate([
+          {
+            message: "Utilisateur inconnu : veuillez-vous connecter à OPAL.",
+            code: 1001
+          }
+        ]),
+        status: [422, "Unprocessable Entity"]
+      )
+    end
   end
 end
 
 RSpec.configure do |config|
   config.before(:each) do
     Fakeweb::Opal.register_create_dossier_success
+    Fakeweb::Opal.register_create_dossier_paiement_success
   end
 end

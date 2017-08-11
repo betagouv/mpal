@@ -11,10 +11,12 @@ class Payment < ActiveRecord::Base
   state_machine :action, initial: :a_rediger do
     after_transition :a_rediger => :a_valider,   do: :update_statut_to_propose
     after_transition :a_valider => :a_instruire, do: :update_statut_to_demande
+    after_transition :a_instruire => :aucune,    do: :update_statut_to_en_cours_d_instruction
 
     event(:ask_for_validation)   { transition [:a_rediger, :a_modifier] => :a_valider}
     event(:ask_for_modification) { transition [:a_valider, :a_instruire] => :a_modifier }
     event(:ask_for_instruction)  { transition :a_valider => :a_instruire }
+    event(:send_in_opal)         { transition :a_instruire => :aucune }
 
     state *ACTIONS
   end
@@ -26,9 +28,11 @@ class Payment < ActiveRecord::Base
       payment.ask_for_instruction
       payment.update! submitted_at: Time.now
     end
+    after_transition :demande => :en_cours_d_instruction, do: :send_in_opal
 
-    event(:update_statut_to_propose) { transition :en_cours_de_montage => :propose }
-    event(:update_statut_to_demande) { transition :propose => :demande }
+    event(:update_statut_to_propose)                { transition :en_cours_de_montage => :propose }
+    event(:update_statut_to_demande)                { transition :propose => :demande }
+    event(:update_statut_to_en_cours_d_instruction) { transition :demande => :en_cours_d_instruction }
 
     state *STATUSES
   end

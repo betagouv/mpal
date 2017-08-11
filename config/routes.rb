@@ -68,9 +68,10 @@ Rails.application.routes.draw do
       put  :proposition
       get  :indicateurs, on: :collection
       post '/payment_registry', to: 'payment_registries#create'
-      resources :payments, only: [:new, :create, :edit, :update, :destroy, :ask_for_validation, :ask_for_modification], param: :payment_id do
+      resources :payments, only: [:new, :create, :edit, :update, :destroy, :ask_for_validation, :ask_for_modification, :send_in_opal], param: :payment_id do
         put 'ask_for_validation',   on: :member
         put 'ask_for_modification', on: :member
+        put 'send_in_opal', on: :member
       end
     end
     resources :dossiers, only: []

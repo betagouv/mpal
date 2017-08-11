@@ -359,6 +359,12 @@ fr:
       ask_for_instruction:
         label: "Déposer"
         success: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
+    add_to_opal:
+      titre_ajout_opal: "Ajouter le Dossier de Paiement dans Opal"
+      messages:
+        success: "Le dossier de paiement vient d’être ajouté dans OPAL"
+        error: "Une erreur est survenue lors de la création du dossier de paiement dans Opal : « %{message} »"
+
 
   # ----------------------- Messagerie ---------------------
   conversation:

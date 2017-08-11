@@ -1,5 +1,6 @@
 require 'rails_helper'
 require 'support/mpal_helper'
+require 'support/opal_helper'
 
 describe PaymentsController do
 
@@ -158,6 +159,26 @@ describe PaymentsController do
         expect(payment.statut).to eq "demande"
         expect(payment.submitted_at).to eq submit_time
         expect(response).to redirect_to projet_payment_registry_path(projet)
+      end
+    end
+  end
+
+  describe "en tant que instructeur" do
+    let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
+    let(:agent_instructeur) { projet.agent_instructeur }
+    let(:submit_time)       { DateTime.new(1980, 01, 01) }
+    let(:payment)           { create :payment, :demande, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry, submitted_at: submit_time }
+
+    describe "#send_in_opal" do
+      before do
+        authenticate_as_agent agent_instructeur
+        put :send_in_opal, dossier_id: projet.id, payment_id: payment.id
+        payment.reload
+      end
+
+      it "transmet la demande de paiement dans Opal et met à jour le statut" do
+        expect(payment.statut).to eq "en_cours_d_instruction"
+        expect(response).to redirect_to dossier_payment_registry_path(projet)
       end
     end
   end

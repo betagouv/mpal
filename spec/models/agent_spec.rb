@@ -135,8 +135,9 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
 
-            it { is_expected.to     be_able_to(:read, Document) }
-            it { is_expected.to     be_able_to(:read, Projet) }
+            it { is_expected.to be_able_to(:read, Document) }
+            it { is_expected.to be_able_to(:create, :dossiers_opal) }
+            it { is_expected.to be_able_to(:read, Projet) }
           end
         end
       end

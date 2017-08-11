@@ -48,6 +48,7 @@ describe Payment do
       it { should_have(:statut).equal_to(:propose).after_event(:ask_for_validation) }
       it { should_have(:statut).equal_to(:propose).after_event(:ask_for_modification) }
       it { should_have(:statut).equal_to(:en_cours_de_montage).after_event(:ask_for_instruction) }
+      it { should_have(:statut).equal_to(:en_cours_de_montage).after_event(:send_in_opal) }
     end
 
     describe "propose" do
@@ -58,6 +59,7 @@ describe Payment do
       it { should_have(:statut).equal_to(:propose).after_event(:ask_for_modification) }
       it { should_have(:statut).equal_to(:demande).after_event(:ask_for_instruction) }
       it { should_have(:submitted_at).equal_to(submit_time).after_event(:ask_for_instruction) }
+      it { should_have(:statut).equal_to(:propose).after_event(:send_in_opal) }
     end
 
     describe "demande" do
@@ -66,6 +68,16 @@ describe Payment do
       it { should_have(:statut).equal_to(:demande).after_event(:ask_for_validation) }
       it { should_have(:statut).equal_to(:demande).after_event(:ask_for_modification) }
       it { should_have(:statut).equal_to(:demande).after_event(:ask_for_instruction) }
+      it { should_have(:statut).equal_to(:en_cours_d_instruction).after_event(:send_in_opal) }
+    end
+
+    describe "en_cours_d_instruction" do
+      let(:payment) { create :payment, :en_cours_d_instruction }
+
+      it { should_have(:statut).equal_to(:en_cours_d_instruction).after_event(:ask_for_validation) }
+      it { should_have(:statut).equal_to(:en_cours_d_instruction).after_event(:ask_for_modification) }
+      it { should_have(:statut).equal_to(:en_cours_d_instruction).after_event(:ask_for_instruction) }
+      it { should_have(:statut).equal_to(:en_cours_d_instruction).after_event(:send_in_opal) }
     end
   end
 
@@ -77,6 +89,7 @@ describe Payment do
       it { should_have(:action).equal_to(:a_valider).after_event(:ask_for_validation) }
       it { should_have(:action).equal_to(:a_rediger).after_event(:ask_for_modification) }
       it { should_have(:action).equal_to(:a_rediger).after_event(:ask_for_instruction) }
+      it { should_have(:action).equal_to(:a_rediger).after_event(:send_in_opal) }
     end
 
     describe "a_valider" do
@@ -85,6 +98,7 @@ describe Payment do
       it { should_have(:action).equal_to(:a_valider).after_event(:ask_for_validation) }
       it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_modification) }
       it { should_have(:action).equal_to(:a_instruire).after_event(:ask_for_instruction) }
+      it { should_have(:action).equal_to(:a_valider).after_event(:send_in_opal) }
     end
 
     describe "a_modifier" do
@@ -93,6 +107,7 @@ describe Payment do
       it { should_have(:action).equal_to(:a_valider).after_event(:ask_for_validation) }
       it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_modification) }
       it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_instruction) }
+      it { should_have(:action).equal_to(:a_modifier).after_event(:send_in_opal) }
     end
 
     describe "a_instruire" do
@@ -101,6 +116,7 @@ describe Payment do
       it { should_have(:action).equal_to(:a_instruire).after_event(:ask_for_validation) }
       it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_modification) }
       it { should_have(:action).equal_to(:a_instruire).after_event(:ask_for_instruction) }
+      it { should_have(:action).equal_to(:aucune).after_event(:send_in_opal) }
     end
   end
 end
