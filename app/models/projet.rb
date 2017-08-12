@@ -40,8 +40,8 @@ class Projet < ActiveRecord::Base
   belongs_to :agent_operateur, class_name: "Agent"
   belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
-  has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
+  has_many :messages, -> { order("created_at DESC") }, dependent: :destroy
   has_many :occupants, through: :avis_impositions
 
   has_many :documents, dependent: :destroy

@@ -27,7 +27,7 @@
     = link_to projet_or_dossier_documents_path(project), class: "project-menu__item"
       span.project-menu__icon.glyphicon.glyphicon-paperclip
       span.project-menu__text Pièces
-    .project-menu__item
+    = link_to new_projet_or_dossier_message_path(project), class: "project-menu__item"
       span.project-menu__icon.glyphicon.glyphicon-envelope
       span.project-menu__text Messages
     / TODO

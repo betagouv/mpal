@@ -74,13 +74,14 @@ module ApplicationConcern
 
     expose_routing_helper :projet_or_dossier_path
     expose_routing_helper :projet_or_dossier_proposition_path
-    expose_routing_helper :projet_or_dossier_commentaires_path
     expose_routing_helper :projet_or_dossier_avis_impositions_path
     expose_routing_helper :projet_or_dossier_avis_imposition_path
     expose_routing_helper :new_projet_or_dossier_avis_imposition_path
     expose_routing_helper :projet_or_dossier_occupants_path
     expose_routing_helper :projet_or_dossier_occupant_path
     expose_routing_helper :projet_or_dossier_demande_path
+    expose_routing_helper :new_projet_or_dossier_message_path
+    expose_routing_helper :projet_or_dossier_messages_path
     expose_routing_helper :projet_or_dossier_payment_registry_path
     expose_routing_helper :ask_for_modification_projet_or_dossier_payment_path
     expose_routing_helper :ask_for_instruction_projet_or_dossier_payment_path

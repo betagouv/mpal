@@ -26,9 +26,6 @@ $(document).ready(function() {
       $(this).parent().find(".content-block").slideDown("fast");
       $(this).addClass("is-open");
     }
-    var wtf  = $('.chat-container');
-    var height = wtf[0].scrollHeight;
-    wtf.scrollTop(height);
   });
 
   // Open by default last block

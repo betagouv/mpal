@@ -279,9 +279,9 @@ fr:
       titre_fil_actualite: "Dernières actions"
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
-      lien_ajout_commentaire: "Envoyer un message"
+      lien_ajout_message: "Envoyer"
       projet_affecte: "Ce projet vous est maintenant affecté"
-      message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
+      no_message: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
       occupants:
         one: " 1 occupant"
         other: "%{count} occupants"

@@ -1,0 +1,42 @@
+@import "variables";
+
+.messages {
+}
+.messages__history {
+  margin-top: 3em;
+  max-width: 40em;
+}
+.messages__message {
+  margin-top: 1em;
+  padding-right: 3em;
+}
+.messages__message--mine {
+  padding-right: 0;
+  padding-left: 3em;
+}
+.messages__message-informations {
+  font-size: 0.8em;
+  @extend .clearfix;
+}
+.messages__fullname {
+  display: inline-block;
+  color: #111;
+}
+.messages__message--mine .messages__fullname {
+  color: $color-primary;
+}
+.messages__datetime {
+  display: inline-block;
+  float: right;
+  color: #888;
+}
+.messages__content {
+  padding: 1em;
+  border-radius: 3px;
+  background-color: #eee;
+}
+.messages__message--mine .messages__content {
+  background-color: $color-primary;
+  color: white;
+}
+

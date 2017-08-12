@@ -179,3 +179,4 @@ module ApplicationHelper
     [number, I18n.t('helpers.units.power_consumption')].join(' ')
   end
 end
+

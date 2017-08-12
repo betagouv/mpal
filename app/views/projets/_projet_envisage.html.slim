@@ -15,8 +15,8 @@ article.block.projet
         - unless current_agent
           br
           br
-          | Vous pouvez à présent dialoguer avec cet intervenant par la&nbsp;
-          = link_to 'messagerie', '#messagerie'
+          | Vous pouvez à présent dialoguer avec cet intervenant par la
+          <= link_to "messagerie", new_projet_or_dossier_message_path(@projet_courant)
           |. Vous serez informé par email pour chaque réponse de sa part.
         .button-group
           - if @projet_courant.can_validate_operateur?
@@ -32,3 +32,4 @@ article.block.projet
       - else
         p= t('projets.visualisation.select_operator_without_pris')
         = btn name: t('projets.visualisation.choisir_operateur'), href: projet_choix_operateur_path(@projet_courant)
+

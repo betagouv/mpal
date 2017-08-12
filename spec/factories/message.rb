@@ -1,7 +1,8 @@
 FactoryGirl.define do
-  factory :commentaire do
-    corps_message 'Ceci est un commentaire'
+  factory :message do
+    corps_message "Ceci est un message"
     association :auteur, factory: :intervenant
     projet
   end
 end
+

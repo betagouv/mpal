@@ -18,10 +18,10 @@ module ProjetConcern
       @fundings_sum += @projet_courant.personal_funding_amount || 0
       @fundings_sum += @projet_courant.loan_amount || 0
       @intervenants_disponibles = @projet_courant.intervenants_disponibles(role: :operateur).shuffle
-      @commentaire = Commentaire.new(projet: @projet_courant)
       @pris_departement = @projet_courant.intervenants_disponibles(role: :pris)
       @invitations_demandeur = Invitation.where(projet_id: @projet_courant.id)
       render "projets/show"
     end
   end
 end
+
