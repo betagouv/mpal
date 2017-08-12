@@ -7,9 +7,16 @@
   - else
     strong.header__title= app_name
 - if current_agent
+  - unless current_agent.intervenant
+    .alert.alert-danger Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", new_contact_path}
   .agent-menu.clearfix
     = btn name: "", href: dossiers_path, icon: "list", class: "btn-default", html: { title: "Aller au tableau de bord" }
     .agent-menu__right
-      span.agent-menu__fullname= current_agent.fullname
+      p.agent-menu__identity
+        span.agent-menu__fullname
+          span.firstname= current_agent.prenom
+          span.lastname<= current_agent.nom
+        - if current_agent.intervenant
+          span.agent-menu__intervenant<= "(#{current_agent.intervenant.raison_sociale})"
       = btn name: "", href: destroy_agent_session_path, icon: "off", class: "btn-default", html: { title: t("sessions.lien_deconnexion") }
 
