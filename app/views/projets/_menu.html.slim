@@ -21,9 +21,10 @@
     = link_to projet_or_dossier_path(project), class: "project-menu__item"
       span.project-menu__icon.glyphicon.glyphicon-folder-open
       span.project-menu__text Dossier
-    = link_to projet_or_dossier_payment_registry_path(project), class: "project-menu__item"
-      span.project-menu__icon.glyphicon.glyphicon-euro
-      span.project-menu__text Paiements
+    - if ENV["PAYMENTS_ENABLED"] == "true"
+      = link_to projet_or_dossier_payment_registry_path(project), class: "project-menu__item"
+        span.project-menu__icon.glyphicon.glyphicon-euro
+        span.project-menu__text Paiements
     = link_to projet_or_dossier_documents_path(project), class: "project-menu__item"
       span.project-menu__icon.glyphicon.glyphicon-paperclip
       span.project-menu__text Pièces
