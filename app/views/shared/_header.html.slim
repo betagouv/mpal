@@ -10,6 +10,7 @@
   - unless current_agent.intervenant
     .alert.alert-danger Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", new_contact_path}
   .agent-menu.clearfix
+    = btn name: "", href: home_dossiers_path, icon: "home", class: "btn-default", html: { title: "Aller à l’accueil" }
     = btn name: "", href: dossiers_path, icon: "list", class: "btn-default", html: { title: "Aller au tableau de bord" }
     .agent-menu__right
       p.agent-menu__identity

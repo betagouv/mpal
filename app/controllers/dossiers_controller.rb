@@ -4,36 +4,18 @@ class DossiersController < ApplicationController
   before_action :authenticate_agent!
   before_action :assert_projet_courant, except: [:index, :indicateurs]
   load_and_authorize_resource class: "Projet"
-  skip_load_and_authorize_resource only: [:index, :indicateurs]
+  skip_load_and_authorize_resource only: [:index, :home, :indicateurs]
 
   def index
-    if current_agent.dreal?
-      return redirect_to indicateurs_dossiers_path
-    end
-
-    if current_agent.siege?
-      @dossiers = Projet.all.with_demandeur
-    elsif current_agent.operateur?
-      @invitations = Invitation.visible_for_operateur(current_agent.intervenant)
-    else
-      @invitations = Invitation.where(intervenant_id: current_agent.intervenant_id).includes(:projet)
-    end
-
-    respond_to do |format|
-      format.html {
-        @page_heading = I18n.t('tableau_de_bord.titre_section')
-      }
-      format.csv {
-        response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
-        response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        return render text: Projet.to_csv(current_agent)
-      }
-    end
-
+    render_index
     return render "dossiers/dashboard_siege"       if current_agent.siege?
     return render "dossiers/dashboard_operateur"   if current_agent.operateur?
     return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
     render "dossiers/dashboard_pris"
+  end
+
+  def home
+    render_index
   end
 
   def affecter_agent
@@ -199,6 +181,29 @@ private
     prestation_choice[:recommended] = prestation_choice[:recommended].present?
     prestation_choice[:selected]    = prestation_choice[:selected].present?
     prestation_choice
+  end
+
+  def render_index
+    if current_agent.dreal?
+      return redirect_to indicateurs_dossiers_path
+    end
+    if current_agent.siege?
+      @dossiers = Projet.all.with_demandeur
+    elsif current_agent.operateur?
+      @invitations = Invitation.visible_for_operateur(current_agent.intervenant)
+    else
+      @invitations = Invitation.where(intervenant_id: current_agent.intervenant_id).includes(:projet)
+    end
+    respond_to do |format|
+      format.html {
+        @page_heading = I18n.t('tableau_de_bord.titre_section')
+      }
+      format.csv {
+        response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
+        response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
+        return render text: Projet.to_csv(current_agent)
+      }
+    end
   end
 
   def render_proposition

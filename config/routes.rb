@@ -58,6 +58,7 @@ Rails.application.routes.draw do
 
     #DOSSIERS
     resources :dossiers, only: [], concerns: :projectable do
+      get  :home, on: :collection
       post :dossiers_opal, controller: "dossiers_opal", action: "create"
       put  :update_project_rfr, controller: "avis_impositions", action: "update_project_rfr"
       get  :affecter_agent
@@ -74,9 +75,7 @@ Rails.application.routes.draw do
         put "send_in_opal", on: :member
       end
     end
-    resources :dossiers, only: []
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
-
 
     #PROJETS
     get  "/projets/new", to: "projets#new"
