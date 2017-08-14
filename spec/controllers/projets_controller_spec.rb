@@ -114,14 +114,14 @@ describe ProjetsController do
       end
     end
 
-    context "quand le projet existe déjà" do
-      let(:projet)         { create :projet, :en_cours }
+    context "quand le projet existe déjà et est bloqué mais que je n'ai pas encore de compte" do
+      let(:projet)         { create :projet, :prospect, :locked }
       let(:numero_fiscal)  { projet.numero_fiscal }
       let(:reference_avis) { projet.reference_avis }
 
-      it "je suis redirigé vers la page principale du projet" do
+      it "je suis redirigé vers la page eligibilité" do
         post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis}, proprietaire: "1" 
-        expect(response).to redirect_to projet_path(projet)
+        expect(response).to redirect_to projet_eligibility_path(projet)
       end
     end
   end

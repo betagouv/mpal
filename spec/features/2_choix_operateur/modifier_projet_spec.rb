@@ -134,7 +134,7 @@ end
 
 describe "En tant que demandeur :" do
   let(:user) { create :user }
-  let(:projet) { create :projet, :with_avis_imposition, :with_invited_pris,  user: user, modified_revenu_fiscal_reference: 111, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
+  let(:projet) { create :projet, :locked, :with_avis_imposition, :with_invited_pris,  user: user, modified_revenu_fiscal_reference: 111 }
 
   before { login_as user, scope: :user }
 

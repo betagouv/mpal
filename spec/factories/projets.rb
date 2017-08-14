@@ -6,6 +6,12 @@ FactoryGirl.define do
     association :adresse_postale,   factory: [ :adresse, :rue_de_rome ]
     association :adresse_a_renover, factory: [ :adresse, :rue_de_la_mare ]
 
+    trait :locked do
+      after(:build) do |projet|
+        projet.locked_at = Time.new(2001, 2, 3, 4, 5, 6)
+      end
+    end
+
     trait :with_trusted_person do
       after(:build) do |projet|
         projet.personne = create :personne
@@ -38,6 +44,15 @@ FactoryGirl.define do
       end
     end
 
+    trait :with_demandeur_with_account do
+      with_demandeur
+
+      after(:build) do |projet|
+        projet.user = create :user
+      end
+
+    end
+
     trait :with_demande do
       after(:build) do |projet|
         create(:demande, projet: projet)
@@ -64,6 +79,7 @@ FactoryGirl.define do
     end
 
     trait :with_contacted_operateur do
+      locked
       after(:build) do |projet|
         operateur = create(:operateur, departements: [projet.departement])
         projet.invitations << create(:invitation, projet: projet, intervenant: operateur, contacted: true)

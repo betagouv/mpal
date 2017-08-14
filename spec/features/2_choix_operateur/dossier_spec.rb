@@ -5,7 +5,7 @@ require 'support/api_ban_helper'
 
 feature "Accéder aux informations du dossier :" do
   let(:user)        { create :user }
-  let(:projet)      { create(:projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6)) }
+  let(:projet)      { create(:projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, user: user ) }
   let(:operateur)   { projet.contacted_operateur }
   let(:instructeur) { projet.invited_instructeur }
   let(:pris)        { projet.invited_pris }

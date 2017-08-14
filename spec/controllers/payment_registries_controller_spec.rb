@@ -6,7 +6,7 @@ describe PaymentRegistriesController do
 
   describe "#show" do
     let(:user)               { create :user}
-    let(:projet)             { create :projet, :transmis_pour_instruction, :with_payment_registry, locked_at: Time.new(2001, 2, 3, 4, 5, 6), user: user }
+    let(:projet)             { create :projet, :transmis_pour_instruction, :with_payment_registry, user: user }
     let(:payment_en_montage) { create :payment, statut: :en_cours_de_montage }
     let(:payment_demande)    { create :payment, statut: :demande }
 

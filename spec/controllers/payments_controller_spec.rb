@@ -130,7 +130,7 @@ describe PaymentsController do
 
   describe "en tant que demandeur" do
     let(:user)    { create :user }
-    let(:projet)  { create :projet, :en_cours_d_instruction, :with_payment_registry, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
+    let(:projet)  { create :projet, :en_cours_d_instruction, :with_payment_registry, user: user }
     let(:payment) { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
     let(:submit_time) { Time.now }
 
