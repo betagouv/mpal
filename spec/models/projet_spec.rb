@@ -563,6 +563,72 @@ describe Projet do
     end
   end
 
+  describe "#mark_last_read_messages_at!" do
+    let!(:agent)  { create :agent }
+    let!(:projet) { create :projet }
+    let(:now)     { DateTime.new(2017, 04, 03, 18, 02, 10) }
+    let!(:agents_projet) { create :agents_projet, agent: agent, projet: projet, last_read_messages_at: now - 1.hour }
+    before { allow(Time).to receive(:now).and_return(now) }
+
+    it {
+      projet.mark_last_read_messages_at!(agent)
+      agents_projet.reload
+      expect(agents_projet.last_read_messages_at).to eq now
+    }
+  end
+
+  describe "#mark_last_viewed_at!" do
+    let!(:agent)  { create :agent }
+    let!(:projet) { create :projet }
+    let(:now)     { DateTime.new(2017, 04, 03, 18, 02, 10) }
+    before { allow(Time).to receive(:now).and_return(now) }
+
+    context "à la première vue du projet" do
+      it {
+        projet.mark_last_viewed_at!(agent)
+        agents_projet = projet.agents_projets.where(agent: agent).first
+        expect(agents_projet.last_viewed_at).to eq now
+      }
+    end
+
+    context "quand le projet a déjà été vu" do
+      let!(:agents_projet) { create :agents_projet, agent: agent, projet: projet, last_viewed_at: now - 1.hour }
+      it {
+        projet.mark_last_viewed_at!(agent)
+        agents_projet.reload
+        expect(agents_projet.last_viewed_at).to eq now
+      }
+    end
+  end
+
+  describe "#unread_messages" do
+    let!(:agent)    { create :agent }
+    let!(:user)     { create :user }
+    let!(:projet)   { create :projet }
+    let(:date1)     { DateTime.new(2017, 04, 01, 10, 36, 50) }
+    let(:date2)     { DateTime.new(2017, 04, 02, 14, 18, 20) }
+    let(:now)       { DateTime.new(2017, 04, 03, 18, 02, 10) }
+    let!(:message1) { create :message, projet: projet, auteur: user, created_at: date1, updated_at: date1 }
+    let!(:message2) { create :message, projet: projet, auteur: user, created_at: date2, updated_at: date2 }
+    before { allow(Time).to receive(:now).and_return(now) }
+
+    context "quand les messages n’ont jamais été consultés" do
+      it {
+        messages = projet.unread_messages(agent)
+        expect(messages).to contain_exactly message1, message2
+      }
+    end
+
+    context "quand des messages ont déjà été consultés" do
+      let!(:agents_projet) { create :agents_projet, agent: agent, projet: projet, last_read_messages_at: DateTime.new(2017, 04, 02, 11, 07, 40) }
+
+      it {
+        messages = projet.unread_messages(agent)
+        expect(messages).to contain_exactly message2
+      }
+    end
+  end
+
   describe "#save_proposition!" do
     let(:projet) { create :projet, :en_cours }
 

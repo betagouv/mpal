@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170812174356) do
+ActiveRecord::Schema.define(version: 20170812222316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,18 @@ ActiveRecord::Schema.define(version: 20170812174356) do
   add_index "agents", ["clavis_id"], name: "index_agents_on_clavis_id", using: :btree
   add_index "agents", ["intervenant_id"], name: "index_agents_on_intervenant_id", using: :btree
   add_index "agents", ["username"], name: "index_agents_on_username", unique: true, using: :btree
+
+  create_table "agents_projets", force: :cascade do |t|
+    t.integer  "agent_id"
+    t.integer  "projet_id"
+    t.datetime "last_viewed_at"
+    t.datetime "last_read_messages_at"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "agents_projets", ["agent_id"], name: "index_agents_projets_on_agent_id", using: :btree
+  add_index "agents_projets", ["projet_id"], name: "index_agents_projets_on_projet_id", using: :btree
 
   create_table "aides", force: :cascade do |t|
     t.string  "libelle"
@@ -374,6 +386,8 @@ ActiveRecord::Schema.define(version: 20170812174356) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "agents", "intervenants"
+  add_foreign_key "agents_projets", "agents"
+  add_foreign_key "agents_projets", "projets"
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "demandes", "projets"
   add_foreign_key "documents", "projets"

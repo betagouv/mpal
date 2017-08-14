@@ -61,10 +61,27 @@ a.project-menu__item {
   border-color: #888;
 }
 .project-menu__icon {
+  position: relative;
   display: block;
   font-size: 1.5em;
   width: 1.5em;
   margin: 0 auto;
+}
+.project-menu__badge {
+  position: absolute;
+  top: -0.6em;
+  right: -0.2em;
+  padding: 3px 5px;
+  font-size: 0.4em;
+  font-weight: bold;
+  line-height: 1;
+  color: white;
+  background-color: $color-red;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 10px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
 .project-menu__text {
   display: inline-block;

@@ -12,7 +12,7 @@
       / TODO 2017-08-07: suppression à valider avec PO
       - if current_agent
         p
-          = project.plateforme_id
+          = project.numero_plateforme
           - if project.opal_numero.present?
             = " / Opal : #{project.opal_numero}"
 
@@ -30,6 +30,10 @@
       span.project-menu__text Pièces
     = link_to new_projet_or_dossier_message_path(project), class: "project-menu__item"
       span.project-menu__icon.glyphicon.glyphicon-envelope
+        - if current_agent
+          - unread_messages_count = project.unread_messages(current_agent).count
+        - if 0 < (unread_messages_count || 0)
+          span.project-menu__badge= unread_messages_count
       span.project-menu__text Messages
     / TODO
     /.project-menu__item

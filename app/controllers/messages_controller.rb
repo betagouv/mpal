@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :assert_projet_courant
+  after_action  :mark_last_read_messages_at
 
   def new
     render_new
@@ -20,6 +21,12 @@ private
       current_agent
     else
       @projet_courant.demandeur
+    end
+  end
+
+  def mark_last_read_messages_at
+    if current_agent
+      @projet_courant.mark_last_read_messages_at!(current_agent)
     end
   end
 
