@@ -1,6 +1,7 @@
+@import "variables";
+
 .public-information {
   position: relative;
-  padding: 20px;
   background-color: white;
 }
 .public-information__heading {
@@ -18,3 +19,4 @@
   list-style-type: square;
   margin-left: 1em;
 }
+

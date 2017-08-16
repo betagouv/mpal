@@ -1,19 +1,18 @@
+@import "variables";
+
 .occupant-inline-form__title {
   margin-bottom: 1em;
   font-size: 1em;
   font-weight: bold;
 }
-
 .occupant-inline-form__fields {
   @extend .clearfix;
 }
-
 .occupant-inline-form__field {
   float: left;
   margin-right: 2em;
   max-width: 210px;
 }
-
 .occupant-inline-form__submit {
   float: left;
   margin-top: 2em;

@@ -1,8 +1,6 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   include ApplicationConcern
 
-  layout "inscription"
-
   before_action :assert_projet_courant
 
   # before_action :configure_sign_up_params, only: [:create]
@@ -10,7 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    @page_heading = 'Inscription'
+    @page_heading = "Identifiants"
     super do
       resource.email = @projet_courant.email if resource.email.blank?
     end
@@ -18,6 +16,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
+    @page_heading = "Identifiants"
     super
     if resource.valid?
       @projet_courant.update_attributes!(user: current_user)

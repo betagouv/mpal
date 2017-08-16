@@ -14,12 +14,11 @@ article.block.projet
         .description-operateur
           strong= operateur.raison_sociale
           p= operateur.description_adresse
-        - unless current_agent
-          br
-          br
-          | Vous pouvez à présent dialoguer avec le demandeur par la&nbsp;
-          = link_to 'messagerie', '#messagerie'
-          | . Vous serez informé par email pour chaque réponse de sa part.
+        - if current_agent
+          p
+            | Vous pouvez à présent dialoguer avec le demandeur par la
+            =< link_to "messagerie", new_projet_or_dossier_message_path(@projet_courant)
+            | . Vous serez informé par email pour chaque réponse de sa part.
       - else
         p
           = t('projets.envisage.operateur.aucun')
@@ -32,3 +31,4 @@ article.block.projet
           = btn name: t('recommander_operateurs.modifier'), href: dossier_recommander_operateurs_path(@projet_courant)
         - else
           = btn name: t('recommander_operateurs.recommander'), href: dossier_recommander_operateurs_path(@projet_courant)
+

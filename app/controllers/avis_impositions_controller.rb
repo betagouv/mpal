@@ -2,10 +2,10 @@ class AvisImpositionsController < ApplicationController
   layout "inscription"
 
   before_action :assert_projet_courant
-  before_action :init_view
   load_and_authorize_resource
 
   def index
+    @page_heading = "Avis d’imposition"
   end
 
   def update_project_rfr
@@ -18,22 +18,23 @@ class AvisImpositionsController < ApplicationController
 
   def new
     @avis_imposition = @projet_courant.avis_impositions.new
+    @page_heading = "Ajouter un avis d’imposition"
   end
 
   def create
     @avis_imposition = ProjetInitializer.new.initialize_avis_imposition(@projet_courant, avis_imposition_params[:numero_fiscal], avis_imposition_params[:reference_avis])
-
-    if @avis_imposition.blank?
-      flash[:alert] = t("sessions.invalid_credentials")
-      redirect_to new_projet_or_dossier_avis_imposition_path @projet_courant
-    elsif @avis_imposition.is_valid_for_current_year?
-      @avis_imposition.save!
+    if @avis_imposition && @avis_imposition.is_valid_for_current_year? && @avis_imposition.save
       flash[:notice] = "Avis d’imposition ajouté"
-      redirect_to projet_or_dossier_avis_impositions_path @projet_courant
-    else
-      flash[:alert] = t("projets.composition_logement.avis_imposition.messages.annee_invalide", year: 2.years.ago.year)
-      redirect_to new_projet_or_dossier_avis_imposition_path @projet_courant
+      return redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
     end
+    if @avis_imposition.blank?
+      @avis_imposition = @projet_courant.avis_impositions.new(avis_imposition_params)
+      flash[:alert] = t("sessions.invalid_credentials")
+    elsif !@avis_imposition.is_valid_for_current_year?
+      flash[:alert] = t("projets.composition_logement.avis_imposition.messages.annee_invalide", year: 2.years.ago.year)
+    end
+    @page_heading = "Ajouter un avis d’imposition"
+    render :new
   end
 
   def destroy
@@ -46,13 +47,9 @@ class AvisImpositionsController < ApplicationController
   end
 
 private
-  def init_view
-    @page_heading = "Inscription"
-  end
-
   def avis_imposition_params
     (params || {}).require(:avis_imposition).permit(:numero_fiscal, :reference_avis)
-    end
+  end
 
   def modified_revenu_fiscal_reference
     (params || {}).require(:projet).permit(:modified_revenu_fiscal_reference)[:modified_revenu_fiscal_reference]

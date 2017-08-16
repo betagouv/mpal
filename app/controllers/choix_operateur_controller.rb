@@ -10,9 +10,9 @@ class ChoixOperateurController < ApplicationController
     @operateur = @projet_courant.contacted_operateur
 
     if @operateur.present?
-      @action_label = I18n.t('choix_operateur.actions.changer')
+      @action_label = I18n.t("choix_operateur.actions.changer")
     else
-      @action_label = I18n.t('choix_operateur.actions.contacter')
+      @action_label = I18n.t("choix_operateur.actions.contacter")
     end
   end
 
@@ -43,7 +43,7 @@ private
   end
 
   def init_view
-    @page_heading = 'Inscription'
+    @page_heading = I18n.t("choix_operateur.title")
   end
 end
 

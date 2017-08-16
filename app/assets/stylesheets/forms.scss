@@ -74,6 +74,7 @@
   .form-check-hacked {
     > label {
       display: block;
+      cursor: default;
     }
   }
   .form-check-label > input {
@@ -96,5 +97,12 @@
     .form-field         { max-width: percentage((8 / $grid-columns)); }
     .form-field-label   { margin-left: percentage((4 / $grid-columns)); }
   }
+}
+
+.form-explanations {
+  margin-bottom: 1em;
+}
+.input-number, .input-price {
+  text-align: right;
 }
 

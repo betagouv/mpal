@@ -1,0 +1,8 @@
+.dashboard-dossiers
+  - if @invitations.blank?
+    p Aucun dossier.
+  - else
+    - @invitations.each do |invitation|
+      - projet = invitation.projet
+      = render "projets/menu", project: projet
+

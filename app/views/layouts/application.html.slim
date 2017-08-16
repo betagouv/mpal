@@ -1,4 +1,4 @@
-- @page_title ||= [@page_heading, "Les aides de l’Anah"].compact.join(" - ")
+- @page_title ||= [@page_heading, app_name].compact.join(" - ")
 doctype html
 html lang="fr"
   head
@@ -6,16 +6,16 @@ html lang="fr"
     meta content="width=device-width, initial-scale=1" name="viewport" /
     meta content="ie=edge" http-equiv="x-ua-compatible" /
     title= @page_title
-    link rel="icon" type="image/png" href="#{image_path('favicon.png')}" /
-    = stylesheet_link_tag    'application', media: 'all'
+    link rel="icon" type="image/png" href="#{image_path("favicon.png")}" /
+    = stylesheet_link_tag    "application", media: "all"
     = csrf_meta_tag
-    = javascript_include_tag 'application', async: Rails.env.production?
+    = javascript_include_tag "application", async: Rails.env.production?
   body
     .main-container
       #beta-ribbon
       .centered-page
-        = yield :header
-        = render 'shared/messages'
+        = render "shared/header"
+        = render "shared/messages"
         = content_for?(:content) ? yield(:content) : yield
         footer.footer
           = link_to t("menu.homepage"), root_path
@@ -32,4 +32,4 @@ html lang="fr"
     = yield :popins
 
     - if false && @display_help
-      = render 'shared/help'
+      = render "shared/help"

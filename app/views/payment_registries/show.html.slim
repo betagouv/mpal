@@ -1,5 +1,3 @@
-= render "shared/ribbon_header"
-
 - unless @projet_courant.payment_registry.code_opal
   .registry__warning
     p= t("payment_registry.info_only_prepare")
@@ -53,7 +51,6 @@
             = t("payment_registry.#{payment.personne_morale ? :legal_person : :physical_person}", beneficiaire: payment.beneficiaire)
 
 - if can? :create, Payment
-  .registry__button_group
-    = link_to new_dossier_payment_path(@projet_courant), class: "btn btn-icon btn-centered registry__add_button"
-      = t("payment_registry.add_payment")
-      i.glyphicon.glyphicon-plus
+  .registry__button-group
+    = btn name: t("payment_registry.add_payment"), href: new_dossier_payment_path(@projet_courant), class: "btn-centered", icon: "plus"
+

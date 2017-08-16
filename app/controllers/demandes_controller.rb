@@ -1,13 +1,12 @@
 class DemandesController < ApplicationController
-  layout 'inscription'
+  layout "inscription"
 
   before_action :assert_projet_courant
   load_and_authorize_resource
 
   def show
     @demande = projet_demande
-
-    @page_heading = 'Inscription'
+    @page_heading = "Projet envisagé"
     @action_label = action_label
   end
 

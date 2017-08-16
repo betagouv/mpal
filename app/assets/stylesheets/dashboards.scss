@@ -6,7 +6,7 @@
     margin-bottom: 1em;
   }
 }
-.table {
+.table-dashboard {
   width: 100%;
   max-width: 100%;
   margin-bottom: 1em;
@@ -46,11 +46,6 @@
   &.table-hovered {
     tbody tr:hover {
       background-color: #ffc;
-    }
-  }
-  &.table-stripped {
-    tbody tr:nth-of-type(even) {
-      background-color: #eee;
     }
   }
 }

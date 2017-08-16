@@ -1,18 +1,17 @@
+@import "variables";
+
 .imposition-form {
   margin: 10px 30px;
 }
-
 .imposition-form__field {
   display: block;
   margin-right: -4px;
   padding: 10px 0 10px;
 }
-
 .imposition-form__label  {
   display: block;
   padding: 5px 0;
 }
-
 .imposition-form__input {
   background-color: #f2f6fa;
   border: solid 1px #909eaf;
@@ -21,3 +20,4 @@
   padding: 9px 10px 8px;
   width: 90%;
 }
+

@@ -1,13 +1,12 @@
-.main-content-block
-  h1 Indicateurs
+h1 Indicateurs
+- unless current_agent.dreal?
+   = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-top-right btn-secondary"
 
-  - unless current_agent.dreal?
-     = btn name: "Dossiers", href: dossiers_path, icon: "folder-open", class: "align-top-right btn-secondary"
+h3 Il y a #{pluralize(@projets_count, "projet")}
 
-  h3=  "Il y a #{ pluralize( @projets_count, 'projet' ) }."
+.flex-indicateurs-projet.clearfix
+  - @projets.each do |statut, count|
+      .indicateur-projet id="projet_#{statut}"
+        h3= t("projets.statut.#{statut}")
+        p.nombre-projets= count
 
-  .flex-indicateurs-projet.clearfix
-    - @projets.each do |statut, count|
-        .indicateur-projet id="projet_#{statut}"
-          h3= t("projets.statut.#{statut}")
-          p.nombre-projets= count 

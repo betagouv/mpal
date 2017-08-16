@@ -1,8 +1,5 @@
 @import "variables";
 
-.registry__content {
-}
-
 .registry__warning {
   background-color: $alert-warning-bg;
   border-color: $alert-warning-border;
@@ -11,7 +8,6 @@
   padding: 1em;
   margin-bottom: 1em;
 }
-
 .registry__entry {
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 1em;
@@ -28,7 +24,6 @@
   background-color: $state-danger-bg;
   padding: 1em 2em;
 }
-
 .registry__title_header {
   display: flex;
   align-items: center;
@@ -41,7 +36,6 @@
   font-weight: bold;
   color: $font-color;
 }
-
 .registry__actions_header {
   display: flex;
   align-items: center;
@@ -51,16 +45,12 @@
   text-decoration: none;
   margin-left: 1em;
 }
-.registry__action_text {
-}
 .registry__action_icon {
   margin-left: 0.5em;
 }
-
 .registry__details {
   padding: 1em 2em;
 }
-
 .registry__status {
   text-decoration: underline;
   margin-bottom: 1em;
@@ -68,10 +58,7 @@
 .registry__beneficiary {
   font-style: italic;
 }
+.registry__button-group {
+  margin: 2em auto;
+}
 
-.registry__button_group {
-  margin: 2em;
-}
-.registry__add_button {
-  text-decoration: none;
-}

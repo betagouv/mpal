@@ -3,26 +3,11 @@
 .inscription {
   position: relative;
   margin: 15px auto 0;
-  padding: 0 0 30px;
-  background-color: white;
-  box-shadow: 0 1px 2px 0 rgba(95, 121, 150, 0.2);
-  border: solid 1px #f2f6fa;
-  border-radius: 4px;
   &.demandeur, &.projet, &.eligibilite {
     margin-top: 0;
   }
-  h2 {
-    background-color: #eef1f7;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
-    font-size: 18px;
-    font-weight: bold;
-    color: $font-color;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-    padding: 15px 30px;
-  }
-  p.chapo {
+  .chapo {
     padding: 20px 30px 0;
-    font-weight: 600;
   }
 }
 .inscription-legacy {
@@ -87,7 +72,6 @@
     }
   }
 }
-
 .dem-contact-wrapper {
   .dem-contact {
     li.radio {
@@ -100,9 +84,8 @@
     }
   }
 }
-
 .checkbox-validation {
-  margin: 30px 30px 0;
+  margin-top: 30px;
   input {
     margin-right: 10px;
   }
@@ -111,10 +94,7 @@
   }
 }
 .inscription {
-  .occupants .occupants-heading {
-    border-bottom: 1px solid white;
-  }
-  .occupants .occupants-recap {
+  .occupants-recap {
     background: #eef1f7;
     padding: 15px 30px;
     box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
@@ -131,11 +111,10 @@
       }
     }
   }
-  .occupants .occupant-inline-form {
+  .occupant-inline-form {
     width: 80%;
     margin: 30px auto;
   }
-
   .occ-table {
     border-collapse: collapse;
     width: 80%;
@@ -166,12 +145,11 @@
     }
   }
   .intervenant {
-    .chapo {
-      font-weight: 400;
+    p {
+      margin-bottom: 1em;
     }
     hr {
-      width: 80%;
-      margin: 25px auto 0;
+      margin: 2em auto;
     }
     .ins-form li {
       width: 100%;
@@ -184,7 +162,6 @@
     }
   }
 }
-
 .popin-form {
   .ins-form li.checkbox {
     width: 100%;
@@ -198,9 +175,8 @@
     display: inline-block;
   }
 }
-
 .choose-operator {
-  padding: 20px 30px;
+  padding: 20px 30px 0;
   text-align: center;
   @extend .clearfix;
   input[type="radio"] {
@@ -243,3 +219,4 @@
     }
   }
 }
+

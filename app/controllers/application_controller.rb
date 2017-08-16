@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
   def initialize
     super
     @display_help = true
-    @page_heading = "Mon projet Anah"
   end
 
   def after_sign_in_path_for(resource)
@@ -35,3 +34,4 @@ class ApplicationController < ActionController::Base
     end
   end
 end
+

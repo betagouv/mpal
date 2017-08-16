@@ -11,7 +11,7 @@
   border-radius: 12px;
   margin-left: 5px;
   cursor: default;
-
+  text-decoration: none;
   color: $font-color;
   border-color: $color-primary;
   &:hover {
@@ -27,7 +27,7 @@
     border-color: $color-primary;
   }
 }
-
 a.info-point {
   cursor: pointer;
 }
+

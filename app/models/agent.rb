@@ -3,6 +3,7 @@ class Agent < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :cas_authenticatable, :trackable
 
+  has_many   :agents_projets, dependent: :destroy
   belongs_to :intervenant
   has_many   :projects
   validates :nom, presence: true

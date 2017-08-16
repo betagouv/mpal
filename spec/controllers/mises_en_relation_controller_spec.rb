@@ -1,8 +1,8 @@
-require 'rails_helper'
-require 'support/mpal_helper'
-require 'support/api_particulier_helper'
-require 'support/api_ban_helper'
-require 'support/rod_helper'
+require "rails_helper"
+require "support/mpal_helper"
+require "support/api_particulier_helper"
+require "support/api_ban_helper"
+require "support/rod_helper"
 
 describe MisesEnRelationController do
   let(:projet) { create :projet, :prospect }
@@ -17,7 +17,7 @@ describe MisesEnRelationController do
 
     it "renders the template" do
       expect(response).to render_template(:show)
-      expect(assigns(:page_heading)).to eq 'Inscription'
+      expect(assigns(:page_heading)).to eq "Un contact pour vous aider"
     end
   end
 
@@ -28,13 +28,13 @@ describe MisesEnRelationController do
           patch :update, {
             projet_id: projet.id,
             projet: {
-              disponibilite: 'plutôt le matin'
+              disponibilite: "plutôt le matin"
             }
           }
           projet.reload
         end
 
-        it "met à jour le projet et invite le PRIS et l'instructeur" do
+        it "met à jour le projet et invite le PRIS et l’instructeur" do
           expect(projet.disponibilite).to eq "plutôt le matin"
           expect(projet.invited_pris).to be_present
           expect(projet.invited_instructeur).to be_present
@@ -42,8 +42,8 @@ describe MisesEnRelationController do
 
         it "redirige vers la page principale du projet" do
           expect(response).to redirect_to projet_path(projet)
-          expect(flash[:notice_titre]).to eq I18n.t('invitations.messages.succes_titre')
-          expect(flash[:notice]).to eq I18n.t('invitations.messages.succes', intervenant: projet.invited_pris.raison_sociale)
+          expect(flash[:notice_titre]).to eq I18n.t("invitations.messages.succes_titre")
+          expect(flash[:notice]).to eq I18n.t("invitations.messages.succes", intervenant: projet.invited_pris.raison_sociale)
         end
       end
 
@@ -53,13 +53,13 @@ describe MisesEnRelationController do
           patch :update, {
             projet_id: projet.id,
             projet: {
-              disponibilite: 'plutôt le matin'
+              disponibilite: "plutôt le matin"
             }
           }
           projet.reload
         end
 
-        it "met à jour le projet, n'invite pas le PRIS et invite l'instructeur" do
+        it "met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
           expect(projet.disponibilite).to eq "plutôt le matin"
           expect(projet.invited_pris).not_to be_present
           expect(projet.invited_instructeur).to be_present
@@ -72,13 +72,13 @@ describe MisesEnRelationController do
           patch :update, {
             projet_id: projet.id,
             projet: {
-              disponibilite: 'plutôt le matin'
+              disponibilite: "plutôt le matin"
             }
           }
           projet.reload
         end
 
-        it "met à jour le projet et invite le PRIS et l'instructeur" do
+        it "met à jour le projet et invite le PRIS et l’instructeur" do
           expect(projet.disponibilite).to eq "plutôt le matin"
           expect(projet.invited_pris).to be_present
           expect(projet.invited_instructeur).to be_present

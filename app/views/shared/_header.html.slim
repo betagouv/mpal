@@ -1,20 +1,23 @@
-header.project-header.clearfix
-  - logo_path = current_agent ? dossiers_path : root_path
-  = link_to logo_path, class: "logo-link", title: "Agence Nationale de l’Habitat - Anah" do
-    = image_tag "logo-anah.png", alt: "Agence Nationale de l’Habitat - Anah", class: "logo-anah"
-  h1.heading= @page_heading || "Bonjour"
-  - if current_agent
-    .connection
-      - if current_agent.intervenant
-        p.nom-intervenant= current_agent.intervenant.raison_sociale
-      - else
-        p.nom-intervenant-error
-          | Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", "mailto:#{ENV['EMAIL_CONTACT']}"}
-      p.nom-agent
-        span.firstname= current_agent.prenom
-        span.lastname<= current_agent.nom
-      = btn name: t('sessions.lien_deconnexion'), href: destroy_agent_session_path, class: 'btn-secondary btn-small', icon: 'off'
-  - elsif current_user || session[:project_id].present?
-    .connection
-      = btn name: t('sessions.lien_deconnexion'), href: deconnexion_path, class: 'btn-secondary btn-small', icon: 'off'
+.header.clearfix
+  = link_to root_path, class: "header__logo-anah" do
+    = image_tag "logo-anah.png", class: "header__logo-anah-img", alt: "#{app_name} - Agence Nationale de l’Habitat", title: "#{app_name} - Agence Nationale de l’Habitat"
+  = image_tag "logo-rf.png", class: "header__logo-rf", alt: "République Française - Ministère du logement et de l’habitat durable", title: "République Française - Ministère du logement et de l’habitat durable"
+  - if @homepage
+    h1.header__title= app_name
+  - else
+    strong.header__title= app_name
+- if current_agent
+  - unless current_agent.intervenant
+    .alert.alert-danger Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", new_contact_path}
+  .agent-menu.clearfix
+    = btn name: "", href: home_dossiers_path, icon: "home", class: "btn-default", html: { title: "Aller à l’accueil" }
+    = btn name: "", href: dossiers_path, icon: "list", class: "btn-default", html: { title: "Aller au tableau de bord" }
+    .agent-menu__right
+      p.agent-menu__identity
+        span.agent-menu__fullname
+          span.firstname= current_agent.prenom
+          span.lastname<= current_agent.nom
+        - if current_agent.intervenant
+          span.agent-menu__intervenant<= "(#{current_agent.intervenant.raison_sociale})"
+      = btn name: "", href: destroy_agent_session_path, icon: "off", class: "btn-default", html: { title: t("sessions.lien_deconnexion") }
 

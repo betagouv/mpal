@@ -1,3 +1,5 @@
+@import "variables";
+
 .login-demo {
   background-color: #e6eaed;
   margin-top: 2em;
@@ -5,22 +7,18 @@
     display: flex;
   }
 }
-
 .login-demo__subtitle {
   margin: 2em 0 1em;
 }
-
 .login-demo__list {
   list-style-position: inside;
 }
-
 .login-demo__column {
   padding: 30px;
   @media screen and (min-width: 1000px) {
     width: 50%;
   }
 }
-
 .login-demo__table {
   width: 100%;
 }
@@ -38,3 +36,4 @@
     }
   }
 }
+

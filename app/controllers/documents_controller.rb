@@ -1,6 +1,4 @@
 class DocumentsController < ApplicationController
-  layout "creation_dossier"
-
   before_action :assert_projet_courant
   before_action :assert_file_present, only: :create
   load_and_authorize_resource

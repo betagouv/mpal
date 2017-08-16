@@ -1,0 +1,25 @@
+@import "variables";
+
+.agent-menu {
+  clear: both;
+  margin-bottom: 1em;
+  text-align: left;
+}
+.agent-menu__right {
+  float: right;
+}
+.agent-menu__identity {
+  float: left;
+  font-size: 0.9em;
+  margin-right: 1em;
+  line-height: 1.2em;
+  text-align: right;
+}
+.agent-menu__fullname {
+  display: block;
+  font-weight: bold;
+}
+.agent-menu__intervenant {
+  display: block;
+}
+

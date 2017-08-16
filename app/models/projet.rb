@@ -40,16 +40,20 @@ class Projet < ActiveRecord::Base
   belongs_to :agent_operateur, class_name: "Agent"
   belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
-  has_many :commentaires, -> { order('created_at DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
+  has_many :messages, -> { order("created_at DESC") }, dependent: :destroy
+
+  has_many :agents_projets, dependent: :destroy
+
   has_many :occupants, through: :avis_impositions
 
   has_many :documents, dependent: :destroy
   accepts_nested_attributes_for :documents
 
   has_many :projet_aides, dependent: :destroy
+
   has_many :aides, through: :projet_aides
-  accepts_nested_attributes_for :projet_aides, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :projet_aides
 
   has_many :prestation_choices, dependent: :destroy
   has_many :prestations, through: :prestation_choices
@@ -101,7 +105,6 @@ class Projet < ActiveRecord::Base
 
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')
-
     if is_numero_plateforme
       id            = locator.split('_').first
       plateforme_id = locator.split('_').last
@@ -111,8 +114,43 @@ class Projet < ActiveRecord::Base
     end
   end
 
+  def mark_last_read_messages_at!(agent)
+    join = agents_projets.where(agent: agent).first
+    join.update_attribute(:last_read_messages_at, Time.now) if join
+    join
+  end
+
+  def mark_last_viewed_at!(agent)
+    join = agents_projets.where(agent: agent).first
+    if join
+      join.update_attribute(:last_viewed_at, Time.now)
+    else
+      join = agents_projets.create!(agent: agent, last_viewed_at: Time.now)
+    end
+    join
+  end
+
+  def unread_messages(agent)
+    join = agents_projets.where(agent: agent).first
+    if join && join.last_read_messages_at
+      messages.where(["messages.created_at > ?", join.last_read_messages_at])
+    else
+      messages
+    end
+  end
+
   def accessible_for_agent?(agent)
     agent.instructeur? || intervenants.include?(agent.intervenant) || agent.siege?
+  end
+
+  def projet_aides_sorted
+    aide_ids = self.projet_aides.map(&:aide_id)
+    Aide.active_for_projet(self).ordered.each do |aide|
+      unless aide_ids.include? aide.id
+        self.projet_aides.build(aide: aide)
+      end
+    end
+    self.projet_aides.sort_by { |x| x.libelle }
   end
 
   def clean_numero_fiscal
@@ -179,6 +217,26 @@ class Projet < ActiveRecord::Base
 
   def can_validate_operateur?
     contacted_operateur.present? && operateur.blank?
+  end
+
+  def aids_with_amounts
+    # This query be simplified by using `left_joins` once we'll be running on Rails 5
+    Aide
+      .active_for_projet(self)
+      .joins("LEFT OUTER JOIN projet_aides ON projet_aides.aide_id = aides.id AND projet_aides.projet_id = #{ActiveRecord::Base.sanitize(self.id)}")
+      .distinct
+      .select("aides.*, projet_aides.amount AS amount")
+      .order(:id)
+  end
+
+  def prestations_with_choices
+    # This query be simplified by using `left_joins` once we'll be running on Rails 5
+    Prestation
+      .active_for_projet(self)
+      .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(self.id)}")
+      .distinct
+      .select("prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id")
+      .order(:id)
   end
 
   FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
@@ -408,7 +466,6 @@ class Projet < ActiveRecord::Base
         'État',
         'Depuis',
       ]
-
 
       titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
       titles.insert 6, 'Agent opérateur'    if agent.siege? || agent.instructeur? || agent.operateur?

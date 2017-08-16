@@ -1,9 +1,9 @@
-.main-content-block.dashboard-dossiers
+.dashboard-dossiers
   - if @invitations.blank?
     p Aucun dossier.
   - else
     = btn name: "Export CSV", href: dossiers_path(format: :csv), icon: "download", class: "btn-export"
-    table.table.table-hovered.table-stripped
+    table.table.table-hover.table-striped.table-sm
       thead
         tr
           th

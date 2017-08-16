@@ -1,6 +1,6 @@
-require 'rails_helper'
-require 'support/mpal_helper'
-require 'support/api_ban_helper'
+require "rails_helper"
+require "support/mpal_helper"
+require "support/api_ban_helper"
 
 describe DemandesController do
   let(:projet) { create :projet, :prospect, demande: nil }
@@ -14,20 +14,20 @@ describe DemandesController do
 
     it "renders the template" do
       expect(response).to render_template(:show)
-      expect(assigns(:page_heading)).to eq 'Inscription'
+      expect(assigns(:page_heading)).to eq "Projet envisagé"
     end
   end
 
   describe "#update" do
 
-    context "quand le demandeur n'a pas encore atteint la page éligibilité" do
+    context "quand le demandeur n’a pas encore atteint la page éligibilité" do
       before { authenticate_as_project(projet.id) }
 
       it "met à jour la demande" do
         patch :update, {
           projet_id: projet.id,
           demande: {
-            changement_chauffage: '1'
+            changement_chauffage: "1"
           }
         }
         projet.demande.reload
@@ -36,16 +36,16 @@ describe DemandesController do
         expect(flash[:alert]).to be_blank
       end
 
-      context "quand aucun besoin n'est sélectionné" do
+      context "quand aucun besoin n’est sélectionné" do
         it "affiche une erreur" do
           patch :update, {
               projet_id: projet.id,
               demande: {
-                  changement_chauffage: ''
+                  changement_chauffage: ""
               }
           }
           expect(response).to redirect_to projet_demande_path
-          expect(flash[:alert]).to eq I18n.t('demarrage_projet.demande.erreurs.besoin_obligatoire')
+          expect(flash[:alert]).to eq I18n.t("demarrage_projet.demande.erreurs.besoin_obligatoire")
         end
       end
     end
@@ -53,7 +53,7 @@ describe DemandesController do
     context "quand le demandeur a déjà atteint la page éligibilité" do
 
       before do
-        projet.demande.update(changement_chauffage: '1' )
+        projet.demande.update(changement_chauffage: "1" )
         projet.update(locked_at: Time.new(2001, 2, 3, 4, 5, 6) )
       end
 
@@ -69,25 +69,25 @@ describe DemandesController do
           patch :update, {
               projet_id: projet.id,
               demande: {
-                  changement_chauffage: '0'
+                  changement_chauffage: "0"
               }
           }
 
-          expect(flash[:alert]).to eq I18n.t('unauthorized.default')
+          expect(flash[:alert]).to eq I18n.t("unauthorized.default")
         end
       end
 
-      context "quand l'opérateur se connecte" do
+      context "quand l’opérateur se connecte" do
         let(:projet) { create :projet, :en_cours, :with_demande, :with_assigned_operateur }
 
         before { authenticate_as_agent(projet.agent_operateur) }
 
-        it "l'opérateur peut modifier le projet" do
+        it "l’opérateur peut modifier le projet" do
           patch :update, {
               dossier_id: projet.id,
               demande: {
-                  changement_chauffage: '',
-                  froid: '1'
+                  changement_chauffage: "",
+                  froid: "1"
               }
           }
 

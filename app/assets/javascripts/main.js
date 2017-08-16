@@ -26,9 +26,6 @@ $(document).ready(function() {
       $(this).parent().find(".content-block").slideDown("fast");
       $(this).addClass("is-open");
     }
-    var wtf  = $('.chat-container');
-    var height = wtf[0].scrollHeight;
-    wtf.scrollTop(height);
   });
 
   // Open by default last block
@@ -130,10 +127,10 @@ $(document).ready(function() {
     $(this).siblings('.js-document__file-added').text(fileName);
   }
 
-  function sumPublicHelps() {
-    var helps = Array.from($(".js-public-help"));
-    var sum = helps.reduce(parseAmountAndSum, 0).toFixed(2);
-    $("#js-public-helps-sum")[0].value = sum.toString().replace('.', ',');
+  function sumPublicAids() {
+    var aids = Array.from($(".js-public-aid"));
+    var sum = aids.reduce(parseAmountAndSum, 0).toFixed(2);
+    $("#js-public-aids-sum")[0].value = sum.toString().replace('.', ',');
   }
 
   function sumFundings() {
@@ -148,10 +145,10 @@ $(document).ready(function() {
     return accumulator + field_value;
   }
 
-  var public_helps = $(".js-public-help");
-  if (public_helps.length) {
-    sumPublicHelps();
-    public_helps.keyup(sumPublicHelps);
+  var public_aids = $(".js-public-aid");
+  if (public_aids.length) {
+    sumPublicAids();
+    public_aids.keyup(sumPublicAids);
   }
 
   var fundings = $(".js-funding");
