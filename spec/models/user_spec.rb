@@ -23,6 +23,7 @@ describe User do
 
       it { is_expected.to be_able_to(:read, Document) }
       it { is_expected.to be_able_to(:read, :eligibility) }
+      it { is_expected.to be_able_to(:manage, Message) }
       it { is_expected.to be_able_to(:read, Projet) }
     end
 
@@ -30,11 +31,12 @@ describe User do
       let(:projet) { create :projet }
 
       it { is_expected.not_to be_able_to(:read, Document) }
+      it { is_expected.not_to be_able_to(:manage, Message) }
 
       it { is_expected.to be_able_to(:manage, AvisImposition) }
       it { is_expected.to be_able_to(:manage, Demande) }
       it { is_expected.to be_able_to(:manage, :demandeur) }
-      it { is_expected.to be_able_to(:manage, :eligibility) }
+      it { is_expected.to be_able_to(:read, :eligibility) }
       it { is_expected.to be_able_to(:manage, Occupant) }
       it { is_expected.to be_able_to(:manage, Projet) }
     end

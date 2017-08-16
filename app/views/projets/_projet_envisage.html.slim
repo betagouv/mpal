@@ -13,11 +13,10 @@ article.block.projet
           p= operateur.email
           p= operateur.phone
         - unless current_agent
-          br
-          br
-          | Vous pouvez à présent dialoguer avec cet intervenant par la
-          <= link_to "messagerie", new_projet_or_dossier_message_path(@projet_courant)
-          |. Vous serez informé par email pour chaque réponse de sa part.
+          p
+            | Vous pouvez à présent dialoguer avec cet intervenant par la
+            =< link_to "messagerie", new_projet_or_dossier_message_path(@projet_courant)
+            |. Vous serez informé par email de chaque réponse de sa part.
         .button-group
           - if @projet_courant.can_validate_operateur?
             = btn name: t('projets.visualisation.s_engager_avec_operateur'), href: projet_engagement_operateur_path(@projet_courant, operateur_id: @projet_courant.contacted_operateur)

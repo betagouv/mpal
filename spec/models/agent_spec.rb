@@ -37,6 +37,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, :eligibility) }
 
             it { is_expected.to be_able_to(:read, Projet) }
+            it { is_expected.to be_able_to(:manage, Message) }
           end
         end
 

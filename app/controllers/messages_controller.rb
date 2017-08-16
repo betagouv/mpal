@@ -1,6 +1,7 @@
 class MessagesController < ApplicationController
   before_action :assert_projet_courant
   after_action  :mark_last_read_messages_at
+  load_and_authorize_resource
 
   def new
     render_new

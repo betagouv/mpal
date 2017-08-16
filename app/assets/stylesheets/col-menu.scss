@@ -1,10 +1,10 @@
+@import "variables";
+
 .col-menu__item {
   display: block;
   padding: 10px;
   text-decoration: none;
   border-bottom: 1px solid #ddd;
-  //background-color: $color-primary;
-  //color: white;
   &:hover {
     background-color: #eee;
   }

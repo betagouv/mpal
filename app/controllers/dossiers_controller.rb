@@ -7,11 +7,12 @@ class DossiersController < ApplicationController
   skip_load_and_authorize_resource only: [:index, :home, :indicateurs]
 
   def index
-    render_index
-    return render "dossiers/dashboard_siege"       if current_agent.siege?
-    return render "dossiers/dashboard_operateur"   if current_agent.operateur?
-    return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
-    render "dossiers/dashboard_pris"
+    if render_index
+      return render "dossiers/dashboard_siege"       if current_agent.siege?
+      return render "dossiers/dashboard_operateur"   if current_agent.operateur?
+      return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
+      render "dossiers/dashboard_pris"
+    end
   end
 
   def home
@@ -201,9 +202,11 @@ private
       format.csv {
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        return render text: Projet.to_csv(current_agent)
+        render text: Projet.to_csv(current_agent)
+        return false
       }
     end
+    true
   end
 
   def render_proposition

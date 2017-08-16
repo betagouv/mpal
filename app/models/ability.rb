@@ -9,15 +9,15 @@ class Ability
 
       return if projet.blank?
 
+      can :read, :eligibility
       if projet.locked_at.nil?
         can :manage, AvisImposition
         can :manage, Demande
         can :manage, :demandeur
-        can :manage, :eligibility
         can :manage, Occupant
         can :manage, Projet
       elsif user == projet.user
-        can :read, :eligibility
+        can :manage, Message
         can :read, Projet
       end
     end
@@ -26,6 +26,7 @@ class Ability
       agent = agent_or_user
 
       can :index, Projet
+      can :manage, Message
 
       return if projet.blank?
       return unless is_agent_of_projet?(agent, projet)

@@ -10,7 +10,7 @@
 
   h2.eligibility__heading= t("demarrage_projet.eligibility.section_conditions")
   .eligibility__block
-    i.glyphicon.glyphicon-list-alt.eligibility__icon
+    i.glyphicon.glyphicon-info-sign.eligibility__icon
     p.eligibility__text= t("demarrage_projet.eligibility.informations", conditions: link_to("les conditions générales à remplir", "http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-generales-a-remplir/", target: :_blank)).html_safe
   = btn name: "Suivant", href: new_user_registration_path, class: "btn-large btn-centered", icon: "arrow-right"
 
