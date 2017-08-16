@@ -5,10 +5,11 @@ describe PaymentRegistriesController do
   let(:agent_operateur) { projet.agent_operateur }
 
   describe "#show" do
-    let(:user)               { create :user}
-    let(:projet)             { create :projet, :transmis_pour_instruction, :with_payment_registry, user: user }
+    let(:projet)             { create :projet, :transmis_pour_instruction, :with_payment_registry }
     let(:payment_en_montage) { create :payment, statut: :en_cours_de_montage }
     let(:payment_demande)    { create :payment, statut: :demande }
+    let(:user)               { projet.user }
+
 
     before do
       projet.payment_registry.payments << payment_en_montage

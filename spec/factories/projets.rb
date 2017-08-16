@@ -50,7 +50,6 @@ FactoryGirl.define do
       after(:build) do |projet|
         projet.user = create :user
       end
-
     end
 
     trait :with_demande do
@@ -158,8 +157,9 @@ FactoryGirl.define do
 
     trait :en_cours do
       statut :en_cours
-      with_demandeur
+      with_demandeur_with_account
       with_demande
+      with_invited_pris
       with_committed_operateur
     end
 
@@ -169,7 +169,7 @@ FactoryGirl.define do
       travaux_ht_amount               1111.11
       assiette_subventionnable_amount 2222.22
       travaux_ttc_amount              5555.55
-      with_demandeur
+      with_demandeur_with_account
       with_demande
       with_assigned_operateur
       with_selected_prestation
@@ -177,14 +177,14 @@ FactoryGirl.define do
 
     trait :proposition_proposee do
       statut :proposition_proposee
-      with_demandeur
+      with_demandeur_with_account
       with_demande
       with_assigned_operateur
       with_selected_prestation
     end
 
     trait :transmis_pour_instruction do
-      with_demandeur
+      with_demandeur_with_account
       with_demande
       with_assigned_operateur
       with_selected_prestation
@@ -199,7 +199,7 @@ FactoryGirl.define do
     trait :en_cours_d_instruction do
       opal_numero 4567
       opal_id 8910
-      with_demandeur
+      with_demandeur_with_account
       with_demande
       with_assigned_operateur
       with_selected_prestation

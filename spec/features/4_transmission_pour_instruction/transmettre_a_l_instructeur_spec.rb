@@ -4,10 +4,10 @@ require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
 
 feature "Transmettre à l'instructeur :" do
-  let(:user)   { create :user }
 
   context "avant que le dossier ne soit transmis" do
-    let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles, :with_invited_instructeur, user: user }
+    let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles, :with_invited_instructeur }
+    let(:user)   { projet.user }
     let(:instructeur) { projet.invited_instructeur }
 
     context "en tant que demandeur" do
@@ -30,7 +30,8 @@ feature "Transmettre à l'instructeur :" do
 
   context "après transmission aux services instructeurs" do
     context "pour tous les intervenants" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_intervenants_disponibles, :with_invited_instructeur, user: user }
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_intervenants_disponibles, :with_invited_instructeur }
+      let(:user)   { projet.user }
 
       shared_examples "le dossier n'est plus modifiable" do
         specify do

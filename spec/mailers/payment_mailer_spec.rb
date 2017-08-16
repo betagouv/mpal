@@ -81,8 +81,8 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie l'opérateur et le demandeur que le l'instructeur souhaite modifier la demande de paiement" do
-    let(:user)       { create :user }
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry, user: user }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
+    let(:user)       { projet.user }
     let(:payment)    { create :payment, payment_registry: projet.payment_registry }
     subject(:email)  { PaymentMailer.demande_modification(payment, false) }
 
@@ -95,8 +95,8 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie l'opérateur que le demandeur souhaite modifier sa demande de paiement" do
-    let(:user)       { create :user }
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry, user: user }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
+    let(:user)       { projet.user }
     let(:payment)    { create :payment, payment_registry: projet.payment_registry }
     subject(:email)  { PaymentMailer.demande_modification(payment, true) }
 
