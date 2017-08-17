@@ -149,6 +149,11 @@ th, td {
     &:last-child {
       margin-bottom: 0;
     }
+    > h3 {
+      padding: 0.5em;
+      cursor: pointer;
+      background-color: $color-light-grey;
+    }
   }
   .accordeon {
     background-color: #eef1f7;
