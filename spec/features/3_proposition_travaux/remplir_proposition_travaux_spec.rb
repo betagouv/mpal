@@ -134,12 +134,9 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_css(".test-public-aids-sum",                 text: "14 444,43")
 
       # Section "Financement personnel"
-      expect(page).to have_content I18n.t('helpers.label.proposition.personal_funding_amount')
-      expect(page).to have_content '8 888,88 €'
-      expect(page).to have_content I18n.t('helpers.label.proposition.loan_amount')
-      expect(page).to have_content '9 999,99 €'
-      expect(page).to have_content I18n.t('helpers.label.proposition.fundings_sum')
-      expect(page).to have_content '33 333,30 €'
+      expect(page).to have_css(".test-personal-funding-amount",         text: "8 888,88")
+      expect(page).to have_css(".test-loan-amount",                     text: "9 999,99")
+      expect(page).to have_css(".test-fundings-sum",                    text: "33 333,30")
 
       # Section "Précisions"
       expect(page).to have_content(I18n.t('helpers.label.proposition.precisions_travaux') + ' : Il faudra casser un mur.')

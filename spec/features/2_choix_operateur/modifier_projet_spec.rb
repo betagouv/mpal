@@ -71,7 +71,7 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
     expect(page).to have_content("Jean-Pierre Marielle")
 
     # Delete occupant
-    within "table tr:last-child" do
+    within "table tbody tr:last-child" do
       click_link I18n.t('occupants.delete.action')
     end
     expect(page).to have_current_path(dossier_occupants_path(projet))
