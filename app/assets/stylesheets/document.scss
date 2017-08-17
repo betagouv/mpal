@@ -1,50 +1,30 @@
 @import "variables";
 @import "mixins";
 
-.document-page__title {
-  margin-bottom: 0.5em;
-  margin-left: 0.5em;
-  @media (max-width: 1199px) {
-    margin-left: 0;
-    margin-bottom: 10px;
-  }
-}
 .document-panel {
-  border-top: 1px solid;
-  @media (max-width: 1199px) {
-    margin: 0 -10px;
-  }
+  padding: 1.5em 0;
+  border-top: 1px solid $color-primary;
 }
 .document-panel:last-child {
-  border-bottom: 1px solid;
+  border-bottom: 1px solid $color-primary;
 }
 .document-panel--missing {
+  padding-left: 1em;
+  padding-right: 1em;
   background-color: $color-light-red;
 }
 .document-panel__header {
+  margin-bottom: 0.8em;
   font-weight: bold;
-  padding: 0.5em 1em 1em 1em;
-  @media (max-width: 1199px) {
-    font-size: 12px;
-    padding: 5px 10px 10px 10px;
-  }
   overflow: hidden;
 }
 .document-panel__body {
-  padding-bottom: 0.5em;
-  @media (max-width: 1199px) {
-    font-size: 12px;
-    padding-bottom: 5px;
-  }
+  font-size: 0.8em;
+  margin-bottom: 1em;
 }
 .document-panel__footer {
   display: flex;
   flex-wrap: wrap;
-  padding: 0 1em 1em 1em;
-  @media (max-width: 1199px) {
-    font-size: 12px;
-    padding: 0 10px 10px 10px;
-  }
 }
 .document {
   display: flex;
@@ -95,25 +75,10 @@
   display: none;
 }
 .document__file-upload {
-  margin-top: 0.5em;
   margin-right: 1em;
-  @media (max-width: 1199px) {
-    margin-top: 5px;
-    margin-right: 10px;
-  }
-}
-.document__send-button {
-  margin-top: 0.5em;
-  margin-right: 1em;
-  @media (max-width: 1199px) {
-    margin-top: 5px;
-    margin-right: 10px;
-  }
 }
 .document__file-added {
-  margin-top: 0.5em;
-  @media (max-width: 1199px) {
-    margin-top: 5px;
-  }
+  margin-right: 2em;
   @include ellipsis();
 }
+
