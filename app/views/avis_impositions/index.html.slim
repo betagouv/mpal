@@ -3,7 +3,7 @@ table.table.table-striped.table-sm
     tr
       th Numéro fiscal
       th Référence de l’avis
-      th Revenu fiscal
+      th.imposition-form__cell-price Revenu fiscal
       th Déclarant 1
       th Déclarant 2
       th Personnes à charge
@@ -13,7 +13,7 @@ table.table.table-striped.table-sm
       tr
         td= avis_imposition.numero_fiscal
         td= avis_imposition.reference_avis
-        td= number_to_currency(avis_imposition.revenu_fiscal_reference, precision: 0, locale: :fr)
+        td.imposition-form__cell-price= number_to_currency(avis_imposition.revenu_fiscal_reference, precision: 0, locale: :fr)
         td= avis_imposition.declarant_1
         td= avis_imposition.declarant_2
         td= avis_imposition.nombre_personnes_charge
@@ -23,7 +23,7 @@ table.table.table-striped.table-sm
 p.content__question= "Parmi les occupants du logement actuel y a-t-il d’autres avis d’imposition pour l’année #{@projet_courant.annee_fiscale_reference} ?"
 = btn name: "Ajouter un avis d’imposition", href: new_projet_or_dossier_avis_imposition_path(@projet_courant), icon: "plus"
 
-.centered
+.imposition-form__footer
   - if current_agent && current_agent.operateur?
     = simple_form_for @projet_courant, url: dossier_update_project_rfr_path(@projet_courant), html: { method: :put, class: "form" } do |f|
       = f.input :modified_revenu_fiscal_reference, as: :string, wrapper_html: { class: "size-s" }

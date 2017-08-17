@@ -45,6 +45,9 @@ fr:
         tel: "Téléphone"
         updated_at: "Dernière modification le"
         zip_code: "Code postal"
+      avis_imposition:
+        numero_fiscal: "Numéro fiscal"
+        reference_avis: "Référence avis"
       contact:
         subject: "Objet"
         description: "Message"

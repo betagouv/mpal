@@ -55,6 +55,11 @@ legend {
   padding: 0 15px;
 }
 
+/** Tables */
+th, td {
+  text-align: left;
+}
+
 /** Main container **/
 .main-container {
   position: relative;
