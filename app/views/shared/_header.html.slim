@@ -10,8 +10,12 @@
   - unless current_agent.intervenant
     .alert.alert-danger Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", new_contact_path}
   .agent-menu.clearfix
-    = btn name: "", href: home_dossiers_path, icon: "home", class: "btn-default", html: { title: "Aller à l’accueil" }
-    = btn name: "", href: dossiers_path, icon: "list", class: "btn-default", html: { title: "Aller au tableau de bord" }
+    = link_to home_dossiers_path, class: "btn btn-default btn-icon", title: "Aller à l’accueil" do
+      i.glyphicon.glyphicon-home
+      span.agent-menu__text-button Accueil
+    = link_to dossiers_path, class: "btn btn-default btn-icon", title: "Aller au tableau de bord" do
+      i.glyphicon.glyphicon-list
+      span.agent-menu__text-button Tableau de bord
     .agent-menu__right
       p.agent-menu__identity
         span.agent-menu__fullname
@@ -19,5 +23,7 @@
           span.lastname<= current_agent.nom
         - if current_agent.intervenant
           span.agent-menu__intervenant<= "(#{current_agent.intervenant.raison_sociale})"
-      = btn name: "", href: destroy_agent_session_path, icon: "off", class: "btn-default", html: { title: t("sessions.lien_deconnexion") }
+      = link_to destroy_agent_session_path, class: "btn btn-default btn-icon", title: t("sessions.lien_deconnexion") do
+        i.glyphicon.glyphicon-off
+        span.agent-menu__text-button= t("sessions.lien_deconnexion")
 
