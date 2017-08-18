@@ -36,6 +36,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, Occupant) }
             it { is_expected.not_to be_able_to(:read, :eligibility) }
 
+            it { is_expected.to be_able_to(:read, :coordonnee) }
             it { is_expected.to be_able_to(:read, Projet) }
             it { is_expected.to be_able_to(:manage, Message) }
           end
@@ -50,6 +51,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
 
             it { is_expected.to be_able_to(:manage, AvisImposition) }
+            it { is_expected.to be_able_to(:read, :coordonnee) }
             it { is_expected.to be_able_to(:manage, Demande) }
             it { is_expected.to be_able_to(:manage, :demandeur) }
             it { is_expected.to be_able_to(:manage, Occupant) }
@@ -72,7 +74,7 @@ describe Agent do
           end
         end
       end
- 
+
       describe "en tant que PRIS" do
         let(:agent) { create :agent, intervenant: projet.invited_pris }
 
@@ -85,7 +87,9 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, :demandeur) }
             it { is_expected.not_to be_able_to(:read, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
-            it { is_expected.to     be_able_to(:read, Projet) }
+
+            it { is_expected.to be_able_to(:read, :coordonnee) }
+            it { is_expected.to be_able_to(:read, Projet) }
           end
         end
 
@@ -133,6 +137,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
 
+            it { is_expected.to be_able_to(:read, :coordonnee) }
             it { is_expected.to be_able_to(:read, Document) }
             it { is_expected.to be_able_to(:create, :dossiers_opal) }
             it { is_expected.to be_able_to(:read, Projet) }
@@ -278,6 +283,7 @@ describe Agent do
   describe "#fullname" do
     let!(:agent) { build :agent }
     it { expect(agent.fullname).to eq("Joelle Dupont") }
+
     context "supprime les espaces inutiles" do
       before {
         agent.prenom = " Jean "

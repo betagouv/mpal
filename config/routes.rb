@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     resource  :composition
     resources :avis_impositions,   only: [:index, :new, :create, :destroy]
     resources :documents,          only: [:create, :destroy, :index]
+    resource  :coordonnee,         only: [:show]
     resources :intervenants
     resource  :demandeur,          only: [:show, :update]
     resource  :demande,            only: [:show, :update]

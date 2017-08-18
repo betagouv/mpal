@@ -1,0 +1,26 @@
+h1 Contacts
+
+-unless current_user
+  div.contact-item
+    h3 = "Demandeur : #{@demandeur.prenom} #{@demandeur.nom}"
+    p= @projet_courant.adresse_postale.ligne_1
+    p= "#{@projet_courant.adresse_postale.code_postal} #{@projet_courant.adresse_postale.ville}"
+    p= @projet_courant.email
+
+-if @pris.present?
+  div.contact-item
+    h3 = "PRIS : #{@pris.raison_sociale}"
+    p= @pris.adresse_postale
+    p= @pris.email
+
+-if @operateur.present?
+  div.contact-item
+    h3 = "Opérateur : #{@operateur.raison_sociale}"
+    p= @operateur.adresse_postale
+    p= @operateur.email
+
+-if @projet_courant.status_already(:transmis_pour_instruction)
+  div.contact-item
+    h3 = "Instructeur : #{@instructeur.raison_sociale}"
+    p= @instructeur.adresse_postale
+    p= @instructeur.email

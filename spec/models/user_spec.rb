@@ -11,7 +11,7 @@ describe User do
     subject(:ability) { Ability.new(user, projet) }
 
     context "quand un projet est vérouillé" do
-      let(:projet) { create :projet, locked_at: Time.new(1789, 7, 14, 16, 0, 0), user: user }
+      let(:projet) { create :projet, :with_invited_pris, locked_at: Time.new(1789, 7, 14, 16, 0, 0), user: user }
 
       it { is_expected.not_to be_able_to(:manage, AvisImposition) }
       it { is_expected.not_to be_able_to(:manage, Demande) }
@@ -20,6 +20,7 @@ describe User do
       it { is_expected.not_to be_able_to(:manage, Occupant) }
       it { is_expected.not_to be_able_to(:manage, Projet) }
 
+      it { is_expected.to be_able_to(:read, :coordonnee) }
       it { is_expected.to be_able_to(:read, Document) }
       it { is_expected.to be_able_to(:read, :eligibility) }
       it { is_expected.to be_able_to(:manage, Message) }
@@ -29,6 +30,7 @@ describe User do
     context "quand un projet n'est pas encore vérouillé" do
       let(:projet) { create :projet }
 
+      it { is_expected.not_to be_able_to(:read, :coordonnee) }
       it { is_expected.not_to be_able_to(:read, Document) }
       it { is_expected.not_to be_able_to(:manage, Message) }
 
@@ -89,3 +91,23 @@ describe User do
     it { expect(user.projet).to eq(projet) }
   end
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
