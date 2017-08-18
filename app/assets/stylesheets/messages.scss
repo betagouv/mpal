@@ -1,12 +1,18 @@
 @import "variables";
 
 .messages__history {
-  margin-top: 3em;
+  padding: 1.5em 0;
+  margin: 1.5em 0;
   max-width: 40em;
+  border-top: 1px solid $color-primary;
+  border-bottom: 1px solid $color-primary;
 }
 .messages__message {
   margin-top: 1em;
   padding-right: 3em;
+  &:first-child {
+    margin-top: 0;
+  }
 }
 .messages__message--mine {
   padding-right: 0;

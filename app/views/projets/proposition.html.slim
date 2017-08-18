@@ -82,29 +82,18 @@
           = ff.hidden_field :aide_id, value: aid.id
           = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
           span.input-group-addon €
-
-      p
-        label for="js-public-aids-sum" = t('helpers.label.proposition.public_aids_sum')
-        = text_field_tag :localized_public_aids_amount, '', disabled: true, id: 'js-public-aids-sum'
-        |  €
-
+      = f.input :localized_public_aids_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = f.input_field :localized_public_aids_sum, class: "input-price", id: "js-public-aids-sum", disabled: true
+        span.input-group-addon €
       - [:personal_funding_amount, :loan_amount].each do |field|
         - localized_field = "localized_#{field}"
         = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
           = f.input_field localized_field, class: "input-price"
           span.input-group-addon €
-
-      p
-        label for="js-fundings-sum" = t('helpers.label.proposition.fundings_sum')
-        = text_field_tag :localized_fundings_amount, '', disabled: true, id: 'js-fundings-sum'
-        |  €
-
-  ul.ins-form
-    li
-      = f.label :precisions_travaux, t('helpers.label.proposition.precisions_travaux')
-      = f.text_area :precisions_travaux
-    li
-      = f.label :precisions_financement, t('helpers.label.proposition.precisions_financement')
-      = f.text_area :precisions_financement
+      = f.input :localized_fundings_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = f.input_field :localized_fundings_sum, class: "input-price", id: "js-fundings-sum", disabled: true
+        span.input-group-addon €
+  = f.input :precisions_travaux
+  = f.input :precisions_financement
   = btn name: 'Enregistrer cette proposition', icon: 'save'
 

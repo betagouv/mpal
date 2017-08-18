@@ -362,7 +362,7 @@ fr:
 
   # ----------------------- Documents  ---------------------
   document:
-    select: "Choisir un fichier"
+    select: "Choisir un fichier…"
     send: "Téléverser"
     messages:
       create:

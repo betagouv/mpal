@@ -41,7 +41,7 @@ class Projet < ActiveRecord::Base
   belongs_to :agent_instructeur, class_name: "Agent"
   has_many :evenements, -> { order('evenements.quand DESC') }, dependent: :destroy
   has_many :avis_impositions, dependent: :destroy
-  has_many :messages, -> { order("created_at DESC") }, dependent: :destroy
+  has_many :messages, -> { order("created_at ASC") }, dependent: :destroy
 
   has_many :agents_projets, dependent: :destroy
 
@@ -82,7 +82,7 @@ class Projet < ActiveRecord::Base
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
 
-  attr_accessor :accepts
+  attr_accessor :accepts, :localized_public_aids_sum, :localized_fundings_sum
 
   before_create do
     self.plateforme_id = Time.now.to_i

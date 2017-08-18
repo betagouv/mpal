@@ -3,11 +3,7 @@
   - if 0 >= message_count
     p Il n’y a pas de message. Soyez le premier/la première à poser votre question.
     p Vous serez notifié par email dès que vous recevrez un nouveau message.
-  = simple_form_for @message, url: { controller: :messages, action: :create }, html: { class: "form form-message" } do |f|
-    = render "shared/errors", resource: @message
-    = f.input :corps_message
-    = btn name: t("projets.visualisation.lien_ajout_message"), icon: "envelope"
-  - if 0 < message_count
+  - else
     .messages__history.test-messages-history
       - @projet_courant.messages.each do |message|
         - auteur = message.auteur
@@ -24,4 +20,8 @@
                 span.messages__intervenant= " (#{auteur.intervenant.raison_sociale})"
             date.messages__datetime= l(message.created_at, format: :condensed)
           .messages__content= message.corps_message
+  = simple_form_for @message, url: { controller: :messages, action: :create }, html: { class: "form form-message" } do |f|
+    = render "shared/errors", resource: @message
+    = f.input :corps_message
+    = btn name: t("projets.visualisation.lien_ajout_message"), icon: "envelope"
 

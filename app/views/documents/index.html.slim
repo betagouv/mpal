@@ -1,13 +1,10 @@
 /= render "shared/ribbon_header"
 /= ATTENTION AUX CAS OU PAYMENT REGISTRIES N'EXISTE PAS ENCORE CA FAIT PLANTER LE MENU
 
-h1.document-page__title Pièces jointes
-
 - @types_piece.each_with_index do |type_piece, index|
   - documents_present = @documents_by_type[index].present?
   div class="document-panel document-panel--#{documents_present ? "present" : "missing"} test-document-panel-#{index}"
-    .document-panel__header
-      h2= type_piece
+    .document-panel__header= type_piece
 
     - if documents_present
       ul.document-panel__body
@@ -25,7 +22,8 @@ h1.document-page__title Pièces jointes
     = form_tag projet_or_dossier_documents_path(@projet_courant), class: "document-panel__footer", multipart: true do
       = file_field_tag :fichier, id: "document__file-upload-#{index}", class: "document__file-upload--invisible js-document__file"
       = hidden_field_tag :type_piece, type_piece
-      = label_tag "document__file-upload-#{index}", class: "btn btn-secondary btn-small document__file-upload"
+      = label_tag "document__file-upload-#{index}", class: "btn btn-primary btn-small document__file-upload"
         = t("document.select")
-      = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
       .document__file-added.js-document__file-added
+      = btn name: t("document.send"), class: "btn-primary btn-small document__send-button js-document__send-button"
+

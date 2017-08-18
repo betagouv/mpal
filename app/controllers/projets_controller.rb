@@ -76,6 +76,7 @@ private
   end
 
   def redirect_if_no_account
+    return unless @projet_courant
     if @projet_courant.locked_at.nil?
       return redirect_to projet_demandeur_path(@projet_courant), alert: t('sessions.access_forbidden')
     elsif @projet_courant.locked_at && @projet_courant.user.blank?

@@ -41,7 +41,7 @@ feature "Occupants :" do
 
       occupant_to_delete = projet.occupants.last
       expect(page).to have_css("tr[data-occupant-id='#{occupant_to_delete.id}']")
-      within "table tr:last-child" do
+      within "table tbody tr:last-child" do
         click_link I18n.t('occupants.delete.action')
       end
 

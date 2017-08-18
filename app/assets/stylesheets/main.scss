@@ -55,6 +55,11 @@ legend {
   padding: 0 15px;
 }
 
+/** Tables */
+th, td {
+  text-align: left;
+}
+
 /** Main container **/
 .main-container {
   position: relative;
@@ -143,6 +148,11 @@ legend {
     border: solid 1px #f2f6fa;
     &:last-child {
       margin-bottom: 0;
+    }
+    > h3 {
+      padding: 0.5em;
+      cursor: pointer;
+      background-color: $color-light-grey;
     }
   }
   .accordeon {
