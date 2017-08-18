@@ -18,7 +18,11 @@ class DocumentsController < ApplicationController
       flash[:notice] = t("document.messages.create.success")
     rescue => e
       Rails.logger.error "[DocumentsController] create action failed : #{e.message}"
-      flash[:alert] = t("document.messages.create.error")
+      if e.class == ActiveRecord::RecordInvalid
+        flash[:alert] = e.record.errors[:base].first
+      else
+        flash[:alert] = t("document.messages.create.error")
+      end
     end
     redirect_to projet_or_dossier_documents_path(@projet_courant)
   end

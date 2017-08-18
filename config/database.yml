@@ -10,9 +10,11 @@ default: &default
 
 production:
   <<: *default
+  database: mpal
 
 development:
   <<: *default
+  database: mpal
 
 test:
   <<: *default

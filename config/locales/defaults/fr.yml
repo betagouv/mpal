@@ -537,6 +537,8 @@ fr:
         blank_feminine: "doit être renseignée"
         blank_masculine: "doit être renseigné"
       models:
+        document:
+          virus_found: "Le document n’a pas été ajouté car un virus y a été détecté."
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"
           attributes:
