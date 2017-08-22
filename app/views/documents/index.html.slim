@@ -15,15 +15,17 @@
             .document__name
               = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
             .document__upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
-            .document__actions
-              = link_to projet_or_dossier_document_path(@projet_courant, document), method: :delete, data: { confirm: t("document.messages.delete.confirmation") }
-                i.glyphicon.glyphicon-trash
+            - if can? :destroy, Document
+              .document__actions
+                = link_to projet_or_dossier_document_path(@projet_courant, document), method: :delete, data: { confirm: t("document.messages.delete.confirmation") }
+                  i.glyphicon.glyphicon-trash
 
-    = form_tag projet_or_dossier_documents_path(@projet_courant), class: "document-panel__footer", multipart: true do
-      = file_field_tag :fichier, id: "document__file-upload-#{index}", class: "document__file-upload--invisible js-document__file"
-      = hidden_field_tag :type_piece, type_piece
-      = label_tag "document__file-upload-#{index}", class: "btn btn-primary btn-small document__file-upload"
-        = t("document.select")
-      .document__file-added.js-document__file-added
-      = btn name: t("document.send"), class: "btn-primary btn-small document__send-button js-document__send-button"
+    - if can? :create, Document
+      = form_tag projet_or_dossier_documents_path(@projet_courant), class: "document-panel__footer", multipart: true do
+        = file_field_tag :fichier, id: "document__file-upload-#{index}", class: "document__file-upload--invisible js-document__file"
+        = hidden_field_tag :type_piece, type_piece
+        = label_tag "document__file-upload-#{index}", class: "btn btn-primary btn-small document__file-upload"
+          = t("document.select")
+        .document__file-added.js-document__file-added
+        = btn name: t("document.send"), class: "btn-primary btn-small document__send-button js-document__send-button"
 

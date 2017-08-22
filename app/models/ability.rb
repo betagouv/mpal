@@ -104,16 +104,15 @@ private
     if agent_or_user.try(:operateur?) && projet.status_already(:en_cours)
       can :create,  Document
       can :read,    Document, projet_id: projet.id
-      can :update,  Document, projet_id: projet.id
       can :destroy, Document, projet_id: projet.id
     end
 
     if agent_or_user.try(:instructeur?)&& projet.status_already(:transmis_pour_instruction)
-      can :read,    Document, projet_id: projet.id
+      can :read, Document, projet_id: projet.id
     end
 
     if agent_or_user.is_a? User
-      can :read,    Document, projet_id: projet.id if projet.user.present?
+      can :read, Document, projet_id: projet.id if projet.user.present?
     end
   end
 
