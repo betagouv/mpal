@@ -79,6 +79,7 @@ GEM
     case_transform (0.2)
       activesupport
     choice (0.2.0)
+    clamby (1.2.5)
     coderay (1.1.1)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
@@ -381,6 +382,7 @@ DEPENDENCIES
   capybara
   capybara-screenshot
   carrierwave (~> 0.11.2)
+  clamby
   database_cleaner
   devise
   devise_cas_authenticatable
