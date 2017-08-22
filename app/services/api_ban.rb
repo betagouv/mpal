@@ -4,9 +4,7 @@ class ApiBan
 
     json_adresse = geocode(adresse)
 
-    if json_adresse.blank? || json_adresse['features'].blank?
-      return nil
-    end
+    return nil if json_adresse.blank? || json_adresse['features'].blank?
 
     coords      = json_adresse['features'][0]['geometry']['coordinates']
     longitude   = coords[0]
@@ -16,7 +14,7 @@ class ApiBan
     code_postal = properties['postcode']
     code_insee  = properties['citycode']
     ville       = properties['city']
-    departement = code_postal[0,2]
+    departement = properties['context'][0,2]
     region      = parse_context(properties['context'])
 
     Adresse.new({
@@ -35,23 +33,19 @@ class ApiBan
     URI.escape "http://#{ENV['API_BAN_DOMAIN']}/search/?q=#{adresse}&autocomplete=0"
   end
 
-  private
-
+private
   def geocode(adresse)
     api_uri = self.class.uri(adresse)
 
-    logger.debug "Started Api-Ban request \"#{api_uri}\""
+    Rails.logger.debug "Started Api-Ban request \"#{api_uri}\""
     response = HTTParty.get(api_uri)
-    logger.debug "Completed Api-Ban request (#{response.code})"
+    Rails.logger.debug "Completed Api-Ban request (#{response.code})"
 
     response.code == 200 ? JSON.parse(response.body) : {}
-  end
-
-  def logger
-    Rails.logger
   end
 
   def parse_context(context)
     /, ([^,(]+)(| \(.*\))$/.match(context)[1]
   end
 end
+
