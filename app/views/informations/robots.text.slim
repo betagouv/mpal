@@ -1,0 +1,9 @@
+- if Rails.env.production? && !Tools.demo?
+
+  User-Agent: *
+  Allow: /
+  Disallow: /admin
+  Sitemap: https://anah.beta.gouv.fr/sitemap.xml
+- else
+  User-Agent: *
+  Disallow: /

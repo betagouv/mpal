@@ -20,5 +20,10 @@ class InformationsController < ApplicationController
     status_count = Projet::INTERVENANT_STATUSES.map { |status| project_statuses.count status }
     @project_count_by_status = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
   end
+
+  def robots
+    respond_to :text
+    expires_in 6.hours, public: true
+  end
 end
 
