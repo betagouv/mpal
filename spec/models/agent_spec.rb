@@ -53,7 +53,6 @@ describe Agent do
             it { is_expected.to be_able_to(:manage, Demande) }
             it { is_expected.to be_able_to(:manage, :demandeur) }
             it { is_expected.to be_able_to(:manage, Occupant) }
-            it { is_expected.to be_able_to(:update, Document) }
             it { is_expected.to be_able_to(:destroy, Document) }
             it { is_expected.to be_able_to(:manage, Projet) }
           end
@@ -68,7 +67,6 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, Occupant) }
             it { is_expected.not_to be_able_to(:manage, Projet) }
 
-            it { is_expected.to be_able_to(:update, Document) }
             it { is_expected.to be_able_to(:destroy, Document) }
             it { is_expected.to be_able_to(:read, Projet) }
           end
@@ -131,7 +129,6 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
-            it { is_expected.not_to be_able_to(:update, Document) }
             it { is_expected.not_to be_able_to(:destroy, Document) }
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
