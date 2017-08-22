@@ -1,4 +1,8 @@
 class DocumentUploader < CarrierWave::Uploader::Base
+  TEXT_EXTENSIONS  = %w(txt docx doc dot rtf pdf)
+  TABLE_EXTENSIONS = %w(csv xlsx xls xlt odt ott ods ots)
+  IMAGE_EXTENSIONS = %w(img tga svg tiff jpg jpeg gif png)
+
   before :cache, :save_upload_data
 
   def filename
@@ -13,9 +17,17 @@ class DocumentUploader < CarrierWave::Uploader::Base
     "uploads/projets/#{model.projet_id}/"
   end
 
+  def extension_whitelist
+    [TEXT_EXTENSIONS, TABLE_EXTENSIONS, IMAGE_EXTENSIONS].flatten
+  end
+
+  def size_range
+    0..10.megabyte
+  end
+
   protected
-  def secure_token(length=16)
+  def secure_token(length=32)
     var = :"@#{mounted_as}_secure_token"
-    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.urlsafe_base64(length))
   end
 end
