@@ -5,6 +5,7 @@
         = render "projets/steps", project: @projet_courant
       - elsif (current_user && "mises_en_relation" != params[:controller]) || current_agent
         = render "projets/menu", project: @projet_courant
+    = render "shared/flash"
     - if @page_heading.present?
       h1.page-heading= @page_heading
     = yield

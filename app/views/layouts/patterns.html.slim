@@ -5,8 +5,9 @@
         = link_to t("menu.homepage"),             root_path,           class: "col-menu__item"
         = link_to t("menu_patterns.forms.title"), patterns_forms_path, class: "col-menu__item"
         = link_to t("menu_patterns.icons.title"), patterns_icons_path, class: "col-menu__item"
+        = link_to t("menu_patterns.components.title"), patterns_components_path, class: "col-menu__item"
     .col.col-main
       section.patterns
-        = render "shared/messages"
+        = render "shared/flash"
         = yield
 

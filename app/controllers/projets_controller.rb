@@ -16,11 +16,11 @@ class ProjetsController < ApplicationController
       return redirect_to dossiers_path
     end
     @projet = Projet.new
-    @page_heading = "Création de dossier"
+    @page_heading = "Remplir mon dossier"
   end
 
   def create
-    @page_heading = "Création de dossier"
+    @page_heading = "Remplir mon dossier"
 
     @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
     if @projet

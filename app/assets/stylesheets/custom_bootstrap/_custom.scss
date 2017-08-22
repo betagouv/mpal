@@ -2,3 +2,26 @@
 //
 // Copy variables from `_variables.scss` to this file to override default values
 // without modifying source files.
+
+$state-success-bg:            #00ac07;
+$state-info-bg:               #2370c0;
+$state-warning-bg:            #d58000;
+$state-danger-bg:             #e62623;
+
+$alert-success-bg:            $state-success-bg;
+$alert-success-text:          white;
+$alert-success-border:        darken($alert-success-bg, 5%);
+
+$alert-info-bg:               $state-info-bg;
+$alert-info-text:             white;
+$alert-info-border:           darken($alert-info-bg, 5%);
+
+$alert-warning-bg:            $state-warning-bg;
+$alert-warning-text:          white;
+$alert-warning-border:        darken($alert-warning-bg, 5%);
+
+$alert-danger-bg:             $state-danger-bg;
+$alert-danger-text:           white;
+$alert-danger-border:         darken($alert-danger-bg, 5%);
+
+$brand-danger:                $state-danger-bg;

@@ -1,58 +1,6 @@
 @import "variables";
 
-$bigger-icon-breakpoint: 600px;
-
-.eligibility__heading {
-  font-size: 2em;
-  margin-bottom: 0.5em;
-  color: $font-color;
-}
-.eligibility__block {
+.eligibility {
   max-width: 50em;
-  padding: 1em;
   margin: 0 auto 2em;
-  border-radius: 3px;
-  color: $color-black;
-  background-color: $color-light-yellow;
-  @extend .clearfix;
-  @media screen and (min-width: $bigger-icon-breakpoint) {
-    padding: 1.5em;
-  }
-  a {
-    color: $color-brown;
-    font-weight: bold;
-    &:hover {
-      color: black;
-      text-decoration: underline;
-    }
-  }
-}
-.eligibility__icon {
-  float: left;
-  font-size: 2em;
-  color: $color-brown;
-  @media screen and (min-width: $bigger-icon-breakpoint) {
-    font-size: 3em;
-  }
-}
-.eligibility__block--positive {
-  color: $color-black;
-  background-color: $color-light-green;
-  .eligibility__icon {
-    color: $color-dark-green;
-  }
-}
-.eligibility__block--negative {
-  color: $color-black;
-  background-color: $color-light-red;
-  .eligibility__icon {
-    color: $color-dark-red;
-  }
-}
-.eligibility__text {
-  margin-left: 3em;
-  color: $color-black;
-  @media screen and (min-width: $bigger-icon-breakpoint) {
-    margin-left: 5em;
-  }
 }

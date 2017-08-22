@@ -1,5 +1,5 @@
 h3 Un problème, une question ? Contactez nous !
-= simple_form_for @contact, html: { class: "form form-with-alerts form-contact" } do |f|
+= simple_form_for @contact, html: { class: "form form-contact" } do |f|
   = render "shared/errors", resource: @contact
   = f.input :name, wrapper_html: { class: "size-s" }, required: true, autofocus: true
   = f.input :email, wrapper_html: { class: "size-m" }, required: true

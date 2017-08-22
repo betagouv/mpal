@@ -15,7 +15,7 @@ html lang="fr"
       #beta-ribbon
       .centered-page
         = render "shared/header"
-        = render "shared/messages"
+        = render "shared/flash"
         = content_for?(:content) ? yield(:content) : yield
         footer.footer
           = link_to t("menu.homepage"), root_path
