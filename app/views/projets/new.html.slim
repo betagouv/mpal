@@ -26,7 +26,6 @@ section.new-project
     = link_to "J’ai déjà un dossier", new_user_session_path, class: "new-project__link"
   p.new-project__commentaire Tous les champs sont obligatoires
 
-  - if Tools.demo?
   = simple_form_for @projet, html: { id: "js-login-form", class: "form" } do |f|
     = render "shared/errors", resource: @projet
 
@@ -62,6 +61,7 @@ section.new-project
         abbr.new-project__mentions-abbr-projet title=("Revenu fiscal de référence") RFR
     = btn name: t("sessions.commencer"), class: "new-project__btn js-login-btn js-engagement", icon: "ok"
 
+  - if Tools.demo?
     section.login-demo
       = render 'demo_actions'
       - if ENV['DISPLAY_DEMO_CREDENTIALS'] == 'true'
