@@ -7,4 +7,5 @@ class ProjetAide < ActiveRecord::Base
   amountable :amount
 
   delegate :libelle, to: :aide
+  validates :amount, :big_number => true
 end

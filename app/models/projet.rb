@@ -73,8 +73,9 @@ class Projet < ActiveRecord::Base
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
   validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
   validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
-  validates :consommation_avant_travaux, :consommation_apres_travaux, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
+  validates :consommation_avant_travaux, :consommation_apres_travaux, :gain_energetique, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 999999999 }, allow_nil: true
   validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
+  validates *FUNDING_FIELDS, :big_number => true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
   validate  :validate_payment_registry, on: :update
