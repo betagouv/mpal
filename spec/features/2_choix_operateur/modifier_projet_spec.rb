@@ -133,8 +133,8 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
 end
 
 describe "En tant que demandeur :" do
-  let(:user) { create :user }
-  let(:projet) { create :projet, :locked, :with_avis_imposition, :with_invited_pris,  user: user, modified_revenu_fiscal_reference: 111 }
+  let(:user)   { projet.user }
+  let(:projet) { create :projet, :with_avis_imposition, :with_invited_pris,  :with_account, modified_revenu_fiscal_reference: 111 }
 
   before { login_as user, scope: :user }
 

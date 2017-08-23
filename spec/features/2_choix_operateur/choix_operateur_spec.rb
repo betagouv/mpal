@@ -7,10 +7,10 @@ require 'support/rod_helper'
 feature "Choisir un opérateur:" do
   context "en tant que demandeur" do
     let(:operateurs) { Rod.new(RodClient).query_for(projet).operateurs }
-    let(:user)       { create :user }
+    let(:user)       { projet.user }
 
     context "si il y a une opération programmée" do
-      let(:projet)    { create :projet, :prospect, :with_invited_instructeur, :locked, user: user }
+      let(:projet)    { create :projet, :prospect, :with_invited_instructeur, :with_account }
       let(:operateur) { operateurs.first }
 
       before { Fakeweb::Rod.register_query_for_success_with_operation }
@@ -36,7 +36,7 @@ feature "Choisir un opérateur:" do
     end
 
     context "lorsque le PRIS m'a recommandé des opérateurs" do
-      let(:projet)              { create :projet, :prospect, :with_invited_pris, :locked, user: user }
+      let(:projet)              { create :projet, :prospect, :with_invited_pris, :with_account }
       let(:suggested_operateur) { operateurs.first }
       let(:other_operateur)     { operateurs.last }
 
@@ -66,7 +66,7 @@ feature "Choisir un opérateur:" do
     end
 
     context "avant de m'être engagé avec un opérateur" do
-      let(:projet)             { create :projet, :prospect, :with_invited_pris, :locked, user: user }
+      let(:projet)             { create :projet, :prospect, :with_invited_pris, :with_account}
       let(:previous_operateur) { operateurs.first }
       let(:new_operateur)      { operateurs.last }
 

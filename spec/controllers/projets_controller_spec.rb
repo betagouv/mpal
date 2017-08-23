@@ -6,7 +6,6 @@ require 'support/mpal_helper'
 describe ProjetsController do
   describe "#new" do
     context "quand le demandeur est identifié" do
-      let(:projet) { create :projet }
       before(:each) { authenticate_as_user(projet.user) }
 
       context "si le projet existe et l'utilisateur est inscrit" do
@@ -19,6 +18,8 @@ describe ProjetsController do
       end
 
       context "si le projet n’existe pas" do
+        let(:projet)  { create :projet }
+
         it "affiche le formulaire" do
           get :new
           expect(response).to have_http_status(:success)

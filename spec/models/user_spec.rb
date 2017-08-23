@@ -7,11 +7,11 @@ describe User do
   end
 
   describe "abilities" do
-    let(:user)        { create :user }
+    let(:user)        { projet.user }
     subject(:ability) { Ability.new(user, projet) }
 
     context "quand un projet est vérouillé" do
-      let(:projet) { create :projet, :locked, user: user }
+      let(:projet) { create :projet, :with_account }
 
       it { is_expected.not_to be_able_to(:manage, AvisImposition) }
       it { is_expected.not_to be_able_to(:manage, Demande) }
@@ -43,7 +43,7 @@ describe User do
     end
 
     context "quand un registre de paiement existe" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry, user: user }
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
 
       let(:payment_en_cours_de_montage)    { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_de_montage }
       let(:payment_propose)                { create :payment, payment_registry: projet.payment_registry, statut: :propose }
@@ -86,8 +86,8 @@ describe User do
   end
 
   describe "#projet" do
-    let(:user)    { create :user }
-    let!(:projet) { create :projet, user: user }
+    let!(:projet) { create :projet, :with_account }
+    let(:user)   { projet.user }
     it { expect(user.projet).to eq(projet) }
   end
 end
