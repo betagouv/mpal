@@ -9,10 +9,6 @@ describe CoordonneesController do
     let(:projet_with_user)    { create :projet, :en_cours, :with_assigned_operateur, user: user, locked_at: Time.new(1789, 7, 14, 16, 0, 0) }
     let(:projet_without_user) { create :projet, :prospect }
     let(:agent_operateur)     { projet_with_user.agent_operateur }
-    # let(:siege)               { create :siege }
-    # let(:agent_siege)         { create :agent, :siege, intervenant: siege }
-
-    # subject { get :show }
 
     context "quand je suis un agent" do
       it "je peux voir mes contacts si je suis agent du projet" do
@@ -20,11 +16,6 @@ describe CoordonneesController do
         get :show, dossier_id: projet_with_user.id
         expect(response).to render_template(:show)
       end
-
-      # it "je ne peux pas voir les contacts sinon" do
-      #   authenticate_as_agent(agent_siege)
-      #   expect(response).not_to render_template(:contact)
-      # end
     end
 
     context "quand je suis un demandeur" do

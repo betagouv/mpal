@@ -91,23 +91,3 @@ describe User do
     it { expect(user.projet).to eq(projet) }
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
