@@ -13,6 +13,12 @@
       p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
       p.popin__p.popin__p--centered
         = btn name: "Fermer", href: "#", class: "popin__close"
+  #info-avis-fiscal.popin.popin--info_avis_fiscal
+    .popin__container
+      p.popin__p Vous souhaitez vous renseigner ou demander une aide à l’Anah. Identifiez-vous en renseignant votre numéro fiscal et la référence de l’avis d’imposition présents sur votre dernier avis d’imposition (#{Time.current.year-1} sur les revenus de #{Time.current.year-2}).
+      p.popin__p Ces renseignements permettront d’aller rechercher directement auprès de la direction générale des finances publiques les coordonnées vous concernant ainsi que votre revenu fiscal de référence (RFR) correspondant à votre niveau de ressources.
+      p.popin__p.popin__p--centered
+        = btn name: "Fermer", href: "#", class: "popin__close"
 
 section.new-project
   h1.new-project__heading-projet Remplir mon dossier
@@ -22,7 +28,7 @@ section.new-project
 
   = simple_form_for @projet, html: { id: "js-login-form", class: "form" } do |f|
     = render "shared/errors", resource: @projet
-    
+
     p.new-project__label.new-project__label--p.new-project__label--first Êtes-vous propriétaire de votre résidence principale ?
     - proprietaire = params[:proprietaire] == "1"
     label.new-project__proprietaire-label for="lab-proprietaire-yes"
@@ -31,7 +37,10 @@ section.new-project
     label.new-project__proprietaire-label for="lab-proprietaire-no"
       = radio_button_tag "proprietaire", "0", !proprietaire, class: "new-project__proprietaire-input", id: "lab-proprietaire-no"
       | Non
-    p.new-project__label.new-project__label--p.new-project__label--second= "Avis Fiscal #{Time.current.year-1} sur les revenus de #{Time.current.year-2} :"
+
+    .labeled-info-point
+      p.new-project__label.new-project__label--second Avis Fiscal #{Time.current.year-1} sur les revenus de #{Time.current.year-2} :
+      a.info-point.info-point--light.js-popin data-target="#info-avis-fiscal" title="Informations" ?
 
     .labeled-info-point
       = f.label :numero_fiscal
