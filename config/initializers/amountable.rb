@@ -9,7 +9,7 @@ module Amountable
       args.each do |attribute|
         define_method "localized_#{attribute}" do
           ActiveSupport::NumberHelper.number_to_rounded(
-              self[attribute.to_sym],
+              self.send(attribute.to_sym),
               precision: 2,
               delimiter: I18n.t('number.format.delimiter'),
               separator: I18n.t('number.format.separator'))
