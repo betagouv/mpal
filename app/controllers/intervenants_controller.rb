@@ -1,9 +1,9 @@
-class CoordonneesController < ApplicationController
+class IntervenantsController < ApplicationController
 
   before_action :assert_projet_courant
   authorize_resource :class => false
 
-  def show
+  def index
     @page_heading = "Liste de contacts"
     @pris = @projet_courant.invited_pris
     @operateur = @projet_courant.operateur

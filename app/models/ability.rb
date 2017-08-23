@@ -18,7 +18,7 @@ class Ability
         can :manage, Occupant
         can :manage, Projet
       elsif user == projet.user
-        can :read, :coordonnee
+        can :read, :intervenant
         can :manage, Message
         can :read, Projet
       end
@@ -38,7 +38,7 @@ class Ability
 
       if agent.pris?
         if projet.statut.to_sym == :prospect
-          can :read, :coordonnee
+          can :read, :intervenant
           can :read,                   Projet
           can :recommander_operateurs, Projet
         end
@@ -47,22 +47,22 @@ class Ability
       if agent.instructeur?
         can :create, :dossiers_opal if projet.statut.to_sym == :transmis_pour_instruction
         can :read, Projet if projet.status_already :transmis_pour_instruction
-        can :read, :coordonnee if projet.status_already :transmis_pour_instruction
+        can :read, :intervenant if projet.status_already :transmis_pour_instruction
       end
 
       if agent.operateur?
         if projet.statut.to_sym == :prospect
           can :read, Projet
-          can :read, :coordonnee
+          can :read, :intervenant
         elsif projet.status_not_yet(:transmis_pour_instruction)
           can :manage, AvisImposition
-          can :read, :coordonnee
+          can :read, :intervenant
           can :manage, Demande
           can :manage, :demandeur
           can :manage, Occupant
           can :manage, Projet
         else
-          can :read, :coordonnee
+          can :read, :intervenant
           can :read, Projet
         end
       end

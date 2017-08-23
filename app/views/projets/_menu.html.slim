@@ -35,7 +35,7 @@
         - if 0 < (unread_messages_count || 0)
           span.project-menu__badge= unread_messages_count
       span.project-menu__text Messages
-    = link_to projet_or_dossier_coordonnee_path(project), class: "project-menu__item"
+    = link_to projet_or_dossier_intervenants_path(project), class: "project-menu__item"
       span.project-menu__icon.glyphicon.glyphicon-user
       span.project-menu__text Contacts
     /.project-menu__item

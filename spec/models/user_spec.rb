@@ -20,7 +20,7 @@ describe User do
       it { is_expected.not_to be_able_to(:manage, Occupant) }
       it { is_expected.not_to be_able_to(:manage, Projet) }
 
-      it { is_expected.to be_able_to(:read, :coordonnee) }
+      it { is_expected.to be_able_to(:read, :intervenant) }
       it { is_expected.to be_able_to(:read, Document) }
       it { is_expected.to be_able_to(:read, :eligibility) }
       it { is_expected.to be_able_to(:manage, Message) }
@@ -30,7 +30,7 @@ describe User do
     context "quand un projet n'est pas encore vérouillé" do
       let(:projet) { create :projet }
 
-      it { is_expected.not_to be_able_to(:read, :coordonnee) }
+      it { is_expected.not_to be_able_to(:read, :intervenant) }
       it { is_expected.not_to be_able_to(:read, Document) }
       it { is_expected.not_to be_able_to(:manage, Message) }
 

@@ -36,7 +36,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, Occupant) }
             it { is_expected.not_to be_able_to(:read, :eligibility) }
 
-            it { is_expected.to be_able_to(:read, :coordonnee) }
+            it { is_expected.to be_able_to(:read, :intervenant) }
             it { is_expected.to be_able_to(:read, Projet) }
             it { is_expected.to be_able_to(:manage, Message) }
           end
@@ -51,7 +51,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
 
             it { is_expected.to be_able_to(:manage, AvisImposition) }
-            it { is_expected.to be_able_to(:read, :coordonnee) }
+            it { is_expected.to be_able_to(:read, :intervenant) }
             it { is_expected.to be_able_to(:manage, Demande) }
             it { is_expected.to be_able_to(:manage, :demandeur) }
             it { is_expected.to be_able_to(:manage, Occupant) }
@@ -88,7 +88,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:read, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
 
-            it { is_expected.to be_able_to(:read, :coordonnee) }
+            it { is_expected.to be_able_to(:read, :intervenant) }
             it { is_expected.to be_able_to(:read, Projet) }
           end
         end
@@ -137,7 +137,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
             it { is_expected.not_to be_able_to(:read, Occupant) }
 
-            it { is_expected.to be_able_to(:read, :coordonnee) }
+            it { is_expected.to be_able_to(:read, :intervenant) }
             it { is_expected.to be_able_to(:read, Document) }
             it { is_expected.to be_able_to(:create, :dossiers_opal) }
             it { is_expected.to be_able_to(:read, Projet) }
