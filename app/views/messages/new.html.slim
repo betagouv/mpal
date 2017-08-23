@@ -6,6 +6,7 @@
   - else
     .messages__history.test-messages-history
       - @projet_courant.messages.each do |message|
+        - next unless message.persisted?
         - auteur = message.auteur
         - is_agent = message.auteur.is_a? Agent
         - is_mine = current_agent ? message.auteur == current_agent : !is_agent

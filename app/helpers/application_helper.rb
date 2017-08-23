@@ -1,7 +1,18 @@
 module ApplicationHelper
   APP_NAME = "Mon projet Anah"
+  BOOTSTRAP_ALERT_MAPPING = {
+    error:   { class: "danger",  icon: "remove" },
+    alert:   { class: "danger",  icon: "remove" },
+    notice:  { class: "info",    icon: "info-sign" },
+    warning: { class: "warning", icon: "warning" },
+    success: { class: "success", icon: "ok" },
+  }
   COMPANY_NAME = "Anah"
   SITE_START_YEAR = 2017
+
+  def alert_data_for(level)
+    BOOTSTRAP_ALERT_MAPPING[level] || BOOTSTRAP_ALERT_MAPPING[:notice]
+  end
 
   def app_name
     APP_NAME

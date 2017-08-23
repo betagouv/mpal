@@ -12,5 +12,9 @@ class PatternsController < ApplicationController
   def icons
     @page_heading = I18n.t("menu_patterns.icons.title")
   end
+
+  def components
+    @page_heading = I18n.t("menu_patterns.components.title")
+  end
 end
 

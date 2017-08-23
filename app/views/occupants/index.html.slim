@@ -40,8 +40,8 @@
                   title: t("occupants.delete.action"),
                   class: "btn btn-icon btn-secondary btn-small",
                   data: { confirm: t("occupants.delete.confirm", fullname: occupant.fullname) }
-                  span= t("occupants.delete.action")
-                  i class="glyphicon glyphicon-remove"
+                span= t("occupants.delete.action")
+                i.glyphicon.glyphicon-remove
 
   .occupant-inline-form
     = f.fields_for @projet_courant do |ff|
@@ -53,7 +53,7 @@
       = f.input :prenom, wrapper_html: { class: "occupant-inline-form__field size-l" }
       = f.input :nom, wrapper_html: { class: "occupant-inline-form__field size-l" }
       = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form__field size-l" }, required: true
-      = btn name: t("occupants.nouveau.action"), class: "occupant-inline-form__submit", icon: "plus"
+      = btn name: t("occupants.nouveau.action"), class: "btn-secondary occupant-inline-form__submit", icon: "plus"
 
   .checkbox-validation
     label.form-control-label

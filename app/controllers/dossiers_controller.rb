@@ -8,6 +8,7 @@ class DossiersController < ApplicationController
 
   def index
     if render_index
+      @page_heading = I18n.t('tableau_de_bord.titre_section')
       return render "dossiers/dashboard_siege"       if current_agent.siege?
       return render "dossiers/dashboard_operateur"   if current_agent.operateur?
       return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
@@ -16,6 +17,7 @@ class DossiersController < ApplicationController
   end
 
   def home
+    @page_heading = "Accueil"
     render_index
   end
 
@@ -197,7 +199,6 @@ private
     end
     respond_to do |format|
       format.html {
-        @page_heading = I18n.t('tableau_de_bord.titre_section')
       }
       format.csv {
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"

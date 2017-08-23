@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get  "/patterns",                  to: "patterns#index"
   get  "/patterns/forms",            to: "patterns#forms"
   get  "/patterns/icons",            to: "patterns#icons"
+  get  "/patterns/components",       to: "patterns#components"
 
   get  "/debug_exception",           to: "application#debug_exception"
 

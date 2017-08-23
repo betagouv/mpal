@@ -63,7 +63,7 @@
     line-height: 38px;
     text-align: center;
     margin: 0;
-    color: #d9534f;
+    color: $brand-danger;
   }
   &.has-danger .form-control {
     padding-right: (38px * 1.25);
