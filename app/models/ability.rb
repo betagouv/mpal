@@ -10,6 +10,7 @@ class Ability
       return if projet.blank?
 
       can :read, :eligibility
+      can :departement_non_eligible, :demandeur
       if projet.locked_at.nil?
         can :manage, AvisImposition
         can :manage, Demande
