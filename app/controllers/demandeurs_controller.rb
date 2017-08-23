@@ -17,6 +17,7 @@ class DemandeursController < ApplicationController
   end
 
   def departement_non_eligible
+    @page_heading = I18n.t("demarrage_projet.demandeur.departement_non_eligible.title")
     @departements = Tools::departements_enabled - [Tools::STATES_WILDCARD]
   end
 
