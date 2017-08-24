@@ -53,6 +53,7 @@ fr:
         description: "Message"
       message:
         corps_message: "Votre message"
+        test_message: "* Email"
       personne:
         lien_avec_demandeur: "Lien avec le demandeur"
       projet:
