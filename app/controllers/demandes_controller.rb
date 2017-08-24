@@ -6,7 +6,7 @@ class DemandesController < ApplicationController
 
   def show
     @demande = projet_demande
-    @page_heading = "Projet envisagé"
+    @page_heading = "Ma demande"
     @action_label = action_label
   end
 

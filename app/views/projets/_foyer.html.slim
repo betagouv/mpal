@@ -1,5 +1,5 @@
 article.block.occupants
-  h3 Détails du foyer
+  h3 Ma Situation
   - if can? :update, @projet_courant
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
   .occupants-recap

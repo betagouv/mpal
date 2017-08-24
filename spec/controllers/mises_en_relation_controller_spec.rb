@@ -17,7 +17,7 @@ describe MisesEnRelationController do
 
     it "renders the template" do
       expect(response).to render_template(:show)
-      expect(assigns(:page_heading)).to eq "Un contact pour vous aider"
+      expect(assigns(:page_heading)).to eq I18n.t("demarrage_projet.mise_en_relation.assignement_pris_titre")
     end
   end
 

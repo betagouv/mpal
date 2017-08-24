@@ -14,7 +14,7 @@ describe DemandesController do
 
     it "renders the template" do
       expect(response).to render_template(:show)
-      expect(assigns(:page_heading)).to eq "Projet envisagé"
+      expect(assigns(:page_heading)).to eq "Ma demande"
     end
   end
 

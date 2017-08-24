@@ -13,12 +13,12 @@ fr:
         prenom: Prénom
         tel: Téléphone
         email: Email
-        lien_avec_demandeur: "Quel est votre lien avec le demandeur ?"
+        lien_avec_demandeur: "Quel est le lien de cette personne avec le propriétaire ?"
       demande:
-        complement: "Précisez votre projet"
-        date_achevement_15_ans: "Votre logement (maison ou immeuble) a-t-il été construit il y a plus de 15 ans ?"
-        annee_construction: "Si vous la connaissez, indiquez l’année de construction (précise ou estimée) de votre logement :"
-        ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
+        complement: "Je précise mon projet"
+        date_achevement_15_ans: "Mon logement (maison ou immeuble) a été construit il y a plus de 15 ans"
+        annee_construction: "Si je la connais, j’indique l’année de construction de mon logement"
+        ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover (dans les 5 dernières années)"
       proposition:
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
@@ -93,12 +93,12 @@ fr:
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
         enregistrement_demandeur: "Une erreur s’est produite lors de l’enregistrement de vos informations personnelles."
         missing_demandeur: "Veuillez sélectionner le prénom et nom du demandeur"
-      section_demandeur: "Demandeur"
+      section_demandeur: "Mes coordonnées"
       demandeur_identity: "Prénom et nom"
-      select: "Sélectionnez le propriétaire demandeur"
+      select: "Sélectionner le propriétaire demandeur"
       reliable_person: "Qui contacter pour les démarches à venir ?"
-      reliable_person_select_no: "Vous-même"
-      reliable_person_select_yes: "Une personne chargée du suivi du dossier"
+      reliable_person_select_no: "Moi-même"
+      reliable_person_select_yes: "Une personne de mon choix (parent, voisin, ...)"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
       departement_non_eligible:
         title: Désolé, les logements dans votre département ne sont pas encore éligibles
@@ -113,19 +113,18 @@ fr:
     demande:
       erreurs:
         besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
-      section_projet_envisage: "Projet envisagé"
-      titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
-      titre_travaux: "Quels travaux souhaitez-vous réaliser ?"
-      titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
+      section_projet_envisage: "Mon projet"
+      titre_besoins: "Les difficultés que je rencontre dans mon logement :"
+      titre_travaux: "Les travaux que je souhaite effectuer :"
       # Difficultés
-      changement_chauffage: "Votre chauffage vous coûte trop cher"
-      froid: "Vous avez froid, votre logement est mal isolé"
-      probleme_deplacement: "Vous avez du mal à vous déplacer"
-      accessibilite: "Vous avez des difficultés dans les escaliers"
-      hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
-      adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
-      arrete: "Votre logement (immeuble) fait l’objet d’un arrêté : insalubrité, péril, travaux de sécurité"
-      saturnisme: "Vous disposez d’un justificatif de saturnisme"
+      changement_chauffage: "Mon chauffage me coûte trop cher"
+      froid: "J’ai froid, mon logement est mal isolé"
+      probleme_deplacement: "J’ai du mal à vous déplacer"
+      accessibilite: "J’ai des difficultés dans les escaliers"
+      hospitalisation: "Je rentre d’hospitalisation ou de maison de repos"
+      adaptation_salle_de_bain: "Je ne peux plus accéder à ma baignoire"
+      arrete: "Mon logement (immeuble) fait l’objet d’un arrêté : insalubrité, péril, travaux de sécurité"
+      saturnisme: "Je dispose d’un justificatif de saturnisme"
       autre: "Autre"
       # Travaux
       travaux_fenetres: "Fenêtres"
@@ -140,23 +139,23 @@ fr:
       precisions: "Précisions"
     # ----------------------- Eligibilité ---------------------
     eligibility:
-      eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
-      not_eligible: "D’après les éléments renseignés, vous n’êtes a priori pas éligible, pour s’en assurer un complément d’étude de votre situation peut être réalisé."
-      informations: "Pour découvrir les conditions de financement s’appliquant à votre projet, vous pouvez consulter %{conditions}."
+      eligible: "D’après les informations que vous avez transmises, les conditions sont remplies pour faire une demande d’aide."
+      not_eligible: "D’après les informations que vous avez transmises, vous ne pouvez pas bénéficier d’une aide. Néanmoins un complément d’étude de votre situation est possible."
+      informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consulter %{conditions}."
 
     # ----------------------- Mise en relation ---------------------
     mise_en_relation:
       titre: "Choisissez votre opérateur"
-      assignement_pris_titre: "Un contact pour vous aider"
+      assignement_pris_titre: "Mon contact"
       non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée"
-      information_pris: "Le Point Rénovation Info Service de votre département est « %{pris} »."
+      information_pris: "Votre contact est le Point Rénovation Info Service « %{pris} »."
       to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
-      disponibilite_placeholder: "Par exemple : Le matin, entre 8h et 11h"
+      disponibilite_placeholder: "Du lundi au vendredi (matin ou après-midi)"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     # ----------------------- Compte utilisateur -------------------
     users:
-      section_name: "Identifiants"
-      explanations: "Choisissez un mot de passe pour pouvoir suivre l’avancement de votre dossier. Ce seront vos identifiants de connexion."
+      section_name: "Création de mon compte"
+      explanations: "Pour poursuivre la démarche, je crée mon compte."
 
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
@@ -409,9 +408,8 @@ fr:
       action: "J’envoie ma demande à %{intervenant}"
       description_projet_suggestion: "Quelles difficultés rencontrez-vous dans votre logement ? Par exemple : j’ai froid, mon logement est mal isolé, je veux réaliser des économies d’énergies, j’ai du mal à me déplacer, un des occupants est handicapé, mon logement est globalement en très mauvais état et, ou quels travaux souhaitez-vous effectuer ? Par exemple : changer mon système de chauffage, isoler mon logement, adapter ma salle de bain, rendre plus accessible mon logement, réaliser d’importants travaux ou autres…"
     messages:
-      succes_titre: "Invitation envoyée"
-      succes: "Une invitation avec la description de votre projet a été envoyée à %{intervenant}"
-      erreur: "L’invitation n’a pas pu être envoyée"
+      succes: "Votre demande a été envoyée à %{intervenant}"
+      erreur: "La demande de contact n’a pas pu être envoyée"
       email:
         obligatoire: "L’email est obligatoire"
       description:

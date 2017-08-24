@@ -14,7 +14,7 @@ describe DemandeursController do
 
     it "affiche le template" do
       expect(response).to render_template(:show)
-      expect(assigns(:page_heading)).to eq "Demandeur"
+      expect(assigns(:page_heading)).to eq I18n.t("demarrage_projet.demandeur.section_demandeur")
       expect(assigns(:demandeur)).to eq projet.demandeur
     end
 
