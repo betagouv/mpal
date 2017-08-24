@@ -5,8 +5,8 @@ require 'support/mpal_helper'
 
 describe IntervenantsController do
   describe "#index" do
-    let(:user)                { create :user }
-    let(:projet_with_user)    { create :projet, :en_cours, :with_assigned_operateur, user: user, locked_at: Time.new(1789, 7, 14, 16, 0, 0) }
+    let(:projet_with_user)    { create :projet, :en_cours, :with_assigned_operateur }
+    let(:user)                { projet_with_user.user }
     let(:projet_without_user) { create :projet, :prospect }
     let(:agent_operateur)     { projet_with_user.agent_operateur }
 
