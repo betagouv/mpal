@@ -174,7 +174,7 @@ feature "Remplir la proposition de travaux" do
 
       document = projet.documents.first
       expect(projet.documents.count).to be_present
-      expect(page).to have_link "Ma pièce jointe.txt"
+      expect(page).to have_link "Ma_pièce_jointe.txt"
       expect(page).to have_content I18n.t("document.messages.create.success")
 
       within ".test-document-panel-0" do

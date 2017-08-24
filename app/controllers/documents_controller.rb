@@ -19,7 +19,7 @@ class DocumentsController < ApplicationController
     rescue => e
       Rails.logger.error "[DocumentsController] create action failed : #{e.message}"
       if e.class == ActiveRecord::RecordInvalid
-        flash[:alert] = e.record.errors[:base].first
+        flash[:alert] = e.record.errors[:base].first || e.record.errors[:fichier].first
       else
         flash[:alert] = t("document.messages.create.error")
       end

@@ -70,12 +70,10 @@ GEM
     capybara-screenshot (1.0.14)
       capybara (>= 1.0, < 3)
       launchy
-    carrierwave (0.11.2)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
+    carrierwave (1.1.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
       mime-types (>= 1.16)
-      mimemagic (>= 0.3.0)
     case_transform (0.2)
       activesupport
     choice (0.2.0)
@@ -184,7 +182,6 @@ GEM
       rest-client
     method_source (0.8.2)
     mime-types (1.25.1)
-    mimemagic (0.3.2)
     mini_portile2 (2.2.0)
     minitest (5.10.2)
     multi_json (1.12.1)
@@ -381,7 +378,7 @@ DEPENDENCIES
   cancancan
   capybara
   capybara-screenshot
-  carrierwave (~> 0.11.2)
+  carrierwave (~> 1.0)
   clamby
   database_cleaner
   devise

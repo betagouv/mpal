@@ -59,6 +59,10 @@ fr:
       already_confirmed: "a déjà été validé(e), veuillez essayer de vous connecter"
       confirmation_period_expired: "à confirmer dans les %{period}, merci de faire une nouvelle demande"
       expired: "a expiré, merci d’en faire une nouvelle demande"
+      carrierwave_download_error: "Impossible de télécharger le fichier."
+      extension_whitelist_error: "Vous n'êtes pas autorisé à ajouter des fichiers %{extension}. Les types autorisés sont : %{allowed_types}"
+      min_size_error: "La taille du fichier doit être supérieure à 0 Mo."
+      max_size_error: "La taille du fichier doit être inférieure à 10 Mo."
       not_found: "n’a pas été trouvé(e)"
       not_locked: "n’était pas verrouillé(e)"
       not_saved:
