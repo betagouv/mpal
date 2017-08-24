@@ -23,6 +23,13 @@
   align-items: center;
   background-color: $state-danger-bg;
   padding: 1em 2em;
+  color: $color-grey;
+  a {
+    color: $color-grey;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
 }
 .registry__title_header {
   display: flex;
@@ -34,7 +41,6 @@
   align-items: center;
   font-size: 18px;
   font-weight: bold;
-  color: $font-color;
 }
 .registry__actions_header {
   display: flex;
@@ -52,7 +58,7 @@
   padding: 1em 2em;
 }
 .registry__status {
-  text-decoration: underline;
+  font-weight: bold;
   margin-bottom: 1em;
 }
 .registry__beneficiary {
