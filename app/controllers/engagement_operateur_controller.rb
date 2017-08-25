@@ -12,10 +12,9 @@ class EngagementOperateurController < ApplicationController
   def create
     operateur = Intervenant.find(params[:operateur_id])
     if @projet_courant.commit_with_operateur!(operateur)
-      flash[:notice_titre] = t('projets.intervenants.messages.succes_choix_intervenant_titre')
       ProjetMailer.notification_engagement_operateur(@projet_courant).deliver_later!
       EvenementEnregistreurJob.perform_later(label: 'choix_intervenant', projet: @projet_courant, producteur: @projet_courant.operateur)
-      redirect_to projet_path(@projet_courant), notice: t('projets.intervenants.messages.succes_choix_intervenant')
+      redirect_to projet_path(@projet_courant), flash: { success: t('projets.intervenants.messages.succes_choix_intervenant', operateur: operateur.raison_sociale) }
     else
       redirect_to projet_path(@projet_courant), alert: t('projets.intervenants.messages.erreur_choix_intervenant')
     end
@@ -23,6 +22,6 @@ class EngagementOperateurController < ApplicationController
 
 private
   def init_view
-    @page_heading = "S’engager avec l’opérateur qui vous accompagnera"
+    @page_heading = "Mon opérateur-conseil"
   end
 end

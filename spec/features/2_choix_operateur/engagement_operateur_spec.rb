@@ -14,7 +14,7 @@ feature "S'engager avec un opérateur :" do
     click_button I18n.t('projets.visualisation.engagement_action')
 
     expect(page.current_path).to eq(projet_path(projet))
-    expect(page).to have_content(I18n.t('projets.intervenants.messages.succes_choix_intervenant'))
+    expect(page).to have_content(I18n.t('projets.intervenants.messages.succes_choix_intervenant', operateur: operateur.raison_sociale))
     expect(page).not_to have_content(I18n.t('projets.visualisation.s_engager_avec_operateur'))
     within '.projet-ope' do
       expect(page).to have_content(operateur.raison_sociale)

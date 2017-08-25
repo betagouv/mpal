@@ -1,7 +1,6 @@
 .recommander_operateurs
-  h2.heading Recommander des opérateurs
   = form_for @projet_courant, url: { controller: "dossiers", action: "recommander_operateurs" }, method: "post", html: { class: "form" } do |f|
-    p #{@projet_courant.demandeur.fullname}, le demandeur de ce projet, recevra un e-mail l’invitant à contacter un opérateur parmi ceux recommandés.
+    p Le propriétaire et, le cas échéant, son mandataire recevront un e-mail les invitant à contacter le ou les opérateur(s) proposé(s).
     = render "shared/errors", resource: @projet_courant
     ul.checkboxes-list
       - @available_operateurs.each do |operateur|
