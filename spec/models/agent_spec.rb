@@ -95,7 +95,7 @@ describe Agent do
 
         context "une fois le demandeur engagé avec l'operateur" do
           context "il ne peut ni modifier ni lire le projet" do
-            let(:projet) { create :projet, :en_cours, :with_invited_pris }
+            let(:projet) { create :projet, :en_cours }
 
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
             it { is_expected.not_to be_able_to(:read, Demande) }
