@@ -1,4 +1,4 @@
-class RemoveAnneeConstructionFromProjets < ActiveRecord::Migration
+class RemoveAnneeConstructionFromProjets < ActiveRecord::Migration[4.2]
   def up
     Projet.find_each do |projet|
       demande = projet.demande

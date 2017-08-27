@@ -1,4 +1,4 @@
-class CreateAgentsProjets < ActiveRecord::Migration
+class CreateAgentsProjets < ActiveRecord::Migration[4.2]
   def change
     create_table :agents_projets do |t|
       t.references :agent, index: true, foreign_key: true

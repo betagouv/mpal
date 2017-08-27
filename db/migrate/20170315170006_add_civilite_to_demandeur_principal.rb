@@ -1,4 +1,4 @@
-class AddCiviliteToDemandeurPrincipal < ActiveRecord::Migration
+class AddCiviliteToDemandeurPrincipal < ActiveRecord::Migration[4.2]
   def up
     count = 0
 

@@ -1,4 +1,4 @@
-class AddNomPrenomIntervenantToAgents < ActiveRecord::Migration
+class AddNomPrenomIntervenantToAgents < ActiveRecord::Migration[4.2]
   def change
     add_column :agents, :nom, :string
     add_column :agents, :prenom, :string

@@ -1,4 +1,4 @@
-class DeviseCreateAgents < ActiveRecord::Migration
+class DeviseCreateAgents < ActiveRecord::Migration[4.2]
   def change
     create_table :agents do |t|
       ## CAS authenticatable

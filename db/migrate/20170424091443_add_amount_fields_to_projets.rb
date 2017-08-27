@@ -1,4 +1,4 @@
-class AddAmountFieldsToProjets < ActiveRecord::Migration
+class AddAmountFieldsToProjets < ActiveRecord::Migration[4.2]
   def change
     add_column :projets, :amo_amount, :decimal, precision: 10, scale: 2
     add_column :projets, :maitrise_oeuvre_amount, :decimal, precision: 10, scale: 2

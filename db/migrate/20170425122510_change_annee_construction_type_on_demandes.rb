@@ -1,4 +1,4 @@
-class ChangeAnneeConstructionTypeOnDemandes < ActiveRecord::Migration
+class ChangeAnneeConstructionTypeOnDemandes < ActiveRecord::Migration[4.2]
   def up
     Demande.find_each do |demande|
       if demande.annee_construction.blank?

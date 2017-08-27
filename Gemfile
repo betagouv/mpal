@@ -24,14 +24,13 @@ gem 'mailjet'
 gem 'newrelic_rpm'
 gem 'notifyjs_rails'
 gem 'orderedhash'
-gem 'pg', '~> 0.20.0'
+gem 'pg', '~> 0.21.0'
 gem 'rake', '= 11.2.2'
-#gem 'rails', '~> 5.1.3'
-gem 'rails', '~> 5.0.0'
+gem 'rails', '~> 5.1.3'
 gem 'rb-readline'
 gem 'redis-namespace'
 gem 'rest-client', '~> 1.6.9'
-gem 'sass-rails' #, '~> 5.0'
+gem 'sass-rails'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'sidekiq'
 gem 'simple_form'
@@ -55,10 +54,9 @@ group :development do
   gem 'pry'
   gem 'pry-nav'
   gem 'rails-erd' # Use `bundle exec erd` to generate DB schema in PDF
-  gem 'sextant'
   gem 'spring'
   gem 'spring-commands-rspec'
-  gem 'web-console' #, '~> 2.0'
+  gem 'web-console'
 end
 
 group :test do

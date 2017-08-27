@@ -1,4 +1,4 @@
-class ChangeSubventions < ActiveRecord::Migration
+class ChangeSubventions < ActiveRecord::Migration[4.2]
   def change
     remove_column :subventions, :montant
     remove_column :subventions, :projet_id

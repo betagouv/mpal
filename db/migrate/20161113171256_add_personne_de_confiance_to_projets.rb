@@ -1,4 +1,4 @@
-class AddPersonneDeConfianceToProjets < ActiveRecord::Migration
+class AddPersonneDeConfianceToProjets < ActiveRecord::Migration[4.2]
   def change
     add_reference :projets, :personne, index: true, foreign_key: true
   end

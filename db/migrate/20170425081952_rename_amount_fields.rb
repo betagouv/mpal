@@ -1,4 +1,4 @@
-class RenameAmountFields < ActiveRecord::Migration
+class RenameAmountFields < ActiveRecord::Migration[4.2]
   def change
     rename_column :projets, :montant_travaux_ht, :travaux_ht_amount
     rename_column :projets, :montant_travaux_ttc, :travaux_ttc_amount

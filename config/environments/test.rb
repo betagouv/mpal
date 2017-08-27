@@ -49,10 +49,12 @@ Rails.application.configure do
   config.assets.debug = false
 
   # Live compilation uses more memory, performs more poorly than the default and is not recommended.
-  config.assets.compile = false
+  config.assets.compile = true
 
   # Allow Capybara snapshots to reference non-fingerprinted assets.
   config.assets.digest = false
+
+  #config.assets.unknown_asset_fallback = false
 
   config.active_job.queue_adapter = :test
 end

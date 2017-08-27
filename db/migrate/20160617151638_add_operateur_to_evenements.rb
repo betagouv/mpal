@@ -1,4 +1,4 @@
-class AddOperateurToEvenements < ActiveRecord::Migration
+class AddOperateurToEvenements < ActiveRecord::Migration[4.2]
   def change
     add_reference :evenements, :operateur, index: true, foreign_key: true
   end

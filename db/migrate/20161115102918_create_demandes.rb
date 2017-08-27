@@ -1,4 +1,4 @@
-class CreateDemandes < ActiveRecord::Migration
+class CreateDemandes < ActiveRecord::Migration[4.2]
   def change
     create_table :demandes do |t|
       t.belongs_to :projet, index: true, foreign_key: true

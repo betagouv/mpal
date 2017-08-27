@@ -1,4 +1,4 @@
-class CreateAvisImpositions < ActiveRecord::Migration
+class CreateAvisImpositions < ActiveRecord::Migration[4.2]
   def change
     create_table :avis_impositions do |t|
       t.belongs_to :occupant, index: true, foreign_key: true

@@ -67,4 +67,3 @@ module Tools
   end
 
 end
-
