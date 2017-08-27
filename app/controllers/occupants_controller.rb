@@ -47,7 +47,7 @@ private
   end
 
   def projet_params
-    params[:occupant].fetch(:projet, {}).permit(
+    params.fetch(:occupant, {}).fetch(:projet, {}).permit(
       :future_birth
     )
   end
@@ -65,7 +65,14 @@ private
   end
 
   def occupant_params?
-    occupant_params.any? { |attribute, value| value.present? }
+    has_values = false
+    occupant_params.each_pair do |key, value|
+      if value.present?
+        has_values = true
+        break
+      end
+    end
+    has_values
   end
 
   def needs_next_step?

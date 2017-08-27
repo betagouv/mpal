@@ -1,4 +1,4 @@
-class EvenementEnregistreurJob < ActiveJob::Base
+class EvenementEnregistreurJob < ApplicationJob
   queue_as :default
 
   def perform(attributes)

@@ -1,7 +1,7 @@
-require 'rails_helper'
-require 'support/api_particulier_helper'
-require 'support/api_ban_helper'
-require 'support/mpal_helper'
+require "rails_helper"
+require "support/api_particulier_helper"
+require "support/api_ban_helper"
+require "support/mpal_helper"
 
 describe ProjetsController do
   describe "#new" do
@@ -33,14 +33,14 @@ describe ProjetsController do
         let(:projet) { create :projet, :en_cours }
 
         it "redirige sur la page projet" do
-          get :new, nil, { project_id: projet.id }
+          get :new, session: { project_id: projet.id }
           expect(response).to redirect_to projet_path(projet)
         end
       end
 
       context "si le projet n’existe pas" do
         it "affiche le formulaire" do
-          get :new, nil, { project_id: 42 }
+          get :new, session: { project_id: 42 }
           expect(response).to have_http_status(:success)
           expect(response).to render_template("new")
           expect(session[:project_id]).to be_nil
@@ -56,21 +56,39 @@ describe ProjetsController do
       let(:projet)         { Projet.last }
 
       it "il obtient un message d’erreur" do
-        post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }, proprietaire: "0"
+        post :create, params: {
+          projet: {
+            numero_fiscal: numero_fiscal,
+            reference_avis: reference_avis,
+          },
+          proprietaire: "0",
+        }
         expect(response).to render_template("new")
         expect(flash[:alert]).to be_present
       end
 
       context "quand le demandeur n’est pas propriétaire" do
         it "il obtient un message d’erreur"do
-          post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "0" }
+          post :create, params: {
+            projet: {
+              numero_fiscal: numero_fiscal,
+              reference_avis: reference_avis,
+              proprietaire: "0",
+            }
+          }
           expect(response).to render_template("new")
           expect(flash[:alert]).to be_present
         end
       end
 
       it "je suis redirigé vers la page de démarrage du projet" do
-        post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis}, proprietaire: "1"
+        post :create, params: {
+          projet: {
+            numero_fiscal: numero_fiscal,
+            reference_avis: reference_avis,
+          },
+          proprietaire: "1",
+        }
         expect(response).to redirect_to projet_demandeur_path(projet)
       end
 
@@ -78,7 +96,13 @@ describe ProjetsController do
         let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL.to_s + 'C' }
 
         it "je suis redirigé vers la page de démarrage du projet" do
-          post :create, projet: {  numero_fiscal: numero_fiscal, reference_avis: reference_avis}, proprietaire: "1"
+          post :create, params: {
+            projet: {
+              numero_fiscal: numero_fiscal,
+              reference_avis: reference_avis,
+            },
+            proprietaire: "1",
+          }
           expect(response).to redirect_to projet_demandeur_path(projet)
         end
       end
@@ -87,18 +111,30 @@ describe ProjetsController do
         let(:numero_fiscal)  { Fakeweb::ApiParticulier::NUMERO_FISCAL_ANNEE_INVALIDE }
         let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS_ANNEE_INVALIDE }
 
-        it "il obtient un message d'erreur" do
-          post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis, proprietaire: "1" }
+        it "il obtient un message d’erreur" do
+          post :create, params: {
+            projet: {
+              numero_fiscal: numero_fiscal,
+              reference_avis: reference_avis,
+              proprietaire: "1"
+            }
+          }
           expect(response).to render_template("new")
           expect(flash[:alert]).to be_present
         end
       end
 
-      context "quand l'API BAN n'est pas disponible" do
+      context "quand l’API BAN n’est pas disponible" do
         before { Fakeweb::ApiBan.register_all_unavailable }
 
         it "je suis redirigé vers la page de démarrage du projet" do
-          post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis}, proprietaire: "1"
+          post :create, params: {
+            projet: {
+              numero_fiscal: numero_fiscal,
+              reference_avis: reference_avis,
+            },
+            proprietaire: "1",
+          }
           expect(response).to redirect_to projet_demandeur_path(projet)
           expect(projet.adresse).to be nil
         end
@@ -108,7 +144,13 @@ describe ProjetsController do
         before { Fakeweb::ApiBan.register_all_unknown }
 
         it "je suis redirigé vers la page de démarrage du projet" do
-          post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis}, proprietaire: "1"
+          post :create, params: {
+            projet: {
+              numero_fiscal: numero_fiscal,
+              reference_avis: reference_avis,
+            },
+            proprietaire: "1",
+          }
           expect(response).to redirect_to projet_demandeur_path(projet)
           expect(projet.adresse).to be nil
         end
@@ -121,7 +163,13 @@ describe ProjetsController do
       let(:reference_avis) { projet.reference_avis }
 
       it "je suis redirigé vers la page eligibilité" do
-        post :create, projet: { numero_fiscal: numero_fiscal, reference_avis: reference_avis}, proprietaire: "1" 
+        post :create, params: {
+          projet: {
+            numero_fiscal: numero_fiscal,
+            reference_avis: reference_avis,
+          },
+          proprietaire: "1",
+        }
         expect(response).to redirect_to projet_eligibility_path(projet)
       end
     end

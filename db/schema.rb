@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -43,11 +42,10 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.integer  "intervenant_id"
     t.string   "clavis_id"
     t.boolean  "admin",              default: false, null: false
+    t.index ["clavis_id"], name: "index_agents_on_clavis_id", using: :btree
+    t.index ["intervenant_id"], name: "index_agents_on_intervenant_id", using: :btree
+    t.index ["username"], name: "index_agents_on_username", unique: true, using: :btree
   end
-
-  add_index "agents", ["clavis_id"], name: "index_agents_on_clavis_id", using: :btree
-  add_index "agents", ["intervenant_id"], name: "index_agents_on_intervenant_id", using: :btree
-  add_index "agents", ["username"], name: "index_agents_on_username", unique: true, using: :btree
 
   create_table "agents_projets", force: :cascade do |t|
     t.integer  "agent_id"
@@ -56,10 +54,9 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.datetime "last_read_messages_at"
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
+    t.index ["agent_id"], name: "index_agents_projets_on_agent_id", using: :btree
+    t.index ["projet_id"], name: "index_agents_projets_on_projet_id", using: :btree
   end
-
-  add_index "agents_projets", ["agent_id"], name: "index_agents_projets_on_agent_id", using: :btree
-  add_index "agents_projets", ["projet_id"], name: "index_agents_projets_on_projet_id", using: :btree
 
   create_table "aides", force: :cascade do |t|
     t.string  "libelle"
@@ -78,9 +75,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.string   "declarant_1"
     t.string   "declarant_2"
     t.integer  "nombre_personnes_charge"
+    t.index ["projet_id"], name: "index_avis_impositions_on_projet_id", using: :btree
   end
-
-  add_index "avis_impositions", ["projet_id"], name: "index_avis_impositions_on_projet_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name",        limit: 128, default: "", null: false
@@ -90,9 +86,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["name", "email"], name: "index_contacts_on_name_and_email", using: :btree
   end
-
-  add_index "contacts", ["name", "email"], name: "index_contacts_on_name_and_email", using: :btree
 
   create_table "demandes", force: :cascade do |t|
     t.integer "projet_id"
@@ -116,9 +111,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.boolean "date_achevement_15_ans"
     t.boolean "arrete",                   default: false, null: false
     t.boolean "saturnisme",               default: false, null: false
+    t.index ["projet_id"], name: "index_demandes_on_projet_id", using: :btree
   end
-
-  add_index "demandes", ["projet_id"], name: "index_demandes_on_projet_id", using: :btree
 
   create_table "documents", force: :cascade do |t|
     t.string   "label"
@@ -127,9 +121,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.datetime "created_at",              null: false
     t.datetime "updated_at",              null: false
     t.string   "type_piece", default: "", null: false
+    t.index ["projet_id"], name: "index_documents_on_projet_id", using: :btree
   end
-
-  add_index "documents", ["projet_id"], name: "index_documents_on_projet_id", using: :btree
 
   create_table "evenements", force: :cascade do |t|
     t.integer  "projet_id"
@@ -137,10 +130,9 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.datetime "quand"
     t.integer  "producteur_id"
     t.string   "producteur_type"
+    t.index ["producteur_type", "producteur_id"], name: "index_evenements_on_producteur_type_and_producteur_id", using: :btree
+    t.index ["projet_id"], name: "index_evenements_on_projet_id", using: :btree
   end
-
-  add_index "evenements", ["producteur_type", "producteur_id"], name: "index_evenements_on_producteur_type_and_producteur_id", using: :btree
-  add_index "evenements", ["projet_id"], name: "index_evenements_on_projet_id", using: :btree
 
   create_table "intervenants", force: :cascade do |t|
     t.string "raison_sociale"
@@ -152,20 +144,18 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.text   "informations"
     t.string "clavis_service_id"
     t.string "phone",             default: "", null: false
+    t.index ["clavis_service_id"], name: "index_intervenants_on_clavis_service_id", using: :btree
+    t.index ["departements"], name: "index_intervenants_on_departements", using: :gin
+    t.index ["roles"], name: "index_intervenants_on_roles", using: :gin
+    t.index ["themes"], name: "index_intervenants_on_themes", using: :gin
   end
-
-  add_index "intervenants", ["clavis_service_id"], name: "index_intervenants_on_clavis_service_id", using: :btree
-  add_index "intervenants", ["departements"], name: "index_intervenants_on_departements", using: :gin
-  add_index "intervenants", ["roles"], name: "index_intervenants_on_roles", using: :gin
-  add_index "intervenants", ["themes"], name: "index_intervenants_on_themes", using: :gin
 
   create_table "intervenants_operations", force: :cascade do |t|
     t.integer "intervenant_id"
     t.integer "operation_id"
+    t.index ["intervenant_id"], name: "index_intervenants_operations_on_intervenant_id", using: :btree
+    t.index ["operation_id"], name: "index_intervenants_operations_on_operation_id", using: :btree
   end
-
-  add_index "intervenants_operations", ["intervenant_id"], name: "index_intervenants_operations_on_intervenant_id", using: :btree
-  add_index "intervenants_operations", ["operation_id"], name: "index_intervenants_operations_on_operation_id", using: :btree
 
   create_table "invitations", force: :cascade do |t|
     t.integer  "projet_id"
@@ -175,11 +165,10 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.datetime "updated_at"
     t.boolean  "suggested",        default: false, null: false
     t.boolean  "contacted",        default: false, null: false
+    t.index ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree
+    t.index ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
+    t.index ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
   end
-
-  add_index "invitations", ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree
-  add_index "invitations", ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
-  add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
 
   create_table "messages", force: :cascade do |t|
     t.integer  "projet_id"
@@ -188,10 +177,9 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.text     "corps_message"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.index ["auteur_type", "auteur_id"], name: "index_messages_on_auteur_type_and_auteur_id", using: :btree
+    t.index ["projet_id"], name: "index_messages_on_projet_id", using: :btree
   end
-
-  add_index "messages", ["auteur_type", "auteur_id"], name: "index_messages_on_auteur_type_and_auteur_id", using: :btree
-  add_index "messages", ["projet_id"], name: "index_messages_on_projet_id", using: :btree
 
   create_table "occupants", force: :cascade do |t|
     t.integer  "projet_id"
@@ -206,9 +194,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.integer  "avis_imposition_id"
     t.boolean  "declarant",          default: false, null: false
     t.string   "civility"
+    t.index ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
   end
-
-  add_index "occupants", ["projet_id"], name: "index_occupants_on_projet_id", using: :btree
 
   create_table "operations", force: :cascade do |t|
     t.string   "name",       default: "", null: false
@@ -221,9 +208,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.integer  "projet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["projet_id"], name: "index_payment_registries_on_projet_id", using: :btree
   end
-
-  add_index "payment_registries", ["projet_id"], name: "index_payment_registries_on_projet_id", using: :btree
 
   create_table "payments", force: :cascade do |t|
     t.integer  "payment_registry_id"
@@ -237,9 +223,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.datetime "created_at",                                                   null: false
     t.datetime "updated_at",                                                   null: false
     t.string   "action"
+    t.index ["payment_registry_id"], name: "index_payments_on_payment_registry_id", using: :btree
   end
-
-  add_index "payments", ["payment_registry_id"], name: "index_payments_on_payment_registry_id", using: :btree
 
   create_table "personnes", force: :cascade do |t|
     t.string "prenom"
@@ -256,10 +241,9 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.boolean "desired",       default: false, null: false
     t.boolean "recommended",   default: false, null: false
     t.boolean "selected",      default: false, null: false
+    t.index ["prestation_id"], name: "index_prestation_choices_on_prestation_id", using: :btree
+    t.index ["projet_id"], name: "index_prestation_choices_on_projet_id", using: :btree
   end
-
-  add_index "prestation_choices", ["prestation_id"], name: "index_prestation_choices_on_prestation_id", using: :btree
-  add_index "prestation_choices", ["projet_id"], name: "index_prestation_choices_on_projet_id", using: :btree
 
   create_table "prestations", force: :cascade do |t|
     t.string   "libelle"
@@ -272,10 +256,9 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.integer "projet_id"
     t.integer "aide_id"
     t.decimal "amount",    precision: 10, scale: 2
+    t.index ["aide_id"], name: "index_projet_aides_on_aide_id", using: :btree
+    t.index ["projet_id"], name: "index_projet_aides_on_projet_id", using: :btree
   end
-
-  add_index "projet_aides", ["aide_id"], name: "index_projet_aides_on_aide_id", using: :btree
-  add_index "projet_aides", ["projet_id"], name: "index_projet_aides_on_projet_id", using: :btree
 
   create_table "projets", force: :cascade do |t|
     t.string   "numero_fiscal"
@@ -332,32 +315,29 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.integer  "modified_revenu_fiscal_reference"
     t.datetime "locked_at"
     t.datetime "date_depot"
+    t.index ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
+    t.index ["adresse_postale_id"], name: "index_projets_on_adresse_postale_id", using: :btree
+    t.index ["agent_instructeur_id"], name: "index_projets_on_agent_instructeur_id", using: :btree
+    t.index ["agent_operateur_id"], name: "index_projets_on_agent_operateur_id", using: :btree
+    t.index ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
+    t.index ["personne_id"], name: "index_projets_on_personne_id", using: :btree
+    t.index ["themes"], name: "index_projets_on_themes", using: :gin
+    t.index ["user_id"], name: "index_projets_on_user_id", using: :btree
   end
-
-  add_index "projets", ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id", using: :btree
-  add_index "projets", ["adresse_postale_id"], name: "index_projets_on_adresse_postale_id", using: :btree
-  add_index "projets", ["agent_instructeur_id"], name: "index_projets_on_agent_instructeur_id", using: :btree
-  add_index "projets", ["agent_operateur_id"], name: "index_projets_on_agent_operateur_id", using: :btree
-  add_index "projets", ["operateur_id"], name: "index_projets_on_operateur_id", using: :btree
-  add_index "projets", ["personne_id"], name: "index_projets_on_personne_id", using: :btree
-  add_index "projets", ["themes"], name: "index_projets_on_themes", using: :gin
-  add_index "projets", ["user_id"], name: "index_projets_on_user_id", using: :btree
 
   create_table "projets_themes", id: false, force: :cascade do |t|
     t.integer "projet_id"
     t.integer "theme_id"
+    t.index ["projet_id"], name: "index_projets_themes_on_projet_id", using: :btree
+    t.index ["theme_id"], name: "index_projets_themes_on_theme_id", using: :btree
   end
-
-  add_index "projets_themes", ["projet_id"], name: "index_projets_themes_on_projet_id", using: :btree
-  add_index "projets_themes", ["theme_id"], name: "index_projets_themes_on_theme_id", using: :btree
 
   create_table "suggested_operateurs", id: false, force: :cascade do |t|
     t.integer "projet_id"
     t.integer "intervenant_id"
+    t.index ["intervenant_id"], name: "index_suggested_operateurs_on_intervenant_id", using: :btree
+    t.index ["projet_id"], name: "index_suggested_operateurs_on_projet_id", using: :btree
   end
-
-  add_index "suggested_operateurs", ["intervenant_id"], name: "index_suggested_operateurs_on_intervenant_id", using: :btree
-  add_index "suggested_operateurs", ["projet_id"], name: "index_suggested_operateurs_on_projet_id", using: :btree
 
   create_table "task_records", id: false, force: :cascade do |t|
     t.string "version", null: false
@@ -380,10 +360,9 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "agents", "intervenants"
   add_foreign_key "agents_projets", "agents"

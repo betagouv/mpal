@@ -1,4 +1,4 @@
-class ProjetAide < ActiveRecord::Base
+class ProjetAide < ApplicationRecord
   include LocalizedModelConcern
 
   belongs_to :projet

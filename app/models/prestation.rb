@@ -1,4 +1,4 @@
-class Prestation < ActiveRecord::Base
+class Prestation < ApplicationRecord
   has_many :prestation_choices
   has_many :projets, through: :prestation_choices
 

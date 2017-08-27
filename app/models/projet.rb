@@ -1,4 +1,4 @@
-class Projet < ActiveRecord::Base
+class Projet < ApplicationRecord
   include LocalizedModelConcern
   extend CsvProperties, ApplicationHelper
 

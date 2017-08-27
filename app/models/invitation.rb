@@ -6,7 +6,7 @@
 # Aujourd'hui son usage est moins clair. Cela dit il pourrait être
 # utile de créer Invitation.role : un Intervenant peut avoir plusieurs
 # rôle, mais il serait bon de savoir pour quel rôle il a été invité.
-class Invitation < ActiveRecord::Base
+class Invitation < ApplicationRecord
   belongs_to :projet
   belongs_to :intervenant
   belongs_to :intermediaire, class_name: "Intervenant"

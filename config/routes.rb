@@ -110,7 +110,7 @@ Rails.application.routes.draw do
 
   #PAGES ADMIN
   namespace :admin do
-    root to: "home#index"
+    get "/" => "home#index"
     resources :themes
     resources :intervenants
   end

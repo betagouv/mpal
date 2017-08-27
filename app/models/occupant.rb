@@ -1,4 +1,4 @@
-class Occupant < ActiveRecord::Base
+class Occupant < ApplicationRecord
   CIVILITIES = [["Madame", "mrs"], ["Monsieur", "mr"]]
 
   enum civilite: ['mr', 'mme'] # DEPRECATED

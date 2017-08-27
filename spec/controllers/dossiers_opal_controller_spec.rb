@@ -1,6 +1,6 @@
-require 'rails_helper'
-require 'support/mpal_helper'
-require 'support/opal_helper'
+require "rails_helper"
+require "support/mpal_helper"
+require "support/opal_helper"
 
 describe DossiersOpalController do
 
@@ -11,7 +11,7 @@ describe DossiersOpalController do
     context "en tant qu'agent instructeur" do
       before do
         authenticate_as_agent agent_instructeur
-        post :create, dossier_id: projet.id
+        post :create, params: { dossier_id: projet.id }
         projet.reload
       end
 

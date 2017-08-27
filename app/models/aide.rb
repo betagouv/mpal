@@ -1,4 +1,4 @@
-class Aide < ActiveRecord::Base
+class Aide < ApplicationRecord
   has_many :projet_aides
   has_many :projets, through: :projet_aides
 

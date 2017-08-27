@@ -1,6 +1,6 @@
-require 'rails_helper'
-require 'support/mpal_helper'
-require 'support/rod_helper'
+require "rails_helper"
+require "support/mpal_helper"
+require "support/rod_helper"
 
 describe DossiersController do
   context "en tant qu'agent, si je ne suis pas connecté" do
@@ -15,23 +15,23 @@ describe DossiersController do
     end
 
     context "quand j'essaie d'accéder au dossier" do
-      subject { get :show, dossier_id: 42 }
+      subject { get :show, params: { dossier_id: 42 } }
       it { is_expected.to redirect_to(new_agent_session_path) }
     end
   end
 
   describe "#proposition" do
-      let!(:prestation_1) { create :prestation }
-      let!(:prestation_2) { create :prestation }
-      let!(:prestation_3) { create :prestation }
-      let!(:aide_1)       { create :aide }
-      let!(:aide_2)       { create :aide }
-      let!(:aide_3)       { create :aide }
-      let!(:aide_4)       { create :aide }
-      let!(:aide_5)       { create :aide }
-      let(:projet)        { create :projet, :en_cours, :with_assigned_operateur }
+    let!(:prestation_1) { create :prestation }
+    let!(:prestation_2) { create :prestation }
+    let!(:prestation_3) { create :prestation }
+    let!(:aide_1)       { create :aide }
+    let!(:aide_2)       { create :aide }
+    let!(:aide_3)       { create :aide }
+    let!(:aide_4)       { create :aide }
+    let!(:aide_5)       { create :aide }
+    let(:projet)        { create :projet, :en_cours, :with_assigned_operateur }
 
-      before(:each) { authenticate_as_agent projet.agent_operateur }
+    before(:each) { authenticate_as_agent projet.agent_operateur }
 
     context "en tant qu'opérateur connecté" do
       context "si aucune prestation n'était retenue" do
@@ -44,7 +44,7 @@ describe DossiersController do
             }
           }
 
-          put :proposition, dossier_id: projet.id, projet: projet_params
+          put :proposition, params: { dossier_id: projet.id, projet: projet_params }
           projet.reload
 
           prestation_choice_1 = projet.prestation_choices.where(prestation_id: prestation_1.id).first
@@ -76,7 +76,7 @@ describe DossiersController do
             }
           }
 
-          put :proposition, dossier_id: projet.id, projet: projet_params
+          put :proposition, params: { dossier_id: projet.id, projet: projet_params }
           projet.reload
 
           prestation_choice_1 = projet.prestation_choices.where(prestation_id: prestation_1.id).first
@@ -105,7 +105,7 @@ describe DossiersController do
             }
           }
 
-          put :proposition, dossier_id: projet.id, projet: projet_params
+          put :proposition, params: { dossier_id: projet.id, projet: projet_params }
           projet.reload
 
           projet_aide_1 = projet.projet_aides.where(aide_id: aide_1.id).first
@@ -140,7 +140,7 @@ describe DossiersController do
             }
           }
 
-          put :proposition, dossier_id: projet.id, projet: projet_params
+          put :proposition, params: { dossier_id: projet.id, projet: projet_params }
           projet.reload
 
           projet_aide_1 = projet.projet_aides.where(aide_id: aide_1.id).first
@@ -163,7 +163,7 @@ describe DossiersController do
             annee_construction: "1980"
           }
         }
-        put :proposition, dossier_id: projet.id, projet: projet_params
+        put :proposition, params: { dossier_id: projet.id, projet: projet_params }
         projet.reload
 
         expect(projet.demande.annee_construction).to eq 1980
@@ -179,8 +179,8 @@ describe DossiersController do
           }
         }
 
-        put :proposition, dossier_id: projet.id, projet: projet_params
-        put :proposition, dossier_id: projet.id, projet: projet_params
+        put :proposition, params: { dossier_id: projet.id, projet: projet_params }
+        put :proposition, params: { dossier_id: projet.id, projet: projet_params }
         projet.reload
 
         expect(projet.prestation_choices.count).to eq 1
@@ -198,7 +198,7 @@ describe DossiersController do
         before { projet.update_attribute(:date_de_visite, nil) }
 
         it "je ne peux pas proposer au demandeur" do
-          get :proposer, dossier_id: projet.id
+          get :proposer, params: { dossier_id: projet.id }
           expect(assigns(:projet_courant).statut.to_sym).to eq :proposition_enregistree
           expect(assigns(:projet_courant).errors).to be_added :date_de_visite, :blank_feminine
           expect(response).to render_template("projets/proposition")
@@ -207,7 +207,7 @@ describe DossiersController do
 
       context "si la proposition est valide" do
         it "elle est proposée au demandeur" do
-          get :proposer, dossier_id: projet.id
+          get :proposer, params: { dossier_id: projet.id }
           projet.reload
           expect(projet.statut.to_sym).to eq :proposition_proposee
           expect(response).to redirect_to dossier_path(projet)

@@ -1,4 +1,4 @@
-class Message < ActiveRecord::Base
+class Message < ApplicationRecord
   belongs_to :auteur, polymorphic: true
   belongs_to :projet
 
