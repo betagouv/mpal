@@ -23,8 +23,5 @@
           .messages__content= message.corps_message
   = simple_form_for @message, url: { controller: :messages, action: :create }, html: { class: "form form-message" } do |f|
     = render "shared/errors", resource: @message
-    /PREMIER CHAMP INVISIBLE - HONEYPOT - ANTI SPAM
-    = f.input :test_message, wrapper_html: { class: "messages__test-email" }
     = f.input :corps_message
     = btn name: t("projets.visualisation.lien_ajout_message"), icon: "envelope"
-

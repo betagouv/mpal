@@ -49,11 +49,11 @@ fr:
         numero_fiscal: "Numéro fiscal"
         reference_avis: "Référence avis"
       contact:
-        subject: "Objet"
+        address: "Adresse postale"
         description: "Message"
+        subject: "Objet"
       message:
         corps_message: "Votre message"
-        test_message: "* Email"
       personne:
         lien_avec_demandeur: "Lien avec le demandeur"
       projet:

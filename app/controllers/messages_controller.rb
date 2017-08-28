@@ -32,7 +32,7 @@ private
   end
 
   def message_params
-    params.require(:message).permit([:corps_message, :test_message])
+    params.require(:message).permit(:corps_message)
   end
 
   def render_new

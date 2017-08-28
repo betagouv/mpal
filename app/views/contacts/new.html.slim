@@ -4,7 +4,8 @@ h3 Un problème, une question ? Contactez nous !
   = f.input :name, wrapper_html: { class: "size-s" }, required: true, autofocus: true
   = f.input :email, wrapper_html: { class: "size-m" }, required: true
   = f.input :phone, wrapper_html: { class: "size-s" }
-  = f.input :address, wrapper_html: { class: "size-s__address" }
+  /this field is hidden in order to identify bots
+  = f.input :address, wrapper_html: { class: "contacts__address" }, required: true
   = f.input :subject, required: true
   = f.input :description, input_html: { cols: 40, rows: 6 }
   = btn name: t("helpers.submit.defaults.send"), class: "btn-large", icon: "send"
