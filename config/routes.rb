@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   get  "/informations/terms_of_use", to: "informations#terms_of_use"
   get  "/informations/legal",        to: "informations#legal"
   get  "/stats",                     to: "informations#stats"
+  get  "/robots.:format",            to: "informations#robots"
 
   get  "/patterns",                  to: "patterns#index"
   get  "/patterns/forms",            to: "patterns#forms"
