@@ -3,4 +3,6 @@ class Contact < ActiveRecord::Base
 
   validates_presence_of :name, :description
   validates :email, email: true, allow_blank: false
+  attr_accessor :address
 end
+

@@ -28,7 +28,7 @@ class ContactsController < ApplicationController
   end
 
   def create
-    p = params.require(:contact).permit([:name, :email, :phone, :subject, :description])
+    p = params.require(:contact).permit([:name, :email, :phone, :subject, :description, :address])
     @contact = Contact.new(p)
     if @contact.save
       ContactMailer.contact(@contact).deliver_later!
