@@ -20,12 +20,29 @@ describe ContactsController do
       }
     end
 
-    it {
-      post :create, contact: contact_params
-      # expect(flash[:notice]).to be_present
-      expect(Contact.last.name).to eq "David"
-      expect(response).to redirect_to new_contact_path
-    }
+    let(:honeypot_params) { {} }
+
+    before do
+      post :create, contact: contact_params.merge(honeypot_params)
+    end
+
+    context "sauvegarde rien si je ne remplis pas le champ address" do
+      it do
+        # expect(flash[:notice]).to be_present
+        expect(Contact.last.name).to eq "David"
+        expect(Contact.all.count).to eq 1
+        expect(response).to redirect_to new_contact_path
+      end
+    end
+
+    context "ne sauvegarde rien si je remplis le champ address" do
+      let(:honeypot_params) { { address: "Je suis un bot" } }
+
+      it do
+        # expect(flash[:notice]).to be_present
+        expect(Contact.all.count).to eq 0
+        expect(response).to redirect_to new_contact_path
+      end
+    end
   end
 end
-
