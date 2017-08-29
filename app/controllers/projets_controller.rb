@@ -16,12 +16,11 @@ class ProjetsController < ApplicationController
       return redirect_to dossiers_path
     end
     @projet = Projet.new
-    @page_heading = "Création de dossier"
-    render layout: "creation_dossier"
+    @page_heading = "Remplir mon dossier"
   end
 
   def create
-    @page_heading = "Création de dossier"
+    @page_heading = "Remplir mon dossier"
 
     @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
     if @projet
@@ -39,23 +38,23 @@ class ProjetsController < ApplicationController
     rescue => e
       @projet = Projet.new(params[:projet].permit(:numero_fiscal, :reference_avis))
       flash.now[:alert] =  "Erreur : #{e.message}"
-      return render :new, layout: "creation_dossier"
+      return render :new
     end
 
     contribuable = ApiParticulier.new(param_numero_fiscal, param_reference_avis).retrouve_contribuable
     unless contribuable
       flash.now[:alert] = t('sessions.invalid_credentials')
-      return render :new, layout: 'creation_dossier'
+      return render :new
     end
 
     unless "1" == params[:proprietaire]
       flash.now[:alert] = t('sessions.erreur_proprietaire_html', anil: view_context.link_to('Anil.org', 'https://www.anil.org/')).html_safe
-      return render :new, layout: 'creation_dossier'
+      return render :new
     end
 
     unless @projet.avis_impositions.map(&:is_valid_for_current_year?).all?
       flash.now[:alert] =  I18n.t("projets.composition_logement.avis_imposition.messages.annee_invalide", year: 2.years.ago.year)
-      return render :new, layout: "creation_dossier"
+      return render :new
     end
 
     if @projet.save
@@ -64,7 +63,7 @@ class ProjetsController < ApplicationController
       return redirect_to projet_demandeur_path(@projet), notice: t('projets.messages.creation.corps')
     end
 
-    render :new, layout: "creation_dossier", alert: t('sessions.erreur_creation_projet')
+    render :new, alert: t('sessions.erreur_creation_projet')
   end
 
 private
@@ -77,6 +76,7 @@ private
   end
 
   def redirect_if_no_account
+    return unless @projet_courant
     if @projet_courant.locked_at.nil?
       return redirect_to projet_demandeur_path(@projet_courant), alert: t('sessions.access_forbidden')
     elsif @projet_courant.locked_at && @projet_courant.user.blank?

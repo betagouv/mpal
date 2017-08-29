@@ -16,7 +16,7 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.body).to include("a supprimé la demande de paiement") }
   end
 
-  describe "notifie le demandeur qu'il doit valider la proposition faite par l'opérateur pour lademande demande de paiement" do
+  describe "notifie le demandeur qu'il doit valider la proposition faite par l'opérateur pour la demande demande de paiement" do
     let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
     let(:payment)    { create :payment, payment_registry: projet.payment_registry }
     let(:email)      { PaymentMailer.demande_validation(payment) }
@@ -80,17 +80,30 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.body).to include("Votre demande a bien été modifiée") }
   end
 
+  describe "notifie l'opérateur et le demandeur que le l'instructeur souhaite modifier la demande de paiement" do
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
+    let(:user)       { projet.user }
+    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    subject(:email)  { PaymentMailer.demande_modification(payment, false) }
+
+    it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
+    it { expect(email.to).to eq([projet.operateur.email]) }
+    it { expect(email.cc).to eq([projet.email, projet.personne.email]) }
+    it { expect(email.subject).to eq(I18n.t("mailers.paiement_mailer.demande_modification.sujet", from_fullname: projet.invited_instructeur.raison_sociale)) }
+    it { expect(email.body).to include(projet.operateur.raison_sociale) }
+    it { expect(email.body).to include("souhaite modifier la demande de paiement suivante") }
+  end
+
   describe "notifie l'opérateur que le demandeur souhaite modifier sa demande de paiement" do
-    let(:user)       { create :user }
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry, user: user }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
+    let(:user)       { projet.user }
     let(:payment)    { create :payment, payment_registry: projet.payment_registry }
     subject(:email)  { PaymentMailer.demande_modification(payment, true) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
     it { expect(email.to).to eq([projet.operateur.email]) }
-    it { expect(email.cc).to eq([projet.email, projet.personne.email]) }
     it { expect(email.subject).to eq(I18n.t("mailers.paiement_mailer.demande_modification.sujet", from_fullname: projet.demandeur.fullname)) }
-    it { expect(email.body).to include(projet.demandeur.fullname) }
+    it { expect(email.body).to include(projet.operateur.raison_sociale) }
     it { expect(email.body).to include("souhaite modifier la demande de paiement suivante") }
   end
 end

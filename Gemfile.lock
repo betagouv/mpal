@@ -70,15 +70,14 @@ GEM
     capybara-screenshot (1.0.14)
       capybara (>= 1.0, < 3)
       launchy
-    carrierwave (0.11.2)
-      activemodel (>= 3.2.0)
-      activesupport (>= 3.2.0)
-      json (>= 1.7)
+    carrierwave (1.1.0)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
       mime-types (>= 1.16)
-      mimemagic (>= 0.3.0)
     case_transform (0.2)
       activesupport
     choice (0.2.0)
+    clamby (1.2.5)
     coderay (1.1.1)
     concurrent-ruby (1.0.5)
     connection_pool (2.2.1)
@@ -183,7 +182,6 @@ GEM
       rest-client
     method_source (0.8.2)
     mime-types (1.25.1)
-    mimemagic (0.3.2)
     mini_portile2 (2.2.0)
     minitest (5.10.2)
     multi_json (1.12.1)
@@ -335,6 +333,13 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    state_machines (0.5.0)
+    state_machines-activemodel (0.5.0)
+      activemodel (>= 4.1, < 5.2)
+      state_machines (>= 0.5.0)
+    state_machines-activerecord (0.5.0)
+      activerecord (>= 4.1, < 5.2)
+      state_machines-activemodel (>= 0.5.0)
     temping (3.9.0)
       activerecord (>= 3.1)
       activesupport (>= 3.1)
@@ -373,7 +378,8 @@ DEPENDENCIES
   cancancan
   capybara
   capybara-screenshot
-  carrierwave (~> 0.11.2)
+  carrierwave (~> 1.0)
+  clamby
   database_cleaner
   devise
   devise_cas_authenticatable
@@ -420,6 +426,8 @@ DEPENDENCIES
   slim
   spring
   spring-commands-rspec
+  state_machines
+  state_machines-activerecord
   temping
   terminal-notifier-guard
   tether-rails

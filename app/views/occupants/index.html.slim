@@ -1,68 +1,64 @@
 = simple_form_for @occupant, url: { controller: "occupants", action: "index" }, method: "post", html: { class: "form" } do |f|
-  section.occupants
-    = render "shared/errors", resource: @occupant
-    h2.occupants-heading= t("occupants.title")
+  = render "shared/errors", resource: @occupant
+  .occupants-recap
+    ul
+      li
+        = t("occupants.nombre_occupant")
+        span= " #{@projet_courant.nb_total_occupants}"
+      li
+        = t("demarrage_projet.demandeur.revenu_fiscal_reference")
+        span= " #{@projet_courant.annee_fiscale_reference} : "
 
-    .occupants-recap
-      ul
-        li
-          = t("occupants.nombre_occupant")
-          span= " #{@projet_courant.nb_total_occupants}"
-        li
-          = t("demarrage_projet.demandeur.revenu_fiscal_reference")
-          span= " #{@projet_courant.annee_fiscale_reference} : "
+        - if @projet_courant.modified_revenu_fiscal_reference.blank?
+          span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
+        - else
+          span.modified= number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)
+          span= " (initialement #{number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)})"
+  p.chapo= t("occupants.confirmer_nombre_personnes")
 
-          - if @projet_courant.modified_revenu_fiscal_reference.blank?
-            span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
-          - else
-            span.modified= number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)
-            span= " (initialement #{number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)})"
-    p.chapo= t("occupants.confirmer_nombre_personnes")
+  table.table.table-striped.table-sm.occ-table
+    thead
+      tr
+        th= t("occupants.occupants")
+        th= t("occupants.annee_naissance")
+        th= t("occupants.actions")
+    tbody
+      - @occupants.each do |occupant|
+        tr data-occupant-id= occupant.id
+          td
+            span.firstname= occupant.prenom
+            span.lastname<= occupant.nom
+          td
+            - if occupant.date_de_naissance
+              = occupant.date_de_naissance.year
+            - else
+              | -
+          td
+            - if occupant.can_be_deleted?
+              = link_to projet_or_dossier_occupant_path(projet: @projet_courant, id: occupant.id),
+                  method: :delete,
+                  title: t("occupants.delete.action"),
+                  class: "btn btn-icon btn-secondary btn-small",
+                  data: { confirm: t("occupants.delete.confirm", fullname: occupant.fullname) }
+                span= t("occupants.delete.action")
+                i.glyphicon.glyphicon-remove
 
-    table.occ-table
-      tbody
-        tr
-          th scope="col" = t("occupants.occupants")
-          th scope="col" = t("occupants.annee_naissance")
-          th scope="col" = t("occupants.actions")
-        - @occupants.each do |occupant|
-          tr data-occupant-id=occupant.id
-            td
-              span.firstname= occupant.prenom
-              span.lastname<= occupant.nom
-            td
-              - if occupant.date_de_naissance
-                = occupant.date_de_naissance.year
-              - else
-                | -
-            td
-              - if occupant.can_be_deleted?
-                = link_to projet_or_dossier_occupant_path(projet: @projet_courant, id: occupant.id),
-                    method: :delete,
-                    title: t("occupants.delete.action"),
-                    class: "btn btn-icon btn-secondary btn-small",
-                    data: { confirm: t("occupants.delete.confirm", fullname: occupant.fullname) }
-                    i class="glyphicon glyphicon-remove"
-                    = t("occupants.delete.action")
+  .occupant-inline-form
+    = f.fields_for @projet_courant do |ff|
+      = ff.input :future_birth
 
-              - else
-                .info-point title=t("occupants.delete.cant_delete_demandeur") ?
+  .occupant-inline-form
+    h3.occupant-inline-form__title Ajouter un occupant
+    .occupant-inline-form__fields
+      = f.input :prenom, wrapper_html: { class: "occupant-inline-form__field size-l" }
+      = f.input :nom, wrapper_html: { class: "occupant-inline-form__field size-l" }
+      = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form__field size-l" }, required: true
+      = btn name: t("occupants.nouveau.action"), class: "btn-secondary occupant-inline-form__submit", icon: "plus"
 
-    .occupant-inline-form
-      = f.fields_for @projet_courant do |ff|
-        = ff.input :future_birth
-
-    .occupant-inline-form
-      h3.occupant-inline-form__title Ajouter un occupant
-      .occupant-inline-form__fields
-        = f.input :prenom, wrapper_html: { class: "occupant-inline-form__field size-l" }
-        = f.input :nom, wrapper_html: { class: "occupant-inline-form__field size-l" }
-        = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form__field size-l" }, required: true
-        = btn name: t("occupants.nouveau.action"), class: "occupant-inline-form__submit", icon: "plus"
-
-    .checkbox-validation
-      label.form-control-label
-        input type="checkbox" class="js-engagement"
-        = t("agrements.attestation_communiquer_infos_occupants")
+  .checkbox-validation
+    label.form-control-label
+      input type="checkbox" class="js-engagement"
+      = t("agrements.attestation_communiquer_infos_occupants")
 
   = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "arrow-right", html: { name: :submit_button }
+

@@ -1,5 +1,5 @@
 class MisesEnRelationController < ApplicationController
-  layout 'inscription'
+  layout "inscription"
 
   before_action :assert_projet_courant
 
@@ -11,7 +11,7 @@ class MisesEnRelationController < ApplicationController
       Rails.logger.error "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement} (projet_id: #{@projet_courant.id})"
       return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)
     end
-    @page_heading = 'Inscription'
+    @page_heading = I18n.t("demarrage_projet.mise_en_relation.assignement_pris_titre")
     @action_label = action_label
   end
 
@@ -50,9 +50,9 @@ private
 
   def action_label
     if needs_mise_en_relation?
-      t('demarrage_projet.action')
+      t("demarrage_projet.action")
     else
-      t('projets.edition.action')
+      t("projets.edition.action")
     end
   end
 

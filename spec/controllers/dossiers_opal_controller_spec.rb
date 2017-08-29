@@ -3,10 +3,11 @@ require 'support/mpal_helper'
 require 'support/opal_helper'
 
 describe DossiersOpalController do
-  let(:projet)            { create :projet, :transmis_pour_instruction, :with_payment_registry }
-  let(:agent_instructeur) { create :agent, :instructeur, intervenant: projet.invited_instructeur }
 
   describe "#create" do
+    let(:projet)            { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    let(:agent_instructeur) { create :agent, :instructeur, intervenant: projet.invited_instructeur }
+
     context "en tant qu'agent instructeur" do
       before do
         authenticate_as_agent agent_instructeur

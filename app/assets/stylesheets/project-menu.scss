@@ -1,0 +1,104 @@
+@import "variables";
+
+.project-menu {
+  margin-bottom: 1em;
+  font-weight: bold;
+  color: $font-color;
+  padding: 0.5em;
+  border-radius: 3px;
+  background-color: $color-light-grey;
+  @media screen and (min-width: 440px) {
+    padding: 1em;
+  }
+}
+.project-menu__top {
+  float: left;
+  font-size: 0.7em;
+}
+.project-menu__list {
+  display: flex;
+  clear: left;
+  width: 100%;
+  padding-top: 1em;
+  @media screen and (min-width: 700px) {
+    float: right;
+    clear: none;
+    width: 360px;
+    padding-top: 0;
+  }
+}
+.project-menu__item {
+  flex-grow: 1;
+  height: 3.25em;
+  text-decoration: none;
+  text-align: center;
+  color: #888;
+  @media screen and (min-width: 480px) {
+    height: 3.75em;
+    padding: 0.3em;
+    margin: 0 0.3em;
+    border-radius: 3px;
+    border: 1px solid transparent;
+    transition: 100ms all;
+  }
+  &:first-child {
+    margin-left: 0;
+  }
+}
+a.project-menu__item {
+  color: $color-black;
+  &:hover {
+    .project-menu__text {
+      text-decoration: underline;
+    }
+    @media screen and (min-width: 440px) {
+      border-color: $color-black;
+      .project-menu__text {
+        text-decoration: none;
+      }
+    }
+  }
+}
+.project-menu__item--active {
+  border-color: #888;
+}
+.project-menu__icon {
+  position: relative;
+  display: block;
+  font-size: 1.3em;
+  width: 1.5em;
+  margin: 0 auto;
+  @media screen and (min-width: 600px) {
+    font-size: 1.5em;
+  }
+}
+.project-menu__badge {
+  position: absolute;
+  top: -0.6em;
+  right: -0.2em;
+  padding: 3px 5px;
+  font-size: 0.4em;
+  font-weight: bold;
+  line-height: 1;
+  color: white;
+  background-color: $color-red;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  border-radius: 10px;
+  font-family: "Open Sans", Arial, Helvetica, sans-serif;
+}
+.project-menu__text {
+  display: inline-block;
+  font-size: 0.6em;
+  @media screen and (min-width: 400px) {
+    font-size: 0.8em;
+  }
+  @media screen and (min-width: 640px) {
+    font-size: 0.6em;
+    height: 3.75em;
+  }
+}
+.project-menu__text--active {
+  color: $color-steel;
+}

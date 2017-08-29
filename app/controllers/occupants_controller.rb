@@ -1,5 +1,5 @@
 class OccupantsController < ApplicationController
-  layout 'inscription'
+  layout "inscription"
 
   before_action :assert_projet_courant
   load_and_authorize_resource
@@ -22,6 +22,7 @@ class OccupantsController < ApplicationController
 
     @occupants = @projet_courant.occupants.to_a.find_all(&:persisted?)
     @action_label = action_label
+    @page_heading = I18n.t("occupants.title")
   end
 
   def destroy

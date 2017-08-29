@@ -1,7 +1,18 @@
 module ApplicationHelper
-  APP_NAME = "Les aides de l’Anah"
+  APP_NAME = "Mon projet Anah"
+  BOOTSTRAP_ALERT_MAPPING = {
+    error:   { class: "danger",  icon: "remove" },
+    alert:   { class: "danger",  icon: "remove" },
+    notice:  { class: "info",    icon: "info-sign" },
+    warning: { class: "warning", icon: "warning" },
+    success: { class: "success", icon: "ok" },
+  }
   COMPANY_NAME = "Anah"
   SITE_START_YEAR = 2017
+
+  def alert_data_for(level)
+    BOOTSTRAP_ALERT_MAPPING[level] || BOOTSTRAP_ALERT_MAPPING[:notice]
+  end
 
   def app_name
     APP_NAME
@@ -31,12 +42,20 @@ module ApplicationHelper
     capture do
       content_tag (opts[:tag] || :button), p do
         if opts[:icon].present?
-          opts[:name].html_safe + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+          if opts[:name].present?
+            content_tag(:span, opts[:name].html_safe) + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+          else
+            content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+          end
         else
-          opts[:name]
+          content_tag(:span, opts[:name])
         end
       end
     end
+  end
+
+  def yes_no_collection
+    [["Oui", "true"], ["Non", "false"]]
   end
 
   def company_name
@@ -52,6 +71,10 @@ module ApplicationHelper
     return '' if date.blank?
     date = date.to_date unless date.is_a?(Date)
     I18n.localize(date, format: format)
+  end
+
+  def nested_layout(layout = "application", &block)
+    render inline: capture(&block), layout: "layouts/#{layout}"
   end
 
   def readable_bool(boolean)
@@ -147,6 +170,18 @@ module ApplicationHelper
     translation
   end
 
+  def sf_label(model, key)
+    if key.to_s.include?(".")
+      model, key = key.to_s.split(".")
+    end
+    translation = t("simple_form.labels.#{model}.#{key}", default: "")
+    translation = t("simple_form.labels.defaults.#{key}", default: "") if translation.blank?
+    translation = t("activerecord.attributes.#{model}.#{key}", default: "") if translation.blank?
+    translation = t("activerecord.attributes.defaults.#{key}", default: "") if translation.blank?
+    translation = t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
+    translation
+  end
+
   def dossier_opal_url(numero)
     "#{ENV['OPAL_API_BASE_URI']}sio/ctrl/accueil?FORM_DTO_ID=DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE&FORM_ACTION=RECHERCHER_RAPIDE_DOSSIER&$DTO_RECHERCHE_RAPIDE_DOSSIER_CRITERE$DOS_NUMERO=#{numero}"
   end
@@ -155,3 +190,4 @@ module ApplicationHelper
     [number, I18n.t('helpers.units.power_consumption')].join(' ')
   end
 end
+

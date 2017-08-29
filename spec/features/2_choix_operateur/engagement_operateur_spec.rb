@@ -3,8 +3,8 @@ require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 
 feature "S'engager avec un opérateur :" do
-  let(:user)      { create :user }
-  let(:projet)    { create :projet, :prospect, :with_contacted_operateur, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
+  let(:projet)    { create :projet, :prospect, :with_contacted_operateur, :with_account }
+  let(:user)      { projet.user }
   let(:operateur) { projet.contacted_operateur }
 
   scenario "en tant que demandeur, je peux m'engager avec un opérateur" do

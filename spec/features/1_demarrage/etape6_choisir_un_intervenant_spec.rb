@@ -5,8 +5,8 @@ require 'support/api_ban_helper'
 require 'support/rod_helper'
 
 feature "En tant que demandeur" do
-  let(:user)   { create :user }
-  let(:projet) { create :projet, :prospect, user: user, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
+  let(:projet) { create :projet, :prospect, :with_account}
+  let(:user)   { projet.user }
   let(:pris)   { Intervenant.pour_role('pris').last }
 
 

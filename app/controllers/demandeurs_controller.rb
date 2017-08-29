@@ -1,5 +1,5 @@
 class DemandeursController < ApplicationController
-  layout 'inscription'
+  layout "inscription"
 
   before_action :assert_projet_courant
   authorize_resource :class => false
@@ -17,6 +17,7 @@ class DemandeursController < ApplicationController
   end
 
   def departement_non_eligible
+    @page_heading = I18n.t("demarrage_projet.demandeur.departement_non_eligible.title")
     @departements = Tools::departements_enabled - [Tools::STATES_WILDCARD]
   end
 
@@ -28,7 +29,7 @@ private
     @demandeur ||= @projet_courant.demandeur
     @demandeur ||= Occupant.new
 
-    @page_heading = 'Inscription'
+    @page_heading = I18n.t("demarrage_projet.demandeur.section_demandeur")
     @declarants = @projet_courant.occupants.declarants.collect { |o| [ o.fullname, o.id ] }
     @declarants_prompt = @declarants.length <= 1 ? nil : t('demarrage_projet.demandeur.select')
 
@@ -93,7 +94,6 @@ private
       end
     end
     unless @projet_courant.save
-      flash.now[:alert] = t('demarrage_projet.demandeur.erreurs.enregistrement_demandeur')
       return false
     end
 

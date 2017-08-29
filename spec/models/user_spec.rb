@@ -7,62 +7,60 @@ describe User do
   end
 
   describe "abilities" do
-    let(:user)        { create :user }
+    let(:user)        { projet.user }
     subject(:ability) { Ability.new(user, projet) }
 
-    context "when projet is locked" do
-      let(:projet) { create :projet, locked_at: Time.new(1789, 7, 14, 16, 0, 0) }
+    context "quand un projet est vérouillé" do
+      let(:projet) { create :projet, :with_account }
 
       it { is_expected.not_to be_able_to(:manage, AvisImposition) }
       it { is_expected.not_to be_able_to(:manage, Demande) }
       it { is_expected.not_to be_able_to(:manage, :demandeur) }
+      it { is_expected.not_to be_able_to(:manage, :eligibility) }
       it { is_expected.not_to be_able_to(:manage, Occupant) }
       it { is_expected.not_to be_able_to(:manage, Projet) }
+
+      it { is_expected.to be_able_to(:read, :intervenant) }
+      it { is_expected.to be_able_to(:read, Document) }
+      it { is_expected.to be_able_to(:read, :eligibility) }
+      it { is_expected.to be_able_to(:manage, Message) }
+      it { is_expected.to be_able_to(:read, Projet) }
     end
 
-    context "when project is not locked" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    context "quand un projet n'est pas encore vérouillé" do
+      let(:projet) { create :projet }
+
+      it { is_expected.not_to be_able_to(:read, :intervenant) }
+      it { is_expected.not_to be_able_to(:read, Document) }
+      it { is_expected.not_to be_able_to(:manage, Message) }
 
       it { is_expected.to be_able_to(:manage, AvisImposition) }
       it { is_expected.to be_able_to(:manage, Demande) }
       it { is_expected.to be_able_to(:manage, :demandeur) }
+      it { is_expected.to be_able_to(:read, :eligibility) }
       it { is_expected.to be_able_to(:manage, Occupant) }
       it { is_expected.to be_able_to(:manage, Projet) }
     end
 
-    context "when a payment registry exists" do
+    context "quand un registre de paiement existe" do
       let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
 
-      let(:payment_en_cours_de_montage)    { create :payment, statut: :en_cours_de_montage }
-      let(:payment_propose)                { create :payment, statut: :propose }
-      let(:payment_demande)                { create :payment, statut: :demande }
-      let(:payment_en_cours_d_instruction) { create :payment, statut: :en_cours_d_instruction }
-      let(:payment_paye)                   { create :payment, statut: :paye }
+      let(:payment_en_cours_de_montage)    { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_de_montage }
+      let(:payment_propose)                { create :payment, payment_registry: projet.payment_registry, statut: :propose }
+      let(:payment_demande)                { create :payment, payment_registry: projet.payment_registry, statut: :demande }
+      let(:payment_en_cours_d_instruction) { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_d_instruction }
+      let(:payment_paye)                   { create :payment, payment_registry: projet.payment_registry, statut: :paye }
 
-      let(:payment_a_rediger)              { create :payment, action: :a_rediger }
-      let(:payment_a_modifier)             { create :payment, action: :a_modifier }
-      let(:payment_a_valider)              { create :payment, action: :a_valider }
-      let(:payment_a_instruire)            { create :payment, action: :a_instruire }
-      let(:payment_no_action)              { create :payment, action: :aucune }
-
-      before do
-        projet.payment_registry.payments << [ payment_en_cours_de_montage,
-                                              payment_propose,
-                                              payment_demande,
-                                              payment_en_cours_d_instruction,
-                                              payment_paye,
-                                              payment_a_rediger,
-                                              payment_a_modifier,
-                                              payment_a_valider,
-                                              payment_a_instruire,
-                                              payment_no_action,
-        ]
-      end
+      let(:payment_a_rediger)              { create :payment, payment_registry: projet.payment_registry, action: :a_rediger }
+      let(:payment_a_modifier)             { create :payment, payment_registry: projet.payment_registry, action: :a_modifier }
+      let(:payment_a_valider)              { create :payment, payment_registry: projet.payment_registry, action: :a_valider }
+      let(:payment_a_instruire)            { create :payment, payment_registry: projet.payment_registry, action: :a_instruire }
+      let(:payment_no_action)              { create :payment, payment_registry: projet.payment_registry, action: :aucune }
 
       it { is_expected.to be_able_to(:read, projet.payment_registry) }
 
-      it { is_expected.not_to be_able_to(:add,                Payment) }
-      it { is_expected.not_to be_able_to(:modify,             Payment) }
+      it { is_expected.not_to be_able_to(:create,             Payment) }
+      it { is_expected.not_to be_able_to(:update,             Payment) }
       it { is_expected.not_to be_able_to(:destroy,            Payment) }
       it { is_expected.not_to be_able_to(:ask_for_validation, Payment) }
       it { is_expected.not_to be_able_to(:send_in_opal,       Payment) }
@@ -88,8 +86,8 @@ describe User do
   end
 
   describe "#projet" do
-    let(:user) {    create :user }
-    let!(:projet) { create :projet, user: user }
+    let!(:projet) { create :projet, :with_account }
+    let(:user)   { projet.user }
     it { expect(user.projet).to eq(projet) }
   end
 end

@@ -1,8 +1,6 @@
 class Users::SessionsController < Devise::SessionsController
   include ApplicationConcern
 
-  layout "creation_dossier"
-
   before_action :redirect_to_project_if_exists, only: [:new, :create]
 
   # before_action :configure_sign_in_params, only: [:create]

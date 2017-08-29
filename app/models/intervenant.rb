@@ -1,8 +1,8 @@
 class Intervenant < ActiveRecord::Base
-  has_many :commentaires, as: :auteur
-  has_many :invitations
-  has_many :projets, through: :invitations
   has_many :agents
+  has_many :invitations
+  has_many :messages, as: :auteur
+  has_many :projets, through: :invitations
 
   has_and_belongs_to_many :operations, order: :id
   has_and_belongs_to_many :suggested_on_projets, class_name: 'Projet', join_table: 'suggested_operateurs'

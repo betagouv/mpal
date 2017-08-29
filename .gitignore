@@ -23,8 +23,12 @@
 .*swp
 .*swo
 
-# Ignore vi tempfiles
+# Ignore MacOS tempfiles
 .DS_Store
+
+# Ignore dumps
+*.sql
+*.pgsql
 
 /.ruby-gemset
 /doc

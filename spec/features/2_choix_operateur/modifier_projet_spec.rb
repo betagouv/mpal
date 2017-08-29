@@ -71,7 +71,7 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
     expect(page).to have_content("Jean-Pierre Marielle")
 
     # Delete occupant
-    within "table tr:last-child" do
+    within "table tbody tr:last-child" do
       click_link I18n.t('occupants.delete.action')
     end
     expect(page).to have_current_path(dossier_occupants_path(projet))
@@ -133,8 +133,8 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
 end
 
 describe "En tant que demandeur :" do
-  let(:user) { create :user }
-  let(:projet) { create :projet, :with_avis_imposition, :with_invited_pris,  user: user, modified_revenu_fiscal_reference: 111, locked_at: Time.new(2001, 2, 3, 4, 5, 6) }
+  let(:user)   { projet.user }
+  let(:projet) { create :projet, :with_avis_imposition, :with_invited_pris,  :with_account, modified_revenu_fiscal_reference: 111 }
 
   before { login_as user, scope: :user }
 

@@ -6,6 +6,12 @@ FactoryGirl.define do
     association :adresse_postale,   factory: [ :adresse, :rue_de_rome ]
     association :adresse_a_renover, factory: [ :adresse, :rue_de_la_mare ]
 
+    trait :locked do
+      after(:build) do |projet|
+        projet.locked_at = Time.new(2001, 2, 3, 4, 5, 6)
+      end
+    end
+
     trait :with_trusted_person do
       after(:build) do |projet|
         projet.personne = create :personne
@@ -35,6 +41,13 @@ FactoryGirl.define do
 
       after(:build) do |projet|
         projet.avis_impositions.first.occupants.first.demandeur = true
+      end
+    end
+
+    trait :with_account do
+      locked
+      after(:build) do |projet|
+        projet.user = create :user
       end
     end
 
@@ -143,7 +156,9 @@ FactoryGirl.define do
     trait :en_cours do
       statut :en_cours
       with_demandeur
+      with_account
       with_demande
+      with_invited_pris
       with_committed_operateur
     end
 
@@ -154,6 +169,7 @@ FactoryGirl.define do
       assiette_subventionnable_amount 2222.22
       travaux_ttc_amount              5555.55
       with_demandeur
+      with_account
       with_demande
       with_assigned_operateur
       with_selected_prestation
@@ -162,6 +178,7 @@ FactoryGirl.define do
     trait :proposition_proposee do
       statut :proposition_proposee
       with_demandeur
+      with_account
       with_demande
       with_assigned_operateur
       with_selected_prestation
@@ -169,6 +186,7 @@ FactoryGirl.define do
 
     trait :transmis_pour_instruction do
       with_demandeur
+      with_account
       with_demande
       with_assigned_operateur
       with_selected_prestation
@@ -184,6 +202,7 @@ FactoryGirl.define do
       opal_numero 4567
       opal_id 8910
       with_demandeur
+      with_account
       with_demande
       with_assigned_operateur
       with_selected_prestation

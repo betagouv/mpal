@@ -217,6 +217,7 @@ fr:
     am: am
     formats:
       default: "%d %B %Y %Hh %Mmin %Ss"
+      condensed: "%d/%m/%Y %H:%M"
       long: "%A %d %B %Y %Hh%M"
       short: "%d %b %Hh%M"
       humanized: "%A %d %B %Y à %Hh%M"
@@ -236,3 +237,4 @@ fr:
         other: "<strong>%{count}</strong> résultats"
       multi_page: "Résultats %{from} à %{to} sur %{count}"
       multi_page_html: "Résultats <strong>%{from}&nbsp;à&nbsp;%{to}</strong> sur <strong>%{count}</strong>"
+

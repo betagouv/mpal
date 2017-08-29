@@ -1,8 +1,6 @@
 class Users::PasswordsController < Devise::PasswordsController
   include ApplicationConcern
 
-  layout "creation_dossier"
-
   # GET /resource/password/new
   def new
     @page_heading = "Mot de passe perdu ?"

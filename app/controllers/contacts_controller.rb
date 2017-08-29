@@ -1,5 +1,6 @@
 class ContactsController < ApplicationController
   layout "informations"
+  attr_accessor :address
 
   def index
     return redirect_to(new_contact_path)
@@ -28,16 +29,21 @@ class ContactsController < ApplicationController
   end
 
   def create
-    p = params.require(:contact).permit([:name, :email, :phone, :subject, :description])
-    @contact = Contact.new(p)
+    @contact = Contact.new(contact_params)
+    if @contact.address.present?
+      return redirect_to(new_contact_path), flash: { notice: "Votre message a bien été envoyé" }
+    end
     if @contact.save
       ContactMailer.contact(@contact).deliver_later!
-      return redirect_to(new_contact_path), notice: "Votre message a bien été envoyé"
+      return redirect_to(new_contact_path), flash: { notice: "Votre message a bien été envoyé" }
     end
     render_new
   end
 
 private
+  def contact_params
+    params.fetch(:contact, {}).permit(:name, :email, :phone, :subject, :description, :address)
+  end
 
   def render_new
     @page_heading = "Demande de contact"

@@ -63,7 +63,7 @@
     line-height: 38px;
     text-align: center;
     margin: 0;
-    color: #d9534f;
+    color: $brand-danger;
   }
   &.has-danger .form-control {
     padding-right: (38px * 1.25);
@@ -74,6 +74,7 @@
   .form-check-hacked {
     > label {
       display: block;
+      cursor: default;
     }
   }
   .form-check-label > input {
@@ -98,3 +99,9 @@
   }
 }
 
+.form-explanations {
+  margin-bottom: 1em;
+}
+.input-number, .input-price {
+  text-align: right;
+}

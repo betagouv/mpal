@@ -1,8 +1,4 @@
-- content_for :header do
-  = render 'shared/header'
-- content_for :content do
-  .page-projet.clearfix
-    section.inscription
-      = yield
-= render template: "layouts/application"
+= nested_layout :project do
+  section.inscription
+    = yield
 

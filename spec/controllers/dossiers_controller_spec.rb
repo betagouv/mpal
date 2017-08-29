@@ -116,9 +116,9 @@ describe DossiersController do
 
           expect(projet_aide_1.amount).to eq 1
           expect(projet_aide_2.amount).to eq 2000.12
-          expect(projet_aide_3).to be_nil
-          expect(projet_aide_4).to be_nil
-          expect(projet_aide_5).to be_nil
+          expect(projet_aide_3.amount).to eq nil
+          expect(projet_aide_4.amount).to eq 0
+          expect(projet_aide_5.amount).to eq 0
         end
       end
 
@@ -151,9 +151,9 @@ describe DossiersController do
 
           expect(projet_aide_1.amount).to eq 2
           expect(projet_aide_2.amount).to eq 2000.12
-          expect(projet_aide_3).to be_nil
-          expect(projet_aide_4).to be_nil
-          expect(projet_aide_5).to be_nil
+          expect(projet_aide_3.amount).to eq nil
+          expect(projet_aide_4.amount).to eq 0
+          expect(projet_aide_5.amount).to eq 0
         end
       end
 
@@ -167,18 +167,6 @@ describe DossiersController do
         projet.reload
 
         expect(projet.demande.annee_construction).to eq 1980
-      end
-
-      it "n'écrase pas la demande si l'année de construction n'est pas renseignée" do
-        projet_params = {
-          demande_attributes: {
-            annee_construction: nil
-          }
-        }
-        put :proposition, dossier_id: projet.id, projet: projet_params
-        projet.reload
-
-        expect(projet.demande.complete?).to be_truthy
       end
 
       it "je ne peux pas créer de doublon" do
@@ -213,7 +201,7 @@ describe DossiersController do
           get :proposer, dossier_id: projet.id
           expect(assigns(:projet_courant).statut.to_sym).to eq :proposition_enregistree
           expect(assigns(:projet_courant).errors).to be_added :date_de_visite, :blank_feminine
-          expect(response).to render_template(:show)
+          expect(response).to render_template("projets/proposition")
         end
       end
 

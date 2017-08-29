@@ -1,214 +1,99 @@
-= simple_form_for @projet_courant, url: projet_or_dossier_proposition_path(@projet_courant), html: { method: :put, class: "form edition-demande" } do |f|
+= simple_form_for @projet_courant, url: projet_or_dossier_proposition_path(@projet_courant), html: { method: :put, class: "form form-proposition" } do |f|
   = render "shared/errors", resource: @projet_courant
-  section.content-projet
-    article.block.projet-ope
-      h3.is-open Projet proposé par l’opérateur
-      .occupants-recap
-        ul
-          li
-            = "Opérateur : "
-            span= @projet_courant.operateur.raison_sociale
-      .content-block
-        .form
+  .occupants-recap Opérateur : #{@projet_courant.operateur.raison_sociale}
 
-          fieldset
-            legend Logement
-            = f.input :date_de_visite, as: :string, required: true, wrapper_html: { class: "size-s" }
-            = f.input :type_logement, collection: Projet::TYPE_LOGEMENT_VALUES, wrapper_html: { class: "size-s" }
-            = f.input :etage,         collection: Projet::ETAGE_VALUES,         wrapper_html: { class: "size-s" }
-            = f.input :nb_pieces,     collection: Projet::NB_PIECES_VALUES,     wrapper_html: { class: "size-s" }
-            = f.fields_for :demande do |demande_form|
-              = demande_form.input :annee_construction, wrapper_html: { class: "size-s" }
-            = f.input :surface_habitable, wrapper: "append", wrapper_html: { class: "size-s" } do
-              = f.input_field :surface_habitable
-              span.input-group-addon m²
-            = f.input :consommation_avant_travaux, wrapper: "append", wrapper_html: { class: "size-s" } do
-              = f.input_field :consommation_avant_travaux
-              span.input-group-addon = t('helpers.units.power_consumption')
-            = f.input :etiquette_avant_travaux,    wrapper_html: { class: "size-s" }
+  fieldset.form-proposition__fieldset
+    legend.form-proposition__legend Logement
+    = f.input :date_de_visite, as: :string, required: true, wrapper_html: { class: "size-s" }, input_html: { value: @projet_courant.date_de_visite? ? l(@projet_courant.date_de_visite) : "" }
+    = f.input :type_logement, collection: Projet::TYPE_LOGEMENT_VALUES, wrapper_html: { class: "size-s" }
+    = f.input :etage,         collection: Projet::ETAGE_VALUES,         wrapper_html: { class: "size-s" }, input_html: { class: "input-number" }
+    = f.input :nb_pieces,     collection: Projet::NB_PIECES_VALUES,     wrapper_html: { class: "size-s" }, input_html: { class: "input-number" }
+    = f.fields_for :demande do |demande_form|
+      = demande_form.input :annee_construction, wrapper_html: { class: "size-s" }
+    = f.input :surface_habitable, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = f.input_field :surface_habitable, class: "input-number"
+      span.input-group-addon m²
+    = f.input :consommation_avant_travaux, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = f.input_field :consommation_avant_travaux, class: "input-number"
+      span.input-group-addon = t("helpers.units.power_consumption")
+    = f.input :etiquette_avant_travaux, wrapper_html: { class: "size-s" }
 
-          fieldset
-            legend Diagnostic opérateur
-            ul.ins-form
-              li.radio
-                p.like-label= t('helpers.label.diagnostic.autonomie')
-                = f.radio_button :autonomie, true
-                = f.label :autonomie, "Oui", value: "true"
-                = f.radio_button :autonomie, false
-                = f.label :autonomie, "Non", value: "false"
-              li
-                = f.label :niveau_gir, t('helpers.label.diagnostic.niveau_gir')
-                = f.text_field :niveau_gir
-              li.radio
-                p.like-label= t('helpers.label.diagnostic.handicap')
-                = f.radio_button :handicap, true
-                = f.label :handicap, "Oui", value: "true"
-                = f.radio_button :handicap, false
-                = f.label :handicap, "Non", value: "false"
-              li
-                = f.label :note_degradation, t('helpers.label.diagnostic.note_degradation')
-                = text_field_tag "projet[note_degradation]", number_with_delimiter(@projet_courant.note_degradation)
-              li
-                = f.label :note_insalubrite, t('helpers.label.diagnostic.note_insalubrite')
-                = text_field_tag "projet[note_insalubrite]", number_with_delimiter(@projet_courant.note_insalubrite)
-              li.radio
-                p.like-label= t('helpers.label.diagnostic.ventilation_adaptee')
-                = f.radio_button :ventilation_adaptee, true
-                = f.label :ventilation_adaptee, "Oui", value: "true"
-                = f.radio_button :ventilation_adaptee, false
-                = f.label :ventilation_adaptee, "Non", value: "false"
-              li.radio
-                p.like-label= t('helpers.label.diagnostic.presence_humidite')
-                = f.radio_button :presence_humidite, true
-                = f.label :presence_humidite, "Oui", value: "true"
-                = f.radio_button :presence_humidite, false
-                = f.label :presence_humidite, "Non", value: "false"
-              li.radio
-                p.like-label= t('helpers.label.diagnostic.auto_rehabilitation')
-                = f.radio_button :auto_rehabilitation, true
-                = f.label :auto_rehabilitation, "Oui", value: "true"
-                = f.radio_button :auto_rehabilitation, false
-                = f.label :auto_rehabilitation, "Non", value: "false"
-              li
-                = f.label :remarques_diagnostic, t('helpers.label.diagnostic.remarques_diagnostic')
-                = f.text_area :remarques_diagnostic
+  fieldset.form-proposition__fieldset
+    legend.form-proposition__legend Diagnostic opérateur
+    = f.input :autonomie, as: :radio_buttons, collection: yes_no_collection
+    = f.input :niveau_gir, wrapper_html: { class: "size-s" }, input_html: { class: "input-number" }
+    = f.input :handicap, as: :radio_buttons, collection: yes_no_collection
+    = f.input :note_degradation, wrapper_html: { class: "size-s" }, input_html: { class: "input-number" }
+    = f.input :note_insalubrite, wrapper_html: { class: "size-s" }, input_html: { class: "input-number" }
+    = f.input :ventilation_adaptee, as: :radio_buttons, collection: yes_no_collection
+    = f.input :presence_humidite, as: :radio_buttons, collection: yes_no_collection
+    = f.input :auto_rehabilitation, as: :radio_buttons, collection: yes_no_collection
+    = f.input :remarques_diagnostic
 
-          fieldset
-            legend Types d’intervention
-            = f.input :theme_ids, as: :check_boxes, collection: @themes, label: false
+  / TODO CSS pas jolie
+  fieldset.form-proposition__fieldset
+    legend.form-proposition__legend Types d’intervention
+    = f.input :theme_ids, as: :check_boxes, collection: @themes, label: false
 
-          fieldset
-            legend Description des travaux proposés
-            table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%"
-              tbody
-                tr
-                  th.empty scope="col"    &nbsp;
-                  th.top-tab scope="col"  Souhaité
-                  th.top-tab scope="col"  Préconisé
-                  th.top-tab scope="col"  Retenu
-                - @prestations_with_choices.each do |prestation|
-                  - field_name = "projet[prestation_choices_attributes][#{prestation.id}]" # prestation.id is the Hash key value
-                  tr
-                    th scope="row"
-                      label= prestation.libelle.capitalize
-                      = hidden_field_tag "#{field_name}[prestation_id]", prestation.id
-                    td= check_box_tag "#{field_name}[desired]",     true, prestation.desired,      id: "prestation_#{prestation.id}_desired"
-                    td= check_box_tag "#{field_name}[recommended]", true, prestation.recommended,  id: "prestation_#{prestation.id}_recommended"
-                    td= check_box_tag "#{field_name}[selected]",    true, prestation.selected,     id: "prestation_#{prestation.id}_selected"
+  /TODO enrober les checkboxes dans des labels
+  fieldset.form-proposition__fieldset
+    legend.form-proposition__legend Description des travaux proposés
+    table.table.table-striped.table-sm
+      thead
+        tr
+          th
+          th= t("projets.proposition.state.desired")
+          th= t("projets.proposition.state.recommended")
+          th= t("projets.proposition.state.selected")
+      tbody
+        - @projet_courant.prestations_with_choices.each do |prestation|
+          / prestation.id is the Hash key value
+          - field_name = "projet[prestation_choices_attributes][#{prestation.id}]"
+          tr
+            td
+              = prestation.libelle.capitalize
+              = hidden_field_tag "#{field_name}[prestation_id]", prestation.id
+            td= check_box_tag "#{field_name}[desired]",     true, prestation.desired,     id: "prestation_#{prestation.id}_desired"
+            td= check_box_tag "#{field_name}[recommended]", true, prestation.recommended, id: "prestation_#{prestation.id}_recommended"
+            td= check_box_tag "#{field_name}[selected]",    true, prestation.selected,    id: "prestation_#{prestation.id}_selected"
 
-          fieldset
-            legend Efficacité énergétique
-            table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%"
-              tbody
-                tr
-                  th scope="row"
-                    = f.label :consommation_apres_travaux, t('helpers.label.proposition.consommation_apres_travaux')
-                  td
-                    = f.text_field :consommation_apres_travaux
-                    =< t('helpers.units.power_consumption')
-                tr
-                  th scope="row"
-                    = f.label :etiquette_apres_travaux, t('helpers.label.proposition.etiquette_apres_travaux')
-                  td
-                    = f.text_field :etiquette_apres_travaux
-                tr
-                  th scope="row"
-                    = f.label :gain_energetique, t('helpers.label.proposition.gain_energetique')
-                  td
-                    = f.text_field :gain_energetique
-                    = " %"
+  fieldset.form-proposition__fieldset
+    legend.form-proposition__legend Efficacité énergétique
+    = f.input :consommation_apres_travaux, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = f.input_field :consommation_apres_travaux, class: "input-number"
+      span.input-group-addon= t("helpers.units.power_consumption")
+    = f.input :etiquette_apres_travaux, wrapper_html: { class: "size-s" }
+    = f.input :gain_energetique, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = f.input_field :gain_energetique, class: "input-number"
+      span.input-group-addon %
 
-          fieldset
-            legend Plan de financement prévisionnel
-            table.pp-table border="0" cellpadding="0" cellspacing="0" width="100%"
-              tbody
-                tr
-                  th scope="row"
-                    = f.label :localized_travaux_ht_amount, t('helpers.label.proposition.travaux_ht_amount')
-                  td
-                    = f.text_field :localized_travaux_ht_amount, value: number_to_currency(@projet_courant.travaux_ht_amount, unit: '')
-                    |  €
-                tr
-                  th scope="row"
-                    = f.label :localized_assiette_subventionnable_amount, t('helpers.label.proposition.assiette_subventionnable_amount')
-                  td
-                    = f.text_field :localized_assiette_subventionnable_amount, value: number_to_currency(@projet_courant.assiette_subventionnable_amount, unit: '')
-                    |  €
-                tr
-                  th scope="row"
-                    = f.label :localized_amo_amount, t('helpers.label.proposition.amo_amount')
-                  td
-                    = f.text_field :localized_amo_amount, value: number_to_currency(@projet_courant.amo_amount, unit: '')
-                    |  €
-                tr
-                  th scope="row"
-                    = f.label :localized_maitrise_oeuvre_amount, t('helpers.label.proposition.maitrise_oeuvre_amount')
-                  td
-                    = f.text_field :localized_maitrise_oeuvre_amount, value: number_to_currency(@projet_courant.maitrise_oeuvre_amount, unit: '')
-                    |  €
-                tr
-                  th scope="row"
-                    = f.label :localized_travaux_ttc_amount, t('helpers.label.proposition.travaux_ttc_amount')
-                  td
-                    = f.text_field :localized_travaux_ttc_amount, value: number_to_currency(@projet_courant.travaux_ttc_amount, unit: '')
-                    |  €
-                tr
-                  th.tab-title colspan="3" scope="row"
+  fieldset.form-proposition__fieldset
+    legend.form-proposition__legend Plan de financement prévisionnel
+    .form-inline2
+      - [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount].each do |field|
+        - localized_field = "localized_#{field}"
+        = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
+          = f.input_field localized_field, class: "input-price"
+          span.input-group-addon €
+      = f.simple_fields_for :projet_aides do |ff|
+        - aid = ff.object.aide
+        = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
+          - classes = "input-price js-#{aid.public? ? :public : :private}-aid js-funding"
+          = ff.hidden_field :aide_id, value: aid.id
+          = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
+          span.input-group-addon €
+      = f.input :localized_public_aids_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = f.input_field :localized_public_aids_sum, class: "input-price", id: "js-public-aids-sum", disabled: true
+        span.input-group-addon €
+      - [:personal_funding_amount, :loan_amount].each do |field|
+        - localized_field = "localized_#{field}"
+        = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
+          = f.input_field localized_field, class: "input-price"
+          span.input-group-addon €
+      = f.input :localized_fundings_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = f.input_field :localized_fundings_sum, class: "input-price", id: "js-fundings-sum", disabled: true
+        span.input-group-addon €
+  = f.input :precisions_travaux
+  = f.input :precisions_financement
+  = btn name: 'Enregistrer cette proposition', icon: 'save'
 
-                - @public_helps_with_amounts.each do |aide|
-                  tr
-                    - field_name = "projet[projet_aides_attributes][#{aide.id}]"
-                    th scope="row"
-                      = label_tag "#{field_name}[localized_amount]", "#{aide.libelle}"
-                    td
-                      = hidden_field_tag "#{field_name}[aide_id]", aide.id
-                      = text_field_tag   "#{field_name}[localized_amount]", number_to_currency(aide.amount, unit: ''), class: "aide js-public-help js-funding"
-                      |  €
-
-                tr
-                  th scope="row"
-                    label for="js-public-helps-sum" = t('helpers.label.proposition.public_helps_sum')
-                  td
-                    = text_field_tag :localized_public_helps_amount, '', disabled: true, id: 'js-public-helps-sum'
-                    |  €
-
-                - @private_helps_with_amounts.each do |aide|
-                  tr
-                    - field_name = "projet[projet_aides_attributes][#{aide.id}]"
-                    th scope="row"
-                      = label_tag "#{field_name}[localized_amount]", "#{aide.libelle}"
-                    td
-                      = hidden_field_tag "#{field_name}[aide_id]", aide.id
-                      = text_field_tag   "#{field_name}[localized_amount]", number_to_currency(aide.amount, unit: ''), class: "aide"
-                      |  €
-
-                tr
-                  th.tab-title colspan="3" scope="row"
-                tr
-                  th scope="row"
-                    = f.label :localized_personal_funding_amount, t('helpers.label.proposition.personal_funding')
-                  td
-                    = f.text_field :localized_personal_funding_amount, value: number_to_currency(@projet_courant.personal_funding_amount, unit: ''), class: 'js-funding'
-                    |  €
-                tr
-                  th scope="row"
-                    = f.label :localized_loan_amount, t('helpers.label.proposition.loan_amount')
-                  td
-                    = f.text_field :localized_loan_amount, value: number_to_currency(@projet_courant.loan_amount, unit: ''), class: 'js-funding'
-                    |  €
-                tr
-                  th scope="row"
-                    label for="js-fundings-sum" = t('helpers.label.proposition.fundings_sum')
-                  td
-                    = text_field_tag :localized_fundings_amount, '', disabled: true, id: 'js-fundings-sum'
-                    |  €
-
-          ul.ins-form
-            li
-              = f.label :precisions_travaux, t('helpers.label.proposition.precisions_travaux')
-              = f.text_area :precisions_travaux
-            li
-              = f.label :precisions_financement, t('helpers.label.proposition.precisions_financement')
-              = f.text_area :precisions_financement
-          = btn name: 'Enregistrer cette proposition', icon: 'save'
-= render partial: 'documents/show'

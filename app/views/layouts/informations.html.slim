@@ -1,8 +1,6 @@
-- content_for :header do
-  = render "shared/header"
-- content_for :content do
+= nested_layout :project do
   .page-projet.page-projet-2-cols.clearfix
-    aside.col.col-left
+    aside.col.col-aside
       .col-menu
         = link_to t("menu.homepage"),     root_path,                      class: "col-menu__item"
         /= link_to t("menu.about"),        informations_about_path,        class: "col-menu__item"
@@ -10,9 +8,8 @@
         /= link_to t("menu.faq"),          informations_faq_path,          class: "col-menu__item"
         = link_to t("menu.legal"),        informations_legal_path,        class: "col-menu__item"
         = link_to t("menu.contact"),      new_contact_path,               class: "col-menu__item"
-    .col.col-right
+    .col.col-main
       section.public-information
-        = render "shared/messages"
+        = render "shared/flash"
         = yield
-= render template: "layouts/application"
 

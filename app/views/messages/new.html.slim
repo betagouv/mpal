@@ -1,0 +1,27 @@
+- message_count = @projet_courant.messages.count
+.messages
+  - if 0 >= message_count
+    p Il n’y a pas de message. Soyez le premier/la première à poser votre question.
+    p Vous serez notifié par email dès que vous recevrez un nouveau message.
+  - else
+    .messages__history.test-messages-history
+      - @projet_courant.messages.each do |message|
+        - next unless message.persisted?
+        - auteur = message.auteur
+        - is_agent = message.auteur.is_a? Agent
+        - is_mine = current_agent ? message.auteur == current_agent : !is_agent
+        - classes = ["messages__message"]
+        - classes << "messages__message--mine" if is_mine
+        article class="#{classes.join(" ")}"
+          .messages__message-informations
+            .messages__fullname
+              span.firstname= auteur.prenom
+              span.lastname<= auteur.nom
+              - if auteur.is_a?(Agent) && auteur.intervenant.try(:raison_sociale)
+                span.messages__intervenant= " (#{auteur.intervenant.raison_sociale})"
+            date.messages__datetime= l(message.created_at, format: :condensed)
+          .messages__content= message.corps_message
+  = simple_form_for @message, url: { controller: :messages, action: :create }, html: { class: "form form-message" } do |f|
+    = render "shared/errors", resource: @message
+    = f.input :corps_message
+    = btn name: t("projets.visualisation.lien_ajout_message"), icon: "envelope"

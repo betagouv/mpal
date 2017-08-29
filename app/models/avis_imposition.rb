@@ -9,3 +9,4 @@ class AvisImposition < ActiveRecord::Base
     annee.to_i >= 2.years.ago.year
   end
 end
+

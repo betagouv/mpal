@@ -9,7 +9,7 @@ fr:
         adresse_logement: "Adresse du bien à rénover si différente"
         tel: Téléphone
       personne:
-        nom: 'Nom'
+        nom: "Nom"
         prenom: Prénom
         tel: Téléphone
         email: Email
@@ -19,16 +19,6 @@ fr:
         date_achevement_15_ans: "Votre logement (maison ou immeuble) a-t-il été construit il y a plus de 15 ans ?"
         annee_construction: "Si vous la connaissez, indiquez l’année de construction (précise ou estimée) de votre logement :"
         ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
-      diagnostic:
-        autonomie: "Ce projet concerne-t-il la perte d’autonomie ou le handicap ?"
-        niveau_gir: "Niveau GIR"
-        handicap: "MDPH / CDAPH"
-        note_degradation: "Note de dégradation"
-        note_insalubrite: "Note d’insalubrité"
-        ventilation_adaptee: "Ventilation adaptée"
-        presence_humidite: "Présence de traces d’humidité"
-        auto_rehabilitation: "Ces travaux seront-ils réalisés en auto-réhabilitation ?"
-        remarques_diagnostic: "Autres remarques"
       proposition:
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
@@ -41,11 +31,11 @@ fr:
         amo_amount: "Coût Assistance à Maîtrise d’Ouvrage (AMO)"
         maitrise_oeuvre_amount: "Coût Maîtrise d’Œuvre"
         travaux_ttc_amount: "Montant global TTC"
-        personal_funding: "Apport de fonds personnels"
+        personal_funding_amount: "Apport de fonds personnels"
         loan_amount: "Prêt"
         precisions_travaux: "Précisions travaux proposés"
         precisions_financement: "Précisions financement"
-        public_helps_sum: "Total des aides publiques"
+        public_aids_sum: "Total des aides publiques"
     units:
       power: "kWh"
       power_consumption: "kWh/m²/an"
@@ -90,6 +80,8 @@ fr:
       inline_inputs: "Inputs horizontaux"
     icons:
       title: "Icônes"
+    components:
+      title: "Composants"
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
@@ -148,12 +140,9 @@ fr:
       precisions: "Précisions"
     # ----------------------- Eligibilité ---------------------
     eligibility:
-      section_eligibility: "Éligibilité"
-      section_conditions: "Conditions de financement"
       eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
-      not_eligible: "D’après les éléments renseignés, vous n’êtes a priori pas éligible, pour s’en assurer un complément d'étude de votre situation peut être réalisé."
-      section_conditions: "Conditions de financement"
-      informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consulter %{conditions}."
+      not_eligible: "D’après les éléments renseignés, vous n’êtes a priori pas éligible, pour s’en assurer un complément d’étude de votre situation peut être réalisé."
+      informations: "Pour découvrir les conditions de financement s’appliquant à votre projet, vous pouvez consulter %{conditions}."
 
     # ----------------------- Mise en relation ---------------------
     mise_en_relation:
@@ -185,8 +174,8 @@ fr:
       messages:
         erreur: "Le projet n’a pas pu être modifié"
         succes: "Projet modifié avec succès"
-        erreur_email_invalide: "Veuillez entrer une adresse email valide svp"
-        email_obligatoire: "L’email est obligatoire"
+        erreur_email_invalide: "L’adresse email est invalide"
+        email_obligatoire: "L’adresse email est obligatoire"
     composition_logement:
       avis_imposition:
         nouveau:
@@ -198,7 +187,7 @@ fr:
         messages:
           erreur: "Vous n’avez pas accès à cet avis d’imposition"
           non_trouve: "Cet avis d’imposition n’existe pas"
-          annee_invalide: "L'avis d'imposition renseigné doit se baser sur les revenus %{year}"
+          annee_invalide: "L’avis d’imposition renseigné doit se baser sur les revenus %{year}"
         visualisation:
           sections:
             declarants: "Déclarants"
@@ -227,13 +216,10 @@ fr:
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
       confirmation: "J’ai lu, j’accepte les informations ci-dessus"
-      messages:
-        succes_depot_document: 'Votre document a été ajouté au projet avec succès'
-        erreur_depot_document: "Une erreur est survenue. Votre document n’a pas été ajouté au projet"
-        succes_suppression_document: 'Votre document a été supprimé avec succès'
-        erreur_label_manquant: "Veuillez ajouter un nom à votre document"
-        erreur_fichier_manquant: "Veuillez sélectionner un fichier pour ajouter un document"
-        info_confirmation_email: "En vu de vous envoyer un accusé de réception et de suivre votre dossier merci de confirmer votre adresse email :"
+      state:
+        desired: "Souhaité"
+        recommended: "Préconisé"
+        selected: "Retenu"
 
     transmission:
       bouton_accepter: "Suivant"
@@ -261,9 +247,9 @@ fr:
       creation:
         corps: Félicitations ! Votre projet démarre aujourd’hui.
     visualisation:
-      lien_edition_projet: 'Modifier le projet'
-      lien_edition: 'Modifier'
-      lien_edition_coordonnees: 'Modifier mes coordonnées'
+      lien_edition_projet: "Modifier le projet"
+      lien_edition: "Modifier"
+      lien_edition_coordonnees: "Modifier mes coordonnées"
       invitation_intervenant: "Sélectionner"
       invitation_relance_intervenant: "Je relance l’intervenant"
       le_pris_selectionne_des_operateurs: "Le Point Rénovation Info-Service de votre département est en train de faire une sélection d’opérateurs recommandés pour votre projet."
@@ -286,9 +272,9 @@ fr:
       titre_fil_actualite: "Dernières actions"
       titre_detail_beneficiaire: "Mes coordonnées"
       titre_tableau_de_bord: "Le suivi de mon projet"
-      lien_ajout_commentaire: 'Envoyer un message'
+      lien_ajout_message: "Envoyer"
       projet_affecte: "Ce projet vous est maintenant affecté"
-      message_pas_de_commentaires: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
+      no_message: "Il n’y a pas de message. Soyez le premier ou la première à poser votre question. Vous serez notifié par email dès qu’un nouveau message apparaîtra."
       occupants:
         one: " 1 occupant"
         other: "%{count} occupants"
@@ -296,14 +282,14 @@ fr:
         one: " 1 occupant à charge."
         other: "%{count} occupants à charge."
     edition:
-      action: 'Je mets à jour mon projet'
-      titre: 'Modification du projet'
-      description: 'Vous pouvez mettre à jour les informations concernant votre projet.'
+      action: "Je mets à jour mon projet"
+      titre: "Modification du projet"
+      description: "Vous pouvez mettre à jour les informations concernant votre projet."
 
   # ----------------------- Registre de Paiement ---------------------
   payment_registry:
     info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."
-    info_no_opal: "Vous ne pouvez pour l'instant pas déposer de demande de paiement dans Op@l."
+    info_no_opal: "Vous ne pouvez pour l’instant pas déposer de demande de paiement dans Op@l."
     no_paiement: "Aucune demande de paiement"
     legal_person: "Au bénéfice de la personne morale : %{beneficiaire}"
     physical_person: "Au bénéfice de la personne physique : %{beneficiaire}"
@@ -314,11 +300,27 @@ fr:
     edition: "Je modifie ma demande de paiement"
     beneficiaire_question: "À qui voulez-vous que les fonds soient versés ?"
     personne_morale_question: "Cette personne est :"
+    description:
+      avance: "Demande d’avance"
+      acompte: "Demande d’acompte"
+      solde: "Demande de solde"
+      statut:
+        en_cours_de_montage: "en cours de montage"
+        propose: "proposée"
+        demande: "déposée"
+        en_cours_d_instruction: "en cours d’instruction"
+        paye: "payée"
+      action:
+        a_rediger: ""
+        a_modifier: "en attente de modification"
+        a_valider: "en attente de validation"
+        a_instruire: "en attente d’instruction"
+        aucune: ""
     statut:
       en_cours_de_montage: "en cours de montage"
       propose: "proposé(e)"
       demande: "demandé(e)"
-      en_cours_d_instruction: "en cours d'instruction"
+      en_cours_d_instruction: "en cours d’instruction"
       paye: "payé(e)"
     type_paiement:
       avance: "Avance"
@@ -334,6 +336,7 @@ fr:
       delete:
         label: "Supprimer"
         success: "La demande de paiement a bien été supprimée"
+        confirmation: "Êtes-vous sûr de vouloir supprimer cette demande ?"
       ask_for_validation:
         label: "Envoyer pour validation"
         success: "La proposition a bien été envoyée au demandeur"
@@ -343,6 +346,26 @@ fr:
       ask_for_instruction:
         label: "Déposer"
         success: "Le dépôt de la demande de paiement a bien été effectué auprès du service en charge de l’instruction : %{instructeur}"
+    add_to_opal:
+      titre_ajout_opal: "Ajouter le Dossier de Paiement dans Opal"
+      messages:
+        success: "Le dossier de paiement vient d’être ajouté dans OPAL"
+        error: "Une erreur est survenue lors de la création du dossier de paiement dans Opal : « %{message} »"
+
+
+  # ----------------------- Documents  ---------------------
+  document:
+    select: "Choisir un fichier…"
+    send: "Téléverser"
+    messages:
+      create:
+        success: "Votre document a été ajouté au projet avec succès."
+        error: "Une erreur est survenue. Votre document n’a pas été créé."
+      delete:
+        success: "Votre document a été supprimé avec succès."
+        error:  "Une erreur est survenue. Votre document n’a pas été ajouté au projet."
+        confirmation: "Êtes-vous sûr de vouloir supprimer ce document ?"
+      missing: "Veuillez sélectionner un fichier pour ajouter un document."
 
   # ----------------------- Messagerie ---------------------
   conversation:
@@ -363,14 +386,14 @@ fr:
   choix_operateur:
     title: "Contacter un opérateur"
     actions:
-      contacter: 'Contacter cet opérateur'
-      changer: 'Contacter cet autre opérateur'
+      contacter: "Contacter cet opérateur"
+      changer: "Contacter cet autre opérateur"
     erreurs:
       changement_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur."
 
   # ----------------------- Proposer un dossier ---------------------
   notification_validation_dossier:
-    succes: 'La proposition a bien été envoyée au demandeur'
+    succes: "La proposition a bien été envoyée au demandeur"
 
   # ----------------------- Invitation d’un intervenant ---------------------
   invitations:
@@ -463,16 +486,16 @@ fr:
 
   # ----------------------- Gestion d’évènements  ---------------------
   evenements:
-    creation_projet: 'Création du projet'
+    creation_projet: "Création du projet"
     invitation_intervenant: "Invitation de l’intervenant %{intervenant}"
     mise_en_relation_intervenant: "Invitation de %{intervenant} par %{intermediaire}"
     ajout_avis_imposition: "Ajout de l’avis d’imposition %{avis_imposition}"
     transmis_instructeur: "Dossier transmis pour instruction à %{instructeur}"
     choix_intervenant: "Choix de l’opérateur %{operateur} pour accompagner le projet"
   reinitialisation:
-    succes: 'Réinitialisation effectuée'
+    succes: "Réinitialisation effectuée"
   tableau_de_bord:
-    titre_section: 'Tableau de bord'
+    titre_section: "Tableau de bord"
   engagement_operateur:
     nouveau:
       explication_html: "<b>Choisir un intervenant vous engage</b><p>L’opérateur est chargé de vous conseiller tout au long de la démarche. Il vous accompagne danss l’élaboration de votre projet de travaux et la constitution de votre dossier de demande de subvention.</p><p>Lorsqu’une subvention vous est accordée, l’opérateur vous accompagne jusqu’au paiement de la subvention.</p><p>Cette prestation payante peut être totalement ou opartiellement couverte par le complément de subvention qui complète la subvention pour travaux"
@@ -507,6 +530,8 @@ fr:
         blank_feminine: "doit être renseignée"
         blank_masculine: "doit être renseigné"
       models:
+        document:
+          virus_found: "Le document n’a pas été ajouté car un virus y a été détecté."
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"
           attributes:
@@ -527,6 +552,6 @@ fr:
   unauthorized:
     default: "Vous n’avez pas accès à cette page."
     read:
-      payment_registry: "Aucun dossier de paiement n'a été trouvé"
+      payment_registry: "Aucun dossier de paiement n’a été trouvé"
     create:
       payment_registry: "Vous ne pouvez créer un nouveau dossier de paiement"

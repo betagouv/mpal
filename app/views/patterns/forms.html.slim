@@ -1,5 +1,3 @@
-h1= t("menu_patterns.forms.title")
-
 ul
   li= link_to t("menu_patterns.forms.buttons"), "#buttons"
   li= link_to t("menu_patterns.forms.inputs"), "#inputs"
@@ -19,8 +17,8 @@ table.table-patterns
       td= btn name: "Secondary", class: "btn-secondary"
       td
         code .btn.btn-secondary
-    /tr
-      td= btn name: "Default"
+    tr
+      td= btn name: "Default", class: "btn-default"
       td
         code .btn.btn-default
         
@@ -33,18 +31,38 @@ table.table-patterns
       td
         code .btn.btn-small
     tr
-      td= btn name: "Small button", class: "btn-small btn-secondary"
-      td
-        code .btn.btn-secondary.btn-small
-    tr
       td= btn name: "Large button", class: "btn-large"
       td
         code .btn.btn-large
-    tr
-      td= btn name: "Large button", class: "btn-large btn-secondary"
-      td
-        code .btn.btn-secondary.btn-large
 
+h3 Icônes
+
+table.table-patterns
+  tbody
+    tr
+      td= btn name: "OK", icon: "ok", class: "btn-small"
+      td
+        code .btn.btn-icon.btn-small
+    tr
+      td= btn name: "OK", icon: "ok"
+      td
+        code .btn.btn-icon
+    tr
+      td= btn name: "OK", icon: "ok", class: "btn-large"
+      td
+        code .btn.btn-icon.btn-large
+    tr
+      td= btn name: "", icon: "ok", class: "btn-small"
+      td
+        code .btn.btn-icon.btn-small
+    tr
+      td= btn name: "", icon: "ok"
+      td
+        code .btn.btn-icon
+    tr
+      td= btn name: "", icon: "ok", class: "btn-large"
+      td
+        code .btn.btn-icon.btn-large
 
 h2#inputs= t("menu_patterns.forms.inputs")
 

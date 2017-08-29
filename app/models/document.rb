@@ -2,7 +2,16 @@ class Document < ActiveRecord::Base
   belongs_to :projet
   mount_uploader :fichier, DocumentUploader
 
-  validates :projet, presence: true
-  validates :label, presence: { message: I18n.t('erreur_label_manquant', scope: 'projets.proposition.messages')}
-  validates :fichier, presence: { message: I18n.t('erreur_fichier_manquant', scope: 'projets.proposition.messages')}
+  validates :label, :fichier, presence: true
+  validate :scan_for_viruses, if: lambda { self.fichier_changed? && (ENV["CLAMAV_ENABLED"] == "true") }
+
+  private
+
+  def scan_for_viruses
+    path = self.fichier.path
+    if Clamby.virus? path
+      File.delete path
+      self.errors.add(:base, :virus_found)
+    end
+  end
 end

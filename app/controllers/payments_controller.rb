@@ -1,6 +1,4 @@
 class PaymentsController < ApplicationController
-  layout "creation_dossier"
-
   before_action :assert_projet_courant
   before_action :find_payment, only: [:edit, :destroy, :ask_for_validation, :ask_for_modification, :ask_for_instruction]
   load_and_authorize_resource
@@ -42,37 +40,46 @@ class PaymentsController < ApplicationController
   end
 
   def destroy
-    send_mail_for_destruction if @payment.action.to_sym == :a_modifier
+    send_mail_for_destruction if @payment.action?(:a_modifier)
     @payment.destroy!
     flash[:notice] = I18n.t("payment.actions.delete.success")
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_validation
-    @payment.update! action: :a_valider
-    @payment.update! statut: :propose if @payment.statut.to_sym == :en_cours_de_montage
+    @payment.ask_for_validation
     send_mail_for_validation
     redirect_to dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_modification
-    @payment.update! action: :a_modifier
+    @payment.ask_for_modification
     send_mail_for_modification
     redirect_to projet_or_dossier_payment_registry_path @projet_courant
   end
 
   def ask_for_instruction
-    @payment.update! action: :a_instruire
-    if @payment.statut.to_sym == :propose
-      @payment.update! statut: :demande, submitted_at: Time.now
-      send_mail_for_instruction
-    else
-      send_mail_for_correction_after_instruction
-    end
+    @payment.statut?(:propose) ? send_mail_for_instruction : send_mail_for_correction_after_instruction
+    @payment.ask_for_instruction
     redirect_to projet_or_dossier_payment_registry_path @projet_courant
   end
 
-private
+  def send_in_opal
+    @payment = @projet_courant.payment_registry.payments.where(id: params[:payment_id]).first
+    begin
+      opal_api.update_projet_with_dossier_paiement!(@projet_courant, @payment)
+      @payment.send_in_opal
+      redirect_to(dossier_payment_registry_path(@projet_courant), notice: t('payment.add_to_opal.messages.success', id_opal: @projet_courant.opal_numero))
+    rescue => e
+      redirect_to(dossier_payment_registry_path(@projet_courant), alert: t('payment.add_to_opal.messages.error', message: e.message))
+    end
+  end
+
+  private
+  def opal_api
+    @opal_api ||= Opal.new(OpalClient)
+  end
+
   def payment_params
     params.require(:payment).permit(:type_paiement, :beneficiaire, :personne_morale)
   end

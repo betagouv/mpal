@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170727083643) do
+ActiveRecord::Schema.define(version: 20170812222316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,18 @@ ActiveRecord::Schema.define(version: 20170727083643) do
   add_index "agents", ["intervenant_id"], name: "index_agents_on_intervenant_id", using: :btree
   add_index "agents", ["username"], name: "index_agents_on_username", unique: true, using: :btree
 
+  create_table "agents_projets", force: :cascade do |t|
+    t.integer  "agent_id"
+    t.integer  "projet_id"
+    t.datetime "last_viewed_at"
+    t.datetime "last_read_messages_at"
+    t.datetime "created_at",            null: false
+    t.datetime "updated_at",            null: false
+  end
+
+  add_index "agents_projets", ["agent_id"], name: "index_agents_projets_on_agent_id", using: :btree
+  add_index "agents_projets", ["projet_id"], name: "index_agents_projets_on_projet_id", using: :btree
+
   create_table "aides", force: :cascade do |t|
     t.string  "libelle"
     t.boolean "active",  default: true, null: false
@@ -69,18 +81,6 @@ ActiveRecord::Schema.define(version: 20170727083643) do
   end
 
   add_index "avis_impositions", ["projet_id"], name: "index_avis_impositions_on_projet_id", using: :btree
-
-  create_table "commentaires", force: :cascade do |t|
-    t.integer  "projet_id"
-    t.integer  "auteur_id"
-    t.string   "auteur_type"
-    t.text     "corps_message"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
-  end
-
-  add_index "commentaires", ["auteur_type", "auteur_id"], name: "index_commentaires_on_auteur_type_and_auteur_id", using: :btree
-  add_index "commentaires", ["projet_id"], name: "index_commentaires_on_projet_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.string   "name",        limit: 128, default: "", null: false
@@ -124,8 +124,9 @@ ActiveRecord::Schema.define(version: 20170727083643) do
     t.string   "label"
     t.string   "fichier"
     t.integer  "projet_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+    t.string   "type_piece", default: "", null: false
   end
 
   add_index "documents", ["projet_id"], name: "index_documents_on_projet_id", using: :btree
@@ -179,6 +180,18 @@ ActiveRecord::Schema.define(version: 20170727083643) do
   add_index "invitations", ["intermediaire_id"], name: "index_invitations_on_intermediaire_id", using: :btree
   add_index "invitations", ["intervenant_id"], name: "index_invitations_on_intervenant_id", using: :btree
   add_index "invitations", ["projet_id"], name: "index_invitations_on_projet_id", using: :btree
+
+  create_table "messages", force: :cascade do |t|
+    t.integer  "projet_id"
+    t.integer  "auteur_id"
+    t.string   "auteur_type"
+    t.text     "corps_message"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "messages", ["auteur_type", "auteur_id"], name: "index_messages_on_auteur_type_and_auteur_id", using: :btree
+  add_index "messages", ["projet_id"], name: "index_messages_on_projet_id", using: :btree
 
   create_table "occupants", force: :cascade do |t|
     t.integer  "projet_id"
@@ -373,8 +386,9 @@ ActiveRecord::Schema.define(version: 20170727083643) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "agents", "intervenants"
+  add_foreign_key "agents_projets", "agents"
+  add_foreign_key "agents_projets", "projets"
   add_foreign_key "avis_impositions", "projets"
-  add_foreign_key "commentaires", "projets"
   add_foreign_key "demandes", "projets"
   add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
@@ -382,6 +396,7 @@ ActiveRecord::Schema.define(version: 20170727083643) do
   add_foreign_key "intervenants_operations", "operations"
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
+  add_foreign_key "messages", "projets"
   add_foreign_key "occupants", "projets"
   add_foreign_key "payment_registries", "projets"
   add_foreign_key "prestation_choices", "prestations"

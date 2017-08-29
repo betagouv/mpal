@@ -6,6 +6,7 @@ class Aide < ActiveRecord::Base
   scope :active_for_projet, -> (projet) {
     where('active = true OR (SELECT COUNT(*) FROM projet_aides WHERE projet_aides.aide_id = aides.id AND projet_aides.projet_id = ?) > 0', projet.id)
   }
+  scope :ordered, -> { order("aides.public DESC, aides.id ASC") }
   scope :public_assistance, -> { where(public: true) }
   scope :not_public_assistance, -> { where(public: false) }
 end

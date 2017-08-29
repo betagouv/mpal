@@ -50,8 +50,8 @@ function confirm_tag {
 # Crée le tag de production, et affiche un message avec les étapes suivantes.
 function create_production_tag {
   local revision=`git rev-parse --short HEAD`
-  local date=`date +"%d/%m/%Y"`
-  local tag="production-${revision}-${date}"
+  local date=`date +"%Y-%m-%d"`
+  local tag="production-${date}-${revision}"
   git tag "$tag"
 
   echo
