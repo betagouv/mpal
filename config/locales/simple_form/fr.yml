@@ -57,8 +57,8 @@ fr:
       personne:
         lien_avec_demandeur: "Lien avec le demandeur"
       projet:
-        adresse_postale: "Adresse postale"
-        adresse_a_renover: "Adresse du bien à rénover si différente"
+        adresse_postale: "Adresse"
+        adresse_a_renover: "Adresse du logement à rénover si elle est différente"
         amo_amount: "Coût Assistance à Maîtrise d’Ouvrage (AMO)"
         assiette_subventionnable_amount: "Travaux : assiette subventionnable HT"
         auto_rehabilitation: "Ces travaux seront-ils réalisés en auto-réhabilitation ?"
@@ -68,7 +68,7 @@ fr:
         date_de_visite: "Date de visite"
         demande:
           annee_construction: "Année de construction"
-        demandeur: "Prénom et nom"
+        demandeur: "Prénom et nom du propriétaire"
         etage: "Étage"
         etiquette_apres_travaux: "Étiquette énergétique après travaux"
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"

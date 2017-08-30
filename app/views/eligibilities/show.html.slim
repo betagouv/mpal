@@ -7,7 +7,5 @@
     .alert.alert-danger
       i.glyphicon.glyphicon-remove.alert__icon
       p.alert__p= t("demarrage_projet.eligibility.not_eligible")
-
-  p= t("demarrage_projet.eligibility.informations", conditions: link_to("les conditions générales à remplir", "http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-generales-a-remplir/", target: :_blank)).html_safe
   = btn name: "Suivant", href: new_user_registration_path, class: "btn-large btn-centered", icon: "arrow-right"
 

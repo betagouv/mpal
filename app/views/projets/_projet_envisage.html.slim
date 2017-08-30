@@ -1,5 +1,5 @@
 article.block.projet
-  h3 Projet envisagé
+  h3= t('demarrage_projet.demande.section_projet_envisage')
   .content-block
     - if @projet_courant.demande.present?
       = affiche_demande_souhaitee(@projet_courant.demande)

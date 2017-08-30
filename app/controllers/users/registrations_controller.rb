@@ -8,7 +8,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # GET /resource/sign_up
   def new
-    @page_heading = "Identifiants"
+    @page_heading = I18n.t("demarrage_projet.users.section_name")
     super do
       resource.email = @projet_courant.email if resource.email.blank?
     end
@@ -16,7 +16,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    @page_heading = "Identifiants"
+    @page_heading = I18n.t("demarrage_projet.users.section_name")
     super
     if resource.valid?
       @projet_courant.update_attributes!(user: current_user)
