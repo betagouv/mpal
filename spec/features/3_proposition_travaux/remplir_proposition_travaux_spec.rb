@@ -167,7 +167,7 @@ feature "Remplir la proposition de travaux" do
 
     scenario "upload et suppression d'un document" do
       visit dossier_documents_path(projet)
-      within ".test-document-panel-0" do
+      within ".test-document-panel-0-2-0" do
         attach_file :fichier, Rails.root + "spec/fixtures/Ma pièce jointe.txt"
         click_button I18n.t("document.send")
       end
@@ -177,7 +177,7 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_link "Ma_pièce_jointe.txt"
       expect(page).to have_content I18n.t("document.messages.create.success")
 
-      within ".test-document-panel-0" do
+      within ".test-document-panel-0-2-0" do
         find("a[href='#{dossier_document_path(projet, document)}']").click
       end
       expect(page).not_to have_link "Ma pièce jointe.txt"

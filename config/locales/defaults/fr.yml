@@ -369,6 +369,37 @@ fr:
         error:  "Une erreur est survenue. Votre document n’a pas été ajouté au projet."
         confirmation: "Êtes-vous sûr de vouloir supprimer ce document ?"
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
+    condition:
+      one_of: "une des %{total} pièces est obligatoire"
+      required: ""
+      none: "pièces facultatives"
+    payment:
+      devis_paiement: "Devis avec demande d’acompte signé"
+      factures: "Facture(s)"
+      rib: "RIB"
+      mandat_paiement: "Mandat pour perception des fonds signé"
+      plan_financement: "Plan de financement définitif"
+      demande_signee:
+        avance: "Demande d’avance signée du demandeur"
+        acompte: "Demande d’acompte signée du demandeur"
+        solde: "Demande de solde signée du demandeur"
+      autres_paiement: "Autres"
+    projet:
+      devis_projet: "Devis entreprises"
+      estimation: "Estimation du maître d’œuvre"
+      mandat_projet: "Mandat signé"
+      justificatif_autonomie: "Justificatif autonomie"
+      diagnostic_autonomie: "Diagnostic autonomie"
+      evaluation_energetique: "Évaluation énergétique"
+      contrat_amo: "Contrat d’AMO avec devis"
+      arrete_insalubrite_peril: "Arrêté d’insalubrité ou de péril"
+      rapport_grille_insalubrite: "Rapport-grille d’insalubrité ou de dégradation "
+      arrete_securite: "Arrêté de sécurité des équipements communs"
+      justificatif_saturnisme: "Justificatif saturnisme (notification  CREP)"
+      contrat_maitrise_oeuvre: "Contrat et devis de maîtrise d’œuvre"
+      notification_agence_eau: "Notification d’aide de l’agence de l’eau"
+      pv_copropriete: "PV Assemblée générale de copropriété (avec clef de répartition)"
+      autres_projet: "Autres"
 
   # ----------------------- Recommander des opérateurs -----------------
   recommander_operateurs:
