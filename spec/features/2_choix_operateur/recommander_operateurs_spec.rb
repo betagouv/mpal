@@ -32,7 +32,7 @@ feature "Recommander un opérateur:" do
         click_button I18n.t('recommander_operateurs.valider')
 
         expect(page).to have_current_path dossier_path(projet)
-        expect(page).to have_content "Les opérateurs sélectionnés ont été recommandés"
+        expect(page).to have_content I18n.t("recommander_operateurs.succes.other", demandeur: projet.demandeur.fullname)
         expect(page).to have_content I18n.t('projets.envisage.operateurs_recommandes')
         expect(page).to have_content operateurA.raison_sociale
         expect(page).to have_content operateurB.raison_sociale
@@ -68,7 +68,7 @@ feature "Recommander un opérateur:" do
         click_button I18n.t('recommander_operateurs.valider')
 
         expect(page).to     have_current_path dossier_path(projet)
-        expect(page).to     have_content "L’opérateur sélectionné a été recommandé"
+        expect(page).to     have_content I18n.t("recommander_operateurs.succes.one", demandeur: projet.demandeur.fullname)
         expect(page).not_to have_content suggested_operateur1.raison_sociale
         expect(page).to     have_content suggested_operateur2.raison_sociale
       end

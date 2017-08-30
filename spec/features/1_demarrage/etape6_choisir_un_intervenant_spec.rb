@@ -23,7 +23,7 @@ feature "En tant que demandeur" do
 
       expect(page).to have_current_path projet_path(projet)
       expect(page).to have_content "Plutôt le matin"
-      expect(page).to have_content I18n.t('invitations.messages.succes_titre')
+      expect(page).to have_content I18n.t("invitations.messages.succes", intervenant: pris.raison_sociale)
     end
   end
 

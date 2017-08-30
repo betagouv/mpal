@@ -208,7 +208,7 @@ fr:
       pas_encore_rempli: "Le demandeur n’a pas encore rempli le projet"
       operateur:
         aucun: "Aucun pour l’instant"
-      operateurs_recommandes: "Opérateurs recommandés"
+      operateurs_recommandes: "Opérateurs conseillés"
 
     proposition:
       plan_financement: "Plan de financement prévisionnel"
@@ -239,8 +239,7 @@ fr:
 
     intervenants:
       messages:
-        succes_choix_intervenant_titre: "Succès"
-        succes_choix_intervenant: "Vous venez de choisir votre opérateur"
+        succes_choix_intervenant: "Vous avez confirmé votre opérateur-conseil : %{operateur}"
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
@@ -251,15 +250,15 @@ fr:
       lien_edition_coordonnees: "Modifier mes coordonnées"
       invitation_intervenant: "Sélectionner"
       invitation_relance_intervenant: "Je relance l’intervenant"
-      le_pris_selectionne_des_operateurs: "Le Point Rénovation Info-Service de votre département est en train de faire une sélection d’opérateurs recommandés pour votre projet."
-      le_pris_a_recommande_des_operateurs: "Le Point Rénovation Info-Service de votre département vous a recommandé des opérateurs pour vous accompagner dans votre projet."
+      le_pris_selectionne_des_operateurs: "Le Point Rénovation Info-Service de votre département est en train de faire une sélection d’opérateurs pour votre projet."
+      le_pris_a_recommande_des_operateurs: "Le Point Rénovation Info-Service de votre département vous a conseillé des opérateurs pour vous accompagner dans votre projet."
       select_operator_without_pris: "Vous pouvez dès à present contacter un opérateur qui vous aidera à constituer votre dossier."
       mise_en_relation_intervenant: "Je mets en relation"
-      choisir_operateur: "Contacter un opérateur"
-      choisir_operateur_recommande: "Choisir un des opérateurs recommandés"
+      choisir_operateur: "Contacter un opérateur-conseil"
+      choisir_operateur_recommande: "Voir les opérateurs-conseil"
       changer_intervenant: "Changer d’opérateur"
-      s_engager_avec_operateur: "S’engager avec cet opérateur"
-      engagement_action: "Je m’engage avec cet opérateur"
+      s_engager_avec_operateur: "Continuer"
+      engagement_action: "Continuer"
       remplir_le_projet: "Je remplis le projet"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
@@ -366,29 +365,25 @@ fr:
         confirmation: "Êtes-vous sûr de vouloir supprimer ce document ?"
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
 
-  # ----------------------- Messagerie ---------------------
-  conversation:
-    titre_section: "Chat"
-
   # ----------------------- Recommander des opérateurs -----------------
   recommander_operateurs:
-    recommander: "Recommander des opérateurs"
-    modifier: "Modifier les opérateurs recommandés"
-    valider: "Recommander ces opérateurs"
+    recommander: "Proposer des opérateurs-conseil"
+    modifier: "Modifier les opérateurs-conseil proposés"
+    valider: "Proposer ces opérateurs-conseil"
     succes:
-      one: "L’opérateur sélectionné a été recommandé à %{demandeur}."
-      other: "Les opérateurs sélectionnés ont été recommandés à %{demandeur}."
+      one: "L’opérateur-conseil sélectionné a été proposé à %{demandeur}."
+      other: "Les opérateurs-conseil sélectionnés ont été proposés à %{demandeur}."
     errors:
-      blank: "Choisissez au moins un opérateur à recommander."
+      blank: "Choisissez au moins un opérateur-conseil à recommander."
 
   # ----------------------- Choix d’un opérateur ---------------------
   choix_operateur:
-    title: "Contacter un opérateur"
+    title: "Mon opérateur-conseil"
     actions:
-      contacter: "Contacter cet opérateur"
-      changer: "Contacter cet autre opérateur"
+      contacter: "Contacter"
+      changer: "Contacter cet autre opérateur-conseil"
     erreurs:
-      changement_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur."
+      changement_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur-conseil."
 
   # ----------------------- Proposer un dossier ---------------------
   notification_validation_dossier:

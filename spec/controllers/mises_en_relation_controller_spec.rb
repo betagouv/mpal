@@ -42,8 +42,7 @@ describe MisesEnRelationController do
 
         it "redirige vers la page principale du projet" do
           expect(response).to redirect_to projet_path(projet)
-          expect(flash[:notice_titre]).to eq I18n.t("invitations.messages.succes_titre")
-          expect(flash[:notice]).to eq I18n.t("invitations.messages.succes", intervenant: projet.invited_pris.raison_sociale)
+          expect(flash[:success]).to eq I18n.t("invitations.messages.succes", intervenant: projet.invited_pris.raison_sociale)
         end
       end
 
