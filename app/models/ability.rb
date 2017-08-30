@@ -111,10 +111,15 @@ private
     if agent_or_user.try(:operateur?) && projet.status_already(:en_cours)
       can :create,  Document
       can :read,    Document, projet_id: projet.id
-      can :destroy, Document, projet_id: projet.id
+
+      # A VOIR MARCHE PAS PARFAITEMENT
+
+      can :destroy, Document do |document|
+        can :destroy, Document, projet_id: projet.id if projet.date_depot.blank? || document.created_at > projet.date_depot
+      end
     end
 
-    if agent_or_user.try(:instructeur?)&& projet.status_already(:transmis_pour_instruction)
+    if agent_or_user.try(:instructeur?) && projet.status_already(:transmis_pour_instruction)
       can :read, Document, projet_id: projet.id
     end
 

@@ -30,8 +30,12 @@ class DocumentsController < ApplicationController
   def destroy
     begin
       @document = @projet_courant.documents.find params[:id]
-      @document.destroy!
-      flash[:notice] = t("document.messages.delete.success")
+      if @projet_courant.date_depot.present? && @document.created_at < @projet_courant.date_depot
+        flash[:notice] = t("document.messages.delete.not_allowed")
+      else
+        @document.destroy!
+        flash[:alert] = t("document.messages.delete.success")
+      end
     rescue => e
       Rails.logger.error "[DocumentsController] destroy action failed : #{e.message}"
       flash[:alert] = t("document.messages.delete.error")

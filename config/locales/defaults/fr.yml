@@ -361,6 +361,7 @@ fr:
         error: "Une erreur est survenue. Votre document n’a pas été créé."
       delete:
         success: "Votre document a été supprimé avec succès."
+        not_allowed: "Ce document ne peut pas être supprimé."
         error:  "Une erreur est survenue. Votre document n’a pas été ajouté au projet."
         confirmation: "Êtes-vous sûr de vouloir supprimer ce document ?"
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
