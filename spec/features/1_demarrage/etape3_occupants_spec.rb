@@ -59,7 +59,7 @@ feature "Occupants :" do
       visit projet_path(projet)
 
       expect(page).to have_content I18n.t("projets.visualisation.future_birth")
-      expect(page).to have_content "+ enfant(s) à naître"
+      expect(page).to have_content "+ enfant à naître"
 
       visit projet_occupants_path(projet)
       uncheck I18n.t("simple_form.labels.projet.future_birth")
@@ -67,7 +67,7 @@ feature "Occupants :" do
       visit projet_path(projet)
 
       expect(page).to have_no_content I18n.t("projets.visualisation.future_birth")
-      expect(page).to have_no_content "+ enfant(s) à naître"
+      expect(page).to have_no_content "+ enfant à naître"
     end
 
     scenario "je peux passer à l'étape suivante" do
