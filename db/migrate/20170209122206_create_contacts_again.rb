@@ -1,4 +1,4 @@
-class CreateContactsAgain < ActiveRecord::Migration
+class CreateContactsAgain < ActiveRecord::Migration[4.2]
   def change
     create_table :contacts do |t|
       t.string :name,    limit: 128, null: false, default: ''

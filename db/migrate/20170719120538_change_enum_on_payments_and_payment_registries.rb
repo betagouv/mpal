@@ -1,4 +1,4 @@
-class ChangeEnumOnPaymentsAndPaymentRegistries < ActiveRecord::Migration
+class ChangeEnumOnPaymentsAndPaymentRegistries < ActiveRecord::Migration[4.2]
   def up
     remove_column :payment_registries, :statut
     change_column :payments,           :statut,        :string,  null: true,  default: nil

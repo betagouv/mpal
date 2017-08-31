@@ -1,4 +1,4 @@
-class RemoveUnusedTablesFromDemandes < ActiveRecord::Migration
+class RemoveUnusedTablesFromDemandes < ActiveRecord::Migration[4.2]
   def change
     remove_column :demandes, :devis, :boolean
     remove_column :demandes, :travaux_engages, :boolean

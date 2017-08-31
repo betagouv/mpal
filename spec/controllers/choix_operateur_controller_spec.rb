@@ -1,6 +1,6 @@
-require 'rails_helper'
-require 'support/mpal_helper'
-require 'support/rod_helper'
+require "rails_helper"
+require "support/mpal_helper"
+require "support/rod_helper"
 
 describe ChoixOperateurController do
   let(:projet) { create :projet, :prospect }
@@ -9,7 +9,7 @@ describe ChoixOperateurController do
 
   describe "#new" do
     it "affiche les opérateurs disponibles" do
-      get :new, projet_id: projet.id
+      get :new, params: { projet_id: projet.id }
       expect(response).to render_template('new')
     end
   end
@@ -19,9 +19,11 @@ describe ChoixOperateurController do
     let(:operateur) { Intervenant.pour_role(:operateur).first }
 
     it "invite un opérateur sur le projet" do
-      patch :choose, projet_id: projet.id,
+      patch :choose, params: {
+        projet_id: projet.id,
         operateur_id: operateur.id,
         projet: { disponibilite: 'Plutôt le midi' }
+      }
       projet.reload
       expect(projet.contacted_operateur).to eq operateur
       expect(projet.disponibilite).to eq 'Plutôt le midi'
@@ -33,9 +35,11 @@ describe ChoixOperateurController do
       let(:operateur) { create :operateur }
 
       it "affiche une erreur" do
-        patch :choose, projet_id: projet.id,
+        patch :choose, params: {
+          projet_id: projet.id,
           operateur_id: operateur.id,
           projet: { disponibilite: 'Plutôt le midi' }
+        }
         expect(response).to redirect_to projet_choix_operateur_path(projet)
         expect(flash[:alert]).to be_present
       end

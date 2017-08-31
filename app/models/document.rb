@@ -1,4 +1,4 @@
-class Document < ActiveRecord::Base
+class Document < ApplicationRecord
   belongs_to :projet
   mount_uploader :fichier, DocumentUploader
 

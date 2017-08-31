@@ -12,7 +12,7 @@ describe MisesEnRelationController do
   describe "#show" do
     before do
       create :pris
-      get :show, projet_id: projet.id
+      get :show, params: { projet_id: projet.id }
     end
 
     it "renders the template" do
@@ -25,7 +25,7 @@ describe MisesEnRelationController do
     context "quand les paramètres sont valides" do
       context "sans opérations programmées" do
         before do
-          patch :update, {
+          patch :update, params: {
             projet_id: projet.id,
             projet: {
               disponibilite: "plutôt le matin"
@@ -49,7 +49,7 @@ describe MisesEnRelationController do
       context "avec une seule opération programmée avec un opérateur" do
         before do
           Fakeweb::Rod.register_query_for_success_with_operation
-          patch :update, {
+          patch :update, params: {
             projet_id: projet.id,
             projet: {
               disponibilite: "plutôt le matin"
@@ -68,7 +68,7 @@ describe MisesEnRelationController do
       context "quand il y a plusieurs opérations programmées" do
         before do
           Fakeweb::Rod.register_query_for_success_with_operations
-          patch :update, {
+          patch :update, params: {
             projet_id: projet.id,
             projet: {
               disponibilite: "plutôt le matin"

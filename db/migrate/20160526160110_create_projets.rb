@@ -1,4 +1,4 @@
-class CreateProjets < ActiveRecord::Migration
+class CreateProjets < ActiveRecord::Migration[4.2]
   def change
     create_table :projets do |t|
       t.string  :numero_fiscal

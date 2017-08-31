@@ -1,4 +1,4 @@
-class Projet < ActiveRecord::Base
+class Projet < ApplicationRecord
   include LocalizedModelConcern
   extend CsvProperties, ApplicationHelper
 
@@ -34,8 +34,8 @@ class Projet < ActiveRecord::Base
   belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
   belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 
-  has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
+  has_many :intervenants, through: :invitations
   belongs_to :operateur, class_name: 'Intervenant'
   belongs_to :agent_operateur, class_name: "Agent"
   belongs_to :agent_instructeur, class_name: "Agent"
@@ -224,7 +224,7 @@ class Projet < ActiveRecord::Base
     # This query be simplified by using `left_joins` once we'll be running on Rails 5
     Aide
       .active_for_projet(self)
-      .joins("LEFT OUTER JOIN projet_aides ON projet_aides.aide_id = aides.id AND projet_aides.projet_id = #{ActiveRecord::Base.sanitize(self.id)}")
+      .joins(ActiveRecord::Base::send(:sanitize_sql_array, ["LEFT OUTER JOIN projet_aides ON projet_aides.aide_id = aides.id AND projet_aides.projet_id = ?", self.id]))
       .distinct
       .select("aides.*, projet_aides.amount AS amount")
       .order(:id)
@@ -234,7 +234,7 @@ class Projet < ActiveRecord::Base
     # This query be simplified by using `left_joins` once we'll be running on Rails 5
     Prestation
       .active_for_projet(self)
-      .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(self.id)}")
+      .joins(ActiveRecord::Base::send(:sanitize_sql_array, ["LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = ?", self.id]))
       .distinct
       .select("prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id")
       .order(:id)

@@ -1,4 +1,4 @@
-class AddStatutAndOperateurToProjets < ActiveRecord::Migration
+class AddStatutAndOperateurToProjets < ActiveRecord::Migration[4.2]
   def change
     add_column      :projets, :statut, :integer, default: 0
     add_column      :projets, :operateur_id, :integer

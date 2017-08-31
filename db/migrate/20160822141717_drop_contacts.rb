@@ -1,4 +1,4 @@
-class DropContacts < ActiveRecord::Migration
+class DropContacts < ActiveRecord::Migration[4.2]
   def up
     drop_table :contacts
     drop_table :contacts_projets

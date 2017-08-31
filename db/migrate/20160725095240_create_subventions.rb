@@ -1,4 +1,4 @@
-class CreateSubventions < ActiveRecord::Migration
+class CreateSubventions < ActiveRecord::Migration[4.2]
   def change
     create_table :subventions do |t|
       t.string :libelle

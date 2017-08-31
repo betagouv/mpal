@@ -1,4 +1,4 @@
-class CopyAdressesToModel < ActiveRecord::Migration
+class CopyAdressesToModel < ActiveRecord::Migration[4.2]
   def up
     projets = Projet.where('adresse_ligne1 IS NOT NULL')
     puts "Migrating addresses of #{projets.count} projects"

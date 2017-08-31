@@ -1,4 +1,4 @@
-class CreateTypeAides < ActiveRecord::Migration
+class CreateTypeAides < ActiveRecord::Migration[4.2]
   def change
     create_table :type_aides do |t|
       t.string :libelle

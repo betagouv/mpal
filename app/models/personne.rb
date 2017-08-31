@@ -1,4 +1,4 @@
-class Personne < ActiveRecord::Base
+class Personne < ApplicationRecord
   CIVILITIES = [["Madame", "mrs"], ["Monsieur", "mr"]]
 
   has_one :projet

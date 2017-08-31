@@ -3,7 +3,7 @@
   .form-errors.alert.alert-danger
     i.alert__icon.glyphicon.glyphicon-remove
     .alert__p
-      p= %(#{pluralize resource.errors.count, "erreur"} :)
+      p #{resource.errors.count} #{"erreur".pluralize(resource.errors.count)} :
       ul.form-errors__list
         - resource.errors.each do |error, message|
           - id = i18n_simple_form_id(model, error)

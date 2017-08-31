@@ -1,7 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 describe MyCasController do
-  context "en tant qu'agent non connecté" do
+  context "en tant qu’agent non connecté" do
     scenario "je suis redirigé vers Clavis" do
       @request.env["devise.mapping"] = Devise.mappings[:agent]
       get :new

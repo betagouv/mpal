@@ -1,4 +1,4 @@
-class CreateAdresses < ActiveRecord::Migration
+class CreateAdresses < ActiveRecord::Migration[4.2]
   def change
     create_table :adresses do |t|
       t.decimal :latitude,    null: true, precision: 10, scale: 6

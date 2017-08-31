@@ -23,7 +23,7 @@ describe ContactsController do
     let(:honeypot_params) { {} }
 
     before do
-      post :create, contact: contact_params.merge(honeypot_params)
+      post :create, params: { contact: contact_params.merge(honeypot_params) }
     end
 
     context "sauvegarde rien si je ne remplis pas le champ address" do

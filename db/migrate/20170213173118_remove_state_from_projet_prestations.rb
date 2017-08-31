@@ -1,4 +1,4 @@
-class RemoveStateFromProjetPrestations < ActiveRecord::Migration
+class RemoveStateFromProjetPrestations < ActiveRecord::Migration[4.2]
   def up
     remove_column :projet_prestations, :souhaite,  :boolean
     remove_column :projet_prestations, :preconise, :boolean

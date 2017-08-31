@@ -1,4 +1,4 @@
-class CreateSuggestedOperateurs < ActiveRecord::Migration
+class CreateSuggestedOperateurs < ActiveRecord::Migration[4.2]
   def change
     create_table :suggested_operateurs, id: false do |t|
       t.integer :projet_id

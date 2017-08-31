@@ -1,4 +1,4 @@
-class PaymentRegistry < ActiveRecord::Base
+class PaymentRegistry < ApplicationRecord
   belongs_to :projet
   has_many   :payments, dependent: :destroy
 

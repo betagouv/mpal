@@ -6,7 +6,7 @@
     .col-12
       div.form-errors.alert.alert-danger
         button.close data-dismiss="alert" type="button" &times;
-        strong= %(#{pluralize resource.errors.count, "erreur"} sur :)
+        strong #{resource.errors.count} #{"erreur".pluralize(resource.errors.count)} sur :
         ul
           - resource.errors.each do |error|
             li

@@ -1,4 +1,4 @@
-class RenameOperateursToIntervenants < ActiveRecord::Migration
+class RenameOperateursToIntervenants < ActiveRecord::Migration[4.2]
   def change
     rename_table :operateurs, :intervenants
     rename_column :evenements, :operateur_id, :intervenant_id

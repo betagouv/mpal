@@ -1,4 +1,4 @@
-class CreateOperateurs < ActiveRecord::Migration
+class CreateOperateurs < ActiveRecord::Migration[4.2]
   def change
     create_table :operateurs do |t|
       t.string :raison_sociale

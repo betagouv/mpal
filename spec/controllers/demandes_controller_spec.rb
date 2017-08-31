@@ -5,11 +5,10 @@ require "support/api_ban_helper"
 describe DemandesController do
   let(:projet) { create :projet, :prospect, demande: nil }
 
-
   describe "#show" do
     before do
       authenticate_as_project(projet.id)
-      get :show, projet_id: projet.id
+      get :show, params: { projet_id: projet.id }
     end
 
     it "renders the template" do
@@ -19,15 +18,14 @@ describe DemandesController do
   end
 
   describe "#update" do
-
     context "quand le demandeur n’a pas encore atteint la page éligibilité" do
       before { authenticate_as_project(projet.id) }
 
       it "met à jour la demande" do
-        patch :update, {
+        patch :update, params: {
           projet_id: projet.id,
           demande: {
-            changement_chauffage: "1"
+            changement_chauffage: "1",
           }
         }
         projet.demande.reload
@@ -38,11 +36,11 @@ describe DemandesController do
 
       context "quand aucun besoin n’est sélectionné" do
         it "affiche une erreur" do
-          patch :update, {
-              projet_id: projet.id,
-              demande: {
-                  changement_chauffage: ""
-              }
+          patch :update, params: {
+            projet_id: projet.id,
+            demande: {
+              changement_chauffage: "",
+            }
           }
           expect(response).to redirect_to projet_demande_path
           expect(flash[:alert]).to eq I18n.t("demarrage_projet.demande.erreurs.besoin_obligatoire")
@@ -66,11 +64,11 @@ describe DemandesController do
         end
 
         it "le demandeur ne peut plus modifier le projet" do
-          patch :update, {
-              projet_id: projet.id,
-              demande: {
-                  changement_chauffage: "0"
-              }
+          patch :update, params: {
+            projet_id: projet.id,
+            demande: {
+              changement_chauffage: "0",
+            }
           }
 
           expect(flash[:alert]).to eq I18n.t("unauthorized.default")
@@ -83,12 +81,12 @@ describe DemandesController do
         before { authenticate_as_agent(projet.agent_operateur) }
 
         it "l’opérateur peut modifier le projet" do
-          patch :update, {
-              dossier_id: projet.id,
-              demande: {
-                  changement_chauffage: "",
-                  froid: "1"
-              }
+          patch :update, params: {
+            dossier_id: projet.id,
+            demande: {
+              changement_chauffage: "",
+              froid: "1",
+            }
           }
 
           projet.demande.reload

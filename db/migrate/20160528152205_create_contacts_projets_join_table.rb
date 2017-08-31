@@ -1,4 +1,4 @@
-class CreateContactsProjetsJoinTable < ActiveRecord::Migration
+class CreateContactsProjetsJoinTable < ActiveRecord::Migration[4.2]
   def change
     create_table :contacts_projets, id: false do |t|
       t.belongs_to :projet, index: true

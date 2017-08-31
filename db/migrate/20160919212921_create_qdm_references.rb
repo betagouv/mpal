@@ -1,4 +1,4 @@
-class CreateQdmReferences < ActiveRecord::Migration
+class CreateQdmReferences < ActiveRecord::Migration[4.2]
   def change
     create_table :qdm_references do |t|
       t.integer :opal_id

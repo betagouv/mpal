@@ -1,18 +1,4 @@
-if Rails.env.production?
-  CarrierWave.configure do |config|
-    config.fog_provider = 'fog/openstack'
-    config.fog_credentials = {
-      provider: 'OpenStack',
-      openstack_tenant:   ENV['OS_TENANT_NAME'],
-      openstack_username: ENV['OS_USERNAME'],
-      openstack_api_key:  ENV['OS_API_KEY'],
-      openstack_auth_url: ENV['OS_AUTH_URL'],
-      openstack_region:   ENV['OS_REGION'],
-    }
-    config.fog_directory = ENV['OS_CONTAINER']
-    config.storage = :fog
-  end
-elsif Rails.env.test?
+if Rails.env.test?
   CarrierWave.configure do |config|
     config.storage = :file
     config.enable_processing = false
@@ -32,6 +18,20 @@ elsif Rails.env.test?
         "#{Rails.root}/spec/support/uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
       end
     end
+  end
+elsif "true" == ENV["OS_ENABLED"]
+  CarrierWave.configure do |config|
+    config.fog_provider = 'fog/openstack'
+    config.fog_credentials = {
+      provider: 'OpenStack',
+      openstack_tenant:   ENV['OS_TENANT_NAME'],
+      openstack_username: ENV['OS_USERNAME'],
+      openstack_api_key:  ENV['OS_API_KEY'],
+      openstack_auth_url: ENV['OS_AUTH_URL'],
+      openstack_region:   ENV['OS_REGION'],
+    }
+    config.fog_directory = ENV['OS_CONTAINER']
+    config.storage = :fog
   end
 else
   CarrierWave.configure do |config|

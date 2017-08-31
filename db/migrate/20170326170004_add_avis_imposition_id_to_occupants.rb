@@ -1,4 +1,4 @@
-class AddAvisImpositionIdToOccupants < ActiveRecord::Migration
+class AddAvisImpositionIdToOccupants < ActiveRecord::Migration[4.2]
   def change
     add_column :occupants, :avis_imposition_id, :integer, index: true
 

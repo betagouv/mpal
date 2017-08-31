@@ -1,4 +1,4 @@
-class Intervenant < ActiveRecord::Base
+class Intervenant < ApplicationRecord
   has_many :agents
   has_many :invitations
   has_many :messages, as: :auteur
