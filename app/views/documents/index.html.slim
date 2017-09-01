@@ -15,7 +15,7 @@
             .document__name
               = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
             .document__upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
-            - if can? :destroy, Document
+            - if can? :destroy, document
               .document__actions
                 = link_to projet_or_dossier_document_path(@projet_courant, document), method: :delete, data: { confirm: t("document.messages.delete.confirmation") }
                   i.glyphicon.glyphicon-trash
