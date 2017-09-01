@@ -136,7 +136,16 @@ module ApplicationHelper
     html << content_tag(:h4, "Informations supplémentaires")
     complements = []
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite.present?
-    ptz = demande.ptz ? "Oui": "Non"
+
+    #ATTENTION une fois qu'une cas oui ou non a été cochée, on ne peut plus repasser en non renseigné. Est-ce ok ?
+    if demande.ptz.nil?
+      ptz = "Non renseigné"
+    elsif demande.ptz == true
+      ptz = "Oui"
+    else
+      ptz = "Non"
+    end
+
     ptz_strong = content_tag(:strong, ptz)
     complements << "#{t("demarrage_projet.demande.ptz")} : #{ptz_strong}"
     annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
