@@ -17,7 +17,8 @@ class Ability
         can :manage, :demandeur
         can :manage, Occupant
         can :manage, Projet
-      elsif user == projet.user
+      #TODO change mandataire abilities
+      elsif user == projet.demandeur_user
         can :read, :intervenant
         can :manage, Message
         can :read, Projet
@@ -99,6 +100,7 @@ private
         can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
       end
 
+      #TODO change mandataire abilities
       if agent_or_user.is_a? User
         can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
         can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
@@ -120,8 +122,9 @@ private
       can :read, Document, projet_id: projet.id
     end
 
+    #TODO change mandataire abilities
     if agent_or_user.is_a? User
-      can :read, Document, projet_id: projet.id if projet.user.present?
+      can :read, Document, projet_id: projet.id if projet.demandeur_user.present?
     end
   end
 

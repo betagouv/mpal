@@ -4,7 +4,7 @@ require "support/mpal_helper"
 describe OccupantsController do
   let(:projet) { create :projet, :with_demandeur }
 
-  before(:each) { authenticate_as_project(projet.id) }
+  before(:each) { authenticate_as_project projet.id }
 
   describe "#index" do
     context "get" do

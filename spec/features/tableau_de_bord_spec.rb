@@ -12,7 +12,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
     let(:projet_34)     { create :projet, :en_cours, email: "prenom.nom1@site.com" }
     let(:projet_01)     { create :projet, :proposition_proposee, email: "prenom.nom2@site.com" }
     let(:projet_56)     { create :projet, :en_cours_d_instruction, email: "prenom.nom3@site.com" }
-    let(:projet_blank)     { create :projet }
+    let(:projet_blank)  { create :projet }
 
     before do
       projet_34.adresse.update(departement: "34")

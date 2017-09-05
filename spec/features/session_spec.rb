@@ -14,13 +14,13 @@ end
 
 feature "Réinitialisation de la session :" do
   let(:projet)           { create :projet, :prospect, :with_invited_pris, :locked, :with_account }
-  let(:user)             { projet.user }
   let(:operateur)        { create :operateur, departements: [projet.departement] }
   let(:invitation)       { create :invitation, projet: projet, intervenant: operateur }
   let(:agent_operateur)  { create :agent, intervenant: operateur }
+  let(:demandeur)        { projet.demandeur_user }
 
   context "en tant qu’utilisateur connecté" do
-    before { login_as user, scope: :user }
+    before { login_as demandeur, scope: :user }
 
     scenario "je vois le lien pour se déconnecter s’il y a un projet et un message qui m’annonce que je me suis bien deconnecté(e)" do
       visit projet_path(projet)

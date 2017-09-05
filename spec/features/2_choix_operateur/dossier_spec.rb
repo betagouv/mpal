@@ -5,7 +5,6 @@ require 'support/api_ban_helper'
 
 feature "Accéder aux informations du dossier :" do
   let(:projet)      { create :projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, :with_account }
-  let(:user)        { projet.user }
   let(:operateur)   { projet.contacted_operateur }
   let(:instructeur) { projet.invited_instructeur }
   let(:pris)        { projet.invited_pris }
@@ -27,7 +26,7 @@ feature "Accéder aux informations du dossier :" do
   end
 
   context "en tant que demandeur dont l'éligibilité est figée" do
-    before { login_as user, scope: :user }
+    before { login_as projet.demandeur_user, scope: :user }
     it_behaves_like "je peux consulter mon projet"
   end
 

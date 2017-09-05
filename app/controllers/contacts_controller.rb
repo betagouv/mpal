@@ -8,6 +8,7 @@ class ContactsController < ApplicationController
 
   def new
     @contact = Contact.new
+    #TODO handle mandataires
     if current_user
       @contact.email = current_user.email
       project = current_user.projet

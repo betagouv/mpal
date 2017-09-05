@@ -29,7 +29,7 @@ class ProjetsController < ApplicationController
 
     @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
     if @projet
-      if @projet.user
+      if @projet.demandeur_user
         return redirect_to new_user_session_path, alert: t("sessions.user_exists")
       end
       if session[:project_id] != @projet.id
@@ -81,12 +81,13 @@ private
   end
 
   def redirect_if_no_account
+    #TODO check mandataires here
     return unless @projet_courant
     if @projet_courant.locked_at.nil?
       return redirect_to projet_demandeur_path(@projet_courant), alert: t('sessions.access_forbidden')
-    elsif @projet_courant.locked_at && @projet_courant.user.blank?
+    elsif @projet_courant.locked_at && @projet_courant.demandeur_user.blank?
       return redirect_to projet_eligibility_path(@projet_courant), alert: t('sessions.access_forbidden')
-    elsif @projet_courant.user && @projet_courant.invitations.blank?
+    elsif @projet_courant.demandeur_user && @projet_courant.invitations.blank?
       return redirect_to projet_mise_en_relation_path(@projet_courant), alert: t('sessions.access_forbidden')
     end
   end
@@ -94,7 +95,7 @@ private
   def redirect_to_next_step(projet)
     if projet.demandeur.blank?
       redirect_to projet_demandeur_path(projet)
-    elsif @projet.locked_at && @projet.user.blank?
+    elsif @projet.locked_at && @projet.demandeur_user.blank?
       redirect_to projet_eligibility_path(projet)
     else
       redirect_to projet

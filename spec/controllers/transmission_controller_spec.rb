@@ -3,9 +3,10 @@ require "support/mpal_helper"
 require "support/rod_helper"
 
 describe TransmissionController do
-  let(:projet)  { create :projet, :proposition_proposee, :with_intervenants_disponibles, :with_invited_instructeur }
-  let(:user)    { projet.user }
-  before(:each) { authenticate_as_user(user) }
+  let(:projet)    { create :projet, :proposition_proposee, :with_intervenants_disponibles, :with_invited_instructeur }
+  let(:demandeur) { projet.demandeur_user }
+
+  before(:each) { authenticate_as_user demandeur }
 
   describe "#create" do
     it "transmet pour instruction" do

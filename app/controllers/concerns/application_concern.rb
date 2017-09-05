@@ -5,6 +5,7 @@ module ApplicationConcern
     layout "project"
 
     def redirect_to_project_if_exists
+      #TODO Handle mandataires here
       projet_or_dossier
       if current_user.try(:projet)
         if current_user.projet.invitations.blank?
@@ -42,7 +43,7 @@ module ApplicationConcern
         unless @projet_courant
           return redirect_to root_path, alert: t("sessions.access_forbidden")
         end
-        if @projet_courant.user
+        if @projet_courant.demandeur_user
           session.delete :project_id
           return redirect_to new_user_session_path, alert: t("sessions.user_exists")
         end

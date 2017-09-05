@@ -5,14 +5,14 @@ require "support/api_ban_helper"
 
 feature "messagerie" do
   let(:projet)            { create(:projet, :prospect, :locked, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, :with_account) }
-  let(:user)              { projet.user }
   let(:message_demandeur) { "Bonjour ! J'ai une question sur mon projet." }
   let(:message_operateur) { "J'attends votre question." }
   let(:operateur)         { projet.contacted_operateur }
   let(:agent_operateur)   { create :agent, intervenant: operateur }
+  let(:demandeur)         { projet.demandeur_user }
 
   context "en tant que demandeur dont l’éligibilité est figée" do
-    before { login_as user, scope: :user }
+    before { login_as demandeur, scope: :user }
 
     scenario "je veux ajouter un commentaire" do
       visit new_projet_message_path(projet)

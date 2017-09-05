@@ -6,7 +6,7 @@ describe AvisImpositionsController do
 
   describe "en tant que demandeur" do
     let(:projet)  { create :projet }
-    before(:each) { authenticate(projet.id) }
+    before(:each) { authenticate projet.id }
 
     describe "#new" do
       it "affiche le formulaire d’ajout d’un avis" do

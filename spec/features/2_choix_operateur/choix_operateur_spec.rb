@@ -7,7 +7,7 @@ require "support/rod_helper"
 feature "Choisir un opérateur:" do
   context "en tant que demandeur" do
     let(:operateurs) { Rod.new(RodClient).query_for(projet).operateurs }
-    let(:user)       { projet.user }
+    let(:user)       { projet.demandeur_user }
 
     context "si il y a une opération programmée" do
       let(:projet)    { create :projet, :prospect, :with_invited_instructeur, :with_account }

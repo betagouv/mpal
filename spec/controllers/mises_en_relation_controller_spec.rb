@@ -7,7 +7,7 @@ require "support/rod_helper"
 describe MisesEnRelationController do
   let(:projet) { create :projet, :prospect }
 
-  before(:each) { authenticate_as_project(projet.id) }
+  before(:each) { authenticate_as_project projet.id }
 
   describe "#show" do
     before do

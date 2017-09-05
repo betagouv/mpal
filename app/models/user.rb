@@ -11,7 +11,7 @@ class User < ApplicationRecord
   has_many :projets_users
   has_many :projets, through: :projets_users
 
-  #TODO
+  #TODO delete it
   def projet
     projets.first
   end
