@@ -25,7 +25,8 @@ class Projet < ApplicationRecord
   accepts_nested_attributes_for :personne
 
   # Compte utilisateur
-  belongs_to :user, dependent: :destroy
+  has_many :projets_users
+  has_many :users, through: :projets_users
 
   # Demande
   has_one :demande, dependent: :destroy
@@ -85,11 +86,9 @@ class Projet < ApplicationRecord
 
   attr_accessor :accepts, :localized_public_aids_sum, :localized_fundings_sum
 
-  before_create do
-    self.plateforme_id = Time.now.to_i
-  end
-
+  before_create { self.plateforme_id = Time.now.to_i }
   before_save :clean_numero_fiscal, :clean_reference_avis
+  after_destroy :destroy_users_except_mandataires
 
   scope :ordered, -> { order("projets.id desc") }
   scope :with_demandeur, -> { joins(:occupants).where('occupants.demandeur = true').distinct  }
@@ -103,6 +102,25 @@ class Projet < ApplicationRecord
   scope :updated_since, ->(datetime) {
     where("updated_at >= ?", datetime)
   }
+
+  def destroy_users_except_mandataires
+    throw(:abort) unless demandeur_user.destroy
+    throw(:abort) unless projets_users.where(kind: :demandeur).destroy_all
+    throw(:abort) unless projets_users.where(kind: :mandataire).destroy_all
+  end
+
+  def demandeur_user
+    projets_users.where(kind: :demandeur).first.try(:user)
+  end
+
+  def mandataire_user
+    projets_users.where("projets_users.kind = 'mandataire' AND projets_users.revoked_at IS NULL").first.try(:user)
+  end
+
+  def revoked_mandataire_users
+    revoked_mandataire_user_ids = projets_users.where("projets_users.kind = 'mandataire' AND projets_users.revoked_at IS NOT NULL").map(&:user_id)
+    User.where(id: revoked_mandataire_user_ids)
+  end
 
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')

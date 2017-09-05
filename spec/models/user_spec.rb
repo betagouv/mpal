@@ -3,11 +3,11 @@ require "cancan/matchers"
 
 describe User do
   describe "validations" do
-    it { is_expected.to have_many :projets }
+    it { is_expected.to have_many(:projets).through(:projets_users) }
   end
 
   describe "abilities" do
-    let(:user)        { projet.user }
+    let(:user)        { projet.demandeur_user }
     subject(:ability) { Ability.new(user, projet) }
 
     context "quand un projet est vérouillé" do
@@ -87,7 +87,7 @@ describe User do
 
   describe "#projet" do
     let!(:projet) { create :projet, :with_account }
-    let(:user)   { projet.user }
+    let(:user)   { projet.demandeur_user }
     it { expect(user.projet).to eq(projet) }
   end
 end

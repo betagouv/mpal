@@ -8,8 +8,10 @@ class User < ApplicationRecord
          :trackable,
          :validatable
 
-  has_many :projets
+  has_many :projets_users
+  has_many :projets, through: :projets_users
 
+  #TODO
   def projet
     projets.first
   end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170812222316) do
+ActiveRecord::Schema.define(version: 20170904123932) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,8 +128,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.integer "projet_id"
     t.string "label"
     t.datetime "quand"
-    t.string "producteur_type"
     t.integer "producteur_id"
+    t.string "producteur_type"
     t.index ["producteur_type", "producteur_id"], name: "index_evenements_on_producteur_type_and_producteur_id"
     t.index ["projet_id"], name: "index_evenements_on_projet_id"
   end
@@ -172,8 +172,8 @@ ActiveRecord::Schema.define(version: 20170812222316) do
 
   create_table "messages", id: :serial, force: :cascade do |t|
     t.integer "projet_id"
-    t.string "auteur_type"
     t.integer "auteur_id"
+    t.string "auteur_type"
     t.text "corps_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -332,6 +332,17 @@ ActiveRecord::Schema.define(version: 20170812222316) do
     t.index ["theme_id"], name: "index_projets_themes_on_theme_id"
   end
 
+  create_table "projets_users", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "projet_id"
+    t.string "kind", default: "demandeur", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "revoked_at"
+    t.index ["projet_id"], name: "index_projets_users_on_projet_id"
+    t.index ["user_id"], name: "index_projets_users_on_user_id"
+  end
+
   create_table "suggested_operateurs", id: false, force: :cascade do |t|
     t.integer "projet_id"
     t.integer "intervenant_id"
@@ -389,4 +400,6 @@ ActiveRecord::Schema.define(version: 20170812222316) do
   add_foreign_key "projets", "intervenants", column: "operateur_id"
   add_foreign_key "projets", "personnes"
   add_foreign_key "projets", "users"
+  add_foreign_key "projets_users", "projets"
+  add_foreign_key "projets_users", "users"
 end
