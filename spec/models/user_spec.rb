@@ -100,7 +100,7 @@ describe User do
   end
 
   describe "abilities" do
-    subject(:ability) { Ability.new(user, projet) }
+    subject(:ability) { Ability.new(user, :user, projet) }
     include_context :payments
 
     it_behaves_like :projet_without_user_abilities

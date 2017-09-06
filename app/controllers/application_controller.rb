@@ -17,7 +17,11 @@ class ApplicationController < ActionController::Base
   end
 
   def current_ability
-    @current_ability ||= Ability.new(current_agent || current_user, @projet_courant)
+    if current_agent
+      @current_ability ||= Ability.new(current_agent, :agent, @projet_courant)
+    else
+      @current_ability ||= Ability.new(current_user, :user, @projet_courant)
+    end
   end
 
   def debug_exception
