@@ -5,33 +5,32 @@ module ApplicationConcern
     layout "project"
 
     def redirect_to_project_if_exists
-      #TODO Handle mandataires here
       projet_or_dossier
-      if current_user.try(:projet)
-        if current_user.projet.invitations.blank?
-          return redirect_to projet_mise_en_relation_path(current_user.projet)
+      if current_user
+        if current_user.mandataire?
+          #TODO redirect to mandataire dashboard
+        elsif current_user.demandeur?
+          projet = current_user.projets.first
+          redirect_to projet.invitations.blank? ? projet_mise_en_relation_path(projet) : projet_path(projet)
         end
-        return redirect_to projet_path(current_user.projet)
       elsif current_agent
-        return redirect_to dossiers_path
+        redirect_to dossiers_path
       elsif session[:project_id]
         project = Projet.find_by_id(session[:project_id])
         if project
-          return redirect_to projet_path(project)
+          redirect_to projet_path(project)
         else
           session.delete :project_id
         end
       end
-      true
     end
 
     def assert_projet_courant
       projet_or_dossier
       if current_user
-        @projet_courant = current_user.projet
-        if params[:projet_id] && params[:projet_id].to_i != @projet_courant.id
-          return redirect_to controller: params[:controller], action: params[:action], projet_id: @projet_courant.id
-        end
+        #TODO why dossier_id ? (payment_registry)
+        projet_requested = Projet.find_by_locator(params[:projet_id] || params[:dossier_id])
+        @projet_courant = (current_user.projets.include? projet_requested) ? projet_requested : nil
         # NOTE: user should have one project (at least); if not, let the drama begin…
       elsif current_agent
         @projet_courant = Projet.find_by_locator(params[:dossier_id])
@@ -45,13 +44,12 @@ module ApplicationConcern
         end
         if @projet_courant.demandeur_user
           session.delete :project_id
-          return redirect_to new_user_session_path, alert: t("sessions.user_exists")
+          redirect_to new_user_session_path, alert: t("sessions.user_exists")
         end
       end
       if @projet_courant
         @page_heading = "Dossier : #{I18n.t(@projet_courant.statut, scope: "projets.statut").downcase}"
       end
-      true
     end
 
     # Routing ------------------------

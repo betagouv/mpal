@@ -85,9 +85,35 @@ describe User do
     end
   end
 
-  describe "#projet" do
-    let!(:projet) { create :projet, :with_account }
-    let(:user)   { projet.demandeur_user }
-    it { expect(user.projet).to eq(projet) }
+  describe "#mandataire?" do
+    let(:mandataire) { create :user }
+    let(:demandeur)  { create :user }
+
+    before do
+      create :projets_user, kind: :demandeur,  user: demandeur
+      create :projets_user, kind: :demandeur,  user: mandataire
+      create :projets_user, kind: :mandataire, user: mandataire
+    end
+
+    it "return true if user is mandataire" do
+      expect(demandeur.mandataire?).to  eq false
+      expect(mandataire.mandataire?).to eq true
+    end
+  end
+
+  describe "#demandeur?" do
+    let(:mandataire) { create :user }
+    let(:demandeur)  { create :user }
+
+    before do
+      create :projets_user, kind: :demandeur,  user: demandeur
+      create :projets_user, kind: :demandeur,  user: demandeur
+      create :projets_user, kind: :mandataire, user: mandataire
+    end
+
+    it "return true if user is demandeur" do
+      expect(demandeur.demandeur?).to  eq true
+      expect(mandataire.demandeur?).to eq false
+    end
   end
 end
