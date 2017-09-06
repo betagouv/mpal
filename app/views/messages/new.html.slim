@@ -21,6 +21,7 @@
                 span.messages__intervenant= " (#{auteur.intervenant.raison_sociale})"
             date.messages__datetime= l(message.created_at, format: :condensed)
           .messages__content= message.corps_message
+  /TODO can? :create Message
   = simple_form_for @message, url: { controller: :messages, action: :create }, html: { class: "form form-message" } do |f|
     = render "shared/errors", resource: @message
     = f.input :corps_message

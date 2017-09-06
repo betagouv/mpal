@@ -17,11 +17,18 @@ class Ability
         can :manage, :demandeur
         can :manage, Occupant
         can :manage, Projet
-      #TODO change mandataire abilities
-      elsif user == projet.demandeur_user
-        can :read, :intervenant
-        can :manage, Message
-        can :read, Projet
+      elsif projet.users.include? user
+        can :read,   :intervenant
+        can :new,    Message
+        can :show,   Projet
+
+        if user == projet.mandataire_user
+          can :index,  Projet
+        end
+
+        if user_can_act(user, projet)
+          can :create, Message
+        end
       end
     end
 
@@ -100,11 +107,14 @@ private
         can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
       end
 
-      #TODO change mandataire abilities
       if agent_or_user.is_a? User
-        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
-        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
-        can :ask_for_instruction,  Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
+        user = agent_or_user
+        can :read, Payment, payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
+
+        if user_can_act(user, projet)
+          can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
+          can :ask_for_instruction,  Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
+        end
       end
     end
   end
@@ -122,7 +132,6 @@ private
       can :read, Document, projet_id: projet.id
     end
 
-    #TODO change mandataire abilities
     if agent_or_user.is_a? User
       can :read, Document, projet_id: projet.id if projet.demandeur_user.present?
     end
@@ -140,5 +149,9 @@ private
     else
       false
     end
+  end
+
+  def user_can_act(user, projet)
+    (user == projet.demandeur_user && projet.mandataire_user.blank?) || user == projet.mandataire_user
   end
 end

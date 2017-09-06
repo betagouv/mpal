@@ -4,7 +4,7 @@ class ProjetsController < ApplicationController
   before_action :assert_projet_courant, except: [:new, :create]
   before_action :redirect_to_project_if_exists, only: [:new, :create]
   load_and_authorize_resource
-  skip_load_and_authorize_resource only: [:new, :create, :index]
+  skip_load_and_authorize_resource only: [:new, :create]
 
   def show
     # TODO flash à déplacer sur l’accueil
