@@ -8,7 +8,7 @@ module ApplicationConcern
       projet_or_dossier
       if current_user
         if current_user.mandataire?
-          #TODO redirect to mandataire dashboard
+          redirect_to projets_path
         elsif current_user.demandeur?
           projet = current_user.projets.first
           redirect_to projet.invitations.blank? ? projet_mise_en_relation_path(projet) : projet_path(projet)

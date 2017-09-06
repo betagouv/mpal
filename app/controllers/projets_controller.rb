@@ -4,7 +4,7 @@ class ProjetsController < ApplicationController
   before_action :assert_projet_courant, except: [:new, :create]
   before_action :redirect_to_project_if_exists, only: [:new, :create]
   load_and_authorize_resource
-  skip_load_and_authorize_resource only: [:new, :create]
+  skip_load_and_authorize_resource only: [:new, :create, :index]
 
   def show
     # TODO flash à déplacer sur l’accueil
@@ -13,6 +13,11 @@ class ProjetsController < ApplicationController
       flash[:notice_html] = "#{pris_name} ne vous a pas encore proposé d’opérateur-conseil. <a href=\"#{new_projet_or_dossier_message_path}\">Contacter #{pris_name}</a>."
     end
     render_show
+  end
+
+  def index
+    @page_heading = I18n.t('tableau_de_bord.titre_section')
+    render "projets/dashboard_mandataire"
   end
 
   def new

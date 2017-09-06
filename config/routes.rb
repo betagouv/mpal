@@ -82,7 +82,7 @@ Rails.application.routes.draw do
     #PROJETS
     get  "/projets/new", to: "projets#new"
     post  "/projets/",   to: "projets#create"
-    resources :projets, only: [:show, :edit, :update], param: :projet_id
+    resources :projets, only: [:show, :edit, :update, :index], param: :projet_id
 
     resources :projets, only: [], concerns: :projectable do
       resource :users, only: [:new, :create]

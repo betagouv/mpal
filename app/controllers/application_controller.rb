@@ -26,7 +26,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
-      if current_user
+      if current_user && @projet_courant.present?
         if @projet_courant.locked_at.nil?
           format.html { redirect_to projet_demandeur_path(@projet_courant), alert: exception.message }
         elsif @projet_courant.demandeur_user.blank?
