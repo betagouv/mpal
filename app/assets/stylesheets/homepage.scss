@@ -6,11 +6,16 @@
 .homepage__banner-holder {
   width: 100%;
   min-height: 15em;
-  background: #ccc image-url('homepage_banner.jpg') center center no-repeat;
+  background: #ccc image-url('homepage_banner_01.jpg') right center no-repeat;
   background-size: cover;
   margin-bottom: 1em;
+  @media screen and (min-width: 500px) {
+    min-height: 20em;
+  }
   @media screen and (min-width: 900px) {
+    width: 100%;
     height: 25em;
+    background-image: image-url('homepage_banner_02.jpg');
   }
 }
 @media screen and (min-width: 900px) {
@@ -28,7 +33,6 @@
   }
 }
 .homepage__heading1 {
-  margin-bottom: 1em;
   @media screen and (min-width: 900px) {
     font-size: 1.5em;
     line-height: 133%;
@@ -36,40 +40,32 @@
 }
 .homepage__heading2 {
   font-size: 1.5em;
-  margin: 1em 0;
+  margin-top: 1em;
   .homepage__text {
     display: inline;
   }
   @media screen and (min-width: 900px) {
     font-size: 2.2em;
     line-height: 133%;
-    margin: 1.5em 0;
+    margin-top: 3em;
     .homepage__text {
+      float: left;
+      clear: left;
       color: white;
       background-color: $color-primary;
     }
   }
 }
-.homepage__heading3 {
-  @media screen and (min-width: 900px) {
-    font-size: 1.5em;
-    line-height: 133%;
-  }
-}
 .homepage__actions {
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 600px) {
     display: flex;
   }
 }
 .homepage__action {
   padding: 2em 0;
   text-align: center;
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 600px) {
     width: 50%;
   }
-}
-.homepage__action-hint {
-  margin-top: 1em;
-  color: #888;
 }
 
