@@ -1,10 +1,10 @@
 = nested_layout :application do
   #content
     - if @projet_courant
-      - if @projet_courant.locked_at.nil?
-        = render "projets/steps", project: @projet_courant
-      - elsif @projet_courant.invitations.any?
+      - if @projet_courant.invitations.any?
         = render "projets/menu", project: @projet_courant
+      - else
+        = render "projets/registration_steps", project: @projet_courant
     = render "shared/flash"
     - if @page_heading.present?
       h1.page-heading= @page_heading
