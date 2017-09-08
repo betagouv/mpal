@@ -19,7 +19,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @page_heading = I18n.t("demarrage_projet.users.section_name")
     super
     if resource.valid?
-      @projet_courant.update_attributes!(user: current_user)
+      @projet_courant.users << current_user
       session.delete :project_id
     end
   end

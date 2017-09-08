@@ -60,7 +60,7 @@ describe DemandesController do
 
         before do
           authenticate_as_user(user)
-          projet.update_attributes!(user: user)
+          projet.users << user
         end
 
         it "le demandeur ne peut plus modifier le projet" do

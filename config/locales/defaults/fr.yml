@@ -284,6 +284,11 @@ fr:
       titre: "Modification du projet"
       description: "Vous pouvez mettre à jour les informations concernant votre projet."
 
+  # ----------------------- Projets Users ---------------------
+  projets_users:
+    single_demandeur: "Il ne peut y avoir qu’un seul demandeur par projet"
+    single_mandataire: "Il ne peut y avoir qu’un seul mandataire actif par projet"
+
   # ----------------------- Registre de Paiement ---------------------
   payment_registry:
     info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."

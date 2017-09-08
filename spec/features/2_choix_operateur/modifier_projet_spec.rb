@@ -133,10 +133,9 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
 end
 
 describe "En tant que demandeur :" do
-  let(:user)   { projet.user }
   let(:projet) { create :projet, :with_avis_imposition, :with_invited_pris,  :with_account, modified_revenu_fiscal_reference: 111 }
 
-  before { login_as user, scope: :user }
+  before { login_as projet.demandeur_user, scope: :user }
 
   context "une fois l'éligibilité vérouillée" do
     it "Je ne peux pas accéder aux pages pour modifier mon projet" do

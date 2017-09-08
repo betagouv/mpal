@@ -214,7 +214,7 @@ feature "Remplir la proposition de travaux" do
         let!(:old_unused_prestation)  { create :prestation, active: false }
         let!(:old_used_prestation)    { create :prestation, active: false }
 
-        before { projet.prestation_choices << create(:prestation_choice, :selected, projet: projet, prestation: old_used_prestation) }
+        before { create(:prestation_choice, :selected, projet: projet, prestation: old_used_prestation) }
 
         scenario "j'ai toujours accès à cette prestation" do
           visit dossier_proposition_path(projet)

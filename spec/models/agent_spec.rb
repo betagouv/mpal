@@ -12,7 +12,7 @@ describe Agent do
   end
 
   describe "abilities" do
-    subject(:ability) { Ability.new(agent, projet) }
+    subject(:ability) { Ability.new(agent, :agent, projet) }
 
     describe "autres abilities" do
       context "en tant qu'agent admin" do

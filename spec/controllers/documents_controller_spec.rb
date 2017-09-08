@@ -3,18 +3,16 @@ require "support/mpal_helper"
 require "support/api_ban_helper"
 
 describe DocumentsController do
-
   let(:projet_avant_depot) { create :projet, :en_cours, :with_assigned_operateur, email: "prenom.nom1@site.com" }
-  let(:user) { projet_avant_depot.user }
+  let(:demandeur) { projet_avant_depot.demandeur_user }
 
   describe "#create" do
-
     let(:fichier) { Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/fixtures/Ma pièce jointe.txt'))) }
     let(:type_piece) { :autres_projet }
 
     context "en tant que demandeur" do
       it "ne crée pas de pièce-jointe" do
-        authenticate_as_user user
+        authenticate_as_user demandeur
         post :create, params: { projet_id: projet_avant_depot.id, fichier: fichier, type_piece: type_piece }
         expect(Document.all.count).to eq 0
       end

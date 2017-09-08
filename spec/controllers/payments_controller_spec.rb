@@ -5,13 +5,10 @@ require "support/opal_helper"
 describe PaymentsController do
 
   describe "en tant qu'opérateur" do
-    let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    let(:projet)  { create :projet, :transmis_pour_instruction, :with_payment_registry }
     let(:payment) { create :payment, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
-    let(:agent_operateur) { projet.agent_operateur }
 
-    before(:each) do
-      authenticate_as_agent agent_operateur
-    end
+    before(:each) { authenticate_as_agent projet.agent_operateur }
 
     describe "#new" do
       before do
@@ -143,14 +140,11 @@ describe PaymentsController do
   end
 
   describe "en tant que demandeur" do
-    let(:projet)  { create :projet, :en_cours_d_instruction, :with_payment_registry }
-    let(:user)    { projet.user }
-    let(:payment) { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+    let(:projet)      { create :projet, :en_cours_d_instruction, :with_payment_registry }
+    let(:payment)     { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
     let(:submit_time) { Time.now }
 
-    before(:each) do
-      authenticate_as_user user
-    end
+    before(:each) { authenticate_as_user projet.demandeur_user }
 
     describe "#ask_for_modification" do
       it "passe la demande a l'opérateur pour modification" do

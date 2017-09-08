@@ -6,7 +6,7 @@ require "support/mpal_helper"
 describe ProjetsController do
   describe "#new" do
     context "quand le demandeur est identifié" do
-      before(:each) { authenticate_as_user(projet.user) }
+      before(:each) { authenticate_as_user(projet.demandeur_user) }
 
       context "si le projet existe et l'utilisateur est inscrit" do
         let!(:projet) { create :projet, :en_cours }

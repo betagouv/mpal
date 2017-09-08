@@ -7,12 +7,11 @@ feature "Transmettre à l'instructeur :" do
 
   context "avant que le dossier ne soit transmis" do
     let(:projet) { create :projet, :proposition_proposee, :with_intervenants_disponibles, :with_invited_instructeur }
-    let(:user)   { projet.user }
     let(:instructeur) { projet.invited_instructeur }
 
     context "en tant que demandeur" do
       scenario "j'accepte la proposition et je transmets mon projet aux services instructeurs" do
-        login_as user, scope: :user
+        login_as projet.demandeur_user, scope: :user
 
         visit projet_path(projet)
         expect(page).to have_current_path(projet_path(projet))
@@ -31,7 +30,6 @@ feature "Transmettre à l'instructeur :" do
   context "après transmission aux services instructeurs" do
     context "pour tous les intervenants" do
       let(:projet) { create :projet, :transmis_pour_instruction, :with_intervenants_disponibles, :with_invited_instructeur }
-      let(:user)   { projet.user }
 
       shared_examples "le dossier n'est plus modifiable" do
         specify do
@@ -46,7 +44,7 @@ feature "Transmettre à l'instructeur :" do
 
       context "en tant que demandeur" do
         before do
-          login_as user, scope: :user
+          login_as projet.demandeur_user, scope: :user
           visit projet_path(projet.id)
         end
         it_behaves_like "le dossier n'est plus modifiable"

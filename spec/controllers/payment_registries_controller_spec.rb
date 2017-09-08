@@ -8,7 +8,6 @@ describe PaymentRegistriesController do
     let(:projet)             { create :projet, :transmis_pour_instruction, :with_payment_registry }
     let(:payment_en_montage) { create :payment, statut: :en_cours_de_montage }
     let(:payment_demande)    { create :payment, statut: :demande }
-    let(:user)               { projet.user }
 
     before do
       projet.payment_registry.payments << payment_en_montage
@@ -16,7 +15,7 @@ describe PaymentRegistriesController do
     end
 
     context "en tant que demandeur" do
-      before { authenticate_as_user(user) }
+      before { authenticate_as_user projet.demandeur_user }
 
       it "affiche le registre de paiement" do
         get :show, params: { projet_id: projet.id }

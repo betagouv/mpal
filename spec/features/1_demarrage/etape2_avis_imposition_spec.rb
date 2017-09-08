@@ -38,8 +38,7 @@ feature "Avis d’imposition :" do
   end
 
   context "en tant que demandeur avec un avis d’imposition supplémentaire" do
-    let(:avis_imposition_2) { create :avis_imposition, numero_fiscal: 1, reference_avis: 2, revenu_fiscal_reference: 1000000 }
-    before { projet.avis_impositions << avis_imposition_2 }
+    before { create :avis_imposition, projet: projet, numero_fiscal: 1, reference_avis: 2, revenu_fiscal_reference: 1000000 }
 
     scenario "je peux supprimer cet avis d’imposition" do
       signin(projet.numero_fiscal, projet.reference_avis)

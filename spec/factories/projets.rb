@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :projet do
     numero_fiscal 12
     reference_avis 15
-    email 'prenom.nom@site.com'
+    sequence(:email) {|n| "prenom#{n}@site.com" }
     association :adresse_postale,   factory: [ :adresse, :rue_de_rome ]
     association :adresse_a_renover, factory: [ :adresse, :rue_de_la_mare ]
 
@@ -47,7 +47,25 @@ FactoryGirl.define do
     trait :with_account do
       locked
       after(:build) do |projet|
-        projet.user = create :user
+        create :projets_user, :demandeur, projet: projet
+      end
+    end
+
+    trait :with_mandataire do
+      after(:build) do |projet, evaluator|
+        create :projets_user, :mandataire, projet: projet
+      end
+    end
+
+    trait :with_revoked_mandataire do
+      transient do
+        revoked_mandataire_count 1
+      end
+
+      after(:build) do |projet, evaluator|
+        evaluator.revoked_mandataire_count.times do
+          create :projets_user, :revoked_mandataire, projet: projet
+        end
       end
     end
 

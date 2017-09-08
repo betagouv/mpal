@@ -8,10 +8,18 @@ class User < ApplicationRecord
          :trackable,
          :validatable
 
-  has_many :projets
+  has_many :projets_users
+  has_many :projets, through: :projets_users
 
-  def projet
-    projets.first
+  def mandataire?
+    projets_users.mandataire.present?
+  end
+
+  def demandeur?
+    projets_users.demandeur.present?
+  end
+
+  def projet_as_demandeur
+    projets_users.demandeur.first.try(:projet)
   end
 end
-

@@ -3,24 +3,28 @@ class ContactsController < ApplicationController
   attr_accessor :address
 
   def index
-    return redirect_to(new_contact_path)
+    redirect_to(new_contact_path)
   end
 
   def new
     @contact = Contact.new
     if current_user
       @contact.email = current_user.email
-      project = current_user.projet
-      if project
-        @contact.name = project.demandeur.try(:fullname)
-        @contact.phone = project.tel
+      if current_user.mandataire?
+        #TODO fill in with mandataire infos
+        #@contact.name  = current_user.infos.name
+        #@contact.phone = current_user.infos.phone
+      elsif current_user.demandeur?
+        projet = current_user.projet_as_demandeur
+        @contact.name  = projet.demandeur.fullname
+        @contact.phone = projet.tel
       end
     elsif current_agent
       @contact.email = current_agent.username
       @contact.name = current_agent.fullname
     elsif session[:project_id]
       project = Projet.find_by_id(session[:project_id])
-      @contact.name = project.demandeur.try(:fullname)
+      @contact.name  = project.demandeur.try(:fullname)
       @contact.email = project.email
       @contact.phone = project.tel
     end

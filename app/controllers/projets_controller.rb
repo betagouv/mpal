@@ -3,7 +3,6 @@ class ProjetsController < ApplicationController
 
   before_action :assert_projet_courant, except: [:new, :create]
   before_action :redirect_to_project_if_exists, only: [:new, :create]
-  before_action :redirect_if_no_account, only: :show
   load_and_authorize_resource
   skip_load_and_authorize_resource only: [:new, :create]
 
@@ -14,6 +13,11 @@ class ProjetsController < ApplicationController
       flash[:notice_html] = "#{pris_name} ne vous a pas encore proposé d’opérateur-conseil. <a href=\"#{new_projet_or_dossier_message_path}\">Contacter #{pris_name}</a>."
     end
     render_show
+  end
+
+  def index
+    @page_heading = I18n.t('tableau_de_bord.titre_section')
+    render "projets/dashboard_mandataire"
   end
 
   def new
@@ -29,7 +33,7 @@ class ProjetsController < ApplicationController
 
     @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
     if @projet
-      if @projet.user
+      if @projet.demandeur_user
         return redirect_to new_user_session_path, alert: t("sessions.user_exists")
       end
       if session[:project_id] != @projet.id
@@ -80,21 +84,10 @@ private
     params[:projet][:reference_avis].to_s.gsub(/\W+/, '').upcase
   end
 
-  def redirect_if_no_account
-    return unless @projet_courant
-    if @projet_courant.locked_at.nil?
-      return redirect_to projet_demandeur_path(@projet_courant), alert: t('sessions.access_forbidden')
-    elsif @projet_courant.locked_at && @projet_courant.user.blank?
-      return redirect_to projet_eligibility_path(@projet_courant), alert: t('sessions.access_forbidden')
-    elsif @projet_courant.user && @projet_courant.invitations.blank?
-      return redirect_to projet_mise_en_relation_path(@projet_courant), alert: t('sessions.access_forbidden')
-    end
-  end
-
   def redirect_to_next_step(projet)
     if projet.demandeur.blank?
       redirect_to projet_demandeur_path(projet)
-    elsif @projet.locked_at && @projet.user.blank?
+    elsif @projet.locked_at && @projet.demandeur_user.blank?
       redirect_to projet_eligibility_path(projet)
     else
       redirect_to projet
