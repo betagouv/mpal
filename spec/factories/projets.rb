@@ -51,20 +51,39 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_mandataire do
+    trait :with_mandataire_user do
       after(:build) do |projet, evaluator|
         create :projets_user, :mandataire, projet: projet
       end
     end
 
-    trait :with_revoked_mandataire do
+    trait :with_mandataire_operateur do
+      after(:build) do |projet, evaluator|
+        Invitation.where(projet: projet, intervenant: projet.operateur).first.update! kind: :mandataire
+      end
+    end
+
+    trait :with_revoked_mandataire_user do
       transient do
-        revoked_mandataire_count 1
+        revoked_mandataire_user_count 1
       end
 
       after(:build) do |projet, evaluator|
-        evaluator.revoked_mandataire_count.times do
+        evaluator.revoked_mandataire_user_count.times do
           create :projets_user, :revoked_mandataire, projet: projet
+        end
+      end
+    end
+
+    trait :with_revoked_mandataire_operateur do
+      transient do
+        revoked_mandataire_operateur_count 1
+      end
+
+      after(:build) do |projet, evaluator|
+        evaluator.revoked_mandataire_operateur_count.times do
+          operateur = create :operateur
+          create :invitation, :revoked_mandataire, projet: projet, intervenant: operateur, contacted: true
         end
       end
     end

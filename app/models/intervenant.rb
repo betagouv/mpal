@@ -62,4 +62,8 @@ class Intervenant < ApplicationRecord
   def dreal?
     (roles || []).include?('dreal')
   end
+
+  def mandataire?
+    invitations.mandataire.present?
+  end
 end

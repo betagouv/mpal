@@ -18,7 +18,7 @@ class ProjetsUser < ApplicationRecord
   end
 
   def single_mandataire
-    if projet.projets_users.mandataire.count >= 1
+    if projet.projets_users.mandataire.count >= 1 || projet.mandataire_operateur.present?
       errors[:base] << I18n.t("projets_users.single_mandataire")
     end
   end

@@ -114,6 +114,14 @@ class Projet < ApplicationRecord
     User.where id: projets_users.revoked_mandataire.map(&:user_id)
   end
 
+  def mandataire_operateur
+    invitations.mandataire.first.try(:intervenant)
+  end
+
+  def revoked_mandataire_operateurs
+    Intervenant.where id: invitations.revoked_mandataire.map(&:intervenant_id)
+  end
+
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')
     if is_numero_plateforme
