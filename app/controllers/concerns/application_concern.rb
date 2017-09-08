@@ -10,7 +10,7 @@ module ApplicationConcern
         if current_user.mandataire?
           redirect_to projets_path
         elsif current_user.demandeur?
-          projet = current_user.projets.first
+          projet = current_user.projet_as_demandeur
           redirect_to projet.invitations.blank? ? projet_mise_en_relation_path(projet) : projet_path(projet)
         end
       elsif current_agent

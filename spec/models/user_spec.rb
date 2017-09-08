@@ -169,4 +169,21 @@ describe User do
       expect(mandataire.demandeur?).to eq false
     end
   end
+
+  describe "#projet_as_demandeur" do
+    let(:projet)                        { create :projet }
+    let(:mandataire_user)               { create :user }
+    let(:demandeur_and_mandataire_user) { create :user }
+
+    before do
+      create :projets_user, :demandeur,  user: demandeur_and_mandataire_user, projet: projet
+      create :projets_user, :mandataire, user: demandeur_and_mandataire_user
+      create :projets_user, :mandataire, user: mandataire_user
+    end
+
+    it "returns the projet where the user is demandeur" do
+      expect(demandeur_and_mandataire_user.projet_as_demandeur).to eq projet
+      expect(mandataire_user.projet_as_demandeur).to be_blank
+    end
+  end
 end

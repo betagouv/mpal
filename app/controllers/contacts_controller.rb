@@ -15,8 +15,9 @@ class ContactsController < ApplicationController
         #@contact.name  = current_user.infos.name
         #@contact.phone = current_user.infos.phone
       elsif current_user.demandeur?
-        @contact.name  = current_user.projets.first.demandeur.fullname
-        @contact.phone = current_user.projets.first.tel
+        projet = current_user.projet_as_demandeur
+        @contact.name  = projet.demandeur.fullname
+        @contact.phone = projet.tel
       end
     elsif current_agent
       @contact.email = current_agent.username

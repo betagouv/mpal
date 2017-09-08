@@ -20,6 +20,7 @@ describe Projet do
         projet.errors[attribute].present?
       end
     end
+    
 
     let(:projet) { build :projet }
     it { expect(projet).to be_valid }
@@ -770,9 +771,9 @@ describe Projet do
     let(:revoked_mandataire)        { create :user }
 
     before do
-      create :projets_user, projet: projet_with_mandataire, user: demandeur, kind: :demandeur
-      create :projets_user, projet: projet_with_mandataire, user: mandataire, kind: :mandataire
-      create :projets_user, projet: projet_with_mandataire, user: revoked_mandataire, kind: :mandataire
+      create :projets_user, :demandeur,          projet: projet_with_mandataire, user: demandeur
+      create :projets_user, :mandataire,         projet: projet_with_mandataire, user: mandataire
+      create :projets_user, :revoked_mandataire, projet: projet_with_mandataire, user: revoked_mandataire
     end
 
     it { expect(projet_without_mandataire.mandataire_user).to be_blank }
@@ -787,9 +788,9 @@ describe Projet do
     let(:revoked_mandataire_2)           { create :user }
 
     before do
-      create :projets_user, projet: projet_with_revoked_mandataire, user: mandataire, kind: :mandataire
-      create :projets_user, projet: projet_with_revoked_mandataire, user: revoked_mandataire_1, kind: :mandataire, revoked_at: DateTime.new(1991, 02, 04)
-      create :projets_user, projet: projet_with_revoked_mandataire, user: revoked_mandataire_2, kind: :mandataire, revoked_at: DateTime.new(1991, 02, 04)
+      create :projets_user, :mandataire,         projet: projet_with_revoked_mandataire, user: mandataire
+      create :projets_user, :revoked_mandataire, projet: projet_with_revoked_mandataire, user: revoked_mandataire_1
+      create :projets_user, :revoked_mandataire, projet: projet_with_revoked_mandataire, user: revoked_mandataire_2
     end
 
     it { expect(projet_with_mandataire.revoked_mandataire_users).to be_blank }
@@ -797,4 +798,3 @@ describe Projet do
     it { expect(projet_with_revoked_mandataire.revoked_mandataire_users).to match_array([revoked_mandataire_1, revoked_mandataire_2]) }
   end
 end
- 

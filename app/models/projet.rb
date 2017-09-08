@@ -105,21 +105,19 @@ class Projet < ApplicationRecord
 
   def destroy_users_except_mandataires
     throw(:abort) unless demandeur_user.destroy
-    throw(:abort) unless projets_users.where(kind: :demandeur).destroy_all
-    throw(:abort) unless projets_users.where(kind: :mandataire).destroy_all
+    throw(:abort) unless projets_users.destroy_all
   end
 
   def demandeur_user
-    projets_users.where(kind: :demandeur).first.try(:user)
+    projets_users.demandeur.first.try(:user)
   end
 
   def mandataire_user
-    projets_users.where("projets_users.kind = 'mandataire' AND projets_users.revoked_at IS NULL").first.try(:user)
+    projets_users.mandataire.first.try(:user)
   end
 
   def revoked_mandataire_users
-    revoked_mandataire_user_ids = projets_users.where("projets_users.kind = 'mandataire' AND projets_users.revoked_at IS NOT NULL").map(&:user_id)
-    User.where(id: revoked_mandataire_user_ids)
+    User.where id: projets_users.revoked_mandataire.map(&:user_id)
   end
 
   def self.find_by_locator(locator)

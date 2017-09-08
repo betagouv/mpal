@@ -12,10 +12,14 @@ class User < ApplicationRecord
   has_many :projets, through: :projets_users
 
   def mandataire?
-    projets_users.where(kind: :mandataire).present?
+    projets_users.mandataire.present?
   end
 
   def demandeur?
-    projets_users.where(kind: :demandeur).present?
+    projets_users.demandeur.present?
+  end
+
+  def projet_as_demandeur
+    projets_users.demandeur.first.try(:projet)
   end
 end

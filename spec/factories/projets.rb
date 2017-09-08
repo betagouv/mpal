@@ -64,7 +64,7 @@ FactoryGirl.define do
 
       after(:build) do |projet, evaluator|
         evaluator.revoked_mandataire_count.times do
-          create :projets_user, :mandataire, projet: projet, revoked_at: DateTime.new(1991, 02, 04)
+          create :projets_user, :revoked_mandataire, projet: projet
         end
       end
     end
