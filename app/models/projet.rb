@@ -25,7 +25,7 @@ class Projet < ApplicationRecord
   accepts_nested_attributes_for :personne
 
   # Compte utilisateur
-  has_many :projets_users
+  has_many :projets_users, dependent: :destroy
   has_many :users, through: :projets_users
 
   # Demande
@@ -88,7 +88,6 @@ class Projet < ApplicationRecord
 
   before_create { self.plateforme_id = Time.now.to_i }
   before_save :clean_numero_fiscal, :clean_reference_avis
-  after_destroy :destroy_users_except_mandataires
 
   scope :ordered, -> { order("projets.id desc") }
   scope :with_demandeur, -> { joins(:occupants).where('occupants.demandeur = true').distinct  }
@@ -102,11 +101,6 @@ class Projet < ApplicationRecord
   scope :updated_since, ->(datetime) {
     where("updated_at >= ?", datetime)
   }
-
-  def destroy_users_except_mandataires
-    throw(:abort) unless demandeur_user.destroy
-    throw(:abort) unless projets_users.destroy_all
-  end
 
   def demandeur_user
     projets_users.demandeur.first.try(:user)
