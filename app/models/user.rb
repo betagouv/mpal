@@ -8,7 +8,7 @@ class User < ApplicationRecord
          :trackable,
          :validatable
 
-  has_many :projets_users
+  has_many :projets_users, dependent: :destroy
   has_many :projets, through: :projets_users
 
   def mandataire?
