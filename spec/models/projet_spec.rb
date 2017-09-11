@@ -887,5 +887,25 @@ describe Projet do
         end
       end
     end
+
+    describe "#action_agent_pris?" do
+      let(:projet_en_cours) { create :projet, :transmis_pour_instruction }
+      let(:projet_prospect_suggestions) { create :projet, :prospect, :with_suggested_operateurs }
+      let(:projet_prospect) { create :projet, :prospect }
+
+      context "en tant que pris" do
+        it "je n'ai pas d'action à faire quand le dossier est anonymisé" do
+          expect(projet_en_cours.action_agent_pris?).to be_falsey
+        end
+
+        it "je n'ai pas d'action à faire quand on a suggéré des opérateurs" do
+          expect(projet_prospect_suggestions.action_agent_pris?).to be_falsey
+        end
+
+        it "j'ai une action à faire sinon" do
+          expect(projet_prospect.action_agent_pris?).to be_truthy
+        end
+      end
+    end
   end
 end

@@ -550,7 +550,7 @@ class Projet < ApplicationRecord
     return false
   end
 
-  #ACTIONS INSTRUCTEUR A FAIRE
+  #ACTIONS INSTRUCTEUR
   def action_agent_instructeur?
     if statut.to_sym == :transmis_pour_instruction
       return true
@@ -573,23 +573,11 @@ class Projet < ApplicationRecord
     return false
   end
 
-  #ACTIONS PRIS A FAIRE
-  # def action_agent_operateur?
-  #   if statut.to_sym == :proposition_proposee || statut.to_sym == :prospect
-  #     return false
-  #   end
-  #   if status_not_yet(:proposition_proposee) || action_operateur_dossier_paiement?
-  #     return true
-  #   end
-  #   return false
-  # end
-  #
-  # def action_operateur_dossier_paiement?
-  #   payment_registry.try(:payments).each do |payment|
-  #     if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
-  #       return true
-  #     end
-  #   end
-  #   return false
-  # end
+  # ACTIONS PRIS
+  def action_agent_pris?
+    if status_already(:en_cours) || pris_suggested_operateurs.present?
+      return false
+    end
+    return true
+  end
 end

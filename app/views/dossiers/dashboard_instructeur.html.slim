@@ -29,6 +29,7 @@
           tr id="projet_#{projet.id}"
             - if projet.is_anonymized_for? invitation.intervenant
               td
+                i.glyphicon.glyphicon-remove.dashboard-icon__anonymized title="Vous n'avez pas les droits pour accéder à ce dossier"
               td= projet.numero_plateforme
               td= projet.opal_numero
               td
@@ -58,9 +59,9 @@
             - else
               td
                 - if projet.action_agent_instructeur?
-                  i.glyphicon.glyphicon-ok-circle.dashboard-icon__action
+                  i.glyphicon.glyphicon-pencil.dashboard-icon__action title="Nécessite une action de votre part"
                 - else
-                  i.glyphicon.glyphicon-remove-circle.dashboard-icon__no-action
+                  i.glyphicon.glyphicon-ok.dashboard-icon__no-action title="Dossier traité"
               - edit_url = dossier_path(projet)
               td= link_to projet.numero_plateforme, edit_url
               - if projet.opal_numero.present?
