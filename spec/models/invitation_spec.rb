@@ -15,10 +15,10 @@ describe Invitation do
   it { is_expected.to delegate_method(:demandeur).to(:projet) }
   it { is_expected.to delegate_method(:description_adresse).to(:projet) }
 
-  context "if the mandataire is not an operateur" do
+  context "sans mandataire actif" do
     let(:intervenant) { create :intervenant }
 
-    it "prevents from creating the mandataire" do
+    it "je ne peux pas ajouter un opérateur mandataire qui n'est pas celui de mon projet" do
       expect{ create :invitation, projet: projet, intervenant: intervenant, kind: :mandataire }.to raise_error do |error|
         expect(error).to be_a ActiveRecord::RecordInvalid
         expect(error.message).to include I18n.t("invitations.mandataire_is_operateur")
@@ -26,12 +26,12 @@ describe Invitation do
     end
   end
 
-  context "with an active mandataire user" do
+  context "avec un utilisateur mandataire actif" do
     let(:projet)     { create :projet, :with_account, :with_mandataire_user }
     let(:operateur)  { create :operateur }
     let(:invitation) { create :invitation, projet: projet, intervenant: operateur }
 
-    it "prevents from creating two active mandataires" do
+    it "je ne peux pas ajouter d'autres mandataires actifs" do
       expect{ invitation.update! kind: :mandataire }.to raise_error do |error|
         expect(error).to be_a ActiveRecord::RecordInvalid
         expect(error.message).to include I18n.t("invitations.single_mandataire")
@@ -39,12 +39,12 @@ describe Invitation do
     end
   end
 
-  context "with an active mandataire operateur" do
+  context "avec un opérateur mandataire actif" do
     let(:projet)     { create :projet, :with_account, :with_committed_operateur, :with_mandataire_operateur }
     let(:operateur)  { create :operateur }
     let(:invitation) { create :invitation, projet: projet, intervenant: operateur }
 
-    it "prevents from creating two active mandataires" do
+    it "je ne peux pas ajouter d'autres mandataires actifs" do
       expect{ invitation.update! kind: :mandataire }.to raise_error do |error|
         expect(error).to be_a ActiveRecord::RecordInvalid
         expect(error.message).to include I18n.t("invitations.single_mandataire")
@@ -52,7 +52,7 @@ describe Invitation do
     end
   end
 
-  context "with revoked mandataires" do
+  context "avec des mandataires révoqués" do
     let(:projet)                { create :projet, :with_account, :with_committed_operateur, :with_revoked_mandataire_user }
     let(:revoked_operateur)     { create :operateur }
     let(:mandataire_operateur)  { create :operateur }
@@ -60,16 +60,16 @@ describe Invitation do
 
     before { create :invitation, projet: projet, intervenant: revoked_operateur, kind: :mandataire, revoked_at: DateTime.new(1991,02,04) }
 
-    it "can create an active mandataire" do
+    it "je peux ajouter un mandataire actif" do
       expect{ mandataire_invitation.update! kind: :mandataire }.not_to raise_error
     end
   end
 
   describe "scopes" do
-    let(:invitations_with_mandataire_operateur) { create :invitation, :mandataire }
-    let(:invitations_with_revoked_operateur)    { create :invitation, :revoked_mandataire }
+    let!(:invitations_with_mandataire_operateur) { create :invitation, :mandataire }
+    let!(:invitations_with_revoked_operateur)    { create :invitation, :revoked_mandataire }
 
-    it { expect(Invitation.mandataire).to         match_array [invitations_with_mandataire_operateur] }
+    it { expect(Invitation.mandataire).to match_array [invitations_with_mandataire_operateur] }
     it { expect(Invitation.revoked_mandataire).to match_array [invitations_with_revoked_operateur] }
   end
 
