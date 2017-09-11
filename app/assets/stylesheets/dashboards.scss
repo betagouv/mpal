@@ -90,3 +90,16 @@
   left : 38%;
   bottom: 10%;
 }
+
+.dashboard-icon__action {
+  font-size: 2em;
+  color: $green;
+}
+.dashboard-icon__no-action {
+  font-size: 2em;
+  color: $red;
+}
+.dashboard-icon__maybe-action {
+  font-size: 2em;
+  color: $orange;
+}

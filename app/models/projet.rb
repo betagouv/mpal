@@ -526,4 +526,64 @@ class Projet < ApplicationRecord
       false
     end
   end
+
+  #ACTIONS OPERATEUR
+  def action_agent_operateur?
+    if statut.to_sym == :proposition_proposee || statut.to_sym == :prospect
+      return false
+    end
+    if status_not_yet(:proposition_proposee) || action_operateur_dossier_paiement?
+      return true
+    end
+    return false
+  end
+
+  def action_operateur_dossier_paiement?
+    payment_registry.try(:payments).each do |payment|
+      if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
+        return true
+      end
+    end
+    return false
+  end
+
+  #ACTIONS INSTRUCTEUR A FAIRE
+  # def action_agent_operateur?
+  #   if statut.to_sym == :proposition_proposee || statut.to_sym == :prospect
+  #     return false
+  #   end
+  #   if status_not_yet(:proposition_proposee) || action_operateur_dossier_paiement?
+  #     return true
+  #   end
+  #   return false
+  # end
+  #
+  # def action_operateur_dossier_paiement?
+  #   payment_registry.try(:payments).each do |payment|
+  #     if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
+  #       return true
+  #     end
+  #   end
+  #   return false
+  # end
+
+  #ACTIONS PRIS A FAIRE
+  # def action_agent_operateur?
+  #   if statut.to_sym == :proposition_proposee || statut.to_sym == :prospect
+  #     return false
+  #   end
+  #   if status_not_yet(:proposition_proposee) || action_operateur_dossier_paiement?
+  #     return true
+  #   end
+  #   return false
+  # end
+  #
+  # def action_operateur_dossier_paiement?
+  #   payment_registry.try(:payments).each do |payment|
+  #     if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
+  #       return true
+  #     end
+  #   end
+  #   return false
+  # end
 end

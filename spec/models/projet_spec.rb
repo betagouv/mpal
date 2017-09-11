@@ -815,4 +815,40 @@ describe Projet do
     it { expect(projet_with_mandataire_operateur.revoked_mandataire_operateurs).to be_blank }
     it { expect(projet_with_revoked_mandataire_operateurs.revoked_mandataire_operateurs).to match_array revoked_mandataire_operateurs }
   end
+
+  describe "en tant qu'agent je vois si j'ai une action à faire" do
+    describe "#action_agent_operateur?" do
+      let(:projet_action_avant_paiement)   { create :projet, :en_cours, :with_assigned_operateur }
+
+      let(:projet_action_paiement)         { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:payment_en_cours_de_montage)    { create :payment, statut: :en_cours_de_montage }
+      let(:payment_propose)                { create :payment, statut: :propose }
+
+      let(:projet_sans_action)          { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:payment_a_valider)           { create :payment, statut: :propose, action: :a_valider }
+      let(:payment_a_instruire)         { create :payment, statut: :demande, action: :a_instruire }
+
+      before do
+        projet_action_paiement.payment_registry.payments << payment_en_cours_de_montage
+        projet_action_paiement.payment_registry.payments << payment_propose
+
+        projet_sans_action.payment_registry.payments << payment_a_valider
+        projet_sans_action.payment_registry.payments << payment_a_instruire
+      end
+
+      context "en tant qu'opérateur" do
+        it "j'ai une action à faire avant paiement" do
+          expect(projet_action_avant_paiement.action_agent_operateur?).to be_truthy
+        end
+
+        it "j'ai une action à faire après paiement" do
+          expect(projet_action_paiement.action_agent_operateur?).to be_truthy
+        end
+
+        it "je n'ai pas d'action à faire" do
+          expect(projet_sans_action.action_agent_operateur?).to be_falsey
+        end
+      end
+    end
+  end
 end
