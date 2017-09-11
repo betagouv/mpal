@@ -850,5 +850,42 @@ describe Projet do
         end
       end
     end
+
+    describe "#action_agent_instructeur?" do
+      let(:projet_en_cours)        { create :projet, :en_cours }
+      let(:projet_transmis_pour_instruction) { create :projet, :transmis_pour_instruction }
+
+      let(:projet_action_paiement) { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:payment_avance_a_valider)      { create :payment, statut: :propose, action: :a_valider }
+      let(:payment_a_instruire)    { create :payment, statut: :demande, action: :a_instruire }
+
+      let(:projet_sans_action)     { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:payment_solde_a_valider){ create :payment, statut: :propose, action: :a_valider }
+
+      before do
+        projet_action_paiement.payment_registry.payments << payment_avance_a_valider
+        projet_action_paiement.payment_registry.payments << payment_a_instruire
+
+        projet_sans_action.payment_registry.payments << payment_solde_a_valider
+      end
+
+      context "en tant qu'instructeur" do
+        it "je n'ai pas d'action à faire quand le projet est en cours" do
+          expect(projet_en_cours.action_agent_instructeur?).to be_falsey
+        end
+
+        it "j'ai une action à faire quand le projet est transmis_pour_instruction" do
+          expect(projet_transmis_pour_instruction.action_agent_instructeur?).to be_truthy
+        end
+
+        it "j'ai une action à faire concernant les demandes de paiement" do
+          expect(projet_action_paiement.action_agent_instructeur?).to be_truthy
+        end
+
+        it "je n'ai pas d'action à faire concernant les demandes de paiement" do
+          expect(projet_sans_action.action_agent_instructeur?).to be_falsey
+        end
+      end
+    end
   end
 end

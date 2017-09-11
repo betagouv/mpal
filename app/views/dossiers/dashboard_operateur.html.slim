@@ -6,7 +6,7 @@
     table.table.table-hover.table-striped.table-sm
       thead
         tr
-          th ACTION
+          th Action
           th
             abbr title="Identifiant plateforme" ID PF
           th
@@ -30,6 +30,7 @@
 
           tr id="projet_#{projet.id}"
             - if projet.is_anonymized_for? invitation.intervenant
+              td
               td= projet.numero_plateforme
               td= projet.opal_numero
               td
@@ -60,7 +61,7 @@
 
             - else
               td
-                - if projet.payment_registry.blank? && projet.statut.to_sym != :prospect
+                - if projet.payment_registry.blank? && projet.status_already(:transmis_pour_instruction)
                   i.glyphicon.glyphicon-eye-open.dashboard-icon__maybe-action
                 - elsif projet.action_agent_operateur?
                   i.glyphicon.glyphicon-ok-circle.dashboard-icon__action
