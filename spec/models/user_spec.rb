@@ -116,7 +116,7 @@ describe User do
     end
 
     context "quand il y a un mandataire" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry, :with_mandataire }
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry, :with_mandataire_user }
 
       context "en tant que mandataire" do
         let(:user) { projet.mandataire_user }

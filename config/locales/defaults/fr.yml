@@ -442,6 +442,8 @@ fr:
         obligatoire: "L’adresse du logement à rénover est obligatoire"
       telephone:
         obligatoire: "Le numéro de téléphone est obligatoire"
+    single_mandataire: "Il ne peut y avoir qu’un seul mandataire actif par projet"
+    mandataire_is_operateur: "Aucun intervenant autre que l’opérateur du projet ne peut être mandataire"
 
   # ----------------------- Gestion des occupants ---------------------
   occupants:

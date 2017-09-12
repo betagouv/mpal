@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170904123932) do
+ActiveRecord::Schema.define(version: 20170908135241) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -165,6 +165,8 @@ ActiveRecord::Schema.define(version: 20170904123932) do
     t.datetime "updated_at"
     t.boolean "suggested", default: false, null: false
     t.boolean "contacted", default: false, null: false
+    t.string "kind", default: "", null: false
+    t.datetime "revoked_at"
     t.index ["intermediaire_id"], name: "index_invitations_on_intermediaire_id"
     t.index ["intervenant_id"], name: "index_invitations_on_intervenant_id"
     t.index ["projet_id"], name: "index_invitations_on_projet_id"
