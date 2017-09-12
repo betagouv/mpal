@@ -19,18 +19,28 @@
                     .document__icon
                       i.glyphicon.glyphicon-file
                     .document__name
-                      = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
+                      - if can? :show, document
+                        = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
+                      - else
+                        = document.label
                     .document__upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
                     - if can? :destroy, document
                       .document__actions
-                        = link_to projet_or_dossier_document_path(@projet_courant, document), method: :delete, data: { confirm: t("document.messages.delete.confirmation") }
+                        - if block[:payment_id].present?
+                          - delete_path = dossier_payment_document_path(@projet_courant, block[:payment_id], document)
+                        - else
+                          - delete_path = projet_or_dossier_document_path(@projet_courant, document)
+                        = link_to delete_path, method: :delete, data: { confirm: t("document.messages.delete.confirmation") }
                           i.glyphicon.glyphicon-trash
 
             - if can? :create, Document
-              = form_tag projet_or_dossier_documents_path(@projet_courant), class: "document-panel__footer", multipart: true do
+              - if block[:payment_id].present?
+                - create_path = dossier_payment_documents_path(@projet_courant, block[:payment_id])
+              - else
+                - create_path = projet_or_dossier_documents_path(@projet_courant)
+              = form_tag create_path, class: "document-panel__footer", multipart: true do
                 = file_field_tag :fichier, id: "document__file-upload-#{id}", class: "document__file-upload--invisible js-document__file"
                 = hidden_field_tag :type_piece, element[:type]
-                = hidden_field_tag :payment_id, block[:payment_id]
                 = label_tag "document__file-upload-#{id}", class: "btn btn-secondary btn-small document__file-upload"
                   = t("document.select")
                 = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"

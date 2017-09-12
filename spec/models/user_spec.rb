@@ -19,6 +19,9 @@ shared_context :projet_without_user_abilities do
 end
 
 shared_context :common_projet_abilities do
+  let(:projet_document)  { create :document, category: projet }
+  let(:payment_document) { create :document, category: payment_a_rediger }
+
   it { is_expected.not_to be_able_to(:manage, AvisImposition) }
   it { is_expected.not_to be_able_to(:manage, Demande) }
   it { is_expected.not_to be_able_to(:manage, :demandeur) }
@@ -26,7 +29,8 @@ shared_context :common_projet_abilities do
   it { is_expected.not_to be_able_to(:manage, Occupant) }
   it { is_expected.not_to be_able_to(:manage, Projet) }
 
-  it { is_expected.to     be_able_to(:read,   Document) }
+  it { is_expected.to     be_able_to(:read,   projet_document) }
+  it { is_expected.to     be_able_to(:read,   payment_document) }
   it { is_expected.to     be_able_to(:read,   :intervenant) }
   it { is_expected.to     be_able_to(:new,    Message) }
   it { is_expected.to     be_able_to(:show,   Projet) }

@@ -44,6 +44,7 @@ describe Projet do
     it { is_expected.to have_many(:users).through(:projets_users)}
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
+    it { is_expected.to have_many :documents }
     it { is_expected.to belong_to :operateur }
     it { is_expected.to belong_to :adresse_postale }
     it { is_expected.to have_many(:prestations).through(:prestation_choices)}
