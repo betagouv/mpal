@@ -1,17 +1,19 @@
 @import "variables";
 @import "mixins";
 
-.document-panel {
-  padding: 1.5em 0;
-  border-top: 1px solid $color-primary;
+.document-group {
+
 }
-.document-panel:last-child {
-  border-bottom: 1px solid $color-primary;
+.document-panel {
+  padding: 1.5em 1em;
+  border-left: 10px solid white;
+  border-radius: 2px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 .document-panel--missing {
   padding-left: 1em;
   padding-right: 1em;
-  background-color: $color-light-red;
+  border-left-color: $brand-danger;
 }
 .document-panel__header {
   margin-bottom: 0.8em;
