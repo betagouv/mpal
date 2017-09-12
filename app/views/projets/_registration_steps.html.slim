@@ -1,52 +1,8 @@
 .registration-menu.clearfix
-  .registration-menu__list.clearfix
-    - if current_page?(projet_eligibility_path(project)) || current_page?(new_user_registration_path)
-        span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 1
-        span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 2
-        span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 3
-        span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 4
-        span.registration-menu__text.registration-menu__item.registration-menu__item--active 5
-        span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 6
-    - elsif current_page?(projet_mise_en_relation_path(project))
-      span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 1
-      span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 2
-      span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 3
-      span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 4
-      = link_to projet_eligibility_path(project), class: "registration-menu__item"
-        span.registration-menu__text 5
-      span.registration-menu__text.registration-menu__item.registration-menu__item--active 6
-
-    - else
-      - if current_page?(projet_demandeur_path(project))
-        = link_to projet_demandeur_path(project), class: "registration-menu__item registration-menu__item--active"
-          span.registration-menu__text 1
-      -   else
-        = link_to projet_demandeur_path(project), class: "registration-menu__item"
-          span.registration-menu__text 1
-
-
-      - if current_page?(projet_avis_impositions_path(project))
-        = link_to projet_avis_impositions_path(project), class: "registration-menu__item registration-menu__item--active"
-          span.registration-menu__text 2
-      -   else
-        = link_to projet_avis_impositions_path(project), class: "registration-menu__item"
-          span.registration-menu__text 2
-
-
-      - if current_page?(projet_occupants_path(project))
-        = link_to projet_occupants_path(project), class: "registration-menu__item registration-menu__item--active"
-          span.registration-menu__text 3
-      -   else
-        = link_to projet_occupants_path(project), class: "registration-menu__item"
-          span.registration-menu__text 3
-
-
-      - if current_page?(projet_demande_path(project))
-        = link_to projet_demande_path(project), class: "registration-menu__item registration-menu__item--active"
-          span.registration-menu__text 4
-      -   else
-        = link_to projet_demande_path(project), class: "registration-menu__item"
-          span.registration-menu__text 4
-
-      span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 5
-      span.registration-menu__text.registration-menu__item.registration-menu__item--deactivated 6
+  - ["Identité", "Imposition", "Occupants", "Travaux", "Éligibilité", "Contacts"].each_with_index do |name, index|
+    - classes = ["registration-menu__item"]
+    - classes << "registration-menu__item--active" if @current_registration_step == index + 1
+    .registration-menu__item-wrapper
+      div class="#{classes.join(" ")}"
+        span.registration-menu__number= index + 1
+        span.registration-menu__name= name
