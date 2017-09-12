@@ -1,7 +1,11 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   include ApplicationConcern
 
+  CURRENT_REGISTRATION_STEP = 5
   before_action :assert_projet_courant
+  before_action do
+    set_current_registration_step CURRENT_REGISTRATION_STEP
+  end
 
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]

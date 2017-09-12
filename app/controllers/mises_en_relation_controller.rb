@@ -1,7 +1,11 @@
 class MisesEnRelationController < ApplicationController
   layout "inscription"
 
+  CURRENT_REGISTRATION_STEP = 6
   before_action :assert_projet_courant
+  before_action do
+    set_current_registration_step CURRENT_REGISTRATION_STEP
+  end
 
   def show
     @demande = @projet_courant.demande

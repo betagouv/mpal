@@ -52,6 +52,13 @@ module ApplicationConcern
       end
     end
 
+    def set_current_registration_step step
+      @current_registration_step = step
+      if @projet_courant.max_registration_step < step
+        @projet_courant.update(max_registration_step: step)
+      end
+    end
+
     # Routing ------------------------
 
     # Demandeurs access their projects through '/projets/' URLs;
