@@ -129,8 +129,8 @@ ActiveRecord::Schema.define(version: 20170912093105) do
     t.integer "projet_id"
     t.string "label"
     t.datetime "quand"
-    t.string "producteur_type"
     t.integer "producteur_id"
+    t.string "producteur_type"
     t.index ["producteur_type", "producteur_id"], name: "index_evenements_on_producteur_type_and_producteur_id"
     t.index ["projet_id"], name: "index_evenements_on_projet_id"
   end
@@ -175,8 +175,8 @@ ActiveRecord::Schema.define(version: 20170912093105) do
 
   create_table "messages", id: :serial, force: :cascade do |t|
     t.integer "projet_id"
-    t.string "auteur_type"
     t.integer "auteur_id"
+    t.string "auteur_type"
     t.text "corps_message"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
