@@ -29,11 +29,12 @@ private
       can :read,   :intervenant
       can :new,    Message
       can :create, Message          if user_can_act(user, projet)
-      can :read,   Document,        projet_id: projet.id
+      can :read,   Document,        category: projet
       can :read,   PaymentRegistry, projet_id: projet.id
 
       if projet.payment_registry.present?
-        can :read, Payment, payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
+        can :read, Payment,  payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
+        can :read, Document, category: projet.payment_registry.payments
       end
 
       if user_can_act(user, projet) && projet.payment_registry.present?
@@ -70,9 +71,9 @@ private
 
     if projet.status_already :en_cours
       can :create,  Document
-      can :read,    Document, projet_id: projet.id
+      can :read,    Document, category: projet
       can :destroy, Document do |document|
-        can :destroy, document, projet_id: projet.id if projet.date_depot.blank? || document.created_at > projet.date_depot
+        can :destroy, document, category: projet if projet.date_depot.blank? || document.created_at > projet.date_depot
       end
     end
 
@@ -89,6 +90,9 @@ private
     end
 
     if projet.payment_registry.present?
+      can :read,                 Document, category: projet.payment_registry.payments
+      can :destroy,              Document, category: projet.payment_registry.payments
+
       can :create,               Payment
       can :read,                 Payment, payment_registry_id: projet.payment_registry.id
       can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, statut: ["en_cours_de_montage", "propose"], action: ["a_rediger", "a_modifier"]
@@ -105,10 +109,12 @@ private
     if projet.status_already :transmis_pour_instruction
       can :read, Projet
       can :read, :intervenant
-      can :read, Document, projet_id: projet.id
+      can :read, Document, category: projet
     end
 
     if projet.payment_registry.present?
+      can :read,                 Document, category: projet.payment_registry.payments
+
       can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["demande", "en_cours_d_instruction", "paye"]
       can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
       can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"

@@ -48,7 +48,7 @@ class Projet < ApplicationRecord
 
   has_many :occupants, through: :avis_impositions
 
-  has_many :documents, dependent: :destroy
+  has_many :documents, dependent: :destroy, as: :category
   accepts_nested_attributes_for :documents
 
   has_many :projet_aides, dependent: :destroy

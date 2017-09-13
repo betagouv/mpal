@@ -76,6 +76,9 @@ Rails.application.routes.draw do
         put "ask_for_modification", on: :member
         put "send_in_opal", on: :member
       end
+      resources :payments, only: [] do
+        resources :documents, only: [:create, :destroy]
+      end
     end
     resources :dossiers, only: [:show, :edit, :update, :index], param: :dossier_id
 

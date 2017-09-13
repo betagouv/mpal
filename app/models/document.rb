@@ -1,5 +1,5 @@
 class Document < ApplicationRecord
-  belongs_to :projet
+  belongs_to :category, polymorphic: true
   mount_uploader :fichier, DocumentUploader
 
   validates :label, :fichier, presence: true

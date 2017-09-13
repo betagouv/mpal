@@ -4,8 +4,9 @@ require 'support/after_party_helper'
 describe '20170911091231_migrate_documents' do
   include_context 'after_party'
 
-  let!(:document_without_type) { create :document, type_piece: "" }
-  let!(:document_with_type)    { create :document, type_piece: :devis_projet }
+  let(:projet)                 { create :projet }
+  let!(:document_without_type) { create :document, category: projet, type_piece: "" }
+  let!(:document_with_type)    { create :document, category: projet, type_piece: :devis_projet }
 
   before do
     subject.invoke
