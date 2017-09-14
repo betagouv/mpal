@@ -60,7 +60,6 @@ class Projet < ApplicationRecord
   has_many :prestations, through: :prestation_choices
   accepts_nested_attributes_for :prestation_choices, reject_if: :all_blank, allow_destroy: true
 
-  has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
 
   has_one :payment_registry, dependent: :destroy
