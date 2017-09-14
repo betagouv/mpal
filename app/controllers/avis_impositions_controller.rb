@@ -9,7 +9,7 @@ class AvisImpositionsController < ApplicationController
   end
 
   def index
-    @page_heading = "Avis d’imposition"
+    @page_heading = "Mon avis d’imposition"
   end
 
   def update_project_rfr

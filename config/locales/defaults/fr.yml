@@ -18,7 +18,7 @@ fr:
         complement: "Je précise mon projet"
         date_achevement_15_ans: "Mon logement (maison ou immeuble) a été construit il y a plus de 15 ans"
         annee_construction: "Si je la connais, j’indique l’année de construction de mon logement"
-        ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover (dans les 5 dernières années)"
+        ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover dans les 5 dernières années"
       proposition:
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
@@ -85,7 +85,7 @@ fr:
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
-    action: "Suivant"
+    action: "Continuer"
     # ----------------------- Demandeur ---------------------
     demandeur:
       erreurs:
@@ -262,7 +262,7 @@ fr:
       remplir_le_projet: "Je remplis le projet"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
-      future_birth: "Enfant(s) à naître dans le foyer"
+      future_birth: "Enfant à naître"
       titre_infos_demandeur: "Mes infos"
       titre_identification_demandeur: "Identification du demandeur"
       titre_liste_occupants: "Liste des occupants"
@@ -447,10 +447,11 @@ fr:
 
   # ----------------------- Gestion des occupants ---------------------
   occupants:
-    title: "Occupants"
+    title: "Les occupants de mon logement"
     occupants: "Occupants"
     nombre_occupant: "Nombre d’occupants :"
-    confirmer_nombre_personnes: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
+    confirmer_nombre_personnes_supprimer: "Voici le récapitulatif des personnes occupant votre logement d'après les avis d'imposition. Si une ou plusieurs de ces personnes n'habitent pas dans votre logement, veuillez les supprimer."
+    confirmer_nombre_personnes_ajouter: "Si d'autres personnes (sans avis d'imposition) habitent dans votre logement, merci de compléter les informations ci-dessous:"
     annee_naissance: "Année de naissance"
     actions: "Actions"
     nouveau:
@@ -463,7 +464,7 @@ fr:
       composition_logement: "Composition du logement"
     delete:
       confirm: "Êtes-vous sûr de vouloir retirer %{fullname} de la liste des occupants de votre logement ?"
-      action: "Retirer"
+      action: "Supprimer"
       success: "%{fullname} a été retiré de la liste des occupants."
       error: "Une erreur s’est produite lors de la suppression de l’occupant."
       cant_delete_demandeur: "Les occupants mentionnés dans l’avis d’imposition ne peuvent pas être retirés de la liste."
