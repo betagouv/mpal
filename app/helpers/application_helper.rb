@@ -137,10 +137,9 @@ module ApplicationHelper
     complements = []
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite.present?
 
-    #ATTENTION une fois qu'une cas oui ou non a été cochée, on ne peut plus repasser en non renseigné. Est-ce ok ?
     if demande.ptz.nil?
       ptz = "Non renseigné"
-    elsif demande.ptz == true
+    elsif demande.ptz
       ptz = "Oui"
     else
       ptz = "Non"

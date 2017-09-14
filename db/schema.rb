@@ -190,7 +190,6 @@ ActiveRecord::Schema.define(version: 20170914143339) do
     t.string "prenom"
     t.integer "lien_demandeur"
     t.date "date_de_naissance"
-    t.integer "civilite"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "demandeur"
