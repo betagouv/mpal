@@ -1,5 +1,5 @@
 module ApplicationHelper
-  APP_NAME = "Mon projet Anah"
+  APP_NAME = "monprojet.anah.gouv.fr"
   BOOTSTRAP_ALERT_MAPPING = {
     error:   { class: "danger",  icon: "remove" },
     alert:   { class: "danger",  icon: "remove" },
