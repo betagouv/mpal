@@ -2,9 +2,7 @@
   = link_to root_path, class: "header__logo-anah" do
     = image_tag "logo-anah.png", class: "header__logo-anah-img", alt: "#{app_name} - Agence Nationale de l’Habitat", title: "#{app_name} - Agence Nationale de l’Habitat"
   = image_tag "logo_ministere.jpg", class: "header__logo-ministere", alt: "République Française - Ministère de la cohésion des territoires", title: "République Française - Ministère du logement et de l’habitat durable"
-  - if @homepage
-    h1.header__title= app_name
-  - else
+  - unless @homepage
     strong.header__title= app_name
 - if current_agent
   - unless current_agent.intervenant
