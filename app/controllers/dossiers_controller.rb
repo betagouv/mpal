@@ -204,7 +204,7 @@ private
       format.csv {
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render text: Projet.to_csv(current_agent)
+        render plain: Projet.to_csv(current_agent)
         return false
       }
     end
