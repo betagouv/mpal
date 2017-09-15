@@ -118,6 +118,17 @@ describe Payment do
       it { should_have(:action).equal_to(:a_modifier).after_event(:ask_for_modification) }
       it { should_have(:action).equal_to(:a_instruire).after_event(:ask_for_instruction) }
       it { should_have(:action).equal_to(:aucune).after_event(:send_in_opal) }
+
+      context "quand la demande de paiement n'a pas encore été déposée" do
+        it { should_have(:corrected_at).equal_to(nil).after_event(:ask_for_instruction) }
+      end
+
+      context "quand la demande de paiement a déjà été déposée" do
+        let(:correction_time) { Time.now }
+        before { payment.update! submitted_at: Time.new(2017) }
+
+        it { should_have(:corrected_at).equal_to(correction_time).after_event(:ask_for_instruction) }
+      end
     end
   end
 end
