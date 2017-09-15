@@ -120,9 +120,11 @@ ActiveRecord::Schema.define(version: 20170914143339) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type_piece", default: "", null: false
+    t.bigint "projet_id"
     t.string "category_type"
     t.bigint "category_id"
     t.index ["category_type", "category_id"], name: "index_documents_on_category_type_and_category_id"
+    t.index ["projet_id"], name: "index_documents_on_projet_id"
   end
 
   create_table "evenements", id: :serial, force: :cascade do |t|
@@ -344,13 +346,6 @@ ActiveRecord::Schema.define(version: 20170914143339) do
     t.datetime "revoked_at"
     t.index ["projet_id"], name: "index_projets_users_on_projet_id"
     t.index ["user_id"], name: "index_projets_users_on_user_id"
-  end
-
-  create_table "suggested_operateurs", id: false, force: :cascade do |t|
-    t.integer "projet_id"
-    t.integer "intervenant_id"
-    t.index ["intervenant_id"], name: "index_suggested_operateurs_on_intervenant_id"
-    t.index ["projet_id"], name: "index_suggested_operateurs_on_projet_id"
   end
 
   create_table "task_records", id: false, force: :cascade do |t|
