@@ -4,6 +4,6 @@ class RemoveCiviliteFromOccupants < ActiveRecord::Migration[5.1]
   end
 
   def down
-    add_column :ocuupants, :civilite, :integer, null: true
+    add_column :occupants, :civilite, :integer, null: true
   end
 end
