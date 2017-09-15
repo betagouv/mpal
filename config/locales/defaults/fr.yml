@@ -70,6 +70,7 @@ fr:
     legal: "Mentions légales"
     stats: "Statistiques"
     terms_of_use: "Conditions générales d’utilisation"
+    terms_of_use_acronym: 'CGU'
 
   # ----------------------- Liste des liens du menu patterns ---------------------
   menu_patterns:
