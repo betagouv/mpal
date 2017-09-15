@@ -54,10 +54,7 @@ section.new-project
     .new-project__mentions
       = check_box_tag "autorisation", "1", params[:autorisation], class: "new-project__mentions-input js-engagement", id: "lab-rfr"
       label.new-project__mentions-label-projet for="lab-rfr"
-        | J’autorise l’
-        abbr.new-project__mentions-abbr-projet title=("Agence nationale de l’habitat") Anah
-        |  à récupérer auprès de la direction générale des finances publiques mes coordonnées ainsi que mon 
-        abbr.new-project__mentions-abbr-projet title=("Revenu fiscal de référence") RFR
+        | J’accepte les conditions générales d’utilisation du service (CGU)
     = btn name: t("sessions.commencer"), class: "new-project__btn js-login-btn js-engagement", icon: "ok"
 
   - if Tools.demo?
