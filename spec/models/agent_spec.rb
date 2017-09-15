@@ -44,6 +44,7 @@ describe Agent do
 
         context "quand il est engagé avec le demandeur" do
           let(:agent) { create :agent, intervenant: projet.operateur }
+          let!(:document) { create :document, category: projet, created_at: DateTime.new(2017,02,03) }
 
           context "il peut gérer le projet jusqu'à ce qu'il soit 'transmis pour instruction'" do
             let(:projet) { create :projet, :en_cours}
@@ -55,12 +56,12 @@ describe Agent do
             it { is_expected.to be_able_to(:manage, Demande) }
             it { is_expected.to be_able_to(:manage, :demandeur) }
             it { is_expected.to be_able_to(:manage, Occupant) }
-            it { is_expected.to be_able_to(:destroy, Document) }
+            it { is_expected.to be_able_to(:destroy, document) }
             it { is_expected.to be_able_to(:manage, Projet) }
           end
 
           context "il peut uniquement lire le projet et gérer les documents une fois le projet 'transmis pour instruction'" do
-            let(:projet) { create :projet, :transmis_pour_instruction }
+            let(:projet) { create :projet, :transmis_pour_instruction, date_depot: DateTime.new(2017,02,04) }
 
             it { is_expected.not_to be_able_to(:manage, AvisImposition) }
             it { is_expected.not_to be_able_to(:manage, Demande) }
@@ -69,7 +70,7 @@ describe Agent do
             it { is_expected.not_to be_able_to(:manage, Occupant) }
             it { is_expected.not_to be_able_to(:manage, Projet) }
 
-            it { is_expected.to be_able_to(:destroy, Document) }
+            it { is_expected.not_to be_able_to(:destroy, document) }
             it { is_expected.to be_able_to(:read, Projet) }
           end
         end
@@ -197,10 +198,11 @@ describe Agent do
 
         context "en tant qu'operateur" do
           let(:agent)    { create :agent, intervenant: projet.operateur }
-          let(:document) { create :document, category: payment_a_rediger }
+          let!(:document) { create :document, category: payment_a_rediger }
 
           it { is_expected.to     be_able_to(:read,    document) }
           it { is_expected.to     be_able_to(:destroy, document) }
+          # tester les droits de suppression sur les documents des paiements
 
           it { is_expected.to     be_able_to(:create,               Payment) }
           it { is_expected.to     be_able_to(:read,                 Payment) }

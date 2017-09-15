@@ -72,9 +72,7 @@ private
     if projet.status_already :en_cours
       can :create,  Document
       can :read,    Document, category: projet
-      can :destroy, Document do |document|
-        can :destroy, document, category: projet if projet.date_depot.blank? || document.created_at > projet.date_depot
-      end
+      can :destroy, projet.documents.select{ |document| projet.date_depot.blank? || document.created_at > projet.date_depot }
     end
 
     if projet.status_not_yet :transmis_pour_instruction
@@ -90,8 +88,17 @@ private
     end
 
     if projet.payment_registry.present?
-      can :read,                 Document, category: projet.payment_registry.payments
-      can :destroy,              Document, category: projet.payment_registry.payments
+      payments           = projet.payment_registry.payments
+      payments_documents = payments.map(&:documents).flatten
+
+      can :read,    payments_documents
+      can :destroy, payments_documents.select do |document|
+        upload_time      = document.created_at
+        submit_time      = document.category.submitted_at
+        correction_time  = document.category.corrected_at
+
+        submit_time.blank? || upload_time > (correction_time || submit_time)
+      end
 
       can :create,               Payment
       can :read,                 Payment, payment_registry_id: projet.payment_registry.id
