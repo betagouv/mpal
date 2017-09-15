@@ -1,7 +1,7 @@
 namespace :after_party do
   desc 'Deployment task: set_registration_state'
   task set_registration_state: :environment do
-    puts "Running deploy task 'set_registration_state'"
+    puts "Running deploy task 'set_registration_state'" unless Rake.application.options.quiet
 
     Projet.all.each do |projet|
       if projet.invitations.present?
