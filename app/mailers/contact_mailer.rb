@@ -1,6 +1,4 @@
-class ContactMailer < ActionMailer::Base
-  default from: ENV["EMAIL_CONTACT"]
-
+class ContactMailer < ApplicationMailer
   def contact(contact)
     @contact = contact
     mail(

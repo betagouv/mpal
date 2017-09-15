@@ -1,4 +1,4 @@
-class ChangeAmountFieldsToDecimals < ActiveRecord::Migration
+class ChangeAmountFieldsToDecimals < ActiveRecord::Migration[4.2]
   def up
     change_column :projets, :montant_travaux_ht, :decimal, precision: 10, scale: 2
     change_column :projets, :montant_travaux_ttc, :decimal, precision: 10, scale: 2

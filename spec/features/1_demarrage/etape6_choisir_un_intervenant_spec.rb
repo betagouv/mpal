@@ -6,9 +6,8 @@ require 'support/rod_helper'
 
 feature "En tant que demandeur" do
   let(:projet) { create :projet, :prospect, :with_account}
-  let(:user)   { projet.user }
+  let(:user)   { projet.demandeur_user }
   let(:pris)   { Intervenant.pour_role('pris').last }
-
 
   context "quand je suis en diffu (pris assigné à mon projet)" do
     scenario "je valide ma mise en relation avec le PRIS et renseigne mes disponibilités" do
@@ -23,7 +22,7 @@ feature "En tant que demandeur" do
 
       expect(page).to have_current_path projet_path(projet)
       expect(page).to have_content "Plutôt le matin"
-      expect(page).to have_content I18n.t('invitations.messages.succes_titre')
+      expect(page).to have_content I18n.t("invitations.messages.succes", intervenant: pris.raison_sociale)
     end
   end
 

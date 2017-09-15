@@ -1,7 +1,4 @@
-class PaymentMailer < ActionMailer::Base
-  default delivery_method: Proc.new { Rails.env.production? && !Tools.demo? ? :smtp : :letter_opener_web }
-  default from: ENV["EMAIL_CONTACT"]
-
+class PaymentMailer < ApplicationMailer
   def destruction(payment)
     @payment = payment
     @projet = @payment.payment_registry.projet

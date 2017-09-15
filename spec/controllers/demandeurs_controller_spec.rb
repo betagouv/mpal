@@ -9,12 +9,12 @@ describe DemandeursController do
 
   describe "#show" do
     before do
-      get :show, projet_id: projet.id
+      get :show, params: { projet_id: projet.id }
     end
 
     it "affiche le template" do
       expect(response).to render_template(:show)
-      expect(assigns(:page_heading)).to eq "Demandeur"
+      expect(assigns(:page_heading)).to eq I18n.t("demarrage_projet.demandeur.section_demandeur")
       expect(assigns(:demandeur)).to eq projet.demandeur
     end
 
@@ -50,7 +50,7 @@ describe DemandeursController do
 
     before(:each) do
       allow(Tools).to receive(:departements_enabled).and_return(departements_enabled)
-      post :update, params
+      post :update, params: params
       projet.reload
     end
 
@@ -218,7 +218,7 @@ describe DemandeursController do
   describe "#departement_non_eligible" do
     before do
       allow(Tools).to receive(:departements_enabled).and_return(["25", "26"])
-      get :departement_non_eligible, projet_id: projet.id
+      get :departement_non_eligible, params: { projet_id: projet.id }
     end
 
     it "affiche la page" do

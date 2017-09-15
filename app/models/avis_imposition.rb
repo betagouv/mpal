@@ -1,4 +1,4 @@
-class AvisImposition < ActiveRecord::Base
+class AvisImposition < ApplicationRecord
   belongs_to :projet
   has_many :occupants, -> { order "id" }, dependent: :destroy
 

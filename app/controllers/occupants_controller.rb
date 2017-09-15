@@ -1,8 +1,12 @@
 class OccupantsController < ApplicationController
   layout "inscription"
 
+  CURRENT_REGISTRATION_STEP = 3
   before_action :assert_projet_courant
   load_and_authorize_resource
+  before_action do
+    set_current_registration_step CURRENT_REGISTRATION_STEP
+  end
 
   def index
     @occupant = @projet_courant.avis_impositions.first.occupants.build(occupant_params)
@@ -47,7 +51,7 @@ private
   end
 
   def projet_params
-    params[:occupant].fetch(:projet, {}).permit(
+    params.fetch(:occupant, {}).fetch(:projet, {}).permit(
       :future_birth
     )
   end
@@ -65,7 +69,14 @@ private
   end
 
   def occupant_params?
-    occupant_params.any? { |attribute, value| value.present? }
+    has_values = false
+    occupant_params.each_pair do |key, value|
+      if value.present?
+        has_values = true
+        break
+      end
+    end
+    has_values
   end
 
   def needs_next_step?

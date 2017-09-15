@@ -1,4 +1,4 @@
-class CreatePrestations < ActiveRecord::Migration
+class CreatePrestations < ActiveRecord::Migration[4.2]
   def change
     create_table :prestations do |t|
       t.string :libelle

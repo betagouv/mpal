@@ -12,7 +12,7 @@ describe Agent do
   end
 
   describe "abilities" do
-    subject(:ability) { Ability.new(agent, projet) }
+    subject(:ability) { Ability.new(agent, :agent, projet) }
 
     describe "autres abilities" do
       context "en tant qu'agent admin" do
@@ -185,13 +185,22 @@ describe Agent do
         let(:payment_no_action)              { create :payment, payment_registry: projet.payment_registry, action: :aucune }
 
         context "en tant qu'agent" do
-          let(:agent) { create :agent }
+          let(:agent)    { create :agent }
+          let(:document) { create :document, category: payment_a_rediger }
+
+          it { is_expected.not_to be_able_to(:read,    document) }
+          it { is_expected.not_to be_able_to(:destroy, document) }
+
           it { is_expected.not_to be_able_to(:read,   PaymentRegistry) }
           it { is_expected.not_to be_able_to(:create, PaymentRegistry) }
         end
 
         context "en tant qu'operateur" do
-          let(:agent) { create :agent, intervenant: projet.operateur }
+          let(:agent)    { create :agent, intervenant: projet.operateur }
+          let(:document) { create :document, category: payment_a_rediger }
+
+          it { is_expected.to     be_able_to(:read,    document) }
+          it { is_expected.to     be_able_to(:destroy, document) }
 
           it { is_expected.to     be_able_to(:create,               Payment) }
           it { is_expected.to     be_able_to(:read,                 Payment) }
@@ -236,7 +245,11 @@ describe Agent do
         end
 
         context "en tant qu'instructeur" do
-          let(:agent) { create :agent, intervenant: projet.invited_instructeur }
+          let(:agent)    { create :agent, intervenant: projet.invited_instructeur }
+          let(:document) { create :document, category: payment_a_rediger }
+
+          it { is_expected.to     be_able_to(:read,    document) }
+          it { is_expected.not_to be_able_to(:destroy, document) }
 
           it { is_expected.not_to be_able_to(:create,               Payment) }
           it { is_expected.not_to be_able_to(:update,               Payment) }

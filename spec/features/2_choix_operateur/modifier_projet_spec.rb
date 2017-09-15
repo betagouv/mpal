@@ -16,7 +16,7 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
     end
     expect(page).to have_current_path dossier_demandeur_path(projet)
     expect(find('#projet_occupant_civility_mr')).to be_checked
-    expect(page).to have_field('Adresse postale', with: '65 rue de Rome, 75008 Paris')
+    expect(page).to have_field('Adresse', with: '65 rue de Rome, 75008 Paris')
 
     fill_in :projet_adresse_postale,   with: Fakeweb::ApiBan::ADDRESS_PORT
     fill_in :projet_adresse_a_renover, with: Fakeweb::ApiBan::ADDRESS_MARE
@@ -133,10 +133,9 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
 end
 
 describe "En tant que demandeur :" do
-  let(:user)   { projet.user }
   let(:projet) { create :projet, :with_avis_imposition, :with_invited_pris,  :with_account, modified_revenu_fiscal_reference: 111 }
 
-  before { login_as user, scope: :user }
+  before { login_as projet.demandeur_user, scope: :user }
 
   context "une fois l'éligibilité vérouillée" do
     it "Je ne peux pas accéder aux pages pour modifier mon projet" do

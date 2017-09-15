@@ -13,12 +13,12 @@ fr:
         prenom: Prénom
         tel: Téléphone
         email: Email
-        lien_avec_demandeur: "Quel est votre lien avec le demandeur ?"
+        lien_avec_demandeur: "Quel est le lien de cette personne avec le propriétaire ?"
       demande:
-        complement: "Précisez votre projet"
-        date_achevement_15_ans: "Votre logement (maison ou immeuble) a-t-il été construit il y a plus de 15 ans ?"
-        annee_construction: "Si vous la connaissez, indiquez l’année de construction (précise ou estimée) de votre logement :"
-        ptz: "Avez-vous contracté un prêt à taux zéro (PTZ) pour acquérir le logement à rénover dans les 5 dernières années ?"
+        complement: "Je précise mon projet"
+        date_achevement_15_ans: "Mon logement (maison ou immeuble) a été construit il y a plus de 15 ans"
+        annee_construction: "Si je la connais, j’indique l’année de construction de mon logement"
+        ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover dans les 5 dernières années"
       proposition:
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
@@ -85,7 +85,7 @@ fr:
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
-    action: "Suivant"
+    action: "Continuer"
     # ----------------------- Demandeur ---------------------
     demandeur:
       erreurs:
@@ -93,12 +93,12 @@ fr:
         adresse_inconnue: "Nous n’avons pas réussi à localiser votre adresse. Veuillez renseigner une adresse plus précise – ou ré-essayez dans quelques minutes."
         enregistrement_demandeur: "Une erreur s’est produite lors de l’enregistrement de vos informations personnelles."
         missing_demandeur: "Veuillez sélectionner le prénom et nom du demandeur"
-      section_demandeur: "Demandeur"
+      section_demandeur: "Mes coordonnées"
       demandeur_identity: "Prénom et nom"
-      select: "Sélectionnez le propriétaire demandeur"
+      select: "Sélectionner le propriétaire demandeur"
       reliable_person: "Qui contacter pour les démarches à venir ?"
-      reliable_person_select_no: "Vous-même"
-      reliable_person_select_yes: "Une personne chargée du suivi du dossier"
+      reliable_person_select_no: "Moi-même"
+      reliable_person_select_yes: "Une personne de mon choix (parent, voisin, ...)"
       revenu_fiscal_reference: "Total Revenu Fiscal de Référence"
       departement_non_eligible:
         title: Désolé, les logements dans votre département ne sont pas encore éligibles
@@ -113,19 +113,18 @@ fr:
     demande:
       erreurs:
         besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
-      section_projet_envisage: "Projet envisagé"
-      titre_besoins: "Quelles difficultés rencontrez-vous dans votre logement ?"
-      titre_travaux: "Quels travaux souhaitez-vous réaliser ?"
-      titre_travaux: "Quels travaux souhaitez-vous effectuer ?"
+      section_projet_envisage: "monprojetanah.gouv.fr"
+      titre_besoins: "Les difficultés que je rencontre dans mon logement :"
+      titre_travaux: "Les travaux que je souhaite effectuer :"
       # Difficultés
-      changement_chauffage: "Votre chauffage vous coûte trop cher"
-      froid: "Vous avez froid, votre logement est mal isolé"
-      probleme_deplacement: "Vous avez du mal à vous déplacer"
-      accessibilite: "Vous avez des difficultés dans les escaliers"
-      hospitalisation: "Vous rentrez d’hospitalisation ou de maison de retraite"
-      adaptation_salle_de_bain: "Vous ne pouvez plus accéder à votre baignoire"
-      arrete: "Votre logement (immeuble) fait l’objet d’un arrêté : insalubrité, péril, travaux de sécurité"
-      saturnisme: "Vous disposez d’un justificatif de saturnisme"
+      changement_chauffage: "Mon chauffage me coûte trop cher"
+      froid: "J’ai froid, mon logement est mal isolé"
+      probleme_deplacement: "J’ai du mal à vous déplacer"
+      accessibilite: "J’ai des difficultés dans les escaliers"
+      hospitalisation: "Je rentre d’hospitalisation ou de maison de repos"
+      adaptation_salle_de_bain: "Je ne peux plus accéder à ma baignoire"
+      arrete: "Mon logement (immeuble) fait l’objet d’un arrêté : insalubrité, péril, travaux de sécurité"
+      saturnisme: "Je dispose d’un justificatif de saturnisme"
       autre: "Autre"
       # Travaux
       travaux_fenetres: "Fenêtres"
@@ -140,23 +139,23 @@ fr:
       precisions: "Précisions"
     # ----------------------- Eligibilité ---------------------
     eligibility:
-      eligible: "D’après les informations fiscales que vous nous avez transmises, les conditions de ressources des occupants du logement sont remplies."
-      not_eligible: "D’après les éléments renseignés, vous n’êtes a priori pas éligible, pour s’en assurer un complément d’étude de votre situation peut être réalisé."
-      informations: "Pour découvrir les conditions de financement s’appliquant à votre projet, vous pouvez consulter %{conditions}."
+      eligible: "D’après les informations que vous avez transmises, les conditions sont remplies pour faire une demande d’aide."
+      not_eligible: "D’après les informations que vous avez transmises, vous ne pouvez pas bénéficier d’une aide. Néanmoins un complément d’étude de votre situation est possible."
+      informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consulter %{conditions}."
 
     # ----------------------- Mise en relation ---------------------
     mise_en_relation:
       titre: "Choisissez votre opérateur"
-      assignement_pris_titre: "Un contact pour vous aider"
+      assignement_pris_titre: "Mon contact"
       non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée"
-      information_pris: "Le Point Rénovation Info Service de votre département est « %{pris} »."
+      information_pris: "Votre contact est le Point Rénovation Info Service « %{pris} »."
       to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
-      disponibilite_placeholder: "Par exemple : Le matin, entre 8h et 11h"
+      disponibilite_placeholder: "Du lundi au vendredi (matin ou après-midi)"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     # ----------------------- Compte utilisateur -------------------
     users:
-      section_name: "Identifiants"
-      explanations: "Choisissez un mot de passe pour pouvoir suivre l’avancement de votre dossier. Ce seront vos identifiants de connexion."
+      section_name: "Création de mon compte"
+      explanations: "Pour poursuivre la démarche, je crée mon compte."
 
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
@@ -209,7 +208,7 @@ fr:
       pas_encore_rempli: "Le demandeur n’a pas encore rempli le projet"
       operateur:
         aucun: "Aucun pour l’instant"
-      operateurs_recommandes: "Opérateurs recommandés"
+      operateurs_recommandes: "Opérateurs conseillés"
 
     proposition:
       plan_financement: "Plan de financement prévisionnel"
@@ -240,8 +239,7 @@ fr:
 
     intervenants:
       messages:
-        succes_choix_intervenant_titre: "Succès"
-        succes_choix_intervenant: "Vous venez de choisir votre opérateur"
+        succes_choix_intervenant: "Vous avez confirmé votre opérateur-conseil : %{operateur}"
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
       creation:
@@ -252,19 +250,19 @@ fr:
       lien_edition_coordonnees: "Modifier mes coordonnées"
       invitation_intervenant: "Sélectionner"
       invitation_relance_intervenant: "Je relance l’intervenant"
-      le_pris_selectionne_des_operateurs: "Le Point Rénovation Info-Service de votre département est en train de faire une sélection d’opérateurs recommandés pour votre projet."
-      le_pris_a_recommande_des_operateurs: "Le Point Rénovation Info-Service de votre département vous a recommandé des opérateurs pour vous accompagner dans votre projet."
+      le_pris_selectionne_des_operateurs: "Le Point Rénovation Info-Service de votre département est en train de faire une sélection d’opérateurs pour votre projet."
+      le_pris_a_recommande_des_operateurs: "Le Point Rénovation Info-Service de votre département vous a conseillé des opérateurs pour vous accompagner dans votre projet."
       select_operator_without_pris: "Vous pouvez dès à present contacter un opérateur qui vous aidera à constituer votre dossier."
       mise_en_relation_intervenant: "Je mets en relation"
-      choisir_operateur: "Contacter un opérateur"
-      choisir_operateur_recommande: "Choisir un des opérateurs recommandés"
+      choisir_operateur: "Contacter un opérateur-conseil"
+      choisir_operateur_recommande: "Voir les opérateurs-conseil"
       changer_intervenant: "Changer d’opérateur"
-      s_engager_avec_operateur: "S’engager avec cet opérateur"
-      engagement_action: "Je m’engage avec cet opérateur"
+      s_engager_avec_operateur: "Continuer"
+      engagement_action: "Continuer"
       remplir_le_projet: "Je remplis le projet"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
-      future_birth: "Enfant(s) à naître dans le foyer"
+      future_birth: "Enfant à naître"
       titre_infos_demandeur: "Mes infos"
       titre_identification_demandeur: "Identification du demandeur"
       titre_liste_occupants: "Liste des occupants"
@@ -285,6 +283,11 @@ fr:
       action: "Je mets à jour mon projet"
       titre: "Modification du projet"
       description: "Vous pouvez mettre à jour les informations concernant votre projet."
+
+  # ----------------------- Projets Users ---------------------
+  projets_users:
+    single_demandeur: "Il ne peut y avoir qu’un seul demandeur par projet"
+    single_mandataire: "Il ne peut y avoir qu’un seul mandataire actif par projet"
 
   # ----------------------- Registre de Paiement ---------------------
   payment_registry:
@@ -359,37 +362,64 @@ fr:
     send: "Téléverser"
     messages:
       create:
-        success: "Votre document a été ajouté au projet avec succès."
+        success: "Votre document a été ajouté avec succès."
         error: "Une erreur est survenue. Votre document n’a pas été créé."
       delete:
         success: "Votre document a été supprimé avec succès."
-        error:  "Une erreur est survenue. Votre document n’a pas été ajouté au projet."
+        error:  "Une erreur est survenue. Votre document n’a pas été supprimé."
         confirmation: "Êtes-vous sûr de vouloir supprimer ce document ?"
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
-
-  # ----------------------- Messagerie ---------------------
-  conversation:
-    titre_section: "Chat"
+    condition:
+      one_of: "une des %{total} pièces est obligatoire"
+      required: ""
+      none: "pièces facultatives"
+    payment:
+      devis_paiement: "Devis avec demande d’acompte signé"
+      factures: "Facture(s)"
+      rib: "RIB"
+      mandat_paiement: "Mandat pour perception des fonds signé"
+      plan_financement: "Plan de financement définitif"
+      demande_signee:
+        avance: "Demande d’avance signée du demandeur"
+        acompte: "Demande d’acompte signée du demandeur"
+        solde: "Demande de solde signée du demandeur"
+      autres_paiement: "Autres"
+    projet:
+      devis_projet: "Devis entreprises"
+      estimation: "Estimation du maître d’œuvre"
+      mandat_projet: "Mandat signé"
+      justificatif_autonomie: "Justificatif autonomie"
+      diagnostic_autonomie: "Diagnostic autonomie"
+      evaluation_energetique: "Évaluation énergétique"
+      contrat_amo: "Contrat d’AMO avec devis"
+      arrete_insalubrite_peril: "Arrêté d’insalubrité ou de péril"
+      rapport_grille_insalubrite: "Rapport-grille d’insalubrité ou de dégradation "
+      arrete_securite: "Arrêté de sécurité des équipements communs"
+      justificatif_saturnisme: "Justificatif saturnisme (notification  CREP)"
+      contrat_maitrise_oeuvre: "Contrat et devis de maîtrise d’œuvre"
+      notification_agence_eau: "Notification d’aide de l’agence de l’eau"
+      pv_copropriete: "PV Assemblée générale de copropriété (avec clef de répartition)"
+      autres_projet: "Autres"
 
   # ----------------------- Recommander des opérateurs -----------------
   recommander_operateurs:
-    recommander: "Recommander des opérateurs"
-    modifier: "Modifier les opérateurs recommandés"
-    valider: "Recommander ces opérateurs"
+    recommander: "Proposer des opérateurs-conseil"
+    modifier: "Modifier les opérateurs-conseil proposés"
+    valider: "Proposer ces opérateurs-conseil"
     succes:
-      one: "L’opérateur sélectionné a été recommandé à %{demandeur}."
-      other: "Les opérateurs sélectionnés ont été recommandés à %{demandeur}."
+      one: "L’opérateur-conseil sélectionné a été proposé à %{demandeur}."
+      other: "Les opérateurs-conseil sélectionnés ont été proposés à %{demandeur}."
     errors:
-      blank: "Choisissez au moins un opérateur à recommander."
+      blank: "Choisissez au moins un opérateur-conseil à recommander."
 
   # ----------------------- Choix d’un opérateur ---------------------
   choix_operateur:
-    title: "Contacter un opérateur"
+    title: "Mon opérateur-conseil"
     actions:
-      contacter: "Contacter cet opérateur"
-      changer: "Contacter cet autre opérateur"
+      contacter: "Contacter"
+      changer: "Contacter cet autre opérateur-conseil"
     erreurs:
-      changement_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur."
+      changement_non_autorise: "À ce stade du projet il n’est plus possible de changer d’opérateur-conseil."
 
   # ----------------------- Proposer un dossier ---------------------
   notification_validation_dossier:
@@ -402,9 +432,8 @@ fr:
       action: "J’envoie ma demande à %{intervenant}"
       description_projet_suggestion: "Quelles difficultés rencontrez-vous dans votre logement ? Par exemple : j’ai froid, mon logement est mal isolé, je veux réaliser des économies d’énergies, j’ai du mal à me déplacer, un des occupants est handicapé, mon logement est globalement en très mauvais état et, ou quels travaux souhaitez-vous effectuer ? Par exemple : changer mon système de chauffage, isoler mon logement, adapter ma salle de bain, rendre plus accessible mon logement, réaliser d’importants travaux ou autres…"
     messages:
-      succes_titre: "Invitation envoyée"
-      succes: "Une invitation avec la description de votre projet a été envoyée à %{intervenant}"
-      erreur: "L’invitation n’a pas pu être envoyée"
+      succes: "Votre demande a été envoyée à %{intervenant}"
+      erreur: "La demande de contact n’a pas pu être envoyée"
       email:
         obligatoire: "L’email est obligatoire"
       description:
@@ -413,13 +442,16 @@ fr:
         obligatoire: "L’adresse du logement à rénover est obligatoire"
       telephone:
         obligatoire: "Le numéro de téléphone est obligatoire"
+    single_mandataire: "Il ne peut y avoir qu’un seul mandataire actif par projet"
+    mandataire_is_operateur: "Aucun intervenant autre que l’opérateur du projet ne peut être mandataire"
 
   # ----------------------- Gestion des occupants ---------------------
   occupants:
-    title: "Occupants"
+    title: "Les occupants de mon logement"
     occupants: "Occupants"
     nombre_occupant: "Nombre d’occupants :"
-    confirmer_nombre_personnes: "Veuillez confirmer le nombre de personnes occupant le logement ainsi que leurs années de naissance."
+    confirmer_nombre_personnes_supprimer: "Voici le récapitulatif des personnes occupant votre logement d'après les avis d'imposition. Si une ou plusieurs de ces personnes n'habitent pas dans votre logement, veuillez les supprimer."
+    confirmer_nombre_personnes_ajouter: "Si d'autres personnes (sans avis d'imposition) habitent dans votre logement, merci de compléter les informations ci-dessous:"
     annee_naissance: "Année de naissance"
     actions: "Actions"
     nouveau:
@@ -432,7 +464,7 @@ fr:
       composition_logement: "Composition du logement"
     delete:
       confirm: "Êtes-vous sûr de vouloir retirer %{fullname} de la liste des occupants de votre logement ?"
-      action: "Retirer"
+      action: "Supprimer"
       success: "%{fullname} a été retiré de la liste des occupants."
       error: "Une erreur s’est produite lors de la suppression de l’occupant."
       cant_delete_demandeur: "Les occupants mentionnés dans l’avis d’imposition ne peuvent pas être retirés de la liste."

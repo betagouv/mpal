@@ -1,12 +1,12 @@
 article.block.occupants
-  h3 Détails du foyer
+  h3 Ma situation
   - if can? :update, @projet_courant
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
   .occupants-recap
     ul
       li
         | Nombre d’occupants :
-        span= " #{@projet_courant.nb_total_occupants} " + (@projet_courant.future_birth ? "+ enfant(s) à naître" : "")
+        span= " #{@projet_courant.nb_total_occupants} " + (@projet_courant.future_birth ? "+ enfant à naître" : "")
       li
         = t('demarrage_projet.demandeur.revenu_fiscal_reference')
         span= " #{@projet_courant.annee_fiscale_reference} : "

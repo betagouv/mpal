@@ -1,7 +1,11 @@
 class MisesEnRelationController < ApplicationController
   layout "inscription"
 
+  CURRENT_REGISTRATION_STEP = 6
   before_action :assert_projet_courant
+  before_action do
+    set_current_registration_step CURRENT_REGISTRATION_STEP
+  end
 
   def show
     @demande = @projet_courant.demande
@@ -21,14 +25,13 @@ class MisesEnRelationController < ApplicationController
       fetch_intervenants_and_operations
       unless @projet_courant.intervenants.include?(@pris) || (@operations.count == 1 && @operateurs.count == 1)
         @projet_courant.invite_pris!(@pris)
-        flash[:notice_titre] = t('invitations.messages.succes_titre')
-        flash[:notice] = t('invitations.messages.succes', intervenant: @pris.raison_sociale)
+        flash[:success] = t("invitations.messages.succes", intervenant: @pris.raison_sociale)
       end
       @projet_courant.invite_instructeur! @instructeur
       redirect_to projet_path(@projet_courant)
     rescue => e
-      logger.error e.message
-      redirect_to projet_mise_en_relation_path(@projet_courant), alert: t('demarrage_projet.mise_en_relation.error')
+      Rails.logger.error e.message
+      redirect_to projet_mise_en_relation_path(@projet_courant), alert: t("demarrage_projet.mise_en_relation.error")
     end
   end
 

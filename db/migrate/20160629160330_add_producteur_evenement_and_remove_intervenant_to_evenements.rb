@@ -1,4 +1,4 @@
-class AddProducteurEvenementAndRemoveIntervenantToEvenements < ActiveRecord::Migration
+class AddProducteurEvenementAndRemoveIntervenantToEvenements < ActiveRecord::Migration[4.2]
   def change
     change_table :evenements do |t|
       t.references :producteur, polymorphic: true, index: true

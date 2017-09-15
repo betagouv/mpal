@@ -1,125 +1,131 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(agent_or_user, projet)
-    agent_or_user ||= User.new
-
-    if agent_or_user.is_a? User
-      user = agent_or_user
-
-      return if projet.blank?
-
-      can :read, :eligibility
-      can :departement_non_eligible, :demandeur
-      if projet.locked_at.nil?
-        can :manage, AvisImposition
-        can :manage, Demande
-        can :manage, :demandeur
-        can :manage, Occupant
-        can :manage, Projet
-      elsif user == projet.user
-        can :read, :intervenant
-        can :manage, Message
-        can :read, Projet
-      end
+  def initialize(subject, agent_or_user, projet)
+    if agent_or_user == :agent
+      agent_abilities(subject, projet)
+    elsif agent_or_user == :user
+      user_abilities(subject, projet)
     end
-
-    if agent_or_user.is_a? Agent
-      agent = agent_or_user
-
-      can :index, Projet
-      can :manage, Message
-
-      return if projet.blank?
-      return unless is_agent_of_projet?(agent, projet)
-
-      return can :manage, :all if agent.admin?
-      return can :read,   :all if agent.siege?
-
-      if agent.pris?
-        if projet.statut.to_sym == :prospect
-          can :read, :intervenant
-          can :read,                   Projet
-          can :recommander_operateurs, Projet
-        end
-      end
-
-      if agent.instructeur?
-        can :create, :dossiers_opal if projet.statut.to_sym == :transmis_pour_instruction
-        can :read, Projet if projet.status_already :transmis_pour_instruction
-        can :read, :intervenant if projet.status_already :transmis_pour_instruction
-      end
-
-      if agent.operateur?
-        if projet.statut.to_sym == :prospect
-          can :read, Projet
-          can :read, :intervenant
-        elsif projet.status_not_yet(:transmis_pour_instruction)
-          can :manage, AvisImposition
-          can :read, :intervenant
-          can :manage, Demande
-          can :manage, :demandeur
-          can :manage, Occupant
-          can :manage, Projet
-        else
-          can :read, :intervenant
-          can :read, Projet
-        end
-      end
-    end
-
-    define_payment_registry_abilities(agent_or_user, projet)
-    define_payment_abilities(agent_or_user, projet)
-    define_document_abilities(agent_or_user, projet)
   end
 
 private
 
-  def define_payment_registry_abilities(agent_or_user, projet)
-    can :read, PaymentRegistry, projet_id: projet.id
+  def user_abilities(user, projet)
+    return if projet.blank?
 
-    if agent_or_user.try(:operateur?) && projet.status_already(:transmis_pour_instruction) && projet.payment_registry.blank?
-      can :create, PaymentRegistry
-    end
-  end
+    can :read, :eligibility
+    can :departement_non_eligible, :demandeur
 
-  def define_payment_abilities(agent_or_user, projet)
-    if projet.payment_registry.present?
-      if agent_or_user.try(:operateur?)
-        can :create,               Payment
-        can :read,                 Payment, payment_registry_id: projet.payment_registry.id
-        can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, statut: ["en_cours_de_montage", "propose"], action: ["a_rediger", "a_modifier"]
-        can :update,               Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"]
-        can :ask_for_validation,   Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"] unless projet.status_not_yet(:en_cours_d_instruction)
+    if projet.locked_at.nil?
+      can :manage, Projet
+      can :manage, :demandeur
+      can :manage, AvisImposition
+      can :manage, Occupant
+      can :manage, Demande
+    elsif projet.users.include? user
+      can :show,   Projet
+      can :index,  Projet           if user == projet.mandataire_user
+      can :read,   :intervenant
+      can :new,    Message
+      can :create, Message          if user_can_act(user, projet)
+      can :read,   Document,        category: projet
+      can :read,   PaymentRegistry, projet_id: projet.id
+
+      if projet.payment_registry.present?
+        can :read, Payment,  payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
+        can :read, Document, category: projet.payment_registry.payments
       end
 
-      if agent_or_user.try(:instructeur?)
-        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["demande", "en_cours_d_instruction", "paye"]
-        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
-        can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
-      end
-
-      if agent_or_user.is_a? User
-        can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
+      if user_can_act(user, projet) && projet.payment_registry.present?
         can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
         can :ask_for_instruction,  Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
       end
     end
   end
 
-  def define_document_abilities(agent_or_user, projet)
-    if agent_or_user.try(:operateur?) && projet.status_already(:en_cours)
+  def agent_abilities(agent, projet)
+    return if agent.blank?
+
+    can :index,  Projet
+    can :manage, Message
+
+    return if projet.blank?
+    return unless is_agent_of_projet?(agent, projet)
+
+    return can :manage, :all if agent.admin?
+    return can :read,   :all if agent.siege?
+
+    can :read, PaymentRegistry, projet_id: projet.id
+
+    operateur_abilities(projet)   if agent.operateur?
+    instructeur_abilities(projet) if agent.instructeur?
+    pris_abilities(projet)        if agent.pris?
+  end
+
+  def operateur_abilities(projet)
+    can :read, :intervenant
+    can :read, Projet
+
+    return if projet.statut.to_sym == :prospect
+
+    if projet.status_already :en_cours
       can :create,  Document
-      can :read,    Document, projet_id: projet.id
-      can :destroy, Document, projet_id: projet.id
+      can :read,    Document, category: projet
+      can :destroy, Document do |document|
+        can :destroy, document, category: projet if projet.date_depot.blank? || document.created_at > projet.date_depot
+      end
     end
 
-    if agent_or_user.try(:instructeur?)&& projet.status_already(:transmis_pour_instruction)
-      can :read, Document, projet_id: projet.id
+    if projet.status_not_yet :transmis_pour_instruction
+      can :manage, Projet
+      can :manage, :demandeur
+      can :manage, AvisImposition
+      can :manage, Occupant
+      can :manage, Demande
     end
 
-    if agent_or_user.is_a? User
-      can :read, Document, projet_id: projet.id if projet.user.present?
+    if projet.status_already(:transmis_pour_instruction) && projet.payment_registry.blank?
+      can :create, PaymentRegistry
+    end
+
+    if projet.payment_registry.present?
+      can :read,                 Document, category: projet.payment_registry.payments
+      can :destroy,              Document, category: projet.payment_registry.payments
+
+      can :create,               Payment
+      can :read,                 Payment, payment_registry_id: projet.payment_registry.id
+      can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, statut: ["en_cours_de_montage", "propose"], action: ["a_rediger", "a_modifier"]
+      can :update,               Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"]
+      can :ask_for_validation,   Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"] unless projet.status_not_yet(:en_cours_d_instruction)
+    end
+  end
+
+  def instructeur_abilities(projet)
+    if projet.statut.to_sym == :transmis_pour_instruction
+      can :create, :dossiers_opal
+    end
+
+    if projet.status_already :transmis_pour_instruction
+      can :read, Projet
+      can :read, :intervenant
+      can :read, Document, category: projet
+    end
+
+    if projet.payment_registry.present?
+      can :read,                 Document, category: projet.payment_registry.payments
+
+      can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["demande", "en_cours_d_instruction", "paye"]
+      can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
+      can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
+    end
+  end
+
+  def pris_abilities(projet)
+    if projet.statut.to_sym == :prospect
+      can :read,                   :intervenant
+      can :read,                   Projet
+      can :recommander_operateurs, Projet
     end
   end
 
@@ -135,5 +141,9 @@ private
     else
       false
     end
+  end
+
+  def user_can_act(user, projet)
+    (user == projet.demandeur_user && projet.mandataire_user.blank?) || user == projet.mandataire_user
   end
 end

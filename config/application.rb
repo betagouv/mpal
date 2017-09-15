@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
 
 require 'rails/all'
 
@@ -21,7 +21,7 @@ module Mpal
     config.i18n.default_locale = :fr
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
+    #config.active_record.raise_in_transactional_callbacks = true
 
     config.action_mailer.default_url_options = { host: ENV['DOMAIN']}
     config.active_job.queue_adapter = ENV['SIDEKIQ_DISABLED'] == 'true' ? :inline : :sidekiq

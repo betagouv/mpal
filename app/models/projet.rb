@@ -1,4 +1,4 @@
-class Projet < ActiveRecord::Base
+class Projet < ApplicationRecord
   include LocalizedModelConcern
   extend CsvProperties, ApplicationHelper
 
@@ -25,7 +25,8 @@ class Projet < ActiveRecord::Base
   accepts_nested_attributes_for :personne
 
   # Compte utilisateur
-  belongs_to :user, dependent: :destroy
+  has_many :projets_users, dependent: :destroy
+  has_many :users, through: :projets_users
 
   # Demande
   has_one :demande, dependent: :destroy
@@ -34,8 +35,8 @@ class Projet < ActiveRecord::Base
   belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
   belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 
-  has_many :intervenants, through: :invitations
   has_many :invitations, dependent: :destroy
+  has_many :intervenants, through: :invitations
   belongs_to :operateur, class_name: 'Intervenant'
   belongs_to :agent_operateur, class_name: "Agent"
   belongs_to :agent_instructeur, class_name: "Agent"
@@ -47,7 +48,7 @@ class Projet < ActiveRecord::Base
 
   has_many :occupants, through: :avis_impositions
 
-  has_many :documents, dependent: :destroy
+  has_many :documents, dependent: :destroy, as: :category
   accepts_nested_attributes_for :documents
 
   has_many :projet_aides, dependent: :destroy
@@ -59,7 +60,6 @@ class Projet < ActiveRecord::Base
   has_many :prestations, through: :prestation_choices
   accepts_nested_attributes_for :prestation_choices, reject_if: :all_blank, allow_destroy: true
 
-  has_and_belongs_to_many :suggested_operateurs, class_name: 'Intervenant', join_table: 'suggested_operateurs'
   has_and_belongs_to_many :themes
 
   has_one :payment_registry, dependent: :destroy
@@ -85,10 +85,7 @@ class Projet < ActiveRecord::Base
 
   attr_accessor :accepts, :localized_public_aids_sum, :localized_fundings_sum
 
-  before_create do
-    self.plateforme_id = Time.now.to_i
-  end
-
+  before_create { self.plateforme_id = Time.now.to_i }
   before_save :clean_numero_fiscal, :clean_reference_avis
 
   scope :ordered, -> { order("projets.id desc") }
@@ -103,6 +100,26 @@ class Projet < ActiveRecord::Base
   scope :updated_since, ->(datetime) {
     where("updated_at >= ?", datetime)
   }
+
+  def demandeur_user
+    projets_users.demandeur.first.try(:user)
+  end
+
+  def mandataire_user
+    projets_users.mandataire.first.try(:user)
+  end
+
+  def revoked_mandataire_users
+    User.where id: projets_users.revoked_mandataire.map(&:user_id)
+  end
+
+  def mandataire_operateur
+    invitations.mandataire.first.try(:intervenant)
+  end
+
+  def revoked_mandataire_operateurs
+    Intervenant.where id: invitations.revoked_mandataire.map(&:intervenant_id)
+  end
 
   def self.find_by_locator(locator)
     is_numero_plateforme = locator.try(:include?, '_')
@@ -224,7 +241,7 @@ class Projet < ActiveRecord::Base
     # This query be simplified by using `left_joins` once we'll be running on Rails 5
     Aide
       .active_for_projet(self)
-      .joins("LEFT OUTER JOIN projet_aides ON projet_aides.aide_id = aides.id AND projet_aides.projet_id = #{ActiveRecord::Base.sanitize(self.id)}")
+      .joins(ActiveRecord::Base::send(:sanitize_sql_array, ["LEFT OUTER JOIN projet_aides ON projet_aides.aide_id = aides.id AND projet_aides.projet_id = ?", self.id]))
       .distinct
       .select("aides.*, projet_aides.amount AS amount")
       .order(:id)
@@ -234,7 +251,7 @@ class Projet < ActiveRecord::Base
     # This query be simplified by using `left_joins` once we'll be running on Rails 5
     Prestation
       .active_for_projet(self)
-      .joins("LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = #{ActiveRecord::Base.sanitize(self.id)}")
+      .joins(ActiveRecord::Base::send(:sanitize_sql_array, ["LEFT OUTER JOIN prestation_choices ON prestation_choices.prestation_id = prestations.id AND prestation_choices.projet_id = ?", self.id]))
       .distinct
       .select("prestations.*, prestation_choices.desired AS desired, prestation_choices.recommended AS recommended, prestation_choices.selected AS selected, prestation_choices.id AS prestation_choice_id")
       .order(:id)

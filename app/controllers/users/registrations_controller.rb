@@ -1,14 +1,18 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   include ApplicationConcern
 
+  CURRENT_REGISTRATION_STEP = 5
   before_action :assert_projet_courant
+  before_action do
+    set_current_registration_step CURRENT_REGISTRATION_STEP
+  end
 
   # before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
   def new
-    @page_heading = "Identifiants"
+    @page_heading = I18n.t("demarrage_projet.users.section_name")
     super do
       resource.email = @projet_courant.email if resource.email.blank?
     end
@@ -16,10 +20,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    @page_heading = "Identifiants"
+    @page_heading = I18n.t("demarrage_projet.users.section_name")
     super
     if resource.valid?
-      @projet_courant.update_attributes!(user: current_user)
+      @projet_courant.users << current_user
       session.delete :project_id
     end
   end

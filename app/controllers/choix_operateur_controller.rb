@@ -1,5 +1,5 @@
 class ChoixOperateurController < ApplicationController
-  layout 'inscription'
+  layout "inscription"
 
   before_action :assert_projet_courant
   before_action :init_view
@@ -22,8 +22,7 @@ class ChoixOperateurController < ApplicationController
       operateur = Intervenant.find_by_id(params[:operateur_id])
       unless @projet_courant.contacted_operateur == operateur
         @projet_courant.contact_operateur!(operateur)
-        flash[:notice_titre] = t('invitations.messages.succes_titre')
-        flash[:notice] = t('invitations.messages.succes', intervenant: operateur.raison_sociale)
+        flash[:notice] = t("invitations.messages.succes", intervenant: operateur.raison_sociale)
       end
       redirect_to projet_path(@projet_courant)
     rescue => e
@@ -34,7 +33,7 @@ class ChoixOperateurController < ApplicationController
 
 private
   def fetch_operateurs
-    if ENV['ROD_ENABLED'] == 'true'
+    if ENV["ROD_ENABLED"] == "true"
       rod_response = Rod.new(RodClient).query_for(@projet_courant)
       rod_response.operateurs
     else

@@ -1,6 +1,7 @@
 - unless @__flash_already_displayed
   - @__flash_already_displayed = true
-  - [:error, :alert, :notice, :warning, :success].each do |level|
+  - [:error,      :alert,      :notice,      :warning,      :success,
+     :error_html, :alert_html, :notice_html, :warning_html, :success_html].each do |level|
     - if flash[level].present?
       - alert_data = alert_data_for level
       div class="alert alert-#{alert_data[:class]}"
@@ -10,6 +11,9 @@
           - if :notice == level && (title = flash[:notice_titre]).present?
             strong= title
             br
-          = flash[level]
+          - if level.to_s.ends_with? "_html"
+            = flash[level].html_safe
+          - else
+            = flash[level]
       - flash[level] = nil # Ensure flash cleanup
 

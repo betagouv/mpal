@@ -1,13 +1,13 @@
-require 'rails_helper'
-require 'support/mpal_features_helper'
-require 'support/api_particulier_helper'
-require 'support/api_ban_helper'
-require 'support/rod_helper'
+require "rails_helper"
+require "support/mpal_features_helper"
+require "support/api_particulier_helper"
+require "support/api_ban_helper"
+require "support/rod_helper"
 
 feature "Choisir un opérateur:" do
   context "en tant que demandeur" do
     let(:operateurs) { Rod.new(RodClient).query_for(projet).operateurs }
-    let(:user)       { projet.user }
+    let(:user)       { projet.demandeur_user }
 
     context "si il y a une opération programmée" do
       let(:projet)    { create :projet, :prospect, :with_invited_instructeur, :with_account }
@@ -18,20 +18,19 @@ feature "Choisir un opérateur:" do
       scenario "je peux choisir un opérateur moi-même" do
         login_as user, scope: :user
         visit projet_path(projet)
-        expect(page).to have_content I18n.t('projets.visualisation.select_operator_without_pris')
-        click_link I18n.t('projets.visualisation.choisir_operateur')
+        expect(page).to have_content I18n.t("projets.visualisation.select_operator_without_pris")
+        click_link I18n.t("projets.visualisation.choisir_operateur")
 
         expect(page).to have_content(operateur.raison_sociale)
         expect(page).not_to have_selector("input[checked]")
 
         choose operateur.raison_sociale
-        fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
-        check I18n.t('agrements.autorisation_acces_donnees_intervenants')
-        click_button I18n.t('choix_operateur.actions.contacter')
+        fill_in I18n.t("activerecord.attributes.projet.disponibilite"), with: "Plutôt le matin"
+        check I18n.t("agrements.autorisation_acces_donnees_intervenants")
+        click_button I18n.t("choix_operateur.actions.contacter")
 
-        expect(page).to have_content(I18n.t('invitations.messages.succes_titre'))
-        expect(page).to have_content(operateur.raison_sociale)
-        expect(page).to have_content('Plutôt le matin')
+        expect(page).to have_content(I18n.t("invitations.messages.succes", intervenant: operateur.raison_sociale))
+        expect(page).to have_content("Plutôt le matin")
       end
     end
 
@@ -59,9 +58,8 @@ feature "Choisir un opérateur:" do
         check I18n.t('agrements.autorisation_acces_donnees_intervenants')
         click_button I18n.t('choix_operateur.actions.contacter')
 
-        expect(page).to have_content(I18n.t('invitations.messages.succes_titre'))
-        expect(page).to have_content(suggested_operateur.raison_sociale)
-        expect(page).to have_content('Plutôt le matin')
+        expect(page).to have_content(I18n.t("invitations.messages.succes", intervenant: suggested_operateur.raison_sociale))
+        expect(page).to have_content("Plutôt le matin")
       end
     end
 

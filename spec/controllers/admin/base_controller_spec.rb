@@ -1,11 +1,11 @@
-require 'rails_helper'
-require 'support/mpal_helper'
-require 'support/mpal_features_helper'
+require "rails_helper"
+require "support/mpal_helper"
+require "support/mpal_features_helper"
 
 describe Admin::BaseController do
   controller do
     def index
-      render text: "index called"
+      render plain: "index called"
     end
   end
 

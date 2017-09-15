@@ -1,4 +1,4 @@
-class RemoveProjetIdFromPersonnes < ActiveRecord::Migration
+class RemoveProjetIdFromPersonnes < ActiveRecord::Migration[4.2]
   def up
     Personne.all.each do |personne|
       if personne.prenom.blank? || personne.projet_id.blank?

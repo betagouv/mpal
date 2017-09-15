@@ -1,4 +1,4 @@
-class CreateEvenements < ActiveRecord::Migration
+class CreateEvenements < ActiveRecord::Migration[4.2]
   def change
     create_table :evenements do |t|
       t.belongs_to :projet, index: true, foreign_key: true

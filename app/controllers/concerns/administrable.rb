@@ -10,7 +10,7 @@ module Administrable
 
   def self.included(base)
     base.class_eval do
-      before_filter :check_model, only: [:edit, :update, :show, :destroy]
+      before_action :check_model, only: [:edit, :update, :show, :destroy]
       authorize_resource controller_name.tableize.singularize.to_sym
     end
   end

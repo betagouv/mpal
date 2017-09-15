@@ -20,6 +20,7 @@ describe Projet do
         projet.errors[attribute].present?
       end
     end
+    
 
     let(:projet) { build :projet }
     it { expect(projet).to be_valid }
@@ -40,9 +41,10 @@ describe Projet do
     it { is_expected.to validate_numericality_of(:consommation_avant_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to validate_numericality_of(:consommation_apres_travaux).is_greater_than_or_equal_to(0).allow_nil }
     it { is_expected.to have_one :demande }
-    it { is_expected.to belong_to :user }
+    it { is_expected.to have_many(:users).through(:projets_users)}
     it { is_expected.to have_many :intervenants }
     it { is_expected.to have_many :evenements }
+    it { is_expected.to have_many :documents }
     it { is_expected.to belong_to :operateur }
     it { is_expected.to belong_to :adresse_postale }
     it { is_expected.to have_many(:prestations).through(:prestation_choices)}
@@ -746,5 +748,71 @@ describe Projet do
       expect(projet.revenu_fiscal_reference_total).to eq 110
     end
   end
+
+  describe "#demandeur_user" do
+    let(:projet_without_demandeur) { create :projet, :with_mandataire_user }
+    let(:projet_with_demandeur)    { create :projet }
+    let(:demandeur)                { create :user }
+    let(:mandataire)               { create :user }
+
+    before do
+      create :projets_user, projet: projet_with_demandeur, user: demandeur,  kind: :demandeur
+      create :projets_user, projet: projet_with_demandeur, user: mandataire, kind: :mandataire
+    end
+
+    it { expect(projet_without_demandeur.demandeur_user).to be_blank }
+    it { expect(projet_with_demandeur.demandeur_user).to eq demandeur }
+  end
+
+  describe "#mandataire_user" do
+    let(:projet_without_mandataire)   { create :projet, :with_account }
+    let(:projet_with_mandataire_user) { create :projet }
+    let(:demandeur)                   { create :user }
+    let(:mandataire)                  { create :user }
+    let(:revoked_mandataire)          { create :user }
+
+    before do
+      create :projets_user, :demandeur,          projet: projet_with_mandataire_user, user: demandeur
+      create :projets_user, :mandataire,         projet: projet_with_mandataire_user, user: mandataire
+      create :projets_user, :revoked_mandataire, projet: projet_with_mandataire_user, user: revoked_mandataire
+    end
+
+    it { expect(projet_without_mandataire.mandataire_user).to be_blank }
+    it { expect(projet_with_mandataire_user.mandataire_user).to eq mandataire }
+  end
+
+  describe "#revoked_mandataire_users" do
+    let(:projet_with_mandataire_user)         { create :projet, :with_mandataire_user }
+    let(:projet_with_revoked_mandataire_user) { create :projet }
+    let(:mandataire)                          { create :user }
+    let(:revoked_mandataire_1)                { create :user }
+    let(:revoked_mandataire_2)                { create :user }
+
+    before do
+      create :projets_user, :mandataire,         projet: projet_with_revoked_mandataire_user, user: mandataire
+      create :projets_user, :revoked_mandataire, projet: projet_with_revoked_mandataire_user, user: revoked_mandataire_1
+      create :projets_user, :revoked_mandataire, projet: projet_with_revoked_mandataire_user, user: revoked_mandataire_2
+    end
+
+    it { expect(projet_with_mandataire_user.revoked_mandataire_users).to be_blank }
+    it { expect(projet_with_revoked_mandataire_user.revoked_mandataire_users).to match_array([revoked_mandataire_1, revoked_mandataire_2]) }
+  end
+
+  describe "#mandataire_operateur" do
+    let(:projet_with_mandataire_operateur) { create :projet, :with_committed_operateur, :with_mandataire_operateur }
+    let(:projet_with_mandataire_user)      { create :projet, :with_committed_operateur, :with_mandataire_user }
+    let(:mandataire_operateur)             { projet_with_mandataire_operateur.operateur }
+
+    it { expect(projet_with_mandataire_operateur.mandataire_operateur).to eq mandataire_operateur }
+    it { expect(projet_with_mandataire_user.mandataire_operateur).to be_blank }
+  end
+
+  describe "#revoked_mandataire_operateurs" do
+    let(:projet_with_mandataire_operateur)          { create :projet, :with_committed_operateur, :with_mandataire_operateur }
+    let(:projet_with_revoked_mandataire_operateurs) { create :projet, :with_committed_operateur, :with_mandataire_operateur, :with_revoked_mandataire_operateur, revoked_mandataire_operateur_count: 2 }
+    let(:revoked_mandataire_operateurs)             { projet_with_revoked_mandataire_operateurs.intervenants - [projet_with_revoked_mandataire_operateurs.operateur] }
+
+    it { expect(projet_with_mandataire_operateur.revoked_mandataire_operateurs).to be_blank }
+    it { expect(projet_with_revoked_mandataire_operateurs.revoked_mandataire_operateurs).to match_array revoked_mandataire_operateurs }
+  end
 end
- 

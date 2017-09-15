@@ -1,4 +1,4 @@
-class AddManyTravauxToDemande < ActiveRecord::Migration
+class AddManyTravauxToDemande < ActiveRecord::Migration[4.2]
   def change
     add_column :demandes, :travaux_fenetres, :boolean
     add_column :demandes, :travaux_isolation, :boolean

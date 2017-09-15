@@ -1,8 +1,13 @@
 class DemandeursController < ApplicationController
   layout "inscription"
 
+  CURRENT_REGISTRATION_STEP = 1
+
   before_action :assert_projet_courant
   authorize_resource :class => false
+  before_action do
+    set_current_registration_step CURRENT_REGISTRATION_STEP
+  end
 
   def show
     render_show

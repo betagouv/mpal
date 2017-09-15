@@ -1,4 +1,4 @@
-class Intervenant < ActiveRecord::Base
+class Intervenant < ApplicationRecord
   has_many :agents
   has_many :invitations
   has_many :messages, as: :auteur
@@ -61,5 +61,9 @@ class Intervenant < ActiveRecord::Base
 
   def dreal?
     (roles || []).include?('dreal')
+  end
+
+  def mandataire?
+    invitations.mandataire.present?
   end
 end

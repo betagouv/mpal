@@ -1,4 +1,4 @@
-class AddCitycodeToProjets < ActiveRecord::Migration
+class AddCitycodeToProjets < ActiveRecord::Migration[4.2]
   def change
     add_column :projets, :citycode, :string
   end

@@ -6,6 +6,6 @@
     p= t("demarrage_projet.mise_en_relation.to_operator")
   - else
     p= t("demarrage_projet.mise_en_relation.information_pris", { pris: @pris.raison_sociale })
-    p Il pourra vous recommander un opérateur chargé de vous accompagner tout au long de votre démarche.
+    p Il pourra vous indiquer un opérateur conseil chargé de vous accompagner tout au long de votre projet.
     = render "mises_en_relation/disponibilite_form", simple_form_builder: f
   = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "ok"

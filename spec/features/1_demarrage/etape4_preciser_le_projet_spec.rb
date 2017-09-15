@@ -11,7 +11,7 @@ feature "Préciser le projet :" do
     scenario "je peux décrire mes besoins pour ma demande de travaux" do
       signin_for_new_projet
       visit projet_demande_path(projet)
-      expect(page).to have_content(I18n.t('demarrage_projet.demande.section_projet_envisage'))
+
       # Liste des besoins
       check('demande_froid')
       check('demande_changement_chauffage')

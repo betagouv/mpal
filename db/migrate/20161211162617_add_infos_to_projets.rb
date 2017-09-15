@@ -1,4 +1,4 @@
-class AddInfosToProjets < ActiveRecord::Migration
+class AddInfosToProjets < ActiveRecord::Migration[4.2]
   def change
     add_column :projets, :type_logement, :string
     add_column :projets, :etage, :string

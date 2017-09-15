@@ -60,17 +60,18 @@ class DossiersController < ApplicationController
   end
 
   def recommander_operateurs
+    @page_heading = "Proposer des opérateurs"
     if request.post?
       begin
         if @projet_courant.suggest_operateurs!(suggested_operateurs_params[:suggested_operateur_ids])
-          message = I18n.t('recommander_operateurs.succes',
+          message = I18n.t("recommander_operateurs.succes",
                            count:     @projet_courant.pris_suggested_operateurs.count,
                            demandeur: @projet_courant.demandeur.fullname)
-          redirect_to(dossier_path(@projet_courant), notice: message)
+          redirect_to(dossier_path(@projet_courant), flash: { success: message })
         end
       rescue => e
         logger.error e.message
-        redirect_to dossier_path(@projet_courant), alert: "Une erreur s’est produite lors de la recommendation : le demandeur s'est engagé avec un opérateur"
+        redirect_to dossier_path(@projet_courant), alert: "Une erreur s’est produite lors de la proposition : le demandeur s’est engagé avec un opérateur"
       end
     end
 
@@ -203,7 +204,7 @@ private
       format.csv {
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render text: Projet.to_csv(current_agent)
+        render plain: Projet.to_csv(current_agent)
         return false
       }
     end

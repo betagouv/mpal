@@ -1,7 +1,5 @@
-class Occupant < ActiveRecord::Base
+class Occupant < ApplicationRecord
   CIVILITIES = [["Madame", "mrs"], ["Monsieur", "mr"]]
-
-  enum civilite: ['mr', 'mme'] # DEPRECATED
 
   enum lien_demandeur: [ 'père/mère', 'enfant', 'frère/soeur', 'conjoint']
 

@@ -1,5 +1,6 @@
+= btn name: "Retour", href: projet_or_dossier_avis_impositions_path(@projet_courant), class: "btn-secondary", icon: "arrow-left"
 = simple_form_for @avis_imposition, url: { controller: "avis_impositions", action: "create" }, html: { class: "form" } do |f|
-  = link_to "Revenir à la liste des avis d’imposition", projet_or_dossier_avis_impositions_path(@projet_courant)
+  = "Autres avis d'imposition sur les revenus #{@projet_courant.annee_fiscale_reference}"
   = render "shared/errors", resource: @avis_imposition
   = f.input :numero_fiscal,  wrapper_html: { class: "size-s" }, required: true, autofocus: true
   = f.input :reference_avis, wrapper_html: { class: "size-s" }, required: true

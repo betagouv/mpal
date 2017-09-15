@@ -1,4 +1,4 @@
-class Demande < ActiveRecord::Base
+class Demande < ApplicationRecord
   belongs_to :projet
 
   REQUIRED_ATTRIBUTES = [

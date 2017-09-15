@@ -1,5 +1,4 @@
-class Evenement < ActiveRecord::Base
-
+class Evenement < ApplicationRecord
   belongs_to :projet
   belongs_to :producteur, polymorphic: true
 

@@ -14,14 +14,14 @@
         - else
           span.modified= number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)
           span= " (initialement #{number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)})"
-  p.chapo= t("occupants.confirmer_nombre_personnes")
+  p.chapo= t("occupants.confirmer_nombre_personnes_supprimer")
 
   table.table.table-striped.table-sm.occ-table
     thead
       tr
         th= t("occupants.occupants")
         th= t("occupants.annee_naissance")
-        th= t("occupants.actions")
+        th=
     tbody
       - @occupants.each do |occupant|
         tr data-occupant-id= occupant.id
@@ -43,10 +43,8 @@
                 span= t("occupants.delete.action")
                 i.glyphicon.glyphicon-remove
 
-  .occupant-inline-form
-    = f.fields_for @projet_courant do |ff|
-      = ff.input :future_birth
 
+  p.chapo= t("occupants.confirmer_nombre_personnes_ajouter")
   .occupant-inline-form
     h3.occupant-inline-form__title Ajouter un occupant
     .occupant-inline-form__fields
@@ -55,10 +53,16 @@
       = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form__field size-l" }, required: true
       = btn name: t("occupants.nouveau.action"), class: "btn-secondary occupant-inline-form__submit", icon: "plus"
 
+  .occupant-inline-form
+    h3.occupant-inline-form__title Autre situation
+    = f.fields_for @projet_courant do |ff|
+      = ff.input :future_birth
+
   .checkbox-validation
     label.form-control-label
       input type="checkbox" class="js-engagement"
       = t("agrements.attestation_communiquer_infos_occupants")
 
   = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "arrow-right", html: { name: :submit_button }
+  = btn name: "Retour", href: projet_or_dossier_avis_impositions_path(@projet_courant), class: "btn-secondary", icon: "arrow-left"
 

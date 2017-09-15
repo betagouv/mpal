@@ -1,4 +1,4 @@
-class ChangeAnneeConstructionColumn < ActiveRecord::Migration
+class ChangeAnneeConstructionColumn < ActiveRecord::Migration[4.2]
   def up
     change_column :projets, :annee_construction, :integer, default: nil
   end

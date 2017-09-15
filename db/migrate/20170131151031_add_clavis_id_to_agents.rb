@@ -1,4 +1,4 @@
-class AddClavisIdToAgents < ActiveRecord::Migration
+class AddClavisIdToAgents < ActiveRecord::Migration[4.2]
   def change
     change_table :agents do |t|
       t.string :clavis_id

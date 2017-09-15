@@ -15,8 +15,8 @@
         = btn name: "Fermer", href: "#", class: "popin__close"
   #info-avis-fiscal.popin.popin--info_avis_fiscal
     .popin__container
-      p.popin__p Vous souhaitez vous renseigner ou demander une aide à l’Anah. Identifiez-vous en renseignant votre numéro fiscal et la référence de l’avis d’imposition présents sur votre dernier avis d’imposition (#{Time.current.year-1} sur les revenus de #{Time.current.year-2}).
-      p.popin__p Ces renseignements permettront d’aller rechercher directement auprès de la direction générale des finances publiques les coordonnées vous concernant ainsi que votre revenu fiscal de référence (RFR) correspondant à votre niveau de ressources.
+      p.popin__p Pour bénéficier des aides de l’Anah, les ressources de toutes les personnes habitant le logement sont prises en compte.
+      p.popin__p Pour faire votre démarche en ligne, nous vous invitons à vous munir du ou des avis d’imposition des personnes vivant chez vous.
       p.popin__p.popin__p--centered
         = btn name: "Fermer", href: "#", class: "popin__close"
 
@@ -28,7 +28,7 @@ section.new-project
   = simple_form_for @projet, html: { id: "js-login-form", class: "form" } do |f|
     = render "shared/errors", resource: @projet
 
-    p.new-project__label.new-project__label--p.new-project__label--first Êtes-vous propriétaire de votre résidence principale ?
+    p.new-project__label.new-project__label--p.new-project__label--first Je suis propriétaire de ma résidence principale
     - proprietaire = params[:proprietaire] == "1"
     label.new-project__proprietaire-label for="lab-proprietaire-yes"
       = radio_button_tag "proprietaire", "1", proprietaire, class: "new-project__proprietaire-input", id: "lab-proprietaire-yes"
@@ -38,7 +38,7 @@ section.new-project
       | Non
 
     .labeled-info-point
-      p.new-project__label.new-project__label--second Avis Fiscal #{Time.current.year-1} sur les revenus de #{Time.current.year-2} :
+      p.new-project__label.new-project__label--second Mon avis d’imposition sur les revenus #{Time.current.year-2} :
       a.info-point.info-point--light.js-popin data-target="#info-avis-fiscal" title="Informations" ?
 
     .labeled-info-point

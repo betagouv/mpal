@@ -1,4 +1,4 @@
-class CreateOccupants < ActiveRecord::Migration
+class CreateOccupants < ActiveRecord::Migration[4.2]
   def change
     create_table :occupants do |t|
       t.belongs_to :projet, index: true, foreign_key: true

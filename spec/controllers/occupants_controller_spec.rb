@@ -1,15 +1,15 @@
-require 'rails_helper'
-require 'support/mpal_helper'
+require "rails_helper"
+require "support/mpal_helper"
 
 describe OccupantsController do
   let(:projet) { create :projet, :with_demandeur }
 
-  before(:each) { authenticate_as_project(projet.id) }
+  before(:each) { authenticate_as_project projet.id }
 
   describe "#index" do
     context "get" do
       it "affiche les occupants" do
-        get :index, projet_id: projet.id
+        get :index, params: { projet_id: projet.id }
         expect(response).to have_http_status(:success)
         expect(response).to render_template("index")
         expect(assigns(:occupants)).to eq projet.occupants
@@ -17,19 +17,22 @@ describe OccupantsController do
     end
 
     context "post" do
-      let(:submit_button_params) { nil }
+      let(:submit_button_params) { {} }
 
       before do
-        post :index, projet_id: projet.id, occupant: occupant_params, submit_button: submit_button_params
+        post :index, params: {
+          projet_id: projet.id,
+          occupant: occupant_params,
+        }.merge(submit_button_params)
       end
 
       context "quand un nouvel occupant est renseigné" do
-        context "si l'occupant est valide" do
+        context "si l’occupant est valide" do
           let(:occupant_params) do
             {
               prenom:            "David",
               nom:               "Graeber",
-              date_de_naissance: "12/02/1961"
+              date_de_naissance: "12/02/1961",
             }
           end
 
@@ -93,7 +96,7 @@ describe OccupantsController do
         end
 
         context "si je clique sur le bouton de soumission" do
-          let(:submit_button_params) { "" }
+          let(:submit_button_params) { { submit_button: "" } }
 
           it "je passe à l'étape suivante" do
             expect(response).to redirect_to(projet_demande_path(projet))
@@ -118,7 +121,7 @@ describe OccupantsController do
       let(:occupant_demandeur) { projet.occupants.first }
 
       it "affiche une erreur" do
-        delete :destroy, projet_id: projet.id, id: occupant_demandeur.id
+        delete :destroy, params: { projet_id: projet.id, id: occupant_demandeur.id }
         expect(projet.occupants).to include occupant_demandeur
         expect(response).to redirect_to(projet_occupants_path(projet))
         expect(flash[:alert]).to eq I18n.t("occupants.delete.error")
@@ -128,8 +131,8 @@ describe OccupantsController do
     context "pour un occupant rajouté ultérieurement" do
       let(:occupant_to_delete) { projet.occupants.last }
 
-      it "supprime l'occupant" do
-        delete :destroy, projet_id: projet.id, id: occupant_to_delete.id
+      it "supprime l’occupant" do
+        delete :destroy, params: { projet_id: projet.id, id: occupant_to_delete.id }
         expect(projet.occupants).not_to include occupant_to_delete
         expect(response).to redirect_to(projet_occupants_path(projet))
         expect(flash[:notice]).to eq I18n.t("occupants.delete.success", fullname: occupant_to_delete.fullname)

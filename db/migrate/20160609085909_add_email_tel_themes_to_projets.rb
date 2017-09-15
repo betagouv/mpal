@@ -1,4 +1,4 @@
-class AddEmailTelThemesToProjets < ActiveRecord::Migration
+class AddEmailTelThemesToProjets < ActiveRecord::Migration[4.2]
   def change
     add_column :projets, :email, :string
     add_column :projets, :tel, :string

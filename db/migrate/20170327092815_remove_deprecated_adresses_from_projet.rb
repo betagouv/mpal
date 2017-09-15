@@ -1,4 +1,4 @@
-class RemoveDeprecatedAdressesFromProjet < ActiveRecord::Migration
+class RemoveDeprecatedAdressesFromProjet < ActiveRecord::Migration[4.2]
   def change
     remove_column :projets, :latitude, :float
     remove_column :projets, :longitude, :float

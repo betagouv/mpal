@@ -1,4 +1,4 @@
-class Contact < ActiveRecord::Base
+class Contact < ApplicationRecord
   strip_fields :name, :email, :phone, :subject, :description
 
   validates_presence_of :name, :description

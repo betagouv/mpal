@@ -3,7 +3,7 @@ require "support/mpal_features_helper"
 
 feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
   let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
-  let(:user)              { projet.user }
+  let(:demandeur)         { projet.demandeur_user }
   let(:agent_operateur)   { projet.agent_operateur }
   let(:agent_instructeur) { projet.agent_instructeur }
 
@@ -94,8 +94,7 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
   context "en tant que demandeur" do
 
     before do
-      login_as user, scope: :user
-      projet.update_attribute :user, user
+      login_as demandeur, scope: :user
       create :payment, type_paiement: :avance, statut: :propose, action: :a_valider, payment_registry: projet.payment_registry
       create :payment, type_paiement: :solde,  statut: :propose, action: :a_valider, payment_registry: projet.payment_registry
     end

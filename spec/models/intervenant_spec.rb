@@ -57,4 +57,16 @@ describe Intervenant do
       it { is_expected.to eq nil }
     end
   end
+
+  describe "#mandataire?" do
+    let(:projet_without_mandataire_operateur) { create :projet, :with_committed_operateur }
+    let(:projet_with_mandataire_operateur)    { create :projet, :with_committed_operateur, :with_mandataire_operateur }
+    let(:operateur)                           { projet_without_mandataire_operateur.operateur }
+    let(:mandataire_operateur)                { projet_with_mandataire_operateur.operateur }
+
+    it "retourne vrai quand l'opérateur est mandataire sur un projet" do
+      expect(operateur.mandataire?).to            eq false
+      expect(mandataire_operateur.mandataire?).to eq true
+    end
+  end
 end

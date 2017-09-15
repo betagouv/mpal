@@ -1,4 +1,4 @@
-class CreateCommentaires < ActiveRecord::Migration
+class CreateCommentaires < ActiveRecord::Migration[4.2]
   def change
     create_table :commentaires do |t|
       t.belongs_to :projet, index: true, foreign_key: true

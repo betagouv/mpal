@@ -1,4 +1,4 @@
-class CreatePaymentRegistries < ActiveRecord::Migration
+class CreatePaymentRegistries < ActiveRecord::Migration[4.2]
   def change
     create_table :payment_registries do |t|
       t.integer     :statut, null: false, default: 0

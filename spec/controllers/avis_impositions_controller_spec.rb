@@ -6,11 +6,11 @@ describe AvisImpositionsController do
 
   describe "en tant que demandeur" do
     let(:projet)  { create :projet }
-    before(:each) { authenticate(projet.id) }
+    before(:each) { authenticate projet.id }
 
     describe "#new" do
       it "affiche le formulaire d’ajout d’un avis" do
-        get :new, projet_id: projet.id
+        get :new, params: { projet_id: projet.id }
         expect(response).to render_template(:new)
       end
     end
@@ -24,8 +24,10 @@ describe AvisImpositionsController do
         let(:reference_avis)  { Fakeweb::ApiParticulier::REFERENCE_AVIS_NON_ELIGIBLE }
 
         it "ajoute un avis d’imposition au projet" do
-          post :create, projet_id: projet.id,
+          post :create, params: {
+            projet_id: projet.id,
             avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+          }
           projet.reload
           expect(projet.avis_impositions.count).to eq 2
           expect(projet.avis_impositions.first).to eq first_avis
@@ -43,8 +45,10 @@ describe AvisImpositionsController do
         let(:reference_avis) { Fakeweb::ApiParticulier::REFERENCE_AVIS_ANNEE_INVALIDE }
 
         it "il obtient un message d’erreur" do
-          post :create, projet_id: projet.id,
+          post :create, params: {
+            projet_id: projet.id,
             avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+          }
           expect(projet.avis_impositions.count).to eq 1
           expect(response).to render_template(:new)
           expect(flash[:alert]).to be_present
@@ -56,8 +60,10 @@ describe AvisImpositionsController do
         let(:reference_avis)  { Fakeweb::ApiParticulier::INVALID}
 
         it "n'ajoute pas un avis d'imposition au projet" do
-          post :create, projet_id: projet.id,
-          avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+          post :create, params: {
+            projet_id: projet.id,
+            avis_imposition: { numero_fiscal: numero_fiscal, reference_avis: reference_avis }
+          }
           projet.reload
           expect(projet.avis_impositions.count).to eq 1
           expect(projet.avis_impositions.first).to eq first_avis
@@ -82,13 +88,13 @@ describe AvisImpositionsController do
         before { projet.avis_impositions << last_avis }
 
         it "ne supprime pas le premier avis d'imposition" do
-          delete :destroy, projet_id: projet.id, id: first_avis.id
+          delete :destroy, params: { projet_id: projet.id, id: first_avis.id }
           projet.reload
           expect(projet.avis_impositions.count).to eq 2
         end
 
         it "supprime un avis d'imposition rajouté" do
-          delete :destroy, projet_id: projet.id, id: last_avis.id
+          delete :destroy, params: { projet_id: projet.id, id: last_avis.id }
           projet.reload
           expect(flash[:notice]).to be_present
           expect(projet.avis_impositions.count).to eq 1
@@ -109,16 +115,25 @@ describe AvisImpositionsController do
 
     context "si le modified_RFR est mal ou n'est pas complété" do
       it "le modified RFR est nul" do
-        put :update_project_rfr, dossier_id: projet.id, projet: { modified_revenu_fiscal_reference: "abc" }
+        put :update_project_rfr, params: {
+          dossier_id: projet.id,
+          projet: { modified_revenu_fiscal_reference: "abc" }
+        }
         expect(projet.reload.modified_revenu_fiscal_reference).to be_nil
       end
     end
 
     context "si le modified_RFR est rempli" do
       it "modifie le modified_rfr" do
-        put :update_project_rfr, dossier_id: projet.id, projet: { modified_revenu_fiscal_reference: "123" }
+        put :update_project_rfr, params: {
+          dossier_id: projet.id,
+          projet: { modified_revenu_fiscal_reference: "123" }
+        }
         expect(projet.reload.modified_revenu_fiscal_reference).to eq 123
-        put :update_project_rfr, dossier_id: projet.id, projet: { modified_revenu_fiscal_reference: "111" }
+        put :update_project_rfr, params: {
+          dossier_id: projet.id,
+          projet: { modified_revenu_fiscal_reference: "111" }
+        }
         expect(projet.reload.modified_revenu_fiscal_reference).to eq 111
       end
     end
@@ -128,13 +143,13 @@ describe AvisImpositionsController do
         before { projet.avis_impositions << last_avis }
 
         it "ne supprime pas le premier avis d’imposition" do
-          delete :destroy, dossier_id: projet.id, id: first_avis.id
+          delete :destroy, params: { dossier_id: projet.id, id: first_avis.id }
           projet.reload
           expect(projet.avis_impositions.count).to eq 2
         end
 
         it "supprime un avis d’imposition rajouté" do
-          delete :destroy, dossier_id: projet.id, id: last_avis.id
+          delete :destroy, params: { dossier_id: projet.id, id: last_avis.id }
           projet.reload
           expect(flash[:notice]).to be_present
           expect(projet.avis_impositions.count).to eq 1
