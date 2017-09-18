@@ -105,7 +105,6 @@ feature "Demandeur :" do
 
       expect(page).to have_current_path projet_demandeur_departement_non_eligible_path(projet)
       expect(page).to have_content(I18n.t("demarrage_projet.demandeur.departement_non_eligible.title"))
-      expect(page).to have_content("9997, 9998 et 9999")
       expect(page).to have_content(I18n.t("demarrage_projet.demandeur.departement_non_eligible.please_contact_pris"))
       expect(page).to have_link(I18n.t("demarrage_projet.demandeur.departement_non_eligible.action"), href: /^http:\/\/www.renovation-info-service.gouv.fr/)
     end
