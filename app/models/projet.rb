@@ -416,15 +416,14 @@ class Projet < ApplicationRecord
 
   def transmettre!(instructeur)
     invitation = invitations.find_by(intervenant: instructeur)
-    if invitation.update(intermediaire: operateur)
-      self.date_depot = Time.now
-      self.statut = :transmis_pour_instruction
-      ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
-      ProjetMailer.accuse_reception(self).deliver_later!
-      EvenementEnregistreurJob.perform_later(label: 'transmis_instructeur', projet: self, producteur: invitation)
-      return self.save
-    end
-    false
+    return false unless invitation.update(intermediaire: operateur)
+    self.date_depot = Time.now
+    self.statut = :transmis_pour_instruction
+    self.save
+    ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
+    ProjetMailer.accuse_reception(self).deliver_later!
+    EvenementEnregistreurJob.perform_later(label: 'transmis_instructeur', projet: self, producteur: invitation)
+    true
   end
 
   def adresse
