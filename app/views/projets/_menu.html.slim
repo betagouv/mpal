@@ -26,7 +26,7 @@
         = link_to dossier_payment_registry_path(project), method: :post, class: "project-menu__item"
           span.project-menu__icon.glyphicon.glyphicon-euro
           span.project-menu__text Paiements
-      - elsif project.payment_registry.present?
+      - elsif can? :show, project.payment_registry
         = link_to projet_or_dossier_payment_registry_path(project), class: "project-menu__item"
           span.project-menu__icon.glyphicon.glyphicon-euro
           span.project-menu__text Paiements
