@@ -20,7 +20,7 @@ class TransmissionController < ApplicationController
 
 private
   def init_view
-    @page_heading = 'Accepter la proposition'
+    @page_heading = 'Ma demande'
   end
 end
 
