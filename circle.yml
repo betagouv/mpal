@@ -29,3 +29,9 @@ deployment:
     commands:
       - git fetch --unshallow
       - git push -f git@scalingo.com:anah-production.git $CIRCLE_SHA1:master
+  formation1:
+    branch: formation1
+    commands:
+      - git fetch --unshallow
+      - git push -f git@scalingo.com:anah-formation1.git $CIRCLE_SHA1:master
+
