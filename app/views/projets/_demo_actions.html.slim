@@ -8,6 +8,7 @@ div.login-demo__column.login-demo__column-left
     | Les emails ne sont pas réellement envoyés ; mais il est possible de les consulter. Si les emails n’apparaissent pas, cliquez sur "Refresh".
   p= btn name: t('accueil.lire_les_emails'), href: letter_opener_web_url, class: 'btn-test', icon: 'envelope'
 
-  p.login-demo__subtitle Ré-initialise tous les projets sur l’environnement.
-  p= btn name: t('accueil.reinitialiser'), href: reset_path, class: 'btn-test', icon: 'remove'
+  - if "true" == ENV["RESET_BUTTON_ENABLED"]
+    p.login-demo__subtitle Ré-initialise tous les projets sur l’environnement.
+    p= btn name: t('accueil.reinitialiser'), href: reset_path, class: 'btn-test', icon: 'remove'
 

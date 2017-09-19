@@ -16,7 +16,12 @@
 .login-demo__column {
   padding: 30px;
   @media screen and (min-width: 1000px) {
-    width: 50%;
+    width: 60%;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .login-demo__column-left {
+    width: 40%;
   }
 }
 .login-demo__table {
