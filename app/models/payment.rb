@@ -11,7 +11,10 @@ class Payment < ApplicationRecord
 
   state_machine :action, initial: :a_rediger do
     after_transition :a_rediger => :a_valider,   do: :update_statut_to_propose
-    after_transition :a_valider => :a_instruire, do: :update_statut_to_demande
+    after_transition :a_valider => :a_instruire do |payment, transition|
+      payment.update_statut_to_demande
+      payment.update!(corrected_at: Time.now) if payment.submitted_at.present?
+    end
     after_transition :a_instruire => :aucune,    do: :update_statut_to_en_cours_d_instruction
 
     event(:ask_for_validation)   { transition [:a_rediger, :a_modifier] => :a_valider}

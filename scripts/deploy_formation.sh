@@ -1,9 +1,11 @@
 #!/bin/bash
-# Merge la branche `master` dans la branche `formation1`.
-# CircleCI déploie automatiquement la branche `formation1` sur l'environnement de formation1.
+# Merge la branche `master` dans la branche `formation`.
+# CircleCI déploie automatiquement la branche `formation` sur les environnements
+# `formation1` et `formation2`.
 #
-# Ce script n'est pas indispensable pour déployer sur l'environnement de démo ;
-# il permet juste d'effectuer plusieurs vérification de sûreté avant de merger.
+# Ce script n'est pas indispensable pour déployer sur les environnements de
+# formation ; il permet juste d'effectuer plusieurs vérification de sûreté avant
+# de merger.
 
 # Termine le script à la première commande en erreur
 set -e
@@ -78,7 +80,7 @@ function perform_merge {
 
 # Configuration des branches
 source_branch="master"
-target_branch="formation1"
+target_branch="formation"
 remote_name=$(remote_name)
 source_head="$remote_name/$source_branch"
 target_head="$remote_name/$target_branch"
