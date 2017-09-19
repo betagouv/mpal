@@ -1,7 +1,7 @@
 require 'rails_helper'
 require 'support/after_party_helper'
 
-describe '20170911091231_migrate_documents' do
+describe '20170919083635_migrate_documents' do
   include_context 'after_party'
 
   let(:projet)                 { create :projet }
