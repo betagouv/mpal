@@ -26,7 +26,6 @@ feature "Choisir un opérateur:" do
 
         choose operateur.raison_sociale
         fill_in I18n.t("activerecord.attributes.projet.disponibilite"), with: "Plutôt le matin"
-        check I18n.t("agrements.autorisation_acces_donnees_intervenants")
         click_button I18n.t("choix_operateur.actions.contacter")
 
         expect(page).to have_content(I18n.t("invitations.messages.succes", intervenant: operateur.raison_sociale))
@@ -55,7 +54,6 @@ feature "Choisir un opérateur:" do
 
         choose suggested_operateur.raison_sociale
         fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
-        check I18n.t('agrements.autorisation_acces_donnees_intervenants')
         click_button I18n.t('choix_operateur.actions.contacter')
 
         expect(page).to have_content(I18n.t("invitations.messages.succes", intervenant: suggested_operateur.raison_sociale))
@@ -81,7 +79,6 @@ feature "Choisir un opérateur:" do
 
         choose new_operateur.raison_sociale
         fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le soir"
-        check I18n.t('agrements.autorisation_acces_donnees_intervenants')
         click_button I18n.t('choix_operateur.actions.changer')
 
         expect(page).to     have_content(new_operateur.raison_sociale)

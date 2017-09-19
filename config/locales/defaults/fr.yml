@@ -57,10 +57,6 @@ fr:
     reinitialiser: "Réinitialiser les données"
     se_connecter_via_clavis: "Se connecter via Clavis"
 
-  # ----------------------- Liste des messages à caractère juridique ---------------------
-  agrements:
-    attestation_communiquer_infos_occupants: "J’atteste avoir obtenu l’accord de l’ensemble des occupants de mon logement pour communiquer leurs informations fiscales, et j’autorise l’Anah à vérifier leur revenu fiscal de référence auprès de la direction générale des finances publiques."
-    autorisation_acces_donnees_intervenants: "Je suis informé(e) que les intervenants avec lesquels je vais être mis(e) en relation ou que je vais inviter à consulter mon dossier ont accès aux données que j’ai renseignées."
   # ----------------------- Liste des liens du menu ---------------------
   menu:
     about: "À propos"
@@ -210,7 +206,7 @@ fr:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
-      confirmation: "J’ai lu, j’accepte les informations ci-dessus"
+      confirmation: "J’ai lu et j’accepte ces engagements"
       state:
         desired: "Souhaité"
         recommended: "Préconisé"

@@ -1,5 +1,5 @@
 section.popin-form
-  h2 Avant de déposer ma demande de subvention
+  h2 Avant de déposer ma demande d'aide
   .ins-form.transmission__form
     h3.transmission__subtitle J’atteste :
     ul.transmission__list
@@ -24,5 +24,3 @@ section.popin-form
       = f.input :accepts, as: :boolean, label: t("projets.proposition.confirmation"), input_html: { class: "js-engagement" }, required: true
       .transmission__button-group
         = btn name: t("projets.transmission.envoi_demande"), class: "js-engagement transmission__button"
-        = btn name: t("projets.transmission.modification_demande"), href: new_projet_or_dossier_message_path(@projet_courant), class: "btn-secondary transmission__button"
-
