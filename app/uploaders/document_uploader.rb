@@ -14,7 +14,13 @@ class DocumentUploader < CarrierWave::Uploader::Base
   end
 
   def store_dir
-    "uploads/#{model.category_type.downcase.pluralize}/#{model.category_id}/"
+    if model.category_type == "Projet"
+      projet_id = model.id
+    elsif model.category_type == "Payment"
+      projet_id = model.projet_id
+    end
+
+    "uploads/projets/#{projet_id}/"
   end
 
   def extension_whitelist
