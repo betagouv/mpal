@@ -23,5 +23,5 @@
             p= operateur.description_adresse
             = btn tag: :a, name: "Choisir"
       hr/
-    = render 'mises_en_relation/disponibilite_form', simple_form_builder: f
-    = btn name: @action_label, class: 'btn-large btn-centered js-engagement', icon: 'ok'
+    = render "mises_en_relation/disponibilite_form", simple_form_builder: f
+    = btn name: @action_label, class: "btn-large btn-centered", icon: "ok"

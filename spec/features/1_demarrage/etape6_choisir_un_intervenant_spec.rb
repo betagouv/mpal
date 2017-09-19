@@ -17,7 +17,6 @@ feature "En tant que demandeur" do
       expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.assignement_pris_titre')
       expect(page).to have_content pris.raison_sociale
       fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
-      check I18n.t('agrements.autorisation_acces_donnees_intervenants')
       click_button I18n.t('demarrage_projet.action')
 
       expect(page).to have_current_path projet_path(projet)

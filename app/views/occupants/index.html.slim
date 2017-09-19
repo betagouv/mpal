@@ -58,11 +58,6 @@
     = f.fields_for @projet_courant do |ff|
       = ff.input :future_birth
 
-  .checkbox-validation
-    label.form-control-label
-      input type="checkbox" class="js-engagement"
-      = t("agrements.attestation_communiquer_infos_occupants")
-
-  = btn name: @action_label, class: "btn-large btn-centered js-engagement", icon: "arrow-right", html: { name: :submit_button }
+  = btn name: @action_label, class: "btn-large btn-centered", icon: "arrow-right", html: { name: :submit_button }
   = btn name: "Retour", href: projet_or_dossier_avis_impositions_path(@projet_courant), class: "btn-secondary", icon: "arrow-left"
 
