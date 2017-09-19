@@ -90,21 +90,19 @@
   left : 38%;
   bottom: 10%;
 }
-
-.dashboard-icon__action {
-  font-size: 1.5em;
-  color: $red;
-}
-.dashboard-icon__no-action {
-  font-size: 1.5em;
-  color: $green;
-}
-.dashboard-icon__maybe-action {
+.dashboard__icon {
   font-size: 1.5em;
   color: $orange;
 }
-
-.dashboard-icon__anonymized {
+.dashboard__icon--action-required {
+  font-size: 1.5em;
+  color: $red;
+}
+.dashboard__icon--no-action {
+  font-size: 1.5em;
+  color: $green;
+}
+.dashboard__icon--anonymized {
   font-size: 1.5em;
   color: $gray-light;
 }

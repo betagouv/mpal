@@ -529,55 +529,36 @@ class Projet < ApplicationRecord
 
   #ACTIONS OPERATEUR
   def action_agent_operateur?
-    if statut.to_sym == :proposition_proposee || statut.to_sym == :prospect
-      return false
-    end
-    if status_not_yet(:proposition_proposee) || action_operateur_dossier_paiement?
-      return true
-    end
-    return false
+    return false if statut.to_sym == :proposition_proposee || statut.to_sym == :prospect
+    return true if status_not_yet(:proposition_proposee) || action_operateur_dossier_paiement?
+    false
   end
 
   def action_operateur_dossier_paiement?
-    if payment_registry.blank?
-      return false
-    end
+    return false if payment_registry.blank?
     payment_registry.try(:payments).each do |payment|
-      if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
-        return true
-      end
+      return true if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
     end
-    return false
+    false
   end
 
   #ACTIONS INSTRUCTEUR
   def action_agent_instructeur?
-    if statut.to_sym == :transmis_pour_instruction
-      return true
-    end
-    if :en_cours_d_instruction && action_instructeur_dossier_paiement?
-      return true
-    end
-    return false
+    return true if statut.to_sym == :transmis_pour_instruction
+    return true if statut.to_sym == :en_cours_d_instruction && action_instructeur_dossier_paiement?
+    false
   end
 
   def action_instructeur_dossier_paiement?
-    if payment_registry.blank?
-      return false
-    end
+    return false if payment_registry.blank?
     payment_registry.try(:payments).each do |payment|
-      if payment.action.to_sym == :a_instruire
-        return true
-      end
+      return true if payment.action.to_sym == :a_instruire
     end
-    return false
+    false
   end
 
   # ACTIONS PRIS
   def action_agent_pris?
-    if status_already(:en_cours) || pris_suggested_operateurs.present?
-      return false
-    end
-    return true
+    !status_already(:en_cours) && !pris_suggested_operateurs.present?
   end
 end

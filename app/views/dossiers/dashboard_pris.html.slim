@@ -25,7 +25,7 @@
           tr id="projet_#{projet.id}"
             - if projet.is_anonymized_for? invitation.intervenant
               td
-                i.glyphicon.glyphicon-remove.dashboard-icon__anonymized title="Vous n'avez pas les droits pour accéder à ce dossier"
+                i.glyphicon.glyphicon-remove.dashboard__icon--anonymized title="Vous n'avez pas les droits pour accéder à ce dossier"
               td= projet.numero_plateforme
               td
               td= projet.adresse.try(:ville)
@@ -51,9 +51,9 @@
             - else
               td
                 -if projet.action_agent_pris?
-                  i.glyphicon.glyphicon-ok.dashboard-icon__maybe-action title="Nécessite une vérification"
+                  i.glyphicon.glyphicon-ok.dashboard__icon title="Nécessite une vérification"
                 - else
-                  i.glyphicon.glyphicon-ok.dashboard-icon__no-action title="Dossier traité"
+                  i.glyphicon.glyphicon-ok.dashboard__icon--no-action title="Dossier traité"
               - edit_url = dossier_path(projet)
               td= link_to projet.numero_plateforme, edit_url
               td= link_to edit_url do
