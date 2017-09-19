@@ -22,9 +22,14 @@
       span.project-menu__icon.glyphicon.glyphicon-folder-open
       span.project-menu__text Dossier
     - if ENV["PAYMENTS_ENABLED"] == "true"
-      = link_to projet_or_dossier_payment_registry_path(project), class: "project-menu__item"
-        span.project-menu__icon.glyphicon.glyphicon-euro
-        span.project-menu__text Paiements
+      - if can? :create, PaymentRegistry
+        = link_to dossier_payment_registry_path(project), method: :post, class: "project-menu__item"
+          span.project-menu__icon.glyphicon.glyphicon-euro
+          span.project-menu__text Paiements
+      - elsif can? :show, project.payment_registry
+        = link_to projet_or_dossier_payment_registry_path(project), class: "project-menu__item"
+          span.project-menu__icon.glyphicon.glyphicon-euro
+          span.project-menu__text Paiements
     = link_to projet_or_dossier_documents_path(project), class: "project-menu__item"
       span.project-menu__icon.glyphicon.glyphicon-paperclip
       span.project-menu__text Pièces
