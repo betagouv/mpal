@@ -6,7 +6,7 @@ namespace :after_party do
     Projet.all.each do |projet|
       if projet.invitations.present?
         projet.update(max_registration_step: 6)
-      elsif projet.locked_at.present? || projet.user
+      elsif projet.locked_at.present? || projet.users.present?
         projet.update(max_registration_step: 5)
       elsif projet.email.present?
         projet.update(max_registration_step: 2)
