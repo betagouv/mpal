@@ -1,22 +1,21 @@
 @import "variables";
 
 .public-information {
-  position: relative;
-  background-color: white;
-}
-.public-information__heading {
-  text-align: center;
-}
-.public-information__title {
-  margin: 1em 0;
-  color: black;
-}
-.public-information__p {
-  margin-top: 1em;
-}
-.public-information__item {
-  display: list-item;
-  list-style-type: square;
-  margin-left: 1em;
-}
+  p {
+    margin: 1em 0;
+  }
+  h3 {
+    margin: 1em 0;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+  h4 {
+    margin: 1em 0 1em;
+    font-weight: bold;
+  }
 
+  li {
+    margin-left: 1em;
+    list-style-type: square;
+  }
+}
