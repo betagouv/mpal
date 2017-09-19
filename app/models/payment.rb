@@ -46,6 +46,10 @@ class Payment < ApplicationRecord
     [I18n.t("payment.description.statut.#{statut}"), I18n.t("payment.description.action.#{action}")].join(" ").strip.capitalize
   end
 
+  def projet_id
+    payment_registry.try(:projet_id)
+  end
+
   private
 
   def validate_type_paiement
