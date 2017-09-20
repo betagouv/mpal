@@ -527,6 +527,8 @@ class Projet < ApplicationRecord
     end
   end
 
+
+  #TODO CES ACTIONS SERONT A SUPPRIMER LORSQUE L'ON AURA REVU LES ABILITIES SUR LES DASHBOARDS
   #ACTIONS OPERATEUR
   def action_agent_operateur?
     return false if statut.to_sym == :proposition_proposee || statut.to_sym == :prospect
