@@ -1,7 +1,7 @@
 namespace :after_party do
   desc 'Deployment task: migrate_projets_users'
   task migrate_projets_users: :environment do
-    puts "Running deploy task 'migrate_projets_users'"
+    puts "Running deploy task 'migrate_projets_users'" unless Rake.application.options.quiet
 
     Projet.find_each do |projet|
       user_id = projet.user_id
