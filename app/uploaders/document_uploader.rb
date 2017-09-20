@@ -15,7 +15,7 @@ class DocumentUploader < CarrierWave::Uploader::Base
 
   def store_dir
     if model.category_type == "Projet"
-      projet_id = model.id
+      projet_id = model.category_id
     elsif model.category_type == "Payment"
       projet_id = model.projet_id
     end
