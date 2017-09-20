@@ -6,6 +6,7 @@
     table.table.table-hover.table-striped.table-sm
       thead
         tr
+          th Action
           th
             abbr title="Identifiant plateforme" ID PF
           th
@@ -29,6 +30,8 @@
 
           tr id="projet_#{projet.id}"
             - if projet.is_anonymized_for? invitation.intervenant
+              td
+                i.glyphicon.glyphicon-remove.dashboard__icon--anonymized title="Vous n'avez pas les droits pour accéder à ce dossier"
               td= projet.numero_plateforme
               td= projet.opal_numero
               td
@@ -58,6 +61,13 @@
               /TODO Status Updated At
 
             - else
+              td
+                - if projet.payment_registry.blank? && projet.status_already(:transmis_pour_instruction)
+                  i.glyphicon.glyphicon-ok.dashboard__icon title="Nécessite une vérification"
+                - elsif projet.action_agent_operateur?
+                  i.glyphicon.glyphicon-pencil.dashboard__icon--action-required title="Nécessite une action de votre part"
+                - else
+                  i.glyphicon.glyphicon-ok.dashboard__icon--no-action title="Dossier traité"
               - edit_url = dossier_path(projet)
               td= link_to projet.numero_plateforme, edit_url
               td= link_to (projet.opal_numero || ' '), edit_url

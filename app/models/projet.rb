@@ -526,4 +526,41 @@ class Projet < ApplicationRecord
       false
     end
   end
+
+
+  #TODO CES ACTIONS SERONT A SUPPRIMER LORSQUE L'ON AURA REVU LES ABILITIES SUR LES DASHBOARDS
+  #ACTIONS OPERATEUR
+  def action_agent_operateur?
+    return false if statut.to_sym == :proposition_proposee || statut.to_sym == :prospect
+    return true if status_not_yet(:proposition_proposee) || action_operateur_dossier_paiement?
+    false
+  end
+
+  def action_operateur_dossier_paiement?
+    return false if payment_registry.blank?
+    payment_registry.try(:payments).each do |payment|
+      return true if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
+    end
+    false
+  end
+
+  #ACTIONS INSTRUCTEUR
+  def action_agent_instructeur?
+    return true if statut.to_sym == :transmis_pour_instruction
+    return true if statut.to_sym == :en_cours_d_instruction && action_instructeur_dossier_paiement?
+    false
+  end
+
+  def action_instructeur_dossier_paiement?
+    return false if payment_registry.blank?
+    payment_registry.try(:payments).each do |payment|
+      return true if payment.action.to_sym == :a_instruire
+    end
+    false
+  end
+
+  # ACTIONS PRIS
+  def action_agent_pris?
+    !status_already(:en_cours) && !pris_suggested_operateurs.present?
+  end
 end
