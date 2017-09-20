@@ -117,10 +117,10 @@ ActiveRecord::Schema.define(version: 20170915114816) do
   create_table "documents", id: :serial, force: :cascade do |t|
     t.string "label"
     t.string "fichier"
+    t.integer "projet_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type_piece", default: "", null: false
-    t.bigint "projet_id"
     t.string "category_type"
     t.bigint "category_id"
     t.index ["category_type", "category_id"], name: "index_documents_on_category_type_and_category_id"
@@ -379,6 +379,7 @@ ActiveRecord::Schema.define(version: 20170915114816) do
   add_foreign_key "agents_projets", "projets"
   add_foreign_key "avis_impositions", "projets"
   add_foreign_key "demandes", "projets"
+  add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
   add_foreign_key "intervenants_operations", "intervenants"
   add_foreign_key "intervenants_operations", "operations"
