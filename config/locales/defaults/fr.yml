@@ -215,7 +215,7 @@ fr:
 
     transmission:
       bouton_accepter: "Suivant"
-      envoi_demande: "Je dépose ma demande de subvention"
+      envoi_demande: "Je dépose ma demande d’aide"
       modification_demande: "Je souhaite modifier ma demande"
       messages:
         success: "Dépôt effectué auprès du service en charge de l’instruction : %{instructeur}"
