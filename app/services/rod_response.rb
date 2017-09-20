@@ -1,8 +1,9 @@
 class RodResponse
-  attr_accessor :pris, :instructeur, :operateurs, :operations
+  attr_accessor :pris, :pris_eie, :instructeur, :operateurs, :operations
 
   def initialize(json)
     @pris        = parse_pris(json)
+    @pris_eie    = parse_pris_eie(json)
     @instructeur = parse_instructeur(json)
     @operateurs  = parse_operateurs(json)
     @operations  = parse_operations(json)
@@ -29,6 +30,10 @@ private
 
   def parse_pris(json)
     create_or_update_intervenant!("pris", json["pris_anah"].first) rescue nil
+  end
+
+  def parse_pris_eie(json)
+    create_or_update_intervenant!("pris", json["pris_eie"].first) rescue nil
   end
 
   def parse_instructeur(json)

@@ -32,6 +32,32 @@ describe Rod do
         end
       end
 
+      context "si le PRIS EIE n'existe pas " do
+        it "crée le PRIS EIE" do
+          expect(rod_response.pris_eie.raison_sociale).to    eq "ADIL Doudoux"
+          expect(rod_response.pris_eie.adresse_postale).to   eq "1 chemin de Ronde du Fort Griffon 25000 Besançon"
+          expect(rod_response.pris_eie.email).to             eq "adil25@orange.fr"
+          expect(rod_response.pris_eie.phone).to             eq "03 81 61 92 41"
+          expect(rod_response.pris_eie.roles).to             include "pris"
+          # expect(rod_response.pris_eie.clavis_service_id).to eq "5422"
+        end
+      end
+
+      context "si le PRIS EIE existe" do
+        let!(:pris) { create :pris, clavis_service_id: 5422, roles: [] }
+
+        it "met à jour les informations du PRIS EIE" do
+          # TODO voir
+          # expect(rod_response.pris_eie.id).to                  eq pris.id
+          expect(rod_response.pris_eie.raison_sociale).to      eq "ADIL Doudoux"
+          expect(rod_response.pris_eie.adresse_postale).to     eq "1 chemin de Ronde du Fort Griffon 25000 Besançon"
+          expect(rod_response.pris_eie.email).to               eq "adil25@orange.fr"
+          expect(rod_response.pris_eie.phone).to               eq "03 81 61 92 41"
+          expect(rod_response.pris_eie.roles).to               include "pris"
+          # expect(rod_response.pris_eie.clavis_service_id).to eq "5422"
+        end
+      end
+
       context "si l'instructeur n'existe pas" do
         it "crée l'instructeur" do
           expect(rod_response.instructeur.raison_sociale).to    eq "Direction Départementale des Territoires du Doubs"
