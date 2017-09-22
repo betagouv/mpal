@@ -70,7 +70,7 @@
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Plan de financement prévisionnel
     .form-inline2
-      - [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount].each do |field|
+      - [:travaux_ttc_amount, :travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount].each do |field|
         - localized_field = "localized_#{field}"
         = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
           = f.input_field localized_field, class: "input-price"

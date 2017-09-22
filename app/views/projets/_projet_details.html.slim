@@ -138,7 +138,7 @@ h3 Travaux
           th
           th Proposition
       tbody
-        - [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount].each do |field|
+        - [:travaux_ttc_amount, :travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount].each do |field|
           - value = @projet_courant.send field
           - if value.present?
             tr

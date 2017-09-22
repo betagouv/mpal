@@ -122,11 +122,13 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_css(".test-consommation-apres", text: "222")
 
       # Section "Financement"
-      expect(page).to have_css(".test-travaux-ht-amount",               text: "1 111,00")
-      expect(page).to have_css(".test-assiette-subventionnable-amount", text: "2 222,22")
-      expect(page).to have_css(".test-amo-amount",                      text: "3 333,33")
-      expect(page).to have_css(".test-maitrise-oeuvre-amount",          text: "4 444,44")
-      expect(page).to have_css(".test-travaux-ttc-amount",              text: "5 555,55")
+      expect(page).to have_css(".test-travaux-ttc-amount",              text: "1 111,00")
+      expect(page).to have_css(".test-travaux-ht-amount",               text: "2 222,22")
+      expect(page).to have_css(".test-assiette-subventionnable-amount", text: "3 333,33")
+      expect(page).to have_css(".test-amo-amount",                      text: "4 444,44")
+      expect(page).to have_css(".test-maitrise-oeuvre-amount",          text: "5 555,55")
+      expect(page).to have_css(".test-global-ttc-amount",               text: "11 110,99")
+
 
       # Section "Financement"
       expect(page).to have_css(".test-projet-aide-#{aide_1.id}",        text: "6 666,66")
@@ -269,9 +271,9 @@ end
 private
 
 def fill_in_section_montant
-  fill_in I18n.t('helpers.label.proposition.travaux_ht_amount'),               with: '1 111'
-  fill_in I18n.t('helpers.label.proposition.assiette_subventionnable_amount'), with: '2 222,22'
-  fill_in I18n.t('helpers.label.proposition.amo_amount'),                      with: '3 333,33'
-  fill_in I18n.t('helpers.label.proposition.maitrise_oeuvre_amount'),          with: '4 444,44'
-  fill_in I18n.t('helpers.label.proposition.travaux_ttc_amount'),              with: '5 555,55'
+  fill_in I18n.t('helpers.label.proposition.travaux_ttc_amount'),              with: '1 111'
+  fill_in I18n.t('helpers.label.proposition.travaux_ht_amount'),               with: '2 222,22'
+  fill_in I18n.t('helpers.label.proposition.assiette_subventionnable_amount'), with: '3 333,33'
+  fill_in I18n.t('helpers.label.proposition.amo_amount'),                      with: '4 444,44'
+  fill_in I18n.t('helpers.label.proposition.maitrise_oeuvre_amount'),          with: '5 555,55'
 end
