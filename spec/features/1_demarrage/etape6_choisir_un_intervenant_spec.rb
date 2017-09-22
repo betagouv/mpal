@@ -47,7 +47,7 @@ feature "En tant que demandeur" do
       signin_for_new_projet_non_eligible
       projet.build_demande.update froid: true
       visit projet_mise_en_relation_path projet
-      expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.non_eligible_recontacter', { pris: rod_response.pris.raison_sociale })
+      expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.non_eligible_recontacter', { pris: rod_response.pris_eie.raison_sociale })
     end
   end
 end
