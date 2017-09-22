@@ -224,6 +224,7 @@ private
       "pris_eie":
         [
           {
+            "id_clavis": 5422,
             "raison_sociale": "ADIL Doudoux",
             "adresse_postale":
               {

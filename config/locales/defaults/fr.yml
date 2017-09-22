@@ -133,7 +133,7 @@ fr:
     # ----------------------- Eligibilité ---------------------
     eligibility:
       eligible: "D’après les informations que vous avez transmises, les conditions sont remplies pour faire une demande d’aide."
-      not_eligible: "D’après les informations que vous avez transmises, vous ne pouvez pas bénéficier d’une aide. Néanmoins un complément d’étude de votre situation est possible."
+      not_eligible: "D'après les informations que vous avez transmises, les conditions ne sont pas remplies pour faire une demande d'aide."
       informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consulter %{conditions}."
 
     # ----------------------- Mise en relation ---------------------

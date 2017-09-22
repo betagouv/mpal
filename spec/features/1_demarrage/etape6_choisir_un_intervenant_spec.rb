@@ -5,9 +5,9 @@ require 'support/api_ban_helper'
 require 'support/rod_helper'
 
 feature "En tant que demandeur" do
-  let(:projet) { create :projet, :prospect, :with_account}
-  let(:user)   { projet.demandeur_user }
-  let(:pris)   { Intervenant.pour_role('pris').last }
+  let(:projet)       { create :projet, :prospect, :with_account}
+  let(:user)         { projet.demandeur_user }
+  let(:rod_response) { Rod.new(RodClient).query_for(projet) }
 
   context "quand je suis en diffu (pris assigné à mon projet)" do
     scenario "je valide ma mise en relation avec le PRIS et renseigne mes disponibilités" do
@@ -15,13 +15,13 @@ feature "En tant que demandeur" do
 
       visit projet_mise_en_relation_path(projet)
       expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.assignement_pris_titre')
-      expect(page).to have_content pris.raison_sociale
+      expect(page).to have_content rod_response.pris.raison_sociale
       fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
       click_button I18n.t('demarrage_projet.action')
 
       expect(page).to have_current_path projet_path(projet)
       expect(page).to have_content "Plutôt le matin"
-      expect(page).to have_content I18n.t("invitations.messages.succes", intervenant: pris.raison_sociale)
+      expect(page).to have_content I18n.t("invitations.messages.succes", intervenant: rod_response.pris.raison_sociale)
     end
   end
 
@@ -47,7 +47,7 @@ feature "En tant que demandeur" do
       signin_for_new_projet_non_eligible
       projet.build_demande.update froid: true
       visit projet_mise_en_relation_path projet
-      expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.non_eligible_recontacter', { pris: pris.raison_sociale })
+      expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.non_eligible_recontacter', { pris: rod_response.pris.raison_sociale })
     end
   end
 end
