@@ -31,7 +31,7 @@ fr:
         assiette_subventionnable_amount: "Travaux : assiette subventionnable HT"
         amo_amount: "Coût Assistance à Maîtrise d’Ouvrage (AMO)"
         maitrise_oeuvre_amount: "Coût Maîtrise d’Œuvre"
-        global_ttc_amount: "Montant global TTC"
+        global_ttc_sum: "Montant global TTC"
         personal_funding_amount: "Apport de fonds personnels"
         loan_amount: "Prêt"
         precisions_travaux: "Précisions travaux proposés"

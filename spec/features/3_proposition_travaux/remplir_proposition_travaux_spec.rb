@@ -127,8 +127,7 @@ feature "Remplir la proposition de travaux" do
       expect(page).to have_css(".test-assiette-subventionnable-amount", text: "3 333,33")
       expect(page).to have_css(".test-amo-amount",                      text: "4 444,44")
       expect(page).to have_css(".test-maitrise-oeuvre-amount",          text: "5 555,55")
-      expect(page).to have_css(".test-global-ttc-amount",               text: "11 110,99")
-
+      expect(page).to have_css(".test-global-ttc-sum",                  text: "11 110,99")
 
       # Section "Financement"
       expect(page).to have_css(".test-projet-aide-#{aide_1.id}",        text: "6 666,66")

@@ -70,11 +70,22 @@
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Plan de financement prévisionnel
     .form-inline2
-      - [:travaux_ttc_amount, :travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount].each do |field|
+      = f.input :localized_travaux_ttc_amount, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = f.input_field :localized_travaux_ttc_amount, class: "input-price js-global-ttc-part"
+        span.input-group-addon €
+      - [:travaux_ht_amount, :assiette_subventionnable_amount].each do |field|
         - localized_field = "localized_#{field}"
         = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
           = f.input_field localized_field, class: "input-price"
           span.input-group-addon €
+      - [:amo_amount, :maitrise_oeuvre_amount].each do |field|
+        - localized_field = "localized_#{field}"
+        = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
+          = f.input_field localized_field, class: "input-price js-global-ttc-part"
+          span.input-group-addon €
+      = f.input :localized_global_ttc_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = f.input_field :localized_global_ttc_sum, class: "input-price", id: "js-global-ttc-sum", disabled: true
+        span.input-group-addon €
       = f.simple_fields_for :projet_aides do |ff|
         - aid = ff.object.aide
         = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
