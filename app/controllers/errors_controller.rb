@@ -1,4 +1,4 @@
-class ErrorsController < ActionController::Base
+class ErrorsController < ApplicationController
   layout 'informations'
 
   def not_found
@@ -7,10 +7,18 @@ class ErrorsController < ActionController::Base
 
   def internal_server_error
     begin
-      exception = request.env['action_dispatch.exception']
-      message = exception.message.to_s
-      backtrace = exception.backtrace[0..9].join("\n")
-      SlackNotifyJob.perform_later(message, backtrace)
+      server_name      = request.env["SERVER_NAME"]
+      method           = request.method
+      url              = request.url
+      parameters       = request.parameters
+      ip               = request.ip
+      responsible_type = current_agent ? "Agent" : "User"
+      responsible_id   = current_agent.try(:id) || current_user.try(:id)
+      exception        = request.env['action_dispatch.exception']
+      error_message    = exception.message.to_s
+      backtrace        = exception.backtrace[0..4].join("\n")
+
+      SlackNotifyJob.perform_later(server_name, method, url, parameters, ip, responsible_type, responsible_id, error_message, backtrace)
     ensure
       render status: 500
     end
