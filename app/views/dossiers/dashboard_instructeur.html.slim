@@ -7,6 +7,7 @@
     table.table.table-hovered.table-stripped
       thead
         tr
+          th Action
           th
             abbr title="Identifiant plateforme" ID PF
           th
@@ -27,6 +28,8 @@
 
           tr id="projet_#{projet.id}"
             - if projet.is_anonymized_for? invitation.intervenant
+              td
+                i.glyphicon.glyphicon-remove.dashboard__icon--anonymized title="Vous n'avez pas les droits pour accéder à ce dossier"
               td= projet.numero_plateforme
               td= projet.opal_numero
               td
@@ -54,6 +57,11 @@
               /TODO Status Updated At
 
             - else
+              td
+                - if projet.action_agent_instructeur?
+                  i.glyphicon.glyphicon-pencil.dashboard__icon--action-required title="Nécessite une action de votre part"
+                - else
+                  i.glyphicon.glyphicon-ok.dashboard__icon--no-action title="Dossier traité"
               - edit_url = dossier_path(projet)
               td= link_to projet.numero_plateforme, edit_url
               - if projet.opal_numero.present?

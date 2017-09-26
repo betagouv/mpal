@@ -6,6 +6,7 @@
     table.table.table-hovered.table-stripped
       thead
         tr
+          th Action
           th
             abbr title="Identifiant plateforme" ID PF
           th Demandeur
@@ -23,6 +24,8 @@
 
           tr id="projet_#{projet.id}"
             - if projet.is_anonymized_for? invitation.intervenant
+              td
+                i.glyphicon.glyphicon-remove.dashboard__icon--anonymized title="Vous n'avez pas les droits pour accéder à ce dossier"
               td= projet.numero_plateforme
               td
               td= projet.adresse.try(:ville)
@@ -46,6 +49,11 @@
               /TODO Status Updated At
 
             - else
+              td
+                -if projet.action_agent_pris?
+                  i.glyphicon.glyphicon-ok.dashboard__icon title="Nécessite une vérification"
+                - else
+                  i.glyphicon.glyphicon-ok.dashboard__icon--no-action title="Dossier traité"
               - edit_url = dossier_path(projet)
               td= link_to projet.numero_plateforme, edit_url
               td= link_to edit_url do

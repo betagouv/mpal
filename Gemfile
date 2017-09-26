@@ -34,6 +34,7 @@ gem 'sass-rails'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'sidekiq'
 gem 'simple_form'
+gem 'slack-notifier'
 gem 'slim'
 gem 'select2-rails'
 gem 'state_machines'

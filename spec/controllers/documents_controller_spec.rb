@@ -105,11 +105,6 @@ describe DocumentsController do
                   type: :rib,
                   documents: payment.documents.where(type_piece: :rib),
                   missing: false
-                },
-                {
-                  type: :mandat_paiement,
-                  documents: payment_empty_relation,
-                  missing: true
                 }
               ]
             },

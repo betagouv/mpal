@@ -10,7 +10,7 @@ class Document < ApplicationRecord
 
     hash[:required] << (payment.type_paiement.to_sym == :avance ? :devis_paiement : :factures)
     hash[:required] << :rib
-    hash[:required] << :mandat_paiement unless payment.personne_morale
+    hash[:required] << :mandat_paiement if payment.personne_morale
     hash[:required] << :demande_signee if false # projet.mandat? quand on aura intégré les mandats
     hash[:required] << :plan_financement if payment.type_paiement.to_sym == :solde
 
