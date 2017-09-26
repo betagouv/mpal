@@ -37,16 +37,16 @@ describe Document do
     let(:payment_to_legal_person) { create :payment, personne_morale: true }
 
     it "returns all attachments required for this payment" do
-      expect(Document.for_payment(payment_avance)[:required]).to match_array [:devis_paiement, :rib, :mandat_paiement]
+      expect(Document.for_payment(payment_avance)[:required]).to match_array [:devis_paiement, :rib]
       expect(Document.for_payment(payment_avance)[:none]).to     match_array [:autres_paiement]
 
-      expect(Document.for_payment(payment_acompte)[:required]).to match_array [:factures, :rib, :mandat_paiement]
+      expect(Document.for_payment(payment_acompte)[:required]).to match_array [:factures, :rib]
       expect(Document.for_payment(payment_acompte)[:none]).to     match_array [:autres_paiement]
 
-      expect(Document.for_payment(payment_solde)[:required]).to match_array [:factures, :rib, :mandat_paiement, :plan_financement]
+      expect(Document.for_payment(payment_solde)[:required]).to match_array [:factures, :rib, :plan_financement]
       expect(Document.for_payment(payment_solde)[:none]).to     match_array [:autres_paiement]
 
-      expect(Document.for_payment(payment_to_legal_person)[:required]).not_to include :mandat_paiement
+      expect(Document.for_payment(payment_to_legal_person)[:required]).to include :mandat_paiement
     end
   end
 
