@@ -30,9 +30,9 @@ private
       can :new,    Message
       can :create, Message          if user_can_act(user, projet)
       can :read,   Document,        category: projet
-      can :read,   PaymentRegistry, projet_id: projet.id
 
       if projet.payment_registry.present?
+        can :read, PaymentRegistry, projet_id: projet.id
         can :read, Payment,  payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
         can :read, Document, category: projet.payment_registry.payments
       end
@@ -56,7 +56,7 @@ private
     return can :manage, :all if agent.admin?
     return can :read,   :all if agent.siege?
 
-    can :read, PaymentRegistry, projet_id: projet.id
+    can :read, PaymentRegistry, projet_id: projet.id if projet.payment_registry.present?
 
     operateur_abilities(projet)   if agent.operateur?
     instructeur_abilities(projet) if agent.instructeur?
