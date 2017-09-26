@@ -144,10 +144,10 @@ h3 Travaux
             tr
               td= sf_label :projet, field
               td class="proposition__cell-price test-#{field.to_s.dasherize}"= number_to_currency value
-        - if 0 < @global_ttc_sum
+        - if 0 < @projet_courant.global_ttc_sum
           tr
             td= sf_label :projet, :global_ttc_sum
-            td.proposition__cell-price.test-global-ttc-sum= number_to_currency @global_ttc_sum
+            td.proposition__cell-price.test-global-ttc-sum= number_to_currency @projet_courant.global_ttc_sum
         - @public_aids_with_amounts.each do |aid|
           - if aid.amount.present? && 0 < aid.amount
             tr

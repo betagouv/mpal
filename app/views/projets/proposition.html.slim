@@ -73,37 +73,45 @@
       = f.input :localized_travaux_ttc_amount, wrapper: "append", wrapper_html: { class: "size-s" } do
         = f.input_field :localized_travaux_ttc_amount, class: "input-price js-global-ttc-part"
         span.input-group-addon €
+
       - [:travaux_ht_amount, :assiette_subventionnable_amount].each do |field|
         - localized_field = "localized_#{field}"
         = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
           = f.input_field localized_field, class: "input-price"
           span.input-group-addon €
+
       - [:amo_amount, :maitrise_oeuvre_amount].each do |field|
         - localized_field = "localized_#{field}"
         = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
           = f.input_field localized_field, class: "input-price js-global-ttc-part"
           span.input-group-addon €
+
       = f.input :localized_global_ttc_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
         = f.input_field :localized_global_ttc_sum, class: "input-price", id: "js-global-ttc-sum", disabled: true
         span.input-group-addon €
+
       = f.simple_fields_for :projet_aides do |ff|
         - aid = ff.object.aide
         = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
-          - classes = "input-price js-#{aid.public? ? :public : :private}-aid js-funding"
+          - classes = "input-price #{aid.public? ? "js-public-aid js-funding" : ""}"
           = ff.hidden_field :aide_id, value: aid.id
           = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
           span.input-group-addon €
+
       = f.input :localized_public_aids_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
         = f.input_field :localized_public_aids_sum, class: "input-price", id: "js-public-aids-sum", disabled: true
         span.input-group-addon €
+
       - [:personal_funding_amount, :loan_amount].each do |field|
         - localized_field = "localized_#{field}"
         = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
-          = f.input_field localized_field, class: "input-price"
+          = f.input_field localized_field, class: "input-price js-funding"
           span.input-group-addon €
+
       = f.input :localized_fundings_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
         = f.input_field :localized_fundings_sum, class: "input-price", id: "js-fundings-sum", disabled: true
         span.input-group-addon €
+
   = f.input :precisions_travaux
   = f.input :precisions_financement
   = btn name: 'Enregistrer cette proposition', icon: 'save'

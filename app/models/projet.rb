@@ -171,6 +171,11 @@ class Projet < ApplicationRecord
     self.projet_aides.sort_by { |x| x.libelle }
   end
 
+  def global_ttc_sum
+    global_ttc_parts = [:travaux_ttc_amount, :amo_amount, :maitrise_oeuvre_amount]
+    global_ttc_parts.map{ |column| self[column] }.compact.sum
+  end
+
   def clean_numero_fiscal
     self.numero_fiscal = numero_fiscal.to_s.gsub(/\D+/, '')
   end

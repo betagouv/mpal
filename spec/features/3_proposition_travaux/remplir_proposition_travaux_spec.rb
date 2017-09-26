@@ -117,9 +117,9 @@ feature "Remplir la proposition de travaux" do
       expect(page).not_to have_selector "#test-prestation-#{prestation_3.id}-desired"
       expect(page).not_to have_selector "#test-prestation-#{prestation_3.id}-recommended"
       expect(page).not_to have_selector "#test-prestation-#{prestation_3.id}-selected"
-      expect(page).to have_css(".test-gain-energetique",   text: "31")
-      expect(page).to have_css(".test-etiquette-apres",    text: "A")
-      expect(page).to have_css(".test-consommation-apres", text: "222")
+      expect(page).to     have_css(".test-gain-energetique",   text: "31")
+      expect(page).to     have_css(".test-etiquette-apres",    text: "A")
+      expect(page).to     have_css(".test-consommation-apres", text: "222")
 
       # Section "Financement"
       expect(page).to have_css(".test-travaux-ttc-amount",              text: "1 111,00")

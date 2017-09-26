@@ -9,9 +9,6 @@ module ProjetConcern
         longitude: @projet_courant.adresse.try(:longitude)
       })
 
-      global_ttc_parts = [:travaux_ttc_amount, :amo_amount, :maitrise_oeuvre_amount]
-      @global_ttc_sum = global_ttc_parts.map{ |column| @projet_courant[column] }.compact.reduce(:+)
-
       aids = @projet_courant.aids_with_amounts
       @public_aids_with_amounts = aids.try(:public_assistance)
       @private_aids_with_amounts = aids.try(:not_public_assistance)
