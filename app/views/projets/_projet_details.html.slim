@@ -138,12 +138,16 @@ h3 Travaux
           th
           th Proposition
       tbody
-        - [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount].each do |field|
+        - [:travaux_ttc_amount, :travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount].each do |field|
           - value = @projet_courant.send field
           - if value.present?
             tr
               td= sf_label :projet, field
               td class="proposition__cell-price test-#{field.to_s.dasherize}"= number_to_currency value
+        - if 0 < @projet_courant.global_ttc_sum
+          tr
+            td= sf_label :projet, :global_ttc_sum
+            td.proposition__cell-price.test-global-ttc-sum= number_to_currency @projet_courant.global_ttc_sum
         - @public_aids_with_amounts.each do |aid|
           - if aid.amount.present? && 0 < aid.amount
             tr

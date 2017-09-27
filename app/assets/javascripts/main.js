@@ -127,6 +127,12 @@ $(document).ready(function() {
     $(this).siblings('.js-document__file-added').text(fileName);
   }
 
+  function sumTTC() {
+    var global_ttc_parts = Array.from($(".js-global-ttc-part"));
+    var sum = global_ttc_parts.reduce(parseAmountAndSum, 0).toFixed(2);
+    $("#js-global-ttc-sum")[0].value = sum.toString().replace('.', ',');
+  }
+
   function sumPublicAids() {
     var aids = Array.from($(".js-public-aid"));
     var sum = aids.reduce(parseAmountAndSum, 0).toFixed(2);
@@ -143,6 +149,12 @@ $(document).ready(function() {
     var field_value = parseFloat(element.value.replace(',', '.').replace(' ', ''));
     field_value = isNaN(field_value) ? 0 : field_value;
     return accumulator + field_value;
+  }
+
+  var global_ttc_parts = $(".js-global-ttc-part");
+  if (global_ttc_parts.length) {
+    sumTTC();
+    global_ttc_parts.keyup(sumTTC);
   }
 
   var public_aids = $(".js-public-aid");

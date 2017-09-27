@@ -202,9 +202,9 @@ FactoryGirl.define do
     trait :proposition_enregistree do
       statut :proposition_enregistree
       date_de_visite DateTime.new(2016, 12, 28)
-      travaux_ht_amount               1111.11
-      assiette_subventionnable_amount 2222.22
-      travaux_ttc_amount              5555.55
+      travaux_ttc_amount              1111.11
+      travaux_ht_amount               2222.22
+      assiette_subventionnable_amount 3333.33
       with_demandeur
       with_account
       with_demande
