@@ -10,8 +10,9 @@ class Document < ApplicationRecord
 
     hash[:required] << (payment.type_paiement.to_sym == :avance ? :devis_paiement : :factures)
     hash[:required] << :rib
-    hash[:required] << :mandat_paiement if payment.personne_morale
-    hash[:required] << :demande_signee if false # projet.mandat? quand on aura intégré les mandats
+    hash[:required] << :mandat_paiement if payment.procuration
+    #TODO Quand on aura intégré les mandats
+    #hash[:required] << :demande_signee if projet.mandat?
     hash[:required] << :plan_financement if payment.type_paiement.to_sym == :solde
 
     hash
@@ -21,7 +22,8 @@ class Document < ApplicationRecord
     projet_themes = projet.themes.map(&:libelle)
     hash = { required: [], one_of: [[:devis_projet, :estimation]], none: [:autres_projet] }
 
-    hash[:required] << :mandat_projet if false # projet.mandat? quand on aura intégré les mandats
+    #TODO Quand on aura intégré les mandats
+    #hash[:required] << :mandat_projet if projet.mandat?
 
     if projet_themes.include? "Autonomie"
       hash[:required] << :justificatif_autonomie

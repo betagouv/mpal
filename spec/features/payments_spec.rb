@@ -17,39 +17,36 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       # Ajout
       click_on I18n.t("payment_registry.add_payment")
       choose :avance
-      fill_in I18n.t("payment.beneficiaire_question"), with: "SOLIHA"
-      choose "Une personne morale"
+      fill_in I18n.t("payment.procuration"), with: "SOLIHA"
+      choose I18n.t("payment.procuration_answer.third_party")
       click_on I18n.t("payment.actions.create.label")
 
       click_on I18n.t("payment_registry.add_payment")
       choose :solde
-      fill_in I18n.t("payment.beneficiaire_question"), with: "Emile Lévesque"
-      choose "Une personne physique"
+      fill_in I18n.t("payment.procuration"), with: "MacGyver"
+      choose I18n.t("payment.procuration_answer.third_party")
       click_on I18n.t("payment.actions.create.label")
 
       within ".test-entry-0" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "En cours de montage"
-        expect(page).to have_content I18n.t("payment_registry.legal_person", beneficiaire: "SOLIHA")
+        expect(page).to have_content I18n.t("payment_registry.procuration", beneficiaire: "SOLIHA")
       end
 
       within ".test-entry-1" do
         expect(page).to have_content "Demande de solde"
         expect(page).to have_content "En cours de montage"
-        expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "Emile Lévesque")
       end
 
       # Modification
       within(".test-entry-0") { click_on I18n.t("payment.actions.modify.label") }
       choose :acompte
-      fill_in I18n.t("payment.beneficiaire_question"), with: "Jean Louis"
-      choose "Une personne physique"
+      choose I18n.t("payment.procuration_answer.beneficiary")
       click_on I18n.t("payment.actions.modify.label")
 
       within ".test-entry-0" do
         expect(page).to have_content "Demande d’acompte"
         expect(page).to have_content "En cours de montage"
-        expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "Jean Louis")
       end
 
       # Suppression
@@ -62,7 +59,6 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       within ".test-entry-0" do
         expect(page).to have_content "Demande de solde"
         expect(page).to have_content "Proposée en attente de validation"
-        expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "Emile Lévesque")
       end
       expect(page).to have_content I18n.t("payment.actions.ask_for_validation.success")
     end
@@ -86,7 +82,6 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       within ".test-entry-1" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "Déposée en attente de modification"
-        expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")
       end
     end
   end
@@ -109,7 +104,6 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       within ".test-entry-1" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "Proposée en attente de modification"
-        expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")
       end
 
       # Dépôt
@@ -119,7 +113,6 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       within ".test-entry-1" do
         expect(page).to have_content "Demande de solde"
         expect(page).to have_content "Déposée"
-        expect(page).to have_content I18n.t("payment_registry.physical_person", beneficiaire: "")
       end
     end
   end
