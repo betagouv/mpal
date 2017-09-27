@@ -111,6 +111,26 @@ describe Projet do
     end
   end
 
+  describe "#global_ttc_sum" do
+    let(:projet) { create :projet }
+
+    before do
+      projet.update_attributes(
+        travaux_ttc_amount: 1.1,
+        amo_amount: 1.1,
+        maitrise_oeuvre_amount: 1.1,
+        travaux_ht_amount: 4,
+        assiette_subventionnable_amount: 4,
+        personal_funding_amount: 4,
+        loan_amount: 4
+      )
+    end
+
+    it "somme les montants travaux_ttc_amount, amo_amount et maitrise_oeuvre_amount" do
+      expect(projet.global_ttc_sum).to eq 3.3
+    end
+  end
+
   describe "#clean_numero_fiscal" do
     let(:projet) { build :projet }
     before do

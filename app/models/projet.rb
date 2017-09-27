@@ -7,7 +7,7 @@ class Projet < ApplicationRecord
   NB_PIECES_VALUES         = ["1", "2", "3", "4", "5", "Plus de 5"]
   HOUSE_EVALUATION_FIELDS  = [:autonomie, :niveau_gir, :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation, :remarques_diagnostic]
   ENERGY_EVALUATION_FIELDS = [:consommation_apres_travaux, :etiquette_apres_travaux, :gain_energetique]
-  FUNDING_FIELDS           = [:travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :travaux_ttc_amount, :personal_funding_amount, :loan_amount]
+  FUNDING_FIELDS           = [:travaux_ttc_amount, :travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :loan_amount]
 
   STATUSES             = [:prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :transmis_pour_instruction, :en_cours_d_instruction]
   INTERVENANT_STATUSES = [:prospect, :en_cours_de_montage, :depose, :en_cours_d_instruction]
@@ -83,7 +83,7 @@ class Projet < ApplicationRecord
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
 
-  attr_accessor :accepts, :localized_public_aids_sum, :localized_fundings_sum
+  attr_accessor :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum
 
   before_create { self.plateforme_id = Time.now.to_i }
   before_save :clean_numero_fiscal, :clean_reference_avis
@@ -169,6 +169,11 @@ class Projet < ApplicationRecord
       end
     end
     self.projet_aides.sort_by { |x| x.libelle }
+  end
+
+  def global_ttc_sum
+    global_ttc_parts = [:travaux_ttc_amount, :amo_amount, :maitrise_oeuvre_amount]
+    global_ttc_parts.map{ |column| self[column] }.compact.sum
   end
 
   def clean_numero_fiscal
