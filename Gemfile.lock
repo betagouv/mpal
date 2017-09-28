@@ -101,9 +101,6 @@ GEM
       dotenv (= 2.2.1)
       railties (>= 3.2, < 5.2)
     erubi (1.6.1)
-    exception_notification (4.2.2)
-      actionmailer (>= 4.0, < 6)
-      activesupport (>= 4.0, < 6)
     excon (0.58.0)
     execjs (2.7.0)
     factory_girl (4.8.0)
@@ -396,7 +393,6 @@ DEPENDENCIES
   devise
   devise_cas_authenticatable
   dotenv-rails
-  exception_notification
   factory_girl_rails
   fakeweb
   fog-core (= 1.42.0)
