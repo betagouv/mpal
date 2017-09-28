@@ -252,10 +252,10 @@ describe DossiersController do
         it "je peux voir la liste des projets qui concernent mon département" do
           get :indicateurs
           expect(assigns(:projets_count)).to eq 4
-          expect(assigns(:projets)[:prospect]).to eq 0
-          expect(assigns(:projets)[:en_cours_de_montage]).to eq 2
-          expect(assigns(:projets)[:depose]).to eq 1
-          expect(assigns(:projets)[:en_cours_d_instruction]).to eq 1
+          expect(assigns(:status_with_count)[:prospect]).to eq 0
+          expect(assigns(:status_with_count)[:en_cours_de_montage]).to eq 2
+          expect(assigns(:status_with_count)[:depose]).to eq 1
+          expect(assigns(:status_with_count)[:en_cours_d_instruction]).to eq 1
         end
       end
     end
@@ -277,10 +277,10 @@ describe DossiersController do
         get :indicateurs
         expect(response).to render_template(:indicateurs)
         expect(assigns(:projets_count)).to eq 2
-        expect(assigns(:projets)[:prospect]).to eq 0
-        expect(assigns(:projets)[:en_cours_de_montage]).to eq 2
-        expect(assigns(:projets)[:depose]).to eq 0
-        expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
+        expect(assigns(:status_with_count)[:prospect]).to eq 0
+        expect(assigns(:status_with_count)[:en_cours_de_montage]).to eq 2
+        expect(assigns(:status_with_count)[:depose]).to eq 0
+        expect(assigns(:status_with_count)[:en_cours_d_instruction]).to eq 0
       end
     end
 
@@ -301,10 +301,10 @@ describe DossiersController do
         get :indicateurs
         expect(response).to render_template(:indicateurs)
         expect(assigns(:projets_count)).to eq 3
-        expect(assigns(:projets)[:prospect]).to eq 0
-        expect(assigns(:projets)[:en_cours_de_montage]).to eq 3
-        expect(assigns(:projets)[:depose]).to eq 0
-        expect(assigns(:projets)[:en_cours_d_instruction]).to eq 0
+        expect(assigns(:status_with_count)[:prospect]).to eq 0
+        expect(assigns(:status_with_count)[:en_cours_de_montage]).to eq 3
+        expect(assigns(:status_with_count)[:depose]).to eq 0
+        expect(assigns(:status_with_count)[:en_cours_d_instruction]).to eq 0
       end
     end
   end
