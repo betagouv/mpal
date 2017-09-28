@@ -92,7 +92,7 @@ namespace :after_party do
 
         projet = Projet.find_by_id id
         if projet.present?
-          projet.update_attribute(:travaux_ttc, travaux_ttc)
+          projet.update_attribute(:travaux_ttc_amount, travaux_ttc)
         else
           puts "Skipping updating : Projet #{id} not found"
         end
