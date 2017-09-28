@@ -88,22 +88,24 @@ class DossiersController < ApplicationController
   def indicateurs
     @page_heading = 'Indicateurs'
 
-    if current_agent.instructeur? || current_agent.dreal?
-      departements = current_agent.intervenant.departements
-      projets = departements.map { |d| Projet.all.select { |p| p.adresse.try(:departement) == d } }.flatten
-
-      all_projets_status = projets.map(&:status_for_intervenant)
-      @projets_count = projets.count
-      status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
-      @projets = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
-    elsif current_agent.siege?
-      all_projets_status = Projet.all.map(&:status_for_intervenant)
-      @projets_count = all_projets_status.count
-      status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
-      @projets = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
-    else
+    unless current_agent.dreal? || current_agent.instructeur? || current_agent.siege?
       redirect_to dossiers_path, alert: t('sessions.access_forbidden')
     end
+
+    if current_agent.siege?
+      projets = Projet.all
+    elsif (current_agent.dreal? || current_agent.instructeur?) && current_agent.intervenant.try(:departements).present?
+      departements = current_agent.intervenant.try(:departements) || []
+      #TODO Optimiser le Projet.all
+      projets = departements.map { |d| Projet.all.select { |p| p.adresse.try(:departement) == d } }.flatten
+    else
+      projets = current_agent.intervenant.try(:projets) || []
+    end
+
+    @projets_count = projets.count
+    all_projets_status = projets.map(&:status_for_intervenant)
+    status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
+    @status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
   end
 
 private

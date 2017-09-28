@@ -5,7 +5,7 @@ h1 Indicateurs
 h3 Il y a #{@projets_count} #{"projet".pluralize(@projets_count)}
 
 .flex-indicateurs-projet.clearfix
-  - @projets.each do |statut, count|
+  - @status_with_count.each do |statut, count|
       .indicateur-projet id="projet_#{statut}"
         h3= t("projets.statut.#{statut}")
         p.nombre-projets= count
