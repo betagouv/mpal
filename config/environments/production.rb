@@ -44,7 +44,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  config.log_level = :info
 
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
@@ -69,12 +69,6 @@ Rails.application.configure do
     port: 587, # some providers block port 25
     user_name: ENV["MAILJET_API_KEY"],
     password: ENV["MAILJET_SECRET_KEY"],
-  }
-
-  Rails.application.config.middleware.use ExceptionNotification::Rack, email: {
-    email_prefix: "[ERREUR][ANAH][#{ENV["ENV_NAME"]}] ",
-    sender_address: %{"Mon projet Anah" <#{ENV["EMAIL_SUPERVISION"]}>},
-    exception_recipients: [ENV["EMAIL_SUPERVISION"]]
   }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
