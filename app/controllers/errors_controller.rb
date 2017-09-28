@@ -15,10 +15,13 @@ class ErrorsController < ApplicationController
       responsible_type = current_agent ? "Agent" : "User"
       responsible_id   = current_agent.try(:id) || current_user.try(:id)
       exception        = request.env['action_dispatch.exception']
-      error_message    = exception.message.to_s
-      backtrace        = exception.backtrace[0..4].join("\n")
 
-      SlackNotifyJob.perform_later(server_name, method, url, parameters, ip, responsible_type, responsible_id, error_message, backtrace)
+      if exception.present?
+        error_message  = exception.message.to_s
+        backtrace      = exception.backtrace[0..4].join("\n")
+
+        SlackNotifyJob.perform_later(server_name, method, url, parameters, ip, responsible_type, responsible_id, error_message, backtrace)
+      end
     ensure
       render status: 500
     end

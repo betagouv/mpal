@@ -22,7 +22,7 @@ describe SlackNotifyJob do
 
 `#{error_message}`  :scream:
 
-*Request*
+*Request* :rocket:
 ```
 URL: #{method} #{url}
 Parameters: #{parameters}
