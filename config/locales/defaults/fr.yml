@@ -288,15 +288,17 @@ fr:
     info_only_prepare: "Vous ne pouvez pas déposer de demande de paiement tant que la subvention n’est pas accordée. Vous pouvez uniquement préparer le dossier."
     info_no_opal: "Vous ne pouvez pour l’instant pas déposer de demande de paiement dans Op@l."
     no_paiement: "Aucune demande de paiement"
-    legal_person: "Au bénéfice de la personne morale : %{beneficiaire}"
-    physical_person: "Au bénéfice de la personne physique : %{beneficiaire}"
+    procuration: "Procuration donnée à : %{beneficiaire}"
     add_payment: "Ajouter une demande de paiement"
 
   payment:
     creation: "Je crée une demande de paiement"
     edition: "Je modifie ma demande de paiement"
-    beneficiaire_question: "À qui voulez-vous que les fonds soient versés ?"
-    personne_morale_question: "Cette personne est :"
+    procuration: "Procuration donnée à :"
+    procuration_question: "À qui voulez-vous que les fonds soient versés ?"
+    procuration_answer:
+      beneficiary: "Au bénéficiaire de l’aide"
+      third_party: "À un tiers avec procuration"
     description:
       avance: "Demande d’avance"
       acompte: "Demande d’acompte"

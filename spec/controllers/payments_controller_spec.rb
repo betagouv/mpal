@@ -23,11 +23,10 @@ describe PaymentsController do
           post :create, params: {
             dossier_id: projet.id,
             payment: {
-              beneficiaire: "Emile Lévesque",
-              personne_morale: "0",
+              procuration: "false",
             }
           }
-          expect(Payment.all.count).to eq 0
+          expect(Payment.count).to eq 0
           expect(response).to render_template :new
         end
       end
@@ -39,15 +38,35 @@ describe PaymentsController do
             payment: {
               type_paiement: "avance",
               beneficiaire: "SOLIHA",
-              personne_morale: "1",
+              procuration: "true",
             }
           }
           projet.reload
           payment = projet.payment_registry.payments.first
-          expect(Payment.all.count).to eq 1
+          expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "avance"
-          expect(payment.beneficiaire).to eq "SOLIHA"
-          expect(payment.personne_morale).to eq true
+          expect(payment.beneficiaire).to  eq "SOLIHA"
+          expect(payment.procuration).to   eq true
+          expect(response).to redirect_to dossier_payment_registry_path(projet)
+        end
+      end
+
+      context "sans procuration" do
+        it "crée une demande de paiement pour le demandeur du projet" do
+          post :create, params: {
+            dossier_id: projet.id,
+            payment: {
+              type_paiement: "avance",
+              beneficiaire: "SOLIHA",
+              procuration: "false",
+            }
+          }
+          projet.reload
+          payment = projet.payment_registry.payments.first
+          expect(Payment.count).to     eq 1
+          expect(payment.type_paiement).to eq "avance"
+          expect(payment.beneficiaire).to  eq projet.demandeur.fullname
+          expect(payment.procuration).to   eq false
           expect(response).to redirect_to dossier_payment_registry_path(projet)
         end
       end
@@ -68,14 +87,14 @@ describe PaymentsController do
             payment_id: payment.id,
             payment: {
               type_paiement: "solde",
-              personne_morale: "1",
+              procuration: "true",
             }
           }
           payment.reload
-          expect(Payment.all.count).to       eq 1
-          expect(payment.type_paiement).to   eq "avance"
-          expect(payment.beneficiaire).to    eq "Emile Lévesque"
-          expect(payment.personne_morale).to eq false
+          expect(Payment.count).to     eq 1
+          expect(payment.type_paiement).to eq "avance"
+          expect(payment.beneficiaire).to  eq "Emile Lévesque"
+          expect(payment.procuration).to   eq false
           expect(response).to render_template :edit
         end
       end
@@ -88,14 +107,34 @@ describe PaymentsController do
             payment: {
               type_paiement: "solde",
               beneficiaire: "SOLIHA",
-              personne_morale: "1",
+              procuration: "true",
             }
           }
           payment.reload
-          expect(Payment.all.count).to       eq 1
-          expect(payment.type_paiement).to   eq "solde"
-          expect(payment.beneficiaire).to    eq "SOLIHA"
-          expect(payment.personne_morale).to eq true
+          expect(Payment.count).to     eq 1
+          expect(payment.type_paiement).to eq "solde"
+          expect(payment.beneficiaire).to  eq "SOLIHA"
+          expect(payment.procuration).to   eq true
+          expect(response).to redirect_to dossier_payment_registry_path(projet)
+        end
+      end
+
+      context "sans procuration" do
+        it "modifie la demande de paiement pour le demandeur du projet" do
+          put :update, params: {
+            dossier_id: projet.id,
+            payment_id: payment.id,
+            payment: {
+              type_paiement: "solde",
+              beneficiaire: "SOLIHA",
+              procuration: "false",
+            }
+          }
+          payment.reload
+          expect(Payment.count).to     eq 1
+          expect(payment.type_paiement).to eq "solde"
+          expect(payment.beneficiaire).to  eq projet.demandeur.fullname
+          expect(payment.procuration).to   eq false
           expect(response).to redirect_to dossier_payment_registry_path(projet)
         end
       end
@@ -104,7 +143,7 @@ describe PaymentsController do
     describe "#destroy" do
       it "supprime la demande de paiement" do
         delete :destroy, params: { dossier_id: projet.id, payment_id: payment.id }
-        expect(Payment.all.count).to eq 0
+        expect(Payment.count).to eq 0
         expect(response).to redirect_to dossier_payment_registry_path(projet)
       end
 

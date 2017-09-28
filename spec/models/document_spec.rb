@@ -31,10 +31,10 @@ describe Document do
   end
 
   describe "#for_payment" do
-    let(:payment_avance)          { create :payment, type_paiement: :avance }
-    let(:payment_acompte)         { create :payment, type_paiement: :acompte }
-    let(:payment_solde)           { create :payment, type_paiement: :solde }
-    let(:payment_to_legal_person) { create :payment, personne_morale: true }
+    let(:payment_avance)           { create :payment, type_paiement: :avance }
+    let(:payment_acompte)          { create :payment, type_paiement: :acompte }
+    let(:payment_solde)            { create :payment, type_paiement: :solde }
+    let(:payment_with_procuration) { create :payment, procuration: true }
 
     it "returns all attachments required for this payment" do
       expect(Document.for_payment(payment_avance)[:required]).to match_array [:devis_paiement, :rib]
@@ -46,7 +46,7 @@ describe Document do
       expect(Document.for_payment(payment_solde)[:required]).to match_array [:factures, :rib, :plan_financement]
       expect(Document.for_payment(payment_solde)[:none]).to     match_array [:autres_paiement]
 
-      expect(Document.for_payment(payment_to_legal_person)[:required]).to include :mandat_paiement
+      expect(Document.for_payment(payment_with_procuration)[:required]).to include :mandat_paiement
     end
   end
 

@@ -24,7 +24,7 @@ describe '20170707114549_migrate_dreals_siege' do
   end
 
   it "crée le nombre d'intervenants attendu" do
-    expect(Intervenant.all.count).to eq(4)
+    expect(Intervenant.count).to eq(4)
   end
 
   it "ne change pas les intervenants à jour" do

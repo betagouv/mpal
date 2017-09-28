@@ -178,5 +178,16 @@ $(document).ready(function() {
     updateSubmitButton();
     engagement.click(updateSubmitButton);
   }
+
+  function toggle_beneficiary() {
+    var beneficiary = $(".js-beneficiary");
+    $("#payment_procuration_true")[0].checked ? beneficiary.show() : beneficiary.hide();
+  }
+
+  var procuration = $(".js-procuration");
+  if (procuration.length) {
+    toggle_beneficiary();
+    procuration.click(toggle_beneficiary);
+  }
 });
 
