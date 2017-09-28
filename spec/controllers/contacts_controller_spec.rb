@@ -30,7 +30,7 @@ describe ContactsController do
       it do
         # expect(flash[:notice]).to be_present
         expect(Contact.last.name).to eq "David"
-        expect(Contact.all.count).to eq 1
+        expect(Contact.count).to eq 1
         expect(response).to redirect_to new_contact_path
       end
     end
@@ -40,7 +40,7 @@ describe ContactsController do
 
       it do
         # expect(flash[:notice]).to be_present
-        expect(Contact.all.count).to eq 0
+        expect(Contact.count).to eq 0
         expect(response).to redirect_to new_contact_path
       end
     end

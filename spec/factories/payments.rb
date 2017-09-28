@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :payment do
     type_paiement :avance
     sequence(:beneficiaire) { |n| "Beneficiaire #{n}" }
-    personne_morale false
+    procuration false
     en_cours_de_montage
 
     # Statut

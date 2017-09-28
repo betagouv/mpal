@@ -141,7 +141,7 @@ describe DocumentsController do
       it "ne crée pas de pièce-jointe" do
         authenticate_as_user projet1.demandeur_user
         post :create, params: { projet_id: projet1.id, fichier: fichier, type_piece: type_piece }
-        expect(Document.all.count).to eq 0
+        expect(Document.count).to eq 0
       end
     end
 
@@ -149,14 +149,14 @@ describe DocumentsController do
       it "ajoute une pièce-jointe au projet" do
         authenticate_as_agent projet1.agent_operateur
         post :create, params: { dossier_id: projet1.id, fichier: fichier, type_piece: type_piece }
-        expect(Document.all.count).to eq 1
+        expect(Document.count).to eq 1
         expect(response).to redirect_to dossier_documents_path(projet1)
       end
 
       it "ajoute une pièce-jointe à la demande de paiement" do
         authenticate_as_agent projet1.agent_operateur
         post :create, params: { dossier_id: projet1.id, fichier: fichier, type_piece: type_piece, payment_id: payment_projet1.id }
-        expect(Document.all.count).to eq 1
+        expect(Document.count).to eq 1
         expect(response).to redirect_to dossier_documents_path(projet1)
       end
     end
@@ -170,7 +170,7 @@ describe DocumentsController do
       it "je ne peux pas supprimer une pièce-jointe" do
         authenticate_as_user projet.demandeur_user
         delete :destroy, params: { projet_id: projet.id, id: document.id }
-        expect(Document.all.count).to eq 1
+        expect(Document.count).to eq 1
       end
     end
 
@@ -179,7 +179,7 @@ describe DocumentsController do
         it "je peux supprimer une pièce-jointe projet" do
           authenticate_as_agent projet.agent_operateur
           delete :destroy, params: { dossier_id: projet.id, id: document.id }
-          expect(Document.all.count).to eq 0
+          expect(Document.count).to eq 0
         end
       end
 
@@ -191,7 +191,7 @@ describe DocumentsController do
           it "je ne peux pas la supprimer" do
             authenticate_as_agent projet.agent_operateur
             delete :destroy, params: { dossier_id: projet.id, id: document.id }
-            expect(Document.all.count).to eq 1
+            expect(Document.count).to eq 1
           end
         end
 
@@ -201,7 +201,7 @@ describe DocumentsController do
           it "je peux la supprimer" do
             authenticate_as_agent projet.agent_operateur
             delete :destroy, params: { dossier_id: projet.id, payment_id: payment.id, id: document.id }
-            expect(Document.all.count).to eq 0
+            expect(Document.count).to eq 0
           end
         end
       end

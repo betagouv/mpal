@@ -81,7 +81,11 @@ class PaymentsController < ApplicationController
   end
 
   def payment_params
-    params.require(:payment).permit(:type_paiement, :beneficiaire, :personne_morale)
+    parameters = params.require(:payment).permit(:type_paiement, :beneficiaire, :procuration)
+    if parameters[:procuration] != "true"
+      parameters[:beneficiaire] = @projet_courant.demandeur.fullname
+    end
+    parameters
   end
 
   def find_payment

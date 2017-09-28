@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170915114816) do
+ActiveRecord::Schema.define(version: 20170927134628) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -220,7 +220,7 @@ ActiveRecord::Schema.define(version: 20170915114816) do
     t.string "statut"
     t.string "type_paiement"
     t.string "beneficiaire", default: "", null: false
-    t.boolean "personne_morale", default: false, null: false
+    t.boolean "procuration", default: false, null: false
     t.decimal "montant", precision: 10, scale: 2
     t.datetime "submitted_at"
     t.datetime "payed_at"

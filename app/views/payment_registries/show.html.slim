@@ -47,8 +47,9 @@
         .registry__details
           .registry__status
             = payment.status_with_action
-          .registry__beneficiary
-            = t("payment_registry.#{payment.personne_morale ? :legal_person : :physical_person}", beneficiaire: payment.beneficiaire)
+          - if payment.procuration
+            .registry__beneficiary
+              = t("payment_registry.procuration", beneficiaire: payment.beneficiaire)
 
 - if can? :create, Payment
   .registry__button-group

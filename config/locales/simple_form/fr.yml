@@ -131,9 +131,9 @@ fr:
         ptz: "Prêt à taux zéro contracté"
 
       payment:
-        beneficiaire: "Bénéficiaire"
+        beneficiaire: "Bénéficiaire de la procuration"
         type_paiement: "Type de demande"
-        personne_morale: "Personne morale"
+        procuration: "Bénéficiaire du paiement"
     hints:
       defaults:
         birthday: "JJ/MM/AAAA"
