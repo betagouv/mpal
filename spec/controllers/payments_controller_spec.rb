@@ -26,7 +26,7 @@ describe PaymentsController do
               procuration: "false",
             }
           }
-          expect(Payment.all.count).to eq 0
+          expect(Payment.count).to eq 0
           expect(response).to render_template :new
         end
       end
@@ -43,7 +43,7 @@ describe PaymentsController do
           }
           projet.reload
           payment = projet.payment_registry.payments.first
-          expect(Payment.all.count).to     eq 1
+          expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq "SOLIHA"
           expect(payment.procuration).to   eq true
@@ -63,7 +63,7 @@ describe PaymentsController do
           }
           projet.reload
           payment = projet.payment_registry.payments.first
-          expect(Payment.all.count).to     eq 1
+          expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq projet.demandeur.fullname
           expect(payment.procuration).to   eq false
@@ -91,7 +91,7 @@ describe PaymentsController do
             }
           }
           payment.reload
-          expect(Payment.all.count).to     eq 1
+          expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq "Emile Lévesque"
           expect(payment.procuration).to   eq false
@@ -111,7 +111,7 @@ describe PaymentsController do
             }
           }
           payment.reload
-          expect(Payment.all.count).to     eq 1
+          expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "solde"
           expect(payment.beneficiaire).to  eq "SOLIHA"
           expect(payment.procuration).to   eq true
@@ -131,7 +131,7 @@ describe PaymentsController do
             }
           }
           payment.reload
-          expect(Payment.all.count).to     eq 1
+          expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "solde"
           expect(payment.beneficiaire).to  eq projet.demandeur.fullname
           expect(payment.procuration).to   eq false
@@ -143,7 +143,7 @@ describe PaymentsController do
     describe "#destroy" do
       it "supprime la demande de paiement" do
         delete :destroy, params: { dossier_id: projet.id, payment_id: payment.id }
-        expect(Payment.all.count).to eq 0
+        expect(Payment.count).to eq 0
         expect(response).to redirect_to dossier_payment_registry_path(projet)
       end
 

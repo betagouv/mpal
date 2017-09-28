@@ -48,7 +48,7 @@ describe PaymentRegistriesController do
       it "affiche une erreur" do
         post :create, params: { dossier_id: projet.id }
         expect(flash[:alert]).to be_present
-        expect(PaymentRegistry.all.count).to eq 0
+        expect(PaymentRegistry.count).to eq 0
       end
     end
 
@@ -71,7 +71,7 @@ describe PaymentRegistriesController do
         post :create, params: { dossier_id: projet.id }
         projet.reload
         expect(flash[:alert]).to be_present
-        expect(PaymentRegistry.all.count).to eq 1
+        expect(PaymentRegistry.count).to eq 1
         expect(projet.payment_registry).to eq payment_registry
       end
     end
