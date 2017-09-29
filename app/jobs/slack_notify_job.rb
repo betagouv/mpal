@@ -17,33 +17,42 @@ class SlackNotifyJob < ApplicationJob
 *Server: #{server_name}*
 *Date:* #{Time.current}
 
-`#{error_message}`  :scream:
+`#{error_message.gsub("`","'")}`  :scream:
 
-*Request*
+*Request* :rocket:
 ```
 URL: #{method} #{url}
 Parameters: #{parameters}
 IP: #{ip}
-#{responsible_message(responsible)}
+#{responsible_message(responsible, parameters)}
 ```
 
 *Backtrace* :poop: ```#{backtrace}```
     )
   end
 
-  def responsible_message(responsible)
+  def responsible_message(responsible, parameters)
     return "User: not connected" if responsible.blank?
+    message = []
 
     if responsible.is_a? Agent
-      message =  "Agent: #{responsible.fullname} (##{responsible.id}), #{responsible.intervenant.try(:raison_sociale)}\n"
+      message << "Agent: #{responsible.fullname} (##{responsible.id}), #{responsible.intervenant.try(:raison_sociale)}"
       message << "Email: #{responsible.username}"
     end
 
     if responsible.is_a? User
-      message =  "User: #{responsible.fullname} (##{responsible.id})\n"
+      message << "User: #{responsible.id}"
       message << "Email: #{responsible.email}"
     end
 
-    message
+    if id = (parameters["projet_id"] || parameters["dossier_id"])
+      projet = Projet.find_by_id id
+      if projet
+        message << "Projet id: #{projet.id}"
+        message << "Demandeur: #{projet.demandeur.fullname}" if projet.demandeur
+      end
+    end
+
+    message.join("\n")
   end
 end
