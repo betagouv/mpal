@@ -86,7 +86,12 @@ ActiveRecord::Schema.define(version: 20171004132955) do
     t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "department"
+    t.string "plateform_id"
+    t.string "sender_type"
+    t.bigint "sender_id"
     t.index ["name", "email"], name: "index_contacts_on_name_and_email"
+    t.index ["sender_type", "sender_id"], name: "index_contacts_on_sender_type_and_sender_id"
   end
 
   create_table "demandes", id: :serial, force: :cascade do |t|
