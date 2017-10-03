@@ -6,6 +6,5 @@ FactoryGirl.define do
       Ceci est une demande de test.
       JD
     )
-    department "88"
   end
 end
