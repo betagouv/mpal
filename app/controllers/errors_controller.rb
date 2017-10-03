@@ -6,6 +6,7 @@ class ErrorsController < ApplicationController
   end
 
   def internal_server_error
+    return unless Rails.env.production?
     begin
       server_name      = request.env["SERVER_NAME"]
       method           = request.method
@@ -22,7 +23,7 @@ class ErrorsController < ApplicationController
 
         SlackNotifyJob.perform_later(server_name, method, url, parameters, ip, responsible_type, responsible_id, error_message, backtrace)
       end
-    ensure
+    rescue
       render status: 500
     end
   end
