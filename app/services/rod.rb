@@ -18,7 +18,9 @@ class Rod
       raise RodError, message
     end
 
-    RodResponse.new(JSON.parse(response.body))
+    rod_response = RodResponse.new(JSON.parse(response.body))
+    log_successful_query(projet, rod_response)
+    rod_response
   end
 
 private
@@ -40,5 +42,13 @@ private
     rescue
       "#{response.msg} (#{response.code})"
     end
+  end
+
+  def log_successful_query(projet, rod_response)
+    Rails.logger.info "ROD response for project id #{projet.id}"
+    Rails.logger.info "PRIS:        #{rod_response.pris.try(:raison_sociale)}"
+    Rails.logger.info "Instructeur: #{rod_response.instructeur.try(:raison_sociale)}"
+    Rails.logger.info "Operations:  #{rod_response.operations.map(&:name).join(", ")}"
+    Rails.logger.info "Operateurs:  #{rod_response.operateurs.map(&:raison_sociale).join(", ")}"
   end
 end
