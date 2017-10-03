@@ -7,7 +7,7 @@ describe Rod do
     subject(:rod_response) { Rod.new(RodClient).query_for(projet) }
 
     context "en cas de succès" do
-      context "si le PRIS n'existent pas " do
+      context "si le PRIS n'existe pas " do
         it "crée le PRIS" do
           expect(rod_response.pris.raison_sociale).to    eq "ADIL du Doubs"
           expect(rod_response.pris.adresse_postale).to   eq "1 chemin de Ronde du Fort Griffon 25000 Besançon"
@@ -29,6 +29,31 @@ describe Rod do
           expect(rod_response.pris.phone).to               eq "03 81 61 92 41"
           expect(rod_response.pris.roles).to               include "pris"
           expect(rod_response.pris.clavis_service_id).to eq "5421"
+        end
+      end
+
+      context "si le PRIS EIE n'existe pas " do
+        it "crée le PRIS EIE" do
+          expect(rod_response.pris_eie.raison_sociale).to    eq "ADIL Doudoux"
+          expect(rod_response.pris_eie.adresse_postale).to   eq "1 chemin de Ronde du Fort Griffon 25000 Besançon"
+          expect(rod_response.pris_eie.email).to             eq "adil25@orange.fr"
+          expect(rod_response.pris_eie.phone).to             eq "03 81 61 92 41"
+          expect(rod_response.pris_eie.roles).to             include "pris"
+          expect(rod_response.pris_eie.clavis_service_id).to eq "5422"
+        end
+      end
+
+      context "si le PRIS EIE existe" do
+        let!(:pris_eie) { create :pris, clavis_service_id: 5422, roles: [] }
+
+        it "met à jour les informations du PRIS EIE" do
+          expect(rod_response.pris_eie.id).to                  eq pris_eie.id
+          expect(rod_response.pris_eie.raison_sociale).to      eq "ADIL Doudoux"
+          expect(rod_response.pris_eie.adresse_postale).to     eq "1 chemin de Ronde du Fort Griffon 25000 Besançon"
+          expect(rod_response.pris_eie.email).to               eq "adil25@orange.fr"
+          expect(rod_response.pris_eie.phone).to               eq "03 81 61 92 41"
+          expect(rod_response.pris_eie.roles).to               include "pris"
+          expect(rod_response.pris_eie.clavis_service_id).to eq "5422"
         end
       end
 

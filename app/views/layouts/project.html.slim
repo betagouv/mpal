@@ -4,8 +4,7 @@
       - if @projet_courant.invitations.any?
         = render "projets/menu", project: @projet_courant
       - else
-        - unless can? :departement_non_eligible, :demandeur
-          = render "projets/registration_steps", project: @projet_courant
+        = render "projets/registration_steps", project: @projet_courant
     = render "shared/flash"
     - if @page_heading.present?
       h1.page-heading= @page_heading

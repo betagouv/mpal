@@ -39,7 +39,7 @@ private
   def fetch_intervenants_and_operations
     if ENV['ROD_ENABLED'] == 'true'
       rod_response = Rod.new(RodClient).query_for(@projet_courant)
-      @pris        = rod_response.pris
+      @pris        = @not_eligible ? rod_response.pris_eie : rod_response.pris
       @instructeur = rod_response.instructeur
       @operateurs  = rod_response.operateurs
       @operations  = rod_response.operations

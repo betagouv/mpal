@@ -134,14 +134,14 @@ fr:
     # ----------------------- Eligibilité ---------------------
     eligibility:
       eligible: "D’après les informations que vous avez transmises, les conditions sont remplies pour faire une demande d’aide."
-      not_eligible: "D’après les informations que vous avez transmises, vous ne pouvez pas bénéficier d’une aide. Néanmoins un complément d’étude de votre situation est possible."
+      not_eligible: "D'après les informations que vous avez transmises, les conditions ne sont pas remplies pour faire une demande d'aide."
       informations: "Pour découvrir les conditions s’appliquant à votre projet, vous pouvez consulter %{conditions}."
 
     # ----------------------- Mise en relation ---------------------
     mise_en_relation:
       titre: "Choisissez votre opérateur"
       assignement_pris_titre: "Mon contact"
-      non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée"
+      non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée."
       information_pris: "Votre contact est le Point Rénovation Info Service « %{pris} »."
       to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Du lundi au vendredi (matin ou après-midi)"
