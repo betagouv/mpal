@@ -84,6 +84,7 @@ fr:
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
     action: "Continuer"
+    go_back: "Revenir"
     # ----------------------- Demandeur ---------------------
     demandeur:
       erreurs:

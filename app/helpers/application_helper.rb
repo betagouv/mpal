@@ -29,6 +29,7 @@ module ApplicationHelper
   # * href: optional, URL to link to, if present change default `tag` to `a`
   # * class: optional, CSS classes to append
   # * icon: optional, glyphicon to use (without prefix), cf http://getbootstrap.com/components/#glyphicons-glyphs
+  # * icon_before: optional, if `true` prepend the icon, otherwise append it
   # * html: optional, any html attribute you want
   def btn(opts = {})
     p = {}
@@ -43,7 +44,11 @@ module ApplicationHelper
       content_tag (opts[:tag] || :button), p do
         if opts[:icon].present?
           if opts[:name].present?
-            content_tag(:span, opts[:name].html_safe) + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+            if !!opts[:icon_before]
+              content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}") + content_tag(:span, opts[:name].html_safe)
+            else
+              content_tag(:span, opts[:name].html_safe) + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+            end
           else
             content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
           end
