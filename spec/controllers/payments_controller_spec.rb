@@ -47,6 +47,7 @@ describe PaymentsController do
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq "SOLIHA"
           expect(payment.procuration).to   eq true
+          expect(payment.projet_id).to     eq projet.id #TODO Delete with PaymentRegistry
           expect(response).to redirect_to dossier_payment_registry_path(projet)
         end
       end
@@ -67,6 +68,7 @@ describe PaymentsController do
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq projet.demandeur.fullname
           expect(payment.procuration).to   eq false
+          expect(payment.projet_id).to     eq projet.id #TODO Delete with PaymentRegistry
           expect(response).to redirect_to dossier_payment_registry_path(projet)
         end
       end
@@ -115,6 +117,7 @@ describe PaymentsController do
           expect(payment.type_paiement).to eq "solde"
           expect(payment.beneficiaire).to  eq "SOLIHA"
           expect(payment.procuration).to   eq true
+          expect(payment.projet_id).to     eq projet.id #TODO Delete with PaymentRegistry
           expect(response).to redirect_to dossier_payment_registry_path(projet)
         end
       end
@@ -135,6 +138,7 @@ describe PaymentsController do
           expect(payment.type_paiement).to eq "solde"
           expect(payment.beneficiaire).to  eq projet.demandeur.fullname
           expect(payment.procuration).to   eq false
+          expect(payment.projet_id).to     eq projet.id #TODO Delete with PaymentRegistry
           expect(response).to redirect_to dossier_payment_registry_path(projet)
         end
       end

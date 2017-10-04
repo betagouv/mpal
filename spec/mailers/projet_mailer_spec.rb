@@ -9,8 +9,8 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.cc).to eq([projet.personne.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.recommandation_operateurs.sujet')) }
-    it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
-    it { expect(email.body.encoded).to match(projet_choix_operateur_url(projet)) }
+    it { expect(email.body).to include(projet.demandeur.fullname) }
+    it { expect(email.body).to include(projet_choix_operateur_url(projet)) }
   end
 
   describe "notifie l'opérateur de l'invitation du demandeur" do
@@ -20,10 +20,10 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
     it { expect(email.to).to eq([invitation.intervenant.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.invitation_intervenant.sujet', demandeur: invitation.demandeur.fullname)) }
-    it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
-    it { expect(email.body.encoded).to match(invitation.description_adresse) }
-    it { expect(email.body.encoded).to include("Difficultés rencontrées dans le logement") }
-    it { expect(email.body.encoded).to include(dossier_url(invitation.projet)) }
+    it { expect(email.body).to include(invitation.demandeur.fullname) }
+    it { expect(email.body).to include(invitation.description_adresse) }
+    it { expect(email.body).to include("Difficultés rencontrées dans le logement") }
+    it { expect(email.body).to include(dossier_url(invitation.projet)) }
   end
 
   describe "notifie le demandeur qu'il a bien invité un opérateur " do
@@ -35,8 +35,8 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.cc).to eq([projet.personne.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_invitation_intervenant.sujet', intervenant: invitation.intervenant.raison_sociale)) }
-    it { expect(email.body.encoded).to match(invitation.intervenant.raison_sociale) }
-    it { expect(email.body.encoded).to include("Un email vient d’être envoyé à ") }
+    it { expect(email.body).to include(invitation.intervenant.raison_sociale) }
+    it { expect(email.body).to include("Un email vient d’être envoyé à ") }
   end
 
   describe "notifie l'opérateur que le demandeur a choisi un autre opérateur" do
@@ -46,7 +46,7 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
     it { expect(email.to).to eq([invitation.intervenant.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.resiliation_operateur.sujet', demandeur: invitation.demandeur.fullname)) }
-    it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
+    it { expect(email.body).to include(invitation.demandeur.fullname) }
   end
 
   describe "notifie l'intervenant qu'il a été choisi par le demandeur" do
@@ -58,8 +58,8 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
     it { expect(email.to).to eq([projet.operateur.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_engagement_operateur.sujet', intervenant: operateur.raison_sociale, demandeur: projet.demandeur.fullname)) }
-    it { expect(email.body.encoded).to match(invitation.demandeur.fullname) }
-    it { expect(email.body.encoded).to include(dossier_url(projet)) }
+    it { expect(email.body).to include(invitation.demandeur.fullname) }
+    it { expect(email.body).to include(dossier_url(projet)) }
   end
 
   describe "notifie le demandeur qu'il doit valider la proposition faite par l'opérateur" do
@@ -71,8 +71,8 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.cc).to eq([projet.personne.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.notification_validation_dossier.sujet')) }
-    it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
-    it { expect(email.body.encoded).to match(projet.operateur.raison_sociale) }
+    it { expect(email.body).to include(projet.demandeur.fullname) }
+    it { expect(email.body).to include(projet.operateur.raison_sociale) }
     it { expect(email.body).to include("a complété votre dossier") }
   end
 
@@ -85,7 +85,7 @@ describe ProjetMailer, type: :mailer do
     it { expect(email.from).to eq([ENV['EMAIL_CONTACT']]) }
     it { expect(email.to).to eq([mise_en_relation.intervenant.email]) }
     it { expect(email.subject).to eq(I18n.t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: mise_en_relation.intermediaire.raison_sociale)) }
-    it { expect(email.body.encoded).to match(mise_en_relation.description_adresse) }
+    it { expect(email.body).to include(mise_en_relation.description_adresse) }
     it { expect(email.body).to include(prestation.libelle) }
   end
 

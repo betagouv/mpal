@@ -18,6 +18,7 @@ class PaymentsController < ApplicationController
 
   def create
     @payment = Payment.new payment_params
+    @payment.projet_id = @projet_courant.id #TODO Delete with PaymentRegistry
     if @payment.save
       @projet_courant.payment_registry.payments << @payment
       redirect_to dossier_payment_registry_path @projet_courant
@@ -32,7 +33,9 @@ class PaymentsController < ApplicationController
   def update
     @payment = Payment.new payment_params
     payment_to_update = Payment.find params[:payment_id]
-    if @payment.valid? && payment_to_update.update(payment_params)
+    payment_to_update.assign_attributes payment_params
+    payment_to_update.projet_id = @projet_courant.id #TODO Delete with PaymentRegistry
+    if @payment.valid? && payment_to_update.save
       redirect_to dossier_payment_registry_path @projet_courant
     else
       render :edit
