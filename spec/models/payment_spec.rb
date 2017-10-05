@@ -11,6 +11,31 @@ describe Payment do
     it { is_expected.to have_many :documents }
   end
 
+  describe "#validate_projet" do
+    let!(:projet_prospect)                   { create :projet, :prospect }
+    let!(:projet_en_cours)                   { create :projet, :en_cours }
+    let!(:projet_proposition_enregistree)    { create :projet, :proposition_enregistree }
+    let!(:projet_proposition_proposee)       { create :projet, :proposition_proposee }
+    let!(:projet_transmis_pour_instruction)  { create :projet, :transmis_pour_instruction }
+    let!(:projet_en_cours_d_instruction)     { create :projet, :en_cours_d_instruction }
+
+    let(:payment_prospect)                   { build :payment, projet: projet_prospect }
+    let(:payment_en_cours)                   { build :payment, projet: projet_en_cours }
+    let(:payment_proposition_enregistree)    { build :payment, projet: projet_proposition_enregistree }
+    let(:payment_proposition_proposee)       { build :payment, projet: projet_proposition_proposee }
+    let(:payment_transmis_pour_instruction)  { build :payment, projet: projet_transmis_pour_instruction }
+    let(:payment_en_cours_d_instruction)     { build :payment, projet: projet_en_cours_d_instruction }
+
+    it "empêche de créer une demande de paiement si le projet n'a pas été transmis pour instruction" do
+      expect(payment_prospect.valid?).to                  be_falsy
+      expect(payment_en_cours.valid?).to                  be_falsy
+      expect(payment_proposition_enregistree.valid?).to   be_falsy
+      expect(payment_proposition_proposee.valid?).to      be_falsy
+      expect(payment_transmis_pour_instruction.valid?).to be_truthy
+      expect(payment_en_cours_d_instruction.valid?).to    be_truthy
+    end
+  end
+
   describe "#description" do
     let(:payment_avance)  { create :payment, type_paiement: :avance }
     let(:payment_acompte) { create :payment, type_paiement: :acompte }

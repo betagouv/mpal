@@ -5,6 +5,7 @@ class Payment < ApplicationRecord
 
   validates :beneficiaire, :type_paiement, presence: true
   validate  :validate_type_paiement
+  validate  :validate_projet
 
   belongs_to :payment_registry #TODO Delete with Payment Registry
   belongs_to :projet
@@ -58,5 +59,11 @@ class Payment < ApplicationRecord
 
   def validate_type_paiement
     errors.add(:type_paiement, :invalid) if type_paiement.present? && (TYPES.exclude? type_paiement.to_sym)
+  end
+
+  def validate_projet
+    if projet&.status_not_yet(:transmis_pour_instruction)
+      errors.add(:projet, "Vous ne pouvez ajouter une demande de paiement que si le projet a été transmis pour instruction")
+    end
   end
 end
