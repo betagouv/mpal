@@ -9,7 +9,15 @@ class PaymentsController < ApplicationController
   end
 
   rescue_from ActiveRecord::RecordNotFound do
+    #TODO handle exceptions in action
     redirect_to "/404"
+  end
+
+  def index
+    payments_by_update = Payment.where(projet_id: @projet_courant.id).order(updated_at: :desc)
+    payments_first = payments_by_update.select { |p| ((can? :modify, p) || (can? :ask_for_modification, p) || (can? :ask_for_instruction, p)) }
+    payments_last = payments_by_update.select { |p| ( (can? :read, p) && !((can? :modify, p) || (can? :ask_for_modification, p) || (can? :ask_for_instruction, p)) )}
+    @payments = payments_first + payments_last
   end
 
   def new

@@ -19,7 +19,7 @@ class PaymentRegistry < ApplicationRecord
   end
 
   def statuses
-    payments.map { |payment| "#{I18n.t("payment.type_paiement.#{payment.type_paiement}")} #{I18n.t("payment.statut.#{payment.statut}")}" }.join(" - ")
+    payments.map(&:dashboard_status).join(" - ")
   end
 end
 

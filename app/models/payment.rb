@@ -49,6 +49,10 @@ class Payment < ApplicationRecord
     [I18n.t("payment.description.statut.#{statut}"), I18n.t("payment.description.action.#{action}")].join(" ").strip.capitalize
   end
 
+  def dashboard_status
+    [I18n.t("payment.type_paiement.#{type_paiement}"), I18n.t("payment.statut.#{statut}")].join(" ")
+  end
+
   private
 
   def validate_type_paiement
