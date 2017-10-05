@@ -169,7 +169,7 @@ describe PaymentsController do
     end
 
     describe "#ask_for_validation" do
-      let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry}
+      let(:projet) { create :projet, :en_cours_d_instruction }
 
       it "passe la demande en proposé au demandeur pour validation" do
         expect(PaymentMailer).to receive(:demande_validation).once.and_call_original.with(payment)
@@ -183,7 +183,7 @@ describe PaymentsController do
   end
 
   describe "en tant que demandeur" do
-    let(:projet)      { create :projet, :en_cours_d_instruction, :with_payment_registry }
+    let(:projet)      { create :projet, :en_cours_d_instruction }
     let(:payment)     { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", projet: projet }
     let(:submit_time) { Time.now }
 

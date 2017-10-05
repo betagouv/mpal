@@ -1,7 +1,7 @@
 class PaymentMailer < ApplicationMailer
   def destruction(payment)
     @payment = payment
-    @projet = @payment.payment_registry.projet
+    @projet  = payment.projet
     mail(
       to: @projet.email,
       cc: @projet.personne.try(:email),
@@ -11,7 +11,7 @@ class PaymentMailer < ApplicationMailer
 
   def demande_validation(payment)
     @payment = payment
-    @projet = @payment.payment_registry.projet
+    @projet  = payment.projet
     mail(
       to: @projet.email,
       cc: @projet.personne.try(:email),
@@ -20,9 +20,9 @@ class PaymentMailer < ApplicationMailer
   end
 
   def depot(payment, intervenant)
-    @payment = payment
+    @payment     = payment
+    @projet      = payment.projet
     @intervenant = intervenant
-    @projet = @payment.payment_registry.projet
     mail(
       to: intervenant.email,
       subject: t('mailers.paiement_mailer.depot.sujet', demandeur: @projet.demandeur.fullname)
@@ -31,7 +31,7 @@ class PaymentMailer < ApplicationMailer
 
   def accuse_reception_depot(payment)
     @payment = payment
-    @projet = @payment.payment_registry.projet
+    @projet  = payment.projet
     mail(
       to: @projet.email,
       cc: @projet.personne.try(:email),
@@ -40,9 +40,9 @@ class PaymentMailer < ApplicationMailer
   end
 
   def correction_depot(payment, intervenant)
-    @payment = payment
+    @payment     = payment
+    @projet      = payment.projet
     @intervenant = intervenant
-    @projet = @payment.payment_registry.projet
     mail(
       to: intervenant.email,
       subject: t('mailers.paiement_mailer.correction_depot.sujet', demandeur: @projet.demandeur.fullname)
@@ -51,7 +51,7 @@ class PaymentMailer < ApplicationMailer
 
   def accuse_reception_correction_depot(payment)
     @payment = payment
-    @projet = @payment.payment_registry.projet
+    @projet  = payment.projet
     mail(
       to: @projet.email,
       cc: @projet.personne.try(:email),
@@ -61,7 +61,7 @@ class PaymentMailer < ApplicationMailer
 
   def demande_modification(payment, is_from_user)
     @payment = payment
-    @projet = @payment.payment_registry.projet
+    @projet  = payment.projet
 
     if is_from_user
       cc = []

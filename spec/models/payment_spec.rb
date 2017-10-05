@@ -7,7 +7,7 @@ describe Payment do
     it { expect(payment).to be_valid }
     it { is_expected.to validate_presence_of :beneficiaire }
     it { is_expected.to validate_presence_of :type_paiement }
-    it { is_expected.to belong_to :payment_registry }
+    it { is_expected.to belong_to :projet }
     it { is_expected.to have_many :documents }
   end
 

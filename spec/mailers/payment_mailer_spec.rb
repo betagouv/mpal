@@ -3,8 +3,8 @@ require "support/mpal_helper"
 
 describe PaymentMailer, type: :mailer do
   describe "notifie le demandeur qu'une demande de paiement a été supprimée" do
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
-    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person }
+    let(:payment)    { create :payment, projet: projet }
     let(:email)      { PaymentMailer.destruction(payment) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
@@ -17,8 +17,8 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie le demandeur qu'il doit valider la proposition faite par l'opérateur pour la demande demande de paiement" do
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
-    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person }
+    let(:payment)    { create :payment, projet: projet }
     let(:email)      { PaymentMailer.demande_validation(payment) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
@@ -31,8 +31,8 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie l'intervenant qu'un demandeur a transmis une demande de paiement" do
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_payment_registry }
-    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    let(:projet)     { create :projet, :en_cours_d_instruction }
+    let(:payment)    { create :payment, projet: projet }
     let(:email)      { PaymentMailer.depot(payment, projet.operateur) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
@@ -43,8 +43,8 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie le demandeur que sa demande a été transmise au service instructeur" do
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
-    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person }
+    let(:payment)    { create :payment, projet: projet }
     subject(:email)  { PaymentMailer.accuse_reception_depot(payment) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
@@ -56,8 +56,8 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie l'intervenant qu'un demandeur a soumis une correction pour une demande de paiement déposée" do
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_payment_registry }
-    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    let(:projet)     { create :projet, :en_cours_d_instruction }
+    let(:payment)    { create :payment, projet: projet }
     let(:email)      { PaymentMailer.correction_depot(payment, projet.invited_instructeur) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
@@ -68,8 +68,8 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie le demandeur que sa correction a été transmise au service instructeur" do
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
-    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person }
+    let(:payment)    { create :payment, projet: projet }
     subject(:email)  { PaymentMailer.accuse_reception_correction_depot(payment) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
@@ -81,9 +81,9 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie l'opérateur et le demandeur que le l'instructeur souhaite modifier la demande de paiement" do
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person }
     let(:user)       { projet.demandeur_user }
-    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    let(:payment)    { create :payment, projet: projet }
     subject(:email)  { PaymentMailer.demande_modification(payment, false) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
@@ -95,9 +95,9 @@ describe PaymentMailer, type: :mailer do
   end
 
   describe "notifie l'opérateur que le demandeur souhaite modifier sa demande de paiement" do
-    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person, :with_payment_registry }
+    let(:projet)     { create :projet, :en_cours_d_instruction, :with_trusted_person }
     let(:user)       { projet.demandeur_user }
-    let(:payment)    { create :payment, payment_registry: projet.payment_registry }
+    let(:payment)    { create :payment, projet: projet }
     subject(:email)  { PaymentMailer.demande_modification(payment, true) }
 
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }

@@ -7,7 +7,6 @@ class Payment < ApplicationRecord
   validate  :validate_type_paiement
   validate  :validate_projet
 
-  belongs_to :payment_registry #TODO Delete with Payment Registry
   belongs_to :projet
   has_many :documents, as: :category, dependent: :destroy
 

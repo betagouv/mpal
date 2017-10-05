@@ -52,7 +52,6 @@ describe Projet do
     it { is_expected.to have_and_belong_to_many :themes }
     it { is_expected.to belong_to :agent_operateur }
     it { is_expected.to belong_to :agent_instructeur }
-    it { is_expected.to have_one :payment_registry }
 
     it "accepte les emails valides" do
       projet.email = "email@exemple.fr"
@@ -93,20 +92,6 @@ describe Projet do
         it { is_expected.not_to allow_updating_of(:loan_amount) }
         it { is_expected.not_to allow_updating_of(:adresse_postale_id).with(create(:adresse).id) }
         it { is_expected.not_to allow_updating_of(:adresse_a_renover_id).with(create(:adresse).id) }
-      end
-    end
-
-    describe "#validate_payment_registry" do
-      let(:payment_registry) { create :payment_registry }
-
-      context "quand le projet n'a pas été transmis pour instruction" do
-        subject(:projet) { create :projet, :proposition_proposee }
-        it {is_expected.not_to allow_updating_of(:payment_registry).with(payment_registry) }
-      end
-
-      context "quand le projet a été transmis pour instruction" do
-        subject(:projet) { create :projet, :transmis_pour_instruction }
-        it { is_expected.to allow_updating_of(:payment_registry).with(payment_registry) }
       end
     end
   end

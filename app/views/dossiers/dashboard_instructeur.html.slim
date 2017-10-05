@@ -51,9 +51,7 @@
                 - if projet.date_de_visite.present?
                   = format_date(projet.date_de_visite)
               td= t(projet.status_for_intervenant, scope: "projets.statut")
-              td
-                - if projet.payment_registry
-                  = projet.payment_registry.statuses
+              td= projet.payments.map(&:dashboard_status).join(" - ")
               /TODO Status Updated At
 
             - else
@@ -91,8 +89,6 @@
                 - if projet.date_de_visite.present?
                   = format_date(projet.date_de_visite)
               td= link_to t(projet.status_for_intervenant, scope: "projets.statut"), edit_url
-              td
-                - if projet.payment_registry
-                  = link_to projet.payment_registry.statuses.gsub(" - ", "<br/><br/>").html_safe, edit_url
+              td= link_to projet.payments.map(&:dashboard_status).join("<br/><br/>").html_safe, edit_url
 
               /TODO Status Updated At

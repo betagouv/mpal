@@ -5,7 +5,7 @@ require "support/opal_helper"
 describe DossiersOpalController do
 
   describe "#create" do
-    let(:projet)            { create :projet, :transmis_pour_instruction, :with_payment_registry }
+    let(:projet)            { create :projet, :transmis_pour_instruction }
     let(:agent_instructeur) { create :agent, :instructeur, intervenant: projet.invited_instructeur }
 
     context "en tant qu'agent instructeur" do
