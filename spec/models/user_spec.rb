@@ -38,33 +38,32 @@ shared_context :common_projet_abilities do
 end
 
 shared_context :payments do
-  let(:payment_en_cours_de_montage)    { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_de_montage }
-  let(:payment_propose)                { create :payment, payment_registry: projet.payment_registry, statut: :propose }
-  let(:payment_demande)                { create :payment, payment_registry: projet.payment_registry, statut: :demande }
-  let(:payment_en_cours_d_instruction) { create :payment, payment_registry: projet.payment_registry, statut: :en_cours_d_instruction }
-  let(:payment_paye)                   { create :payment, payment_registry: projet.payment_registry, statut: :paye }
+  let(:payment_en_cours_de_montage)    { create :payment, projet: projet, statut: :en_cours_de_montage }
+  let(:payment_propose)                { create :payment, projet: projet, statut: :propose }
+  let(:payment_demande)                { create :payment, projet: projet, statut: :demande }
+  let(:payment_en_cours_d_instruction) { create :payment, projet: projet, statut: :en_cours_d_instruction }
+  let(:payment_paye)                   { create :payment, projet: projet, statut: :paye }
 
-  let(:payment_a_rediger)              { create :payment, payment_registry: projet.payment_registry, action: :a_rediger }
-  let(:payment_a_modifier)             { create :payment, payment_registry: projet.payment_registry, action: :a_modifier }
-  let(:payment_a_valider)              { create :payment, payment_registry: projet.payment_registry, action: :a_valider }
-  let(:payment_a_instruire)            { create :payment, payment_registry: projet.payment_registry, action: :a_instruire }
-  let(:payment_no_action)              { create :payment, payment_registry: projet.payment_registry, action: :aucune }
+  let(:payment_a_rediger)              { create :payment, projet: projet, action: :a_rediger }
+  let(:payment_a_modifier)             { create :payment, projet: projet, action: :a_modifier }
+  let(:payment_a_valider)              { create :payment, projet: projet, action: :a_valider }
+  let(:payment_a_instruire)            { create :payment, projet: projet, action: :a_instruire }
+  let(:payment_no_action)              { create :payment, projet: projet, action: :aucune }
 end
 
 shared_context :common_payments_abilities do
-  it { is_expected.to     be_able_to(:read, projet.payment_registry) }
-
+  it { is_expected.to     be_able_to(:index,              Payment) }
   it { is_expected.not_to be_able_to(:create,             Payment) }
   it { is_expected.not_to be_able_to(:update,             Payment) }
   it { is_expected.not_to be_able_to(:destroy,            Payment) }
   it { is_expected.not_to be_able_to(:ask_for_validation, Payment) }
   it { is_expected.not_to be_able_to(:send_in_opal,       Payment) }
 
-  it { is_expected.not_to be_able_to(:read, payment_en_cours_de_montage) }
-  it { is_expected.to     be_able_to(:read, payment_propose) }
-  it { is_expected.to     be_able_to(:read, payment_demande) }
-  it { is_expected.to     be_able_to(:read, payment_en_cours_d_instruction) }
-  it { is_expected.to     be_able_to(:read, payment_paye) }
+  it { is_expected.not_to be_able_to(:show, payment_en_cours_de_montage) }
+  it { is_expected.to     be_able_to(:show, payment_propose) }
+  it { is_expected.to     be_able_to(:show, payment_demande) }
+  it { is_expected.to     be_able_to(:show, payment_en_cours_d_instruction) }
+  it { is_expected.to     be_able_to(:show, payment_paye) }
 
   it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_rediger) }
   it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_modifier) }
@@ -111,7 +110,7 @@ describe User do
     it_behaves_like :projet_without_user_abilities
 
     context "quand il n'y a pas de mandataire" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry }
+      let(:projet) { create :projet, :transmis_pour_instruction }
       let(:user)   { projet.demandeur_user }
 
       it_behaves_like :common_projet_abilities
@@ -121,7 +120,7 @@ describe User do
     end
 
     context "quand il y a un mandataire" do
-      let(:projet) { create :projet, :transmis_pour_instruction, :with_payment_registry, :with_mandataire_user }
+      let(:projet) { create :projet, :transmis_pour_instruction, :with_mandataire_user }
 
       context "en tant que mandataire" do
         let(:user) { projet.mandataire_user }

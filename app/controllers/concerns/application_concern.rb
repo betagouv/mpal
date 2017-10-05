@@ -91,7 +91,7 @@ module ApplicationConcern
     expose_routing_helper :projet_or_dossier_demande_path
     expose_routing_helper :new_projet_or_dossier_message_path
     expose_routing_helper :projet_or_dossier_messages_path
-    expose_routing_helper :projet_or_dossier_payment_registry_path
+    expose_routing_helper :projet_or_dossier_payments_path
     expose_routing_helper :ask_for_modification_projet_or_dossier_payment_path
     expose_routing_helper :ask_for_instruction_projet_or_dossier_payment_path
     expose_routing_helper :projet_or_dossier_document_path

@@ -184,8 +184,8 @@ describe DocumentsController do
       end
 
       context "après le dépot du dossier" do
-        let(:projet)  { create :projet, :transmis_pour_instruction, :with_payment_registry }
-        let(:payment) { create :payment, payment_registry: projet.payment_registry }
+        let(:projet)  { create :projet, :transmis_pour_instruction }
+        let(:payment) { create :payment, projet: projet }
 
         context "pour une pièce-jointe projet" do
           it "je ne peux pas la supprimer" do
