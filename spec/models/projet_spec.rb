@@ -850,20 +850,20 @@ describe Projet do
     describe "#action_agent_operateur?" do
       let(:projet_action_avant_paiement)   { create :projet, :en_cours, :with_assigned_operateur }
 
-      let(:projet_action_paiement)         { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:projet_action_paiement)         { create :projet, :en_cours_d_instruction }
       let(:payment_en_cours_de_montage)    { create :payment, statut: :en_cours_de_montage }
       let(:payment_propose)                { create :payment, statut: :propose }
 
-      let(:projet_sans_action)          { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:projet_sans_action)          { create :projet, :en_cours_d_instruction }
       let(:payment_a_valider)           { create :payment, statut: :propose, action: :a_valider }
       let(:payment_a_instruire)         { create :payment, statut: :demande, action: :a_instruire }
 
       before do
-        projet_action_paiement.payment_registry.payments << payment_en_cours_de_montage
-        projet_action_paiement.payment_registry.payments << payment_propose
+        projet_action_paiement.payments << payment_en_cours_de_montage
+        projet_action_paiement.payments << payment_propose
 
-        projet_sans_action.payment_registry.payments << payment_a_valider
-        projet_sans_action.payment_registry.payments << payment_a_instruire
+        projet_sans_action.payments << payment_a_valider
+        projet_sans_action.payments << payment_a_instruire
       end
 
       context "en tant qu'opérateur" do
@@ -885,18 +885,18 @@ describe Projet do
       let(:projet_en_cours)        { create :projet, :en_cours }
       let(:projet_transmis_pour_instruction) { create :projet, :transmis_pour_instruction }
 
-      let(:projet_action_paiement) { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:projet_action_paiement) { create :projet, :en_cours_d_instruction }
       let(:payment_avance_a_valider)      { create :payment, statut: :propose, action: :a_valider }
       let(:payment_a_instruire)    { create :payment, statut: :demande, action: :a_instruire }
 
-      let(:projet_sans_action)     { create :projet, :en_cours_d_instruction, :with_payment_registry }
+      let(:projet_sans_action)     { create :projet, :en_cours_d_instruction }
       let(:payment_solde_a_valider){ create :payment, statut: :propose, action: :a_valider }
 
       before do
-        projet_action_paiement.payment_registry.payments << payment_avance_a_valider
-        projet_action_paiement.payment_registry.payments << payment_a_instruire
+        projet_action_paiement.payments << payment_avance_a_valider
+        projet_action_paiement.payments << payment_a_instruire
 
-        projet_sans_action.payment_registry.payments << payment_solde_a_valider
+        projet_sans_action.payments << payment_solde_a_valider
       end
 
       context "en tant qu'instructeur" do

@@ -14,7 +14,7 @@ class PaymentsController < ApplicationController
   end
 
   def index
-    payments_by_update = Payment.where(projet_id: @projet_courant.id).order(updated_at: :desc)
+    payments_by_update = @projet_courant.payments.order(updated_at: :desc)
     payments_first = payments_by_update.select { |p| ((can? :modify, p) || (can? :ask_for_modification, p) || (can? :ask_for_instruction, p)) }
     payments_last = payments_by_update.select { |p| ( (can? :read, p) && !((can? :modify, p) || (can? :ask_for_modification, p) || (can? :ask_for_instruction, p)) )}
     @payments = payments_first + payments_last
@@ -76,7 +76,7 @@ class PaymentsController < ApplicationController
   end
 
   def send_in_opal
-    @payment = @projet_courant.payment_registry.payments.where(id: params[:payment_id]).first
+    @payment = @projet_courant.payments.where(id: params[:payment_id]).first
     begin
       opal_api.update_projet_with_dossier_paiement!(@projet_courant, @payment)
       @payment.send_in_opal

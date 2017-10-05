@@ -3,10 +3,9 @@ require "support/mpal_helper"
 require "support/opal_helper"
 
 describe PaymentsController do
-
   describe "en tant qu'opérateur" do
     let(:projet)  { create :projet, :transmis_pour_instruction, :with_payment_registry }
-    let(:payment) { create :payment, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+    let(:payment) { create :payment, beneficiaire: "Emile Lévesque", projet: projet }
 
     before(:each) { authenticate_as_agent projet.agent_operateur }
 
@@ -42,7 +41,7 @@ describe PaymentsController do
             }
           }
           projet.reload
-          payment = projet.payment_registry.payments.first
+          payment = projet.payments.first
           expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq "SOLIHA"
@@ -63,7 +62,7 @@ describe PaymentsController do
             }
           }
           projet.reload
-          payment = projet.payment_registry.payments.first
+          payment = projet.payments.first
           expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq projet.demandeur.fullname
@@ -184,7 +183,7 @@ describe PaymentsController do
 
   describe "en tant que demandeur" do
     let(:projet)      { create :projet, :en_cours_d_instruction, :with_payment_registry }
-    let(:payment)     { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+    let(:payment)     { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", projet: projet }
     let(:submit_time) { Time.now }
 
     before(:each) { authenticate_as_user projet.demandeur_user }
@@ -218,7 +217,7 @@ describe PaymentsController do
     let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
     let(:agent_instructeur) { projet.agent_instructeur }
     let(:submit_time)       { DateTime.new(1980, 01, 01) }
-    let(:payment)           { create :payment, :demande, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry, submitted_at: submit_time }
+    let(:payment)           { create :payment, :demande, beneficiaire: "Emile Lévesque", projet: projet, submitted_at: submit_time }
 
     describe "#send_in_opal" do
       before do

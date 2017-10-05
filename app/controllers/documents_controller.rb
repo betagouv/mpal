@@ -11,10 +11,8 @@ class DocumentsController < ApplicationController
   def create
     begin
       if params[:payment_id].present?
-        if @projet_courant.payment_registry.present?
-          category = @projet_courant.payment_registry.payments.where(id: params[:payment_id]).first
-          return redirect_to projet_or_dossier_documents_path(@projet_courant), alert: t("document.messages.create.error") if category.blank?
-        else
+        category = @projet_courant.payments.find_by_id params[:payment_id]
+        if category.blank?
           return redirect_to projet_or_dossier_documents_path(@projet_courant), alert: t("document.messages.create.error")
         end
       else
@@ -46,6 +44,7 @@ class DocumentsController < ApplicationController
   end
 
 private
+
   def assert_file_present
     if params[:fichier].blank?
       redirect_to projet_or_dossier_documents_path(@projet_courant), alert: t("document.messages.missing")
@@ -57,14 +56,12 @@ private
       title: "Projet",
       groups: document_groups(:projet, @projet_courant),
     }]
-    if @projet_courant.payment_registry.present?
-      @projet_courant.payment_registry.payments.each do |payment|
-        blocks << {
-          title: payment.description,
-          payment_id: payment.id,
-          groups: document_groups(:payment, payment),
-        }
-      end
+    @projet_courant.payments.each do |payment|
+      blocks << {
+        title: payment.description,
+        payment_id: payment.id,
+        groups: document_groups(:payment, payment),
+      }
     end
 
     blocks

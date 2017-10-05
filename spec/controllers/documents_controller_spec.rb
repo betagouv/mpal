@@ -7,8 +7,8 @@ describe DocumentsController do
     let(:theme_energie) { create :theme, libelle: "Énergie" }
     let(:theme_travaux) { create :theme, libelle: "Travaux lourds" }
 
-    let(:projet)  { create :projet, :transmis_pour_instruction, :with_payment_registry, themes: [theme_energie, theme_travaux] }
-    let(:payment) { create :payment, payment_registry: projet.payment_registry }
+    let(:projet)  { create :projet, :transmis_pour_instruction, themes: [theme_energie, theme_travaux] }
+    let(:payment) { create :payment, projet: projet }
 
     let!(:devis_paiement) { create :document, category: payment, type_piece: :devis_paiement }
     let!(:rib)            { create :document, category: payment, type_piece: :rib }
@@ -132,10 +132,10 @@ describe DocumentsController do
   describe "#create" do
     let(:fichier)         { Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, '/spec/fixtures/Ma pièce jointe.txt'))) }
     let(:type_piece)      { :autres_projet }
-    let(:projet1)         { create :projet, :transmis_pour_instruction, :with_payment_registry }
-    let(:projet2)         { create :projet, :transmis_pour_instruction, :with_payment_registry }
-    let(:payment_projet1) { create :payment, payment_registry: projet1.payment_registry }
-    let(:payment_projet2) { create :payment, payment_registry: projet2.payment_registry }
+    let(:projet1)         { create :projet, :transmis_pour_instruction }
+    let(:projet2)         { create :projet, :transmis_pour_instruction }
+    let(:payment_projet1) { create :payment, projet: projet1 }
+    let(:payment_projet2) { create :payment, projet: projet2 }
 
     context "en tant que demandeur" do
       it "ne crée pas de pièce-jointe" do

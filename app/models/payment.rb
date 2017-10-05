@@ -6,7 +6,8 @@ class Payment < ApplicationRecord
   validates :beneficiaire, :type_paiement, presence: true
   validate  :validate_type_paiement
 
-  belongs_to :payment_registry
+  belongs_to :payment_registry #TODO Delete with Payment Registry
+  belongs_to :projet
   has_many :documents, as: :category, dependent: :destroy
 
   state_machine :action, initial: :a_rediger do
