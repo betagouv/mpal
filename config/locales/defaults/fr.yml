@@ -113,7 +113,7 @@ fr:
       # Difficultés
       changement_chauffage: "Mon chauffage me coûte trop cher"
       froid: "J’ai froid, mon logement est mal isolé"
-      probleme_deplacement: "J’ai du mal à vous déplacer"
+      probleme_deplacement: "J’ai du mal à me déplacer"
       accessibilite: "J’ai des difficultés dans les escaliers"
       hospitalisation: "Je rentre d’hospitalisation ou de maison de repos"
       adaptation_salle_de_bain: "Je ne peux plus accéder à ma baignoire"
@@ -129,6 +129,7 @@ fr:
       travaux_amenagement_ext: "Aménagement extérieur"
       travaux_autres: "Autre"
       ptz: "PTZ"
+      date_achevement_15_ans: "Logement construit il y a plus de 15 ans"
       annee_construction: "Année de construction"
       precisions: "Précisions"
     # ----------------------- Eligibilité ---------------------
