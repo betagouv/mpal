@@ -1,6 +1,13 @@
 class ApplicationController < ActionController::Base
   include ApplicationHelper, ApplicationConcern
 
+  NOT_FOUND_ERROR_CLASSES = [
+    ActionController::RoutingError,
+    ActionController::UrlGenerationError,
+    ActiveRecord::RecordNotFound,
+    ActionView::MissingTemplate
+  ].freeze
+
   protect_from_forgery with: :exception
 
   def initialize
@@ -28,6 +35,8 @@ class ApplicationController < ActionController::Base
     raise "Exception de test"
   end
 
+  rescue_from Exception, with: :render_error
+
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
       if current_user && @projet_courant.present?
@@ -44,6 +53,32 @@ class ApplicationController < ActionController::Base
         format.html { redirect_to root_path, alert: exception.message }
       end
     end
+  end
+
+  private
+
+  def render_error(exception)
+    raise exception unless Rails.env.production?
+    if NOT_FOUND_ERROR_CLASSES.include? exception.class
+      render "errors/not_found"
+    else
+      send_error_notifications(exception) rescue nil
+      render "errors/internal_server_error"
+    end
+  end
+
+  def send_error_notifications(exception)
+    server_name      = request.env["SERVER_NAME"]
+    method           = request.method
+    url              = request.url
+    parameters       = request.parameters
+    ip               = request.ip
+    responsible_type = current_agent ? "Agent" : "User"
+    responsible_id   = current_agent.try(:id) || current_user.try(:id)
+    error_message    = exception.message.to_s
+    backtrace        = exception.backtrace[0..4].join("\n")
+
+    SlackNotifyJob.perform_later(server_name, method, url, parameters, ip, responsible_type, responsible_id, error_message, backtrace)
   end
 end
 
