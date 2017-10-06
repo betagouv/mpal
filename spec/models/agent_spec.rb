@@ -44,7 +44,7 @@ describe Agent do
         end
 
         context "quand il est engagé avec le demandeur" do
-          let(:agent) { create :agent, intervenant: projet.operateur }
+          let(:agent)     { create :agent, intervenant: projet.operateur }
           let!(:document) { create :document, category: projet, created_at: DateTime.new(2017,02,03) }
 
           context "il peut gérer le projet jusqu'à ce qu'il soit 'transmis pour instruction'" do
@@ -164,8 +164,8 @@ describe Agent do
       let(:payment_no_action)              { create :payment, projet: projet, action: :aucune }
 
       context "en tant qu'agent" do
-        let(:agent)    { create :agent }
-        let(:document) { create :document, category: payment_a_rediger }
+        let(:agent)     { create :agent }
+        let!(:document) { create :document, category: payment_a_rediger }
 
         it { is_expected.not_to be_able_to(:read,    document) }
         it { is_expected.not_to be_able_to(:destroy, document) }
@@ -222,23 +222,24 @@ describe Agent do
       end
 
       context "en tant qu'instructeur" do
-        let(:agent)    { create :agent, intervenant: projet.invited_instructeur }
-        let(:document) { create :document, category: payment_a_rediger }
+        let(:agent)     { create :agent, intervenant: projet.invited_instructeur }
+        let!(:document) { create :document, category: payment_a_rediger }
 
         it { is_expected.to     be_able_to(:read,    document) }
         it { is_expected.not_to be_able_to(:destroy, document) }
 
+        it { is_expected.to     be_able_to(:index,               Payment) }
         it { is_expected.not_to be_able_to(:create,              Payment) }
         it { is_expected.not_to be_able_to(:update,              Payment) }
         it { is_expected.not_to be_able_to(:destroy,             Payment) }
         it { is_expected.not_to be_able_to(:ask_for_validation,  Payment) }
         it { is_expected.not_to be_able_to(:ask_for_instruction, Payment) }
 
-        it { is_expected.not_to be_able_to(:read, payment_en_cours_de_montage) }
-        it { is_expected.not_to be_able_to(:read, payment_propose) }
-        it { is_expected.to     be_able_to(:read, payment_demande) }
-        it { is_expected.to     be_able_to(:read, payment_en_cours_d_instruction) }
-        it { is_expected.to     be_able_to(:read, payment_paye) }
+        it { is_expected.not_to be_able_to(:show, payment_en_cours_de_montage) }
+        it { is_expected.not_to be_able_to(:show, payment_propose) }
+        it { is_expected.to     be_able_to(:show, payment_demande) }
+        it { is_expected.to     be_able_to(:show, payment_en_cours_d_instruction) }
+        it { is_expected.to     be_able_to(:show, payment_paye) }
 
         it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_rediger) }
         it { is_expected.not_to be_able_to(:ask_for_modification, payment_a_modifier) }

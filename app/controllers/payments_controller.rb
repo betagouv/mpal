@@ -14,9 +14,17 @@ class PaymentsController < ApplicationController
   end
 
   def index
-    payments_by_update = @projet_courant.payments.order(updated_at: :desc)
-    payments_first = payments_by_update.select { |p| ((can? :modify, p) || (can? :ask_for_modification, p) || (can? :ask_for_instruction, p)) }
-    payments_last = payments_by_update.select { |p| ( (can? :read, p) && !((can? :modify, p) || (can? :ask_for_modification, p) || (can? :ask_for_instruction, p)) )}
+    payments_by_update = @projet_courant.payments.order(updated_at: :desc).select{ |payment| can? :show, payment }
+    requested_actions  = [:update, :ask_for_modification, :ask_for_instruction, :send_in_opal]
+
+    payments_first = payments_by_update.select do |payment|
+      requested_actions.any?{ |action| can? action, payment }
+    end
+
+    payments_last = payments_by_update.select do |payment|
+      requested_actions.all?{ |action| cannot? action, payment }
+    end
+
     @payments = payments_first + payments_last
   end
 
