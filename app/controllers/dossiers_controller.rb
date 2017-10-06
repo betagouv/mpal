@@ -12,6 +12,7 @@ class DossiersController < ApplicationController
       return render "dossiers/dashboard_siege"       if current_agent.siege?
       return render "dossiers/dashboard_operateur"   if current_agent.operateur?
       return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
+      return redirect_to indicateurs_dossiers_path   if current_agent.dreal?
       render "dossiers/dashboard_pris"
     end
   end
@@ -190,9 +191,6 @@ private
   end
 
   def render_index
-    if current_agent.dreal?
-      return redirect_to indicateurs_dossiers_path
-    end
     if current_agent.siege?
       @dossiers = Projet.all.with_demandeur
     elsif current_agent.operateur?
