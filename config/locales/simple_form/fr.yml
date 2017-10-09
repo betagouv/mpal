@@ -53,7 +53,7 @@ fr:
         description: "Message"
         subject: "Objet"
         department: "Département"
-        plateform_id: "Numéro de Plateforme"
+        plateform_id: "Numéro de Dossier"
       message:
         corps_message: "Votre message"
       personne:
