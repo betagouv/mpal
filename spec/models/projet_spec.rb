@@ -418,6 +418,18 @@ describe Projet do
     end
   end
 
+  describe "#notify_intervenant_of" do
+    let(:invitation) { create :invitation }
+
+    after { Projet.notify_intervenant_of(invitation) }
+
+    it "notifie l'intervenant" do
+      expect(ProjetMailer).to receive(:invitation_intervenant).with(invitation).once.and_call_original
+      expect(ProjetMailer).to receive(:notification_invitation_intervenant).with(invitation).once.and_call_original
+      expect(EvenementEnregistreurJob).to receive(:perform_later).with(label: 'invitation_intervenant', projet: invitation.projet, producteur: invitation).once.and_call_original
+    end
+  end
+
   describe "#contact_operateur!" do
     context "sans opérateur invité au préalable" do
       let(:projet)    { create :projet }
@@ -503,7 +515,6 @@ describe Projet do
       let(:pris)   { create :pris }
 
       it "sélectionne et notifie le PRIS" do
-        expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
         projet.invite_pris!(pris)
         expect(projet.invitations.count).to eq(1)
         expect(projet.invited_pris).to eq(pris)
@@ -516,8 +527,7 @@ describe Projet do
       context "et un nouveau PRIS différent du précédent" do
         let(:new_pris) { create :pris }
 
-        it "sélectionne le nouveau PRIS, et notifie l'ancien PRIS" do
-          expect(ProjetMailer).to receive(:invitation_intervenant).and_call_original
+        it "sélectionne le nouveau PRIS, et supprime l'ancien PRIS des invitations" do
           projet.invite_pris!(new_pris)
           expect(projet.invitations.count).to eq(1)
           expect(projet.invited_pris).to eq(new_pris)

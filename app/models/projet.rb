@@ -365,7 +365,7 @@ class Projet < ApplicationRecord
 
     invitation = Invitation.find_or_create_by!(projet: self, intervenant: operateur_to_contact)
     invitation.update(contacted: true)
-    notify_intervenant_of(invitation)
+    Projet.notify_intervenant_of(invitation)
 
     if previous_operateur
       previous_invitation = invitations.where(intervenant: previous_operateur).first
@@ -383,9 +383,8 @@ class Projet < ApplicationRecord
     return if previous_pris == pris
 
     invitation = Invitation.create! projet: self, intervenant: pris
-    notify_intervenant_of invitation
-
     invitations.where(intervenant: previous_pris).first.try(:destroy!)
+    invitation
   end
 
   def invite_instructeur!(instructeur)
@@ -397,10 +396,10 @@ class Projet < ApplicationRecord
     invitations.where(intervenant: previous_instructeur).first.try(:destroy!)
   end
 
-  def notify_intervenant_of(invitation)
+  def self.notify_intervenant_of(invitation)
     ProjetMailer.invitation_intervenant(invitation).deliver_later! if invitation.intervenant.email.present?
     ProjetMailer.notification_invitation_intervenant(invitation).deliver_later! if invitation.projet.email.present?
-    EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: self, producteur: invitation)
+    EvenementEnregistreurJob.perform_later(label: 'invitation_intervenant', projet: invitation.projet, producteur: invitation)
   end
 
   def commit_with_operateur!(committed_operateur)
