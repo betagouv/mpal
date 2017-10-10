@@ -39,10 +39,6 @@ class Intervenant < ApplicationRecord
   alias_attribute :name, :raison_sociale
   alias_attribute :description_adresse, :adresse_postale
 
-  def self.instructeur_pour(projet)
-    instructeur.pour_departement(projet.departement).limit(1).first
-  end
-
   def instructeur?
     (roles || []).include?('instructeur')
   end
