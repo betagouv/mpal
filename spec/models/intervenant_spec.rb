@@ -32,20 +32,6 @@ describe Intervenant do
     end
   end
 
-  describe "#instructeur_pour" do
-    let(:departement) { 23 }
-    let(:adresse)     { build :adresse, departement: departement }
-    let(:projet)      { create :projet, adresse_postale: adresse }
-
-    let!(:operateur23)   { create :operateur,   departements: [projet.departement] }
-    let!(:instructeur23) { create :instructeur, departements: [projet.departement] }
-    let!(:instructeur75) { create :instructeur, departements: ["75"] }
-
-    it "renvoie l'instructeur de ce projet" do
-      expect(Intervenant.instructeur_pour(projet)).to eq instructeur23
-    end
-  end
-
   describe "#description_adresse" do
     subject { intervenant.description_adresse }
     context "quand l'adresse est renseignée" do
