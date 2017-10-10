@@ -3,9 +3,62 @@ require "support/mpal_helper"
 
 describe ContactsController do
   describe "#new" do
-    it do
-      get :new
-      expect(response).to render_template(:new)
+    context "as user" do
+      let(:projet)  { create :projet, :prospect }
+
+      context "without account" do
+        before do
+          authenticate_as_project projet.id
+          get :new
+        end
+
+        it "fill known fields" do
+          contact = assigns(:contact)
+          expect(contact.name).to         eq projet.demandeur.fullname
+          expect(contact.email).to        eq projet.email
+          expect(contact.phone).to        eq projet.tel
+          expect(contact.department).to   eq projet.adresse.departement
+          expect(contact.plateform_id).to eq projet.plateforme_id
+          expect(response).to             render_template(:new)
+        end
+      end
+
+      context "with account" do
+        let(:projet) { create :projet, :en_cours }
+        let(:user)   { projet.demandeur_user }
+
+        before do
+          user.update email: "lala@toto.com"
+          authenticate_as_user user
+          get :new
+        end
+
+        it "fill known fields" do
+          contact = assigns(:contact)
+          expect(contact.name).to         eq projet.demandeur.fullname
+          expect(contact.email).to        eq user.email
+          expect(contact.phone).to        eq projet.tel
+          expect(contact.department).to   eq projet.adresse.departement
+          expect(contact.plateform_id).to eq projet.plateforme_id
+          expect(response).to             render_template(:new)
+        end
+      end
+    end
+
+    context "as agent" do
+      let(:agent) { create :agent }
+
+      before do
+        authenticate_as_agent agent
+        get :new
+      end
+
+      it "fill known fields" do
+        contact = assigns(:contact)
+        expect(contact.name).to  eq agent.fullname
+        expect(contact.email).to eq agent.username
+        expect(response).to      render_template(:new)
+      end
     end
   end
 

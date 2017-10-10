@@ -10,7 +10,6 @@ class ContactsController < ApplicationController
     @contact = Contact.new
     @subjects = Contact::SUBJECTS.map { |x| [I18n.t("contacts.subject_name.#{x}"), x] }
     if current_user
-      @contact.email = current_user.email
       if current_user.mandataire?
         #TODO fill in with mandataire infos
         #@contact.name  = current_user.infos.name
@@ -18,6 +17,7 @@ class ContactsController < ApplicationController
       elsif current_user.demandeur?
         projet                = current_user.projet_as_demandeur
         @contact.name         = projet.demandeur.fullname
+        @contact.email        = current_user.email
         @contact.phone        = projet.tel
         @contact.department   = projet.adresse.departement
         @contact.plateform_id = projet.plateforme_id
