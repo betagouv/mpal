@@ -18,6 +18,8 @@ describe ContactsController do
         phone:       "01 02 03 04 05",
         subject:     "other",
         description: "Qui a tué Kenny ?",
+        department:   "88",
+        plateform_id: "123",
       }
     end
 
@@ -34,15 +36,17 @@ describe ContactsController do
           let(:honeypot_params) { {} }
 
           it "save contact" do
-            expect(Contact.count).to       eq 1
-            expect(contact.name).to        eq "David"
-            expect(contact.email).to       eq "monemail@example.com"
-            expect(contact.phone).to       eq "01 02 03 04 05"
-            expect(contact.subject).to     eq "other"
-            expect(contact.description).to eq "Qui a tué Kenny ?"
-            expect(contact.sender).to      be_blank
-            expect(flash[:notice]).to      be_present
-            expect(response).to            redirect_to new_contact_path
+            expect(Contact.count).to        eq 1
+            expect(contact.name).to         eq "David"
+            expect(contact.email).to        eq "monemail@example.com"
+            expect(contact.phone).to        eq "01 02 03 04 05"
+            expect(contact.subject).to      eq "other"
+            expect(contact.description).to  eq "Qui a tué Kenny ?"
+            expect(contact.department).to   eq "88"
+            expect(contact.plateform_id).to eq "123"
+            expect(contact.sender).to       be_blank
+            expect(flash[:notice]).to       be_present
+            expect(response).to             redirect_to new_contact_path
           end
         end
 
@@ -69,15 +73,17 @@ describe ContactsController do
           let(:honeypot_params) { {} }
 
           it "save contact" do
-            expect(Contact.count).to       eq 1
-            expect(contact.name).to        eq "David"
-            expect(contact.email).to       eq "monemail@example.com"
-            expect(contact.phone).to       eq "01 02 03 04 05"
-            expect(contact.subject).to     eq "other"
-            expect(contact.description).to eq "Qui a tué Kenny ?"
-            expect(contact.sender).to      eq user
-            expect(flash[:notice]).to      be_present
-            expect(response).to            redirect_to new_contact_path
+            expect(Contact.count).to        eq 1
+            expect(contact.name).to         eq "David"
+            expect(contact.email).to        eq "monemail@example.com"
+            expect(contact.phone).to        eq "01 02 03 04 05"
+            expect(contact.subject).to      eq "other"
+            expect(contact.description).to  eq "Qui a tué Kenny ?"
+            expect(contact.department).to   eq "88"
+            expect(contact.plateform_id).to eq "123"
+            expect(contact.sender).to       eq user
+            expect(flash[:notice]).to       be_present
+            expect(response).to             redirect_to new_contact_path
           end
         end
 
@@ -98,37 +104,24 @@ describe ContactsController do
 
       before do
         authenticate_as_agent agent
-        post :create, params: { contact: contact_params.merge(honeypot_params).merge(agent_params) }
+        post :create, params: { contact: contact_params.merge(honeypot_params) }
       end
 
       context "without honeypot" do
         let(:honeypot_params) { {} }
 
-        context "with department" do
-          let(:agent_params) { { department: "88", plateform_id: "123" } }
-
-          it "save contact" do
-            expect(Contact.count).to        eq 1
-            expect(contact.name).to         eq "David"
-            expect(contact.email).to        eq "monemail@example.com"
-            expect(contact.phone).to        eq "01 02 03 04 05"
-            expect(contact.subject).to      eq "other"
-            expect(contact.description).to  eq "Qui a tué Kenny ?"
-            expect(contact.sender).to       eq agent
-            expect(contact.department).to   eq "88"
-            expect(contact.plateform_id).to eq "123"
-            expect(flash[:notice]).to       be_present
-            expect(response).to             redirect_to new_contact_path
-          end
-        end
-
-        context "without_department" do
-          let(:agent_params) { { plateform_id: "123" } }
-
-          it "dont save contact" do
-            expect(Contact.count).to eq 0
-            expect(response).to      render_template :new
-          end
+        it "save contact" do
+          expect(Contact.count).to        eq 1
+          expect(contact.name).to         eq "David"
+          expect(contact.email).to        eq "monemail@example.com"
+          expect(contact.phone).to        eq "01 02 03 04 05"
+          expect(contact.subject).to      eq "other"
+          expect(contact.description).to  eq "Qui a tué Kenny ?"
+          expect(contact.department).to   eq "88"
+          expect(contact.plateform_id).to eq "123"
+          expect(contact.sender).to       eq agent
+          expect(flash[:notice]).to       be_present
+          expect(response).to             redirect_to new_contact_path
         end
       end
 
