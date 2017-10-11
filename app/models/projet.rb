@@ -499,7 +499,9 @@ class Projet < ApplicationRecord
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
-        line.insert 9, projet.payment_registry.try(:statuses)  if agent.siege? || agent.instructeur? || agent.operateur?
+        payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
+        
+        line.insert 9, payment_statuses                        if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?
