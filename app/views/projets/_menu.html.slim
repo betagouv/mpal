@@ -22,7 +22,7 @@
       span.project-menu__icon.glyphicon.glyphicon-folder-open
       span.project-menu__text Dossier
     - if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-      = link_to dossier_payments_path(project), class: "project-menu__item"
+      = link_to projet_or_dossier_payments_path(project), class: "project-menu__item"
         span.project-menu__icon.glyphicon.glyphicon-euro
         span.project-menu__text Paiements
     - else

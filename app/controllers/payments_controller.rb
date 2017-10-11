@@ -78,7 +78,7 @@ class PaymentsController < ApplicationController
   def ask_for_instruction
     @payment.statut?(:propose) ? send_mail_for_instruction : send_mail_for_correction_after_instruction
     @payment.ask_for_instruction
-    redirect_to projet_or_dossier_payments_path @projet_courant
+    redirect_to projet_payments_path @projet_courant
   end
 
   def send_in_opal
