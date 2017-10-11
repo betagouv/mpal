@@ -8,14 +8,13 @@
       i.glyphicon.glyphicon-remove.alert__icon
       p.alert__p= t("demarrage_projet.eligibility.not_eligible")
     .eligibility__contact-info
-      | Un complément d'étude de votre situation est possible en contactant votre PRIS EIE :
+      | Pour plus d’informations, vous pouvez contacter le Point Rénovation Info Service (Espace Info Énergie) le plus proche de chez vous :
       ul
         li= @pris.raison_sociale
         li= @pris.adresse_postale
         li= @pris.email
         li= @pris.phone
       br
-      | Si votre situation a changé veuillez poursuivre la démarche en créant un compte ; un contact près de chez vous va réévaluer votre situation.
-
+      | Si votre situation a changé, veuillez poursuivre la démarche en créant un compte.
   = btn name: t("demarrage_projet.action"), href: new_user_registration_path, class: "btn-large btn-centered", icon: "arrow-right"
 
