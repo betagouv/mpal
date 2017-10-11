@@ -21,7 +21,7 @@ class ContactsController < ApplicationController
       end
     elsif current_agent
       @contact.email = current_agent.username
-      @contact.name = current_agent.fullname
+      @contact.name  = current_agent.fullname
     elsif session[:project_id]
       project = Projet.find_by_id(session[:project_id])
       @contact.name  = project.demandeur.try(:fullname)
@@ -34,23 +34,27 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
-    if @contact.address.present?
-      return redirect_to(new_contact_path), flash: { notice: "Votre message a bien été envoyé" }
+    @contact.sender = current_agent || current_user
+
+    if @contact.honeypot_filled?
+      return redirect_to new_contact_path, flash: { notice: "Votre message a bien été envoyé" }
     end
-    if @contact.save
+
+    if @contact.save context: (:agent if current_agent)
       ContactMailer.contact(@contact).deliver_later!
-      return redirect_to(new_contact_path), flash: { notice: "Votre message a bien été envoyé" }
+      return redirect_to new_contact_path, flash: { notice: "Votre message a bien été envoyé" }
     end
+
     render_new
   end
 
 private
   def contact_params
-    params.fetch(:contact, {}).permit(:name, :email, :phone, :subject, :description, :address)
+    params.fetch(:contact, {}).permit(:name, :email, :phone, :subject, :description, :department, :plateform_id, :address)
   end
 
   def render_new
-    @page_heading = "Demande de contact"
+    @page_heading = "Contact"
     @display_help = false
     render :new
   end

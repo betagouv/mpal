@@ -1,8 +1,8 @@
-= btn name: "Retour", href: projet_or_dossier_avis_impositions_path(@projet_courant), class: "btn-secondary", icon: "arrow-left"
 = simple_form_for @avis_imposition, url: { controller: "avis_impositions", action: "create" }, html: { class: "form" } do |f|
   = "Autres avis d'imposition sur les revenus #{@projet_courant.annee_fiscale_reference}"
   = render "shared/errors", resource: @avis_imposition
   = f.input :numero_fiscal,  wrapper_html: { class: "size-s" }, required: true, autofocus: true
   = f.input :reference_avis, wrapper_html: { class: "size-s" }, required: true
-  = btn name: "Ajouter", icon: "arrow-right"
+  = btn name: t("demarrage_projet.go_back"), href: projet_or_dossier_avis_impositions_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true
+  = btn name: "Ajouter", class: "btn-large", icon: "arrow-right"
 

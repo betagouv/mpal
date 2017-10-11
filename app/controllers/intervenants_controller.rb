@@ -5,8 +5,8 @@ class IntervenantsController < ApplicationController
 
   def index
     @page_heading = "Contacts"
-
-    @pris = @projet_courant.invited_pris
+    eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse
+    fetch_pris
     @operateur = @projet_courant.operateur
     @instructeur = @projet_courant.invited_instructeur
     @demandeur = @projet_courant.demandeur
@@ -17,5 +17,15 @@ class IntervenantsController < ApplicationController
     else
       @civilite = "Monsieur"
     end
-  end 
+  end
+
+private
+  def fetch_pris
+    if ENV['ROD_ENABLED'] == 'true'
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      @pris        = @eligible ? rod_response.pris : rod_response.pris_eie
+    else
+      @pris        = @projet_courant.intervenants_disponibles(role: :pris).first
+    end
+  end
 end

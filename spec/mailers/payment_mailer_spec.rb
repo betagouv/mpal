@@ -11,8 +11,8 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.cc).to eq([projet.personne.email]) }
     it { expect(email.subject).to eq(I18n.t("mailers.paiement_mailer.destruction.sujet", operateur: projet.operateur.raison_sociale)) }
-    it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
-    it { expect(email.body.encoded).to match(projet.operateur.raison_sociale) }
+    it { expect(email.body).to include(projet.demandeur.fullname) }
+    it { expect(email.body).to include(projet.operateur.raison_sociale) }
     it { expect(email.body).to include("a supprimé la demande de paiement") }
   end
 
@@ -25,8 +25,8 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.to).to eq([projet.email]) }
     it { expect(email.cc).to eq([projet.personne.email]) }
     it { expect(email.subject).to eq(I18n.t("mailers.paiement_mailer.demande_validation.sujet")) }
-    it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
-    it { expect(email.body.encoded).to match(projet.operateur.raison_sociale) }
+    it { expect(email.body).to include(projet.demandeur.fullname) }
+    it { expect(email.body).to include(projet.operateur.raison_sociale) }
     it { expect(email.body).to include("a complété votre demande de paiement") }
   end
 
@@ -38,7 +38,7 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
     it { expect(email.to).to eq([projet.operateur.email]) }
     it { expect(email.subject).to eq(I18n.t("mailers.paiement_mailer.depot.sujet", demandeur: projet.demandeur.fullname)) }
-    it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
+    it { expect(email.body).to include(projet.demandeur.fullname) }
     it { expect(email.body).to include("a déposé la demande") }
   end
 
@@ -63,7 +63,7 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.from).to eq([ENV["EMAIL_CONTACT"]]) }
     it { expect(email.to).to eq([projet.invited_instructeur.email]) }
     it { expect(email.subject).to eq(I18n.t("mailers.paiement_mailer.correction_depot.sujet", demandeur: projet.demandeur.fullname)) }
-    it { expect(email.body.encoded).to match(projet.demandeur.fullname) }
+    it { expect(email.body).to include(projet.demandeur.fullname) }
     it { expect(email.body).to include("a modifié la demande") }
   end
 

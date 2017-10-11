@@ -58,6 +58,8 @@
     = f.fields_for @projet_courant do |ff|
       = ff.input :future_birth
 
-  = btn name: @action_label, class: "btn-large btn-centered", icon: "arrow-right", html: { name: :submit_button }
-  = btn name: "Retour", href: projet_or_dossier_avis_impositions_path(@projet_courant), class: "btn-secondary", icon: "arrow-left"
+  .btn-centered
+    - unless current_agent
+      = btn name: t("demarrage_projet.go_back"), href: projet_or_dossier_avis_impositions_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true
+    = btn name: @action_label, class: "btn-large", icon: "arrow-right", html: { name: :submit_button }
 

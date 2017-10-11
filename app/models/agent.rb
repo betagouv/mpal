@@ -4,6 +4,7 @@ class Agent < ApplicationRecord
   devise :cas_authenticatable, :trackable
 
   has_many   :agents_projets, dependent: :destroy
+  has_many   :contacts, dependent: :destroy, as: :sender
   belongs_to :intervenant
   has_many   :projects
   validates :nom, presence: true

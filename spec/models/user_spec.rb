@@ -101,6 +101,7 @@ end
 describe User do
   describe "validations" do
     it { is_expected.to have_many(:projets).through(:projets_users) }
+    it { is_expected.to have_many(:contacts) }
   end
 
   describe "abilities" do

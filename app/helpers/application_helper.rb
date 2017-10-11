@@ -29,6 +29,7 @@ module ApplicationHelper
   # * href: optional, URL to link to, if present change default `tag` to `a`
   # * class: optional, CSS classes to append
   # * icon: optional, glyphicon to use (without prefix), cf http://getbootstrap.com/components/#glyphicons-glyphs
+  # * icon_before: optional, if `true` prepend the icon, otherwise append it
   # * html: optional, any html attribute you want
   def btn(opts = {})
     p = {}
@@ -43,7 +44,11 @@ module ApplicationHelper
       content_tag (opts[:tag] || :button), p do
         if opts[:icon].present?
           if opts[:name].present?
-            content_tag(:span, opts[:name].html_safe) + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+            if !!opts[:icon_before]
+              content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}") + content_tag(:span, opts[:name].html_safe)
+            else
+              content_tag(:span, opts[:name].html_safe) + content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
+            end
           else
             content_tag(:i, '', class: "glyphicon glyphicon-#{opts[:icon]}")
           end
@@ -136,6 +141,17 @@ module ApplicationHelper
     html << content_tag(:h4, "Informations supplémentaires")
     complements = []
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite.present?
+
+    if demande.date_achevement_15_ans.nil?
+      date_achevement_15_ans = "Non renseigné"
+    elsif demande.date_achevement_15_ans
+      date_achevement_15_ans = "Oui"
+    else
+      date_achevement_15_ans = "Non"
+    end
+
+    date_achevement_15_ans_strong = content_tag(:strong, date_achevement_15_ans)
+    complements << "#{t("demarrage_projet.demande.date_achevement_15_ans")} : #{date_achevement_15_ans_strong}"
 
     if demande.ptz.nil?
       ptz = "Non renseigné"

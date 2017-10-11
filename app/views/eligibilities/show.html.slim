@@ -7,5 +7,15 @@
     .alert.alert-danger
       i.glyphicon.glyphicon-remove.alert__icon
       p.alert__p= t("demarrage_projet.eligibility.not_eligible")
-  = btn name: "Suivant", href: new_user_registration_path, class: "btn-large btn-centered", icon: "arrow-right"
+    .eligibility__contact-info
+      | Un complément d'étude de votre situation est possible en contactant votre PRIS EIE :
+      ul
+        li= @pris.raison_sociale
+        li= @pris.adresse_postale
+        li= @pris.email
+        li= @pris.phone
+      br
+      | Si votre situation a changé veuillez poursuivre la démarche en créant un compte ; un contact près de chez vous va réévaluer votre situation.
+
+  = btn name: t("demarrage_projet.action"), href: new_user_registration_path, class: "btn-large btn-centered", icon: "arrow-right"
 

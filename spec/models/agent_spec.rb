@@ -9,6 +9,7 @@ describe Agent do
     it { is_expected.to validate_presence_of :nom }
     it { is_expected.to validate_presence_of :prenom }
     it { is_expected.to belong_to :intervenant }
+    it { is_expected.to have_many(:contacts) }
   end
 
   describe "abilities" do

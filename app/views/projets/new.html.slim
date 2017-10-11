@@ -55,7 +55,7 @@ section.new-project
       = check_box_tag "autorisation", "1", params[:autorisation], class: "new-project__mentions-input js-engagement", id: "lab-rfr"
       label.new-project__mentions-label-projet for="lab-rfr"
         | J’accepte les conditions générales d’utilisation du service (CGU)
-    = btn name: t("sessions.commencer"), class: "new-project__btn js-login-btn js-engagement", icon: "ok"
+    = btn name: t("sessions.commencer"), class: "new-project__btn js-login-btn js-engagement", icon: "arrow-right"
 
   - if Tools.demo?
     section.login-demo

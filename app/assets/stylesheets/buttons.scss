@@ -15,7 +15,7 @@
   &:hover {
     background-color: #d9184e;
   }
-  span + .glyphicon {
+  span + .glyphicon, .glyphicon + span {
     margin-left: 0.4em;
   }
 }

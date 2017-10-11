@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   has_many :projets_users, dependent: :destroy
   has_many :projets, through: :projets_users
+  has_many :contacts, dependent: :destroy, as: :sender
 
   def mandataire?
     projets_users.mandataire.present?
