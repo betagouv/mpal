@@ -9,7 +9,7 @@ describe ProjetsController do
       before(:each) { authenticate_as_user(projet.demandeur_user) }
 
       context "si le projet existe et l'utilisateur est inscrit" do
-        let!(:projet) { create :projet, :en_cours }
+        let!(:projet) { create :projet, :en_cours, max_registration_step: 6 }
 
         it "redirige sur la page projet" do
           get :new
@@ -30,11 +30,11 @@ describe ProjetsController do
 
     context "quand le demandeur a un `project_id` dans sa session" do
       context "si le projet existe" do
-        let(:projet) { create :projet, :en_cours }
+        let(:projet) { create :projet }
 
-        it "redirige sur la page projet" do
+        it "redirige sur la page demandeur s'il démarre tout juste son projet" do
           get :new, session: { project_id: projet.id }
-          expect(response).to redirect_to projet_path(projet)
+          expect(response).to redirect_to projet_demandeur_path(projet)
         end
       end
 
