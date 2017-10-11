@@ -62,7 +62,7 @@ class Projet < ApplicationRecord
 
   has_and_belongs_to_many :themes
 
-  has_one :payment_registry, dependent: :destroy
+  has_many :payments, dependent: :destroy
 
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
 
@@ -78,7 +78,6 @@ class Projet < ApplicationRecord
   validates *FUNDING_FIELDS, :big_number => true
   validate  :validate_frozen_attributes
   validate  :validate_theme_count, on: :proposition
-  validate  :validate_payment_registry, on: :update
 
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
@@ -285,12 +284,6 @@ class Projet < ApplicationRecord
       return false
     end
     true
-  end
-
-  def validate_payment_registry
-    if payment_registry.present? && status_not_yet(:transmis_pour_instruction)
-      errors.add(:payment_registry, "Vous ne pouvez ajouter un registre de paiement que si le projet a été transmis pour instruction")
-    end
   end
 
   def change_demandeur(demandeur_id)
@@ -541,8 +534,7 @@ class Projet < ApplicationRecord
   end
 
   def action_operateur_dossier_paiement?
-    return false if payment_registry.blank?
-    payment_registry.try(:payments).each do |payment|
+    payments.each do |payment|
       return true if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
     end
     false
@@ -556,8 +548,7 @@ class Projet < ApplicationRecord
   end
 
   def action_instructeur_dossier_paiement?
-    return false if payment_registry.blank?
-    payment_registry.try(:payments).each do |payment|
+    payments.each do |payment|
       return true if payment.action.to_sym == :a_instruire
     end
     false

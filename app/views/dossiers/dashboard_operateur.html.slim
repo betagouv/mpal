@@ -55,14 +55,12 @@
                 - if projet.date_de_visite.present?
                   = format_date(projet.date_de_visite)
               td= t(projet.status_for_intervenant, scope: "projets.statut")
-              td
-                - if projet.payment_registry
-                  = projet.payment_registry.statuses
+              td= projet.payments.map(&:dashboard_status).join(" - ")
               /TODO Status Updated At
 
             - else
               td
-                - if projet.payment_registry.blank? && projet.status_already(:transmis_pour_instruction)
+                - if projet.payments.blank? && projet.status_already(:transmis_pour_instruction)
                   i.glyphicon.glyphicon-ok.dashboard__icon title="Nécessite une vérification"
                 - elsif projet.action_agent_operateur?
                   i.glyphicon.glyphicon-pencil.dashboard__icon--action-required title="Nécessite une action de votre part"
@@ -97,7 +95,7 @@
                   = format_date(projet.date_de_visite)
               td= link_to t(projet.status_for_intervenant, scope: "projets.statut"), edit_url
               td
-                - if projet.payment_registry
-                  = link_to projet.payment_registry.statuses.gsub(" - ", "<br/><br/>").html_safe, edit_url
+                - if projet.payments
+                  = link_to projet.payments.map(&:dashboard_status).join("<br/><br/>").html_safe, edit_url
 
               /TODO Status Updated At

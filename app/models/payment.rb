@@ -5,8 +5,9 @@ class Payment < ApplicationRecord
 
   validates :beneficiaire, :type_paiement, presence: true
   validate  :validate_type_paiement
+  validate  :validate_projet
 
-  belongs_to :payment_registry
+  belongs_to :projet
   has_many :documents, as: :category, dependent: :destroy
 
   state_machine :action, initial: :a_rediger do
@@ -49,9 +50,19 @@ class Payment < ApplicationRecord
     [I18n.t("payment.description.statut.#{statut}"), I18n.t("payment.description.action.#{action}")].join(" ").strip.capitalize
   end
 
+  def dashboard_status
+    [I18n.t("payment.type_paiement.#{type_paiement}"), I18n.t("payment.statut.#{statut}")].join(" ")
+  end
+
   private
 
   def validate_type_paiement
     errors.add(:type_paiement, :invalid) if type_paiement.present? && (TYPES.exclude? type_paiement.to_sym)
+  end
+
+  def validate_projet
+    if projet&.status_not_yet(:transmis_pour_instruction)
+      errors.add(:projet, "Vous ne pouvez ajouter une demande de paiement que si le projet a été transmis pour instruction")
+    end
   end
 end

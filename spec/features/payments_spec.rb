@@ -2,7 +2,7 @@ require "rails_helper"
 require "support/mpal_features_helper"
 
 feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
-  let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
+  let(:projet)            { create :projet, :en_cours_d_instruction }
   let(:demandeur)         { projet.demandeur_user }
   let(:agent_operateur)   { projet.agent_operateur }
   let(:agent_instructeur) { projet.agent_instructeur }
@@ -12,7 +12,7 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
     before { login_as agent_operateur, scope: :agent }
 
     scenario "je peux ajouter, modifier, supprimer et envoyer pour validation une demande de paiement" do
-      visit dossier_payment_registry_path(projet)
+      visit dossier_payments_path(projet)
 
       # Ajout
       click_on I18n.t("payment_registry.add_payment")
@@ -68,17 +68,16 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
 
     before do
       login_as agent_instructeur, scope: :agent
-      create :payment, type_paiement: :avance, statut: :demande, action: :a_instruire, payment_registry: projet.payment_registry
-      create :payment, type_paiement: :solde,  statut: :demande, action: :a_instruire, payment_registry: projet.payment_registry
+      create :payment, type_paiement: :avance, statut: :demande, action: :a_instruire, projet: projet
+      create :payment, type_paiement: :solde,  statut: :demande, action: :a_instruire, projet: projet
     end
 
     scenario "je peux demander une modification sur un dossier, qui s'affiche ensuite juste après les dossiers nécessitant une action" do
-      visit dossier_payment_registry_path(projet)
+      visit dossier_payments_path(projet)
 
       # Demande de modification
       within(".test-entry-0") { click_on I18n.t("payment.actions.ask_for_modification.label") }
       expect(page).to have_content I18n.t("payment.actions.ask_for_modification.success", operateur: projet.operateur.raison_sociale)
-      visit dossier_payment_registry_path(projet)
       within ".test-entry-1" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "Déposée en attente de modification"
@@ -90,17 +89,16 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
 
     before do
       login_as demandeur, scope: :user
-      create :payment, type_paiement: :avance, statut: :propose, action: :a_valider, payment_registry: projet.payment_registry
-      create :payment, type_paiement: :solde,  statut: :propose, action: :a_valider, payment_registry: projet.payment_registry
+      create :payment, type_paiement: :avance, statut: :propose, action: :a_valider, projet: projet
+      create :payment, type_paiement: :solde,  statut: :propose, action: :a_valider, projet: projet
     end
 
     scenario "je peux demander une modification, qui s'affiche ensuite juste après les dossiers nécessitant une action" do
-      visit dossier_payment_registry_path(projet)
+      visit dossier_payments_path(projet)
 
       # Demande de modification
       within(".test-entry-0") { click_on I18n.t("payment.actions.ask_for_modification.label") }
       expect(page).to have_content I18n.t("payment.actions.ask_for_modification.success", operateur: projet.operateur.raison_sociale)
-      visit dossier_payment_registry_path(projet)
       within ".test-entry-1" do
         expect(page).to have_content "Demande d’avance"
         expect(page).to have_content "Proposée en attente de modification"
@@ -109,7 +107,6 @@ feature "J'ai accès à mes dossiers à partir de mon tableau de bord" do
       # Dépôt
       within(".test-entry-0") { click_on I18n.t("payment.actions.ask_for_instruction.label") }
       expect(page).to have_content I18n.t("payment.actions.ask_for_instruction.success", instructeur: projet.invited_instructeur.raison_sociale)
-      visit dossier_payment_registry_path(projet)
       within ".test-entry-1" do
         expect(page).to have_content "Demande de solde"
         expect(page).to have_content "Déposée"

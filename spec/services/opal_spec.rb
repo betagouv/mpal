@@ -180,10 +180,10 @@ describe Opal do
   end
 
   describe "#update_projet_with_dossier_paiement!" do
-    let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
+    let(:projet)            { create :projet, :en_cours_d_instruction }
     let(:agent_instructeur) { projet.agent_instructeur }
     let(:submit_time)       { DateTime.new(1980, 01, 01) }
-    let(:payment)           { create :payment, :demande, payment_registry: projet.payment_registry, submitted_at: submit_time }
+    let(:payment)           { create :payment, :demande, projet: projet, submitted_at: submit_time }
 
     context "en cas de succès" do
       subject! { Opal.new(client_create_payment).update_projet_with_dossier_paiement!(projet, payment) }

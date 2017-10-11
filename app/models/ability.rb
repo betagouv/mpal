@@ -25,21 +25,18 @@ private
       can :manage, Demande
     elsif projet.users.include? user
       can :show,   Projet
-      can :index,  Projet           if user == projet.mandataire_user
+      can :index,  Projet    if user == projet.mandataire_user
       can :read,   :intervenant
       can :new,    Message
-      can :create, Message          if user_can_act(user, projet)
-      can :read,   Document,        category: projet
+      can :read,   Document, category_type: "Projet",  category_id: projet.id
+      can :read,   Document, category_type: "Payment", category_id: projet.payments.map(&:id)
+      can :show,   Payment,  projet_id: projet.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
+      can :index,  Payment   if projet.status_already(:transmis_pour_instruction)
 
-      if projet.payment_registry.present?
-        can :read, PaymentRegistry, projet_id: projet.id
-        can :read, Payment,  payment_registry_id: projet.payment_registry.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
-        can :read, Document, category: projet.payment_registry.payments
-      end
-
-      if user_can_act(user, projet) && projet.payment_registry.present?
-        can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
-        can :ask_for_instruction,  Payment, payment_registry_id: projet.payment_registry.id, action:  "a_valider"
+      if user_can_act(user, projet)
+        can :create,               Message
+        can :ask_for_modification, Payment, projet_id: projet.id, action: "a_valider"
+        can :ask_for_instruction,  Payment, projet_id: projet.id, action: "a_valider"
       end
     end
   end
@@ -56,8 +53,6 @@ private
     return can :manage, :all if agent.admin?
     return can :read,   :all if agent.siege?
 
-    can :read, PaymentRegistry, projet_id: projet.id if projet.payment_registry.present?
-
     operateur_abilities(projet)   if agent.operateur?
     instructeur_abilities(projet) if agent.instructeur?
     pris_abilities(projet)        if agent.pris?
@@ -67,13 +62,21 @@ private
     can :read, :intervenant
     can :read, Projet
 
-    return if projet.statut.to_sym == :prospect
+    return if projet.status_not_yet :en_cours
 
-    if projet.status_already :en_cours
-      can :create,  Document
-      can :read,    Document, category: projet
-      can :destroy, projet.documents.select{ |document| projet.date_depot.blank? || document.created_at > projet.date_depot }
-    end
+    can :create,  Document
+    can :read,    Document, category_type: "Projet",  category_id: projet.id
+    can :read,    Document, category_type: "Payment", category_id: projet.payments.map(&:id)
+
+    can :destroy, (projet.documents.select { |document|
+      projet.date_depot.blank? || document.created_at > projet.date_depot
+    })
+    can :destroy, (projet.payments.map(&:documents).flatten.select { |document|
+      upload_time      = document.created_at
+      submit_time      = document.category.submitted_at
+      correction_time  = document.category.corrected_at
+      submit_time.blank? || upload_time > (correction_time || submit_time)
+    })
 
     if projet.status_not_yet :transmis_pour_instruction
       can :manage, Projet
@@ -83,28 +86,15 @@ private
       can :manage, Demande
     end
 
-    if projet.status_already(:transmis_pour_instruction) && projet.payment_registry.blank?
-      can :create, PaymentRegistry
+    if projet.status_already :transmis_pour_instruction
+      can :create,  Payment
+      can :read,    Payment, projet_id: projet.id
+      can :destroy, Payment, projet_id: projet.id, statut: ["en_cours_de_montage", "propose"], action: ["a_rediger", "a_modifier"]
+      can :update,  Payment, projet_id: projet.id, action: ["a_rediger", "a_modifier"]
     end
 
-    if projet.payment_registry.present?
-      payments           = projet.payment_registry.payments
-      payments_documents = payments.map(&:documents).flatten
-
-      can :read,    payments_documents
-      can :destroy, payments_documents.select do |document|
-        upload_time      = document.created_at
-        submit_time      = document.category.submitted_at
-        correction_time  = document.category.corrected_at
-
-        submit_time.blank? || upload_time > (correction_time || submit_time)
-      end
-
-      can :create,               Payment
-      can :read,                 Payment, payment_registry_id: projet.payment_registry.id
-      can :destroy,              Payment, payment_registry_id: projet.payment_registry.id, statut: ["en_cours_de_montage", "propose"], action: ["a_rediger", "a_modifier"]
-      can :update,               Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"]
-      can :ask_for_validation,   Payment, payment_registry_id: projet.payment_registry.id, action: ["a_rediger", "a_modifier"] unless projet.status_not_yet(:en_cours_d_instruction)
+    if projet.status_already :en_cours_d_instruction
+      can :ask_for_validation, Payment, projet_id: projet.id, action: ["a_rediger", "a_modifier"]
     end
   end
 
@@ -116,15 +106,14 @@ private
     if projet.status_already :transmis_pour_instruction
       can :read, Projet
       can :read, :intervenant
-      can :read, Document, category: projet
-    end
 
-    if projet.payment_registry.present?
-      can :read,                 Document, category: projet.payment_registry.payments
+      can :read, Document, category_type: "Projet",  category_id: projet.id
+      can :read, Document, category_type: "Payment", category_id: projet.payments.map(&:id)
 
-      can :read,                 Payment, payment_registry_id: projet.payment_registry.id, statut: ["demande", "en_cours_d_instruction", "paye"]
-      can :ask_for_modification, Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
-      can :send_in_opal,         Payment, payment_registry_id: projet.payment_registry.id, action: "a_instruire"
+      can :index,                Payment
+      can :show,                 Payment, projet_id: projet.id, statut: ["demande", "en_cours_d_instruction", "paye"]
+      can :ask_for_modification, Payment, projet_id: projet.id, action: "a_instruire"
+      can :send_in_opal,         Payment, projet_id: projet.id, action: "a_instruire"
     end
   end
 
