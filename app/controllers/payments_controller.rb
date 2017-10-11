@@ -5,11 +5,27 @@ class PaymentsController < ApplicationController
 
   rescue_from do |exception|
     flash[:alert] = exception.message
-    redirect_to projet_or_dossier_payment_registry_path @projet_courant
+    redirect_to projet_or_dossier_payments_path @projet_courant
   end
 
   rescue_from ActiveRecord::RecordNotFound do
+    #TODO handle exceptions in action
     redirect_to "/404"
+  end
+
+  def index
+    payments_by_update = @projet_courant.payments.order(updated_at: :desc).select{ |payment| can? :show, payment }
+    requested_actions  = [:update, :ask_for_modification, :ask_for_instruction, :send_in_opal]
+
+    payments_first = payments_by_update.select do |payment|
+      requested_actions.any?{ |action| can? action, payment }
+    end
+
+    payments_last = payments_by_update.select do |payment|
+      requested_actions.all?{ |action| cannot? action, payment }
+    end
+
+    @payments = payments_first + payments_last
   end
 
   def new
@@ -18,10 +34,9 @@ class PaymentsController < ApplicationController
 
   def create
     @payment = Payment.new payment_params
-    @payment.projet_id = @projet_courant.id #TODO Delete with PaymentRegistry
+    @payment.projet = @projet_courant
     if @payment.save
-      @projet_courant.payment_registry.payments << @payment
-      redirect_to dossier_payment_registry_path @projet_courant
+      redirect_to dossier_payments_path @projet_courant
     else
       render :new
     end
@@ -34,9 +49,8 @@ class PaymentsController < ApplicationController
     @payment = Payment.new payment_params
     payment_to_update = Payment.find params[:payment_id]
     payment_to_update.assign_attributes payment_params
-    payment_to_update.projet_id = @projet_courant.id #TODO Delete with PaymentRegistry
     if @payment.valid? && payment_to_update.save
-      redirect_to dossier_payment_registry_path @projet_courant
+      redirect_to dossier_payments_path @projet_courant
     else
       render :edit
     end
@@ -46,35 +60,35 @@ class PaymentsController < ApplicationController
     send_mail_for_destruction if @payment.action?(:a_modifier)
     @payment.destroy!
     flash[:notice] = I18n.t("payment.actions.delete.success")
-    redirect_to dossier_payment_registry_path @projet_courant
+    redirect_to dossier_payments_path @projet_courant
   end
 
   def ask_for_validation
     @payment.ask_for_validation
     send_mail_for_validation
-    redirect_to dossier_payment_registry_path @projet_courant
+    redirect_to dossier_payments_path @projet_courant
   end
 
   def ask_for_modification
     @payment.ask_for_modification
     send_mail_for_modification
-    redirect_to projet_or_dossier_payment_registry_path @projet_courant
+    redirect_to projet_or_dossier_payments_path @projet_courant
   end
 
   def ask_for_instruction
     @payment.statut?(:propose) ? send_mail_for_instruction : send_mail_for_correction_after_instruction
     @payment.ask_for_instruction
-    redirect_to projet_or_dossier_payment_registry_path @projet_courant
+    redirect_to projet_payments_path @projet_courant
   end
 
   def send_in_opal
-    @payment = @projet_courant.payment_registry.payments.where(id: params[:payment_id]).first
+    @payment = @projet_courant.payments.where(id: params[:payment_id]).first
     begin
       opal_api.update_projet_with_dossier_paiement!(@projet_courant, @payment)
       @payment.send_in_opal
-      redirect_to(dossier_payment_registry_path(@projet_courant), notice: t('payment.add_to_opal.messages.success', id_opal: @projet_courant.opal_numero))
+      redirect_to(dossier_payments_path(@projet_courant), notice: t('payment.add_to_opal.messages.success', id_opal: @projet_courant.opal_numero))
     rescue => e
-      redirect_to(dossier_payment_registry_path(@projet_courant), alert: t('payment.add_to_opal.messages.error', message: e.message))
+      redirect_to(dossier_payments_path(@projet_courant), alert: t('payment.add_to_opal.messages.error', message: e.message))
     end
   end
 

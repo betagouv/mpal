@@ -7,8 +7,33 @@ describe Payment do
     it { expect(payment).to be_valid }
     it { is_expected.to validate_presence_of :beneficiaire }
     it { is_expected.to validate_presence_of :type_paiement }
-    it { is_expected.to belong_to :payment_registry }
+    it { is_expected.to belong_to :projet }
     it { is_expected.to have_many :documents }
+  end
+
+  describe "#validate_projet" do
+    let!(:projet_prospect)                   { create :projet, :prospect }
+    let!(:projet_en_cours)                   { create :projet, :en_cours }
+    let!(:projet_proposition_enregistree)    { create :projet, :proposition_enregistree }
+    let!(:projet_proposition_proposee)       { create :projet, :proposition_proposee }
+    let!(:projet_transmis_pour_instruction)  { create :projet, :transmis_pour_instruction }
+    let!(:projet_en_cours_d_instruction)     { create :projet, :en_cours_d_instruction }
+
+    let(:payment_prospect)                   { build :payment, projet: projet_prospect }
+    let(:payment_en_cours)                   { build :payment, projet: projet_en_cours }
+    let(:payment_proposition_enregistree)    { build :payment, projet: projet_proposition_enregistree }
+    let(:payment_proposition_proposee)       { build :payment, projet: projet_proposition_proposee }
+    let(:payment_transmis_pour_instruction)  { build :payment, projet: projet_transmis_pour_instruction }
+    let(:payment_en_cours_d_instruction)     { build :payment, projet: projet_en_cours_d_instruction }
+
+    it "empêche de créer une demande de paiement si le projet n'a pas été transmis pour instruction" do
+      expect(payment_prospect.valid?).to                  be_falsy
+      expect(payment_en_cours.valid?).to                  be_falsy
+      expect(payment_proposition_enregistree.valid?).to   be_falsy
+      expect(payment_proposition_proposee.valid?).to      be_falsy
+      expect(payment_transmis_pour_instruction.valid?).to be_truthy
+      expect(payment_en_cours_d_instruction.valid?).to    be_truthy
+    end
   end
 
   describe "#description" do
@@ -16,9 +41,11 @@ describe Payment do
     let(:payment_acompte) { create :payment, type_paiement: :acompte }
     let(:payment_solde)   { create :payment, type_paiement: :solde }
 
-    it { expect(payment_avance.description).to  eq "Demande d’avance" }
-    it { expect(payment_acompte.description).to eq "Demande d’acompte" }
-    it { expect(payment_solde.description).to   eq "Demande de solde" }
+    it do
+      expect(payment_avance.description).to  eq "Demande d’avance"
+      expect(payment_acompte.description).to eq "Demande d’acompte"
+      expect(payment_solde.description).to   eq "Demande de solde"
+    end
   end
 
   describe "#status_with_action" do
@@ -31,14 +58,38 @@ describe Payment do
     let(:payment_en_cours_d_instruction) { create :payment, statut: :en_cours_d_instruction, action: :aucune }
     let(:payment_paye)                   { create :payment, statut: :paye,                   action: :aucune }
 
-    it { expect(payment_en_cours_de_montage.status_with_action).to    eq "En cours de montage" }
-    it { expect(payment_propose.status_with_action).to                eq "Proposée en attente de validation" }
-    it { expect(payment_propose_a_modifier.status_with_action).to     eq "Proposée en attente de modification" }
-    it { expect(payment_demande.status_with_action).to                eq "Déposée en attente d’instruction" }
-    it { expect(payment_demande_a_modifier.status_with_action).to     eq "Déposée en attente de modification" }
-    it { expect(payment_demande_a_valider.status_with_action).to      eq "Déposée en attente de validation" }
-    it { expect(payment_en_cours_d_instruction.status_with_action).to eq "En cours d’instruction" }
-    it { expect(payment_paye.status_with_action).to                   eq "Payée" }
+    it do
+      expect(payment_en_cours_de_montage.status_with_action).to    eq "En cours de montage"
+      expect(payment_propose.status_with_action).to                eq "Proposée en attente de validation"
+      expect(payment_propose_a_modifier.status_with_action).to     eq "Proposée en attente de modification"
+      expect(payment_demande.status_with_action).to                eq "Déposée en attente d’instruction"
+      expect(payment_demande_a_modifier.status_with_action).to     eq "Déposée en attente de modification"
+      expect(payment_demande_a_valider.status_with_action).to      eq "Déposée en attente de validation"
+      expect(payment_en_cours_d_instruction.status_with_action).to eq "En cours d’instruction"
+      expect(payment_paye.status_with_action).to                   eq "Payée"
+    end
+  end
+
+  describe "#dashboard_status" do
+    let(:payment_avance)                 { create :payment, type_paiement: :avance }
+    let(:payment_acompte)                { create :payment, type_paiement: :acompte }
+    let(:payment_solde)                  { create :payment, type_paiement: :solde }
+    let(:payment_en_cours_de_montage)    { create :payment, statut: :en_cours_de_montage }
+    let(:payment_propose)                { create :payment, statut: :propose }
+    let(:payment_demande)                { create :payment, statut: :demande }
+    let(:payment_en_cours_d_instruction) { create :payment, statut: :en_cours_d_instruction }
+    let(:payment_paye)                   { create :payment, statut: :paye }
+
+    it do
+      expect(payment_avance.dashboard_status).to                 include I18n.t("payment.type_paiement.avance")
+      expect(payment_acompte.dashboard_status).to                include I18n.t("payment.type_paiement.acompte")
+      expect(payment_solde.dashboard_status).to                  include I18n.t("payment.type_paiement.solde")
+      expect(payment_en_cours_de_montage.dashboard_status).to    include I18n.t("payment.statut.en_cours_de_montage")
+      expect(payment_propose.dashboard_status).to                include I18n.t("payment.statut.propose")
+      expect(payment_demande.dashboard_status).to                include I18n.t("payment.statut.demande")
+      expect(payment_en_cours_d_instruction.dashboard_status).to include I18n.t("payment.statut.en_cours_d_instruction")
+      expect(payment_paye.dashboard_status).to                   include I18n.t("payment.statut.paye")
+    end
   end
 
   describe "#statut" do

@@ -3,10 +3,9 @@ require "support/mpal_helper"
 require "support/opal_helper"
 
 describe PaymentsController do
-
   describe "en tant qu'opérateur" do
-    let(:projet)  { create :projet, :transmis_pour_instruction, :with_payment_registry }
-    let(:payment) { create :payment, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+    let(:projet)  { create :projet, :transmis_pour_instruction }
+    let(:payment) { create :payment, beneficiaire: "Emile Lévesque", projet: projet }
 
     before(:each) { authenticate_as_agent projet.agent_operateur }
 
@@ -42,13 +41,13 @@ describe PaymentsController do
             }
           }
           projet.reload
-          payment = projet.payment_registry.payments.first
+          payment = projet.payments.first
           expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq "SOLIHA"
           expect(payment.procuration).to   eq true
-          expect(payment.projet_id).to     eq projet.id #TODO Delete with PaymentRegistry
-          expect(response).to redirect_to dossier_payment_registry_path(projet)
+          expect(payment.projet).to        eq projet
+          expect(response).to redirect_to dossier_payments_path(projet)
         end
       end
 
@@ -63,13 +62,13 @@ describe PaymentsController do
             }
           }
           projet.reload
-          payment = projet.payment_registry.payments.first
+          payment = projet.payments.first
           expect(Payment.count).to     eq 1
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq projet.demandeur.fullname
           expect(payment.procuration).to   eq false
-          expect(payment.projet_id).to     eq projet.id #TODO Delete with PaymentRegistry
-          expect(response).to redirect_to dossier_payment_registry_path(projet)
+          expect(payment.projet).to        eq projet
+          expect(response).to redirect_to dossier_payments_path(projet)
         end
       end
     end
@@ -97,6 +96,7 @@ describe PaymentsController do
           expect(payment.type_paiement).to eq "avance"
           expect(payment.beneficiaire).to  eq "Emile Lévesque"
           expect(payment.procuration).to   eq false
+          expect(payment.projet).to        eq projet
           expect(response).to render_template :edit
         end
       end
@@ -117,8 +117,8 @@ describe PaymentsController do
           expect(payment.type_paiement).to eq "solde"
           expect(payment.beneficiaire).to  eq "SOLIHA"
           expect(payment.procuration).to   eq true
-          expect(payment.projet_id).to     eq projet.id #TODO Delete with PaymentRegistry
-          expect(response).to redirect_to dossier_payment_registry_path(projet)
+          expect(payment.projet).to        eq projet
+          expect(response).to redirect_to dossier_payments_path(projet)
         end
       end
 
@@ -138,8 +138,8 @@ describe PaymentsController do
           expect(payment.type_paiement).to eq "solde"
           expect(payment.beneficiaire).to  eq projet.demandeur.fullname
           expect(payment.procuration).to   eq false
-          expect(payment.projet_id).to     eq projet.id #TODO Delete with PaymentRegistry
-          expect(response).to redirect_to dossier_payment_registry_path(projet)
+          expect(payment.projet).to        eq projet
+          expect(response).to redirect_to dossier_payments_path(projet)
         end
       end
     end
@@ -148,7 +148,7 @@ describe PaymentsController do
       it "supprime la demande de paiement" do
         delete :destroy, params: { dossier_id: projet.id, payment_id: payment.id }
         expect(Payment.count).to eq 0
-        expect(response).to redirect_to dossier_payment_registry_path(projet)
+        expect(response).to redirect_to dossier_payments_path(projet)
       end
 
       context "avec une demande de paiement vue par le demandeur" do
@@ -169,7 +169,7 @@ describe PaymentsController do
     end
 
     describe "#ask_for_validation" do
-      let(:projet) { create :projet, :en_cours_d_instruction, :with_payment_registry}
+      let(:projet) { create :projet, :en_cours_d_instruction }
 
       it "passe la demande en proposé au demandeur pour validation" do
         expect(PaymentMailer).to receive(:demande_validation).once.and_call_original.with(payment)
@@ -177,14 +177,14 @@ describe PaymentsController do
         payment.reload
         expect(payment.action).to eq "a_valider"
         expect(payment.statut).to eq "propose"
-        expect(response).to redirect_to dossier_payment_registry_path(projet)
+        expect(response).to redirect_to dossier_payments_path(projet)
       end
     end
   end
 
   describe "en tant que demandeur" do
-    let(:projet)      { create :projet, :en_cours_d_instruction, :with_payment_registry }
-    let(:payment)     { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry }
+    let(:projet)      { create :projet, :en_cours_d_instruction }
+    let(:payment)     { create :payment, statut: "propose", action: "a_valider", beneficiaire: "Emile Lévesque", projet: projet }
     let(:submit_time) { Time.now }
 
     before(:each) { authenticate_as_user projet.demandeur_user }
@@ -196,7 +196,7 @@ describe PaymentsController do
         payment.reload
         expect(payment.action).to eq "a_modifier"
         expect(payment.statut).to eq "propose"
-        expect(response).to redirect_to projet_payment_registry_path(projet)
+        expect(response).to redirect_to projet_payments_path(projet)
       end
     end
 
@@ -209,16 +209,16 @@ describe PaymentsController do
         expect(payment.action).to eq "a_instruire"
         expect(payment.statut).to eq "demande"
         expect(payment.submitted_at).to eq submit_time
-        expect(response).to redirect_to projet_payment_registry_path(projet)
+        expect(response).to redirect_to projet_payments_path(projet)
       end
     end
   end
 
   describe "en tant que instructeur" do
-    let(:projet)            { create :projet, :en_cours_d_instruction, :with_payment_registry }
+    let(:projet)            { create :projet, :en_cours_d_instruction }
     let(:agent_instructeur) { projet.agent_instructeur }
     let(:submit_time)       { DateTime.new(1980, 01, 01) }
-    let(:payment)           { create :payment, :demande, beneficiaire: "Emile Lévesque", payment_registry: projet.payment_registry, submitted_at: submit_time }
+    let(:payment)           { create :payment, :demande, beneficiaire: "Emile Lévesque", projet: projet, submitted_at: submit_time }
 
     describe "#send_in_opal" do
       before do
@@ -229,7 +229,7 @@ describe PaymentsController do
 
       it "transmet la demande de paiement dans Opal et met à jour le statut" do
         expect(payment.statut).to eq "en_cours_d_instruction"
-        expect(response).to redirect_to dossier_payment_registry_path(projet)
+        expect(response).to redirect_to dossier_payments_path(projet)
       end
     end
   end

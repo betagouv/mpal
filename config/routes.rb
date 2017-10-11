@@ -16,7 +16,6 @@ Rails.application.routes.draw do
     resource  :eligibility,        only: :show
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
-    get       "/payment_registry", to: "payment_registries#show"
   end
 
   #ROOT & PAGES STATIQUES
@@ -67,11 +66,10 @@ Rails.application.routes.draw do
       get  :proposition
       put  :proposition
       get  :indicateurs, on: :collection
-      post "/payment_registry", to: "payment_registries#create"
-      resources :payments, only: [:new, :create, :edit, :update, :destroy, :ask_for_validation, :ask_for_modification, :send_in_opal], param: :payment_id do
+      resources :payments, only: [:index, :new, :create, :edit, :update, :destroy, :ask_for_validation, :ask_for_modification, :send_in_opal], param: :payment_id do
         put "ask_for_validation",   on: :member
         put "ask_for_modification", on: :member
-        put "send_in_opal", on: :member
+        put "send_in_opal",         on: :member
       end
       resources :payments, only: [] do
         resources :documents, only: [:create, :destroy]
@@ -93,7 +91,7 @@ Rails.application.routes.draw do
       post     :engagement_operateur, action: :create, controller: "engagement_operateur"
       get      :transmission,         action: :new,    controller: "transmission"
       post     :transmission,         action: :create, controller: "transmission"
-      resources :payments, only: [:ask_for_modification, :ask_for_instruction], param: :payment_id do
+      resources :payments, only: [:index, :ask_for_modification, :ask_for_instruction], param: :payment_id do
         put "ask_for_modification", on: :member
         put "ask_for_instruction",  on: :member
       end
