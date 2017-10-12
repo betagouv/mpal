@@ -1,8 +1,10 @@
 .dashboard-dossiers
-  - if @invitations.blank?
+  - items = @invitations || @dossiers
+  = render "search_form", url: home_dossiers_path, show_export_button: items.present?
+  - if items.blank?
     p Aucun dossier.
   - else
-    - @invitations.each do |invitation|
-      - projet = invitation.projet
+    - items.each do |item|
+      - projet = item.is_a?(Invitation) ? item.projet : item
       = render "projets/menu", project: projet
 

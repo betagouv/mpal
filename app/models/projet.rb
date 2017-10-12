@@ -11,6 +11,12 @@ class Projet < ApplicationRecord
 
   STATUSES             = [:prospect, :en_cours, :proposition_enregistree, :proposition_proposee, :transmis_pour_instruction, :en_cours_d_instruction]
   INTERVENANT_STATUSES = [:prospect, :en_cours_de_montage, :depose, :en_cours_d_instruction]
+  INTERVENANT_STATUSES_MAPPING = {
+    prospect:               [:prospect],
+    en_cours_de_montage:    [:en_cours, :proposition_enregistree, :proposition_proposee],
+    depose:                 [:transmis_pour_instruction],
+    en_cours_d_instruction: [:en_cours_d_instruction]
+  }
   enum statut: {
     prospect: 0,
     en_cours: 1,
@@ -19,6 +25,8 @@ class Projet < ApplicationRecord
     transmis_pour_instruction: 5,
     en_cours_d_instruction: 6
   }
+
+  SORT_BY_OPTIONS = [:created, :depot]
 
   # Personne de confiance
   belongs_to :personne, dependent: :destroy
@@ -88,13 +96,68 @@ class Projet < ApplicationRecord
   before_save :clean_numero_fiscal, :clean_reference_avis
 
   scope :ordered, -> { order("projets.id desc") }
-  scope :with_demandeur, -> { joins(:occupants).where('occupants.demandeur = true').distinct  }
+  scope :with_demandeur, -> { joins(:occupants).where('occupants.demandeur = true').distinct }
   scope :for_agent, ->(agent) {
     if agent.siege?
       all.with_demandeur
     else
       joins(:intervenants).where('intervenants.id = ?', agent.intervenant_id).group('projets.id')
     end
+  }
+  scope :for_intervenant_status, ->(status) {
+    next where(nil) if status.blank?
+    where(["projets.statut IN (?)", Projet::INTERVENANT_STATUSES_MAPPING[status.to_sym].map { |x| Projet::statuts[x] }])
+  }
+  scope :for_sort_by, ->(field) {
+    sorting = field.to_sym if field.present? && Projet::SORT_BY_OPTIONS.include?(field.to_sym)
+    scope = group("projets.id")
+    if :depot == sorting
+      scope.where("projets.date_depot IS NOT NULL").order("projets.date_depot DESC")
+    else # :created == sorting
+      scope.order("projets.created_at DESC")
+    end
+  }
+  scope :for_text, ->(opts) {
+    words = opts && opts.to_s.scan(/\S+/)
+    next where(nil) if words.blank?
+    conditions = ["true"]
+    joins = %(
+      INNER JOIN avis_impositions ift_avis_impositions
+        ON (projets.id = ift_avis_impositions.projet_id)
+      INNER JOIN occupants ift_occupants
+        ON (ift_avis_impositions.id = ift_occupants.avis_imposition_id AND ift_occupants.demandeur = true)
+      INNER JOIN adresses ift_adresses1
+        ON (projets.adresse_postale_id = ift_adresses1.id)
+      LEFT OUTER JOIN adresses ift_adresses2
+        ON (projets.adresse_a_renover_id = ift_adresses2.id)
+    )
+    words.each do |word|
+      conditions[0] << " AND (projets.id = ?"
+      conditions << word.to_i
+      if word.include? "_"
+        array = word.split("_")
+        conditions[0] << " OR (projets.id = ? AND projets.plateforme_id = ?)"
+        conditions << array[0].to_i
+        conditions << array[1]
+      end
+      [
+        "projets.numero_fiscal", "projets.reference_avis", "projets.opal_numero",
+        "ift_adresses1.departement", "ift_adresses2.departement",
+        "ift_adresses1.code_postal", "ift_adresses2.code_postal"
+      ].each do |field|
+        conditions[0] << " OR #{field} = ?"
+        conditions << word
+      end
+      [
+        "ift_occupants.nom", "ift_adresses1.ville", "ift_adresses2.ville",
+        "ift_adresses1.region", "ift_adresses2.region"
+      ].each do |field|
+        conditions[0] << " OR #{field} ILIKE ?"
+        conditions << "%#{word}%"
+      end
+      conditions[0] << ")"
+    end
+    joins(joins).where(conditions).group("projets.id")
   }
   scope :updated_since, ->(datetime) {
     where("updated_at >= ?", datetime)
@@ -446,13 +509,14 @@ class Projet < ApplicationRecord
   def status_for_intervenant
     return if statut.blank?
     statuses_map = {
-      prospect:                :prospect,
-      en_cours:                :en_cours_de_montage,
-      proposition_enregistree: :en_cours_de_montage,
-      proposition_proposee:    :en_cours_de_montage,
-      en_cours_d_instruction:  :en_cours_d_instruction,
+      prospect:                  :prospect,
+      en_cours:                  :en_cours_de_montage,
+      proposition_enregistree:   :en_cours_de_montage,
+      proposition_proposee:      :en_cours_de_montage,
+      transmis_pour_instruction: :depose,
+      en_cours_d_instruction:    :en_cours_d_instruction,
     }
-    statuses_map[statut.to_sym] || :depose
+    statuses_map[statut.to_sym] || :prospect
   end
 
   def status_not_yet(status)

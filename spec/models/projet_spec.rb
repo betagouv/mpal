@@ -3,25 +3,24 @@ require 'support/mpal_helper'
 require 'support/api_particulier_helper'
 
 describe Projet do
-  describe "validations" do
-    matcher :allow_updating_of do |attribute|
-      def with(value)
-        @value = value
-        self
-      end
-      match do |projet|
-        projet.send("#{attribute}=", @value || "dummy")
-        projet.validate
-        projet.errors[attribute].blank?
-      end
-      match_when_negated do |projet|
-        projet.send("#{attribute}=", @value || "dummy")
-        projet.validate
-        projet.errors[attribute].present?
-      end
+  matcher :allow_updating_of do |attribute|
+    def with(value)
+      @value = value
+      self
     end
+    match do |projet|
+      projet.send("#{attribute}=", @value || "dummy")
+      projet.validate
+      projet.errors[attribute].blank?
+    end
+    match_when_negated do |projet|
+      projet.send("#{attribute}=", @value || "dummy")
+      projet.validate
+      projet.errors[attribute].present?
+    end
+  end
     
-
+  describe "validations" do
     let(:projet) { build :projet }
     it { expect(projet).to be_valid }
     it { is_expected.to validate_presence_of :numero_fiscal }
@@ -76,23 +75,109 @@ describe Projet do
       projet.valid?
       expect(projet.errors[:tel]).to be_present
     end
+  end
 
-    describe "#validate_frozen_attributes" do
-      context "quand le projet est figé" do
-        subject(:projet) { create :projet, :transmis_pour_instruction }
-        it { is_expected.to allow_updating_of(:statut).with(:en_cours_d_instruction) }
-        it { is_expected.to allow_updating_of(:opal_numero) }
-        it { is_expected.to allow_updating_of(:opal_id) }
-        it { is_expected.to allow_updating_of(:agent_instructeur_id).with(create(:agent).id) }
-        it { is_expected.not_to allow_updating_of(:note_degradation) }
-        it { is_expected.not_to allow_updating_of(:note_insalubrite) }
-        it { is_expected.not_to allow_updating_of(:travaux_ht_amount) }
-        it { is_expected.not_to allow_updating_of(:travaux_ttc_amount) }
-        it { is_expected.not_to allow_updating_of(:personal_funding_amount) }
-        it { is_expected.not_to allow_updating_of(:loan_amount) }
-        it { is_expected.not_to allow_updating_of(:adresse_postale_id).with(create(:adresse).id) }
-        it { is_expected.not_to allow_updating_of(:adresse_a_renover_id).with(create(:adresse).id) }
+  describe "scopes" do
+    # Attention, ce scope peut produire des tests en faux négatifs :
+    # la recherche est volontairement large et cherche sur l’id du projet,
+    # id sur lequel nous n’avons pas la main.
+    describe ".for_text" do
+      let(:projet1) { create :projet, :with_demandeur }
+      let(:projet2) { create :projet, :with_demandeur }
+      before do
+        projet1.demandeur.update_attributes prenom: "Neil", nom: "ARMSTRONG"
+        projet1.update_attributes({
+          numero_fiscal: "1720913282199", reference_avis: "9371620372548", opal_numero: "266272"
+        })
+        projet1.adresse_postale.update_attributes({
+          code_insee: "42218", code_postal: "42000", ville: "Saint-Étienne",
+          departement: "42", region: "Auvergne-Rhône-Alpes"
+        })
+        projet1.adresse_a_renover.update_attributes({
+          code_insee: "81004", code_postal: "81000", ville: "Albi",
+          departement: "81", region: "Occitanie"
+        })
       end
+
+      it "retourne tous les éléments" do
+        expect(Projet.for_text("")).to eq [projet1, projet2]
+      end
+      it "retourne une collection vide" do
+        expect(Projet.for_text("uneChaineQuiNExistePas")).to eq []
+      end
+      context "cherche le numero fiscal" do
+        it { expect(Projet.for_text(projet1.numero_fiscal)).to eq [projet1] }
+      end
+      context "cherche la référence de l’avis" do
+        it { expect(Projet.for_text(projet1.reference_avis)).to eq [projet1] }
+      end
+      context "cherche l’ID plateforme" do
+        it { expect(Projet.for_text(projet1.id)).to eq [projet1] }
+        it { expect(Projet.for_text(projet1.numero_plateforme)).to eq [projet1] }
+      end
+      context "cherche le numéro OPAL" do
+        it { expect(Projet.for_text(projet1.opal_numero)).to eq [projet1] }
+      end
+      context "cherche le nom du demandeur" do
+        it { expect(Projet.for_text("strong")).to eq [projet1] }
+      end
+      context "cherche le numéro de département" do
+        it { expect(Projet.for_text(projet1.adresse_postale.departement)).to eq [projet1] }
+        it { expect(Projet.for_text(projet1.adresse_a_renover.departement)).to eq [projet1] }
+      end
+      context "cherche le code postal" do
+        it { expect(Projet.for_text(projet1.adresse_postale.code_postal)).to eq [projet1] }
+        it { expect(Projet.for_text(projet1.adresse_a_renover.code_postal)).to eq [projet1] }
+      end
+      context "cherche le nom de la ville" do
+        it { expect(Projet.for_text("étienne")).to eq [projet1] }
+        it { expect(Projet.for_text("albi")).to eq [projet1] }
+      end
+      context "cherche le nom de la région" do
+        it { expect(Projet.for_text("auvergne")).to eq [projet1] }
+        it { expect(Projet.for_text("occitanie")).to eq [projet1] }
+      end
+    end
+
+    describe ".for_intervenant_status" do
+      let(:projet1) { create :projet, statut: :prospect }
+      let(:projet2) { create :projet, statut: :en_cours }
+      let(:projet3) { create :projet, statut: :proposition_enregistree }
+      let(:projet4) { create :projet, statut: :proposition_proposee }
+      let(:projet5) { create :projet, statut: :transmis_pour_instruction }
+      let(:projet6) { create :projet, statut: :en_cours_d_instruction }
+
+      it { expect(Projet.for_intervenant_status(:prospect)).to eq [projet1] }
+      it { expect(Projet.for_intervenant_status(:en_cours_de_montage)).to eq [projet2, projet3, projet4] }
+      it { expect(Projet.for_intervenant_status(:depose)).to eq [projet5] }
+      it { expect(Projet.for_intervenant_status(:en_cours_d_instruction)).to eq [projet6] }
+    end
+
+    describe ".for_sort_by" do
+      let(:projet1) { create :projet, :prospect, created_at: DateTime.new(2017, 10, 18, 10, 42, 30) }
+      let(:projet2) { create :projet, :prospect, created_at: DateTime.new(2017, 10, 17, 10, 36, 20), date_depot: DateTime.new(2017, 10, 21, 11, 21, 10) }
+      let(:projet3) { create :projet, :prospect, created_at: DateTime.new(2017, 10, 19, 12, 03, 50), date_depot: DateTime.new(2017, 10, 20, 14, 55, 30) }
+
+      it { expect(Projet.for_sort_by(:created)).to eq [projet3, projet1, projet2] }
+      it { expect(Projet.for_sort_by(:depot)).to eq [projet2, projet3] }
+    end
+  end
+
+  describe "#validate_frozen_attributes" do
+    context "quand le projet est figé" do
+      subject(:projet) { create :projet, :transmis_pour_instruction }
+      it { is_expected.to allow_updating_of(:statut).with(:en_cours_d_instruction) }
+      it { is_expected.to allow_updating_of(:opal_numero) }
+      it { is_expected.to allow_updating_of(:opal_id) }
+      it { is_expected.to allow_updating_of(:agent_instructeur_id).with(create(:agent).id) }
+      it { is_expected.not_to allow_updating_of(:note_degradation) }
+      it { is_expected.not_to allow_updating_of(:note_insalubrite) }
+      it { is_expected.not_to allow_updating_of(:travaux_ht_amount) }
+      it { is_expected.not_to allow_updating_of(:travaux_ttc_amount) }
+      it { is_expected.not_to allow_updating_of(:personal_funding_amount) }
+      it { is_expected.not_to allow_updating_of(:loan_amount) }
+      it { is_expected.not_to allow_updating_of(:adresse_postale_id).with(create(:adresse).id) }
+      it { is_expected.not_to allow_updating_of(:adresse_a_renover_id).with(create(:adresse).id) }
     end
   end
 
@@ -722,9 +807,9 @@ describe Projet do
       projet.statut = :en_cours_d_instruction
       expect(projet.status_for_intervenant).to eq :en_cours_d_instruction
     }
-  end
+    end
 
-  describe "#updated_since" do
+    describe "#updated_since" do
     let(:now) { Time.new(2001, 2, 3, 4, 5, 6) }
 
     context "retourne les projets modifiés après" do
@@ -752,9 +837,9 @@ describe Projet do
       projet.localized_amo_amount = '1 400,2'
       expect(projet[:amo_amount].to_s).to eq '1400.2'
     }
-  end
+    end
 
-  describe "#revenu_fiscal_reference_total" do
+    describe "#revenu_fiscal_reference_total" do
     let!(:projet) { create :projet}
     let!(:avis1)  { create :avis_imposition, projet: projet, numero_fiscal: 12, reference_avis: 15,  annee: 2015, revenu_fiscal_reference: 50 }
     let!(:avis2)  { create :avis_imposition, projet: projet, numero_fiscal: 13, reference_avis: 16,  annee: 2015, revenu_fiscal_reference: 60 }
@@ -924,3 +1009,4 @@ describe Projet do
     end
   end
 end
+

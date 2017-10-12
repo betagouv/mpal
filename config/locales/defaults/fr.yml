@@ -240,6 +240,9 @@ fr:
     messages:
       creation:
         corps: Félicitations ! Votre projet démarre aujourd’hui.
+    sort_by_options:
+      created: "Date de création"
+      depot: "Date de dépôt"
     visualisation:
       lien_edition_projet: "Modifier le projet"
       lien_edition: "Modifier"

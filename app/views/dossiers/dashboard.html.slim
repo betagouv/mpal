@@ -1,0 +1,114 @@
+.dashboard-dossiers
+  - items = @invitations || @dossiers
+  = render "search_form", url: dossiers_path, show_export_button: items.present?
+  - if items.blank?
+    p Aucun dossier.
+  - else
+    table.table.table-hover.table-striped.table-sm.dashboard-table
+      thead
+        tr
+          - if current_agent.pris? || current_agent.operateur? || current_agent.instructeur?
+            th Action
+          th
+            abbr title="Identifiant plateforme" ID PF
+          - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
+            th
+              abbr title="Identifiant OPAL" ID OPAL
+          th Demandeur
+          - if current_agent.operateur? || current_agent.siege?
+            th Région
+            th
+              abbr title="Département" Dép.
+          th Ville
+          th Instructeur
+          th Types d’intervention
+          th Opérateur
+          th Visité le
+          th État
+          - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
+            th État des paiements
+          / TODO
+          / th Depuis
+      tbody
+        - items.each do |item|
+          - projet = item.is_a?(Invitation) ? item.projet : item
+          - anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+          - edit_url = dossier_path(projet)
+
+          tr id="projet_#{projet.id}"
+            - if current_agent.pris? || current_agent.operateur? || current_agent.instructeur?
+              td
+                - if anonymized
+                  i.glyphicon.glyphicon-remove.dashboard__icon--anonymized title="Vous n’avez pas les droits pour accéder à ce dossier"
+                - elsif current_agent.pris? && projet.action_agent_pris?
+                  i.glyphicon.glyphicon-ok.dashboard__icon title="Nécessite une vérification"
+                - elsif current_agent.operateur?
+                  - if projet.payments.blank? && projet.status_already(:transmis_pour_instruction)
+                    i.glyphicon.glyphicon-ok.dashboard__icon title="Nécessite une vérification"
+                  - elsif projet.action_agent_operateur?
+                    i.glyphicon.glyphicon-pencil.dashboard__icon--action-required title="Nécessite une action de votre part"
+                  - else
+                    i.glyphicon.glyphicon-ok.dashboard__icon--no-action title="Dossier traité"
+                - elsif current_agent.instructeur? && projet.action_agent_instructeur?
+                  i.glyphicon.glyphicon-pencil.dashboard__icon--action-required title="Nécessite une action de votre part"
+                - else
+                  i.glyphicon.glyphicon-ok.dashboard__icon--no-action title="Dossier traité"
+            td
+              = anonymize anonymized, edit_url do
+                = projet.numero_plateforme
+            - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
+              td
+                - if projet.opal_numero.present?
+                  - if current_agent.instructeur?
+                    = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+                  - else
+                    = anonymize anonymized, edit_url do
+                      = projet.opal_numero
+            td
+              - if anonymized
+                | caché
+              - else
+                = anonymize anonymized, edit_url do
+                  span.firstname= projet.demandeur.prenom
+                  span.lastname<= projet.demandeur.nom
+            - if current_agent.operateur? || current_agent.siege?
+              td
+                = anonymize anonymized, edit_url do
+                  = projet.adresse.try(:region)
+              td.test-departement
+                = anonymize anonymized, edit_url do
+                  = projet.adresse.try(:departement)
+            td
+              = anonymize anonymized, edit_url do
+                = projet.adresse.try(:ville)
+            td
+              = anonymize anonymized, edit_url do
+                = projet.invited_instructeur.try(:raison_sociale)
+                - if projet.agent_instructeur
+                  br/
+                  span.firstname= projet.agent_instructeur.prenom
+                  span.lastname<= projet.agent_instructeur.nom
+            td
+              - if projet.themes.present?
+                = anonymize anonymized, edit_url do
+                  = projet.themes.map(&:libelle).join(', ')
+            td
+              = anonymize anonymized, edit_url do
+                = projet.contacted_operateur.try(:raison_sociale)
+                - if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+                  br/
+                  span.firstname= projet.agent_operateur.prenom
+                  span.lastname<= projet.agent_operateur.nom
+            td
+              - if projet.date_de_visite.present?
+                = anonymize anonymized, edit_url do
+                  = format_date projet.date_de_visite
+            td
+              = anonymize anonymized, edit_url do
+                = t(projet.status_for_intervenant, scope: "projets.statut")
+            - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
+              td
+                = anonymize anonymized, edit_url do
+                  = projet.payments.map(&:dashboard_status).join(", ")
+            /TODO Status Updated At
+

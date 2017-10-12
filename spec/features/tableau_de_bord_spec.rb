@@ -33,7 +33,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         expect(page).to have_content(projet_34.opal_numero)
         expect(page).to have_content(projet_34.demandeur.fullname)
         expect(page).to have_content(projet_34.adresse.region)
-        expect(page).to have_css('td.departement', text: projet_34.adresse.departement)
+        expect(page).to have_css(".test-departement", text: projet_34.adresse.departement)
         expect(page).to have_content(projet_34.adresse.ville)
         expect(projet_34.agent_instructeur).to be_nil
         expect(projet_34.agent_instructeur).to be_nil
@@ -49,7 +49,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         expect(page).to have_content(projet_01.opal_numero)
         expect(page).to have_content(projet_01.demandeur.fullname)
         expect(page).to have_content(projet_01.adresse.region)
-        expect(page).to have_css('td.departement', text: projet_01.adresse.departement)
+        expect(page).to have_css("td.test-departement", text: projet_01.adresse.departement)
         expect(page).to have_content(projet_01.adresse.ville)
         expect(projet_01.agent_instructeur).to be_nil
         expect(projet_01.agent_instructeur).to be_nil
@@ -65,7 +65,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
         expect(page).to have_content(projet_56.opal_numero)
         expect(page).to have_content(projet_56.demandeur.fullname)
         expect(page).to have_content(projet_56.adresse.region)
-        expect(page).to have_css('td.departement', text: projet_56.adresse.departement)
+        expect(page).to have_css("td.test-departement", text: projet_56.adresse.departement)
         expect(page).to have_content(projet_56.adresse.ville)
         expect(page).to have_content(projet_56.agent_instructeur.intervenant.raison_sociale)
         expect(page).to have_content(projet_56.agent_instructeur.fullname)
@@ -96,7 +96,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
             expect(page).to have_content(projet.opal_numero)
             expect(page).to have_content(projet.demandeur.fullname)
             expect(page).to have_content(projet.adresse.region)
-            expect(page).to have_css('td.departement', text: projet.adresse.departement)
+            expect(page).to have_css("td.test-departement", text: projet.adresse.departement)
             expect(page).to have_content(projet.adresse.ville)
             expect(page).to have_content(projet.agent_instructeur.intervenant.raison_sociale)
             expect(page).to have_content(projet.agent_instructeur.fullname)
@@ -131,7 +131,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
           expect(page).to     have_content(projet.opal_numero)
           expect(page).to     have_content(projet.demandeur.fullname)
           expect(page).not_to have_content(projet.adresse.region)
-          expect(page).not_to have_css('td.departement')
+          expect(page).not_to have_css("td.test-departement")
           expect(page).to     have_content(projet.adresse.ville)
           expect(page).to     have_content(projet.agent_instructeur.intervenant.raison_sociale)
           expect(page).to     have_content(projet.agent_instructeur.fullname)
@@ -227,7 +227,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
           expect(page).to     have_content(projet.plateforme_id)
           expect(page).to     have_content(projet.demandeur.fullname)
           expect(page).not_to have_content(projet.adresse.region)
-          expect(page).not_to have_css('td.departement')
+          expect(page).not_to have_css("td.test-departement")
           expect(page).to     have_content(projet.adresse.ville)
           expect(page).to     have_content(agent_instructeur.intervenant.raison_sociale)
           expect(page).not_to have_content(agent_instructeur.fullname)
