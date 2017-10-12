@@ -7,24 +7,30 @@ class DemandesController < ApplicationController
   before_action do
     set_current_registration_step CURRENT_REGISTRATION_STEP
   end
+  before_action :init_demande
 
   def show
-    @demande = projet_demande
-    @page_heading = "Ma demande"
-    @action_label = action_label
+    init_show
   end
 
   def update
-    @projet_courant.demande = projet_demande
-    if demande_params_valid?
-      @projet_courant.demande.update_attributes(demande_params)
-      redirect_to_next_step
-    else
-      redirect_to projet_or_dossier_demande_path(@projet_courant), alert: t('demarrage_projet.demande.erreurs.besoin_obligatoire')
+    @demande.update_attributes(demande_params)
+    unless @demande.save
+      init_show
+      return render :show
     end
+    redirect_to_next_step
   end
 
 private
+  def init_demande
+    @demande = @projet_courant.demande || @projet_courant.build_demande
+  end
+
+  def init_show
+    @page_heading = "Ma demande"
+    @action_label = action_label
+  end
 
   def action_label
     if needs_next_step?
@@ -32,10 +38,6 @@ private
     else
       t('projets.edition.action')
     end
-  end
-
-  def projet_demande
-    @projet_courant.demande || @projet_courant.build_demande
   end
 
   def demande_params
@@ -61,10 +63,6 @@ private
       :ptz,
       :date_achevement_15_ans
     )
-  end
-
-  def demande_params_valid?
-    demande_params.values.include?('1')
   end
 
   def needs_next_step?
