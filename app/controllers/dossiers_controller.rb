@@ -145,7 +145,7 @@ private
         :localized_amo_amount, :localized_assiette_subventionnable_amount, :localized_maitrise_oeuvre_amount, :localized_travaux_ht_amount, :localized_travaux_ttc_amount,
         :localized_loan_amount, :localized_personal_funding_amount,
         :documents_attributes,
-        :demande_attributes => [:annee_construction],
+        :demande_attributes => [:id, :annee_construction],
         :theme_ids => [],
         :suggested_operateur_ids => [],
         :prestation_choices_attributes => [:prestation_id, :desired, :recommended, :selected],
