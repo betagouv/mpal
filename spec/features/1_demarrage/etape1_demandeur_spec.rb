@@ -82,14 +82,11 @@ feature "Demandeur :" do
     scenario "je vois un message d’erreur" do
       signin_for_new_projet
       fill_in :projet_email, with: "invalid-email@lol"
-      fill_in :projet_tel, with: "999"
       click_button I18n.t("demarrage_projet.action")
 
       expect(page).to have_current_path projet_demandeur_path(projet)
       expect(page).to have_content("L’adresse email n’est pas valide")
       expect(page).to have_field(:projet_email, with: "invalid-email@lol")
-      expect(page).to have_content("Le numéro de téléphone est trop court")
-      expect(page).to have_field(:projet_tel, with: "999")
     end
   end
 

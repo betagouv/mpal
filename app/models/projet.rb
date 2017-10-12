@@ -75,7 +75,7 @@ class Projet < ApplicationRecord
   amountable :amo_amount, :assiette_subventionnable_amount, :loan_amount, :maitrise_oeuvre_amount, :personal_funding_amount, :travaux_ht_amount, :travaux_ttc_amount
 
   validates :numero_fiscal, :reference_avis, presence: true
-  validates :tel, phone: { :minimum => 10, :maximum => 12 }, allow_blank: true
+  validates :tel, length: { :maximum => 20 }, allow_blank: true
   validates :email, email: true, presence: true, uniqueness: { case_sensitive: false }, on: :update
   validates :adresse_postale, presence: true, on: :update
   validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
