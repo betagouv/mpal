@@ -12,6 +12,8 @@ class Opal
     Rails.logger.info "[OPAL] dossier serialized"
     response = @client.post('/createDossier', body: body)
     Rails.logger.info "[OPAL] response received (#{response.code})"
+    require "pry"
+    binding.pry
     if response.code != 201
       if response.code == 403
         message = "Accès interdit par Opal"
@@ -71,6 +73,18 @@ private
     I18n.transliterate(demandeur.nom).upcase
   end
 
+  def project_mail(projet)
+    if projet.personne.present?
+      projet.personne.email.present? ? projet.personne.email : projet.email
+    end
+  end
+
+  def project_tel(projet)
+    if projet.personne.present?
+      projet.personne.tel.present? ? projet.personne.tel : projet.tel
+    end
+  end
+
   def serialize_code_insee(code_insee)
     code_insee[2, code_insee.length]
   end
@@ -100,6 +114,8 @@ private
           "civId":            serialize_civilite(projet.demandeur),
           "pphNom":           serialize_nom(projet.demandeur),
           "pphPrenom":        serialize_prenom(projet.demandeur),
+          "pphMel":           project_mail(projet),
+          "pphTelephone":     project_tel(projet),
           "pphDateNaissance": serialize_date(projet.demandeur.date_de_naissance),
           "adressePostale": {
             "payId": 1,
