@@ -37,7 +37,6 @@ describe Opal do
   let(:client_create_payment) { OpalClientMock.new(201, "OK", {}) }
 
   describe "#create_dossier!" do
-    # let(:projet)            { create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
     let(:projet)            { create :projet, :with_trusted_person, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
     let(:instructeur)       { create :instructeur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
@@ -45,8 +44,8 @@ describe Opal do
     context "en cas de succès" do
       before do
         projet.demandeur.update(nom: "Strâbe", prenom: "ōlaf")
-        projet.update(tel: "01 01 01 01 01")
-        projet.personne.update(tel: nil)
+        projet.update_attribute(:tel, "01 01 01 01 01")
+        projet.personne.update_attribute(:tel, nil)
       end
 
       subject! { Opal.new(client_create).create_dossier!(projet, agent_instructeur) }
