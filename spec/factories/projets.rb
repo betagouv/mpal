@@ -168,7 +168,6 @@ FactoryGirl.define do
     trait :initial do
       statut :prospect
       email nil
-      annee_construction nil
       with_avis_imposition
 
       after(:create) do |projet, evaluator|

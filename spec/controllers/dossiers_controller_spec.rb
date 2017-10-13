@@ -160,6 +160,7 @@ describe DossiersController do
       it "sauvegarder l'année de construction si elle est modifiée" do
         projet_params = {
           demande_attributes: {
+            id: projet.demande.id,
             annee_construction: "1980"
           }
         }

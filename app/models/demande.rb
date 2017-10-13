@@ -1,6 +1,8 @@
 class Demande < ApplicationRecord
   belongs_to :projet
 
+  validate :validate_theme_existence
+
   REQUIRED_ATTRIBUTES = [
     :changement_chauffage,
     :froid,
@@ -26,14 +28,25 @@ class Demande < ApplicationRecord
   end
 
   def is_about_energy?
-    changement_chauffage || froid || travaux_fenetres || travaux_isolation || travaux_chauffage
+    !!(changement_chauffage || froid || travaux_fenetres || travaux_isolation || travaux_chauffage)
   end
 
   def is_about_self_sufficiency?
-    probleme_deplacement || accessibilite || hospitalisation || adaptation_salle_de_bain || travaux_adaptation_sdb || travaux_monte_escalier || travaux_amenagement_ext
+    !!(probleme_deplacement || accessibilite || hospitalisation || adaptation_salle_de_bain || travaux_adaptation_sdb || travaux_monte_escalier || travaux_amenagement_ext)
   end
 
   def is_about_unhealthiness?
-    arrete || saturnisme
+    !!(arrete || saturnisme)
+  end
+
+  def has_a_theme?
+    is_about_energy? || is_about_self_sufficiency? || is_about_unhealthiness?
+  end
+
+  def validate_theme_existence
+    unless has_a_theme?
+      errors[:base] << I18n.t("demarrage_projet.demande.erreurs.besoin_obligatoire")
+    end
   end
 end
+
