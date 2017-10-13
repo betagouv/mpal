@@ -29,7 +29,10 @@
           tr id="projet_#{projet.id}"
             - edit_url = dossier_path(projet)
             td= link_to projet.numero_plateforme, edit_url
-            td= link_to (projet.opal_numero || ' '), edit_url
+            - if projet.opal_numero.present?
+              td= link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: '_blank'
+            - else
+              td
             td= link_to edit_url do
               span.firstname= projet.demandeur.prenom
               span.lastname<= projet.demandeur.nom
