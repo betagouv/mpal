@@ -21,8 +21,8 @@ describe Invitation do
     # id sur lequel nous n’avons pas la main.
     describe ".for_text" do
       let(:operateur)    { create :operateur }
-      let(:projet2)      { create :projet, :with_demandeur }
-      let(:projet3)      { create :projet, :with_demandeur }
+      let(:projet2)      { create :projet, :with_demandeur, id: 100000002 }
+      let(:projet3)      { create :projet, :with_demandeur, id: 100000003 }
       let!(:invitation2) { create :invitation, intervenant: operateur, projet: projet2 }
       let!(:invitation3) { create :invitation, intervenant: operateur, projet: projet3 }
       before do
@@ -42,7 +42,7 @@ describe Invitation do
 
       it "retourne tous les éléments" do
         expect(Invitation.for_text("")).to eq [invitation2, invitation3]
-      end
+        end
       it "retourne une collection vide" do
         expect(Invitation.for_text("uneChaineQuiNExistePas")).to eq []
       end
@@ -55,6 +55,10 @@ describe Invitation do
       context "cherche l’ID plateforme" do
         it { expect(Invitation.for_text(projet2.id)).to eq [invitation2] }
         it { expect(Invitation.for_text(projet2.numero_plateforme)).to eq [invitation2] }
+
+        it "retourne le projet avec l'id dans le numéro" do
+          expect(Invitation.for_text("100000003")).to eq [invitation3]
+        end
       end
       context "cherche le numéro OPAL" do
         it { expect(Invitation.for_text(projet2.opal_numero)).to eq [invitation2] }

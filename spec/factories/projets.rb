@@ -1,8 +1,9 @@
 FactoryGirl.define do
   factory :projet do
+    sequence(:id) { |n| n }
     numero_fiscal 12
     reference_avis 15
-    sequence(:email) {|n| "prenom#{n}@site.com" }
+    sequence(:email) { |n| "prenom#{n}@site.com" }
     association :adresse_postale,   factory: [ :adresse, :rue_de_rome ]
     association :adresse_a_renover, factory: [ :adresse, :rue_de_la_mare ]
 

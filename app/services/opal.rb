@@ -71,6 +71,14 @@ private
     I18n.transliterate(demandeur.nom).upcase
   end
 
+  def project_mail(projet)
+      projet.personne&.email || projet.email
+  end
+
+  def project_tel(projet)
+    projet.personne&.tel || projet.tel
+  end
+
   def serialize_code_insee(code_insee)
     code_insee[2, code_insee.length]
   end
@@ -100,6 +108,8 @@ private
           "civId":            serialize_civilite(projet.demandeur),
           "pphNom":           serialize_nom(projet.demandeur),
           "pphPrenom":        serialize_prenom(projet.demandeur),
+          "pphMel":           project_mail(projet),
+          "pphTelephone":     project_tel(projet),
           "pphDateNaissance": serialize_date(projet.demandeur.date_de_naissance),
           "adressePostale": {
             "payId": 1,
