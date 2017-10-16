@@ -72,19 +72,11 @@ private
   end
 
   def project_mail(projet)
-    if projet.personne.present?
-      projet.personne.email.present? ? projet.personne.email : projet.email
-    else
-      projet.email
-    end
+      projet.personne&.email || projet.email
   end
 
   def project_tel(projet)
-    if projet.personne.present?
-      projet.personne.tel.present? ? projet.personne.tel : projet.tel
-    else
-      projet.tel
-    end
+    projet.personne&.tel || projet.tel
   end
 
   def serialize_code_insee(code_insee)
