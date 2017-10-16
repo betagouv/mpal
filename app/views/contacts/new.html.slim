@@ -6,7 +6,7 @@ h3 Un problème, une question ? Contactez nous !
   = f.input :phone, wrapper_html: { class: "size-s" }
   /this field is hidden in order to identify bots
   = f.input :address, wrapper_html: { class: "contacts__address" }, required: true
-  = f.input :subject, required: true
+  = f.input :subject, collection: @subjects, required: true, prompt: "Veuillez sélectionner un objet"
   = f.input :description, input_html: { cols: 40, rows: 6 }
   - if current_agent
     = f.input :department, required: true

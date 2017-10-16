@@ -22,6 +22,6 @@ class ContactMailer < ApplicationMailer
     subject += "[#{intervenant_type}]"     if intervenant_type
     subject += "[#{contact.plateform_id}]" if contact.plateform_id
     subject += " "
-    subject +  (@contact.subject.present? ? @contact.subject : "Demande de #{@contact.name}")
+    subject +  contact.subject
   end
 end
