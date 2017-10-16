@@ -8,15 +8,17 @@ class DossiersController < ApplicationController
 
   def index
     return redirect_to indicateurs_dossiers_path if current_agent.dreal?
-    render_index
-    @page_full_width = true
-    @page_heading = I18n.t('tableau_de_bord.titre_section')
-    render "dashboard"
+    if render_index
+      @page_full_width = true
+      @page_heading = I18n.t('tableau_de_bord.titre_section')
+      render "dashboard"
+    end
   end
 
   def home
-    render_index
-    @page_heading = "Accueil"
+    if render_index
+      @page_heading = "Accueil"
+    end
   end
 
   def affecter_agent
