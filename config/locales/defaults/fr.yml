@@ -153,6 +153,13 @@ fr:
       section_name: "Création de mon compte"
       explanations: "Pour poursuivre la démarche, je crée mon compte."
 
+  # ----------------------- Contacts -------------------
+  contacts:
+    subject_name:
+      technical: "Une question technique sur le site (accès, identifiant...)"
+      general: "Une question générale sur les aides"
+      project: "Un question concernant mon dossier"
+      other: "Autre : Veuillez préciser dans le message"
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
     statut:

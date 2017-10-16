@@ -28,7 +28,6 @@ class ContactsController < ApplicationController
       @contact.email = project.email
       @contact.phone = project.tel
     end
-    @contact.subject = "J’ai une question…" if @contact.subject.blank?
     render_new
   end
 

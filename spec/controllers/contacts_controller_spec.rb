@@ -16,7 +16,7 @@ describe ContactsController do
         name:        "David",
         email:       "monemail@example.com",
         phone:       "01 02 03 04 05",
-        subject:     "J’ai une question…",
+        subject:     "other",
         description: "Qui a tué Kenny ?",
       }
     end
@@ -38,7 +38,7 @@ describe ContactsController do
             expect(contact.name).to        eq "David"
             expect(contact.email).to       eq "monemail@example.com"
             expect(contact.phone).to       eq "01 02 03 04 05"
-            expect(contact.subject).to     eq "J’ai une question…"
+            expect(contact.subject).to     eq "other"
             expect(contact.description).to eq "Qui a tué Kenny ?"
             expect(contact.sender).to      be_blank
             expect(flash[:notice]).to      be_present
@@ -73,7 +73,7 @@ describe ContactsController do
             expect(contact.name).to        eq "David"
             expect(contact.email).to       eq "monemail@example.com"
             expect(contact.phone).to       eq "01 02 03 04 05"
-            expect(contact.subject).to     eq "J’ai une question…"
+            expect(contact.subject).to     eq "other"
             expect(contact.description).to eq "Qui a tué Kenny ?"
             expect(contact.sender).to      eq user
             expect(flash[:notice]).to      be_present
@@ -112,7 +112,7 @@ describe ContactsController do
             expect(contact.name).to         eq "David"
             expect(contact.email).to        eq "monemail@example.com"
             expect(contact.phone).to        eq "01 02 03 04 05"
-            expect(contact.subject).to      eq "J’ai une question…"
+            expect(contact.subject).to      eq "other"
             expect(contact.description).to  eq "Qui a tué Kenny ?"
             expect(contact.sender).to       eq agent
             expect(contact.department).to   eq "88"
