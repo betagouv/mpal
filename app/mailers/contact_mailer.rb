@@ -22,6 +22,6 @@ class ContactMailer < ApplicationMailer
     subject += "[#{intervenant_type}]"
     subject += "[#{contact.plateform_id}]" if contact.plateform_id
     subject += " "
-    subject +  contact.subject
+    subject +  I18n.t("contacts.email_name.#{contact.subject}")
   end
 end

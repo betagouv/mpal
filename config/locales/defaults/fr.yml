@@ -160,6 +160,11 @@ fr:
       general: "Une question générale sur les aides"
       project: "Un question concernant mon dossier"
       other: "Autre : Veuillez préciser dans le message"
+    email_name:
+      technical: "Question technique"
+      general: "Question générale"
+      project: "Question concernant mon dossier"
+      other: "Autre"
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
     statut:

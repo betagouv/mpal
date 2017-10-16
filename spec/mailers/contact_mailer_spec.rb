@@ -11,7 +11,7 @@ describe ContactMailer, type: :mailer do
       it do
         expect(email.from).to    eq([ENV["EMAIL_CONTACT"]])
         expect(email.to).to      eq([ENV["EMAIL_CONTACT"]])
-        expect(email.subject).to eq("[ANAH][TEST][12][Demandeur] #{contact.subject}")
+        expect(email.subject).to eq("[ANAH][TEST][12][Demandeur] #{I18n.t("contacts.email_name.#{contact.subject}")}")
         expect(email.body).to    include("#{contact.name} vous envoie ce message :")
       end
     end
@@ -24,7 +24,7 @@ describe ContactMailer, type: :mailer do
       it do
         expect(email.from).to    eq([ENV["EMAIL_CONTACT"]])
         expect(email.to).to      eq([ENV["EMAIL_CONTACT"]])
-        expect(email.subject).to eq("[ANAH][TEST][93][PRIS] #{contact.subject}")
+        expect(email.subject).to eq("[ANAH][TEST][93][PRIS] #{I18n.t("contacts.email_name.#{contact.subject}")}")
         expect(email.body).to    include("#{contact.name} vous envoie ce message :")
       end
     end
@@ -37,7 +37,7 @@ describe ContactMailer, type: :mailer do
       it do
         expect(email.from).to    eq([ENV["EMAIL_CONTACT"]])
         expect(email.to).to      eq([ENV["EMAIL_CONTACT"]])
-        expect(email.subject).to eq("[ANAH][TEST][93][Operateur][1234] #{contact.subject}")
+        expect(email.subject).to eq("[ANAH][TEST][93][Operateur][1234] #{I18n.t("contacts.email_name.#{contact.subject}")}")
         expect(email.body).to    include("#{contact.name} vous envoie ce message :")
       end
     end
@@ -50,7 +50,7 @@ describe ContactMailer, type: :mailer do
       it do
         expect(email.from).to    eq([ENV["EMAIL_CONTACT"]])
         expect(email.to).to      eq([ENV["EMAIL_CONTACT"]])
-        expect(email.subject).to eq("[ANAH][TEST][01][Instructeur] #{contact.subject}")
+        expect(email.subject).to eq("[ANAH][TEST][01][Instructeur] #{I18n.t("contacts.email_name.#{contact.subject}")}")
         expect(email.body).to    include("#{contact.name} vous envoie ce message :")
       end
     end
