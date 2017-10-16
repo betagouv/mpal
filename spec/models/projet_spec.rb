@@ -124,7 +124,7 @@ describe Projet do
         it { expect(Projet.for_text(projet1.adresse_a_renover.code_postal)).to eq [projet1] }
       end
       context "cherche le nom de la ville" do
-        it { expect(Projet.for_text("étienne")).to eq [projet1] }
+        it { expect(Projet.for_text("tienne")).to eq [projet1] }
         it { expect(Projet.for_text("albi")).to eq [projet1] }
       end
       context "cherche le nom de la région" do

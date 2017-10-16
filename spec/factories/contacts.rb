@@ -8,5 +8,6 @@ FactoryGirl.define do
       JD
     )
     subject :other
+    department "88"
   end
 end

@@ -6,12 +6,12 @@ describe ContactMailer, type: :mailer do
     let(:email) { ContactMailer.contact(contact) }
 
     context "quand on n'est pas Agent" do
-      let(:contact) { create :contact, subject: I18n.t('contacts.subject_name.technique') }
+      let(:contact) { create :contact, subject: I18n.t('contacts.subject_name.technique'), department: "12" }
 
       it do
         expect(email.from).to    eq([ENV["EMAIL_CONTACT"]])
         expect(email.to).to      eq([ENV["EMAIL_CONTACT"]])
-        expect(email.subject).to eq("[ANAH][TEST] #{contact.subject}")
+        expect(email.subject).to eq("[ANAH][TEST][12][Demandeur] #{contact.subject}")
         expect(email.body).to    include("#{contact.name} vous envoie ce message :")
       end
     end

@@ -15,6 +15,7 @@ describe Invitation do
   it { is_expected.to delegate_method(:demandeur).to(:projet) }
   it { is_expected.to delegate_method(:description_adresse).to(:projet) }
 
+
   describe "scopes" do
     # Attention, ce scope peut produire des tests en faux négatifs :
     # la recherche est volontairement large et cherche sur l’id du projet,
@@ -75,7 +76,7 @@ describe Invitation do
         it { expect(Invitation.for_text(projet2.adresse_a_renover.code_postal)).to eq [invitation2] }
       end
       context "cherche le nom de la ville" do
-        it { expect(Invitation.for_text("étienne")).to eq [invitation2] }
+        it { expect(Invitation.for_text("tienne")).to eq [invitation2] }
         it { expect(Invitation.for_text("albi")).to eq [invitation2] }
       end
       context "cherche le nom de la région" do
