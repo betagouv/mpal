@@ -69,12 +69,6 @@ describe Projet do
       projet.valid?
       expect(projet.errors[:tel]).to be_empty
     end
-
-    it "rejette les numéros de téléphone invalides" do
-      projet.tel = "111"
-      projet.valid?
-      expect(projet.errors[:tel]).to be_present
-    end
   end
 
   describe "scopes" do
@@ -138,7 +132,7 @@ describe Projet do
         it { expect(Projet.for_text("occitanie")).to eq [projet1] }
       end
     end
-
+    
     describe ".for_intervenant_status" do
       let(:projet1) { create :projet, statut: :prospect }
       let(:projet2) { create :projet, statut: :en_cours }

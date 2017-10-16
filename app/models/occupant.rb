@@ -6,7 +6,7 @@ class Occupant < ApplicationRecord
   belongs_to :avis_imposition
   delegate :projet, to: :avis_imposition
 
-  validates :nom, :prenom, presence: true
+  validates :nom, :prenom, presence: true, length: { :maximum => 80 }
   validates :date_de_naissance, birthday: true, presence: true, on: :user_action
   validates :civility, presence: { message: :blank_feminine }, on: :update, if: :require_civility?
 
