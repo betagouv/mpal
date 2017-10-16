@@ -8,6 +8,6 @@ describe Contact do
     it { is_expected.to validate_presence_of :email }
     it { is_expected.to validate_presence_of :description }
     it { is_expected.to validate_presence_of :subject }
-    it { is_expected.to validate_presence_of :department }
   end
 end
+
