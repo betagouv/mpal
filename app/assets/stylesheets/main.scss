@@ -69,15 +69,19 @@ th, td {
   background: image-url("background.jpg") 0 0 no-repeat;
   background-size: cover;
 }
-.centered-page {
+.page-centered {
   position: relative;
   margin: 0 auto;
   padding: 10px 10px 0;
-  max-width: 1200px;
   background-color: white;
   @media screen and (min-width: 1200px) {
+    margin: 0 10px;
     padding: 10px 30px 0;
   }
+}
+.page-max-width {
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 #beta-ribbon:before {

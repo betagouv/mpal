@@ -213,5 +213,11 @@ module ApplicationHelper
   def number_to_power_consumption(number)
     [number, I18n.t('helpers.units.power_consumption')].join(' ')
   end
+
+  def anonymize(anonymized, link_url, &block)
+    content = capture &block
+    return content if anonymized
+    content_tag :a, content, href: link_url
+  end
 end
 

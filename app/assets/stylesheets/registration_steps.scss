@@ -12,6 +12,7 @@
 }
 .registration-menu__item-wrapper {
   display: inline-block;
+  -webkit-flex-grow: 1;
   flex-grow: 1;
   text-align: center;
   color: $color-dark-grey;

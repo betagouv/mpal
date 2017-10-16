@@ -2,24 +2,21 @@ class DossiersController < ApplicationController
   include ProjetConcern, CsvProperties
 
   before_action :authenticate_agent!
-  before_action :assert_projet_courant, except: [:index, :indicateurs]
+  before_action :assert_projet_courant, except: [:index, :home, :indicateurs]
   load_and_authorize_resource class: "Projet"
   skip_load_and_authorize_resource only: [:index, :home, :indicateurs]
 
   def index
-    if render_index
-      @page_heading = I18n.t('tableau_de_bord.titre_section')
-      return render "dossiers/dashboard_siege"       if current_agent.siege?
-      return render "dossiers/dashboard_operateur"   if current_agent.operateur?
-      return render "dossiers/dashboard_instructeur" if current_agent.instructeur?
-      return redirect_to indicateurs_dossiers_path   if current_agent.dreal?
-      render "dossiers/dashboard_pris"
-    end
+    return redirect_to indicateurs_dossiers_path if current_agent.dreal?
+    render_index
+    @page_full_width = true
+    @page_heading = I18n.t('tableau_de_bord.titre_section')
+    render "dashboard"
   end
 
   def home
-    @page_heading = "Accueil"
     render_index
+    @page_heading = "Accueil"
   end
 
   def affecter_agent
@@ -192,14 +189,27 @@ private
 
   def render_index
     if current_agent.siege?
-      @dossiers = Projet.all.with_demandeur
-    elsif current_agent.operateur?
-      @invitations = Invitation.visible_for_operateur(current_agent.intervenant)
+      search = params[:search] || {}
+      @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :invitations, :intervenants, :themes)
+      if search.present?
+        @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
+      end
     else
-      @invitations = Invitation.where(intervenant_id: current_agent.intervenant_id).includes(:projet)
+      search = params[:search] || {}
+      @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :invitations, :intervenants, :themes])
+      if search.present?
+        @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
+      end
+      if current_agent.operateur?
+        @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
+      else
+        @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
+      end
     end
     respond_to do |format|
       format.html {
+        @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
+        @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
       format.csv {
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"

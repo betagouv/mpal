@@ -20,7 +20,7 @@ feature "Je peux naviguer entre mes pages Dossiers et Indicateurs" do
 
     scenario "j'ai accès à ma page Dossiers depuis la page Indicateurs" do
       visit indicateurs_dossiers_path
-      click_on 'Dossiers'
+      click_on "Tableau de bord"
       expect(page).to have_current_path(dossiers_path)
     end
   end
@@ -34,7 +34,7 @@ feature "Je n'ai pas accès aux indicateurs" do
     login_as current_agent, scope: :agent
   end
 
-  context "si je ne suis pas instructeur" do
+  context "si je ne suis pas instructeur (ou siège)" do
     let(:current_agent) { agent_operateur }
 
     scenario "je n'ai pas accès aux mes indicateurs" do

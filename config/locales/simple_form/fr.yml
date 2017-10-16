@@ -136,6 +136,10 @@ fr:
         beneficiaire: "Bénéficiaire de la procuration"
         type_paiement: "Type de demande"
         procuration: "Bénéficiaire du paiement"
+      search:
+        query: "Saisie libre"
+        sort_by: "Trier par"
+        status: "Statut"
     hints:
       defaults:
         birthday: "JJ/MM/AAAA"
