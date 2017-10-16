@@ -189,5 +189,47 @@ describe ContactsController do
         end
       end
     end
+
+    context "as unknown internet user" do
+      let(:contact_params) do
+        {
+          name:        "Anonymous",
+          email:       "monemail@example.com",
+          phone:       "01 02 03 04 05",
+          subject:     "other",
+          description: "Qui a tué Kenny ?",
+        }
+      end
+      before do
+        post :create, params: { contact: contact_params.merge(honeypot_params) }
+      end
+
+      context "without honeypot" do
+        let(:honeypot_params) { {} }
+
+        it "save contact" do
+          expect(Contact.count).to        eq 1
+          expect(contact.name).to         eq "Anonymous"
+          expect(contact.email).to        eq "monemail@example.com"
+          expect(contact.phone).to        eq "01 02 03 04 05"
+          expect(contact.subject).to      eq "other"
+          expect(contact.description).to  eq "Qui a tué Kenny ?"
+          expect(contact.sender).to       be_blank
+          expect(flash[:notice]).to       be_present
+          expect(response).to             redirect_to new_contact_path
+        end
+      end
+
+      context "with honeypot" do
+        let(:honeypot_params) { { address: "Je suis un bot" } }
+
+        it "dont save contact" do
+          expect(Contact.count).to        eq 0
+          expect(flash[:notice]).to       be_present
+          expect(response).to             redirect_to new_contact_path
+        end
+      end
+    end
   end
 end
+
