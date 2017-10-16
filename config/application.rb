@@ -30,5 +30,7 @@ module Mpal
 
     # Serve error pages from the Rails app itself
     config.exceptions_app = self.routes
+
+    config.middleware.insert_after Rails::Rack::Logger, HealthCheck::MiddlewareHealthcheck
   end
 end
