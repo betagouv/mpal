@@ -3,7 +3,7 @@ class Contact < ApplicationRecord
 
   belongs_to :sender, polymorphic: true
 
-  strip_fields :name, :email, :phone, :subject, :description, :department, :plateform_id
+  strip_fields :name, :email, :phone, :subject, :description, :department, :numero_plateforme
 
   validates_presence_of :name, :description, :email, :subject
   validates_presence_of :department, on: [:agent, :user]

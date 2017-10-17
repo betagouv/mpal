@@ -20,7 +20,7 @@ class ContactsController < ApplicationController
         @contact.email        = current_user.email
         @contact.phone        = projet.tel
         @contact.department   = projet.adresse.departement
-        @contact.plateform_id = projet.plateforme_id
+        @contact.numero_plateforme = projet.numero_plateforme
       end
     elsif current_agent
       @contact.email = current_agent.username
@@ -31,7 +31,7 @@ class ContactsController < ApplicationController
       @contact.email        = projet.email
       @contact.phone        = projet.tel
       @contact.department   = projet.adresse&.departement
-      @contact.plateform_id = projet.plateforme_id
+      @contact.numero_plateforme = projet.numero_plateforme
     end
     render_new
   end
@@ -41,11 +41,11 @@ class ContactsController < ApplicationController
     if current_user
       projet                = current_user.projet_as_demandeur
       @contact.department   = projet.adresse.departement
-      @contact.plateform_id = projet.plateforme_id
+      @contact.numero_plateforme = projet.numero_plateforme
     elsif session[:project_id]
       projet                = Projet.find_by_id(session[:project_id])
       @contact.department   = projet.adresse&.departement
-      @contact.plateform_id = projet.plateforme_id
+      @contact.numero_plateforme = projet.numero_plateforme
     end
     @subjects = Contact::SUBJECTS.map { |x| [I18n.t("contacts.subject_name.#{x}"), x] }
     @contact.sender = current_agent || current_user
@@ -64,7 +64,7 @@ class ContactsController < ApplicationController
 
 private
   def contact_params
-    params.fetch(:contact, {}).permit(:name, :email, :phone, :subject, :description, :department, :plateform_id, :address)
+    params.fetch(:contact, {}).permit(:name, :email, :phone, :subject, :description, :department, :numero_plateforme, :address)
   end
 
   def render_new

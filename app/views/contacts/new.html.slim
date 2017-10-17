@@ -11,6 +11,7 @@ h3 Un problème, une question ? Contactez nous !
   - if current_user || current_agent
     - if @contact.department.blank?
       = f.input :department, required: true
-    - if @contact.plateform_id.blank?
-      = f.input :plateform_id
+    - if @contact.numero_plateforme.blank?
+      = f.input :numero_plateforme
   = btn name: t("helpers.submit.defaults.send"), class: "btn-large", icon: "send"
+
