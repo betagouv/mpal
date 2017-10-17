@@ -8,7 +8,10 @@ h3 Un problème, une question ? Contactez nous !
   = f.input :address, wrapper_html: { class: "contacts__address" }, required: true
   = f.input :subject, collection: @subjects, required: true, prompt: "Veuillez sélectionner un objet"
   = f.input :description, input_html: { cols: 40, rows: 6 }
-  - if current_user || current_agent
+  - if current_user
+      = f.input :department, as: :hidden, value: @contact.department
+      = f.input :plateform_id, as: :hidden, value: @contact.plateform_id
+  - if current_agent
     - if @contact.department.blank?
       = f.input :department, required: true
     - if @contact.plateform_id.blank?
