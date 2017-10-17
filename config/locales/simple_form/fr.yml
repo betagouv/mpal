@@ -139,7 +139,7 @@ fr:
       search:
         query: "Saisie libre"
         sort_by: "Trier par"
-        status: "Statut"
+        status: "État"
     hints:
       defaults:
         birthday: "JJ/MM/AAAA"
