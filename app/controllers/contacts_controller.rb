@@ -2,11 +2,13 @@ class ContactsController < ApplicationController
   layout "informations"
   attr_accessor :address
 
+
   def index
     redirect_to(new_contact_path)
   end
 
   def new
+
     @contact = Contact.new
     @subjects = Contact::SUBJECTS.map { |x| [I18n.t("contacts.subject_name.#{x}"), x] }
     if current_user

@@ -2,7 +2,10 @@
   .page-projet.page-projet-2-cols.clearfix
     aside.col.col-aside
       .col-menu
-        = link_to t("menu.homepage"), root_path,                class: "col-menu__item"
+        - if current_user&.demandeur?
+          = link_to t("Revenir à mon projet"), root_path, class: "col-menu__item"
+        - else
+          = link_to t("menu.homepage"), root_path,              class: "col-menu__item"
         /= link_to t("menu.about"),   informations_about_path,  class: "col-menu__item"
         = link_to t("menu.terms_of_use_acronym"), informations_terms_of_use_path, class: "col-menu__item"
         /= link_to t("menu.faq"),     informations_faq_path,    class: "col-menu__item"
