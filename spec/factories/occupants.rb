@@ -1,9 +1,8 @@
 FactoryGirl.define do
-  A_Z = ('A'..'Z').to_a
-
   factory :occupant do
     sequence(:nom) do |n|
-      trigram = A_Z[(n / 676) % 26] + A_Z[(n / 26) % 26] + A_Z[n % 26]
+      a_z = ('A'..'Z').to_a
+      trigram = a_z[(n / 676) % 26] + a_z[(n / 26) % 26] + a_z[n % 26]
       "Martin#{trigram}"
     end
     prenom 'Jean'

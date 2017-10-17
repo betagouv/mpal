@@ -17,10 +17,10 @@ class ContactMailer < ApplicationMailer
     intervenant_type = "Instructeur" if contact.sender.try(:instructeur?)
 
     subject  = "[ANAH]"
-    subject += "[#{ENV["ENV_NAME"]}]"      unless "PROD" == ENV["ENV_NAME"]
-    subject += "[#{contact.department}]"
+    subject += "[#{ENV["ENV_NAME"]}]" unless "PROD" == ENV["ENV_NAME"]
+    subject += "[#{contact.department}]" if contact.department.present?
     subject += "[#{intervenant_type}]"
-    subject += "[#{contact.plateform_id}]" if contact.plateform_id
+    subject += "[#{contact.numero_plateforme}]" if contact.numero_plateforme.present?
     subject += " "
     subject +  I18n.t("contacts.email_name.#{contact.subject}")
   end

@@ -6,7 +6,7 @@ describe ContactMailer, type: :mailer do
     let(:email) { ContactMailer.contact(contact) }
 
     context "quand on n'est pas Agent" do
-      let(:contact) { create :contact, subject: I18n.t('contacts.subject_name.technique'), department: "12" }
+      let(:contact) { create :contact, subject: "technical", department: "12" }
 
       it do
         expect(email.from).to    eq([ENV["EMAIL_CONTACT"]])
@@ -32,7 +32,7 @@ describe ContactMailer, type: :mailer do
     context "quand on est connecté en tant qu'Opérateur" do
       let(:operateur) { create :operateur }
       let(:agent)     { create :agent, intervenant: operateur  }
-      let(:contact)   { create :contact, name: "Opérateur. Fais-moi sortir", sender: agent, department: "93", plateform_id: "1234" }
+      let(:contact)   { create :contact, name: "Opérateur. Fais-moi sortir", sender: agent, department: "93", numero_plateforme: "1234" }
 
       it do
         expect(email.from).to    eq([ENV["EMAIL_CONTACT"]])
@@ -45,7 +45,7 @@ describe ContactMailer, type: :mailer do
     context "quand on est connecté en tant qu'Instructeur" do
       let(:instructeur) { create :instructeur }
       let(:agent)       { create :agent, intervenant: instructeur  }
-      let(:contact)     { create :contact, name: "Sergent Instructeur", subject: "Oui Chef !", sender: agent, department: "01" }
+      let(:contact)     { create :contact, name: "Sergent Instructeur", subject: "general", sender: agent, department: "01" }
 
       it do
         expect(email.from).to    eq([ENV["EMAIL_CONTACT"]])
