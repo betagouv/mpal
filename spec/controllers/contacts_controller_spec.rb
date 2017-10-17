@@ -64,20 +64,18 @@ describe ContactsController do
 
   describe "#create" do
     let(:contact) { Contact.last }
-    let(:contact_params) do
-      {
-        name:        "David",
-        email:       "monemail@example.com",
-        phone:       "01 02 03 04 05",
-        subject:     "other",
-        description: "Qui a tué Kenny ?",
-        department:   "88",
-        plateform_id: "123",
-      }
-    end
-
     context "as user" do
-      let(:projet)  { create :projet, :en_cours }
+      let(:adresse) { create :adresse }
+      let(:projet)  { create :projet, :en_cours, adresse_postale: adresse }
+      let(:contact_params) do
+        {
+          name:        "David",
+          email:       "monemail@example.com",
+          phone:       "01 02 03 04 05",
+          subject:     "other",
+          description: "Qui a tué Kenny ?",
+        }
+      end
 
       context "without account" do
         before do
@@ -95,8 +93,8 @@ describe ContactsController do
             expect(contact.phone).to        eq "01 02 03 04 05"
             expect(contact.subject).to      eq "other"
             expect(contact.description).to  eq "Qui a tué Kenny ?"
-            expect(contact.department).to   eq "88"
-            expect(contact.plateform_id).to eq "123"
+            expect(contact.department).to   eq "75"
+            expect(contact.plateform_id).to eq "1496743200"
             expect(contact.sender).to       be_blank
             expect(flash[:notice]).to       be_present
             expect(response).to             redirect_to new_contact_path
@@ -132,8 +130,8 @@ describe ContactsController do
             expect(contact.phone).to        eq "01 02 03 04 05"
             expect(contact.subject).to      eq "other"
             expect(contact.description).to  eq "Qui a tué Kenny ?"
-            expect(contact.department).to   eq "88"
-            expect(contact.plateform_id).to eq "123"
+            expect(contact.department).to   eq "75"
+            expect(contact.plateform_id).to eq "1496743200"
             expect(contact.sender).to       eq user
             expect(flash[:notice]).to       be_present
             expect(response).to             redirect_to new_contact_path
@@ -154,6 +152,17 @@ describe ContactsController do
 
     context "as agent" do
       let(:agent) { create :agent }
+      let(:contact_params) do
+        {
+          name:        "David",
+          email:       "monemail@example.com",
+          phone:       "01 02 03 04 05",
+          subject:     "other",
+          description: "Qui a tué Kenny ?",
+          department:   "88",
+          plateform_id: "123",
+        }
+      end
 
       before do
         authenticate_as_agent agent

@@ -38,6 +38,15 @@ class ContactsController < ApplicationController
 
   def create
     @contact = Contact.new(contact_params)
+    if current_user
+      projet                = current_user.projet_as_demandeur
+      @contact.department   = projet.adresse.departement
+      @contact.plateform_id = projet.plateforme_id
+    elsif session[:project_id]
+      projet                = Projet.find_by_id(session[:project_id])
+      @contact.department   = projet.adresse&.departement
+      @contact.plateform_id = projet.plateforme_id
+    end
     @subjects = Contact::SUBJECTS.map { |x| [I18n.t("contacts.subject_name.#{x}"), x] }
     @contact.sender = current_agent || current_user
 
