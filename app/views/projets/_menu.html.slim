@@ -14,7 +14,11 @@
         p
           = project.numero_plateforme
           - if project.opal_numero.present?
-            = " / Opal : #{project.opal_numero}"
+            = " / Opal : "
+            - if current_agent.instructeur?
+              = link_to project.opal_numero, dossier_opal_url(project.opal_numero), target: "_blank"
+            - else
+              = project.opal_numero
 
   / TODO dynamiser l’élément actif avec la classe `project-menu__item--active`
   .project-menu__list.clearfix
