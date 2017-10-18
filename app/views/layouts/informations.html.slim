@@ -9,7 +9,6 @@
         = link_to t("menu.legal"),    informations_legal_path,  class: "col-menu__item"
         = link_to t("menu.contact"),  new_contact_path,         class: "col-menu__item"
     .col.col-main
-      section.public-information
-        = render "shared/flash"
-        = yield
+      = render "shared/flash"
+      = yield
 

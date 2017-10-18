@@ -1,6 +1,10 @@
 FactoryGirl.define do
   factory :occupant do
-    sequence(:nom) {|n| "Martin#{n}" }
+    sequence(:nom) do |n|
+      a_z = ('A'..'Z').to_a
+      trigram = a_z[(n / 676) % 26] + a_z[(n / 26) % 26] + a_z[n % 26]
+      "Martin#{trigram}"
+    end
     prenom 'Jean'
     civility 'mr'
     avis_imposition

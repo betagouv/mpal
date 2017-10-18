@@ -7,7 +7,7 @@
       ul.form-errors__list
         - resource.errors.each do |error, message|
           - id = i18n_simple_form_id(model, error)
-          - label = i18n_simple_form_label(model, error)
+          - label = :base == error ? nil : i18n_simple_form_label(model, error)
           li.form-errors__item
-            label for=id class="form-errors__label" = [label, message].join(" ")
+            label for=id class="form-errors__label" = [label, message].compact.join(" ")
 

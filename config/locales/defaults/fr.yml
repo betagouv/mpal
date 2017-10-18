@@ -153,6 +153,18 @@ fr:
       section_name: "Création de mon compte"
       explanations: "Pour poursuivre la démarche, je crée mon compte."
 
+  # ----------------------- Contacts -------------------
+  contacts:
+    subject_name:
+      technical: "Une question technique sur le site (accès, identifiant...)"
+      general: "Une question générale sur les aides"
+      project: "Un question concernant mon dossier"
+      other: "Autre : Veuillez préciser dans le message"
+    email_name:
+      technical: "Question technique"
+      general: "Question générale"
+      project: "Question concernant mon dossier"
+      other: "Autre"
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
     statut:
@@ -240,6 +252,9 @@ fr:
     messages:
       creation:
         corps: Félicitations ! Votre projet démarre aujourd’hui.
+    sort_by_options:
+      created: "Date de création"
+      depot: "Date de dépôt"
     visualisation:
       lien_edition_projet: "Modifier le projet"
       lien_edition: "Modifier"

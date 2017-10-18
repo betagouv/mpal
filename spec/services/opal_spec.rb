@@ -37,12 +37,17 @@ describe Opal do
   let(:client_create_payment) { OpalClientMock.new(201, "OK", {}) }
 
   describe "#create_dossier!" do
-    let(:projet)            { create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
+    let(:projet)            { create :projet, :with_trusted_person, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1 }
     let(:instructeur)       { create :instructeur }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
 
     context "en cas de succès" do
-      before { projet.demandeur.update(nom: "Strâbe", prenom: "ōlaf") }
+      before do
+        projet.demandeur.update(nom: "Strâbe", prenom: "ōlaf")
+        projet.update_attribute(:tel, "01 01 01 01 01")
+        projet.personne.update_attribute(:tel, nil)
+      end
+
       subject! { Opal.new(client_create).create_dossier!(projet, agent_instructeur) }
 
       it "envoie les informations sérialisées" do
@@ -50,7 +55,7 @@ describe Opal do
         expect(body["dosNumeroPlateforme"]).to eq projet.numero_plateforme
         expect(body["dosDateDepot"]).to be_present
         expect(body["utiIdClavis"]).to eq agent_instructeur.clavis_id
-
+ 
         demandeur = body["demandeur"]
         expect(demandeur["dmdNbOccupants"]).to eq 2
         expect(demandeur["dmdRevenuOccupants"]).to eq projet.revenu_fiscal_reference_total
@@ -59,6 +64,8 @@ describe Opal do
         expect(personne_physique["civId"]).to eq 1
         expect(personne_physique["pphPrenom"]).to eq "Olaf"
         expect(personne_physique["pphNom"]).to eq "STRABE"
+        expect(personne_physique["pphMel"]).to eq "augustus.procrastinatus@palatin.it"
+        expect(personne_physique["pphTelephone"]).to eq "01 01 01 01 01"
         expect(personne_physique["pphDateNaissance"]).to eq "1977-06-20"
 
         adresse_postale = personne_physique["adressePostale"]
@@ -85,7 +92,7 @@ describe Opal do
       end
 
       context "avec un rfr modifié" do
-        let(:projet) { create :projet, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1, modified_revenu_fiscal_reference: 10 }
+        let(:projet) { create :projet, :with_trusted_person, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1, modified_revenu_fiscal_reference: 10 }
 
         it "envoie le rfr modifié dans Opal" do
           body = JSON.parse(client_create.body)

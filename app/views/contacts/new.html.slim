@@ -6,9 +6,12 @@ h3 Un problème, une question ? Contactez nous !
   = f.input :phone, wrapper_html: { class: "size-s" }
   /this field is hidden in order to identify bots
   = f.input :address, wrapper_html: { class: "contacts__address" }, required: true
-  = f.input :subject, required: true
+  = f.input :subject, collection: @subjects, required: true, prompt: "Veuillez sélectionner un objet"
   = f.input :description, input_html: { cols: 40, rows: 6 }
-  - if current_agent
-    = f.input :department, required: true
-    = f.input :plateform_id
+  - if current_user || current_agent
+    - if @contact.department.blank?
+      = f.input :department, required: true
+    - if @contact.numero_plateforme.blank?
+      = f.input :numero_plateforme
   = btn name: t("helpers.submit.defaults.send"), class: "btn-large", icon: "send"
+
