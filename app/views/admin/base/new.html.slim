@@ -1,7 +1,0 @@
-- content_for :sidebar do
-  = render "search_form"
-
-- url = [[@__namespaces], @item].flatten.reject(&:blank?)
-= simple_form_for url, html: { class: simple_form_classes } do |f|
-  = render f
-  = submit_button f

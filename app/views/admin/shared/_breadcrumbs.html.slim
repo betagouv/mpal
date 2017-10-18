@@ -1,8 +1,0 @@
-- if 0 < @breadcrumbs.size
-  ol.breadcrumb
-    - last_index = @breadcrumbs.size - 1
-    - @breadcrumbs.each_with_index do |bc, index|
-      - classes = ['breadcrumb-item']
-      - classes << 'active' if index == last_index
-      li class=classes
-        = link_to bc[:name], bc[:url]

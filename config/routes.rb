@@ -106,13 +106,6 @@ Rails.application.routes.draw do
     get "/instruction", to: "instruction#show", as: "instruction"
   end
 
-  #PAGES ADMIN
-  namespace :admin do
-    get "/" => "home#index"
-    resources :themes
-    resources :intervenants
-  end
-
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
     username == ENV["SIDEKIQ_USERNAME"] && password == ENV["SIDEKIQ_PASSWORD"]
