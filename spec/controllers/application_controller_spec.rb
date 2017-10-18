@@ -2,7 +2,7 @@ require "rails_helper"
 
 shared_context "application_concern" do
   describe "#projet_or_dossier" do
-    let(:agent) {   nil }
+    let(:agent)   { nil }
     before(:each) { sign_in agent, scope: :agent }
     before(:each) { subject.projet_or_dossier }
 
