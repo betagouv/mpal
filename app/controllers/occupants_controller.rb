@@ -1,11 +1,10 @@
 class OccupantsController < ApplicationController
   layout "inscription"
 
-  CURRENT_REGISTRATION_STEP = 3
   before_action :assert_projet_courant
   load_and_authorize_resource
   before_action do
-    set_current_registration_step CURRENT_REGISTRATION_STEP
+    set_current_registration_step Projet::STEP_OCCUPANTS
   end
 
   def index

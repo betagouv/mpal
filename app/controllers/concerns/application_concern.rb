@@ -20,12 +20,12 @@ module ApplicationConcern
         return projets_new_path
       end
 
-      return redirect_to projet_demandeur_path(projet)        if projet.max_registration_step == 1
-      return redirect_to projet_avis_impositions_path(projet) if projet.max_registration_step == 2
-      return redirect_to projet_occupants_path(projet)        if projet.max_registration_step == 3
-      return redirect_to projet_demande_path(projet)          if projet.max_registration_step == 4
-      return redirect_to projet_eligibility_path(projet)      if projet.max_registration_step == 5
-      return redirect_to projet_mise_en_relation_path(projet) if projet.max_registration_step == 6 && projet.invitations.blank?
+      return redirect_to projet_demandeur_path(projet)        if projet.max_registration_step == Projet::STEP_DEMANDEUR
+      return redirect_to projet_avis_impositions_path(projet) if projet.max_registration_step == Projet::STEP_AVIS_IMPOSITIONS
+      return redirect_to projet_occupants_path(projet)        if projet.max_registration_step == Projet::STEP_OCCUPANTS
+      return redirect_to projet_demande_path(projet)          if projet.max_registration_step == Projet::STEP_DEMANDE
+      return redirect_to projet_eligibility_path(projet)      if projet.max_registration_step == Projet::STEP_ELIGIBILITY
+      return redirect_to projet_mise_en_relation_path(projet) if projet.max_registration_step == Projet::STEP_MISE_EN_RELATION && projet.invitations.blank?
       redirect_to projet_path(projet)
     end
 

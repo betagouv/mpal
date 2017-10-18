@@ -1,11 +1,10 @@
 class DemandesController < ApplicationController
   layout "inscription"
 
-  CURRENT_REGISTRATION_STEP = 4
   before_action :assert_projet_courant
   load_and_authorize_resource
   before_action do
-    set_current_registration_step CURRENT_REGISTRATION_STEP
+    set_current_registration_step Projet::STEP_DEMANDE
   end
   before_action :init_demande
 

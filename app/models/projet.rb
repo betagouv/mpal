@@ -26,6 +26,13 @@ class Projet < ApplicationRecord
     en_cours_d_instruction: 6
   }
 
+  STEP_DEMANDEUR = 1
+  STEP_AVIS_IMPOSITIONS = 2
+  STEP_OCCUPANTS = 3
+  STEP_DEMANDE = 4
+  STEP_ELIGIBILITY = 5
+  STEP_MISE_EN_RELATION = 6
+
   SORT_BY_OPTIONS = [:created, :depot]
 
   # Personne de confiance

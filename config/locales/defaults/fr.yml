@@ -158,7 +158,7 @@ fr:
     subject_name:
       technical: "Une question technique sur le site (accès, identifiant...)"
       general: "Une question générale sur les aides"
-      project: "Un question concernant mon dossier"
+      project: "Une question concernant mon dossier"
       other: "Autre : Veuillez préciser dans le message"
     email_name:
       technical: "Question technique"

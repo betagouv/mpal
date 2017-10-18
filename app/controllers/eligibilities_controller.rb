@@ -1,11 +1,10 @@
 class EligibilitiesController < ApplicationController
   layout 'inscription'
 
-  CURRENT_REGISTRATION_STEP = 5
   before_action :assert_projet_courant
   authorize_resource :class => false
   before_action do
-    set_current_registration_step CURRENT_REGISTRATION_STEP
+    set_current_registration_step Projet::STEP_ELIGIBILITY
   end
 
   def show
@@ -21,9 +20,9 @@ private
   def fetch_pris
     if ENV['ROD_ENABLED'] == 'true'
       rod_response = Rod.new(RodClient).query_for(@projet_courant)
-      @pris        = @eligible ? rod_response.pris : rod_response.pris_eie
+      @pris = @eligible ? rod_response.pris : rod_response.pris_eie
     else
-      @pris        = @projet_courant.intervenants_disponibles(role: :pris).first
+      @pris = @projet_courant.intervenants_disponibles(role: :pris).first
     end
   end
 end
