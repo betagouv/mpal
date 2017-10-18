@@ -47,6 +47,7 @@ private
   def log_successful_query(projet, rod_response)
     Rails.logger.info "ROD response for project id #{projet.id}"
     Rails.logger.info "PRIS:        #{rod_response.pris.try(:raison_sociale)}"
+    Rails.logger.info "PRIS EIE:    #{rod_response.pris_eie.try(:raison_sociale)}"
     Rails.logger.info "Instructeur: #{rod_response.instructeur.try(:raison_sociale)}"
     Rails.logger.info "Operations:  #{rod_response.operations.map(&:name).join(", ")}"
     Rails.logger.info "Operateurs:  #{rod_response.operateurs.map(&:raison_sociale).join(", ")}"
