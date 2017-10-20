@@ -12,7 +12,12 @@ class ProjetsController < ApplicationController
       pris_name = @projet_courant.invited_pris.raison_sociale
       flash[:notice_html] = "#{pris_name} ne vous a pas encore proposé d’opérateur-conseil. <a href=\"#{new_projet_or_dossier_message_path}\">Contacter #{pris_name}</a>."
     end
-    render_show
+    if @projet_courant.invitations.any?
+      render_show
+    else
+      redirect_to_project_if_exists
+    end
+
   end
 
   def index
