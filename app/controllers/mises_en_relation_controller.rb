@@ -1,10 +1,9 @@
 class MisesEnRelationController < ApplicationController
   layout "inscription"
 
-  CURRENT_REGISTRATION_STEP = 6
   before_action :assert_projet_courant
   before_action do
-    set_current_registration_step CURRENT_REGISTRATION_STEP
+    set_current_registration_step Projet::STEP_MISE_EN_RELATION
     @not_eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) == :plafond_depasse
   end
 

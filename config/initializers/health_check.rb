@@ -1,7 +1,7 @@
 HealthCheck.setup do |config|
 
   # uri prefix (no leading slash)
-  config.uri = 'health_check'
+  config.uri = 'health'
 
   # Text output upon success
   config.success = 'success'
@@ -25,7 +25,7 @@ HealthCheck.setup do |config|
   #config.buckets = {'bucket_name' => [:R, :W, :D]}
 
   # You can customize which checks happen on a standard health check, eg to set an explicit list use:
-  config.standard_checks = [ 'database', 'migrations', 'custom', 'cache', 'sidekiq-redis']
+  config.standard_checks = [ 'site' ]
 
   # Or to exclude one check:
   config.standard_checks -= [ 'emailconf' ]

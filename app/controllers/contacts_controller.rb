@@ -2,6 +2,7 @@ class ContactsController < ApplicationController
   layout "informations"
   attr_accessor :address
 
+
   def index
     redirect_to(new_contact_path)
   end
@@ -15,23 +16,23 @@ class ContactsController < ApplicationController
         #@contact.name  = current_user.infos.name
         #@contact.phone = current_user.infos.phone
       elsif current_user.demandeur?
-        projet                = current_user.projet_as_demandeur
-        @contact.name         = projet.demandeur.fullname
-        @contact.email        = current_user.email
-        @contact.phone        = projet.tel
-        @contact.department   = projet.adresse.departement
-        @contact.numero_plateforme = projet.numero_plateforme
+        @projet                    = current_user.projet_as_demandeur
+        @contact.name              = @projet.demandeur.fullname
+        @contact.email             = current_user.email
+        @contact.phone             = @projet.tel
+        @contact.department        = @projet.adresse.departement
+        @contact.numero_plateforme = @projet.numero_plateforme
       end
     elsif current_agent
       @contact.email = current_agent.username
       @contact.name  = current_agent.fullname
     elsif session[:project_id]
-      projet                = Projet.find_by_id(session[:project_id])
-      @contact.name         = projet.demandeur&.fullname
-      @contact.email        = projet.email
-      @contact.phone        = projet.tel
-      @contact.department   = projet.adresse&.departement
-      @contact.numero_plateforme = projet.numero_plateforme
+      @projet                    = Projet.find_by_id(session[:project_id])
+      @contact.name              = @projet.demandeur&.fullname
+      @contact.email             = @projet.email
+      @contact.phone             = @projet.tel
+      @contact.department        = @projet.adresse&.departement
+      @contact.numero_plateforme = @projet.numero_plateforme
     end
     render_new
   end

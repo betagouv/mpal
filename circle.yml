@@ -6,6 +6,15 @@ machine:
     EMAIL_CONTACT: assistance.monprojet@anah.gouv.fr
     DOMAIN: localhost
     OPAL_API_BASE_URI: "http://gene.anah.gouv.fr/sio/json"
+  steps:
+    - checkout
+    - restore_cache:
+        keys:
+          - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+    - save_cache:
+        key: gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
 
 database:
   override:
@@ -35,4 +44,3 @@ deployment:
       - git fetch --unshallow
       - git push -f git@scalingo.com:anah-formation1.git $CIRCLE_SHA1:master
       - git push -f git@scalingo.com:anah-formation2.git $CIRCLE_SHA1:master
-

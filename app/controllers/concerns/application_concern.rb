@@ -5,24 +5,28 @@ module ApplicationConcern
     layout "project"
 
     def redirect_to_project_if_exists
-      projet_or_dossier
-      if current_user
-        if current_user.mandataire?
-          redirect_to projets_path
-        elsif current_user.demandeur?
-          projet = current_user.projet_as_demandeur
-          redirect_to projet.invitations.blank? ? projet_mise_en_relation_path(projet) : projet_path(projet)
-        end
-      elsif current_agent
-        redirect_to dossiers_path
+      return redirect_to dossiers_path if current_agent
+      return redirect_to projets_path  if current_user.try(:mandataire?)
+
+      if current_user.try(:demandeur?)
+        projet = current_user.projet_as_demandeur
       elsif session[:project_id]
-        project = Projet.find_by_id(session[:project_id])
-        if project
-          redirect_to projet_path(project)
-        else
+        projet = Projet.find_by_id(session[:project_id])
+        if projet.blank?
           session.delete :project_id
+          return projets_new_path
         end
+      else
+        return projets_new_path
       end
+
+      return redirect_to projet_demandeur_path(projet)        if projet.max_registration_step == Projet::STEP_DEMANDEUR
+      return redirect_to projet_avis_impositions_path(projet) if projet.max_registration_step == Projet::STEP_AVIS_IMPOSITIONS
+      return redirect_to projet_occupants_path(projet)        if projet.max_registration_step == Projet::STEP_OCCUPANTS
+      return redirect_to projet_demande_path(projet)          if projet.max_registration_step == Projet::STEP_DEMANDE
+      return redirect_to projet_eligibility_path(projet)      if projet.max_registration_step == Projet::STEP_ELIGIBILITY
+      return redirect_to projet_mise_en_relation_path(projet) if projet.max_registration_step == Projet::STEP_MISE_EN_RELATION && projet.invitations.blank?
+      redirect_to projet_path(projet)
     end
 
     def assert_projet_courant

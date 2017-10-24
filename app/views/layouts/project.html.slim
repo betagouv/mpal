@@ -4,7 +4,7 @@
       - if @projet_courant.invitations.any?
         = render "projets/menu", project: @projet_courant
       - else
-        = render "projets/registration_steps", project: @projet_courant
+        = render "projets/registration_steps"
     = render "shared/flash"
     - if @page_heading.present?
       h1.page-heading= @page_heading
