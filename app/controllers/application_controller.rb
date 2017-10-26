@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
     server_name      = request.env["SERVER_NAME"]
     method           = request.method
     url              = request.url
-    parameters       = request.parameters
+    parameters       = filtered_request_parameters
     ip               = request.ip
     responsible_type = current_agent ? "Agent" : "User"
     responsible_id   = current_agent.try(:id) || current_user.try(:id)
@@ -79,6 +79,16 @@ class ApplicationController < ActionController::Base
     backtrace        = exception.backtrace[0..4].join("\n")
 
     SlackNotifyJob.perform_later(server_name, method, url, parameters, ip, responsible_type, responsible_id, error_message, backtrace)
+  end
+
+  def filtered_request_parameters
+    request_paramters = request.parameters.deep_dup
+
+    Rails.application.config.filter_parameters.each do |filter_parameter|
+      request_paramters.deep_reject! filter_parameter
+    end
+
+    request_paramters
   end
 end
 
