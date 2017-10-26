@@ -1,6 +1,10 @@
 class InformationsController < ApplicationController
   layout "informations"
 
+  before_action do
+    @projet = current_user&.projet_as_demandeur || Projet.find_by_id(session[:project_id])
+  end
+
   def faq
     @page_heading = t("menu.faq")
   end
@@ -25,4 +29,3 @@ class InformationsController < ApplicationController
     respond_to :text
   end
 end
-

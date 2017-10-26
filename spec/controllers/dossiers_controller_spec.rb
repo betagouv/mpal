@@ -20,6 +20,72 @@ describe DossiersController do
     end
   end
 
+  describe "#index" do
+    before { authenticate_as_agent current_agent }
+
+    context "en tant qu’agent 'Anah siège' connecté" do
+      let(:siege)         { create :siege }
+      let(:current_agent) { create :agent, :siege, intervenant: siege }
+      before(:each) { 4.times { create(:projet, :prospect) } }
+
+      it "affiche une pagination" do
+        get :index, params: { per_page: 3 }
+        expect(assigns(:dossiers).total_entries).to eq 4
+        expect(assigns(:dossiers).length).to eq 3
+      end
+    end
+
+    context "en tant qu’agent 'non Anah siège' connecté" do
+      let(:pris)   { create :pris }
+      let(:current_agent) { create :agent, :pris, intervenant: pris }
+      before(:each) {
+        4.times {
+          projet = create :projet, :prospect
+          create :invitation, intervenant: pris, projet: projet
+        }
+      }
+
+      it "affiche une pagination" do
+        get :index, params: { per_page: 3 }
+        expect(assigns(:invitations).total_entries).to eq 4
+        expect(assigns(:invitations).length).to eq 3
+      end
+    end
+  end
+
+  describe "#home" do
+    before { authenticate_as_agent current_agent }
+
+    context "en tant qu’agent 'Anah siège' connecté" do
+      let(:siege)         { create :siege }
+      let(:current_agent) { create :agent, :siege, intervenant: siege }
+      before(:each) { 4.times { create(:projet, :prospect) } }
+
+      it "affiche une pagination" do
+        get :home, params: { per_page: 3 }
+        expect(assigns(:dossiers).total_entries).to eq 4
+        expect(assigns(:dossiers).length).to eq 3
+      end
+    end
+
+    context "en tant qu’agent 'non Anah siège' connecté" do
+      let(:pris)   { create :pris }
+      let(:current_agent) { create :agent, :pris, intervenant: pris }
+      before(:each) {
+        4.times {
+          projet = create :projet, :prospect
+          create :invitation, intervenant: pris, projet: projet
+        }
+      }
+
+      it "affiche une pagination" do
+        get :home, params: { per_page: 3 }
+        expect(assigns(:invitations).total_entries).to eq 4
+        expect(assigns(:invitations).length).to eq 3
+      end
+    end
+  end
+
   describe "#proposition" do
     let!(:prestation_1) { create :prestation }
     let!(:prestation_2) { create :prestation }
