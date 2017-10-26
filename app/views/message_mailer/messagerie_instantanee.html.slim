@@ -1,0 +1,11 @@
+p Bonjour #{@demandeur.fullname},
+
+p Vous avez reçu un nouveau message dans votre messagerie.
+
+p= link_to "Vous pouvez le consulter directement dans la messagerie de votre projet", new_projet_message_url(@demandeur.projet)
+
+p Cordialement,
+
+p L'Equipe l’Anah,
+
+p &nbsp;
