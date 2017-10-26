@@ -247,6 +247,7 @@ fr:
 
     intervenants:
       messages:
+        already_committed: "Vous avez déjà confirmé votre opérateur-conseil : %{operateur}"
         succes_choix_intervenant: "Vous avez confirmé votre opérateur-conseil : %{operateur}"
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
