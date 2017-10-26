@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 
 feature "Occupants :" do
-  let!(:projet) { create(:projet, :with_demandeur) }
+  let!(:projet) { create :projet, :with_demandeur }
 
   before { projet.demandeur.update!(nom: "Levesque", prenom: "Liane") }
 
@@ -50,24 +50,20 @@ feature "Occupants :" do
       expect(page).not_to have_css("tr[data-occupant-id='#{occupant_to_delete.id}']")
     end
 
-    scenario "je peux ajouter un enfant à naître", skip: true do
+    scenario "je peux ajouter un enfant à naître" do
       signin(projet.numero_fiscal, projet.reference_avis)
       visit projet_occupants_path(projet)
 
       check I18n.t("simple_form.labels.projet.future_birth")
       click_button I18n.t('demarrage_projet.action')
-      visit projet_path(projet)
-
-      expect(page).to have_content I18n.t("projets.visualisation.future_birth")
-      expect(page).to have_content "+ enfant à naître"
+      projet.reload
+      expect(projet.future_birth).to be_truthy
 
       visit projet_occupants_path(projet)
       uncheck I18n.t("simple_form.labels.projet.future_birth")
       click_button I18n.t('demarrage_projet.action')
-      visit projet_path(projet)
-
-      expect(page).to have_no_content I18n.t("projets.visualisation.future_birth")
-      expect(page).to have_no_content "+ enfant à naître"
+      projet.reload
+      expect(projet.future_birth).to be_falsey
     end
 
     scenario "je peux passer à l'étape suivante" do
@@ -78,3 +74,4 @@ feature "Occupants :" do
     end
   end
 end
+

@@ -108,7 +108,7 @@ fr:
     demande:
       erreurs:
         besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
-      section_projet_envisage: "monprojetanah.gouv.fr"
+      section_projet_envisage: "Mon projet"
       titre_besoins: "Les difficultés que je rencontre dans mon logement :"
       titre_travaux: "Les travaux que je souhaite effectuer :"
       # Difficultés
