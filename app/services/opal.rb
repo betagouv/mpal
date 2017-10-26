@@ -54,7 +54,6 @@ private
     projet.opal_id = opal["dosId"]
   end
 
-
   def met_a_jour_statut(projet)
     projet.statut = :en_cours_d_instruction
   end
@@ -76,7 +75,7 @@ private
   end
 
   def project_tel(projet)
-    projet.personne&.tel || projet.tel
+    (projet.personne&.tel || projet.tel).to_s.gsub(/[^0-9]+/, "")
   end
 
   def serialize_code_insee(code_insee)

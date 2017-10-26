@@ -44,7 +44,7 @@ describe Opal do
     context "en cas de succès" do
       before do
         projet.demandeur.update(nom: "Strâbe", prenom: "ōlaf")
-        projet.update_attribute(:tel, "01 01 01 01 01")
+        projet.update_attribute(:tel, "+33 (0) 1 01.01-0101")
         projet.personne.update_attribute(:tel, nil)
       end
 
@@ -65,7 +65,7 @@ describe Opal do
         expect(personne_physique["pphPrenom"]).to eq "Olaf"
         expect(personne_physique["pphNom"]).to eq "STRABE"
         expect(personne_physique["pphMel"]).to eq "augustus.procrastinatus@palatin.it"
-        expect(personne_physique["pphTelephone"]).to eq "01 01 01 01 01"
+        expect(personne_physique["pphTelephone"]).to eq "330101010101"
         expect(personne_physique["pphDateNaissance"]).to eq "1977-06-20"
 
         adresse_postale = personne_physique["adressePostale"]
