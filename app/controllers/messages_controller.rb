@@ -44,7 +44,7 @@ private
 
   def send_notification_to_demandeur
     if @message.auteur != @projet_courant.demandeur
-      MessageMailer.messagerie_instantanee(@projet_courant).deliver_later!
+      MessageMailer.messagerie_instantanee(@projet_courant, @message).deliver_later!
     end
   end
 end
