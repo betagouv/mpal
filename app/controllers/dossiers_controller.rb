@@ -190,15 +190,17 @@ private
   end
 
   def render_index
+    params.permit(:page, :per_page, search: [:query, :status, :sort_by])
+    search = params[:search] || {}
+    page = params[:page]
+    per_page = params[:per_page]
     if current_agent.siege?
-      search = params[:search] || {}
-      @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :invitations, :intervenants, :themes)
+      @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
       if search.present?
         @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
       end
     else
-      search = params[:search] || {}
-      @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :invitations, :intervenants, :themes])
+      @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
       if search.present?
         @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
       end

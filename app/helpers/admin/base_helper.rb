@@ -10,16 +10,6 @@ module Admin::BaseHelper
     BOOTSTRAP_ALERT_LEVEL[level] || "info"
   end
 
-  def custom_page_entries_info(collection)
-    if collection.count <= 0
-      I18n.t("will_paginate.page_entries_info.single_page.zero")
-    elsif 1 == collection.count
-      I18n.t("will_paginate.page_entries_info.single_page.one")
-    else
-      I18n.t("will_paginate.page_entries_info.single_page.other", { count: collection.count })
-    end
-  end
-
   def delete_link(url, name = nil)
     title = name.blank? ? "Supprimer cet élément ?" : "Supprimer « #{name} » ?"
     link_to icon("trash"), url, class: "btn btn-secondary btn-icon js-deleter", title: title

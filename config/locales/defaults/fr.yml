@@ -600,3 +600,20 @@ fr:
       payment_registry: "Aucun dossier de paiement n’a été trouvé"
     create:
       payment_registry: "Vous ne pouvez créer un nouveau dossier de paiement"
+
+  will_paginate:
+    previous_label: "« Précédent"
+    next_label: "Suivant »"
+    page_gap: "…"
+    page_entries_info:
+      single_page:
+        zero:  "Aucun résultat"
+        one:   "1 résultat"
+        other: "%{count} résultats"
+      single_page_html:
+        zero:  "Aucun résultat"
+        one:   "<strong>1</strong> résultat"
+        other: "<strong>%{count}</strong> résultats"
+        multi_page: "Résultats %{from} à %{to} sur %{count}"
+        multi_page_html: "Résultats <strong>%{from}&nbsp;à&nbsp;%{to}</strong> sur <strong>%{count}</strong>"
+

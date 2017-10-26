@@ -72,6 +72,17 @@ module ApplicationHelper
     year > SITE_START_YEAR ? "#{SITE_START_YEAR}&ndash;#{year}".html_safe : year.to_s
   end
 
+  def custom_page_entries_info(collection)
+    count = collection.total_entries
+    if count <= 0
+      I18n.t("will_paginate.page_entries_info.single_page.zero")
+    elsif 1 == count
+      I18n.t("will_paginate.page_entries_info.single_page.one")
+    else
+      I18n.t("will_paginate.page_entries_info.single_page.other", { count: count })
+    end
+  end
+
   def format_date(date, format = :default)
     return '' if date.blank?
     date = date.to_date unless date.is_a?(Date)
