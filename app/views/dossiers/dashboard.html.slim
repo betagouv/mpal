@@ -1,9 +1,8 @@
 .dashboard-dossiers
   - items = @invitations || @dossiers
   = render "search_form", url: dossiers_path, show_export_button: items.present?
-  - if items.blank?
-    p Aucun dossier.
-  - else
+  = render "admin/shared/paginate", items: items
+  - if items.present?
     table.table.table-hover.table-striped.table-sm.dashboard-table
       thead
         tr
@@ -111,4 +110,7 @@
                 = anonymize anonymized, edit_url do
                   = projet.payments.map(&:dashboard_status).join(", ")
             /TODO Status Updated At
+
+  - if items.respond_to?(:total_pages) && 1 < items.total_pages
+    = render "admin/shared/paginate", items: items
 
