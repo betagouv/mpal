@@ -513,6 +513,10 @@ fr:
       accuse_reception:
         sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
 
+    messagerie_mailer:
+      nouveau_message:
+        sujet: "[Anah] Vous avez reçu un nouveau message"
+
     paiement_mailer:
       destruction:
         sujet: "[Anah] %{operateur} a supprimé une demande de paiement"
