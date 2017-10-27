@@ -125,8 +125,8 @@ class Projet < ApplicationRecord
     end
   }
   scope :for_text, ->(opts) {
-    words = opts && opts.to_s.scan(/\S+/)
-    next where(nil) if words.blank?
+    words = opts && opts.to_s.split
+    next all if words.blank?
     conditions = ["true"]
     joins = %(
       INNER JOIN avis_impositions ift_avis_impositions
@@ -150,14 +150,14 @@ class Projet < ApplicationRecord
       [
         "projets.numero_fiscal", "projets.reference_avis", "projets.opal_numero",
         "ift_adresses1.departement", "ift_adresses2.departement",
-        "ift_adresses1.code_postal", "ift_adresses2.code_postal"
+        "ift_adresses1.code_postal", "ift_adresses2.code_postal",
       ].each do |field|
         conditions[0] << " OR #{field} = ?"
         conditions << word
       end
       [
         "ift_occupants.nom", "ift_adresses1.ville", "ift_adresses2.ville",
-        "ift_adresses1.region", "ift_adresses2.region"
+        "ift_adresses1.region", "ift_adresses2.region",
       ].each do |field|
         conditions[0] << " OR #{field} ILIKE ?"
         conditions << "%#{word}%"
