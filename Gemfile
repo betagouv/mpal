@@ -29,7 +29,7 @@ gem 'rake', '= 11.2.2'
 gem 'rails', '~> 5.1.3'
 gem 'rb-readline'
 gem 'redis-namespace'
-gem 'rest-client', '~> 1.6.9'
+gem 'rest-client', '~> 1.8.0'
 gem 'sass-rails'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'sidekiq'
