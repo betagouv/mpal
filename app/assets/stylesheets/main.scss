@@ -159,22 +159,6 @@ th, td {
       background-color: $color-light-grey;
     }
   }
-  .accordeon {
-    background-color: #eef1f7;
-    background-image: image-url("fle-closed.svg");
-    background-position: 10px 50%;
-    background-repeat: no-repeat;
-    font-size: 18px;
-    font-weight: 600;
-    color: $font-color;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-    padding: 10px 30px;
-    border-bottom: 1px solid #dadfea;
-    cursor: pointer;
-    &.is-open {
-      background-image: image-url("fle-open.svg");
-    }
-  }
   .content-block {
     padding: 20px;
     @extend .clearfix;
