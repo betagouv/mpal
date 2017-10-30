@@ -15,10 +15,6 @@ if [ -z "$env" ]; then
   exit 2
 fi
 
-secrets=$($command -a anah-$env env | grep "POSTGRESQL_URL=" | sed "s/^.*=//")
-
-DATE=$(date +%Y-%m-%d_%H-%M-%S)
-
 echo "Opening the tunnel…"
-$command -a anah-$env db-tunnel $secrets
+$command -a anah-$env db-tunnel SCALINGO_POSTGRESQL_URL
 
