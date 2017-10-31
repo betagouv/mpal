@@ -30,7 +30,7 @@ class ApiBan
   end
 
   def self.uri(adresse)
-    URI.escape "http://#{ENV['API_BAN_DOMAIN']}/search/?q=#{adresse}&autocomplete=0"
+    URI.escape "https://#{ENV['API_BAN_DOMAIN']}/search/?q=#{adresse}&autocomplete=0"
   end
 
 private
