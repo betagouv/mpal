@@ -37,7 +37,7 @@ class Invitation < ApplicationRecord
   }
   scope :for_text, ->(opts) {
     next all if !opts || opts.to_s.blank?
-    where("invitations.projet_id = (#{Projet.for_text(opts).select(:id).to_sql})")
+    where("invitations.projet_id in (#{Projet.for_text(opts).select(:id).to_sql})")
   }
   scope :mandataire,         -> { where(kind: :mandataire).where(revoked_at: nil) }
   scope :revoked_mandataire, -> { where(kind: :mandataire).where.not(revoked_at: nil) }
