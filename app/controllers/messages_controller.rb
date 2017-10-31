@@ -13,6 +13,7 @@ class MessagesController < ApplicationController
     unless @message.save
       return render_new
     end
+    send_notification_to_demandeur
     redirect_to new_projet_or_dossier_message_path(@projet_courant)
   end
 
@@ -40,5 +41,10 @@ private
     @page_heading = "Messagerie"
     render :new
   end
-end
 
+  def send_notification_to_demandeur
+    if @message.auteur != @projet_courant.demandeur
+      MessageMailer.messagerie_instantanee(@projet_courant, @message).deliver_later!
+    end
+  end
+end

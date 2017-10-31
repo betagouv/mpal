@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171017144615) do
+ActiveRecord::Schema.define(version: 20171026165651) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -192,7 +192,6 @@ ActiveRecord::Schema.define(version: 20171017144615) do
   end
 
   create_table "occupants", id: :serial, force: :cascade do |t|
-    t.integer "projet_id"
     t.string "nom"
     t.string "prenom"
     t.integer "lien_demandeur"
@@ -203,7 +202,6 @@ ActiveRecord::Schema.define(version: 20171017144615) do
     t.integer "avis_imposition_id"
     t.boolean "declarant", default: false, null: false
     t.string "civility"
-    t.index ["projet_id"], name: "index_occupants_on_projet_id"
   end
 
   create_table "operations", id: :serial, force: :cascade do |t|
@@ -386,7 +384,6 @@ ActiveRecord::Schema.define(version: 20171017144615) do
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "messages", "projets"
-  add_foreign_key "occupants", "projets"
   add_foreign_key "prestation_choices", "prestations"
   add_foreign_key "prestation_choices", "projets"
   add_foreign_key "projet_aides", "aides"

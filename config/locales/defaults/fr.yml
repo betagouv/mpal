@@ -247,6 +247,7 @@ fr:
 
     intervenants:
       messages:
+        already_committed: "Vous avez déjà confirmé votre opérateur-conseil : %{operateur}"
         succes_choix_intervenant: "Vous avez confirmé votre opérateur-conseil : %{operateur}"
         erreur_choix_intervenant: "Une erreur est survenue"
     messages:
@@ -512,6 +513,10 @@ fr:
         sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
         sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
+
+    messagerie_mailer:
+      nouveau_message:
+        sujet: "[Anah] Vous avez reçu un nouveau message"
 
     paiement_mailer:
       destruction:

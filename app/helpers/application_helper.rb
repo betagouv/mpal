@@ -193,28 +193,27 @@ module ApplicationHelper
     [model, key].join("_")
   end
 
-  def i18n_simple_form_label(model, key)
+  def i18n_simple_form_label(model, key, sf_first = false)
     if key.to_s.include?(".")
       model, key = key.to_s.split(".")
     end
-    translation = t("activerecord.attributes.#{model}.#{key}", default: "")
-    translation = t("activerecord.attributes.defaults.#{key}", default: "") if translation.blank?
-    translation = t("simple_form.labels.#{model}.#{key}", default: "") if translation.blank?
-    translation = t("simple_form.labels.defaults.#{key}", default: "") if translation.blank?
-    translation = t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
-    translation
+    sequences = [
+      "activerecord.attributes.#{model}.#{key}",
+      "activerecord.attributes.defaults.#{key}",
+      "models.attributes.#{model}.#{key}",
+    ]
+    sequences.insert(sf_first ? 0 : 2, [
+      "simple_form.labels.#{model}.#{key}",
+      "simple_form.labels.defaults.#{key}",
+    ]).flatten.each do |sequence|
+      translation = t(sequence, default: "")
+      return translation if translation.present?
+    end
+    key.to_s.humanize
   end
 
   def sf_label(model, key)
-    if key.to_s.include?(".")
-      model, key = key.to_s.split(".")
-    end
-    translation = t("simple_form.labels.#{model}.#{key}", default: "")
-    translation = t("simple_form.labels.defaults.#{key}", default: "") if translation.blank?
-    translation = t("activerecord.attributes.#{model}.#{key}", default: "") if translation.blank?
-    translation = t("activerecord.attributes.defaults.#{key}", default: "") if translation.blank?
-    translation = t("models.attributes.#{model}.#{key}", default: key.to_s.humanize) if translation.blank?
-    translation
+    i18n_simple_form_label(model, key, true)
   end
 
   def dossier_opal_url(numero)

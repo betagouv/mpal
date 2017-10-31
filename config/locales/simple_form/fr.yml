@@ -47,7 +47,7 @@ fr:
         zip_code: "Code postal"
       avis_imposition:
         numero_fiscal: "Numéro fiscal"
-        reference_avis: "Référence avis"
+        reference_avis: "Référence de l’avis"
       contact:
         address: "Adresse postale"
         description: "Message"
@@ -96,11 +96,13 @@ fr:
         niveau_gir: "Niveau GIR"
         note_degradation: "Note de dégradation"
         note_insalubrite: "Node d’insalubrité"
+        numero_fiscal: "Numéro fiscal"
         personal_funding_amount: "Apport de fonds personnels"
         precisions_financement: "Précisions financement"
         precisions_travaux: "Précisions travaux proposés"
         presence_humidite: "Présence de traces d’humidité"
         public_aids_sum: "Total des aides publiques"
+        reference_avis: "Référence de l’avis"
         remarques_diagnostic: "Autres remarques"
         surface_habitable: "Surface habitable"
         theme_ids: "Types d’interventions"

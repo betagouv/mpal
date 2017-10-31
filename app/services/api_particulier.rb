@@ -22,9 +22,9 @@ private
   def requete_contribuable
     api_uri = uri
 
-    logger.debug "Started Api-Particuliers request \"#{api_uri}\""
+    logger.info "Started Api-Particuliers request \"#{api_uri}\""
     response = HTTParty.get(api_uri, headers: { 'X-API-KEY' => ENV['API_PARTICULIER_KEY'], 'accept' => "application/json" })
-    logger.debug "Completed Api-Particuliers request (#{response.code})"
+    logger.info "Completed Api-Particuliers request (#{response.code})"
     return nil unless 200 == response.code
 
     json = JSON.parse(response.body)

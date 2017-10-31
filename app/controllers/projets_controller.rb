@@ -8,6 +8,7 @@ class ProjetsController < ApplicationController
 
   def show
     # TODO flash à déplacer sur l’accueil
+    return redirect_to_project_if_exists if @projet_courant.invitations.blank?
     if @projet_courant.invited_pris && @projet_courant.pris_suggested_operateurs.blank?
       pris_name = @projet_courant.invited_pris.raison_sociale
       flash[:notice_html] = "#{pris_name} ne vous a pas encore proposé d’opérateur-conseil. <a href=\"#{new_projet_or_dossier_message_path}\">Contacter #{pris_name}</a>."

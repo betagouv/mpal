@@ -5,7 +5,6 @@ class Intervenant < ApplicationRecord
   has_many :projets, through: :invitations
 
   has_and_belongs_to_many :operations, order: :id
-  has_and_belongs_to_many :suggested_on_projets, class_name: 'Projet', join_table: 'suggested_operateurs'
 
   validates :raison_sociale, presence: true
   validates :email, presence: true, email: true
