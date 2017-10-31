@@ -41,7 +41,6 @@ gem 'select2-rails'
 gem 'state_machines'
 gem 'state_machines-activerecord'
 gem 'tether-rails'
-gem 'thin'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate'
 
