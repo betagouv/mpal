@@ -3,6 +3,7 @@ FactoryGirl.define do
     sequence(:raison_sociale) {|n| "Intervenant#{n}" }
     email 'contact@urbanos.com'
     departements ['75']
+    clavis_service_id "4321"
 
     factory :operateur do
       sequence(:raison_sociale) {|n| "Operateur#{n}" }

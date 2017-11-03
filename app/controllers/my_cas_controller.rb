@@ -18,3 +18,4 @@ private
     flash.delete(:error)
   end
 end
+

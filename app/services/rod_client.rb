@@ -5,3 +5,4 @@ class RodClient
   format :json
   headers "Authorization" => "Bearer #{ENV["ROD_API_KEY"]}"
 end
+

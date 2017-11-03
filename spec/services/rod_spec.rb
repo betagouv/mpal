@@ -2,6 +2,22 @@ require 'rails_helper'
 require 'support/rod_helper'
 
 describe Rod do
+  describe "#create_intervenant!" do
+    let(:clavis_service_id) { "1234" }
+    subject(:intervenant) { Rod.new(RodClient).create_intervenant!(clavis_service_id) }
+    before { Fakeweb::Rod.register_intervenant }
+
+    it {
+      expect(intervenant.clavis_service_id).to eq clavis_service_id
+      expect(intervenant.raison_sociale).to    eq "DREAL Provence-Alpes-Côte d'Azur"
+      expect(intervenant.adresse_postale).to   eq "16 Rue Zattara CS 70248 13331 MARSEILLE CEDEX"
+      expect(intervenant.departements).to      eq ["04", "05", "06", "13", "83", "84"]
+      expect(intervenant.email).to             eq "contact@example.com"
+      expect(intervenant.roles).to             eq ["dreal"]
+      expect(intervenant.phone).to             eq "0102030405"
+    }
+  end
+
   describe "#query_for" do
     let(:projet)           { create :projet, :with_demandeur, :with_demande }
     subject(:rod_response) { Rod.new(RodClient).query_for(projet) }
