@@ -90,6 +90,15 @@ private
     date.strftime("%Y-%m-%d")
   end
 
+  def serialize_numero_departement(projet)
+    departement = projet.adresse.departement
+    if departement.length == 1
+      return "00#{departement}"
+    elsif departement.length == 2
+      return "0#{departement}"
+    end
+  end
+
   def serialize_dossier(projet, agent_instructeur)
     lignes_adresse_postale  = split_adresse_into_lines(projet.adresse_postale.ligne_1)
     lignes_adresse_geo      = split_adresse_into_lines(projet.adresse.ligne_1)
@@ -134,7 +143,7 @@ private
           "adgLigne3": lignes_adresse_geo[2],
           "cdpCodePostal": projet.adresse.code_postal,
           "comCodeInsee": serialize_code_insee(projet.adresse.code_insee),
-          "dptNumero": projet.adresse.departement
+          "dptNumero": serialize_numero_departement(projet)
         }
       }
     }
