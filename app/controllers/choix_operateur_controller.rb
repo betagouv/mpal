@@ -3,6 +3,7 @@ class ChoixOperateurController < ApplicationController
 
   before_action :assert_projet_courant
   before_action :init_view
+  authorize_resource :class => false
 
   def new
     @suggested_operateurs = @projet_courant.pris_suggested_operateurs.shuffle
