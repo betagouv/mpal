@@ -31,9 +31,10 @@ p.content__question= "S'il y a d'autres occupants dans le logement, ajoutez leur
 
 .imposition-form__footer
   - if current_agent && current_agent.operateur?
-    = simple_form_for @projet_courant, url: dossier_update_project_rfr_path(@projet_courant), html: { method: :put, class: "form" } do |f|
-      = f.input :modified_revenu_fiscal_reference, as: :string, wrapper_html: { class: "size-s" }
-      = btn name: t("demarrage_projet.action"), class: "btn-centered", icon: "arrow-right"
+    .imposition-form__align-left
+      = simple_form_for @projet_courant, url: dossier_update_project_rfr_path(@projet_courant), html: { method: :put, class: "form" } do |f|
+        = f.input :modified_revenu_fiscal_reference, as: :string, wrapper_html: { class: "size-s" }
+        = btn name: t("demarrage_projet.action"), class: "btn-centered", icon: "arrow-right"
   - else
     - unless current_agent
       = btn name: t("demarrage_projet.go_back"), href: projet_demandeur_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true

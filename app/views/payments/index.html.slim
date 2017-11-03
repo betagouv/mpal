@@ -1,4 +1,4 @@
-- unless @projet_courant.opal_numero
+- unless @projet_courant.opal_numero || current_user.try(:demandeur?)
   .registry__warning
     p= t("payment_registry.info_only_prepare")
 
