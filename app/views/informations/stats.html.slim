@@ -1,3 +1,8 @@
+- content_for :head do
+  = stylesheet_link_tag    "chartist.min", media: "all"
+  = javascript_include_tag "chartist.min", async: Rails.env.production?
+  = javascript_include_tag "moment",       async: Rails.env.production?
+
 h2.stats__heading Depuis la création du service…
 
 .stats
@@ -7,6 +12,28 @@ h2.stats__heading Depuis la création du service…
   .stats__metric
     p.stats__metric-value= @project_count
     p.stats__metric-name demandes de projet
+
+h2.stats__heading Nouvelles demandes de projet par semaine…
+
+.stats
+  .ct-chart
+
+javascript:
+  var data = {
+    series: [{
+      data: [#{@project_count_by_week.map { |x| "{x: new Date(#{x[:date].to_time.to_f * 1000}), y: #{x[:total]}}" }.join(", ")}]
+    }]
+  };
+  var options = {
+    axisX: {
+      type: Chartist.FixedScaleAxis,
+      divisor: 5,
+      labelInterpolationFnc: function(value) {
+        return moment(value).format('MMM D Y');
+      }
+    }
+  };
+  new Chartist.Line('.ct-chart', data, options);
 
 h2.stats__heading Ces 30 derniers jours…
 

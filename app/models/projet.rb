@@ -166,8 +166,19 @@ class Projet < ApplicationRecord
     end
     joins(joins).where(conditions).group("projets.id")
   }
+  scope :created_since, ->(datetime) {
+    where("created_at >= ?", datetime)
+  }
   scope :updated_since, ->(datetime) {
     where("updated_at >= ?", datetime)
+  }
+  scope :count_by_week, -> {
+    fields = [
+      "DATE_PART('year', projets.created_at::date) AS year",
+      "DATE_PART('week', projets.created_at::date) AS week",
+      "COUNT(projets.id) AS total",
+    ]
+    select(fields.join(", ")).group("year, week").order("year, week")
   }
 
   def demandeur_user
