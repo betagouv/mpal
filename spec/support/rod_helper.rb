@@ -14,7 +14,7 @@ module Fakeweb
           "code_postal": "13331",
           "commune": "MARSEILLE CEDEX",
           "type_service": "DREAL",
-          "aut_gestion": false,
+          "autorite_gestion": false,
           "type_perimetre_geo": "region",
           "perimetre_geo": [
             "04",
