@@ -10,6 +10,7 @@ html lang="fr"
     = stylesheet_link_tag    "application", media: "all"
     = csrf_meta_tag
     = javascript_include_tag "application", async: Rails.env.production?
+    = yield :head
   body
     .main-container
       #beta-ribbon
