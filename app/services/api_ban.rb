@@ -14,7 +14,7 @@ class ApiBan
     code_postal = properties['postcode']
     code_insee  = properties['citycode']
     ville       = properties['city']
-    departement = properties['context'][0,2]
+    departement = properties['context'].split(",").first
     region      = parse_context(properties['context'])
 
     Adresse.new({
