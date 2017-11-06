@@ -538,7 +538,7 @@ class Projet < ApplicationRecord
     end
   end
 
-  def self.to_csv(agent)
+  def self.to_csv(agent, selected_projects)
     utf8 = CSV.generate(csv_options) do |csv|
       titles = [
         'Numéro plateforme',
@@ -561,7 +561,7 @@ class Projet < ApplicationRecord
       titles.insert 2, 'Région'             if agent.siege? || agent.operateur?
       titles.insert 1, 'Identifiant OPAL'   if agent.siege? || agent.instructeur? || agent.operateur?
       csv << titles
-      Projet.for_agent(agent).each do |projet|
+      selected_projects.each do |projet|
         line = [
           projet.numero_plateforme,
           projet.created_at,
