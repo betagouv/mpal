@@ -92,11 +92,7 @@ private
 
   def serialize_numero_departement(projet)
     departement = projet.adresse.departement
-    if departement.length == 1
-      return "00#{departement}"
-    elsif departement.length == 2
-      return "0#{departement}"
-    end
+    departement.rjust(3, '0') 
   end
 
   def serialize_dossier(projet, agent_instructeur)
