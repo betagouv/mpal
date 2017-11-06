@@ -273,7 +273,9 @@ describe Agent do
 
     context "si l’intervenant n’existe pas" do
       let(:clavis_service_id) { "1234" }
-      it { expect(agent.intervenant.clavis_service_id).to eq(clavis_service_id) }
+      it "crée un intervenant" do
+        expect(agent.intervenant.clavis_service_id).to eq(clavis_service_id)
+      end
     end
   end
 

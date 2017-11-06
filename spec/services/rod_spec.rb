@@ -2,9 +2,9 @@ require 'rails_helper'
 require 'support/rod_helper'
 
 describe Rod do
-  describe "#create_intervenant!" do
+  describe "#create_intervenant" do
     let(:clavis_service_id) { "1234" }
-    subject(:intervenant) { Rod.new(RodClient).create_intervenant!(clavis_service_id) }
+    subject(:intervenant) { Rod.new(RodClient).create_intervenant(clavis_service_id) }
     before { Fakeweb::Rod.register_intervenant }
 
     it {
@@ -15,6 +15,18 @@ describe Rod do
       expect(intervenant.email).to             eq "contact@example.com"
       expect(intervenant.roles).to             eq ["dreal"]
       expect(intervenant.phone).to             eq "0102030405"
+    }
+  end
+
+  describe "#create_intervenant!" do
+    let(:clavis_service_id) { "1234" }
+    let(:rod) { Rod.new(RodClient) }
+    subject(:intervenant) { rod.create_intervenant!(clavis_service_id) }
+    before { Fakeweb::Rod.register_intervenant }
+
+    it {
+      expect(rod).to receive(:create_intervenant).once.and_call_original
+      expect(intervenant).to be_persisted
     }
   end
 

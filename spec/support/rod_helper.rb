@@ -2,29 +2,31 @@ require 'dotenv'
 
 module Fakeweb
   class Rod
+    FakeResponse = {
+      "id_service": "1234",
+      "raison_sociale": "DREAL Provence-Alpes-Côte d'Azur",
+      "tel": "0102030405",
+      "email": "contact@example.com",
+      "adresse": "16 Rue Zattara CS 70248",
+      "code_postal": "13331",
+      "commune": "MARSEILLE CEDEX",
+      "type_service": "DREAL",
+      "autorite_gestion": false,
+      "type_perimetre_geo": "region",
+      "perimetre_geo": [
+        "04",
+        "05",
+        "06",
+        "13",
+        "83",
+        "84"
+      ]
+    }.freeze
+
     def self.register_intervenant
       FakeWeb.register_uri(
         :get, %r|#{ENV['ROD_API_BASE_URI']}service|,
-        body: JSON.generate({
-          "id_service": "1234",
-          "raison_sociale": "DREAL Provence-Alpes-Côte d'Azur",
-          "tel": "0102030405",
-          "email": "contact@example.com",
-          "adresse": "16 Rue Zattara CS 70248",
-          "code_postal": "13331",
-          "commune": "MARSEILLE CEDEX",
-          "type_service": "DREAL",
-          "autorite_gestion": false,
-          "type_perimetre_geo": "region",
-          "perimetre_geo": [
-            "04",
-            "05",
-            "06",
-            "13",
-            "83",
-            "84"
-          ]
-        }),
+        body: JSON.generate(FakeResponse),
         status: [200, "OK"]
       )
     end
