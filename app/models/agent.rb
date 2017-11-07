@@ -39,22 +39,17 @@ class Agent < ApplicationRecord
   end
 
   def cas_extra_attributes=(extra_attributes)
-    extra_attributes.each do |key, value|
-      case key.to_sym
-        when :Nom
-          self.nom = value
-        when :Prenom
-          self.prenom = value
-        when :Id
-          self.clavis_id = value
-        when :ServiceId
-          self.intervenant = Intervenant.find_or_create_by_clavis_service_id(value)
-      end
+    self.nom = extra_attributes[:Nom]
+    self.prenom = extra_attributes[:Prenom]
+    self.clavis_id = extra_attributes[:Id]
+    intervenant = Intervenant.from_clavis_id(extra_attributes[:ServiceId])
+    if intervenant.blank?
+      logger.warn "Agent #{id} : aucun intervenant trouvé pour le ServiceId '#{valeur}'"
     end
+    self.intervenant = intervenant
   end
 
   def fullname
     "#{prenom} #{nom}"
   end
 end
-

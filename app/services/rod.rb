@@ -9,10 +9,10 @@ class Rod
   ROLE_MAPPING = {
     "DREAL" =>      "dreal",
     "DEAT" =>       "deat",
-    "DL" =>         "instructeur",
-    "DLC2" =>       "instructeur",
-    "DLC3" =>       "instructeur",
-    "DL_AUT_GES" => "instructeur",
+    "DL" =>         "DL",
+    "DLC2" =>       "DLC2",
+    "DLC3" =>       "insDLC3",
+    "DL_AUT_GES" => "DL_AUT_GES",
   }
 
   def create_intervenant(clavis_service_id)

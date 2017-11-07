@@ -38,15 +38,13 @@ class Intervenant < ApplicationRecord
   alias_attribute :name, :raison_sociale
   alias_attribute :description_adresse, :adresse_postale
 
-  def self.find_or_create_by_clavis_service_id(clavis_service_id)
-    intervenant = Intervenant.find_by_clavis_service_id(clavis_service_id)
-    if intervenant.blank?
-      intervenant = Rod.new(RodClient).create_intervenant(clavis_service_id)
-      if intervenant.blank?
-        Rails.logger.error "Agent #{id} : aucun intervenant trouvé pour le intervenantId '#{clavis_service_id}'"
-      end
+  class << self
+    def from_clavis_id(id)
+      intervenant = where(clavis_service_id: id).first_or_initialize
+      updated_intervenant = Rod.new(RodClient).create_intervenant(id)
+      intervenant.update_attributes updated_intervenant.attributes.keep_if { |k, _v| !%w[id clavis_service_id].include?(k) }
+      intervenant
     end
-    intervenant
   end
 
   def instructeur?
