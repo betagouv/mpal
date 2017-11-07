@@ -26,16 +26,20 @@ feature "En tant que demandeur" do
   end
 
   context "quand je suis en opération programmée" do
-    before { Fakeweb::Rod.register_query_for_success_with_operation }
+    before {
+      ENV['ROD_ENABLED'] = 'scheduled_operation'
+    }
+    after {
+      ENV['ROD_ENABLED'] = 'true'
+    }
 
     scenario "Je suis informé qu'un contact va m'être proposé et je peux le contacter" do
       login_as user, scope: :user
 
       visit projet_mise_en_relation_path(projet)
-      click_button I18n.t('demarrage_projet.action')
 
-      expect(page).to have_current_path projet_path(projet)
-      # expect(page).to have_content I18n.t('projets.visualisation.choisir_operateur')
+      expect(page).to have_current_path projet_mise_en_relation_path(projet)
+      expect(page).to have_content Regexp.new(I18n.t('demarrage_projet.mise_en_relation.operation_programmee', operateur: 'Operateur\d+'))
     end
   end
 
@@ -46,7 +50,7 @@ feature "En tant que demandeur" do
       signin_for_new_projet_non_eligible
       projet.build_demande.update froid: true
       visit projet_mise_en_relation_path projet
-      # expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.non_eligible_recontacter', { pris: rod_response.pris_eie.raison_sociale })
+      expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.non_eligible_recontacter', { pris: rod_response.pris_eie.raison_sociale })
     end
   end
 end

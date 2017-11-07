@@ -629,7 +629,7 @@ class Projet < ApplicationRecord
   end
 
   def eligible?
-    !(preeligibilite(annee_fiscale_reference) == :plafond_depasse)
+    not (preeligibilite(annee_fiscale_reference) == :plafond_depasse)
   end
 
   #ACTIONS INSTRUCTEUR
