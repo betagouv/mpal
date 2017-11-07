@@ -27,6 +27,7 @@ private
       can :show,   Projet
       can :index,  Projet    if user == projet.mandataire_user
       can :read,   :intervenant
+      can [:new, :choose],   :choix_operateur unless projet.operateur.present?
       can :new,    Message
       can :read,   Document, category_type: "Projet",  category_id: projet.id
       can :read,   Document, category_type: "Payment", category_id: projet.payments.map(&:id)
