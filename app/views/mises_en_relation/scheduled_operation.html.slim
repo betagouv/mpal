@@ -1,0 +1,9 @@
+= simple_form_for @projet_courant, url: { controller: "mises_en_relation", action: "update" }, method: "patch", html: { class: "form" } do |f|
+  .mise-en-relation__contact-info
+    p= t("demarrage_projet.mise_en_relation.operation_programmee", { operateur: @operateur&.raison_sociale })
+    ul
+      li= @operateur.raison_sociale
+      li= @operateur.adresse_postale
+      li= @operateur.email
+      li= @operateur.phone
+  = btn name: @action_label, class: "btn-large btn-centered", icon: "arrow-right"
