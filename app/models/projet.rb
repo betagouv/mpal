@@ -549,16 +549,18 @@ class Projet < ApplicationRecord
     end
   end
 
-  def self.to_csv(agent)
+  def self.to_csv(agent, selected_projects)
     utf8 = CSV.generate(csv_options) do |csv|
       titles = [
         'Numéro plateforme',
+        'Date création',
         'Demandeur',
         'Ville',
         'Instructeur',
         'Types d’intervention',
         'Opérateur',
         'Date de visite',
+        'Date dépôt',
         'État',
         'Depuis',
       ]
@@ -570,15 +572,17 @@ class Projet < ApplicationRecord
       titles.insert 2, 'Région'             if agent.siege? || agent.operateur?
       titles.insert 1, 'Identifiant OPAL'   if agent.siege? || agent.instructeur? || agent.operateur?
       csv << titles
-      Projet.for_agent(agent).each do |projet|
+      selected_projects.each do |projet|
         line = [
           projet.numero_plateforme,
+          projet.created_at,
           projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
           projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
+          projet.date_depot.present? ? projet.date_depot : "",
           I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
         payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
