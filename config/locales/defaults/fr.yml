@@ -144,8 +144,9 @@ fr:
       titre: "Choisissez votre opérateur"
       assignement_pris_titre: "Mon contact"
       non_eligible_recontacter: "Si vous n’êtes pas recontacté dans un délai d’une semaine merci de bien vouloir contacter le Point Rénovation Info Service de votre département, « %{pris} », ou l’opérateur de l’opération programmée."
+      operation_programmee: "Votre contact est %{operateur} chargé de vous accompagner tout au long de votre projet"
       information_pris: "Votre contact est le Point Rénovation Info Service « %{pris} »."
-      to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
+      # to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Du lundi au vendredi (matin ou après-midi)"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
     # ----------------------- Compte utilisateur -------------------

@@ -437,7 +437,7 @@ class Projet < ApplicationRecord
       raise "Cannot invite an operator: the projet is already committed with an operator (#{operateur.raison_sociale})"
     end
 
-    invitation = Invitation.find_or_create_by!(projet: self, intervenant: operateur_to_contact)
+    invitation = Invitation.where(projet: self, intervenant: operateur_to_contact).first_or_create!
     invitation.update(contacted: true)
     Projet.notify_intervenant_of(invitation)
 
@@ -465,7 +465,7 @@ class Projet < ApplicationRecord
     previous_instructeur = invited_instructeur
     return if previous_instructeur == instructeur
 
-    Invitation.create! projet: self, intervenant: instructeur
+    Invitation.create! projet_id: self.id, intervenant_id: instructeur.id
 
     invitations.where(intervenant: previous_instructeur).first.try(:destroy!)
   end
@@ -481,7 +481,7 @@ class Projet < ApplicationRecord
     raise "To commit with an operateur there should be no pre-existing operateur" unless operateur.blank?
     raise "Cannot commit with an operateur: the operateur is empty" unless committed_operateur.present?
 
-    self.operateur = committed_operateur
+    self.update(operateur: committed_operateur)
     self.statut = :en_cours
     save
   end
@@ -586,7 +586,7 @@ class Projet < ApplicationRecord
           I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
         payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
-        
+
         line.insert 9, payment_statuses                        if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
         line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
@@ -626,6 +626,10 @@ class Projet < ApplicationRecord
       return true if payment.action.to_sym != :a_valider && payment.action.to_sym != :a_instruire
     end
     false
+  end
+
+  def eligible?
+    not (preeligibilite(annee_fiscale_reference) == :plafond_depasse)
   end
 
   #ACTIONS INSTRUCTEUR

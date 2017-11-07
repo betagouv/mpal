@@ -19,6 +19,18 @@ describe MisesEnRelationController do
       expect(response).to render_template(:show)
       expect(assigns(:page_heading)).to eq I18n.t("demarrage_projet.mise_en_relation.assignement_pris_titre")
     end
+
+    context "avec une seule opération programmée avec un opérateur" do
+      before do
+        Fakeweb::Rod.register_query_for_success_with_operation
+        expect_any_instance_of(RodResponse).to receive(:scheduled_operation?).and_return(true)
+      end
+
+      it "met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
+        get :show, params: { projet_id: projet.id }
+        expect(response).to render_template(:scheduled_operation)
+      end
+    end
   end
 
   describe "#update" do
@@ -62,6 +74,7 @@ describe MisesEnRelationController do
           expect(projet.disponibilite).to eq "plutôt le matin"
           expect(projet.invited_pris).not_to be_present
           expect(projet.invited_instructeur).to be_present
+          expect(projet.operateur).to be_present
         end
       end
 
