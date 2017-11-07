@@ -55,7 +55,7 @@ class MisesEnRelationController < ApplicationController
     @rod_response ||= if ENV['ROD_ENABLED'] == 'true'
                         Rod.new(RodClient).query_for(@projet_courant)
                       else
-                        FakeRodResponse.new(@projet_courant, ENV['ROD_ENABLED'])
+                        FakeRodResponse.new(ENV['ROD_ENABLED'])
                       end
   end
 

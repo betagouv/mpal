@@ -1,7 +1,7 @@
 class FakeRodResponse < RodResponse
   alias pris pris_eie
 
-  def initialize(projet, type)
+  def initialize(type)
     case type.to_sym
     when :scheduled_operation
       @pris        = FactoryGirl.create(:pris)
