@@ -45,17 +45,6 @@ class Intervenant < ApplicationRecord
       intervenant.update_attributes updated_intervenant.attributes.keep_if { |k, _v| !%w[id clavis_service_id].include?(k) }
       intervenant
     end
-
-    def find_or_create_by_clavis_service_id(clavis_service_id)
-      intervenant = Intervenant.find_by_clavis_service_id(clavis_service_id)
-      if intervenant.blank?
-        intervenant = Rod.new(RodClient).create_intervenant(clavis_service_id)
-        if intervenant.blank?
-          Rails.logger.error "Agent #{id} : aucun intervenant trouvé pour le intervenantId '#{clavis_service_id}'"
-        end
-      end
-      intervenant
-    end
   end
 
   def instructeur?
