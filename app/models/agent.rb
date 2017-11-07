@@ -39,6 +39,7 @@ class Agent < ApplicationRecord
   end
 
   def cas_extra_attributes=(extra_attributes)
+    extra_attributes = extra_attributes.with_indifferent_access
     self.nom = extra_attributes[:Nom]
     self.prenom = extra_attributes[:Prenom]
     self.clavis_id = extra_attributes[:Id]

@@ -25,7 +25,7 @@ module Fakeweb
 
     def self.register_intervenant
       FakeWeb.register_uri(
-        :get, %r|#{ENV['ROD_API_BASE_URI']}service|,
+        :get, %r|#{ENV['ROD_API_BASE_URI']}service\/\d+|,
         body: JSON.generate(FakeResponse),
         status: [200, "OK"]
       )
