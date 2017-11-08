@@ -375,4 +375,12 @@ describe DossiersController do
       end
     end
   end
+
+  describe "#changer_d_intervenant" do
+    context "en tant qu'admin" do
+      it "renvoie les intervenants du département" do
+
+      end
+    end
+  end
 end

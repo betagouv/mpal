@@ -2,31 +2,46 @@ require 'rails_helper'
 require 'support/rod_helper'
 
 describe Rod do
-  describe "#create_intervenant" do
-    let(:clavis_service_id) { "1234" }
-    subject(:intervenant) { Rod.new(RodClient).create_intervenant(clavis_service_id) }
-    before { Fakeweb::Rod.register_intervenant }
+  # describe "#create_intervenant" do
+  #   let(:clavis_service_id) { "1234" }
+  #   subject(:intervenant) { Rod.new(RodClient).create_intervenant(clavis_service_id) }
+  #   before { Fakeweb::Rod.register_intervenant }
+  #
+  #   it {
+  #     expect(intervenant.clavis_service_id).to eq clavis_service_id
+  #     expect(intervenant.raison_sociale).to    eq "DREAL Provence-Alpes-Côte d'Azur"
+  #     expect(intervenant.adresse_postale).to   eq "16 Rue Zattara CS 70248 13331 MARSEILLE CEDEX"
+  #     expect(intervenant.departements).to      eq ["04", "05", "06", "13", "83", "84"]
+  #     expect(intervenant.email).to             eq "contact@example.com"
+  #     expect(intervenant.roles).to             eq ["dreal"]
+  #     expect(intervenant.phone).to             eq "0102030405"
+  #   }
+  # end
+  #
+  # describe "#create_intervenant!" do
+  #   let(:clavis_service_id) { "1234" }
+  #   let(:rod) { Rod.new(RodClient) }
+  #   subject(:intervenant) { rod.create_intervenant!(clavis_service_id) }
+  #   before { Fakeweb::Rod.register_intervenant }
+  #
+  #   it {
+  #     expect(rod).to receive(:create_intervenant).once.and_call_original
+  #     expect(intervenant).to be_persisted
+  #   }
+  # end
+
+  describe "#list_intervenants" do
+    let(:departement) { "25" }
+    subject(:response) { Rod.new(RodClient).list_intervenants_rod(departement) }
+    before { Fakeweb::Rod.list_department_intervenants_helper }
 
     it {
-      expect(intervenant.clavis_service_id).to eq clavis_service_id
-      expect(intervenant.raison_sociale).to    eq "DREAL Provence-Alpes-Côte d'Azur"
-      expect(intervenant.adresse_postale).to   eq "16 Rue Zattara CS 70248 13331 MARSEILLE CEDEX"
-      expect(intervenant.departements).to      eq ["04", "05", "06", "13", "83", "84"]
-      expect(intervenant.email).to             eq "contact@example.com"
-      expect(intervenant.roles).to             eq ["dreal"]
-      expect(intervenant.phone).to             eq "0102030405"
-    }
-  end
-
-  describe "#create_intervenant!" do
-    let(:clavis_service_id) { "1234" }
-    let(:rod) { Rod.new(RodClient) }
-    subject(:intervenant) { rod.create_intervenant!(clavis_service_id) }
-    before { Fakeweb::Rod.register_intervenant }
-
-    it {
-      expect(rod).to receive(:create_intervenant).once.and_call_original
-      expect(intervenant).to be_persisted
+      puts response
+      expect(response.count).to eq 5
+      expect(response).to be_a(String)
+      expect(response[:operateurs].first.raison_sociale).to  eq "SOLIHA 25-90"
+      expect(response[:operateurs].first.id_clavis).to       eq 5262
+      expect(response[:operateurs].second.raison_sociale).to eq "AJJ"
     }
   end
 

@@ -23,6 +23,48 @@ module Fakeweb
       ]
     }.freeze
 
+    def self.list_department_intervenants_helper
+      FakeWeb.register_uri(
+        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants/:id|,
+        body: JSON.generate(
+          {
+            "operateurs":
+              [
+                {
+                  "id_clavis": 5262,
+                  "raison_sociale": "SOLIHA 25-90",
+                  "email": "demo-operateur@anah.gouv.fr",
+                  "siret": "",
+                  "adresse_postale":
+                    {
+                      "adresse": "30 rue Caporal Peugeot",
+                      "code_postal": "25000",
+                      "ville": "Besançon"
+                    },
+                  "tel": "",
+                  "web": ""
+                },
+                {
+                  "id_clavis": 5267,
+                  "raison_sociale": "AJJ",
+                  "email": "operateur25-1@anah.gouv.fr",
+                  "siret": "",
+                  "adresse_postale":
+                    {
+                      "adresse": "",
+                      "code_postal": "",
+                      "ville": ""
+                    },
+                  "tel": "",
+                  "web": ""
+                }
+              ],
+          }.merge(other_intervenants)
+        ),
+        status: [200, "OK"]
+      )
+    end
+
     def self.register_intervenant
       FakeWeb.register_uri(
         :get, %r|#{ENV['ROD_API_BASE_URI']}service\/\d+|,
@@ -61,7 +103,7 @@ module Fakeweb
                   "siret": "",
                   "adresse_postale":
                     {
-                      "adresse": "",
+                      "adresse": "30 rue Caporal Peugeot",
                       "code_postal": "",
                       "ville": ""
                     },

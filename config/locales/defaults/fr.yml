@@ -41,6 +41,12 @@ fr:
       power: "kWh"
       power_consumption: "kWh/m²/an"
 
+  # ----------------------- Admin ---------------------
+  admin:
+    rod:
+      rappel_rod: "Rappeler le ROD"
+      selection_intervenant: "Sélectionner un intervenant"
+
   # ----------------------- Page d’accueil ---------------------
   accueil:
     promesse: "Avec nous, améliorez l’habitat !"
