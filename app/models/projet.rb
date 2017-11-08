@@ -575,14 +575,14 @@ class Projet < ApplicationRecord
       selected_projects.each do |projet|
         line = [
           projet.numero_plateforme,
-          projet.created_at,
+          format_date(projet.created_at),
           projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
           projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
-          projet.date_depot.present? ? projet.date_depot : "",
+          projet.date_depot.present? ? format_date(projet.date_depot) : "",
           I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
         ]
         payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
