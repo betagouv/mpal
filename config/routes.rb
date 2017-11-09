@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+
+  match '*path' => redirect("service_indisponible.html"), via: [:get, :post, :patch]
   #COMMUN ENTRE DOSSIER ET PROJETS
   concern :projectable do
     resources :occupants, only: [:index, :new, :create, :edit, :update, :destroy] do
