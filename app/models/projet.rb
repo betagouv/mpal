@@ -388,7 +388,7 @@ class Projet < ApplicationRecord
 
   def annee_fiscale_reference
     avis_impositions.maximum(:annee)
-  end
+  end<
 
   def revenu_fiscal_reference_total
     calcul_revenu_fiscal_reference_total(annee_fiscale_reference)

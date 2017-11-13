@@ -5,7 +5,7 @@ require "support/api_ban_helper"
 require "support/rod_helper"
 
 describe MisesEnRelationController do
-  let(:projet) { create :projet, :prospect }
+  let(:projet)     { create :projet, :prospect }
 
   before(:each) { authenticate_as_project projet.id }
 
@@ -20,15 +20,27 @@ describe MisesEnRelationController do
       expect(assigns(:page_heading)).to eq I18n.t("demarrage_projet.mise_en_relation.assignement_pris_titre")
     end
 
-    context "avec une seule opération programmée avec un opérateur" do
+    context "si le demandeur est en opération programmée" do
       before do
         Fakeweb::Rod.register_query_for_success_with_operation
         expect_any_instance_of(RodResponse).to receive(:scheduled_operation?).and_return(true)
       end
 
-      it "met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
-        get :show, params: { projet_id: projet.id }
-        expect(response).to render_template(:scheduled_operation)
+      context "s'il est éligible" do
+        it "met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
+          get :show, params: { projet_id: projet.id }
+          expect(response).to render_template(:scheduled_operation)
+        end
+      end
+
+      context "s'il n'est pas éligible" do
+
+        before { projet.avis_impositions.first.update(revenu_fiscal_reference: 1000000) }
+
+        it "il est mis en relation avec le PRIS EIE" do
+          get :show, params: { projet_id: projet.id }
+          expect(response).to render_template(:show)
+        end
       end
     end
   end
