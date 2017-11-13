@@ -20,15 +20,27 @@ describe MisesEnRelationController do
       expect(assigns(:page_heading)).to eq I18n.t("demarrage_projet.mise_en_relation.assignement_pris_titre")
     end
 
-    context "avec une seule opération programmée avec un opérateur" do
+    context "si le demandeur est en opération programmée" do
       before do
         Fakeweb::Rod.register_query_for_success_with_operation
         expect_any_instance_of(RodResponse).to receive(:scheduled_operation?).and_return(true)
       end
 
-      it "met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
-        get :show, params: { projet_id: projet.id }
-        expect(response).to render_template(:scheduled_operation)
+      context "s'il est éligible" do
+        it "met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
+          get :show, params: { projet_id: projet.id }
+          expect(response).to render_template(:scheduled_operation)
+        end
+      end
+
+      context "s'il n'est pas éligible" do
+
+        before { projet.avis_impositions.first.update(revenu_fiscal_reference: 1000000) }
+
+        it "il est mis en relation avec le PRIS EIE" do
+          get :show, params: { projet_id: projet.id }
+          expect(response).to render_template(:show)
+        end
       end
     end
   end
@@ -70,11 +82,35 @@ describe MisesEnRelationController do
           projet.reload
         end
 
-        it "met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
-          expect(projet.disponibilite).to eq "plutôt le matin"
-          expect(projet.invited_pris).not_to be_present
-          expect(projet.invited_instructeur).to be_present
-          expect(projet.operateur).to be_present
+        context "il est eligible" do
+          it "s'il est éligible met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
+            expect(projet.disponibilite).to eq "plutôt le matin"
+            expect(projet.invited_pris).not_to be_present
+            expect(projet.invited_instructeur).to be_present
+            expect(projet.operateur).to be_present
+          end
+        end
+
+        context "il n'est pas eligible" do
+          before do
+            projet.avis_impositions.first.update(revenu_fiscal_reference: 1000000)
+
+            Fakeweb::Rod.register_query_for_success_with_operation
+            patch :update, params: {
+                projet_id: projet.id,
+                projet: {
+                    disponibilite: "plutôt le matin"
+                }
+            }
+            projet.reload
+          end
+
+          it "met à jour le projet et invite le PRIS EIE" do
+            expect(projet.disponibilite).to eq "plutôt le matin"
+            expect(projet.invited_pris).to be_present
+            expect(projet.invited_instructeur).to be_present
+            expect(projet.operateur).to be_present
+          end
         end
       end
 
