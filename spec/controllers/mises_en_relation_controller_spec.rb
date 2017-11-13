@@ -5,7 +5,7 @@ require "support/api_ban_helper"
 require "support/rod_helper"
 
 describe MisesEnRelationController do
-  let(:projet)     { create :projet, :prospect }
+  let(:projet) { create :projet, :prospect }
 
   before(:each) { authenticate_as_project projet.id }
 
@@ -82,11 +82,35 @@ describe MisesEnRelationController do
           projet.reload
         end
 
-        it "met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
-          expect(projet.disponibilite).to eq "plutôt le matin"
-          expect(projet.invited_pris).not_to be_present
-          expect(projet.invited_instructeur).to be_present
-          expect(projet.operateur).to be_present
+        context "il est eligible" do
+          it "s'il est éligible met à jour le projet, n’invite pas le PRIS et invite l’instructeur" do
+            expect(projet.disponibilite).to eq "plutôt le matin"
+            expect(projet.invited_pris).not_to be_present
+            expect(projet.invited_instructeur).to be_present
+            expect(projet.operateur).to be_present
+          end
+        end
+
+        context "il n'est pas eligible" do
+          before do
+            projet.avis_impositions.first.update(revenu_fiscal_reference: 1000000)
+
+            Fakeweb::Rod.register_query_for_success_with_operation
+            patch :update, params: {
+                projet_id: projet.id,
+                projet: {
+                    disponibilite: "plutôt le matin"
+                }
+            }
+            projet.reload
+          end
+
+          it "met à jour le projet et invite le PRIS EIE" do
+            expect(projet.disponibilite).to eq "plutôt le matin"
+            expect(projet.invited_pris).to be_present
+            expect(projet.invited_instructeur).to be_present
+            expect(projet.operateur).to be_present
+          end
         end
       end
 
