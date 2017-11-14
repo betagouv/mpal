@@ -1,0 +1,30 @@
+@import "variables";
+
+@media screen and (min-width: 600px) {
+  .project-layout {
+    //TODO ajouter le menu dossier
+    // display: flex;
+    height: 100%;
+  }
+}
+.project-layout__links {
+  display: none; //TODO ajouter le menu dossier
+  padding: 1em;
+  margin-top: 1em;
+  border-radius: 3px;
+  border: solid 3px $color-light-grey;
+  @media screen and (min-width: 600px) {
+    flex: 0 0 200px;
+    margin-left: 1em;
+    margin-top: 0;
+  }
+  @media screen and (min-width: 700px) {
+    flex: 0 0 250px;
+  }
+  @media screen and (min-width: 800px) {
+    flex: 0 0 300px;
+  }
+  @media screen and (min-width: 1200px) {
+    margin-left: 2em;
+  }
+}

@@ -10,6 +10,7 @@ shared_context :projet_without_user_abilities do
     is_expected.not_to be_able_to :read,   :intervenant
     is_expected.not_to be_able_to :read,   Document
     is_expected.not_to be_able_to :manage, Message
+    is_expected.not_to be_able_to :read, :choix_operateur
 
     is_expected.to     be_able_to :manage, AvisImposition
     is_expected.to     be_able_to :manage, Demande

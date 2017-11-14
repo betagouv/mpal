@@ -1,5 +1,4 @@
 class IntervenantsController < ApplicationController
-
   before_action :assert_projet_courant
   authorize_resource :class => false
 
@@ -10,6 +9,5 @@ class IntervenantsController < ApplicationController
     @instructeur  = @projet_courant.invited_instructeur
     @demandeur    = @projet_courant.demandeur
     @personne     = @projet_courant.personne
-    @civilite     = @projet_courant.personne&.civilite == "mrs" ? "Madame" : "Monsieur"
   end
 end

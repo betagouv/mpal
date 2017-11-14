@@ -14,7 +14,7 @@ class ApiBan
     code_postal = properties['postcode']
     code_insee  = properties['citycode']
     ville       = properties['city']
-    departement = properties['context'][0,2]
+    departement = properties['context'].split(",").first
     region      = parse_context(properties['context'])
 
     Adresse.new({
@@ -30,7 +30,7 @@ class ApiBan
   end
 
   def self.uri(adresse)
-    URI.escape "http://#{ENV['API_BAN_DOMAIN']}/search/?q=#{adresse}&autocomplete=0"
+    URI.escape "https://#{ENV['API_BAN_DOMAIN']}/search/?q=#{adresse}&autocomplete=0"
   end
 
 private

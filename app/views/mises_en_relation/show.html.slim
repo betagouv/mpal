@@ -1,9 +1,7 @@
 = simple_form_for @projet_courant, url: { controller: "mises_en_relation", action: "update" }, method: "patch", html: { class: "form" } do |f|
-  - if @not_eligible
+  - if !@projet_courant.eligible?
     p= t("demarrage_projet.mise_en_relation.non_eligible_recontacter", { pris: @pris.raison_sociale })
     = render "mises_en_relation/disponibilite_form", simple_form_builder: f
-  - elsif @operations.count == 1 && @operateurs.count == 1
-    p= t("demarrage_projet.mise_en_relation.to_operator")
   - else
     p= t("demarrage_projet.mise_en_relation.information_pris", { pris: @pris.raison_sociale })
     p Il pourra vous indiquer un opérateur conseil chargé de vous accompagner tout au long de votre projet.

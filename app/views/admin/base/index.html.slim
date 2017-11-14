@@ -1,7 +1,0 @@
-- content_for :sidebar do
-  = render "search_form"
-
-= render "admin/shared/paginate", items: @items
-= render "search_result", items: @items, deleters: can?(:destroy, controller_name.classify.constantize)
-- if @items.respond_to?(:total_pages) && 1 < @items.total_pages
-  = render "admin/shared/paginate", items: @items

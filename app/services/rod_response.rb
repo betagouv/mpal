@@ -9,6 +9,10 @@ class RodResponse
     @operations  = parse_operations(json)
   end
 
+  def scheduled_operation?
+    operations.count == 1 && operateurs.count == 1
+  end
+
 private
   def create_or_update_intervenant!(role, attributes)
     clavis_service_id = attributes["id_clavis"]
@@ -65,3 +69,4 @@ private
     end
   end
 end
+

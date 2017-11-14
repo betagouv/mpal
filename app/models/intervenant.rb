@@ -38,6 +38,15 @@ class Intervenant < ApplicationRecord
   alias_attribute :name, :raison_sociale
   alias_attribute :description_adresse, :adresse_postale
 
+  class << self
+    def from_clavis_id(id)
+      intervenant = where(clavis_service_id: id).first_or_initialize
+      updated_intervenant = Rod.new(RodClient).create_intervenant(id)
+      intervenant.update_attributes updated_intervenant.attributes.keep_if { |k, _v| !%w[id clavis_service_id].include?(k) }
+      intervenant
+    end
+  end
+
   def instructeur?
     (roles || []).include?('instructeur')
   end

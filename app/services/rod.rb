@@ -6,6 +6,38 @@ class Rod
     @client = client
   end
 
+  ROLE_MAPPING = {
+    "DREAL" =>      "dreal",
+    "DEAT" =>       "deat",
+    "DL" =>         "DL",
+    "DLC2" =>       "DLC2",
+    "DLC3" =>       "insDLC3",
+    "DL_AUT_GES" => "DL_AUT_GES",
+  }
+
+  def create_intervenant(clavis_service_id)
+    Rails.logger.info %(Started Api-ROD request "#{@client.base_uri}/service/#{clavis_service_id}")
+    start = Time.now
+    response = @client.get("/service/#{clavis_service_id}")
+    Rails.logger.info "Completed Api-ROD request (#{response.code}) in #{Time.now - start}s"
+    intervenant = Intervenant.new
+    intervenant.raison_sociale = response["raison_sociale"]
+    intervenant.adresse_postale = [response["adresse"], response["code_postal"], response["commune"]].reject(&:blank?).join(" ")
+    # DEV NOTE: themes à ajouter ?
+    intervenant.departements = response["perimetre_geo"]
+    intervenant.email = response["email"]
+    intervenant.roles = [ROLE_MAPPING[response["type_service"]]].compact
+    intervenant.clavis_service_id = response["id_service"]
+    intervenant.phone = response["tel"]
+    intervenant
+  end
+
+  def create_intervenant!(clavis_service_id)
+    intervenant = create_intervenant clavis_service_id
+    intervenant.save!
+    intervenant
+  end
+
   def query_for(projet)
     Rails.logger.info "Started Api-ROD request \"#{@client.base_uri}/intervenants\""
     start = Time.now

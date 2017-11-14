@@ -199,6 +199,7 @@ private
       if search.present?
         @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
       end
+      @selected_projects = @dossiers
     else
       @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
       if search.present?
@@ -209,6 +210,7 @@ private
       else
         @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
       end
+      @selected_projects = @invitations.map{ |invitation| invitation.projet }
     end
     respond_to do |format|
       format.html {
@@ -218,7 +220,7 @@ private
       format.csv {
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render plain: Projet.to_csv(current_agent)
+        render plain: Projet.to_csv(current_agent, @selected_projects)
         return false
       }
     end

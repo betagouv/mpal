@@ -26,17 +26,20 @@ feature "En tant que demandeur" do
   end
 
   context "quand je suis en opération programmée" do
-    before { Fakeweb::Rod.register_query_for_success_with_operation }
+    before {
+      ENV['ROD_ENABLED'] = 'scheduled_operation'
+    }
+    after {
+      ENV['ROD_ENABLED'] = 'true'
+    }
 
     scenario "Je suis informé qu'un contact va m'être proposé et je peux le contacter" do
       login_as user, scope: :user
 
       visit projet_mise_en_relation_path(projet)
-      expect(page).to have_content I18n.t('demarrage_projet.mise_en_relation.to_operator')
-      click_button I18n.t('demarrage_projet.action')
 
-      expect(page).to have_current_path projet_path(projet)
-      expect(page).to have_content I18n.t('projets.visualisation.choisir_operateur')
+      expect(page).to have_current_path projet_mise_en_relation_path(projet)
+      expect(page).to have_content Regexp.new(I18n.t('demarrage_projet.mise_en_relation.operation_programmee', operateur: 'Operateur\d+'))
     end
   end
 

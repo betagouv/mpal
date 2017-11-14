@@ -80,7 +80,7 @@ describe Opal do
         expect(adresse_geographique["adgLigne1"]).to eq "12 rue de la Mare"
         expect(adresse_geographique["cdpCodePostal"]).to eq "75010"
         expect(adresse_geographique["comCodeInsee"]).to eq "010"
-        expect(adresse_geographique["dptNumero"]).to eq "75"
+        expect(adresse_geographique["dptNumero"]).to eq "075"
       end
 
       it "met à jour le dossier avec la réponse d'Opal" do

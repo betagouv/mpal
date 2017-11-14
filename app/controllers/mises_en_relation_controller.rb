@@ -4,51 +4,64 @@ class MisesEnRelationController < ApplicationController
   before_action :assert_projet_courant
   before_action do
     set_current_registration_step Projet::STEP_MISE_EN_RELATION
-    @not_eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) == :plafond_depasse
   end
 
   def show
+    if rod_response.scheduled_operation? && (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse)
+      @operateur = rod_response.operateurs.first
+      @action_label = action_label
+      render :scheduled_operation
+      return
+    end
     @demande = @projet_courant.demande
-    fetch_intervenants_and_operations
-    if @pris.blank?
+    if pris.blank?
       Rails.logger.error "Il n’y a pas de PRIS disponible pour le département #{@projet_courant.departement} (projet_id: #{@projet_courant.id})"
       return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)
     end
+    @pris = pris
     @page_heading = I18n.t("demarrage_projet.mise_en_relation.assignement_pris_titre")
     @action_label = action_label
   end
 
   def update
-    begin
-      @projet_courant.update_attribute(:disponibilite, params[:projet][:disponibilite]) if params[:projet].present?
-      fetch_intervenants_and_operations
-      unless @projet_courant.intervenants.include?(@pris) || (@operations.count == 1 && @operateurs.count == 1)
-        invitation = @projet_courant.invite_pris!(@pris)
-        Projet.notify_intervenant_of(invitation) unless @not_eligible
-        flash[:success] = t("invitations.messages.succes", intervenant: @pris.raison_sociale)
-      end
-      @projet_courant.invite_instructeur! @instructeur
-      redirect_to projet_path(@projet_courant)
-    rescue => e
-      Rails.logger.error e.message
-      redirect_to projet_mise_en_relation_path(@projet_courant), alert: t("demarrage_projet.mise_en_relation.error")
+    eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse
+    @projet_courant.update_attribute(
+      :disponibilite,
+      params[:projet][:disponibilite]
+    ) if params[:projet].present?
+
+    if (@projet_courant.intervenants.include?(pris) || rod_response.scheduled_operation?) && eligible
+      operateur = rod_response.operateurs.first
+      @projet_courant.contact_operateur!(operateur.reload)
+      @projet_courant.commit_with_operateur!(operateur.reload)
+      flash[:success] = t("invitations.messages.succes", intervenant: operateur.raison_sociale)
+    else
+      invitation = @projet_courant.invite_pris!(pris)
+      Projet.notify_intervenant_of(invitation) if @projet_courant.eligible?
+      flash[:success] = t("invitations.messages.succes", intervenant: pris.raison_sociale)
     end
+    @projet_courant.invite_instructeur! rod_response.instructeur
+    redirect_to projet_path(@projet_courant)
+  rescue => e
+    Rails.logger.error e.message
+    redirect_to(
+      projet_mise_en_relation_path(@projet_courant),
+      alert: t("demarrage_projet.mise_en_relation.error")
+    )
   end
 
-private
-  def fetch_intervenants_and_operations
-    if ENV['ROD_ENABLED'] == 'true'
-      rod_response = Rod.new(RodClient).query_for(@projet_courant)
-      @pris        = @not_eligible ? rod_response.pris_eie : rod_response.pris
-      @instructeur = rod_response.instructeur
-      @operateurs  = rod_response.operateurs
-      @operations  = rod_response.operations
-    else
-      @pris        = @projet_courant.intervenants_disponibles(role: :pris).first
-      @instructeur = @projet_courant.intervenants_disponibles(role: :instructeur).first
-      @operateurs  = []
-      @operations  = []
-    end
+  private
+
+  def rod_response
+    @rod_response ||= if ENV['ROD_ENABLED'] == 'true'
+                        Rod.new(RodClient).query_for(@projet_courant)
+                      else
+                        FakeRodResponse.new(ENV['ROD_ENABLED'])
+                      end
+  end
+
+  def pris
+    !@projet_courant.eligible? ? rod_response.pris_eie : rod_response.pris
   end
 
   def action_label

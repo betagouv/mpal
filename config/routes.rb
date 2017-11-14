@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   #ROOT & PAGES STATIQUES
   root "homepage#index"
 
+  get "/maintenance",                to: "application#maintenance"
+
   get  "/informations/about",        to: "informations#about"
   get  "/informations/faq",          to: "informations#faq"
   get  "/informations/terms_of_use", to: "informations#terms_of_use"
@@ -89,6 +91,7 @@ Rails.application.routes.draw do
       patch    :choix_operateur,      action: :choose, controller: "choix_operateur"
       get      :engagement_operateur, action: :new,    controller: "engagement_operateur"
       post     :engagement_operateur, action: :create, controller: "engagement_operateur"
+      get      "invitations/:role",   action: :show,   controller: "invitations"
       get      :transmission,         action: :new,    controller: "transmission"
       post     :transmission,         action: :create, controller: "transmission"
       resources :payments, only: [:index, :ask_for_modification, :ask_for_instruction], param: :payment_id do
@@ -97,20 +100,9 @@ Rails.application.routes.draw do
       end
     end
 
-    get   "/projets/:projet_id/invitations/intervenant/:intervenant_id", to: "invitations#new", as: "new_invitation"
-    post  "/projets/:projet_id/invitations/intervenant/:intervenant_id", to: "invitations#create", as: "invitations"
-    get   "/projets/:projet_id/invitations/edition/intervenant/:intervenant_id", to: "invitations#edit", as: "edit_invitation"
-
     get "/reset" => "tools#reset_base"
 
     get "/instruction", to: "instruction#show", as: "instruction"
-  end
-
-  #PAGES ADMIN
-  namespace :admin do
-    get "/" => "home#index"
-    resources :themes
-    resources :intervenants
   end
 
   require "sidekiq/web"

@@ -1,6 +1,7 @@
 require "rails_helper"
 require "cancan/matchers"
 require "support/mpal_features_helper"
+require "support/rod_helper"
 
 describe Agent do
   describe "validations" do
@@ -30,6 +31,7 @@ describe Agent do
             let(:projet) { create :projet, :prospect, :with_contacted_operateur }
 
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
+            it { is_expected.not_to be_able_to([:new, :choose], :choix_operateur) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
             it { is_expected.not_to be_able_to(:read, Document) }
@@ -51,6 +53,7 @@ describe Agent do
             let(:projet) { create :projet, :en_cours}
 
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
+            it { is_expected.not_to be_able_to([:new, :choose], :choix_operateur) }
 
             it { is_expected.to be_able_to(:manage, AvisImposition) }
             it { is_expected.to be_able_to(:read, :intervenant) }
@@ -65,6 +68,7 @@ describe Agent do
             let(:projet) { create :projet, :transmis_pour_instruction, date_depot: DateTime.new(2017,02,04) }
 
             it { is_expected.not_to be_able_to(:manage, AvisImposition) }
+            it { is_expected.not_to be_able_to([:new, :choose], :choix_operateur) }
             it { is_expected.not_to be_able_to(:manage, Demande) }
             it { is_expected.not_to be_able_to(:manage, :demandeur) }
             it { is_expected.not_to be_able_to(:manage, :eligibility) }
@@ -85,6 +89,7 @@ describe Agent do
             let(:projet) { create :projet, :prospect, :with_invited_pris }
 
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
+            it { is_expected.not_to be_able_to([:new, :choose], :choix_operateur) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
             it { is_expected.not_to be_able_to(:read, :eligibility) }
@@ -100,6 +105,7 @@ describe Agent do
             let(:projet) { create :projet, :en_cours }
 
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
+            it { is_expected.not_to be_able_to([:new, :choose], :choix_operateur) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
             it { is_expected.not_to be_able_to(:read, Document) }
@@ -118,6 +124,7 @@ describe Agent do
             let(:agent)       { create :agent, intervenant: instructeur }
 
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
+            it { is_expected.not_to be_able_to([:new, :choose], :choix_operateur) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
             it { is_expected.not_to be_able_to(:read, Document) }
@@ -133,6 +140,7 @@ describe Agent do
             let(:agent)  { projet.agent_instructeur }
 
             it { is_expected.not_to be_able_to(:read, AvisImposition) }
+            it { is_expected.not_to be_able_to([:new, :choose], :choix_operateur) }
             it { is_expected.not_to be_able_to(:read, Demande) }
             it { is_expected.not_to be_able_to(:read, :demandeur) }
             it { is_expected.not_to be_able_to(:destroy, Document) }
@@ -259,14 +267,22 @@ describe Agent do
   describe "#cas_extra_attributes=" do
     let(:prenom) { "Jean" }
     let(:nom) { "Durand" }
-    let(:service_id) { "someserviceid" }
     let(:agent) { build :agent }
-    let!(:intervenant) { create :intervenant, clavis_service_id: service_id }
-    before { agent.cas_extra_attributes = { Prenom: prenom, Nom: nom, ServiceId: service_id } }
-    it "should translate successfully" do
-      expect(agent.prenom).to eq(prenom)
-      expect(agent.nom).to eq(nom)
-      expect(agent.intervenant).to eq(intervenant)
+    before { Fakeweb::Rod.register_intervenant }
+    before { agent.cas_extra_attributes = { Prenom: prenom, Nom: nom, ServiceId: clavis_service_id } }
+
+    context "si l’agent n’existe pas" do
+      let(:clavis_service_id) { "4321" }
+      it { expect(agent.prenom).to eq(prenom) }
+      it { expect(agent.nom).to eq(nom) }
+      it { expect(agent.intervenant.clavis_service_id).to eq(clavis_service_id) }
+    end
+
+    context "si l’intervenant n’existe pas" do
+      let(:clavis_service_id) { "1234" }
+      it "crée un intervenant" do
+        expect(agent.intervenant.clavis_service_id).to eq(clavis_service_id)
+      end
     end
   end
 
@@ -283,3 +299,4 @@ describe Agent do
     end
   end
 end
+

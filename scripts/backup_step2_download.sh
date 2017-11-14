@@ -15,7 +15,7 @@ if [ -z "$env" ]; then
   exit 2
 fi
 
-secrets=$($command -a anah-$env env | grep "POSTGRESQL_URL=" | sed "s/^.*=//")
+secrets=$($command -a anah-$env env | grep "POSTGRESQL_URL=" | sed "s/^[^=]*=//" | sed "s/\?.*$//")
 pgpassword=$(echo $secrets | sed "s/^.*:\([0-9a-zA-Z]*\)@.*$/\1/")
 pguser=$(echo $secrets | sed "s/^.*\/\/\([^:]*\):.*$/\1/")
 

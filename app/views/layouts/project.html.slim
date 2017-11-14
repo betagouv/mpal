@@ -8,4 +8,11 @@
     = render "shared/flash"
     - if @page_heading.present?
       h1.page-heading= @page_heading
-    = yield
+    - if @projet_courant
+      .project-layout
+        .project-layout__content
+          = yield
+        .project-layout__links
+          = render "projets/links", project: @projet_courant
+    - else
+      = yield
