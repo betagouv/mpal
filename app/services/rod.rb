@@ -10,10 +10,12 @@ class Rod
     "ANAH_SIEGE" => "siege",
     "DREAL" =>      "dreal",
     "DEAT" =>       "deat",
-    "DL" =>         "DL",
-    "DLC2" =>       "DLC2",
-    "DLC3" =>       "insDLC3",
+    "DL" =>         "instructeur",
+    "DLC2" =>       "instructeur",
+    "DLC3" =>       "instructeur",
     "DL_AUT_GES" => "DL_AUT_GES",
+    "OPER" =>       "operateur",
+    "PRIS" =>       "pris",
   }
 
   def create_intervenant(clavis_service_id)
