@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper, ApplicationConcern
 
   NOT_FOUND_ERROR_CLASSES = [
-    ActionController::RoutingError,
     ActionController::UrlGenerationError,
     ActiveRecord::RecordNotFound,
     ActionView::MissingTemplate
