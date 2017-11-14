@@ -7,6 +7,7 @@ class Rod
   end
 
   ROLE_MAPPING = {
+    "ANAH_SIEGE" => "siege",
     "DREAL" =>      "dreal",
     "DEAT" =>       "deat",
     "DL" =>         "DL",
@@ -26,7 +27,7 @@ class Rod
     # DEV NOTE: themes à ajouter ?
     intervenant.departements = response["perimetre_geo"]
     intervenant.email = response["email"]
-    intervenant.roles = [ROLE_MAPPING[response["type_service"]]].compact
+    intervenant.roles = [ROLE_MAPPING[response["type_service"]]].compact  
     intervenant.clavis_service_id = response["id_service"]
     intervenant.phone = response["tel"]
     intervenant
