@@ -21,6 +21,8 @@ Rails.application.routes.draw do
   #ROOT & PAGES STATIQUES
   root "homepage#index"
 
+  get "/maintenance",                to: "application#maintenance"
+
   get  "/informations/about",        to: "informations#about"
   get  "/informations/faq",          to: "informations#faq"
   get  "/informations/terms_of_use", to: "informations#terms_of_use"

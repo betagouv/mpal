@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
     ActionView::MissingTemplate
   ].freeze
 
+  before_action :check_for_maintenance
   protect_from_forgery with: :exception
 
   def initialize
@@ -20,6 +21,12 @@ class ApplicationController < ActionController::Base
       projet_or_dossier_path(Projet.find_by_id(projet_id))
     else
       stored_location_for(resource) || root_path
+    end
+  end
+
+  def check_for_maintenance
+    if ENV["WEBSITE_MAINTENANCE"] == "true" && params[:action] != "maintenance"
+      return render :maintenance
     end
   end
 
@@ -53,6 +60,9 @@ class ApplicationController < ActionController::Base
         format.html { redirect_to root_path, alert: exception.message }
       end
     end
+  end
+
+  def maintenance
   end
 
   private
