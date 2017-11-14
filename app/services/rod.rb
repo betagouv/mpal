@@ -7,12 +7,15 @@ class Rod
   end
 
   ROLE_MAPPING = {
+    "ANAH_SIEGE" => "siege",
     "DREAL" =>      "dreal",
     "DEAT" =>       "deat",
-    "DL" =>         "DL",
-    "DLC2" =>       "DLC2",
-    "DLC3" =>       "insDLC3",
+    "DL" =>         "instructeur",
+    "DLC2" =>       "instructeur",
+    "DLC3" =>       "instructeur",
     "DL_AUT_GES" => "DL_AUT_GES",
+    "OPER" =>       "operateur",
+    "PRIS" =>       "pris",
   }
 
   def create_intervenant(clavis_service_id)
@@ -26,7 +29,7 @@ class Rod
     # DEV NOTE: themes à ajouter ?
     intervenant.departements = response["perimetre_geo"]
     intervenant.email = response["email"]
-    intervenant.roles = [ROLE_MAPPING[response["type_service"]]].compact
+    intervenant.roles = [ROLE_MAPPING[response["type_service"]]].compact  
     intervenant.clavis_service_id = response["id_service"]
     intervenant.phone = response["tel"]
     intervenant
