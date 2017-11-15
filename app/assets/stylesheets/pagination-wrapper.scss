@@ -38,6 +38,16 @@
       color: white;
       background-color: $color-primary;
     }
+    em.current {
+      font-style : normal;
+      text-decoration: none;
+      display: inline-block;
+      background-color: $color-primary;
+      width: 30px;
+      border: solid 1px rgba(0, 0, 0, 0.15);
+      border-radius: 3px;
+      color: white;
+    }
     .prev a, .next a {
       width: 7em;
     }
