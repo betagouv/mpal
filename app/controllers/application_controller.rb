@@ -2,7 +2,6 @@ class ApplicationController < ActionController::Base
   include ApplicationHelper, ApplicationConcern
 
   NOT_FOUND_ERROR_CLASSES = [
-    ActionController::RoutingError,
     ActionController::UrlGenerationError,
     ActiveRecord::RecordNotFound,
     ActionView::MissingTemplate
@@ -40,6 +39,10 @@ class ApplicationController < ActionController::Base
 
   def debug_exception
     raise "Exception de test"
+  end
+
+  def error_not_found
+	render "errors/not_found"
   end
 
   rescue_from Exception, with: :render_error

@@ -112,5 +112,6 @@ Rails.application.routes.draw do
   mount Sidekiq::Web, at: "/sidekiq"
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  match '/*path', :to => 'application#error_not_found', :via => :all
 end
 
