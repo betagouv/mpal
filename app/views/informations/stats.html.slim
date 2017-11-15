@@ -1,7 +1,7 @@
 - content_for :head do
   = stylesheet_link_tag    "chartist.min", media: "all"
-  = javascript_include_tag "chartist.min", async: Rails.env.production?
-  = javascript_include_tag "moment",       async: Rails.env.production?
+  = javascript_include_tag "chartist.min"
+  = javascript_include_tag "moment"
 
 h2.stats__heading Depuis la création du service
 
