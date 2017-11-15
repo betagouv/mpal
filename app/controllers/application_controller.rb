@@ -42,6 +42,10 @@ class ApplicationController < ActionController::Base
     raise "Exception de test"
   end
 
+  def error_not_found
+	render "errors/not_found"
+  end
+
   rescue_from Exception, with: :render_error
 
   rescue_from CanCan::AccessDenied do |exception|
