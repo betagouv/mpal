@@ -3,7 +3,10 @@
     aside.col.col-aside
       .col-menu
         - if @projet.present?
-          = link_to t("Revenir à mon projet"), projet_path(@projet), class: "col-menu__item"
+          - if @projet.max_registration_step == 5
+            = link_to t("Revenir à mon projet"), projet_eligibility_path(@projet), class: "col-menu__item"
+          - else
+            = link_to t("Revenir à mon projet"), projet_path(@projet), class: "col-menu__item"
         - else
           = link_to t("menu.homepage"), root_path,              class: "col-menu__item"
         /= link_to t("menu.about"),   informations_about_path,  class: "col-menu__item"
