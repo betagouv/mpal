@@ -45,6 +45,8 @@
 }
 
 .header__anah-chartnum {
+  min-width: 270px;
+  
   @media screen and (min-width: 600px) {
     -webkit-box-ordinal-group: 2;
     -moz-box-ordinal-group: 2;
