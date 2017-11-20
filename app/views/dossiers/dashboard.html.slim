@@ -1,5 +1,5 @@
 .dashboard-dossiers
-  - items = @items
+  - items = @invitations || @dossiers
   = render "search_form", url: dossiers_path, show_export_button: items.present?
   = render "shared/paginate", items: items
   - if items.present?
