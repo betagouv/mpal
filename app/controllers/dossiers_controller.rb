@@ -194,7 +194,6 @@ private
     search = params[:search] || {}
     page = params[:page]
     per_page = params[:per_page]
-    end
     respond_to do |format|
       format.html {
         if current_agent.siege?
