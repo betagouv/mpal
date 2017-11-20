@@ -194,24 +194,14 @@ private
     search = params[:search] || {}
     page = params[:page]
     per_page = params[:per_page]
-    if current_agent.siege?
-      @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
-      if search.present?
-        @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-      end
-    else
-      @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
-      if search.present?
-        @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
-      end
-      if current_agent.operateur?
-        @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
-      else
-        @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
-      end
     end
     respond_to do |format|
       format.html {
+        if current_agent.siege?
+          @dossiers = Projet.get_selected_projects search Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
+        else
+          @invitations = Invitation.get_selected_projects search Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
+        end
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
