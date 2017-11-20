@@ -60,16 +60,4 @@ class Invitation < ApplicationRecord
     end
   end
 
-  def get_selected_projects search, invitations
-    if search.present?
-      invitations = invitations.for_text(search[:query]).for_intervenant_status(search[:status])
-    end
-    if current_agent.operateur?
-      invitations = invitations.visible_for_operateur(current_agent.intervenant)
-    else
-      invitations = invitations.where(intervenant_id: current_agent.intervenant_id)
-    end
-    return invitations.map{ |invitation| invitation.projet }
-  end
-
 end
