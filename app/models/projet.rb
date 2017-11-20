@@ -650,4 +650,11 @@ class Projet < ApplicationRecord
   def action_agent_pris?
     !status_already(:en_cours) && !pris_suggested_operateurs.present?
   end
+
+  def get_selected_projects projets
+    if search.present?
+      projets = projets.for_text(search[:query]).for_intervenant_status(search[:status])
+    end
+    return projets
+  end
 end
