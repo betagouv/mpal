@@ -60,7 +60,7 @@ class Invitation < ApplicationRecord
     end
   end
 
-  def get_selected_projects invitations
+  def get_selected_projects search invitations
     if search.present?
       invitations = invitations.for_text(search[:query]).for_intervenant_status(search[:status])
     end

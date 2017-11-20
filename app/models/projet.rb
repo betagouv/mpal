@@ -651,7 +651,7 @@ class Projet < ApplicationRecord
     !status_already(:en_cours) && !pris_suggested_operateurs.present?
   end
 
-  def get_selected_projects projets
+  def get_selected_projects search projets
     if search.present?
       projets = projets.for_text(search[:query]).for_intervenant_status(search[:status])
     end
