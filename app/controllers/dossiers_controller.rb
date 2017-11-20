@@ -204,14 +204,10 @@ private
       format.html {
         if current_agent.siege?
           @dossiers = @dossiers.paginate(page: page, per_page: per_page)
-          if search.present?
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
+          @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status]) if search.present?
         else
           @invitations = @invitations.paginate(page: page, per_page: per_page)
-          if search.present?
-            @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
+          @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status]) if search.present?
           @invitations = current_agent.operateur? ? @invitations.visible_for_operateur(current_agent.intervenant) :  @invitations.where(intervenant_id: current_agent.intervenant_id)
         end
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
@@ -221,16 +217,10 @@ private
         if current_agent.siege?
           @selected_projects = @dossiers
         else
-          if current_agent.operateur?
-            @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
-          else
-            @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
-          end
+          @invitations = current_agent.operateur? ? @invitations.visible_for_operateur(current_agent.intervenant) : @invitations.where(intervenant_id: current_agent.intervenant_id)
           @selected_projects = @invitations.map{ |invitation| invitation.projet }
         end
-        if search.present?
-          @selected_projects = @selected_projects.for_text(search[:query]).for_intervenant_status(search[:status])
-        end
+        @selected_projects = @selected_projects.for_text(search[:query]).for_intervenant_status(search[:status]) if search.present?
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
         render plain: Projet.to_csv(current_agent, @selected_projects)
