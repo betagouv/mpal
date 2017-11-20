@@ -196,15 +196,19 @@ private
     per_page = params[:per_page]
 
     respond_to do |format|
+        if current_agent.siege?
+          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+        else
+          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+        end
       format.html {
         if current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
+          @dossiers = @dossiers.paginate(page: page, per_page: per_page)
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
           end
-          @selected_projects = @dossiers
         else
-          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
+          @invitations = @invitations.paginate(page: page, per_page: per_page)
           if search.present?
             @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
           end
@@ -213,20 +217,17 @@ private
           else
             @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
           end
-          @selected_projects = @invitations.map{ |invitation| invitation.projet }
         end
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
       format.csv {
         if current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
           end
           @selected_projects = @dossiers
         else
-          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
           if search.present?
             @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
           end
