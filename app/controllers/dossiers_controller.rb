@@ -194,21 +194,26 @@ private
     search = params[:search] || {}
     page = params[:page]
     per_page = params[:per_page]
+    if current_agent.siege?
+      @projets = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+    else
+      @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+    end
     respond_to do |format|
       format.html {
         if current_agent.siege?
-          @dossiers = Projet.get_selected_projects search Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
+          @dossiers = Projet.get_selected_projects search @projets.paginate(page: page, per_page: per_page)
         else
-          @invitations = Invitation.get_selected_projects search Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
+          @invitations = Invitation.get_selected_projects search @invitations.paginate(page: page, per_page: per_page)
         end
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
       format.csv {
         if current_agent.siege?
-          @selected_projects = Projet.get_selected_projects search Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+          @selected_projects = Projet.get_selected_projects search @projets
         else
-          @selected_projects = Invitation.get_selected_projects search Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+          @selected_projects = Invitation.get_selected_projects search @invitations
         end
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
