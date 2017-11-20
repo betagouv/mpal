@@ -210,6 +210,7 @@ private
         else
           @items = @items.where(intervenant_id: current_agent.intervenant_id)
         end
+        @dossiers = @items
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
@@ -222,6 +223,7 @@ private
         else
           @items = @items.where(intervenant_id: current_agent.intervenant_id)
         end
+        @selected_projects = @items
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
         render plain: Projet.to_csv(current_agent, @selected_projects)
