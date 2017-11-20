@@ -212,31 +212,24 @@ private
           if search.present?
             @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
           end
-          if current_agent.operateur?
-            @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
-          else
-            @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
-          end
+          @invitations = current_agent.operateur? ? @invitations.visible_for_operateur(current_agent.intervenant) :  @invitations.where(intervenant_id: current_agent.intervenant_id)
         end
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
       format.csv {
         if current_agent.siege?
-          if search.present?
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
           @selected_projects = @dossiers
         else
-          if search.present?
-            @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
           if current_agent.operateur?
             @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
           else
             @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
           end
           @selected_projects = @invitations.map{ |invitation| invitation.projet }
+        end
+        if search.present?
+          @selected_projects = @selected_projects.for_text(search[:query]).for_intervenant_status(search[:status])
         end
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
