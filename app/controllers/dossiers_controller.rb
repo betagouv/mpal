@@ -195,15 +195,20 @@ private
     page = params[:page]
     per_page = params[:per_page]
 
+    if current_agent.siege?
+      @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+    else
+      @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+    end
     respond_to do |format|
       format.html {
         if current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
+          @dossiers = @dossiers.paginate(page: page, per_page: per_page)
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
           end
         else
-          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
+          @invitations = @invitations.paginate(page: page, per_page: per_page)
           if search.present?
             @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
           end
