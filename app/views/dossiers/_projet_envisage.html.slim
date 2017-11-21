@@ -1,8 +1,11 @@
 - content_for :popins do
   #intervenants.popin.popin--numero-fiscal
+    /= render 'dossiers/changer_d_intervenant'
     .popin__container
       p.popin__p Veuillez sélectionner un intervenants
-      p.popin__p Voici ma super liste.
+      p.popin__p
+        | Voici ma super liste: #{@departement_operateurs}
+
       p.popin__p.popin__p--centered
         = btn name: "Fermer", href: "#", class: "popin__close"
 
@@ -17,6 +20,7 @@ article.block.projet
       = affiche_demande_souhaitee(@projet_courant.demande)
       - if can? :manage, :all
         = link_to t('admin.rod.selection_intervenant'), "#", class: "btn btn-secondary js-popin", data: { target: "#intervenants" }
+        /= btn name: t('admin.rod.selection_intervenant'), href: dossier_changer_d_intervenant_path, class: "btn btn-secondary js-popin", data: { target: "#intervenants", toggle: "modal" }
         = btn name: t('admin.rod.rappel_rod'), href: "#", class: "btn btn-secondary"
 
       hr/

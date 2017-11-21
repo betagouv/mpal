@@ -1,0 +1,11 @@
+- content_for :popins do
+  p Hello World
+  p= @departement_intervenants
+  #intervenants.popin.popin--numero-fiscal
+    .popin__container
+      p.popin__p Veuillez sélectionner un intervenants
+      p.popin__p
+        | Voici ma super liste:
+
+      p.popin__p.popin__p--centered
+        = btn name: "Fermer", href: "#", class: "popin__close"

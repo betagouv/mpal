@@ -23,44 +23,43 @@ module Fakeweb
       ]
     }.freeze
 
+    FakeResponseList = {
+      "operateurs": [
+        {
+          "id_clavis": 5262,
+          "raison_sociale": "SOLIHA 25-90",
+          "email": "demo-operateur@anah.gouv.fr",
+          "siret": "",
+          "adresse_postale":
+            {
+              "adresse": "30 rue Caporal Peugeot",
+              "code_postal": "25000",
+              "ville": "Besançon"
+            },
+          "tel": "",
+          "web": ""
+        },
+        {
+          "id_clavis": 5267,
+          "raison_sociale": "AJJ",
+          "email": "operateur25-1@anah.gouv.fr",
+          "siret": "",
+          "adresse_postale":
+            {
+              "adresse": "30 rue Caporal Peugeot",
+              "code_postal": "25000",
+              "ville": "Besançon"
+            },
+          "tel": "",
+          "web": ""
+        }
+      ],
+    }
+
     def self.list_department_intervenants_helper
       FakeWeb.register_uri(
-        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants/:id|,
-        body: JSON.generate(
-          {
-            "operateurs":
-              [
-                {
-                  "id_clavis": 5262,
-                  "raison_sociale": "SOLIHA 25-90",
-                  "email": "demo-operateur@anah.gouv.fr",
-                  "siret": "",
-                  "adresse_postale":
-                    {
-                      "adresse": "30 rue Caporal Peugeot",
-                      "code_postal": "25000",
-                      "ville": "Besançon"
-                    },
-                  "tel": "",
-                  "web": ""
-                },
-                {
-                  "id_clavis": 5267,
-                  "raison_sociale": "AJJ",
-                  "email": "operateur25-1@anah.gouv.fr",
-                  "siret": "",
-                  "adresse_postale":
-                    {
-                      "adresse": "",
-                      "code_postal": "",
-                      "ville": ""
-                    },
-                  "tel": "",
-                  "web": ""
-                }
-              ],
-          }.merge(other_intervenants)
-        ),
+        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants/\d+|,
+        body: JSON.generate( FakeResponseList.merge(other_intervenants)),
         status: [200, "OK"]
       )
     end
@@ -68,14 +67,14 @@ module Fakeweb
     def self.register_intervenant
       FakeWeb.register_uri(
         :get, %r|#{ENV['ROD_API_BASE_URI']}service\/\d+|,
-        body: JSON.generate(FakeResponse),
+        body: JSON.generate(FakeResponse.merge(other_intervenants)),
         status: [200, "OK"]
       )
     end
 
     def self.register_query_for_success_without_operation_programmee
       FakeWeb.register_uri(
-        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants|,
+        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants[^\/]|,
         body: JSON.generate(
           {
             "code_commune": "25411",
@@ -119,7 +118,7 @@ module Fakeweb
 
     def self.register_query_for_success_with_operation
       FakeWeb.register_uri(
-        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants|,
+        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants[^\/]|,
         body: JSON.generate(
           {
             "code_commune": "25411",
@@ -156,7 +155,7 @@ module Fakeweb
 
     def self.register_query_for_success_with_operations
       FakeWeb.register_uri(
-        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants|,
+        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants[^\/]|,
         body: JSON.generate(
           {
             "code_commune": "25411",
@@ -214,7 +213,7 @@ module Fakeweb
 
     def self.register_query_for_failure
       FakeWeb.register_uri(
-        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants|,
+        :get, %r|#{ENV['ROD_API_BASE_URI']}intervenants[^\/]|,
         body: JSON.generate(
           {
             error: "Applicant's adress is not found. Check if adress is correct"

@@ -6,7 +6,6 @@ class DossiersController < ApplicationController
   load_and_authorize_resource class: "Projet"
   skip_load_and_authorize_resource only: [:index, :home, :indicateurs, :update_api_particulier]
 
-
   def affecter_agent
     if @projet_courant.update_attribute(:agent, current_agent)
       flash[:notice] = t('projets.visualisation.projet_affecte')
@@ -56,19 +55,30 @@ class DossiersController < ApplicationController
 
   def changer_d_intervenant
     # lister les intervenants du département
-    @departement_intervenants = fetch_departement_intervenants(projet)
+    departement_intervenants = fetch_departement_intervenants(@projet_courant)
+    @departement_operateurs = departement_intervenants["operateurs"]
+
+    @operateur_raison_sociale = []
+
+    # for operateur in @departement_operateurs:
+    #   ope = {}
+    #   ope.raison_sociale = operateur.raison_sociale
+    #   # ope.
+    #   @operateur_raison_sociale.append(ope)
+    # end
+
+    # @departement_instructeurs = fetch_departement_intervenants(@projet_courant)["service_instructeur"]
+    # @departement_dlc2 = fetch_departement_intervenants(@projet_courant)["dlc2"]
+    # @departement_pris_anah = fetch_departement_intervenants(@projet_courant)["pris_anah"]
+    # @departement_pris_eie = fetch_departement_intervenants(@projet_courant)["pris_eie"]
+
+    # @operateurs = @departement_intervenants[:operateurs]
 
     # sélectionner un nouvel intervenant
     # l'associer à un rôle
     # enregistrer le changement
-  end
+    # render 'changer_d_intervenant'
 
-  #TODO: A PASSER EN PRIVE
-  def fetch_departement_intervenants(projet)
-    if ENV['ROD_ENABLED'] == 'true'
-      rod_response = Rod.new(RodClient).query_for(projet.adresse.departement)
-      # rod_response.intervenants
-    end
   end
 
   def proposition
@@ -123,7 +133,9 @@ class DossiersController < ApplicationController
   end
 
   def show
+    changer_d_intervenant
     render_show
+
   end
 
   def update_api_particulier
@@ -182,12 +194,21 @@ class DossiersController < ApplicationController
     "dossiers_#{Time.now.strftime('%Y-%m-%d_%H-%M')}.csv"
   end
 
-  def fetch_operateurs(departement)
+  def fetch_operateurs
     if ENV['ROD_ENABLED'] == 'true'
-      rod_response = Rod.new(RodClient).list_intervenants(departement)
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
       rod_response.operateurs
     else
       @projet_courant.intervenants_disponibles(role: :operateur)
+    end
+  end
+
+  def fetch_departement_intervenants(projet)
+    if ENV['ROD_ENABLED'] == 'true'
+      Rod.new(RodClient).list_intervenants_rod(projet.adresse.departement)
+    else
+      # TODO
+      # projet.intervenants.pour_departement(departement)
     end
   end
 

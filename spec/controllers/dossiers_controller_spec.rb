@@ -377,9 +377,30 @@ describe DossiersController do
   end
 
   describe "#changer_d_intervenant" do
-    context "en tant qu'admin" do
-      it "renvoie les intervenants du département" do
+    let!(:agent) { create :agent, admin: true}
 
+    before { authenticate_as_agent agent }
+
+    context "en tant qu'admin" do
+      let(:adresse_du_25)   { create :adresse, :rue_des_brosses}
+      let(:projet_du_25)    { create :projet, :prospect, adresse_postale: adresse_du_25 }
+      # let(:operateur_du_25) { create :operateur, departements: ["25", "10"] }
+      # let(:operateur_du_35) { create :operateur, departements: ["35", "10"] }
+      # let(:pris_du_25)      { create :pris, departements: ["25"] }
+
+
+      before { Fakeweb::Rod.list_department_intervenants_helper }
+
+      it "renvoie les intervenants du département" do
+        get :show, params: { dossier_id: projet_du_25.id }
+        expect(response).to have_http_status 200
+        # raise @controller.instance_variables.inspect
+        expect(assigns(:departement_operateurs).count).to eq 2
+        expect(assigns(:departement_operateurs)[0]).to eq 2
+        # expect(assigns(:departement_instructeurs).count).to eq 1
+        # expect(assigns(:departement_dlc2).count).to eq 1
+        # expect(assigns(:departement_pris_anah).count).to eq 1
+        # expect(assigns(:departement_pris_eie).count).to eq 1
       end
     end
   end
