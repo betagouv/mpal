@@ -15,6 +15,14 @@ class DossiersController < ApplicationController
     redirect_to dossier_path(@projet_courant)
   end
 
+  def changer_d_intervenant
+    departement_intervenants = fetch_departement_intervenants(@projet_courant).with_indifferent_access
+    @departement_operateurs = departement_intervenants["operateurs"]
+    @departement_instructeurs = departement_intervenants["service_instructeur"]
+    @departement_pris_anah = departement_intervenants["pris_anah"]
+    @departement_pris_eie = departement_intervenants["pris_eie"]
+  end
+
   def home
     if render_index
       @page_heading = "Accueil"
@@ -53,32 +61,18 @@ class DossiersController < ApplicationController
     @status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
   end
 
-  def changer_d_intervenant
-    # lister les intervenants du département
-    departement_intervenants = fetch_departement_intervenants(@projet_courant)
-    @departement_operateurs = departement_intervenants["operateurs"]
-
-    @operateur_raison_sociale = []
-
-    # for operateur in @departement_operateurs:
-    #   ope = {}
-    #   ope.raison_sociale = operateur.raison_sociale
-    #   # ope.
-    #   @operateur_raison_sociale.append(ope)
-    # end
-
-    # @departement_instructeurs = fetch_departement_intervenants(@projet_courant)["service_instructeur"]
-    # @departement_dlc2 = fetch_departement_intervenants(@projet_courant)["dlc2"]
-    # @departement_pris_anah = fetch_departement_intervenants(@projet_courant)["pris_anah"]
-    # @departement_pris_eie = fetch_departement_intervenants(@projet_courant)["pris_eie"]
-
-    # @operateurs = @departement_intervenants[:operateurs]
-
-    # sélectionner un nouvel intervenant
-    # l'associer à un rôle
-    # enregistrer le changement
-    # render 'changer_d_intervenant'
-
+  def proposer
+    @projet_courant.statut = :proposition_proposee
+    if @projet_courant.save(context: :proposition)
+      message = I18n.t('notification_validation_dossier.succes',
+                       demandeur: @projet_courant.demandeur.fullname)
+      ProjetMailer.notification_validation_dossier(@projet_courant).deliver_later!
+      EvenementEnregistreurJob.perform_later(label: 'validation_proposition', projet: @projet_courant, producteur: @projet_courant.operateur)
+      redirect_to projet_or_dossier_path(@projet_courant), notice: message
+    else
+      @projet_courant.restore_statut!
+      render_proposition
+    end
   end
 
   def proposition
@@ -94,20 +88,6 @@ class DossiersController < ApplicationController
       end
     end
     render_proposition
-  end
-
-  def proposer
-    @projet_courant.statut = :proposition_proposee
-    if @projet_courant.save(context: :proposition)
-      message = I18n.t('notification_validation_dossier.succes',
-      demandeur: @projet_courant.demandeur.fullname)
-      ProjetMailer.notification_validation_dossier(@projet_courant).deliver_later!
-      EvenementEnregistreurJob.perform_later(label: 'validation_proposition', projet: @projet_courant, producteur: @projet_courant.operateur)
-      redirect_to projet_or_dossier_path(@projet_courant), notice: message
-    else
-      @projet_courant.restore_statut!
-      render_proposition
-    end
   end
 
   def recommander_operateurs
@@ -135,7 +115,6 @@ class DossiersController < ApplicationController
   def show
     changer_d_intervenant
     render_show
-
   end
 
   def update_api_particulier
@@ -207,8 +186,7 @@ class DossiersController < ApplicationController
     if ENV['ROD_ENABLED'] == 'true'
       Rod.new(RodClient).list_intervenants_rod(projet.adresse.departement)
     else
-      # TODO
-      # projet.intervenants.pour_departement(departement)
+      Fakeweb::Rod::FakeResponseList
     end
   end
 

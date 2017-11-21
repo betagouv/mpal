@@ -7,7 +7,10 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
   let(:projet) { create :projet, :en_cours, :with_committed_operateur }
   let(:agent_operateur) { create :agent, intervenant: projet.operateur }
 
-  before { login_as agent_operateur, scope: :agent }
+  before do
+    Fakeweb::Rod.list_department_intervenants_helper
+    login_as agent_operateur, scope: :agent
+  end
 
   scenario "je peux modifier les informations personnelles du demandeur" do
     visit dossier_path(projet)

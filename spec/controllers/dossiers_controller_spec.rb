@@ -3,6 +3,8 @@ require "support/mpal_helper"
 require "support/rod_helper"
 
 describe DossiersController do
+  before { Fakeweb::Rod.list_department_intervenants_helper }
+
   context "en tant qu'agent, si je ne suis pas connecté" do
     context "quand j'essaie d'accéder au tableau de bord" do
       subject { get :index }
@@ -384,23 +386,18 @@ describe DossiersController do
     context "en tant qu'admin" do
       let(:adresse_du_25)   { create :adresse, :rue_des_brosses}
       let(:projet_du_25)    { create :projet, :prospect, adresse_postale: adresse_du_25 }
-      # let(:operateur_du_25) { create :operateur, departements: ["25", "10"] }
-      # let(:operateur_du_35) { create :operateur, departements: ["35", "10"] }
-      # let(:pris_du_25)      { create :pris, departements: ["25"] }
-
-
-      before { Fakeweb::Rod.list_department_intervenants_helper }
 
       it "renvoie les intervenants du département" do
         get :show, params: { dossier_id: projet_du_25.id }
-        expect(response).to have_http_status 200
-        # raise @controller.instance_variables.inspect
+
         expect(assigns(:departement_operateurs).count).to eq 2
-        expect(assigns(:departement_operateurs)[0]).to eq 2
-        # expect(assigns(:departement_instructeurs).count).to eq 1
-        # expect(assigns(:departement_dlc2).count).to eq 1
-        # expect(assigns(:departement_pris_anah).count).to eq 1
-        # expect(assigns(:departement_pris_eie).count).to eq 1
+        expect(assigns(:departement_instructeurs).count).to eq 1
+        expect(assigns(:departement_pris_anah).count).to eq 1
+        expect(assigns(:departement_pris_eie).count).to eq 1
+
+        expect(assigns(:departement_operateurs).first["id_clavis"]).to eq 5262
+        expect(assigns(:departement_operateurs).first["raison_sociale"]).to eq "SOLIHA 25-90"
+        expect(assigns(:departement_operateurs).first["email"]).to eq "demo-operateur@anah.gouv.fr"
       end
     end
   end

@@ -32,7 +32,7 @@ describe Rod do
 
   describe "#list_intervenants_rod" do
     let(:departement) { "25" }
-    subject(:response) { Rod.new(RodClient).list_intervenants_rod(departement).parsed_response }
+    subject(:response) { Rod.new(RodClient).list_intervenants_rod(departement) }
     before { Fakeweb::Rod.list_department_intervenants_helper }
 
     it { expect(subject).to eq(Fakeweb::Rod::FakeResponseList.with_indifferent_access) }

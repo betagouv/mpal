@@ -2,12 +2,17 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
+require 'support/rod_helper'
 
 feature "Accéder aux informations du dossier :" do
   let(:projet)      { create :projet, :prospect, :with_contacted_operateur, :with_invited_instructeur, :with_invited_pris, :with_account }
   let(:operateur)   { projet.contacted_operateur }
   let(:instructeur) { projet.invited_instructeur }
   let(:pris)        { projet.invited_pris }
+
+  before(:each) do
+    Fakeweb::Rod.list_department_intervenants_helper
+  end
 
   shared_examples "je peux consulter mon projet" do
     specify do

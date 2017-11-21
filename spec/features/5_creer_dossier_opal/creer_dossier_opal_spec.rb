@@ -1,6 +1,7 @@
 require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/opal_helper'
+require 'support/rod_helper'
 
 feature "Créer le dossier dans Opal" do
   let(:projet) { create :projet, statut }
@@ -8,7 +9,10 @@ feature "Créer le dossier dans Opal" do
   context "en tant qu'agent instructeur" do
     let(:instructeur) { projet.intervenants.instructeur.first }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
-    before { login_as agent_instructeur, scope: :agent }
+    before do
+      Fakeweb::Rod.list_department_intervenants_helper
+      login_as agent_instructeur, scope: :agent
+    end
 
     context "avant que le dossier ne soit transmis" do
       let(:statut) { :transmis_pour_instruction }

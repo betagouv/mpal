@@ -1,10 +1,20 @@
 - content_for :popins do
   #intervenants.popin.popin--numero-fiscal
-    /= render 'dossiers/changer_d_intervenant'
     .popin__container
-      p.popin__p Veuillez sélectionner un intervenants
+      p.popin__p Veuillez sélectionner un intervenant du département #{@projet_courant.adresse_postale.departement} :
       p.popin__p
-        | Voici ma super liste: #{@departement_operateurs}
+        ul Opérateur :
+        - @departement_operateurs.each do |intervenant|
+          li= intervenant["raison_sociale"]
+        ul Instructeur :
+        - @departement_instructeurs.each do |intervenant|
+          li= intervenant["raison_sociale"]
+        ul PRIS Anah :
+        - @departement_pris_anah.each do |intervenant|
+          li= intervenant["raison_sociale"]
+        ul PRIS EIE :
+        - @departement_pris_eie.each do |intervenant|
+          li= intervenant["raison_sociale"]
 
       p.popin__p.popin__p--centered
         = btn name: "Fermer", href: "#", class: "popin__close"
@@ -20,30 +30,30 @@ article.block.projet
       = affiche_demande_souhaitee(@projet_courant.demande)
       - if can? :manage, :all
         = link_to t('admin.rod.selection_intervenant'), "#", class: "btn btn-secondary js-popin", data: { target: "#intervenants" }
-        /= btn name: t('admin.rod.selection_intervenant'), href: dossier_changer_d_intervenant_path, class: "btn btn-secondary js-popin", data: { target: "#intervenants", toggle: "modal" }
         = btn name: t('admin.rod.rappel_rod'), href: "#", class: "btn btn-secondary"
 
       hr/
-      h4 Organisme choisi pour accompagner le projet :
-      - operateur = @projet_courant.contacted_operateur
-      - if operateur.present?
-        .description-operateur
-          strong= operateur.raison_sociale
-          p= operateur.description_adresse
-        - if current_agent
-          p
-            | Vous pouvez à présent dialoguer avec le demandeur par la
-            =< link_to "messagerie", new_projet_or_dossier_message_path(@projet_courant)
-            | . Vous serez informé par email pour chaque réponse de sa part.
-      - else
-        p
-          = t('projets.envisage.operateur.aucun')
-        - suggested_operateurs = @projet_courant.pris_suggested_operateurs
-        - if suggested_operateurs.present?
-          h4 = t('projets.envisage.operateurs_recommandes')
-          ul
-          - suggested_operateurs.each do |operateur|
-            li = operateur.raison_sociale
-          = btn name: t('recommander_operateurs.modifier'), href: dossier_recommander_operateurs_path(@projet_courant)
+      .operateurs_choisis-test
+        h4 Organisme choisi pour accompagner le projet :
+        - operateur = @projet_courant.contacted_operateur
+        - if operateur.present?
+          .description-operateur
+            strong= operateur.raison_sociale
+            p= operateur.description_adresse
+          - if current_agent
+            p
+              | Vous pouvez à présent dialoguer avec le demandeur par la
+              =< link_to "messagerie", new_projet_or_dossier_message_path(@projet_courant)
+              | . Vous serez informé par email pour chaque réponse de sa part.
         - else
-          = btn name: t('recommander_operateurs.recommander'), href: dossier_recommander_operateurs_path(@projet_courant)
+          p
+            = t('projets.envisage.operateur.aucun')
+          - suggested_operateurs = @projet_courant.pris_suggested_operateurs
+          - if suggested_operateurs.present?
+            h4 = t('projets.envisage.operateurs_recommandes')
+            ul
+            - suggested_operateurs.each do |operateur|
+              li = operateur.raison_sociale
+            = btn name: t('recommander_operateurs.modifier'), href: dossier_recommander_operateurs_path(@projet_courant)
+          - else
+            = btn name: t('recommander_operateurs.recommander'), href: dossier_recommander_operateurs_path(@projet_courant)
