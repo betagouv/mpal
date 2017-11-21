@@ -59,4 +59,5 @@ class Invitation < ApplicationRecord
       errors[:base] << I18n.t("invitations.mandataire_is_operateur")
     end
   end
+
 end
