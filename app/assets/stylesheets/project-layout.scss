@@ -28,3 +28,17 @@
     margin-left: 2em;
   }
 }
+
+#indentDepot {
+  @media screen and (min-width: 500px) {
+    float: left;
+  }
+  @media screen and (min-width: 501px) {
+    float: right;
+  }
+}
+
+#indentDate {
+  padding-left: 26px;
+  font-weight: bold;
+}
