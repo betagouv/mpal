@@ -13,7 +13,6 @@ html lang="fr"
     = yield :head
   body
     .main-container
-      #beta-ribbon
       - wrapping_classes = ["page-centered"]
       - wrapping_classes << "page-max-width" unless @page_full_width
       div class=wrapping_classes.join(" ")
