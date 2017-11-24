@@ -95,6 +95,9 @@ $(document).ready(function() {
 
   function bindPopins() {
     $(".popin").click(function(e) {
+      console.log($(this));
+      if ($(this).has("#api-particulier"))
+        $("#text__p").text("Les données d'avis d'impositions et d'occupants du projet vont être mis a jour.");
       $(this).hide();
     });
     $(".js-popin").click(function(e) {
@@ -103,6 +106,15 @@ $(document).ready(function() {
       if (target.length) {
         target.show();
       }
+    });
+    $(".api-particulier_confirm").click(function(e) {
+      e.stopPropagation();
+      $.get( "/testi/" + "1")
+        .done(function( data ) {
+          info = $(".popin__container")
+          $("#text__p").text(JSON.stringify(data));
+
+        });
     });
   }
 

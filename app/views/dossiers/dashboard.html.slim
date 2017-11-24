@@ -1,3 +1,11 @@
+- content_for :popins do
+ #api-particulier.popin.popin--numero-fiscal
+  .popin__container
+    p.popin__p#text__p Les données d'avis d'impositions et d'occupants du projet vont être mis a jour.
+    p.popin__p.popin__p--centered
+      = btn name: "Fermer", href: "#", class: "popin__close"
+      = btn name: "Confirmer", href: "#", class: "btn popin__confirm api-particulier_confirm"
+
 .dashboard-dossiers
   - items = @invitations || @dossiers
   = render "search_form", url: dossiers_path, show_export_button: items.present?
@@ -26,6 +34,8 @@
           th État
           - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
             th État des paiements
+          - if current_agent.admin?
+            th Bouton de synchronisation
           / TODO
           / th Depuis
       tbody
@@ -68,8 +78,8 @@
                 | caché
               - else
                 = anonymize anonymized, edit_url do
-                  span.firstname= projet.demandeur.prenom
-                  span.lastname<= projet.demandeur.nom
+                  span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+                  span.lastname<= projet.demandeur.nom if projet.demandeur.present?
             - if current_agent.operateur? || current_agent.siege?
               td
                 = anonymize anonymized, edit_url do
@@ -109,6 +119,14 @@
               td
                 = anonymize anonymized, edit_url do
                   = projet.payments.map(&:dashboard_status).join(", ")
+            - if current_agent.admin?
+              td
+                - if !item.occupants.present? || !item.avis_impositions.present?
+                     button.js-popin.btn.btn-primary.btn-xs data-target="#api-particulier" data-toggle="#api-particulier" type="button"  title="Rafraichir les données fiscale du projet"
+                        span.glyphicon.glyphicon-refresh
+
+
+
             /TODO Status Updated At
 
   - if items.respond_to?(:total_pages) && 1 < items.total_pages
