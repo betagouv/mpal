@@ -3,7 +3,7 @@
   .popin__container
     p.popin__p#text__p Les données d'avis d'impositions et d'occupants du projet vont être mis a jour.
     p.popin__p.popin__p--centered
-      = btn name: "Fermer", href: "#", class: "popin__close"
+      = btn name: "Annuler", href: "#", class: "popin__close api-particulier-close"
       = btn name: "Confirmer", href: "#", class: "btn popin__confirm api-particulier_confirm"
 
 .dashboard-dossiers
@@ -122,7 +122,7 @@
             - if current_agent.admin?
               td
                 - if !item.occupants.present? || !item.avis_impositions.present?
-                     button.js-popin.btn.btn-primary.btn-xs data-target="#api-particulier" data-toggle="#api-particulier" type="button"  title="Rafraichir les données fiscale du projet"
+                     button.js-popin.btn.btn-primary.btn-xs data-target="#api-particulier" data-toggle="#api-particulier" data-content="#{item.id}" type="button"  title="Rafraichir les données fiscale du projet"
                         span.glyphicon.glyphicon-refresh
 
 

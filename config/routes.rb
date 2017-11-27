@@ -104,7 +104,7 @@ Rails.application.routes.draw do
 
     get "/instruction", to: "instruction#show", as: "instruction"
   end
-  get '/testi/:project_id' => "dossiers#update_api_particulier"
+  get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"
 
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

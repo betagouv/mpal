@@ -42,3 +42,69 @@
   margin: 2em auto 0;
   background-color: $color-dark-green;
 }
+
+/* Table style for sync button */
+#infos_api_particulier_table_container {
+  display: inline-block;
+  width: 384px;
+  height: 210px;
+  overflow: scroll;
+  border: 1px solid #1b1e24;
+  table {
+    color: #666B85;
+    thead {
+      th {
+        background-color: #1b1e24;
+        color: #fafafa;
+        text-align: center;
+        min-width: 200px;
+      }
+    }
+    tbody {
+      tr {
+        min-width: 200px;
+        &:nth-child(even) {
+          background-color: #FFFFFF;
+        }
+        &:nth-child(odd) {
+          background-color: #EBEBEB;
+        }
+        &:hover td {
+          background:#4E5066;
+          color:#FFFFFF;
+        }
+        td {
+          text-align: left;
+          padding-left: 20px;
+        }
+      }
+    }
+  }
+}
+#infos_api_particulier_fixed {
+  display: inline-block;
+  width: 200px;
+  height: 210px;
+  border: 1px solid #1b1e24;
+  table {
+    thead {
+      th {
+        background-color: #1b1e24;
+        color: #fafafa;
+        text-align: left;
+        min-width: 200px;
+      }
+    }
+    tbody {
+      tr {
+        min-width: 200px;
+        &:nth-child(even) {
+          background-color: #FFFFFF;
+        }
+        &:nth-child(odd) {
+          background-color: #EBEBEB;
+        }
+      }
+    }
+  }
+}
