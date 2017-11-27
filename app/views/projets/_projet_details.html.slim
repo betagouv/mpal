@@ -184,7 +184,11 @@ ul.ctr-ope
       span= @projet_courant.precisions_financement
 
 - if @projet_courant.date_depot.present?
-  date= l(@projet_courant.date_depot.to_date)
+  div#indentDepot
+    span
+      b Date de dépot :
+    span#indentDate
+      =l(@projet_courant.date_depot.to_date)
 
 - if @projet_courant.documents.present?
   h4 Pièces jointes
