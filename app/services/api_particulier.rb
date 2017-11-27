@@ -18,6 +18,14 @@ class ApiParticulier
     contribuable
   end
 
+  def retrouve_contribuable_no_cache
+    json = requete_contribuable
+    if json.present?
+      contribuable = Contribuable.new(json)
+    end
+    return contribuable
+  end
+
 private
   def requete_contribuable
     api_uri = uri
