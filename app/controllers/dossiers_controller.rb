@@ -109,20 +109,19 @@ class DossiersController < ApplicationController
   end
 
   def update_api_particulier
+
     if current_agent.admin?
       begin
         project = Projet.find_by_id(params[:project_id])
         old = []
         old.replace(project.avis_impositions)
-        if !project
-          render :json => {:status => 3} and return
-        end
         project.reset_fiscal_information
       rescue
         render :json => {:status => 2} and return
       end
       render :json => {:status => 0, :old => old, :avis => project.avis_impositions} and return
     end
+
     render :json => {:status => 1} and return
   end
 
