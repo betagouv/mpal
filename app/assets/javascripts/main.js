@@ -132,7 +132,7 @@ $(document).ready(function() {
       "declarant_2",
       "nombre_personnes_charge"
     ];
-    
+
     var oldLength = infos_api_particulier_old.length;
     var newLength = infos_api_particulier_avis.length;
 
@@ -191,11 +191,11 @@ $(document).ready(function() {
     for (var key in infos_api_particulier_tab) {
       if (null !== key && undefined !== key) {
         var index = key;
-        var key = infos_api_particulier_tab[key];
+        var keyText = infos_api_particulier_tab[key];
 
         // looping through all infos_api_particulier_old tab (in case there's multiple one).
-        appendToTable(oldLength, infos_api_particulier_old, key);
-        appendToTable(newLength, infos_api_particulier_avis, key);
+        appendToTable(oldLength, infos_api_particulier_old, keyText);
+        appendToTable(newLength, infos_api_particulier_avis, keyText);
       }
     }
   }
