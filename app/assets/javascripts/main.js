@@ -97,10 +97,12 @@ $(document).ready(function() {
     if (infoLength > 0) {
       for (var tab in info_api) {
         // fetching from each tab the current key to see if it exist or not.
-        if (info_api[tab].hasOwnProperty(key)) {
-          $("#" + key).append("<td>" + info_api[tab][key] + "</td>");
-        } else {
-          $("#" + key).append("<td>-</td>");
+        if (null !== tab && undefined !== tab) {
+          if (info_api[tab].hasOwnProperty(key)) {
+            $("#" + key).append("<td>" + info_api[tab][key] + "</td>");
+          } else {
+            $("#" + key).append("<td>-</td>");
+          }
         }
       }
     } else {
@@ -111,7 +113,8 @@ $(document).ready(function() {
   function appendToTableHead(infoLength, info_api) {
     if (infoLength > 0) {
       for (var tab in info_api) {
-        $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [' + tab + '] </th>');
+        if (null !== tab && undefined !== tab) 
+          $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [' + tab + '] </th>');
       }
     } else {
       $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [0] </th>');
@@ -129,6 +132,7 @@ $(document).ready(function() {
       "declarant_2",
       "nombre_personnes_charge"
     ];
+    
     var oldLength = infos_api_particulier_old.length;
     var newLength = infos_api_particulier_avis.length;
 
@@ -137,11 +141,11 @@ $(document).ready(function() {
       width: "650px",
       height: "370px"
     });
-    $('.popin__p').css({
-      "margin-top": "0"
-    });
+    $('.popin__p').css({ "margin-top": "0" });
+
     // emptying field before injecting data in it.
     $("#text__p").empty();
+
     // generating table.
     $("#text__p").append('<div id="infos_api_particulier_fixed">' +
         '<table>' +
@@ -185,13 +189,14 @@ $(document).ready(function() {
 
     // main loop for getting key entry from infos_api_particulier_tab.
     for (var key in infos_api_particulier_tab) {
+      if (null !== key && undefined !== key) {
+        var index = key;
+        var key = infos_api_particulier_tab[key];
 
-      var index = key;
-      var key = infos_api_particulier_tab[key];
-
-      // looping through all infos_api_particulier_old tab (in case there's multiple one).
-      appendToTable(oldLength, infos_api_particulier_old, key);
-      appendToTable(newLength, infos_api_particulier_avis, key);
+        // looping through all infos_api_particulier_old tab (in case there's multiple one).
+        appendToTable(oldLength, infos_api_particulier_old, key);
+        appendToTable(newLength, infos_api_particulier_avis, key);
+      }
     }
   }
 
