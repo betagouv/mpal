@@ -93,6 +93,31 @@ $(document).ready(function() {
     });
   }
 
+  function appendToTable(infoLength, info_api, key) {
+    if (infoLength > 0) {
+      for (var tab in info_api) {
+        // fetching from each tab the current key to see if it exist or not.
+        if (info_api[tab].hasOwnProperty(key)) {
+          $("#" + key).append("<td>" + info_api[tab][key] + "</td>");
+        } else {
+          $("#" + key).append("<td>-</td>");
+        }
+      }
+    } else {
+      $("#" + key).append("<td>-</td>");
+    }
+  }
+
+  function appendToTableHead(infoLength, info_api) {
+    if (infoLength > 0) {
+      for (var tab in info_api) {
+        $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [' + tab + '] </th>');
+      }
+    } else {
+      $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [0] </th>');
+    }
+  }
+
   function infos_api_particulier_generate_table(infos_api_particulier_avis, infos_api_particulier_old) {
     // List of expected data
     var infos_api_particulier_tab = [
@@ -135,9 +160,8 @@ $(document).ready(function() {
             '<tr><td><b>Personnes à charge</b></td></tr>' +
           '</tbody>' +
         '</table>' +
-      '</div>');
-
-    $("#text__p").append('<div id="infos_api_particulier_table_container">' +
+      '</div>' +
+      '<div id="infos_api_particulier_table_container">' +
         '<table id="infos_api_particulier_table">' +
           '<thead id="infos_api_particulier_table_head">' +
             '<tr id="infos_api_particulier_table_head_row">' +
@@ -156,21 +180,8 @@ $(document).ready(function() {
       '</div>');
 
     // generating table head for "old" data.
-    if (oldLength > 0) {
-      for (var tab in infos_api_particulier_old) {
-        $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [' + tab + '] </th>');
-      }
-    } else {
-      $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [0] </th>');
-    }
-    // generating table head for "new" data.
-    if (newLength > 0) {
-      for (var tab in infos_api_particulier_avis) {
-        $("#infos_api_particulier_table_head_row").append('<th> Nouvelles données [' + tab + '] </th>');
-      }
-    } else {
-      $("#infos_api_particulier_table_head_row").append('<th> Nouvelles données [0] </th>');
-    }
+    appendToTableHead(oldLength, infos_api_particulier_old);
+    appendToTableHead(newLength, infos_api_particulier_avis);
 
     // main loop for getting key entry from infos_api_particulier_tab.
     for (var key in infos_api_particulier_tab) {
@@ -179,32 +190,8 @@ $(document).ready(function() {
       var key = infos_api_particulier_tab[key];
 
       // looping through all infos_api_particulier_old tab (in case there's multiple one).
-      if (oldLength > 0) {
-        for (var tab in infos_api_particulier_old) {
-          // fetching from each tab the current key to see if it exist or not.
-          if (infos_api_particulier_old[tab].hasOwnProperty(key)) {
-            $("#" + key).append("<td>" + infos_api_particulier_old[tab][key] + "</td>");
-          } else {
-            $("#" + key).append("<td>-</td>");
-          }
-        }
-      } else {
-        $("#" + key).append("<td>-</td>");
-      }
-
-      // looping through all infos_api_particulier_avis tab (in case there's multiple one).
-      if (newLength > 0) {
-        for (var tab2 in infos_api_particulier_avis) {
-          // fetching from each tab the current key to see if it exist or not.
-          if (infos_api_particulier_avis[tab2].hasOwnProperty(key)) {
-            $("#" + key).append("<td>" + infos_api_particulier_avis[tab2][key] + "</td>");
-          } else {
-            $("#" + key).append("<td>-</td>");
-          }
-        }
-      } else {
-        $("#" + key).append("<td>-</td>");
-      }
+      appendToTable(oldLength, infos_api_particulier_old, key);
+      appendToTable(newLength, infos_api_particulier_avis, key);
     }
   }
 
@@ -214,10 +201,9 @@ $(document).ready(function() {
       var element1 = document.getElementById("infos_api_particulier_table_container");
       var element2 = document.getElementById("infos_api_particulier_fixed");
       // Prevent click on element and sub child
-      if (undefined != element1 && undefined != element2) {
+      if (undefined !== element1 && undefined !== element2) {
         if (element1.contains(e.target) || element2.contains(e.target))  return ;
       }
-
       if ($(this).has("#api-particulier")) {
         // restaure of default popin value
         $("#text__p").text("Les données d'avis d'impositions et d'occupants du projet vont être mis a jour.");
@@ -249,13 +235,15 @@ $(document).ready(function() {
       e.stopPropagation();
       $.get( "/api/particulier/refresh/" + content)
         .done(function( data ) {
-          info = $(".popin__container")
-          var infos_api_particulier = JSON.stringify(data);
-          var infos_api_particulier_old = data.old;
-          var infos_api_particulier_avis = data.avis;
-          infos_api_particulier_generate_table(infos_api_particulier_avis, infos_api_particulier_old);
-          $(".api-particulier-close").text("Fermer");
-          $(".api-particulier_confirm").css("display", "none");
+          if (data.status == 0) {
+            info = $(".popin__container")
+            var infos_api_particulier = JSON.stringify(data);
+            var infos_api_particulier_old = data.old;
+            var infos_api_particulier_avis = data.avis;
+            infos_api_particulier_generate_table(infos_api_particulier_avis, infos_api_particulier_old);
+            $(".api-particulier-close").text("Fermer");
+            $(".api-particulier_confirm").css("display", "none");
+          }
         });
     });
   }
