@@ -110,14 +110,14 @@ $(document).ready(function() {
     }
   }
 
-  function appendToTableHead(infoLength, info_api) {
+  function appendToTableHead(infoLength, info_api, dataText) {
     if (infoLength > 0) {
       for (var tab in info_api) {
         if (null !== tab && undefined !== tab) 
-          $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [' + tab + '] </th>');
+          $("#infos_api_particulier_table_head_row").append('<th> ' + dataText + ' [' + tab + '] </th>');
       }
     } else {
-      $("#infos_api_particulier_table_head_row").append('<th> Anciennes données [0] </th>');
+      $("#infos_api_particulier_table_head_row").append('<th> ' + dataText + ' [0] </th>');
     }
   }
 
@@ -184,8 +184,8 @@ $(document).ready(function() {
       '</div>');
 
     // generating table head for "old" data.
-    appendToTableHead(oldLength, infos_api_particulier_old);
-    appendToTableHead(newLength, infos_api_particulier_avis);
+    appendToTableHead(oldLength, infos_api_particulier_old, "Ancienne données");
+    appendToTableHead(newLength, infos_api_particulier_avis, "Nouvelle données");
 
     // main loop for getting key entry from infos_api_particulier_tab.
     for (var key in infos_api_particulier_tab) {
@@ -206,12 +206,12 @@ $(document).ready(function() {
       var element1 = document.getElementById("infos_api_particulier_table_container");
       var element2 = document.getElementById("infos_api_particulier_fixed");
       // Prevent click on element and sub child
-      if (undefined !== element1 && undefined !== element2) {
-        if (element1.contains(e.target) || element2.contains(e.target))  return ;
+      if (undefined !== element1 && null !== element1 && undefined !== element2 && null !== element2) {
+        if (element1.contains(e.target) || element2.contains(e.target)) return ;
       }
       if ($(this).has("#api-particulier")) {
         // restaure of default popin value
-        $("#text__p").text("Les données d'avis d'impositions et d'occupants du projet vont être mis a jour.");
+        $("#text__p").text("Les données d'avis d'impositions et d'occupants du projet vont être mis à jour.");
         $('.popin__container').css({
           width: "600px",
           height: "286px"
