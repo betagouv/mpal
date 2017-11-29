@@ -3,7 +3,10 @@ require "support/mpal_helper"
 require "support/rod_helper"
 
 describe DossiersController do
-  before { Fakeweb::Rod.list_department_intervenants_helper }
+  before do
+    Fakeweb::Rod.list_department_intervenants_helper
+    Fakeweb::Rod.register_intervenant
+  end
 
   context "en tant qu'agent, si je ne suis pas connecté" do
     context "quand j'essaie d'accéder au tableau de bord" do
@@ -378,17 +381,21 @@ describe DossiersController do
     end
   end
 
-  describe "#changer_d_intervenant" do
-    let!(:agent) { create :agent, admin: true}
+  describe "En tant qu'admin je veux changer les intervenants d'un dossier" do
+    let!(:agent)          { create :agent, admin: true}
+    let(:adresse_du_25)   { create :adresse, :rue_des_brosses}
+    let(:projet_du_25)    { create :projet, :prospect, :with_invited_pris, adresse_postale: adresse_du_25 }
+    let(:pris)            { projet_du_25.invited_pris }
+    let(:nouveau_pris)    { Rod.new(RodClient).create_intervenant!(5421) }
 
-    before { authenticate_as_agent agent }
+    before do
+      Fakeweb::Rod.register_intervenant
+      authenticate_as_agent agent
+    end
 
-    context "en tant qu'admin" do
-      let(:adresse_du_25)   { create :adresse, :rue_des_brosses}
-      let(:projet_du_25)    { create :projet, :prospect, adresse_postale: adresse_du_25 }
-
+    describe "#list_department_intervenants" do
       it "renvoie les intervenants du département" do
-        get :show, params: { dossier_id: projet_du_25.id }
+        get :list_department_intervenants, params: { dossier_id: projet_du_25.id }
 
         expect(assigns(:departement_operateurs).count).to eq 2
         expect(assigns(:departement_instructeurs).count).to eq 1
@@ -398,6 +405,26 @@ describe DossiersController do
         expect(assigns(:departement_operateurs).first["id_clavis"]).to eq 5262
         expect(assigns(:departement_operateurs).first["raison_sociale"]).to eq "SOLIHA 25-90"
         expect(assigns(:departement_operateurs).first["email"]).to eq "demo-operateur@anah.gouv.fr"
+      end
+    end
+
+    describe "#update_project_intervenants" do
+      context "#add_invitations_when_checked" do
+        it "ajoute un nouvel intervenant s'il n'etait pas sur le projet" do
+          expect(projet_du_25.invitations.count).to eq 1
+
+          patch :update_project_intervenants, params: {
+              dossier_id: projet_du_25.id,
+              intervenant_ids: [pris.clavis_service_id, nouveau_pris.clavis_service_id ]
+          }
+          projet_du_25.reload
+          expect(projet_du_25.invitations.count).to eq 2
+          expect(projet_du_25.invitations.first.intervenant).to eq pris
+          expect(projet_du_25.invitations.second.intervenant).to eq nouveau_pris
+        end
+
+        it "ne change rien s'il etait sur le projet" do
+        end
       end
     end
   end

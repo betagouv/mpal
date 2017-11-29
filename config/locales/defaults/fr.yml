@@ -46,6 +46,7 @@ fr:
     rod:
       rappel_rod: "Rappeler le ROD"
       selection_intervenant: "Sélectionner un intervenant"
+      valider_selection_intervenant: "Valider la sélection"
 
   # ----------------------- Page d’accueil ---------------------
   accueil:

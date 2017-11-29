@@ -1,24 +1,3 @@
-- content_for :popins do
-  #intervenants.popin.popin--numero-fiscal
-    .popin__container
-      p.popin__p Veuillez sélectionner un intervenant du département #{@projet_courant.adresse_postale.departement} :
-      p.popin__p
-        ul Opérateur :
-        - @departement_operateurs.each do |intervenant|
-          li= intervenant["raison_sociale"]
-        ul Instructeur :
-        - @departement_instructeurs.each do |intervenant|
-          li= intervenant["raison_sociale"]
-        ul PRIS Anah :
-        - @departement_pris_anah.each do |intervenant|
-          li= intervenant["raison_sociale"]
-        ul PRIS EIE :
-        - @departement_pris_eie.each do |intervenant|
-          li= intervenant["raison_sociale"]
-
-      p.popin__p.popin__p--centered
-        = btn name: "Fermer", href: "#", class: "popin__close"
-
 article.block.projet
   h3 Projet envisagé
   - if can? :update, @projet_courant
@@ -29,7 +8,7 @@ article.block.projet
     - else
       = affiche_demande_souhaitee(@projet_courant.demande)
       - if can? :manage, :all
-        = link_to t('admin.rod.selection_intervenant'), "#", class: "btn btn-secondary js-popin", data: { target: "#intervenants" }
+        = btn name: t('admin.rod.selection_intervenant'), href: dossier_list_department_intervenants_path(@projet_courant), class: "btn btn-secondary"
         = btn name: t('admin.rod.rappel_rod'), href: "#", class: "btn btn-secondary"
 
       hr/

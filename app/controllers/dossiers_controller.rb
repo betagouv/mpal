@@ -15,12 +15,61 @@ class DossiersController < ApplicationController
     redirect_to dossier_path(@projet_courant)
   end
 
-  def changer_d_intervenant
+  def list_department_intervenants
     departement_intervenants = fetch_departement_intervenants(@projet_courant).with_indifferent_access
     @departement_operateurs = departement_intervenants["operateurs"]
     @departement_instructeurs = departement_intervenants["service_instructeur"]
     @departement_pris_anah = departement_intervenants["pris_anah"]
     @departement_pris_eie = departement_intervenants["pris_eie"]
+  end
+
+  def update_project_intervenants
+    @checked_intervenants_clavis_ids = params["intervenant_ids"]
+    unless @checked_intervenants_clavis_ids == nil then
+      add_invitations_when_checked
+    end
+    # delete_invitations_when_unchecked
+
+
+
+    #TODO cas: opérations programmées, rien de coché, plusieurs PRIS, attention pris suggested operateurs, contacted operateurs etc
+
+    # intervenant = Rod.new(RodClient).create_intervenant(params[:id_clavis])
+    # redirect_to(dossier_path(@projet_courant))
+  end
+
+
+
+  def add_invitations_when_checked
+    #when pris or instructeur
+
+    #récupérer l'intervenant de id_clavis via le rod (a voir s il faut le creer)
+    intervenant_tab = []
+    @checked_intervenants_clavis_ids.each do |clavis_id|
+      intervenant = Intervenant.find_by_clavis_service_id(clavis_id)
+      intervenant_tab.append(intervenant)
+    end
+
+    #on vérifie s'il fait partie de projet.intervenants (!) cas opérateur
+    #s'il en fait partie, rien, sinon on crée l'invit
+    intervenant_tab.each do |intervenant|
+      unless @projet_courant.intervenants.include?(intervenant) then
+        invitation = Invitation.new(projet_id: @projet_courant.id, intervenant_id: intervenant.id, suggested: false, contacted: false)
+        invitation.save
+        #faire popper erreur
+      end
+    end
+
+    #when operateur
+    # idem SAUF que
+        #cas opération programmée
+        #suggested_operateur(?)
+  end
+
+  def delete_invitations_when_unchecked
+    #when pris
+    #when instructeur
+    #when operateur
   end
 
   def home
@@ -113,7 +162,7 @@ class DossiersController < ApplicationController
   end
 
   def show
-    changer_d_intervenant
+    list_department_intervenants
     render_show
   end
 
@@ -141,6 +190,10 @@ class DossiersController < ApplicationController
       end
     end
   end
+
+  # def update_project_intervenants_params
+  #   params.fetch(:projet, {}).permit(:id_clavis)
+  # end
 
   def clean_projet_aides(attributes)
     if attributes[:projet_aides_attributes].present?

@@ -45,8 +45,6 @@ class Intervenant < ApplicationRecord
       intervenant.update_attributes updated_intervenant.attributes.keep_if { |k, _v| !%w[id clavis_service_id departements].include?(k) }
       intervenant
     end
-
-
   end
 
   def instructeur?
