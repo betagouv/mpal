@@ -181,11 +181,6 @@ class Projet < ApplicationRecord
     select(fields.join(", ")).group("year, week").order("year, week")
   }
 
-  def reset_fiscal_information
-    contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable_no_cache
-    ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable).save
-  end
-
   def demandeur_user
     projets_users.demandeur.first.try(:user)
   end
@@ -488,12 +483,14 @@ class Projet < ApplicationRecord
 
     self.update(operateur: committed_operateur)
     self.statut = :en_cours
+    self.statut_updated_date = Time.now
     save
   end
 
   def save_proposition!(attributes)
     assign_attributes(attributes)
     self.statut = :proposition_enregistree
+    self.statut_updated_date = Time.now
     save
   end
 
@@ -502,6 +499,7 @@ class Projet < ApplicationRecord
     return false unless invitation.update(intermediaire: operateur)
     self.date_depot = Time.now
     self.statut = :transmis_pour_instruction
+    self.statut_updated_date = Time.now
     self.save
     ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
     ProjetMailer.accuse_reception(self).deliver_later!
@@ -554,8 +552,10 @@ class Projet < ApplicationRecord
     end
   end
 
-  def self.to_csv(agent, selected_projects)
+  def self.to_csv(agent, selected_projects, is_admin = false)
+
     utf8 = CSV.generate(csv_options) do |csv|
+
       titles = [
         'Numéro plateforme',
         'Date création',
@@ -566,9 +566,18 @@ class Projet < ApplicationRecord
         'Opérateur',
         'Date de visite',
         'Date dépôt',
-        'État',
-        'Depuis',
+        'État'
       ]
+
+
+      if is_admin == true
+        titles.append('Etape avancement creation Dossier')
+        titles.append('Nbre de messages dans la messagerie')
+        titles.append('Operation Programmee')
+        titles.append('Agent PRIS')
+        titles.append('PRIS EIE')
+        titles.append('project id')
+      end
 
       titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
       titles.insert 6, 'Agent opérateur'    if agent.siege? || agent.instructeur? || agent.operateur?
@@ -578,6 +587,13 @@ class Projet < ApplicationRecord
       titles.insert 1, 'Identifiant OPAL'   if agent.siege? || agent.instructeur? || agent.operateur?
       csv << titles
       selected_projects.each do |projet|
+
+
+        # resy = Message.where(:projet_id => projet.id).count
+        # resy = Message.where(:projet_id => projet.id).count
+        # invits = Invitation.where(:projet_id => projet.id)
+
+
         line = [
           projet.numero_plateforme,
           format_date(projet.created_at),
@@ -588,8 +604,22 @@ class Projet < ApplicationRecord
           projet.contacted_operateur.try(:raison_sociale),
           projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
           projet.date_depot.present? ? format_date(projet.date_depot) : "",
-          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
+          I18n.t(projet.status_for_intervenant, scope: "projets.statut")
         ]
+
+        if is_admin == true
+          pris_eie = !projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
+          pris = projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
+          op = (projet.intervenants != [] && projet.invited_pris == nil) ? "Oui" : "Non"
+          
+          line.append(projet.try(:max_registration_step))
+          line.append(op)
+          line.append(projet.messages.count)
+          line.append(pris)
+          line.append(pris_eie)
+          line.append(projet.id)
+        end
+
         payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
 
         line.insert 9, payment_statuses                        if agent.siege? || agent.instructeur? || agent.operateur?

@@ -4,7 +4,7 @@ class DossiersController < ApplicationController
   before_action :authenticate_agent!
   before_action :assert_projet_courant, except: [:index, :home, :indicateurs]
   load_and_authorize_resource class: "Projet"
-  skip_load_and_authorize_resource only: [:index, :home, :indicateurs, :update_api_particulier]
+  skip_load_and_authorize_resource only: [:index, :home, :indicateurs]
 
   def index
     return redirect_to indicateurs_dossiers_path if current_agent.dreal?
@@ -108,23 +108,6 @@ class DossiersController < ApplicationController
     @status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
   end
 
-  def update_api_particulier
-
-    if current_agent.admin?
-      begin
-        project = Projet.find_by_id(params[:project_id])
-        old = []
-        old.replace(project.avis_impositions)
-        project.reset_fiscal_information
-      rescue
-        render :json => {:status => 2} and return
-      end
-      render :json => {:status => 0, :old => old, :avis => project.avis_impositions} and return
-    end
-
-    render :json => {:status => 1} and return
-  end
-
 private
   def fetch_operateurs
     if ENV['ROD_ENABLED'] == 'true'
@@ -214,12 +197,7 @@ private
 
     respond_to do |format|
       format.html {
-        if current_agent.admin?
-          @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
-          if search.present?
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
-        elsif current_agent.siege?
+        if current_agent.siege?
           @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
@@ -239,13 +217,7 @@ private
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
       format.csv {
-        if current_agent.admin?
-          @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
-          if search.present?
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
-          @selected_projects = @dossiers
-        elsif current_agent.siege?
+        if current_agent.siege?
           @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
@@ -265,7 +237,13 @@ private
         end
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render plain: Projet.to_csv(current_agent, @selected_projects)
+
+        if current_agent.admin?
+          render plain: Projet.to_csv(current_agent, @selected_projects, true)
+        else
+          render plain: Projet.to_csv(current_agent, @selected_projects, false)
+        end
+
         return false
       }
     end
