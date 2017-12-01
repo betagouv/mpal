@@ -20,7 +20,6 @@ database:
   override:
     - cp config/database.yml.ci config/database.yml
     - bundle exec rake db:setup
-    - bundle exec rake db:migrate
 
 deployment:
   staging:
