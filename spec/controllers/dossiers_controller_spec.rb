@@ -420,6 +420,7 @@ describe DossiersController do
           expect(projet_du_25.invitations.count).to eq 2
           expect(projet_du_25.invitations.first.intervenant).to eq pris
           expect(projet_du_25.invitations.second.intervenant).to eq nouveau_pris
+          expect(flash[:success]).to be_present
         end
 
         it "ne change rien s'il etait sur le projet" do
@@ -442,7 +443,7 @@ describe DossiersController do
               pris_ids: []
           }
           projet_du_25.reload
-          # expect(flash[:notice]).to be_present
+          expect(flash[:success]).to be_present
           expect(projet_du_25.invitations.count).to eq 0
         end
       end

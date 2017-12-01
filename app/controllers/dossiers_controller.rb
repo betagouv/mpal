@@ -33,7 +33,8 @@ class DossiersController < ApplicationController
       add_invitations_when_checked
       delete_invitations_when_unchecked
     end
-    redirect_to(dossier_path(@projet_courant))
+    message = I18n.t("admin.rod.valider_selection_intervenant_success")
+    redirect_to(dossier_path(@projet_courant), flash: { success: message })
 
     #TODO cas: opérations programmées, attention pris suggested operateurs, contacted operateurs etc
     # gérer l'envoi de mails
@@ -338,14 +339,9 @@ class DossiersController < ApplicationController
         #faire popper erreur
       end
     end
-
-    #when operateur
-    # idem SAUF que : cas opération programmée - suggested_operateur(?)
   end
 
   def delete_invitations_when_unchecked
-    #when pris instructeur operateur
-    #verifier chaque inviations du projet pour voir si l'intervenant de l'invit est dans intervanat_tab
     @projet_courant.invitations.each do |invitation|
       invitation_has_intervenant = []
       @intervenant_tab.each do |intervenant|
