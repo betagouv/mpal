@@ -2,35 +2,39 @@
   = simple_form_for @projet_courant, url: { controller: "dossiers", action: "update_project_intervenants" }, method: "patch", html: { class: "form" } do |f|
       .vertical-booleans
         label.vertical-booleans__title= "Veuillez sélectionner un intervenant du département #{@projet_courant.adresse_postale.departement} :"
+        - found_intervenant = nil
         h3 PRIS:
         - @departement_pris_anah.each do |intervenant|
           - found_intervenant = @projet_courant.intervenants.find_by_clavis_service_id intervenant["id_clavis"]
           .checkbox
             label
-              = check_box_tag  "intervenant_ids[]", intervenant["id_clavis"], found_intervenant
+              = radio_button_tag  "pris_ids[]", intervenant["id_clavis"], found_intervenant
               = intervenant["raison_sociale"]
-
-        - @departement_pris_eie.each do |intervenant|
+        .checkbox
+          label
+            = radio_button_tag "pris_ids[]", nil
+            = "Aucun PRIS"
+        br
+        h3 Opérateur :
+        - @departement_operateurs.each do |intervenant|
           - found_intervenant = @projet_courant.intervenants.find_by_clavis_service_id intervenant["id_clavis"]
           .checkbox
             label
-              = check_box_tag  "intervenant_ids[]", intervenant["id_clavis"], found_intervenant
+              = check_box_tag  "operateur_ids[]", intervenant["id_clavis"], found_intervenant
               = intervenant["raison_sociale"]
         br
-        /h3 Opérateur :
-        /- @departement_operateurs.each do |intervenant|
-        /  - found_intervenant = @projet_courant.intervenants.find_by_clavis_service_id intervenant["id_clavis"]
-        /  .checkbox
-        /    label
-        /      = check_box_tag  "intervenant_ids[]", intervenant["id_clavis"], found_intervenant
-        /      = intervenant["raison_sociale"]
-        /br
         h3 Instructeur :
         - @departement_instructeurs.each do |intervenant|
           - found_intervenant = @projet_courant.intervenants.find_by_clavis_service_id intervenant["id_clavis"]
           .checkbox
             label
-              = check_box_tag  "intervenant_ids[]", intervenant["id_clavis"], found_intervenant
+              = radio_button_tag  "instructeur_ids[]", intervenant["id_clavis"], found_intervenant
               = intervenant["raison_sociale"]
+        .checkbox
+          label
+            = radio_button_tag "instructeur_ids[]", nil
+            = "Aucun Instructeur"
         br
-        = btn name: t("admin.rod.valider_selection_intervenant"), class: "btn-large btn-centered"
+
+        = btn name: t("admin.rod.changer_d_intervenant.valider_selection_intervenant"), class: "btn-large btn-centered"
+        /= button(name: t("admin.rod.changer_d_intervenant.valider_selection_intervenant"), class: "btn-large btn-centered", data: {confirm: "#{t("admin.rod.changer_d_intervenant.notification_validation")}"})

@@ -20,56 +20,23 @@ class DossiersController < ApplicationController
     @departement_operateurs = departement_intervenants["operateurs"]
     @departement_instructeurs = departement_intervenants["service_instructeur"]
     @departement_pris_anah = departement_intervenants["pris_anah"]
-    @departement_pris_eie = departement_intervenants["pris_eie"]
   end
 
   def update_project_intervenants
-    @checked_intervenants_clavis_ids = params["intervenant_ids"]
-    unless @checked_intervenants_clavis_ids == nil then
+    #ATTENTION : FAUT-IL PARFOIS CREER UN NOUVEL INTERVENANT ?
+    @checked_intervenants_clavis_ids = intervenants_params
+    if @checked_intervenants_clavis_ids.nil?
+      @projet_courant.invitations.each{|invitation| invitation.destroy}
+    else
+      @intervenant_tab = []
+      find_checked_intervenants
       add_invitations_when_checked
+      delete_invitations_when_unchecked
     end
-    # delete_invitations_when_unchecked
+    redirect_to(dossier_path(@projet_courant))
 
-
-
-    #TODO cas: opérations programmées, rien de coché, plusieurs PRIS, attention pris suggested operateurs, contacted operateurs etc
-
-    # intervenant = Rod.new(RodClient).create_intervenant(params[:id_clavis])
-    # redirect_to(dossier_path(@projet_courant))
-  end
-
-
-
-  def add_invitations_when_checked
-    #when pris or instructeur
-
-    #récupérer l'intervenant de id_clavis via le rod (a voir s il faut le creer)
-    intervenant_tab = []
-    @checked_intervenants_clavis_ids.each do |clavis_id|
-      intervenant = Intervenant.find_by_clavis_service_id(clavis_id)
-      intervenant_tab.append(intervenant)
-    end
-
-    #on vérifie s'il fait partie de projet.intervenants (!) cas opérateur
-    #s'il en fait partie, rien, sinon on crée l'invit
-    intervenant_tab.each do |intervenant|
-      unless @projet_courant.intervenants.include?(intervenant) then
-        invitation = Invitation.new(projet_id: @projet_courant.id, intervenant_id: intervenant.id, suggested: false, contacted: false)
-        invitation.save
-        #faire popper erreur
-      end
-    end
-
-    #when operateur
-    # idem SAUF que
-        #cas opération programmée
-        #suggested_operateur(?)
-  end
-
-  def delete_invitations_when_unchecked
-    #when pris
-    #when instructeur
-    #when operateur
+    #TODO cas: opérations programmées, attention pris suggested operateurs, contacted operateurs etc
+    # gérer l'envoi de mails
   end
 
   def home
@@ -191,10 +158,6 @@ class DossiersController < ApplicationController
     end
   end
 
-  # def update_project_intervenants_params
-  #   params.fetch(:projet, {}).permit(:id_clavis)
-  # end
-
   def clean_projet_aides(attributes)
     if attributes[:projet_aides_attributes].present?
       attributes[:projet_aides_attributes].values.each do |projet_aide|
@@ -232,14 +195,6 @@ class DossiersController < ApplicationController
       rod_response.operateurs
     else
       @projet_courant.intervenants_disponibles(role: :operateur)
-    end
-  end
-
-  def fetch_departement_intervenants(projet)
-    if ENV['ROD_ENABLED'] == 'true'
-      Rod.new(RodClient).list_intervenants_rod(projet.adresse.departement)
-    else
-      Fakeweb::Rod::FakeResponseList
     end
   end
 
@@ -364,5 +319,66 @@ class DossiersController < ApplicationController
       .permit(:suggested_operateur_ids => [])
     attributes[:suggested_operateur_ids] ||= []
     attributes
+  end
+
+  #update_project_intervenants methods
+  def add_invitations_when_checked
+    @intervenant_tab.each do |intervenant|
+      unless @projet_courant.intervenants.include?(intervenant) then
+        if intervenant.pris?
+          invitation = @projet_courant.invite_pris!(intervenant)
+          Projet.notify_intervenant_of(invitation)
+          invitation.save
+        elsif intervenant.operateur?
+          @projet_courant.suggest_operateurs!([intervenant.id])
+        else
+          invitation = Invitation.new(projet_id: @projet_courant.id, intervenant_id: intervenant.id, suggested: false, contacted: false)
+          invitation.save
+        end
+        #faire popper erreur
+      end
+    end
+
+    #when operateur
+    # idem SAUF que : cas opération programmée - suggested_operateur(?)
+  end
+
+  def delete_invitations_when_unchecked
+    #when pris instructeur operateur
+    #verifier chaque inviations du projet pour voir si l'intervenant de l'invit est dans intervanat_tab
+    @projet_courant.invitations.each do |invitation|
+      invitation_has_intervenant = []
+      @intervenant_tab.each do |intervenant|
+        if invitation.intervenant_id == intervenant.id
+          invitation_has_intervenant.append(invitation)
+        end
+      end
+      if !invitation_has_intervenant.include?(invitation)
+        invitation.destroy
+      end
+    end
+  end
+
+  def fetch_departement_intervenants(projet)
+    if ENV['ROD_ENABLED'] == 'true'
+      Rod.new(RodClient).list_intervenants_rod(projet.adresse.departement)
+    else
+      Fakeweb::Rod::FakeResponseList
+    end
+  end
+
+  def find_checked_intervenants
+    @checked_intervenants_clavis_ids.each do |clavis_id|
+      intervenant = Intervenant.find_by_clavis_service_id(clavis_id)
+      @intervenant_tab.append(intervenant)
+    end
+  end
+
+  def intervenants_params
+    intervenants_params = (params["pris_ids"] || Array.new) +
+    (params["operateur_ids"] || Array.new) +
+    (params["instructeur_ids"] || Array.new)
+    intervenants_params&.delete("on")
+    intervenants_params
   end
 end

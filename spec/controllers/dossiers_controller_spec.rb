@@ -400,7 +400,6 @@ describe DossiersController do
         expect(assigns(:departement_operateurs).count).to eq 2
         expect(assigns(:departement_instructeurs).count).to eq 1
         expect(assigns(:departement_pris_anah).count).to eq 1
-        expect(assigns(:departement_pris_eie).count).to eq 1
 
         expect(assigns(:departement_operateurs).first["id_clavis"]).to eq 5262
         expect(assigns(:departement_operateurs).first["raison_sociale"]).to eq "SOLIHA 25-90"
@@ -410,12 +409,12 @@ describe DossiersController do
 
     describe "#update_project_intervenants" do
       context "#add_invitations_when_checked" do
-        it "ajoute un nouvel intervenant s'il n'etait pas sur le projet" do
+        it "ajoute un nouvel intervenant (ex pris) s'il n'etait pas sur le projet" do
           expect(projet_du_25.invitations.count).to eq 1
 
           patch :update_project_intervenants, params: {
               dossier_id: projet_du_25.id,
-              intervenant_ids: [pris.clavis_service_id, nouveau_pris.clavis_service_id ]
+              pris_ids: [pris.clavis_service_id, nouveau_pris.clavis_service_id]
           }
           projet_du_25.reload
           expect(projet_du_25.invitations.count).to eq 2
@@ -424,6 +423,27 @@ describe DossiersController do
         end
 
         it "ne change rien s'il etait sur le projet" do
+          patch :update_project_intervenants, params: {
+              dossier_id: projet_du_25.id,
+              pris_ids: [pris.clavis_service_id]
+          }
+          projet_du_25.reload
+          expect(projet_du_25.invitations.count).to eq 1
+          expect(projet_du_25.invitations.first.intervenant).to eq pris
+        end
+      end
+
+      context "#delete_invitations_when_unchecked" do
+        it "supprime une invitation s'il n'est plus sur le projet" do
+          expect(projet_du_25.invitations.count).to eq 1
+
+          patch :update_project_intervenants, params: {
+              dossier_id: projet_du_25.id,
+              pris_ids: []
+          }
+          projet_du_25.reload
+          # expect(flash[:notice]).to be_present
+          expect(projet_du_25.invitations.count).to eq 0
         end
       end
     end
