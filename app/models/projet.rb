@@ -181,6 +181,11 @@ class Projet < ApplicationRecord
     select(fields.join(", ")).group("year, week").order("year, week")
   }
 
+  def reset_fiscal_information
+    contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable_no_cache
+    ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable).save
+  end
+
   def demandeur_user
     projets_users.demandeur.first.try(:user)
   end
