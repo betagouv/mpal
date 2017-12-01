@@ -19,7 +19,7 @@ machine:
 database:
   override:
     - cp config/database.yml.ci config/database.yml
-    - rails db:migrate
+    - bundle exec rake db:migrate
     - bundle exec rake db:setup
 
 deployment:
