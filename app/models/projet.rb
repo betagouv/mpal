@@ -488,12 +488,14 @@ class Projet < ApplicationRecord
 
     self.update(operateur: committed_operateur)
     self.statut = :en_cours
+    self.statut_updated_date = Time.now
     save
   end
 
   def save_proposition!(attributes)
     assign_attributes(attributes)
     self.statut = :proposition_enregistree
+    self.statut_updated_date = Time.now
     save
   end
 
@@ -502,6 +504,7 @@ class Projet < ApplicationRecord
     return false unless invitation.update(intermediaire: operateur)
     self.date_depot = Time.now
     self.statut = :transmis_pour_instruction
+    self.statut_updated_date = Time.now
     self.save
     ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
     ProjetMailer.accuse_reception(self).deliver_later!
