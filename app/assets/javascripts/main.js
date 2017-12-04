@@ -317,39 +317,30 @@ $(document).ready(function() {
   }
 
     function intervenantsModal() {
-        var modal = document.getElementById('myModal');
-
-        // Var redirect
-        var redirect = document.getElementsByClassName("confirm")[0];
-        var no_redirect = document.getElementsByClassName("cancel")[0];
-
-        no_redirect.onclick = function(e ) {
-            e.preventDefault();
-            modal.style.display = "none";
-        }
-
-        $(".confirm-intervenants-js").click(function(e) {
-            e.preventDefault();
-            var checked = intervenantsCaptureCheckbox().split(",");
-
-            $(".modal-text").empty();
-            $(".modal-text").append("<div id='displayIntervenantsContainer'></div>");
-            $("#displayIntervenantsContainer").append("<p>Souhaitez-vous vraiment associer ces intervenants au projet ?</p>");
-            console.log(checked);
-            for (var i in checked) {
-                if (checked.hasOwnProperty(i)) {
-                    if (i != checked.length - 1)
-                        $("#displayIntervenantsContainer").append("<div class='displayIntervenants'>" + checked[i] + "</div>");
-                }
-            }
-
-            modal.style.display = "block";
-        });
-
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
+        var modal = document.getElementById('modalIntervenants');
+        if (undefined !== modal && null !== modal) {
+            var no_redirect = document.getElementsByClassName("modalIntervenants-cancel")[0];
+            no_redirect.onclick = function(e ) {
+                e.preventDefault();
                 modal.style.display = "none";
+            };
+            $(".confirm-intervenants-js").click(function(e) {
+                e.preventDefault();
+                var checked = intervenantsCaptureCheckbox().split(",");
+                $(".modal-text").empty();
+                $(".modal-text").append("<div id='displayIntervenantsContainer'></div>");
+                $("#displayIntervenantsContainer").append("<p>Souhaitez-vous vraiment associer ces intervenants au projet ?</p>");
+                console.log(checked);
+                for (var i in checked) {
+                    if (checked.hasOwnProperty(i))
+                        if (i < checked.length - 1)
+                            $("#displayIntervenantsContainer").append("<div class='displayIntervenants'>" + checked[i] + "</div>");
+                }
+                modal.style.display = "block";
+            });
+            window.onclick = function(event) {
+                if (event.target == modal)
+                    modal.style.display = "none";
             }
         }
     }

@@ -37,11 +37,11 @@
                 = radio_button_tag  "instructeur_ids[]", intervenant["id_clavis"], found_intervenant
                 = intervenant["raison_sociale"]
 
-        div#myModal.modal
+        div#modalIntervenants.modal
           div.modal-content
             p.modal-text Confirm reset.
 
-            button.cancel.btn Annuler
-            button.confirm.btn Confirmer
+            button.modalIntervenants-cancel.btn Annuler
+            button.modalIntervenants-confirm.btn Confirmer
 
         = btn name: t("admin.rod.changer_d_intervenant.valider_selection_intervenant"), class: "btn-large btn-centered confirm-intervenants-js"
