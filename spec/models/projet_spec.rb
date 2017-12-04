@@ -656,6 +656,7 @@ describe Projet do
       expect(projet.persisted?).to be true
       expect(projet.operateur).to eq(operateur)
       expect(projet.statut).to eq(:en_cours.to_s)
+      expect(projet.statut_updated_date).to eq(projet.updated_at.to_datetime)
     end
   end
 
@@ -735,6 +736,7 @@ describe Projet do
         expect(projet.save_proposition!(attributes)).to be true
         expect(projet.changed?).to be false
         expect(projet.statut).to eq(:proposition_enregistree.to_s)
+        expect(projet.statut_updated_date).to eq(projet.updated_at.to_datetime)
         expect(projet.note_degradation).to eq 0.1
       end
     end
@@ -750,6 +752,7 @@ describe Projet do
         result = projet.transmettre!(instructeur)
         expect(result).to be true
         expect(projet.statut.to_sym).to eq(:transmis_pour_instruction)
+        expect(projet.statut_updated_date).to eq(projet.updated_at.to_datetime)
         expect(projet.invitations.count).to eq(2)
       end
 

@@ -56,6 +56,7 @@ private
 
   def met_a_jour_statut(projet)
     projet.statut = :en_cours_d_instruction
+    projet.statut_updated_date = Time.now
   end
 
   def serialize_civilite(demandeur)
