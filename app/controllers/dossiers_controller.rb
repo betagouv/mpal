@@ -290,7 +290,13 @@ class DossiersController < ApplicationController
         end
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render plain: Projet.to_csv(current_agent, @selected_projects)
+
+        if current_agent.admin?
+          render plain: Projet.to_csv(current_agent, @selected_projects, true)
+        else
+          render plain: Projet.to_csv(current_agent, @selected_projects, false)
+        end
+
         return false
       }
     end
