@@ -30,6 +30,14 @@ describe Rod do
     }
   end
 
+  describe "#list_intervenants_rod" do
+    let(:departement) { "25" }
+    subject(:response) { Rod.new(RodClient).list_intervenants_rod(departement) }
+    before { Fakeweb::Rod.list_department_intervenants_helper }
+
+    it { expect(subject).to eq(Fakeweb::Rod::FakeResponseList.with_indifferent_access) }
+  end
+
   describe "#query_for" do
     let(:projet)           { create :projet, :with_demandeur, :with_demande }
     subject(:rod_response) { Rod.new(RodClient).query_for(projet) }
@@ -120,7 +128,6 @@ describe Rod do
           expect(rod_response.operations.last.name).to      eq "PORCINET"
           expect(rod_response.operations.last.code_opal).to eq "1B"
         end
-
         context "si les opérateurs n'existent pas" do
           it "crée les opérateurs" do
             expect(rod_response.operateurs.first.raison_sociale).to    eq "SOLIHA 25-90"

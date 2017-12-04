@@ -41,6 +41,14 @@ fr:
       power: "kWh"
       power_consumption: "kWh/m²/an"
 
+  # ----------------------- Admin ---------------------
+  admin:
+    rod:
+      rappel_rod: "Rappeler le ROD"
+      selection_intervenant: "Sélectionner un intervenant"
+      valider_selection_intervenant: "Valider la sélection"
+      valider_selection_intervenant_success: "Les intervenants du projet ont bien été mis à jour."
+
   # ----------------------- Page d’accueil ---------------------
   accueil:
     promesse: "Avec nous, améliorez l’habitat !"

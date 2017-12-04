@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
+require 'support/rod_helper'
 
 feature "Transmettre à l'instructeur :" do
 
@@ -53,6 +54,7 @@ feature "Transmettre à l'instructeur :" do
       context "en tant qu'opérateur" do
         let(:agent_operateur) { create :agent, intervenant: projet.operateur }
         before do
+          Fakeweb::Rod.list_department_intervenants_helper
           login_as agent_operateur, scope: :agent
           visit dossier_path(projet.id)
         end
@@ -62,6 +64,7 @@ feature "Transmettre à l'instructeur :" do
       context "en tant qu'instructeur" do
         let(:agent_instructeur) { create :agent, intervenant: projet.invited_instructeur }
         before do
+          Fakeweb::Rod.list_department_intervenants_helper
           login_as agent_instructeur, scope: :agent
           visit dossier_path(projet.id)
         end

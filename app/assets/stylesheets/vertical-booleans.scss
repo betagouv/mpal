@@ -22,3 +22,19 @@
   }
 }
 
+#select-intervenants {
+  .vertical-booleans__title {
+    width:100%;
+  }
+}
+
+.block-intervenants {
+  display: inline-block;
+  vertical-align: top;
+  width: 30%;
+  word-break: break-all;
+  input {
+    margin-right: 5px;
+  }
+  padding: 15px 10px 25px 0;
+}

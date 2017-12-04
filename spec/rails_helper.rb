@@ -29,6 +29,7 @@ include ActionDispatch::TestProcess
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 FakeWeb.allow_net_connect = %r[^https?://(localhost|127.0.0.1)]
+# FakeWeb.allow_net_connect = true
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
