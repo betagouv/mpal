@@ -8,7 +8,7 @@ class DossiersOpalController < ApplicationController
       opal_api.create_dossier!(@projet_courant, current_agent)
       redirect_to(dossier_path(@projet_courant), notice: t('projets.creation_opal.messages.succes', id_opal: @projet_courant.opal_numero))
     rescue => e
-      redirect_to(dossier_path(@projet_courant), alert: t('projets.creation_opal.messages.erreur', message: e.message))
+      redirect_to(dossier_path(@projet_courant), alert: ("Une erreur est survenue lors de la creation du dossier dans Opal : " + (e.message)).force_encoding Encoding::UTF_8
     end
   end
 
