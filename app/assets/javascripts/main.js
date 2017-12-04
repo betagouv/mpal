@@ -330,7 +330,6 @@ $(document).ready(function() {
                 $(".modal-text").empty();
                 $(".modal-text").append("<div id='displayIntervenantsContainer'></div>");
                 $("#displayIntervenantsContainer").append("<p>Souhaitez-vous vraiment associer ces intervenants au projet ?</p>");
-                console.log(checked);
                 for (var i in checked) {
                     if (checked.hasOwnProperty(i))
                         if (i < checked.length - 1)
