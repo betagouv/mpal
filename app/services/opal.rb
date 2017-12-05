@@ -46,7 +46,6 @@ class Opal
     end
   end
 
-
 private
   OPAL_CIVILITY_MAPPING = { "mrs" => 2, "mr" => 1 }
 

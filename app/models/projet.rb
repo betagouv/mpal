@@ -505,8 +505,6 @@ class Projet < ApplicationRecord
     self.date_depot = Time.now
     self.statut = :transmis_pour_instruction
     self.statut_updated_date = Time.now
-    
-
     self.save
 
     ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
@@ -576,7 +574,6 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date dépôt',
        'État'
      ]
-
 
      if is_admin == true
        titles.append('Etape avancement creation Dossier')
