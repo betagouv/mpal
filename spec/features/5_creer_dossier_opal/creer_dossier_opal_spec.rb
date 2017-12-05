@@ -34,7 +34,7 @@ feature "Créer le dossier dans Opal" do
           click_button I18n.t('projets.creation_opal.titre_creation_opal')
 
           expect(page).to have_current_path dossier_path(projet)
-          expect(page).to have_content(I18n.t("projets.creation_opal.messages.erreur", message: "Utilisateur inconnu : veuillez-vous connecter à OPAL."))
+          expect(page).to have_content("Une erreur est survenue lors de la creation du dossier dans Opal : Unprocessable Entity (422)")
         end
       end
     end
