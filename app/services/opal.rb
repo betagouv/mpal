@@ -168,7 +168,7 @@ private
     message = nil
     begin
       body = response.body.force_encoding Encoding::UTF_8
-      message = JSON.parse(body)[0]["message"]
+      message = JSON.parse(body)[0]["erreurDescription"]
     rescue
     end
     message || "#{response.msg} (#{response.code})"
