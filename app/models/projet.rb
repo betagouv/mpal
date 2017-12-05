@@ -560,55 +560,81 @@ class Projet < ApplicationRecord
     end
   end
 
-  def self.to_csv(agent, selected_projects)
-    utf8 = CSV.generate(csv_options) do |csv|
-      titles = [
-        'Numéro plateforme',
-        'Date création',
-        'Demandeur',
-        'Ville',
-        'Instructeur',
-        'Types d’intervention',
-        'Opérateur',
-        'Date de visite',
-        'Date dépôt',
-        'État',
-        'Depuis',
-      ]
+def self.to_csv(agent, selected_projects, is_admin = false)
 
-      titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
-      titles.insert 6, 'Agent opérateur'    if agent.siege? || agent.instructeur? || agent.operateur?
-      titles.insert 4, 'Agent instructeur'  if agent.siege? || agent.instructeur? || agent.operateur?
-      titles.insert 2, 'Département'        if agent.siege? || agent.operateur?
-      titles.insert 2, 'Région'             if agent.siege? || agent.operateur?
-      titles.insert 1, 'Identifiant OPAL'   if agent.siege? || agent.instructeur? || agent.operateur?
-      csv << titles
-      selected_projects.each do |projet|
-        line = [
-          projet.numero_plateforme,
-          format_date(projet.created_at),
-          projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
-          projet.adresse.try(:ville),
-          projet.invited_instructeur.try(:raison_sociale),
-          projet.themes.map(&:libelle).join(", "),
-          projet.contacted_operateur.try(:raison_sociale),
-          projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
-          projet.date_depot.present? ? format_date(projet.date_depot) : "",
-          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
-        ]
-        payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
+   utf8 = CSV.generate(csv_options) do |csv|
 
-        line.insert 9, payment_statuses                        if agent.siege? || agent.instructeur? || agent.operateur?
-        line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
-        line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
-        line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?
-        line.insert 2, projet.adresse.try(:region)             if agent.siege? || agent.operateur?
-        line.insert 1, projet.opal_numero                      if agent.siege? || agent.instructeur? || agent.operateur?
-        csv << line
-      end
-    end
-    utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
-  end
+     titles = [
+       'Numéro plateforme',
+       'Date création',
+       'Demandeur',
+       'Ville',
+       'Instructeur',
+       'Types d’intervention',
+       'Opérateur',
+       'Date de visite',
+       'Date dépôt',
+       'État'
+     ]
+
+
+     if is_admin == true
+       titles.append('Etape avancement creation Dossier')
+       titles.append('Nbre de messages dans la messagerie')
+       titles.append('Operation Programmee')
+       titles.append('Agent PRIS')
+       titles.append('PRIS EIE')
+       titles.append('project id')
+     end
+
+     titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
+     titles.insert 6, 'Agent opérateur'    if agent.siege? || agent.instructeur? || agent.operateur?
+     titles.insert 4, 'Agent instructeur'  if agent.siege? || agent.instructeur? || agent.operateur?
+     titles.insert 2, 'Département'        if agent.siege? || agent.operateur?
+     titles.insert 2, 'Région'             if agent.siege? || agent.operateur?
+     titles.insert 1, 'Identifiant OPAL'   if agent.siege? || agent.instructeur? || agent.operateur?
+     csv << titles
+     selected_projects.each do |projet|
+
+       line = [
+         projet.numero_plateforme,
+         format_date(projet.created_at),
+         projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
+         projet.adresse.try(:ville),
+         projet.invited_instructeur.try(:raison_sociale),
+         projet.themes.map(&:libelle).join(", "),
+         projet.contacted_operateur.try(:raison_sociale),
+         projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
+         projet.date_depot.present? ? format_date(projet.date_depot) : "",
+         I18n.t(projet.status_for_intervenant, scope: "projets.statut")
+       ]
+
+       if is_admin == true
+         pris_eie = !projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
+         pris = projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
+         op = (projet.intervenants != [] && projet.invited_pris == nil) ? "Oui" : "Non"
+
+         line.append(projet.try(:max_registration_step))
+         line.append(op)
+         line.append(projet.messages.count)
+         line.append(pris)
+         line.append(pris_eie)
+         line.append(projet.id)
+       end
+
+       payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
+
+       line.insert 9, payment_statuses                        if agent.siege? || agent.instructeur? || agent.operateur?
+       line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
+       line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
+       line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?
+       line.insert 2, projet.adresse.try(:region)             if agent.siege? || agent.operateur?
+       line.insert 1, projet.opal_numero                      if agent.siege? || agent.instructeur? || agent.operateur?
+       csv << line
+     end
+   end
+   utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
+ end
 
   def is_anonymized_for?(intervenant)
     if intervenant.pris?
