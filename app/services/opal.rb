@@ -1,3 +1,4 @@
+
 class OpalError < StandardError
 end
 
@@ -25,8 +26,10 @@ class Opal
     ajoute_id_opal(projet, response.body)
     met_a_jour_statut(projet)
     projet.agent_instructeur = agent_instructeur
-    projet.statut_updated_date = Time.now
-    projet.save
+
+    projet.save!
+    projet.update_attribute(:statut_updated_date, Time.now)
+
   end
 
   def update_projet_with_dossier_paiement!(projet, payment)

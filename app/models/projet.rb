@@ -505,7 +505,10 @@ class Projet < ApplicationRecord
     self.date_depot = Time.now
     self.statut = :transmis_pour_instruction
     self.statut_updated_date = Time.now
+    
+
     self.save
+
     ProjetMailer.mise_en_relation_intervenant(invitation).deliver_later!
     ProjetMailer.accuse_reception(self).deliver_later!
     EvenementEnregistreurJob.perform_later(label: 'transmis_instructeur', projet: self, producteur: invitation)
