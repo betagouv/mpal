@@ -25,6 +25,7 @@ class Opal
     ajoute_id_opal(projet, response.body)
     met_a_jour_statut(projet)
     projet.agent_instructeur = agent_instructeur
+    projet.statut_updated_date = Time.now
     projet.save
   end
 
@@ -45,6 +46,7 @@ class Opal
     end
   end
 
+
 private
   OPAL_CIVILITY_MAPPING = { "mrs" => 2, "mr" => 1 }
 
@@ -56,7 +58,6 @@ private
 
   def met_a_jour_statut(projet)
     projet.statut = :en_cours_d_instruction
-    projet.statut_updated_date = Time.now
   end
 
   def serialize_civilite(demandeur)
