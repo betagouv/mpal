@@ -9,13 +9,15 @@
           .checkbox
             label
               = radio_button_tag "pris_ids[]", nil, true
-              = "Aucun PRIS"
+              .intervenant_label_align
+                = "Aucun PRIS"
           - @departement_pris_anah.each do |intervenant|
             - found_intervenant = @projet_courant.intervenants.find_by_clavis_service_id intervenant["id_clavis"]
             .checkbox
               label
                 = radio_button_tag  "pris_ids[]", intervenant["id_clavis"], found_intervenant
-                = intervenant["raison_sociale"]
+                .intervenant_label_align
+                  = intervenant["raison_sociale"]
         div.block-intervenants
           h3 Opérateur :
           - @departement_operateurs.each do |intervenant|
@@ -23,19 +25,22 @@
             .checkbox
               label
                 = check_box_tag  "operateur_ids[]", intervenant["id_clavis"], found_intervenant
-                = intervenant["raison_sociale"]
+                .intervenant_label_align
+                  = intervenant["raison_sociale"]
         div.block-intervenants
           h3 Instructeur :
           .checkbox
             label
               = radio_button_tag "instructeur_ids[]", nil, true
-              = "Aucun Instructeur"
+              .intervenant_label_align
+                = "Aucun Instructeur"
           - @departement_instructeurs.each do |intervenant|
             - found_intervenant = @projet_courant.intervenants.find_by_clavis_service_id intervenant["id_clavis"]
             .checkbox
               label
                 = radio_button_tag  "instructeur_ids[]", intervenant["id_clavis"], found_intervenant
-                = intervenant["raison_sociale"]
+                .intervenant_label_align
+                  = intervenant["raison_sociale"]
 
         div#modalIntervenants.modal
           div.modal-content
@@ -44,4 +49,7 @@
             button.modalIntervenants-cancel.btn Annuler
             button.modalIntervenants-confirm.btn Confirmer
 
-        = btn name: t("admin.rod.changer_d_intervenant.valider_selection_intervenant"), class: "btn-large btn-centered confirm-intervenants-js"
+
+        .btn-centered
+          = btn name: t("demarrage_projet.go_back"), href: dossier_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true
+          = btn name: t("admin.rod.changer_d_intervenant.valider_selection_intervenant"), class: "btn-large confirm-intervenants-js"     
