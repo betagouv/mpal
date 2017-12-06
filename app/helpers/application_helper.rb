@@ -115,6 +115,7 @@ module ApplicationHelper
   def affiche_demande_souhaitee(demande)
     html = content_tag(:h4, "Adresse du logement")
     html << content_tag(:p, demande.projet.adresse.description)
+    html << tag(:br)
     besoins = []
     besoins << t("demarrage_projet.demande.changement_chauffage") if demande.changement_chauffage
     besoins << t("demarrage_projet.demande.froid") if demande.froid
@@ -131,6 +132,7 @@ module ApplicationHelper
         besoins.map { |besoin| content_tag(:li, besoin.html_safe) }.join.html_safe
       end
     end
+    html << tag(:br)
     travaux = []
     if demande.projet.prestations.blank?
       travaux << t("demarrage_projet.demande.travaux_fenetres") if demande.travaux_fenetres

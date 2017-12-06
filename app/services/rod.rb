@@ -58,6 +58,16 @@ class Rod
     rod_response
   end
 
+  def list_intervenants_rod(departement)
+    Rails.logger.info "Started Api-ROD request \"#{@client.base_uri}/intpardpt/#{departement}\""
+    start = Time.now
+    response = @client.get("/intpardpt/#{departement}")
+    Rails.logger.info "Completed Api-ROD request (#{response.code}) in #{Time.now - start}s"
+    list_intervenants = JSON.parse(response.body)
+
+    return list_intervenants
+  end
+
 private
   def serialize_demande(projet)
     thematiques = []

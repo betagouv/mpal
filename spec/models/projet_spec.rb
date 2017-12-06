@@ -656,6 +656,7 @@ describe Projet do
       expect(projet.persisted?).to be true
       expect(projet.operateur).to eq(operateur)
       expect(projet.statut).to eq(:en_cours.to_s)
+      expect(projet.statut_updated_date).to eq projet.updated_at
     end
   end
 
@@ -736,6 +737,7 @@ describe Projet do
         expect(projet.changed?).to be false
         expect(projet.statut).to eq(:proposition_enregistree.to_s)
         expect(projet.note_degradation).to eq 0.1
+        expect(projet.statut_updated_date).to eq projet.updated_at
       end
     end
   end
@@ -753,10 +755,11 @@ describe Projet do
         expect(projet.invitations.count).to eq(2)
       end
 
-      it "met à jour la date_depot" do
+      it "met à jour la date_depot et statut_updated_date" do
         expect(projet.date_depot).to be_nil
         projet.transmettre!(instructeur)
         expect(projet.date_depot).to_not be_nil
+        expect(projet.statut_updated_date).to eq projet.updated_at
       end
 
       it "notifie l'instructeur et le demandeur" do

@@ -62,6 +62,8 @@ Rails.application.routes.draw do
       post :dossiers_opal, controller: "dossiers_opal", action: "create"
       put  :update_project_rfr, controller: "avis_impositions", action: "update_project_rfr"
       get  :affecter_agent
+      get  :list_department_intervenants
+      patch :update_project_intervenants
       get  :recommander_operateurs
       post :recommander_operateurs
       get  :proposer
@@ -104,6 +106,7 @@ Rails.application.routes.draw do
 
     get "/instruction", to: "instruction#show", as: "instruction"
   end
+  get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"
 
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

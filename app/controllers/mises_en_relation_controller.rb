@@ -30,6 +30,7 @@ class MisesEnRelationController < ApplicationController
       params[:projet][:disponibilite]
     ) if params[:projet].present?
 
+    #j'ai une question sur cette condition
     if (@projet_courant.intervenants.include?(pris) || rod_response.scheduled_operation?) && eligible
       operateur = rod_response.operateurs.first
       @projet_courant.contact_operateur!(operateur.reload)

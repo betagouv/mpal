@@ -51,6 +51,7 @@ private
     return if projet.blank?
     return unless is_agent_of_projet?(agent, projet)
 
+    #TODO voir si on laisse vraiment manage all
     return can :manage, :all if agent.admin?
     return can :read,   :all if agent.siege?
 
