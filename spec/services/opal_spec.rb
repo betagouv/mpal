@@ -91,6 +91,10 @@ describe Opal do
         expect(projet.agent_instructeur).to eq(agent_instructeur)
       end
 
+      it "met a jour statut_updated_date" do
+        expect(projet.statut_updated_date != nil)
+      end
+
       context "avec un rfr modifié" do
         let(:projet) { create :projet, :with_trusted_person, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1, modified_revenu_fiscal_reference: 10 }
 
