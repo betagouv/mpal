@@ -582,6 +582,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        titles.append('Agent PRIS')
        titles.append('PRIS EIE')
        titles.append('project id')
+       titles.append('Date de modification du Statut')
      end
 
      titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
@@ -617,6 +618,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
          line.append(pris)
          line.append(pris_eie)
          line.append(projet.id)
+         line.append(projet.statut_updated_date)
        end
 
        payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
