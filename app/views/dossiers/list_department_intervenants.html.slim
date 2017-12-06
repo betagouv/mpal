@@ -44,4 +44,7 @@
             button.modalIntervenants-cancel.btn Annuler
             button.modalIntervenants-confirm.btn Confirmer
 
-        = btn name: t("admin.rod.changer_d_intervenant.valider_selection_intervenant"), class: "btn-large btn-centered confirm-intervenants-js"
+
+        .btn-centered
+          = btn name: t("demarrage_projet.go_back"), href: dossier_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true
+          = btn name: t("admin.rod.changer_d_intervenant.valider_selection_intervenant"), class: "btn-large confirm-intervenants-js"     
