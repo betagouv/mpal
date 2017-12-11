@@ -31,20 +31,20 @@ module Tools
   def self.calcule_preeligibilite(revenu_global, departement, nb_occupants)
     plafond_ressources = {
       idf: {
-        1 => { tres_modeste: 19875, modeste: 24194 },
-        2 => { tres_modeste: 29171, modeste: 35510 },
-        3 => { tres_modeste: 35032, modeste: 42648 },
-        4 => { tres_modeste: 40905, modeste: 49799 },
-        5 => { tres_modeste: 46798, modeste: 56970 },
-        par_personne_supplementaire: { tres_modeste: 5882, modeste: 7162 }
+        1 => { tres_modeste: 20079, modeste: 24443 },
+        2 => { tres_modeste: 29471, modeste: 35875 },
+        3 => { tres_modeste: 35392, modeste: 43086 },
+        4 => { tres_modeste: 41325, modeste: 50311 },
+        5 => { tres_modeste: 47279, modeste: 57555 },
+        par_personne_supplementaire: { tres_modeste: 5943, modeste: 7236 }
       },
       province: {
-        1 => { tres_modeste: 14360, modeste: 18409 },
-        2 => { tres_modeste: 21001, modeste: 26923 },
-        3 => { tres_modeste: 25257, modeste: 32377 },
-        4 => { tres_modeste: 29506, modeste: 37826 },
-        5 => { tres_modeste: 33774, modeste: 43297 },
-        par_personne_supplementaire: { tres_modeste: 4257, modeste: 5454 }
+        1 => { tres_modeste: 14508, modeste: 18598 },
+        2 => { tres_modeste: 21217, modeste: 27200 },
+        3 => { tres_modeste: 25517, modeste: 32710 },
+        4 => { tres_modeste: 29809, modeste: 38215 },
+        5 => { tres_modeste: 34121, modeste: 43742 },
+        par_personne_supplementaire: { tres_modeste: 4301, modeste: 5510 }
       }
     }
 
