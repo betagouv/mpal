@@ -121,7 +121,7 @@ class Projet < ApplicationRecord
     if :depot == sorting
       scope.where("projets.date_depot IS NOT NULL").order("projets.date_depot DESC")
     else # :created == sorting
-      scope.order("projets.created_at DESC")
+      scope.order("projets.actif DESC").order("projets.created_at DESC")
     end
   }
   scope :for_text, ->(opts) {
@@ -572,7 +572,8 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Opérateur',
        'Date de visite',
        'Date dépôt',
-       'État'
+       'État',
+       'Actif/Incatif'
      ]
 
      if is_admin == true
@@ -603,7 +604,8 @@ def self.to_csv(agent, selected_projects, is_admin = false)
          projet.contacted_operateur.try(:raison_sociale),
          projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
          projet.date_depot.present? ? format_date(projet.date_depot) : "",
-         I18n.t(projet.status_for_intervenant, scope: "projets.statut")
+         I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
+         projet.actif? ? "Actif" : "Incatif"
        ]
 
        if is_admin == true

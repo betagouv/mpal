@@ -32,7 +32,7 @@ class Invitation < ApplicationRecord
     if :depot == sorting
       scope.where("ifsb_projets.date_depot IS NOT NULL").order("ifsb_projets.date_depot DESC")
     else # :created == sorting
-      scope.order("ifsb_projets.created_at DESC")
+      scope.order("ifsb_projets.actif DESC").order("ifsb_projets.created_at DESC")
     end
   }
   scope :for_text, ->(opts) {

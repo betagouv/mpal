@@ -115,3 +115,14 @@
   margin-bottom: 5px;
   word-break: keep-all; 
 }
+
+.buttonActive {
+  text-align: center;
+  width: 200px;
+  .btn-button-activate, .btn-button-deactivate {
+    display: inline-block;
+    width: 100%;
+  }
+  .btn-button-activate { background-color: #009900; }
+  .btn-button-deactivate { background-color: $color-red; }
+}
