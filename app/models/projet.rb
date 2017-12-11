@@ -581,7 +581,7 @@ class Projet < ApplicationRecord
         line = [
           projet.numero_plateforme,
           format_date(projet.created_at),
-          projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
+          projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.try(:fullname),
           projet.adresse.try(:ville),
           projet.invited_instructeur.try(:raison_sociale),
           projet.themes.map(&:libelle).join(", "),
