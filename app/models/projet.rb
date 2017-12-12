@@ -647,8 +647,6 @@ def self.to_csv(agent, selected_projects, is_admin = false)
       invitation.suggested && !invitation.contacted && invitation.intervenant != operateur
     elsif intervenant.dreal?
       true
-    else
-      false
     end
   end
 
