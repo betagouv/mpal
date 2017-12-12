@@ -5,6 +5,8 @@
         h2
           span.firstname= demandeur.prenom
           span.lastname<= demandeur.nom
+      - if Time.now.strftime("%Y").to_i - project.avis_impositions.first.annee.to_i >= 2 && current_agent.operateur? == true && project.date_depot == nil
+        - flash[:notice] = "RFR >= N-2"
       p
         = project.adresse.ville
         - if project.themes.any?
