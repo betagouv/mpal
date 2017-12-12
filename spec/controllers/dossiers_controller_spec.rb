@@ -3,6 +3,11 @@ require "support/mpal_helper"
 require "support/rod_helper"
 
 describe DossiersController do
+  before do
+    Fakeweb::Rod.list_department_intervenants_helper
+    Fakeweb::Rod.register_intervenant
+  end
+
   context "en tant qu'agent, si je ne suis pas connecté" do
     context "quand j'essaie d'accéder au tableau de bord" do
       subject { get :index }
@@ -372,6 +377,75 @@ describe DossiersController do
         expect(assigns(:status_with_count)[:en_cours_de_montage]).to eq 3
         expect(assigns(:status_with_count)[:depose]).to eq 0
         expect(assigns(:status_with_count)[:en_cours_d_instruction]).to eq 0
+      end
+    end
+  end
+
+  describe "En tant qu'admin je veux changer les intervenants d'un dossier" do
+    let!(:agent)          { create :agent, admin: true}
+    let(:adresse_du_25)   { create :adresse, :rue_des_brosses}
+    let(:projet_du_25)    { create :projet, :prospect, :with_invited_pris, adresse_postale: adresse_du_25 }
+    let(:pris)            { projet_du_25.invited_pris }
+    let(:nouveau_pris)    { Rod.new(RodClient).create_intervenant!(5421) }
+
+    before do
+      Fakeweb::Rod.register_intervenant
+      authenticate_as_agent agent
+    end
+
+    describe "#list_department_intervenants" do
+      it "renvoie les intervenants du département" do
+        get :list_department_intervenants, params: { dossier_id: projet_du_25.id }
+
+        expect(assigns(:departement_operateurs).count).to eq 2
+        expect(assigns(:departement_instructeurs).count).to eq 1
+        expect(assigns(:departement_pris_anah).count).to eq 1
+
+        expect(assigns(:departement_operateurs).first["id_clavis"]).to eq 5262
+        expect(assigns(:departement_operateurs).first["raison_sociale"]).to eq "SOLIHA 25-90"
+        expect(assigns(:departement_operateurs).first["email"]).to eq "demo-operateur@anah.gouv.fr"
+      end
+    end
+
+    describe "#update_project_intervenants" do
+      context "#add_invitations_when_checked" do
+        it "ajoute un nouvel intervenant (ex pris) s'il n'etait pas sur le projet" do
+          expect(projet_du_25.invitations.count).to eq 1
+
+          patch :update_project_intervenants, params: {
+              dossier_id: projet_du_25.id,
+              pris_ids: [pris.clavis_service_id, nouveau_pris.clavis_service_id]
+          }
+          projet_du_25.reload
+          expect(projet_du_25.invitations.count).to eq 2
+          expect([projet_du_25.invitations.first.intervenant, projet_du_25.invitations.second.intervenant] ).to include pris
+          expect([projet_du_25.invitations.first.intervenant, projet_du_25.invitations.second.intervenant] ).to include nouveau_pris
+          expect(flash[:success]).to be_present
+        end
+
+        it "ne change rien s'il etait sur le projet" do
+          patch :update_project_intervenants, params: {
+              dossier_id: projet_du_25.id,
+              pris_ids: [pris.clavis_service_id]
+          }
+          projet_du_25.reload
+          expect(projet_du_25.invitations.count).to eq 1
+          expect(projet_du_25.invitations.first.intervenant).to eq pris
+        end
+      end
+
+      context "#delete_invitations_when_unchecked" do
+        it "supprime une invitation s'il n'est plus sur le projet" do
+          expect(projet_du_25.invitations.count).to eq 1
+
+          patch :update_project_intervenants, params: {
+              dossier_id: projet_du_25.id,
+              pris_ids: []
+          }
+          projet_du_25.reload
+          expect(flash[:success]).to be_present
+          expect(projet_du_25.invitations.count).to eq 0
+        end
       end
     end
   end

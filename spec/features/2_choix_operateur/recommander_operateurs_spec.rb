@@ -13,6 +13,7 @@ feature "Recommander un opérateur:" do
     let(:agent_pris)   { create :agent, intervenant: pris }
 
     before do
+      Fakeweb::Rod.list_department_intervenants_helper
       create :invitation, projet: projet, intervenant: pris
       login_as agent_pris, scope: :agent
     end
@@ -69,7 +70,7 @@ feature "Recommander un opérateur:" do
 
         expect(page).to     have_current_path dossier_path(projet)
         expect(page).to     have_content I18n.t("recommander_operateurs.succes.one", demandeur: projet.demandeur.fullname)
-        expect(page).not_to have_content suggested_operateur1.raison_sociale
+        expect('<div class="operateurs_choisis-test">').not_to have_content suggested_operateur1.raison_sociale
         expect(page).to     have_content suggested_operateur2.raison_sociale
       end
     end

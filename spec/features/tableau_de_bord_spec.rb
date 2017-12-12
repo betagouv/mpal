@@ -2,9 +2,13 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
+require 'support/rod_helper'
 
 feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
-  before { login_as current_agent, scope: :agent }
+  before do
+    Fakeweb::Rod.list_department_intervenants_helper
+    login_as current_agent, scope: :agent
+  end
 
   context "en tant que siège" do
     let(:siege)         { create :siege }

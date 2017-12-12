@@ -62,6 +62,8 @@ Rails.application.routes.draw do
       post :dossiers_opal, controller: "dossiers_opal", action: "create"
       put  :update_project_rfr, controller: "avis_impositions", action: "update_project_rfr"
       get  :affecter_agent
+      get  :list_department_intervenants
+      patch :update_project_intervenants
       get  :recommander_operateurs
       post :recommander_operateurs
       get  :proposer

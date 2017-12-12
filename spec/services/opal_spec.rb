@@ -91,6 +91,10 @@ describe Opal do
         expect(projet.agent_instructeur).to eq(agent_instructeur)
       end
 
+      it "met a jour statut_updated_date" do
+        expect(projet.statut_updated_date != nil)
+      end
+
       context "avec un rfr modifié" do
         let(:projet) { create :projet, :with_trusted_person, :transmis_pour_instruction, declarants_count: 1, occupants_a_charge_count: 1, modified_revenu_fiscal_reference: 10 }
 
@@ -112,7 +116,7 @@ describe Opal do
         let(:payload) do [{ message: "Utilisateur inconnu : veuillez-vous connecter à OPAL.", code: 1000 }] end
 
         it "lève une exception avec le message d'erreur" do
-          expect { opal.create_dossier!(projet, agent_instructeur) }.to raise_error OpalError, "Utilisateur inconnu : veuillez-vous connecter à OPAL."
+          expect { opal.create_dossier!(projet, agent_instructeur) }.to raise_error OpalError, "Unprocessable Entity (422)"
         end
       end
 
@@ -213,7 +217,7 @@ describe Opal do
         let(:payload) do  [{ message: "Utilisateur inconnu : veuillez-vous connecter à OPAL.", code: 1000 }] end
 
         it "lève une exception avec le message d'erreur" do
-          expect { opal.update_projet_with_dossier_paiement!(projet, payment) }.to raise_error OpalError, "Utilisateur inconnu : veuillez-vous connecter à OPAL."
+          expect { opal.update_projet_with_dossier_paiement!(projet, payment) }.to raise_error OpalError, "Unprocessable Entity (422)"
         end
       end
 

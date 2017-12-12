@@ -2,6 +2,7 @@ require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/api_particulier_helper'
 require 'support/api_ban_helper'
+require 'support/rod_helper'
 
 feature "Remplir la proposition de travaux" do
   let(:projet)            { create :projet, :en_cours }
@@ -16,7 +17,10 @@ feature "Remplir la proposition de travaux" do
   let!(:aide_2)           { create :aide }
 
   context "en tant qu'opérateur" do
-    before { login_as agent_operateur, scope: :agent }
+    before do
+      Fakeweb::Rod.list_department_intervenants_helper
+      login_as agent_operateur, scope: :agent
+    end
 
     scenario "je visualise la proposition de travaux pour m'affecter le projet" do
       visit dossier_path(projet)

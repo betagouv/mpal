@@ -1,6 +1,7 @@
 require 'rails_helper'
 require 'support/mpal_features_helper'
 require 'support/opal_helper'
+require 'support/rod_helper'
 
 feature "Créer le dossier dans Opal" do
   let(:projet) { create :projet, statut }
@@ -8,7 +9,10 @@ feature "Créer le dossier dans Opal" do
   context "en tant qu'agent instructeur" do
     let(:instructeur) { projet.intervenants.instructeur.first }
     let(:agent_instructeur) { create :agent, intervenant: instructeur }
-    before { login_as agent_instructeur, scope: :agent }
+    before do
+      Fakeweb::Rod.list_department_intervenants_helper
+      login_as agent_instructeur, scope: :agent
+    end
 
     context "avant que le dossier ne soit transmis" do
       let(:statut) { :transmis_pour_instruction }
@@ -34,7 +38,7 @@ feature "Créer le dossier dans Opal" do
           click_button I18n.t('projets.creation_opal.titre_creation_opal')
 
           expect(page).to have_current_path dossier_path(projet)
-          expect(page).to have_content(I18n.t("projets.creation_opal.messages.erreur", message: "Utilisateur inconnu : veuillez-vous connecter à OPAL."))
+          expect(page).to have_content("Une erreur est survenue lors de la creation du dossier dans Opal : Unprocessable Entity (422)")
         end
       end
     end
