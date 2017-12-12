@@ -14,7 +14,7 @@
     = link_to dossiers_path, class: "btn btn-default btn-icon agent-menu__item", title: "Aller au tableau de bord" do
       i.glyphicon.glyphicon-list
       span.agent-menu__text-button Tableau de bord
-    - if current_agent.instructeur? || current_agent.siege?
+    - if current_agent.instructeur? || current_agent.siege? || current_agent.dreal?
       = link_to indicateurs_dossiers_path, class: "btn btn-default btn-icon agent-menu__item", title: "Voir mes indicateurs" do
         i.glyphicon.glyphicon-zoom-in
         span.agent-menu__text-button Indicateurs

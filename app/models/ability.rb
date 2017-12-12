@@ -54,6 +54,7 @@ private
     #TODO voir si on laisse vraiment manage all
     return can :manage, :all if agent.admin?
     return can :read,   :all if agent.siege?
+    return can :read,   Projet if agent.dreal?
 
     operateur_abilities(projet)   if agent.operateur?
     instructeur_abilities(projet) if agent.instructeur?
