@@ -106,8 +106,6 @@ Rails.application.routes.draw do
 
     get "/reset" => "tools#reset_base"
 
-    get  "/rfr_flash_alert" => "dossiers#rfr_flash_alert"
-
     get "/instruction", to: "instruction#show", as: "instruction"
   end
   get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"

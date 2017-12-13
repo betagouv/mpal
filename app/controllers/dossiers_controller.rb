@@ -129,14 +129,11 @@ class DossiersController < ApplicationController
     end
   end
 
-
-  helper_method :rfr_flash_alert
-  def rfr_flash_alert
-    flash.now[:notice] = "Revenu Fiscal de Rerefence >= N-2"
-  end
-
   def show
     list_department_intervenants
+    if Time.now.strftime("%Y").to_i - @projet_courant.avis_impositions.first.annee.to_i >= 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
+      flash.now[:notice] = "Revenu Fiscal de Rerefence >= N-2"
+    end
     render_show
   end
 
