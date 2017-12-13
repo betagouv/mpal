@@ -645,8 +645,8 @@ def self.to_csv(agent, selected_projects, is_admin = false)
     elsif intervenant.operateur?
       invitation = invitations.find_by(intervenant: intervenant)
       invitation.suggested && !invitation.contacted && invitation.intervenant != operateur
-    else
-      false
+    elsif intervenant.dreal?
+      true
     end
   end
 
