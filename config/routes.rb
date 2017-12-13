@@ -37,6 +37,8 @@ Rails.application.routes.draw do
 
   get  "/debug_exception",           to: "application#debug_exception"
 
+
+
   #CONTACTS
   resources :contacts, only: [:index, :new, :create]
 
@@ -103,6 +105,8 @@ Rails.application.routes.draw do
     end
 
     get "/reset" => "tools#reset_base"
+
+    get  "/rfr_flash_alert" => "dossiers#rfr_flash_alert"
 
     get "/instruction", to: "instruction#show", as: "instruction"
   end

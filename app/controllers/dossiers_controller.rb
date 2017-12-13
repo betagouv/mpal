@@ -129,6 +129,12 @@ class DossiersController < ApplicationController
     end
   end
 
+
+  helper_method :rfr_flash_alert
+  def rfr_flash_alert
+    flash.now[:notice] = "Revenu Fiscal de Rerefence >= N-2"
+  end
+
   def show
     list_department_intervenants
     render_show

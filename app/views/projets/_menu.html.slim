@@ -12,7 +12,8 @@
       / TODO 2017-08-07: suppression à valider avec PO
       - if current_agent
         - if Time.now.strftime("%Y").to_i - project.avis_impositions.first.annee.to_i >= 2 && current_agent.operateur? == true && project.date_depot == nil
-           - flash[:notice] = "RFR >= N-2"
+          - rfr_flash_alert()
+          
         p
           = project.numero_plateforme
           - if project.opal_numero.present?
