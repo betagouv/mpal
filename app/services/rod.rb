@@ -9,6 +9,7 @@ class Rod
   ROLE_MAPPING = {
     "ANAH_SIEGE" => "siege",
     "DREAL" =>      "dreal",
+    "DDT_AG" =>      "dreal",
     "DEAT" =>       "deat",
     "DL" =>         "instructeur",
     "DLC2" =>       "instructeur",
