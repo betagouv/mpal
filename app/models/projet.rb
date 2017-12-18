@@ -597,7 +597,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        line = [
          projet.numero_plateforme,
          format_date(projet.created_at),
-         projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
+         projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.try(:fullname),
          projet.adresse.try(:ville),
          projet.invited_instructeur.try(:raison_sociale),
          projet.themes.map(&:libelle).join(", "),
@@ -608,8 +608,13 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        ]
 
        if is_admin == true
+        begin
          pris_eie = !projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
          pris = projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
+       rescue
+          pris_eie = nil
+          pris = nil
+       end
          op = (projet.intervenants != [] && projet.invited_pris == nil) ? "Oui" : "Non"
 
          line.append(projet.try(:max_registration_step))
