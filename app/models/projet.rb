@@ -608,8 +608,13 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        ]
 
        if is_admin == true
+        begin
          pris_eie = !projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
          pris = projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
+       rescue
+          pris_eie = nil
+          pris = nil
+       end
          op = (projet.intervenants != [] && projet.invited_pris == nil) ? "Oui" : "Non"
          date_update = projet.statut_updated_date == nil ? "" : projet.statut_updated_date.strftime("%d/%m/%Y %Hh%M")
 
