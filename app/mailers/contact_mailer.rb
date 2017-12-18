@@ -3,7 +3,7 @@ class ContactMailer < ApplicationMailer
     @contact = contact
 
     mail(
-      to:          ENV['EMAIL_CONTACT'],
+      to:          ENV['EMAIL_CONTACT'] + ", " +  ENV['EMAIL_CONTACT_2'],
       reply_to:    @contact.email,
       subject:     embedded_object(@contact),
       description: @contact.description

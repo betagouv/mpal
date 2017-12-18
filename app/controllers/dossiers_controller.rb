@@ -47,7 +47,6 @@ class DossiersController < ApplicationController
   end
 
   def index
-    return redirect_to indicateurs_dossiers_path if current_agent.dreal?
     if render_index
       @page_full_width = true
       @page_heading = I18n.t('tableau_de_bord.titre_section')
@@ -244,6 +243,8 @@ class DossiersController < ApplicationController
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
           end
+        elsif current_agent.dreal?
+          @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
         elsif current_agent.siege?
           @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
@@ -275,6 +276,9 @@ class DossiersController < ApplicationController
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
           end
+          @selected_projects = @dossiers
+        elsif current_agent.dreal?
+          @dossiers = current_agent.intervenant.projets
           @selected_projects = @dossiers
         else
           @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
