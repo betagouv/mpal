@@ -34,6 +34,7 @@
           th État
           - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
             th État des paiements
+            th Date de chgmnt d'Etat
           - if current_agent.admin?
             th Bouton de synchronisation
           / TODO
@@ -119,6 +120,9 @@
               td
                 = anonymize anonymized, edit_url do
                   = projet.payments.map(&:dashboard_status).join(", ")
+              td
+                - if projet.date_position_opal?
+                  = projet.date_position_opal
             - if current_agent.admin?
               td
                 - if !item.occupants.present? || !item.avis_impositions.present?
