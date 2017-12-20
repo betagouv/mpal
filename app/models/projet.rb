@@ -116,12 +116,18 @@ class Projet < ApplicationRecord
     where(["projets.statut IN (?)", Projet::INTERVENANT_STATUSES_MAPPING[status.to_sym].map { |x| Projet::statuts[x] }])
   }
   scope :for_sort_by, ->(field) {
-    sorting = field.to_sym if field.present? && Projet::SORT_BY_OPTIONS.include?(field.to_sym)
+    # sorting = field.to_sym if field.present? && Projet::SORT_BY_OPTIONS.include?(field.to_sym)
     scope = group("projets.id")
-    if :depot == sorting
-      scope.where("projets.date_depot IS NOT NULL").order("projets.date_depot DESC")
-    else # :created == sorting
-      scope.order("projets.created_at DESC")
+    if !field.nil? && !field.empty?
+      arr = field.split(' ')
+      if !arr[1].present? || arr[1] != "ASC"
+        arr[1] = "DESC"
+      end
+      if arr[0] == 'depot'
+        scope.where("projets.date_depot IS NOT NULL").order("projets.date_depot " + arr[1])
+      else # :created == sorting
+        scope.order("projets.created_at " + arr[1])
+      end
     end
   }
   scope :for_text, ->(opts) {

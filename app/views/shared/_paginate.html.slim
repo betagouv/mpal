@@ -2,5 +2,5 @@
   p.page-entries= custom_page_entries_info items
 .pagination-wrapper
   - if items.respond_to?(:total_pages)
-    = will_paginate items, inner_window: 1, outer_window: 1, :previous_label => '<  ', :next_label => '  >'
+    = will_paginate items, inner_window: 1, outer_window: 1, :previous_label => '<  ', :next_label => '  >' , :param_name => cur_page
 

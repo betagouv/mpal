@@ -316,54 +316,120 @@ $(document).ready(function() {
     fundings.keyup(sumFundings);
   }
 
-    function intervenantsModal() {
-        var modal = document.getElementById('modalIntervenants');
-        if (undefined !== modal && null !== modal) {
-            var no_redirect = document.getElementsByClassName("modalIntervenants-cancel")[0];
-            no_redirect.onclick = function(e ) {
-                e.preventDefault();
-                modal.style.display = "none";
-            };
-            $(".confirm-intervenants-js").click(function(e) {
-                e.preventDefault();
-                var checked = intervenantsCaptureCheckbox().split(",");
-                $(".modal-text").empty();
-                $(".modal-text").append("<div id='displayIntervenantsContainer'></div>");
-                $("#displayIntervenantsContainer").append("<p>Souhaitez-vous vraiment associer ces intervenants au projet ?</p>");
-                for (var i in checked) {
-                    if (checked.hasOwnProperty(i))
-                        if (i < checked.length - 1)
-                            $("#displayIntervenantsContainer").append("<div class='displayIntervenants'>" + checked[i] + "</div>");
-                }
-                modal.style.display = "block";
-            });
-            window.onclick = function(event) {
-                if (event.target == modal)
-                    modal.style.display = "none";
-            }
-        }
-    }
+  function intervenantsModal() {
+      var modal = document.getElementById('modalIntervenants');
+      if (undefined !== modal && null !== modal) {
+          var no_redirect = document.getElementsByClassName("modalIntervenants-cancel")[0];
+          no_redirect.onclick = function(e ) {
+              e.preventDefault();
+              modal.style.display = "none";
+          };
+          $(".confirm-intervenants-js").click(function(e) {
+              e.preventDefault();
+              var checked = intervenantsCaptureCheckbox().split(",");
+              $(".modal-text").empty();
+              $(".modal-text").append("<div id='displayIntervenantsContainer'></div>");
+              $("#displayIntervenantsContainer").append("<p>Souhaitez-vous vraiment associer ces intervenants au projet ?</p>");
+              for (var i in checked) {
+                  if (checked.hasOwnProperty(i))
+                      if (i < checked.length - 1)
+                          $("#displayIntervenantsContainer").append("<div class='displayIntervenants'>" + checked[i] + "</div>");
+              }
+              modal.style.display = "block";
+          });
+          window.onclick = function(event) {
+              if (event.target == modal)
+                  modal.style.display = "none";
+          }
+      }
+  }
 
-    function intervenantsCaptureCheckbox() {
-        var blkIntervenants = $(".block-intervenants");
-        var result = "";
+  function intervenantsCaptureCheckbox() {
+      var blkIntervenants = $(".block-intervenants");
+      var result = "";
 
-        blkIntervenants.each(function(index, element) {
-            var role = $(element).find("h3").text();
-            var checkbox = $(element).find("input:checked");
+      blkIntervenants.each(function(index, element) {
+          var role = $(element).find("h3").text();
+          var checkbox = $(element).find("input:checked");
 
-            checkbox.each(function(index, element) {
-                var elementText = $(element).parent().text();
-                result += role + " " + elementText + ",";
-            });
+          checkbox.each(function(index, element) {
+              var elementText = $(element).parent().text();
+              result += role + " " + elementText + ",";
+          });
+      });
+      return (result);
+  }
 
+  function dashboardNewTab() {
+    $('.dashboardContainer ul.dashboardTabContainer').addClass('active').find('> li:eq(0)').addClass('current');
 
-        });
-        return (result);
-    }
+    $('.dashboardContainer ul.dashboardTabContainer li a').click(function (e) { 
+      var tab = $(this).closest('.dashboardContainer'), 
+          index = $(this).closest('li').index();
+      
+      tab.find('ul.dashboardTabContainer > li').removeClass('current');
+      $(this).closest('li').addClass('current');
+      
+      tab.find('.tab_content').find('div.tabs_item').not('div.tabs_item:eq(' + index + ')').hide();;
+      tab.find('.tab_content').find('div.tabs_item:eq(' + index + ')').show();
+      
+      e.preventDefault();
+    } );
+  }
 
-    intervenantsModal();
+  function dashboardFilterAdvanced() {
+    $(".dashboardFilterContainerAdvanced").slideUp();
+    $(".dashboardFilterAdvancedCheckbox").change(function(e) {
+      if ($(this).is(':checked')) {
+        $(".dashboardFilterContainerAdvanced").slideDown();
+        $(".dashboardFilterFreeSearch input").attr('disabled','disabled');
+      } else {
+        $(".dashboardFilterContainerAdvanced").slideUp();
+        $(".dashboardFilterFreeSearch input").removeAttr('disabled');
+      }
+    });
+  }
 
+  function dashboardSearchClick() {
+    $('.dashboardFilterSearchButton').click(function(e) {
+      var searchParam = "?utf8=✓";
+      var freeSearch = $('.dashboardFilterFreeSearch input').val();
+      searchParam += "&search[query]=" + freeSearch;
+
+      var intervType = $('.dashboardFilterStatus select').find(":selected").text();
+      if (intervType == "Type d'intervention" || intervType == "")
+        intervType = "";
+      searchParam += "&search[type]=" + intervType;
+
+      var status = $('.dashboardFilterState select').find(":selected").text();
+      if (status == "Etat du dossier" || status == "")
+        status = "";
+      searchParam += "&search[status]=" + status;
+
+      if ($(".dashboardFilterAdvancedCheckbox").is(':checked')) {
+        var filterOrderBy = $(".OrderBy input[type='radio']:checked").attr("id");
+        if (filterOrderBy == "dateDeCreation")
+          filterOrderBy = "created";
+        else
+          filterOrderBy = "depot";
+
+        var filterOrderOrder = $(".OrderOrder input[type='radio']:checked").attr("id");
+        if (filterOrderOrder == "ascend")
+          filterOrderOrder = "ASC";
+        else
+          filterOrderOrder = "DESC";
+        searchParam += "&search[sort_by]=" + filterOrderBy + " " + filterOrderOrder;
+      }
+
+      var url = "/dossiers" + searchParam;
+      document.location = url;
+    });
+  }
+
+  intervenantsModal();
+  dashboardFilterAdvanced();
+  dashboardSearchClick();
+  dashboardNewTab();
   bindReliablePersonForm();
   bindSmoothScrolling();
   bindLoginHelpers();

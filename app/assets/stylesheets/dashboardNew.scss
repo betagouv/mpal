@@ -1,0 +1,292 @@
+// DASHBOARD PART
+.dashboardTab { display: inline-block; }
+.dashboardContainer {
+	margin-bottom: 20px;
+	position: relative;
+	overflow: hidden;
+	background: #fff;
+	width: 100%;
+	font-family: 'Roboto', sans-serif;
+	line-height: 1.5;
+	font-weight: 300;
+	color: #888;
+	-webkit-font-smoothing: antialiased;
+}
+.dashboardTabContainer {
+	display: table;
+	position: relative;
+	overflow: hidden;
+	margin-left: 20px;
+	width: calc(100% - 20px);
+	li {
+		padding: 0;
+		position: relative;
+		display: inline-block;
+		overflow: hidden;
+		color: #fff;
+		border-left: 1px solid $color-dark-grey;
+		border-radius: 3px;
+		z-index: 0;
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -18px;
+			width: 100%;
+			height: 100%;
+			background: #eee;
+			-webkit-transform-origin: 100% 0;
+			-ms-transform-origin: 100% 0;
+			transform-origin: 100% 0;
+			-webkit-transform: skew(35deg);
+			-ms-transform: skew(35deg);
+			transform: skew(35deg);
+			z-index: -1;
+			border: 1px solid $color-dark-grey;
+			border-radius: 3px;
+		}
+	}
+	a {
+		color: #888;
+		font-weight: 500;
+		display: block;
+		letter-spacing: 0;
+		outline: none;
+		padding: 0 20px;
+		text-decoration: none;
+		-webkit-transition: all 0.2s ease-in-out;
+		-moz-transition: all 0.2s ease-in-out;
+		transition: all 0.2s ease-in-out;
+		border-bottom: 2px solid $color-very-dark-grey;
+		overflow: hidden;
+	}
+	.current a {
+		color: $color-very-dark-grey;
+		border-bottom: 3px solid $color-very-dark-grey;
+	}
+}
+.tab_content {
+	border: 3px solid black;
+    top: -9px;
+    position: relative;
+}
+.tabs_item {
+	display: none;
+	table {
+		width: 100%;
+		tr {
+			&:nth-child(odd) {
+				color: black;
+				background: $color-alt-grey;
+			}
+			&:nth-child(even) {
+				color: black;
+				background: white;
+			}
+			& { border-bottom: 2px solid $color-very-dark-grey; }
+			&:hover {
+				background: $color-dark-grey;
+				color: white;
+			}
+			.dashboardDateTextContainer {
+				width: 100%;
+				min-height: 25px;
+				a {
+					display: inline-block;
+					width: 100%;
+				}
+			}
+			.dashboardDateText1, .dashboardDateText2 {
+				display: inline-block;
+				text-decoration: underline;
+				&:hover { text-decoration: none; }
+			}
+			.dashboardDateText1 { float: left; }
+			.dashboardDateText2 { float: right; }
+		}
+		.tableRowIconsBorder {
+			text-align: center;
+			border-left: 1px solid $color-very-dark-grey;
+			width: 90px;
+			&:hover {
+				font-size: 12px;
+				font-weight: bold;
+				cursor: pointer;
+			}
+		}
+	}
+	&:first-child { display: block; }
+}
+
+// DASHBOARD FILTERS PART NORMAL
+.dashboardFilterContainer {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	min-height: 50px;
+	height: auto;
+	background-color: $color-grey;
+	z-index: 100;
+	margin-bottom: 20px;
+	.dashboardFilterSearch {
+		position: relative;
+		display: inline-block;
+		margin-left: 10px;
+		width: 110px;
+		height: 40px;
+		margin-top: 5px;
+		div {
+			border-radius: 0.25rem;
+			border: 1px solid rgba(0, 0, 0, 0.15);
+			padding: 0.5rem 0.75rem;
+			font-size: 1rem;
+			line-height: 1.25;
+			color: white;
+			background-color: $color_red;
+			cursor: pointer;
+			&:hover {
+				background-color: $color-dark-red;
+			}
+		}
+	}
+	.dashboardFilterFreeSearch {
+		position: relative;
+		display: inline-block;
+		margin-left: 10px;
+		// min-width: 215px;
+		width: 40%;
+		height: 40px;
+		margin-top: 5px;
+		input {
+			width: 100%;
+			height: 100%;
+			border-radius: 0.25rem;
+			border: 1px solid rgba(0, 0, 0, 0.15);
+			padding: 0.5rem 0.75rem;
+			font-size: 1rem;
+			line-height: 1.25;
+			&:disabled {
+				background-color: $color-another-grey;
+				cursor: not-allowed;
+			}
+		}
+	}
+	.dashboardFilterStatus, .dashboardFilterState {
+		position: relative;
+		display: inline-block;
+		// min-width: 215px;
+		width: 20%;
+		height: 40px;
+		bottom: 1px;
+		margin-left: 10px;
+		select {
+			width: 100%;
+			height: 100%;
+			border-radius: 0.25rem;
+			border: 1px solid rgba(0, 0, 0, 0.15);
+			padding: 0.5rem 0.75rem;
+			background-color: white;
+			font-size: 1rem;
+			line-height: 1.25;
+		}
+	}
+	.dashboardFilterAdvanced {
+		position: relative;
+		display: inline-block;
+		margin-left: 10px;
+		height: 40px;
+		line-height: 40px;
+		color: black;
+	}
+}
+
+// DASHBOARD FILTERS PART NORMAL
+.dashboardFilterContainerAdvanced {
+	display: none;
+	position: absolute;
+	// bottom: 20px;
+	width: 100%;
+	height: 250px;
+	background-color: $color-grey;
+	vertical-align: top;
+	padding: 0.5rem 0.75rem;
+	z-index: 100;
+	.dashboardFilterContainerAdvancedLeft {
+		position: absolute;
+		display: inline-block;
+		height: 250px;
+		width: 30%;
+		.dashboardFilterArea {
+			position: relative;
+			display: block;
+			margin-top: 10px;
+			width: calc(100% - 10px);
+			bottom: 1px;
+			input {
+				width: 100%;
+				height: 40px;
+				border-radius: 0.25rem;
+				border: 1px solid rgba(0, 0, 0, 0.15);
+				padding: 0.5rem 0.75rem;
+				font-size: 1rem;
+				line-height: 1.25;
+			}
+		}
+	}
+	.dashboardFilterContainerAdvancedCenter {
+		position: absolute;
+		display: inline-block;
+		margin-left: calc(30% + 30px);
+		margin-top: 10px;
+		height: 250px;
+		width: 23%;
+		.dashboardFilterOrder {
+			position: relative;
+			&:last-child { float: right; }
+			&:first-child { float: left; }
+			input {
+				margin-right: 4px;
+			}
+		}
+	}
+	.dashboardFilterContainerAdvancedRight {
+		position: absolute;
+		display: inline-block;
+		margin-left: calc(30% + 25% + 40px);
+		width: 40%;
+		.dashboardFilterArea {
+			position: relative;
+			display: block;
+			margin-left: 10px;
+			margin-top: 10px;
+			width: calc(60% - 10px);
+			bottom: 1px;
+			input {
+				width: 100%;
+				height: 40px;
+				border-radius: 0.25rem;
+				border: 1px solid rgba(0, 0, 0, 0.15);
+				padding: 0.5rem 0.75rem;
+				font-size: 1rem;
+				line-height: 1.25;
+			}
+		}
+		.dashboardFilterAreaDate {
+			position: relative;
+			display: block;
+			margin-left: 10px;
+			margin-top: 10px;
+			width: calc(27% - 10px);
+			bottom: 1px;
+			input {
+				width: 100%;
+				height: 40px;
+				border-radius: 0.25rem;
+				border: 1px solid rgba(0, 0, 0, 0.15);
+				padding: 0.5rem 0.75rem;
+				font-size: 1rem;
+				line-height: 1.25;
+			}
+		}
+	}
+}

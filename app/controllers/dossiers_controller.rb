@@ -1,5 +1,6 @@
 class DossiersController < ApplicationController
   include ProjetConcern, CsvProperties
+  require 'will_paginate/array'
 
   before_action :authenticate_agent!
   before_action :assert_projet_courant, except: [:index, :home, :indicateurs]
@@ -234,8 +235,14 @@ class DossiersController < ApplicationController
   def render_index
     params.permit(:page, :per_page, search: [:query, :status, :sort_by])
     search = params[:search] || {}
-    page = params[:page]
-    per_page = params[:per_page]
+    page = params[:page] || 1
+    page_traited = params[:page_traited] || 1
+    page_action = params[:page_action] || 1
+    page_verif = params[:page_verif] || 1
+    page_new_msg = params[:page_new_msg] || 1
+    page_others = params[:page_others] || 1
+
+    per_page = params[:per_page]  || 20
 
     respond_to do |format|
       format.html {
@@ -250,6 +257,12 @@ class DossiersController < ApplicationController
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
           end
         else
+          all = []
+          @traited = []
+          @action = []
+          @verif = []
+          @new_msg = []
+          @others = []
           @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
           if search.present?
             @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
@@ -259,6 +272,62 @@ class DossiersController < ApplicationController
           else
             @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
           end
+          all = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+          if current_agent.operateur?
+            all = all.visible_for_operateur(current_agent.intervenant)
+          else
+            all = all.where(intervenant_id: current_agent.intervenant_id)
+          end
+           if current_agent.pris?
+            all.each do |i|
+              if i.projet.pris_suggested_operateurs != [] && i.projet.status_already(:en_cours)
+                @traited << i
+              elsif i.projet.pris_suggested_operateurs == []
+                @action << i
+              elsif i.projet.pris_suggested_operateurs != [] && i.projet.status_not_yet(:en_cours)
+                @verif << i
+              else
+                @others << i
+              end
+              if i.projet.unread_messages(current_agent).count > 0
+                new_msg << i
+              end
+            end
+          elsif current_agent.operateur?
+            all.each do |i|
+              if i.projet.status_already(:proposition_proposee) && i.projet.status_not_yet(:transmis_pour_instruction)
+                @traited << i
+              elsif i.projet.action_agent_operateur?
+                @action << i
+              elsif i.projet.payments.blank? && i.projet.status_not_yet(:transmis_pour_instruction)
+                @verif << i
+              else
+                @others << i
+              end
+              if i.projet.unread_messages(current_agent).count > 0
+                @new_msg << i
+              end
+            end
+          elsif current_agent.instructeur?
+            all.each do |i|
+              if i.projet.status_already(:en_cours_d_instruction)
+                @traited << i
+              elsif i.projet.status_already(:transmis_pour_instruction)
+                @action << i
+              else
+                @others << i
+              end
+              if i.projet.unread_messages(current_agent).count > 0
+                @new_msg << i
+              end
+            end
+          end
+          @traited = @traited.paginate(page: page_traited, per_page: per_page)
+          @action = @action.paginate(page: page_action, per_page: per_page)
+          @verif = @verif.paginate(page: page_verif, per_page: per_page)
+          @new_msg = @new_msg.paginate(page: page_new_msg, per_page: per_page)
+          @others = @others.paginate(page: page_others, per_page: per_page)
+          @invitations = @invitations.paginate(page: page, per_page: per_page)
         end
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
@@ -290,11 +359,7 @@ class DossiersController < ApplicationController
         end
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        if current_agent.admin?
-          render plain: Projet.to_csv(current_agent, @selected_projects, true)
-        else
-          render plain: Projet.to_csv(current_agent, @selected_projects, false)
-        end
+        render plain: Projet.to_csv(current_agent, @selected_projects)
         return false
       }
     end
