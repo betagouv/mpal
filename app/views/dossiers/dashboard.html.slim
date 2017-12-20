@@ -122,7 +122,7 @@
                   = projet.payments.map(&:dashboard_status).join(", ")
               td
                 - if projet.date_position_opal?
-                  = projet.date_position_opal
+                  = projet.date_position_opal.strftime('%d/%m/%Y')
             - if current_agent.admin?
               td
                 - if !item.occupants.present? || !item.avis_impositions.present?

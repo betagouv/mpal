@@ -25,14 +25,7 @@ class ApisController < ApplicationController
 		if @projet != nil
 
 			opalPosition = ""
-			now = Time.now.to_s
-
-			# date = DateTime.parse("2011-05-19 10:30:14")
-			# opalDatePosition = date.strftime('%a %b %d %H:%M:%S %Z %Y')
-
-			opalDatePosition = now
-
-			# params["pos_date"]
+			opalDatePosition = params["pos_date"]
 
 			if params["pos_code"] == "10058"
 				opalPosition = "En cours d'instruction"
@@ -92,7 +85,7 @@ class ApisController < ApplicationController
 		else
 			render json: {
 				status: 404,
-				message: "Dossier non trouve"
+				message: "Dossier non trouve Sir"
 			}.to_json and return
 		end
 	end
