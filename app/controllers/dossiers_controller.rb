@@ -263,7 +263,7 @@ class DossiersController < ApplicationController
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
           end
         else
-          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
+          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
           if search.present?
             @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
           end
@@ -272,7 +272,7 @@ class DossiersController < ApplicationController
           else
             @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
           end
-          all = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+          all = @invitations
           if current_agent.operateur?
             all = all.visible_for_operateur(current_agent.intervenant)
           else
