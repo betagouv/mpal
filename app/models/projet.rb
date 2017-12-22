@@ -131,7 +131,7 @@ class Projet < ApplicationRecord
     end
   }
   scope :for_text, ->(opts) {
-    words = opts && opts.to_s.split
+    words = opts && opts.to_s.split(';')
     next all if words.blank?
     conditions = ["true"]
     joins = %(
@@ -158,7 +158,7 @@ class Projet < ApplicationRecord
         conditions << array[1]
       end
       [
-        "projets.numero_fiscal", "projets.reference_avis", "projets.opal_numero",
+        "projets.numero_fiscal", "projets.reference_avis",
         "ift_adresses1.departement", "ift_adresses2.departement",
         "ift_adresses1.code_postal", "ift_adresses2.code_postal",
       ].each do |field|
@@ -167,6 +167,7 @@ class Projet < ApplicationRecord
       end
       [
         "ift_occupants.nom", "ift_adresses1.ville", "ift_adresses2.ville",
+        "projets.opal_numero",
         "ift_adresses1.region", "ift_adresses2.region",
         "ift_adresses1.departement", "ift_adresses2.departement",
         "ift_occupants.prenom", "projets.opal_numero",
