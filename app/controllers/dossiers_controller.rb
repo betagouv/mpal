@@ -255,17 +255,38 @@ class DossiersController < ApplicationController
         if current_agent.admin?
           @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
+            if search[:from].present?
+              @dossiers = @dossiers.updated_since(search[:from])
+            end
+            if search[:to].present?
+              @dossiers = @dossiers.updated_upto(search[:to])
+            end
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
+            @dossiers = @dossiers.for_text(search[:type])
+            @dossiers = @dossiers.for_text(search[:folder])
+            @dossiers = @dossiers.for_text(search[:tenant])
+            @dossiers = @dossiers.for_text(search[:location])
+            @dossiers = @dossiers.for_text(search[:interv])
           end
         elsif current_agent.siege?
           @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
+            @dossiers = @dossiers.for_text(search[:type])
+            @dossiers = @dossiers.for_text(search[:folder])
+            @dossiers = @dossiers.for_text(search[:tenant])
+            @dossiers = @dossiers.for_text(search[:location])
+            @dossiers = @dossiers.for_text(search[:interv])
           end
         else
           @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
           if search.present?
             @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
+            @invitations = @invitations.for_text(search[:type])
+            @invitations = @invitations.for_text(search[:folder])
+            @invitations = @invitations.for_text(search[:tenant])
+            @invitations = @invitations.for_text(search[:location])
+            @invitations = @invitations.for_text(search[:interv])
           end
           if current_agent.operateur?
             @invitations = @invitations.visible_for_operateur(current_agent.intervenant)

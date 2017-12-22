@@ -186,6 +186,9 @@ class Projet < ApplicationRecord
   scope :updated_since, ->(datetime) {
     where("updated_at >= ?", datetime)
   }
+  scope :updated_upto, ->(datetime) {
+    where("updated_at <= ?", datetime)
+  }
   scope :count_by_week, -> {
     fields = [
       "DATE_PART('year', projets.created_at::date) AS year",
