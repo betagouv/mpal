@@ -82,7 +82,7 @@ describe Tools do
       context "en Île-de-France" do
         departement = "77"
         it "renvoie :modeste lors du calcul pré-éligibilité" do
-          revenu_global = 20000
+          revenu_global = 21000
           expect(Tools.calcule_preeligibilite(revenu_global, departement, nb_occupants)).to eq(:modeste)
         end
         it "renvoie :tres_modeste lors du calcul pré-éligibilité" do

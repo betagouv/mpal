@@ -8,7 +8,7 @@ if ENV["RAILS_ENV"] != "test" && !["rails", "rake"].include?(File.basename($0))
 
   File.foreach(REFERENCE_ENV_FILE).with_index { |line, line_num|
     env_var = line[/([A-Z_]*)/, 1]
-    if ENV[env_var].blank?
+    if ENV[env_var].blank? && env_var != "EMAIL_CONTACT_S"
       raise "Configuration error: `#{env_var}` is not present in the process environment variables (declared in `.env.sample##{line_num + 1}`)"
     end
   }

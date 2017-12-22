@@ -596,7 +596,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        titles.append('Etape avancement creation Dossier')
        titles.append('Nbre de messages dans la messagerie')
        titles.append('Operation Programmee')
-       titles.append('Agent PRIS')
+       titles.append('PRIS')
        titles.append('PRIS EIE')
        titles.append('project id')
        titles.append('Date de modification du Statut')
@@ -633,14 +633,16 @@ def self.to_csv(agent, selected_projects, is_admin = false)
           pris = nil
        end
          op = (projet.intervenants != [] && projet.invited_pris == nil) ? "Oui" : "Non"
+         date_update = projet.statut_updated_date == nil ? "" : projet.statut_updated_date.strftime("%d/%m/%Y %Hh%M")
 
          line.append(projet.try(:max_registration_step))
-         line.append(op)
          line.append(projet.messages.count)
+         line.append(op)
+         line.append(projet.invited_pris.try(:fullname))
          line.append(pris)
          line.append(pris_eie)
          line.append(projet.id)
-         line.append(projet.statut_updated_date)
+         line.append(date_update)
        end
 
        payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
@@ -665,8 +667,8 @@ def self.to_csv(agent, selected_projects, is_admin = false)
     elsif intervenant.operateur?
       invitation = invitations.find_by(intervenant: intervenant)
       invitation.suggested && !invitation.contacted && invitation.intervenant != operateur
-    else
-      false
+    elsif intervenant.dreal?
+      true
     end
   end
 

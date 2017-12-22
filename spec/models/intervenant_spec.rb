@@ -39,6 +39,20 @@ describe Intervenant do
     end
   end
 
+  describe "L'intervenant est un DREAL" do
+    let(:intervenant) { create :intervenant, roles: [:dreal], departements: ['75', '95'] }
+    describe 'Avec un projet dans son département et un dehors' do
+      let(:projet_in) { create :projet }
+      let(:projet_out) { create :projet, adresse_postale: create(:adresse, departement: '38') }
+
+      it "'projets' ne retourne que le projet dans sa région" do
+        projet_in && projet_out
+        expect(intervenant.projets.count).to eq(1)
+        expect(intervenant.projets.first).to eq(projet_in)
+      end
+    end
+  end
+
   describe "#operateur?" do
     it "renvoie true si l'intervenant est un operateur" do
       intervenant = create :intervenant, roles: [:operateur]

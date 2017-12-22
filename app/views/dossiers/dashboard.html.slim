@@ -14,7 +14,7 @@
 	- other = @others
 	- new_msg = @new_msg
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
-
+  
 	- if items.present?
 		div.dashboardContainer
 			ul.dashboardTabContainer
