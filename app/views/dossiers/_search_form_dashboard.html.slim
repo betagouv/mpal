@@ -16,7 +16,7 @@ div.dashboardFilterContainer
 		select
 			<option selected disabled hidden>Etat du dossier</option>
 			= @statuses.each do | status |
-				<option value="#{status[0]}">#{status[0]}</option>
+				<option value="#{status[1]}">#{status[0]}</option>
 	div.dashboardFilterAdvanced
 		<input class="dashboardFilterAdvancedCheckbox" type="checkbox" name="advanced"> Avancé
 

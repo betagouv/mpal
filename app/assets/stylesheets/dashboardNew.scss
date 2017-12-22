@@ -69,6 +69,7 @@
 	border: 3px solid black;
     top: -9px;
     position: relative;
+    border-radius: 5px;
 }
 .tabs_item {
 	display: none;
@@ -76,6 +77,9 @@
 		width: 100%;
 		tr {
 			&:nth-child(odd) {
+				a {
+					color: black;
+				}
 				color: black;
 				background: $color-alt-grey;
 			}
@@ -85,6 +89,9 @@
 			}
 			& { border-bottom: 2px solid $color-very-dark-grey; }
 			&:hover {
+				a {
+					color: white;
+				}
 				background: $color-dark-grey;
 				color: white;
 			}
