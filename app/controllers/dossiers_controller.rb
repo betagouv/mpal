@@ -246,6 +246,12 @@ class DossiersController < ApplicationController
 
     respond_to do |format|
       format.html {
+        all = []
+        @traited = []
+        @action = []
+        @verif = []
+        @new_msg = []
+        @others = []
         if current_agent.admin?
           @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
@@ -257,12 +263,6 @@ class DossiersController < ApplicationController
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
           end
         else
-          all = []
-          @traited = []
-          @action = []
-          @verif = []
-          @new_msg = []
-          @others = []
           @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]]).paginate(page: page, per_page: per_page)
           if search.present?
             @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
