@@ -8,14 +8,16 @@
   - unless current_agent.intervenant
     .alert.alert-danger Votre compte rencontre une erreur, merci de contacter le #{link_to "support Anah", new_contact_path}
   .agent-menu.clearfix
-    .agent-menu__item.agent-menu__right
-      p.agent-menu__identity
-        span.agent-menu__fullname
-          span.firstname= current_agent.prenom
-          span.lastname<= current_agent.nom
-        - if current_agent.intervenant
-          span.agent-menu__intervenant<= "(#{current_agent.intervenant.raison_sociale})"
-      = link_to destroy_agent_session_path, class: "btn btn-default btn-icon", title: t("sessions.lien_deconnexion") do
-        i.glyphicon.glyphicon-off
-        span.agent-menu__text-button= t("sessions.lien_deconnexion")
-
+   = link_to dossiers_path, class: "btn btn-default btn-icon agent-menu__item", title: "Aller au tableau de bord" do
+     i.glyphicon.glyphicon-list
+     span.agent-menu__text-button Tableau de bord
+   .agent-menu__item.agent-menu__right
+     p.agent-menu__identity
+       span.agent-menu__fullname
+         span.firstname= current_agent.prenom
+         span.lastname<= current_agent.nom
+       - if current_agent.intervenant
+         span.agent-menu__intervenant<= "(#{current_agent.intervenant.raison_sociale})"
+     = link_to destroy_agent_session_path, class: "btn btn-default btn-icon", title: t("sessions.lien_deconnexion") do
+       i.glyphicon.glyphicon-off
+       span.agent-menu__text-button= t("sessions.lien_deconnexion")

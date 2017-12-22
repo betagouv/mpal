@@ -94,28 +94,42 @@
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-folder-open
-									p Dossier
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
 								td.tableRowIconsBorder
 									p 
-										span.glyphicon.glyphicon-euro
-									p Paiement
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-paperclip
-									p Pièces
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-envelope
-									p Messages
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-user
-									p Contacts
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-lock
+										span.glyphicon.glyphicon-eye-close
 									p Vérouiller
 					- if traite.respond_to?(:total_pages) && 1 < traite.total_pages
 						= render "shared/paginate", items: traite, cur_page: "page_traited"
@@ -181,28 +195,42 @@
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-folder-open
-									p Dossier
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
 								td.tableRowIconsBorder
 									p 
-										span.glyphicon.glyphicon-euro
-									p Paiement
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-paperclip
-									p Pièces
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-envelope
-									p Messages
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-user
-									p Contacts
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-lock
+										span.glyphicon.glyphicon-eye-close
 									p Vérouiller
 					- if action.respond_to?(:total_pages) && 1 < action.total_pages
 						= render "shared/paginate", items: action, cur_page: "page_action"
@@ -268,28 +296,42 @@
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-folder-open
-									p Dossier
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
 								td.tableRowIconsBorder
 									p 
-										span.glyphicon.glyphicon-euro
-									p Paiement
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-paperclip
-									p Pièces
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-envelope
-									p Messages
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-user
-									p Contacts
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-lock
+										span.glyphicon.glyphicon-eye-close
 									p Vérouiller
 					- if verif.respond_to?(:total_pages) && 1 < verif.total_pages
 						= render "shared/paginate", items: verif, cur_page: "page_verif"
@@ -355,28 +397,42 @@
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-folder-open
-									p Dossier
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
 								td.tableRowIconsBorder
 									p 
-										span.glyphicon.glyphicon-euro
-									p Paiement
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-paperclip
-									p Pièces
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-envelope
-									p Messages
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-user
-									p Contacts
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-lock
+										span.glyphicon.glyphicon-eye-close
 									p Vérouiller
 					- if other.respond_to?(:total_pages) && 1 < other.total_pages
 						= render "shared/paginate", items: other, cur_page: "page_other"
@@ -442,28 +498,42 @@
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-folder-open
-									p Dossier
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
 								td.tableRowIconsBorder
 									p 
-										span.glyphicon.glyphicon-euro
-									p Paiement
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-paperclip
-									p Pièces
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-envelope
-									p Messages
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-user
-									p Contacts
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-lock
+										span.glyphicon.glyphicon-eye-close
 									p Vérouiller
 					- if new_msg.respond_to?(:total_pages) && 1 < new_msg.total_pages
 						= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
@@ -529,33 +599,57 @@
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-folder-open
-									p Dossier
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
 								td.tableRowIconsBorder
 									p 
-										span.glyphicon.glyphicon-euro
-									p Paiement
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-paperclip
-									p Pièces
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-envelope
-									p Messages
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-user
-									p Contacts
-								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-lock
+										span.glyphicon.glyphicon-eye-close
 									p Vérouiller
 					- if items.respond_to?(:total_pages) && 1 < items.total_pages
 						= render "shared/paginate", items: items, cur_page: "page"
 
 javascript:
+	/*
+		-# if projet.actif === 0
+			p 
+				span.glyphicon.glyphicon-eye-close
+			p Vérouiller
+		-# else
+			p 
+				span.glyphicon.glyphicon-eye-open
+			p Dévérouiller
+	*/
 	$(document).ready(function() {
 		$("html").keypress(function(e) {
 			if (e.which == 13)
