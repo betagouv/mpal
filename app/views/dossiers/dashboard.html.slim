@@ -561,12 +561,17 @@ javascript:
 			if (e.which == 13)
 				$('.dashboardFilterSearchButton').trigger('click');
 		});
-		var topMenu = $(".agent-menu > a").hide();
 		var sPageURL = location.search.substring(1);
 		var searchFormElement = {
 			"query": $('.dashboardFilterFreeSearch input'),
 			"status": $('.dashboardFilterState select'),
-			"type": $('.dashboardFilterStatus select')
+			"type": $('.dashboardFilterStatus select'),
+			"folder" : $('.dashboardFilterFolderNumber input'),
+			"tenant" : $('.dashboardFilterTenantName input'),
+			"location": $('.dashboardFilterLocation input'),
+			"interv": $('.dashboardFilterInterv input'),
+			"from": $('.dashboardFilterFrom input'),
+			"to": $('.dashboardFilterTo input')
 		};
 
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {

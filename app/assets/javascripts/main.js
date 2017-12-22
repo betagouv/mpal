@@ -425,6 +425,30 @@ $(document).ready(function() {
 				else
 					filterOrderOrder = "DESC";
 
+				// Catch N° dossier
+				var freeSearchFNum = $('.dashboardFilterFolderNumber input').val();
+				searchParam += "&search[folder]=" + freeSearchFNum;
+
+				// Catch nom Propriétaire
+				var freeSearchTenant = $('.dashboardFilterTenantName input').val();
+				searchParam += "&search[tenant]=" + freeSearchTenant;
+
+				// Catch Lieu / programme
+				var freeSearchLocation = $('.dashboardFilterLocation input').val();
+				searchParam += "&search[location]=" + freeSearchLocation;
+
+				// Catch Intervenant
+				var freeSearchInterv = $('.dashboardFilterInterv input').val();
+				searchParam += "&search[interv]=" + freeSearchInterv;
+
+				// Catch date from
+				var freeSearchInterv = $('.dashboardFilterFrom input').val();
+				searchParam += "&search[from]=" + freeSearchInterv;
+
+				// Catch date to
+				var freeSearchInterv = $('.dashboardFilterTo input').val();
+				searchParam += "&search[to]=" + freeSearchInterv;
+
 				searchParam += "&search[sort_by]=" + filterOrderBy + " " + filterOrderOrder;
 			}
 			// If advanced filter is off catch free search
