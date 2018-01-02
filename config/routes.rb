@@ -37,6 +37,8 @@ Rails.application.routes.draw do
 
   get  "/debug_exception",           to: "application#debug_exception"
 
+
+
   #CONTACTS
   resources :contacts, only: [:index, :new, :create]
 
