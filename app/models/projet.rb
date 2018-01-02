@@ -116,16 +116,22 @@ class Projet < ApplicationRecord
     where(["projets.statut IN (?)", Projet::INTERVENANT_STATUSES_MAPPING[status.to_sym].map { |x| Projet::statuts[x] }])
   }
   scope :for_sort_by, ->(field) {
-    sorting = field.to_sym if field.present? && Projet::SORT_BY_OPTIONS.include?(field.to_sym)
+    # sorting = field.to_sym if field.present? && Projet::SORT_BY_OPTIONS.include?(field.to_sym)
     scope = group("projets.id")
-    if :depot == sorting
-      scope.where("projets.date_depot IS NOT NULL").order("projets.date_depot DESC")
-    else # :created == sorting
-      scope.order("projets.actif DESC").order("projets.created_at DESC")
+    if !field.nil? && !field.empty?
+      arr = field.split(' ')
+      if !arr[1].present? || arr[1] != "ASC"
+        arr[1] = "DESC"
+      end
+      if arr[0] == 'depot'
+        scope.where("projets.date_depot IS NOT NULL").order("projets.date_depot " + arr[1])
+      else # :created == sorting
+        scope.order("projets.created_at " + arr[1])
+      end
     end
   }
   scope :for_text, ->(opts) {
-    words = opts && opts.to_s.split
+    words = opts && opts.to_s.split(';')
     next all if words.blank?
     conditions = ["true"]
     joins = %(
@@ -135,6 +141,10 @@ class Projet < ApplicationRecord
         ON (ift_avis_impositions.id = ift_occupants.avis_imposition_id AND ift_occupants.demandeur = true)
       INNER JOIN adresses ift_adresses1
         ON (projets.adresse_postale_id = ift_adresses1.id)
+      LEFT OUTER JOIN invitations ift_invitations
+        ON (projets.id = ift_invitations.projet_id)
+      LEFT OUTER JOIN intervenants ift_intervenants
+        ON (ift_invitations.intervenant_id = ift_intervenants.id)
       LEFT OUTER JOIN adresses ift_adresses2
         ON (projets.adresse_a_renover_id = ift_adresses2.id)
     )
@@ -148,7 +158,7 @@ class Projet < ApplicationRecord
         conditions << array[1]
       end
       [
-        "projets.numero_fiscal", "projets.reference_avis", "projets.opal_numero",
+        "projets.numero_fiscal", "projets.reference_avis",
         "ift_adresses1.departement", "ift_adresses2.departement",
         "ift_adresses1.code_postal", "ift_adresses2.code_postal",
       ].each do |field|
@@ -157,7 +167,11 @@ class Projet < ApplicationRecord
       end
       [
         "ift_occupants.nom", "ift_adresses1.ville", "ift_adresses2.ville",
+        "projets.opal_numero",
         "ift_adresses1.region", "ift_adresses2.region",
+        "ift_adresses1.departement", "ift_adresses2.departement",
+        "ift_occupants.prenom", "projets.opal_numero",
+        "ift_intervenants.raison_sociale"
       ].each do |field|
         conditions[0] << " OR #{field} ILIKE ?"
         conditions << "%#{word}%"
@@ -170,7 +184,10 @@ class Projet < ApplicationRecord
     where("created_at >= ?", datetime)
   }
   scope :updated_since, ->(datetime) {
-    where("updated_at >= ?", datetime)
+    where("projets.updated_at >= ?", datetime)
+  }
+  scope :updated_upto, ->(datetime) {
+    where("projets.updated_at <= ?", datetime)
   }
   scope :count_by_week, -> {
     fields = [

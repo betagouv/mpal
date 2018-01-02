@@ -24,10 +24,8 @@ feature "Créer le dossier dans Opal" do
         expect(page).to have_content(I18n.t("projets.creation_opal.messages.succes", id_opal: "09500840"))
 
         visit dossiers_path
-        within "#projet_#{projet.id}" do
-          expect(page).to have_content(I18n.t("projets.statut.en_cours_d_instruction"))
-          expect(page).to have_content("09500840")
-        end
+        expect(page).to have_content(I18n.t("projets.statut.en_cours_d_instruction"))
+        expect(page).to have_content("09500840")
       end
 
       context "quand la création du dossier échoue" do

@@ -67,10 +67,6 @@ describe Invitation do
       context "cherche le nom du demandeur" do
         it { expect(Invitation.for_text("strong")).to eq [invitation2] }
       end
-      context "cherche le numéro de département" do
-        it { expect(Invitation.for_text(projet2.adresse_postale.departement)).to eq [invitation2] }
-        it { expect(Invitation.for_text(projet2.adresse_a_renover.departement)).to eq [invitation2] }
-      end
       context "cherche le code postal" do
         it { expect(Invitation.for_text(projet2.adresse_postale.code_postal)).to eq [invitation2] }
         it { expect(Invitation.for_text(projet2.adresse_a_renover.code_postal)).to eq [invitation2] }
@@ -115,8 +111,8 @@ describe Invitation do
       let!(:invitation3) { create :invitation, intervenant: operateur, projet: projet3 }
       let!(:invitation4) { create :invitation, intervenant: operateur, projet: projet4 }
 
-      it { expect(Invitation.for_sort_by(:created)).to eq [invitation4, invitation2, invitation3] }
-      it { expect(Invitation.for_sort_by(:depot)).to eq [invitation3, invitation4] }
+      it { expect(Invitation.for_sort_by("created")).to eq [invitation4, invitation2, invitation3] }
+      it { expect(Invitation.for_sort_by("depot")).to eq [invitation3, invitation4] }
     end
 
     context ".mandataire" do

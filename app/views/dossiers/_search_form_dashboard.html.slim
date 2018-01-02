@@ -1,0 +1,60 @@
+div.dashboardFilterContainer
+	div.dashboardFilterSearch
+		<div class="dashboardFilterSearchButton">Rechercher</div>
+	div.dashboardFilterFreeSearch
+		<input type="text" name="freeSearch" placeholder="ID PF ou OP@L ID, nom ou prenom du propriétaire, région, département (n° ou nom), ville ou CP, programme">
+	div.dashboardFilterStatus
+		select
+			<option selected disabled hidden>Type d'intervention</option>
+			<option value=""></option>
+			<option value="Autonomie">Autonomie</option>
+			<option value="Energie">Energie</option>
+			<option value="SSI">SSI petit LHI</option>
+			<option value="travauxLourd">Travaux lourds</option>
+			<option value="autre">Autres travaux</option>
+	div.dashboardFilterState
+		select
+			<option selected disabled hidden>Etat du dossier</option>
+			= @statuses.each do | status |
+				<option value="#{status[1]}">#{status[0]}</option>
+	div.dashboardFilterAdvanced
+		<input class="dashboardFilterAdvancedCheckbox" type="checkbox" name="advanced"> Avancé
+
+	div.dashboardFilterContainerAdvanced
+		div.dashboardFilterContainerAdvancedLeft
+			div.dashboardFilterArea.dashboardFilterID.dashboardFilterFolderNumber
+				span N° de dossier
+				<input type="text" name="freeSearch" placeholder="ID PF ou OP@L ID">
+			div.dashboardFilterArea.dashboardFilterID.dashboardFilterTenantName
+				span Nom du propriétaire
+				<input type="text" name="freeSearch" placeholder="Nom ou prenom du propriétaire">
+			div.dashboardFilterArea.dashboardFilterID.dashboardFilterLocation
+				span Lieu / Programme
+				<input type="text" name="freeSearch" placeholder="Région, département (n° ou nom), ville ou CP, programme">
+		div.dashboardFilterContainerAdvancedCenter
+			div.dashboardFilterOrder
+				span Trier par :
+				div.OrderBy
+					<input id="dateDeDepot" type="radio" name="advancedType">
+					<label for="dateDeDepot">Date de dépot</label>
+					br
+					<input id="dateDeCreation" type="radio" name="advancedType" checked="checked">
+					<label for="dateDeCreation">Date de création</label>
+			div.dashboardFilterOrder
+				span Ordre de tris :
+				div.OrderOrder
+					<input id="ascend" type="radio" name="advancedOrder">
+					<label for="ascend">Ascendant</label>
+					br
+					<input id="descend" type="radio" name="advancedOrder" checked="checked">
+					<label for="descend">Descendant</label>
+		div.dashboardFilterContainerAdvancedRight
+			div.dashboardFilterArea.dashboardFilterInterv
+				span Intervenant
+				<input type="text" name="freeSearch" placeholder="Pris, opérateur, serivice instructeur ...">
+			div.dashboardFilterAreaDate.dashboardFilterFrom
+				span Du :
+				<input type="date" name="freeSearch" placeholder="Date de début">
+			div.dashboardFilterAreaDate.dashboardFilterTo
+				span Au :
+				<input type="date" name="freeSearch" placeholder="Date de fin">

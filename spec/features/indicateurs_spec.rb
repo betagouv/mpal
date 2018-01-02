@@ -12,17 +12,7 @@ feature "Je peux naviguer entre mes pages Dossiers et Indicateurs" do
   context "en tant qu'instructeur" do
     let(:current_agent) { agent_instructeur }
 
-    scenario "j'ai accès à ma page indicateurs depuis la page Dossiers" do
-      visit dossiers_path
-      click_on 'Indicateurs'
-      expect(page).to have_current_path(indicateurs_dossiers_path)
-    end
 
-    scenario "j'ai accès à ma page Dossiers depuis la page Indicateurs" do
-      visit indicateurs_dossiers_path
-      click_on "Tableau de bord"
-      expect(page).to have_current_path(dossiers_path)
-    end
   end
 end
 

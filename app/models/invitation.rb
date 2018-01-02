@@ -26,13 +26,19 @@ class Invitation < ApplicationRecord
     joins(joins).where(conditions)
   }
   scope :for_sort_by, ->(field) {
-    sorting = field.to_sym if field.present? && Projet::SORT_BY_OPTIONS.include?(field.to_sym)
+    #sorting = field.to_sym if field.present? && Projet::SORT_BY_OPTIONS.include?(field.to_sym)
     joins = %(INNER JOIN projets ifsb_projets ON (invitations.projet_id = ifsb_projets.id))
     scope = joins(joins).group("invitations.id, ifsb_projets.id")
-    if :depot == sorting
-      scope.where("ifsb_projets.date_depot IS NOT NULL").order("ifsb_projets.date_depot DESC")
-    else # :created == sorting
-      scope.order("ifsb_projets.actif DESC").order("ifsb_projets.created_at DESC")
+    if !field.nil? && !field.empty?
+      arr = field.split(' ')
+      if !arr[1].present? || arr[1] != "ASC"
+        arr[1] = "DESC"
+      end
+      if arr[0] == 'depot'
+        scope.where("ifsb_projets.date_depot IS NOT NULL").order("ifsb_projets.date_depot " + arr[1])
+      else # :created == sorting
+        scope.order("ifsb_projets.created_at " + arr[1])
+      end
     end
   }
   scope :for_text, ->(opts) {

@@ -1,140 +1,711 @@
 - content_for :popins do
- #api-particulier.popin.popin--numero-fiscal
-  .popin__container
-    p.popin__p#text__p Les données d'avis d'impositions et d'occupants du projet vont être mis à jour.
-    p.popin__p.popin__p--centered
-      = btn name: "Annuler", href: "#", class: "popin__close api-particulier-close"
-      = btn name: "Confirmer", href: "#", class: "btn popin__confirm api-particulier_confirm"
+	#api-particulier.popin.popin--numero-fiscal
+		.popin__container
+			p.popin__p#text__p Les données d'avis d'impositions et d'occupants du projet vont être mis à jour.
+			p.popin__p.popin__p--centered
+				= btn name: "Annuler", href: "#", class: "popin__close api-particulier-close"
+				= btn name: "Confirmer", href: "#", class: "btn popin__confirm api-particulier_confirm"
 
 .dashboard-dossiers
-  - items = @invitations || @dossiers
-  = render "search_form", url: dossiers_path, show_export_button: items.present?
-  = render "shared/paginate", items: items
-  - if items.present?
-    table.table.table-hover.table-striped.table-sm.dashboard-table
-      thead
-        tr
-          - if current_agent.pris? || current_agent.operateur? || current_agent.instructeur?
-            th Action
-          th
-            abbr title="Identifiant plateforme" ID PF
-          - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
-            th
-              abbr title="Identifiant OPAL" ID OPAL
-          th Demandeur
-          - if current_agent.operateur? || current_agent.siege?
-            th Région
-            th
-              abbr title="Département" Dép.
-          th Ville
-          th Instructeur
-          th Types d’intervention
-          th Opérateur
-          th Visité le
-          th État
-          - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
-            th État des paiements
-          - if current_agent.admin?
-            th Bouton de synchronisation
-          th Activer / Desactiver
+	- items = @invitations || @dossiers
+	- traite = @traited
+	- action = @action
+	- verif = @verif
+	- other = @others
+	- new_msg = @new_msg
+	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
+  
+	- if items.present?
+		div.dashboardContainer
+			ul.dashboardTabContainer
+				li.dashboardTab
+					a Traités (#{traite.count})
+				li.dashboardTab
+					a Nécessite action (#{action.count})
+				li.dashboardTab
+					a Nécessite vérification (#{verif.count})
+				li.dashboardTab
+					a Autres (#{other.count})
+				li.dashboardTab
+					a Nouveau Message (#{new_msg.count})
+				li.dashboardTab
+					a Tous (#{items.length})
 
-          / TODO
-          / th Depuis
-      tbody
-        - items.each do |item|
-          - projet = item.is_a?(Invitation) ? item.projet : item
-          - anonymized = (item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false) || current_agent.dreal?
-          - edit_url = dossier_path(projet)
+			div.tab_content
+				div.tabs_item
+					table
+						- traite.each do | item |
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							tr id="projet_#{projet.id}-all"
+								td
+									p = anonymize anonymized, edit_url do
+										= projet.numero_plateforme
 
-          tr id="projet_#{projet.id}"
-            - if current_agent.pris? || current_agent.operateur? || current_agent.instructeur?
-              td
-                - if anonymized
-                  i.glyphicon.glyphicon-remove.dashboard__icon--anonymized title="Vous n’avez pas les droits pour accéder à ce dossier"
-                - elsif current_agent.pris? && projet.action_agent_pris?
-                  i.glyphicon.glyphicon-ok.dashboard__icon title="Nécessite une vérification"
-                - elsif current_agent.operateur?
-                  - if projet.payments.blank? && projet.status_already(:transmis_pour_instruction)
-                    i.glyphicon.glyphicon-ok.dashboard__icon title="Nécessite une vérification"
-                  - elsif projet.action_agent_operateur?
-                    i.glyphicon.glyphicon-pencil.dashboard__icon--action-required title="Nécessite une action de votre part"
-                  - else
-                    i.glyphicon.glyphicon-ok.dashboard__icon--no-action title="Dossier traité"
-                - elsif current_agent.instructeur? && projet.action_agent_instructeur?
-                  i.glyphicon.glyphicon-pencil.dashboard__icon--action-required title="Nécessite une action de votre part"
-                - else
-                  i.glyphicon.glyphicon-ok.dashboard__icon--no-action title="Dossier traité"
-            td
-              = anonymize anonymized, edit_url do
-                = projet.numero_plateforme
-            - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
-              td
-                - if projet.opal_numero.present?
-                  - if current_agent.instructeur?
-                    = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-                  - else
-                    = anonymize anonymized, edit_url do
-                      = projet.opal_numero
-            td
-              - if anonymized
-                | caché
-              - else
-                = anonymize anonymized, edit_url do
-                  span.firstname= projet.demandeur.prenom if projet.demandeur.present?
-                  span.lastname<= projet.demandeur.nom if projet.demandeur.present?
-            - if current_agent.operateur? || current_agent.siege?
-              td
-                = anonymize anonymized, edit_url do
-                  = projet.adresse.try(:region)
-              td.test-departement
-                = anonymize anonymized, edit_url do
-                  = projet.adresse.try(:departement)
-            td
-              = anonymize anonymized, edit_url do
-                = projet.adresse.try(:ville)
-            td
-              = anonymize anonymized, edit_url do
-                = projet.invited_instructeur.try(:raison_sociale)
-                - if projet.agent_instructeur
-                  br/
-                  span.firstname= projet.agent_instructeur.prenom
-                  span.lastname<= projet.agent_instructeur.nom
-            td
-              - if projet.themes.present?
-                = anonymize anonymized, edit_url do
-                  = projet.themes.map(&:libelle).join(', ')
-            td
-              = anonymize anonymized, edit_url do
-                = projet.contacted_operateur.try(:raison_sociale)
-                - if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
-                  br/
-                  span.firstname= projet.agent_operateur.prenom
-                  span.lastname<= projet.agent_operateur.nom
-            td
-              - if projet.date_de_visite.present?
-                = anonymize anonymized, edit_url do
-                  = format_date projet.date_de_visite
-            td
-              = anonymize anonymized, edit_url do
-                = t(projet.status_for_intervenant, scope: "projets.statut")
-            - if current_agent.operateur? || current_agent.instructeur? || current_agent.siege?
-              td
-                = anonymize anonymized, edit_url do
-                  = projet.payments.map(&:dashboard_status).join(", ")
-            - if current_agent.admin?
-              td
-                - if !item.occupants.present? || !item.avis_impositions.present?
-                     button.js-popin.btn.btn-primary.btn-xs data-target="#api-particulier" data-toggle="#api-particulier" data-content="#{item.id}" type="button"  title="Rafraichir les données fiscale du projet"
-                        span.glyphicon.glyphicon-refresh
+									- if projet.opal_numero.present?
+										- if current_agent.instructeur?
+											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+										- else
+											p = anonymize anonymized, edit_url do
+												= projet.opal_numero
+									- else
+										p &nbsp;
+								td
+									p = anonymize anonymized, edit_url do
+										span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+										span.lastname<= projet.demandeur.nom if projet.demandeur.present?
+									- if current_agent.operateur? || current_agent.siege?
+										p = anonymize anonymized, edit_url do
+												= projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+									- else
+										p = projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+								td
+									- if projet.themes.present?
+										p = anonymize anonymized, edit_url do
+											= projet.themes.map(&:libelle).join(', ')
+									- else
+										p Type d'intervention inconnu
+									p &nbsp;
+								td
+									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
+										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										- if projet.statut_updated_date.present?
+											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
+										- else
+											div.dashboardDateText2 Inconnu
+									div
+										- if projet.status_already(:transmis_pour_instruction)
+											- if projet.invited_instructeur
+												= projet.invited_instructeur.try(:raison_sociale).to_s
+												- if projet.agent_instructeur.try(:fullname).present?
+													= " - " + projet.agent_instructeur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.status_already(:en_cours)
+											- if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+												= projet.contacted_operateur.try(:raison_sociale).to_s
+												- if projet.agent_operateur.try(:fullname).present?
+													= " - " + projet.agent_operateur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.invited_pris.present?
+											= projet.invited_pris.try(:raison_sociale).to_s
+										- else
+											p &nbsp;
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
+								td.tableRowIconsBorder
+									p 
+										span.glyphicon.glyphicon-eye-close
+									p Vérouiller
+					- if traite.respond_to?(:total_pages) && 1 < traite.total_pages
+						= render "shared/paginate", items: traite, cur_page: "page_traited"
+				div.tabs_item
+					table
+						- action.each do | item |
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							tr id="projet_#{projet.id}-all"
+								td
+									p = anonymize anonymized, edit_url do
+										= projet.numero_plateforme
 
-            td.buttonActive
-              - if projet.actif === 0
-                = btn name: "Cliquez pour activer", href: "/dossiers/activate/" + projet.id.to_s, class: "btn-secondary btn-button-activate"
-              - if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction) && !anonymized
-                = btn name: "Cliquez pour desactiver", href: "/dossiers/desactivate/" + projet.id.to_s, class: "btn-secondary btn-button-deactivate"
+									- if projet.opal_numero.present?
+										- if current_agent.instructeur?
+											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+										- else
+											p = anonymize anonymized, edit_url do
+												= projet.opal_numero
+									- else
+										p &nbsp;
+								td
+									p = anonymize anonymized, edit_url do
+										span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+										span.lastname<= projet.demandeur.nom if projet.demandeur.present?
+									- if current_agent.operateur? || current_agent.siege?
+										p = anonymize anonymized, edit_url do
+												= projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+									- else
+										p = projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+								td
+									- if projet.themes.present?
+										p = anonymize anonymized, edit_url do
+											= projet.themes.map(&:libelle).join(', ')
+									- else
+										p Type d'intervention inconnu
+									p &nbsp;
+								td
+									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
+										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										- if projet.statut_updated_date.present?
+											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
+										- else
+											div.dashboardDateText2 Inconnu
+									div
+										- if projet.status_already(:transmis_pour_instruction)
+											- if projet.invited_instructeur
+												= projet.invited_instructeur.try(:raison_sociale).to_s
+												- if projet.agent_instructeur.try(:fullname).present?
+													= " - " + projet.agent_instructeur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.status_already(:en_cours)
+											- if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+												= projet.contacted_operateur.try(:raison_sociale).to_s
+												- if projet.agent_operateur.try(:fullname).present?
+													= " - " + projet.agent_operateur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.invited_pris.present?
+											= projet.invited_pris.try(:raison_sociale).to_s
+										- else
+											p &nbsp;
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
+								td.tableRowIconsBorder
+									p 
+										span.glyphicon.glyphicon-eye-close
+									p Vérouiller
+					- if action.respond_to?(:total_pages) && 1 < action.total_pages
+						= render "shared/paginate", items: action, cur_page: "page_action"
+				div.tabs_item
+					table
+						- verif.each do | item |
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							tr id="projet_#{projet.id}-all"
+								td
+									p = anonymize anonymized, edit_url do
+										= projet.numero_plateforme
 
-            /TODO Status Updated At
+									- if projet.opal_numero.present?
+										- if current_agent.instructeur?
+											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+										- else
+											p = anonymize anonymized, edit_url do
+												= projet.opal_numero
+									- else
+										p &nbsp;
+								td
+									p = anonymize anonymized, edit_url do
+										span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+										span.lastname<= projet.demandeur.nom if projet.demandeur.present?
+									- if current_agent.operateur? || current_agent.siege?
+										p = anonymize anonymized, edit_url do
+												= projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+									- else
+										p = projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+								td
+									- if projet.themes.present?
+										p = anonymize anonymized, edit_url do
+											= projet.themes.map(&:libelle).join(', ')
+									- else
+										p Type d'intervention inconnu
+									p &nbsp;
+								td
+									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
+										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										- if projet.statut_updated_date.present?
+											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
+										- else
+											div.dashboardDateText2 Inconnu
+									div
+										- if projet.status_already(:transmis_pour_instruction)
+											- if projet.invited_instructeur
+												= projet.invited_instructeur.try(:raison_sociale).to_s
+												- if projet.agent_instructeur.try(:fullname).present?
+													= " - " + projet.agent_instructeur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.status_already(:en_cours)
+											- if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+												= projet.contacted_operateur.try(:raison_sociale).to_s
+												- if projet.agent_operateur.try(:fullname).present?
+													= " - " + projet.agent_operateur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.invited_pris.present?
+											= projet.invited_pris.try(:raison_sociale).to_s
+										- else
+											p &nbsp;
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
+								td.tableRowIconsBorder
+									p 
+										span.glyphicon.glyphicon-eye-close
+									p Vérouiller
+					- if verif.respond_to?(:total_pages) && 1 < verif.total_pages
+						= render "shared/paginate", items: verif, cur_page: "page_verif"
+				div.tabs_item
+					table
+						- other.each do | item |
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							tr id="projet_#{projet.id}-all"
+								td
+									p = anonymize anonymized, edit_url do
+										= projet.numero_plateforme
 
-  - if items.respond_to?(:total_pages) && 1 < items.total_pages
-    = render "shared/paginate", items: items
+									- if projet.opal_numero.present?
+										- if current_agent.instructeur?
+											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+										- else
+											p = anonymize anonymized, edit_url do
+												= projet.opal_numero
+									- else
+										p &nbsp;
+								td
+									p = anonymize anonymized, edit_url do
+										span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+										span.lastname<= projet.demandeur.nom if projet.demandeur.present?
+									- if current_agent.operateur? || current_agent.siege?
+										p = anonymize anonymized, edit_url do
+												= projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+									- else
+										p = projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+								td
+									- if projet.themes.present?
+										p = anonymize anonymized, edit_url do
+											= projet.themes.map(&:libelle).join(', ')
+									- else
+										p Type d'intervention inconnu
+									p &nbsp;
+								td
+									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
+										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										- if projet.statut_updated_date.present?
+											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
+										- else
+											div.dashboardDateText2 Inconnu
+									div
+										- if projet.status_already(:transmis_pour_instruction)
+											- if projet.invited_instructeur
+												= projet.invited_instructeur.try(:raison_sociale).to_s
+												- if projet.agent_instructeur.try(:fullname).present?
+													= " - " + projet.agent_instructeur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.status_already(:en_cours)
+											- if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+												= projet.contacted_operateur.try(:raison_sociale).to_s
+												- if projet.agent_operateur.try(:fullname).present?
+													= " - " + projet.agent_operateur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.invited_pris.present?
+											= projet.invited_pris.try(:raison_sociale).to_s
+										- else
+											p &nbsp;
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
+								td.tableRowIconsBorder
+									p 
+										span.glyphicon.glyphicon-eye-close
+									p Vérouiller
+					- if other.respond_to?(:total_pages) && 1 < other.total_pages
+						= render "shared/paginate", items: other, cur_page: "page_other"
+				div.tabs_item
+					table
+						- new_msg.each do | item |
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							tr id="projet_#{projet.id}-all"
+								td
+									p = anonymize anonymized, edit_url do
+										= projet.numero_plateforme
 
+									- if projet.opal_numero.present?
+										- if current_agent.instructeur?
+											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+										- else
+											p = anonymize anonymized, edit_url do
+												= projet.opal_numero
+									- else
+										p &nbsp;
+								td
+									p = anonymize anonymized, edit_url do
+										span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+										span.lastname<= projet.demandeur.nom if projet.demandeur.present?
+									- if current_agent.operateur? || current_agent.siege?
+										p = anonymize anonymized, edit_url do
+												= projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+									- else
+										p = projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+								td
+									- if projet.themes.present?
+										p = anonymize anonymized, edit_url do
+											= projet.themes.map(&:libelle).join(', ')
+									- else
+										p Type d'intervention inconnu
+									p &nbsp;
+								td
+									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
+										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										- if projet.statut_updated_date.present?
+											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
+										- else
+											div.dashboardDateText2 Inconnu
+									div
+										- if projet.status_already(:transmis_pour_instruction)
+											- if projet.invited_instructeur
+												= projet.invited_instructeur.try(:raison_sociale).to_s
+												- if projet.agent_instructeur.try(:fullname).present?
+													= " - " + projet.agent_instructeur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.status_already(:en_cours)
+											- if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+												= projet.contacted_operateur.try(:raison_sociale).to_s
+												- if projet.agent_operateur.try(:fullname).present?
+													= " - " + projet.agent_operateur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.invited_pris.present?
+											= projet.invited_pris.try(:raison_sociale).to_s
+										- else
+											p &nbsp;
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
+								td.tableRowIconsBorder
+									p 
+										span.glyphicon.glyphicon-eye-close
+									p Vérouiller
+					- if new_msg.respond_to?(:total_pages) && 1 < new_msg.total_pages
+						= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
+				div.tabs_item
+					table
+						- items.each do | item |
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							tr id="projet_#{projet.id}-all"
+								td
+									p = anonymize anonymized, edit_url do
+										= projet.numero_plateforme
+
+									- if projet.opal_numero.present?
+										- if current_agent.instructeur?
+											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+										- else
+											p = anonymize anonymized, edit_url do
+												= projet.opal_numero
+									- else
+										p &nbsp;
+								td
+									p = anonymize anonymized, edit_url do
+										span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+										span.lastname<= projet.demandeur.nom if projet.demandeur.present?
+									- if current_agent.operateur? || current_agent.siege?
+										p = anonymize anonymized, edit_url do
+												= projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+									- else
+										p = projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+								td
+									- if projet.themes.present?
+										p = anonymize anonymized, edit_url do
+											= projet.themes.map(&:libelle).join(', ')
+									- else
+										p Type d'intervention inconnu
+									p &nbsp;
+								td
+									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
+										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										- if projet.statut_updated_date.present?
+											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
+										- else
+											div.dashboardDateText2 Inconnu
+									div
+										- if projet.status_already(:transmis_pour_instruction)
+											- if projet.invited_instructeur
+												= projet.invited_instructeur.try(:raison_sociale).to_s
+												- if projet.agent_instructeur.try(:fullname).present?
+													= " - " + projet.agent_instructeur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.status_already(:en_cours)
+											- if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+												= projet.contacted_operateur.try(:raison_sociale).to_s
+												- if projet.agent_operateur.try(:fullname).present?
+													= " - " + projet.agent_operateur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.invited_pris.present?
+											= projet.invited_pris.try(:raison_sociale).to_s
+										- else
+											p &nbsp;
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										- if 0 < (unread_messages_count || 0)
+											span.project-menu__badge= unread_messages_count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
+								td.tableRowIconsBorder
+									p 
+										span.glyphicon.glyphicon-eye-close
+									p Vérouiller
+					- if items.respond_to?(:total_pages) && 1 < items.total_pages
+						= render "shared/paginate", items: items, cur_page: "page"
+
+javascript:
+	/*
+		-# if projet.actif === 0
+			p 
+				span.glyphicon.glyphicon-eye-close
+			p Vérouiller
+		-# else
+			p 
+				span.glyphicon.glyphicon-eye-open
+			p Dévérouiller
+	*/
+	$(document).ready(function() {
+		$("html").keypress(function(e) {
+			if (e.which == 13)
+				$('.dashboardFilterSearchButton').trigger('click');
+		});
+		var sPageURL = location.search.substring(1);
+		var searchFormElement = {
+			"query": $('.dashboardFilterFreeSearch input'),
+			"status": $('.dashboardFilterState select'),
+			"type": $('.dashboardFilterStatus select'),
+			"folder" : $('.dashboardFilterFolderNumber input'),
+			"tenant" : $('.dashboardFilterTenantName input'),
+			"location": $('.dashboardFilterLocation input'),
+			"interv": $('.dashboardFilterInterv input'),
+			"from": $('.dashboardFilterFrom input'),
+			"to": $('.dashboardFilterTo input')
+		};
+
+		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {
+			var jsonURL = JSON.parse('{"' + decodeURI(sPageURL).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+			var search = [];
+			for (var index in jsonURL) {
+				if (jsonURL.hasOwnProperty(index)) {
+					if (index != "utf8") {
+						var indexData = index.split("[");
+						var newArrayTmp = indexData[1].split("]")[0];
+
+						// Restore advanced menu state
+						if ("advanced" == newArrayTmp) {
+							if (jsonURL[index] == "true") {
+								$(".dashboardFilterAdvancedCheckbox").prop('checked', true);
+								$(".dashboardFilterAdvancedCheckbox").trigger("change");
+							}
+						}
+						// Restore active Tab
+						if ("activeTab" == newArrayTmp)
+							var testTab = $('.dashboardContainer ul.dashboardTabContainer').find('> li:eq(' + jsonURL[index] + ')').find("a").trigger('click');
+						// Restore filter "order by (ascendent / descendant, date de depot / date de creation)"
+						if ("sort_by" == newArrayTmp) {
+							if (~jsonURL[index].indexOf("DESC"))
+								$("#descend").prop('checked', true);
+							else if (~jsonURL[index].indexOf("ASC"))
+								$("#ascend").prop('checked', true);
+
+							if (~jsonURL[index].indexOf("depot"))
+								$("#dateDeDepot").prop('checked', true);
+							else if (~jsonURL[index].indexOf("created"))
+								$("#dateDeCreation").prop('checked', true);
+						}
+						// Restore other filters
+						if ("" != jsonURL[index] && "advanced" != newArrayTmp && "activeTab" != newArrayTmp && "sort_by" != newArrayTmp) {
+							if (searchFormElement.hasOwnProperty(newArrayTmp))
+								searchFormElement[newArrayTmp].val(jsonURL[index]);
+						}
+					}
+				}
+			}
+		}
+	});
