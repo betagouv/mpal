@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171204155711) do
+ActiveRecord::Schema.define(version: 20171219101601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -320,6 +320,9 @@ ActiveRecord::Schema.define(version: 20171204155711) do
     t.datetime "date_depot"
     t.integer "max_registration_step", default: 1, null: false
     t.datetime "statut_updated_date"
+    t.integer "actif", default: 1
+    t.string "position_opal"
+    t.datetime "date_position_opal"
     t.index ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id"
     t.index ["adresse_postale_id"], name: "index_projets_on_adresse_postale_id"
     t.index ["agent_instructeur_id"], name: "index_projets_on_agent_instructeur_id"
