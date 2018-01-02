@@ -6,7 +6,7 @@ class AvisImposition < ApplicationRecord
   validates :numero_fiscal, uniqueness: { scope: :projet_id, case_sensitive: false }
 
   def is_valid_for_current_year?
-    annee.to_i >= 2.years.ago.year
+    annee.to_i >= 3.years.ago.year
   end
 end
 
