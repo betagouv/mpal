@@ -36,6 +36,8 @@
             th État des paiements
           - if current_agent.admin?
             th Bouton de synchronisation
+          th Activer / Desactiver
+
           / TODO
           / th Depuis
       tbody
@@ -125,7 +127,11 @@
                      button.js-popin.btn.btn-primary.btn-xs data-target="#api-particulier" data-toggle="#api-particulier" data-content="#{item.id}" type="button"  title="Rafraichir les données fiscale du projet"
                         span.glyphicon.glyphicon-refresh
 
-
+            td.buttonActive
+              - if projet.actif === 0
+                = btn name: "Cliquez pour activer", href: "/dossiers/activate/" + projet.id.to_s, class: "btn-secondary btn-button-activate"
+              - if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction) && !anonymized
+                = btn name: "Cliquez pour desactiver", href: "/dossiers/desactivate/" + projet.id.to_s, class: "btn-secondary btn-button-deactivate"
 
             /TODO Status Updated At
 

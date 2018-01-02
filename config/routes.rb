@@ -71,7 +71,7 @@ Rails.application.routes.draw do
       get  :proposer
       get  :proposition
       put  :proposition
-      get  :indicateurs, on: :collection
+      get  :indicateurs, on: :collection      
       resources :payments, only: [:index, :new, :create, :edit, :update, :destroy, :ask_for_validation, :ask_for_modification, :send_in_opal], param: :payment_id do
         put "ask_for_validation",   on: :member
         put "ask_for_modification", on: :member
@@ -108,6 +108,13 @@ Rails.application.routes.draw do
 
     get "/instruction", to: "instruction#show", as: "instruction"
   end
+
+
+#activation et desactivation des dossiers
+  get  "/dossiers/activate/:dossier_id" => "dossiers#activate"
+  get  "/dossiers/desactivate/:dossier_id" => "dossiers#desactivate"
+
+  # gestion des fonctions administrateurs
   get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"
 
   require "sidekiq/web"

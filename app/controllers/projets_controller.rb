@@ -86,6 +86,7 @@ private
   end
 
   def redirect_to_next_step(projet)
+    projet.update(:actif => 1)
     if projet.demandeur.blank?
       redirect_to projet_demandeur_path(projet)
     elsif @projet.locked_at && @projet.demandeur_user.blank?
