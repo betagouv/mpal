@@ -580,9 +580,10 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        titles.append('Etape avancement creation Dossier')
        titles.append('Nbre de messages dans la messagerie')
        titles.append('Operation Programmee')
-       titles.append('Agent PRIS')
+       titles.append('PRIS')
        titles.append('PRIS EIE')
        titles.append('project id')
+       titles.append('Date de modification du Statut')
      end
 
      titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
@@ -597,7 +598,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        line = [
          projet.numero_plateforme,
          format_date(projet.created_at),
-         projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.fullname,
+         projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.try(:fullname),
          projet.adresse.try(:ville),
          projet.invited_instructeur.try(:raison_sociale),
          projet.themes.map(&:libelle).join(", "),
@@ -609,16 +610,24 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        ]
 
        if is_admin == true
+        begin
          pris_eie = !projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
          pris = projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
+       rescue
+          pris_eie = nil
+          pris = nil
+       end
          op = (projet.intervenants != [] && projet.invited_pris == nil) ? "Oui" : "Non"
+         date_update = projet.statut_updated_date == nil ? "" : projet.statut_updated_date.strftime("%d/%m/%Y %Hh%M")
 
          line.append(projet.try(:max_registration_step))
-         line.append(op)
          line.append(projet.messages.count)
+         line.append(op)
+         line.append(projet.invited_pris.try(:fullname))
          line.append(pris)
          line.append(pris_eie)
          line.append(projet.id)
+         line.append(date_update)
        end
 
        payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
@@ -643,8 +652,8 @@ def self.to_csv(agent, selected_projects, is_admin = false)
     elsif intervenant.operateur?
       invitation = invitations.find_by(intervenant: intervenant)
       invitation.suggested && !invitation.contacted && invitation.intervenant != operateur
-    else
-      false
+    elsif intervenant.dreal?
+      true
     end
   end
 

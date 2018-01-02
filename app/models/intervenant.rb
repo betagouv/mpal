@@ -38,6 +38,11 @@ class Intervenant < ApplicationRecord
   alias_attribute :name, :raison_sociale
   alias_attribute :description_adresse, :adresse_postale
 
+  def projets
+    return super unless dreal?
+    Projet.joins(:adresse_postale).where("adresses.departement IN (?)", departements)
+  end
+
   class << self
     def from_clavis_id(id)
       intervenant = where(clavis_service_id: id).first_or_initialize

@@ -12,7 +12,7 @@
         - if project.themes.any?
           = " / #{project.themes.map(&:name).join(", ")}"
       / TODO 2017-08-07: suppression à valider avec PO
-      - if current_agent
+      - if current_agent          
         p
           = project.numero_plateforme
           - if project.opal_numero.present?

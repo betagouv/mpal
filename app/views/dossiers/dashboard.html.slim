@@ -43,7 +43,7 @@
       tbody
         - items.each do |item|
           - projet = item.is_a?(Invitation) ? item.projet : item
-          - anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+          - anonymized = (item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false) || current_agent.dreal?
           - edit_url = dossier_path(projet)
 
           tr id="projet_#{projet.id}"
