@@ -141,9 +141,9 @@ class Projet < ApplicationRecord
         ON (ift_avis_impositions.id = ift_occupants.avis_imposition_id AND ift_occupants.demandeur = true)
       INNER JOIN adresses ift_adresses1
         ON (projets.adresse_postale_id = ift_adresses1.id)
-      INNER JOIN invitations ift_invitations
+      LEFT OUTER JOIN invitations ift_invitations
         ON (projets.id = ift_invitations.projet_id)
-      INNER JOIN intervenants ift_intervenants
+      LEFT OUTER JOIN intervenants ift_intervenants
         ON (ift_invitations.intervenant_id = ift_intervenants.id)
       LEFT OUTER JOIN adresses ift_adresses2
         ON (projets.adresse_a_renover_id = ift_adresses2.id)
@@ -184,10 +184,10 @@ class Projet < ApplicationRecord
     where("created_at >= ?", datetime)
   }
   scope :updated_since, ->(datetime) {
-    where("updated_at >= ?", datetime)
+    where("projets.updated_at >= ?", datetime)
   }
   scope :updated_upto, ->(datetime) {
-    where("updated_at <= ?", datetime)
+    where("projets.updated_at <= ?", datetime)
   }
   scope :count_by_week, -> {
     fields = [

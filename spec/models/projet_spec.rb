@@ -152,8 +152,8 @@ describe Projet do
       let(:projet2) { create :projet, :prospect, created_at: DateTime.new(2017, 10, 17, 10, 36, 20), date_depot: DateTime.new(2017, 10, 21, 11, 21, 10) }
       let(:projet3) { create :projet, :prospect, created_at: DateTime.new(2017, 10, 19, 12, 03, 50), date_depot: DateTime.new(2017, 10, 20, 14, 55, 30) }
 
-      it { expect(Projet.for_sort_by(:created)).to eq [projet3, projet1, projet2] }
-      it { expect(Projet.for_sort_by(:depot)).to eq [projet2, projet3] }
+      it { expect(Projet.for_sort_by("created")).to eq [projet3, projet1, projet2] }
+      it { expect(Projet.for_sort_by("depot")).to eq [projet2, projet3] }
     end
   end
 
