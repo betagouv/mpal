@@ -23,4 +23,11 @@ class User < ApplicationRecord
   def projet_as_demandeur
     projets_users.demandeur.first.try(:projet)
   end
+
+
+  def after_database_authentication
+    projet = self.projets.first
+    projet.update(:actif => 1)
+  end
+
 end

@@ -5,7 +5,7 @@ class DossiersController < ApplicationController
   before_action :authenticate_agent!
   before_action :assert_projet_courant, except: [:index, :home, :indicateurs]
   load_and_authorize_resource class: "Projet"
-  skip_load_and_authorize_resource only: [:index, :home, :indicateurs, :update_api_particulier]
+  skip_load_and_authorize_resource only: [:index, :home, :indicateurs, :update_api_particulier, :activate, :desactivate]
 
   def affecter_agent
     if @projet_courant.update_attribute(:agent, current_agent)
@@ -131,6 +131,9 @@ class DossiersController < ApplicationController
 
   def show
     list_department_intervenants
+    if Time.now.strftime("%Y").to_i - @projet_courant.avis_impositions.first.annee.to_i >= 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
+      flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
+    end
     render_show
   end
 
@@ -149,6 +152,46 @@ class DossiersController < ApplicationController
 
     render :json => {:status => 1} and return
   end
+
+
+
+
+  def activate
+    if current_agent
+      begin
+        projet = Projet.find(params[:dossier_id])
+        projet.actif = 1
+        projet.save
+      rescue
+        redirect_to "/dossiers", notice: "Une erreur est survenue." and return
+        # render :json => {"parametre" => params, "projet" => projet} and return
+      end
+      redirect_to "/dossiers", notice: "Le projet a bien ete active" and return
+      # render :json => {"parametre" => params, "projet" => projet} and return
+    end
+    redirect_to "/dossiers", notice: "Une erreur est survenue." and return
+    # render :json => {"parametre" => params, "projet" => projet} and return
+  end
+
+  def desactivate
+    if current_agent
+      begin
+        projet = Projet.find(params[:dossier_id])
+        if projet.status_already(:transmis_pour_instruction)
+          redirect_to "/dossiers", alert: "Une erreur est survenue." and return
+          # render :json => {"parametre" => params, "projet" => projet} and return
+        end
+        projet.actif = 0
+        projet.save
+      rescue
+        redirect_to "/dossiers", notice: "Une erreur est survenue." and return
+      end
+      redirect_to "/dossiers", notice: "Le projet a bien ete desactive" and return
+      # render :json => {"parametre" => params, "projet" => projet} and return
+    end
+    redirect_to "/dossiers", notice: "Une erreur est survenue." and return
+  end
+
 
   private
   def assign_projet_if_needed
@@ -252,7 +295,7 @@ class DossiersController < ApplicationController
         @new_msg = []
         @others = []
         if current_agent.admin?
-          @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
+          @dossiers = Projet.all.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
             if search[:from].present?
               @dossiers = @dossiers.updated_since(search[:from])
@@ -270,7 +313,7 @@ class DossiersController < ApplicationController
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
         elsif current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
+          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
             @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
             @dossiers = @dossiers.for_text(search[:type])
@@ -279,6 +322,7 @@ class DossiersController < ApplicationController
             @dossiers = @dossiers.for_text(search[:location])
             @dossiers = @dossiers.for_text(search[:interv])
           end
+          @dossiers = @dossiers.order('projets.actif desc')
         else
           @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
           if search.present?

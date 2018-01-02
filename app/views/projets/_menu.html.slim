@@ -5,12 +5,14 @@
         h2
           span.firstname= demandeur.prenom
           span.lastname<= demandeur.nom
+          - if project.actif == 0
+            span.lastname<= " (PROJET DESACTIVE)"
       p
         = project.adresse.ville
         - if project.themes.any?
           = " / #{project.themes.map(&:name).join(", ")}"
       / TODO 2017-08-07: suppression à valider avec PO
-      - if current_agent
+      - if current_agent          
         p
           = project.numero_plateforme
           - if project.opal_numero.present?
