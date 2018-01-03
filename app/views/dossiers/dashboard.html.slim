@@ -13,6 +13,11 @@
 	- verif = @verif
 	- other = @others
 	- new_msg = @new_msg
+	- actifs = items
+	- i = 0
+	- actifs.each do |item|
+		- if item.projet.actif == 1
+			- i += 1
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
   
 	- if items.present?
@@ -28,6 +33,8 @@
 					a Autres (#{other.count})
 				li.dashboardTab
 					a Nouveau Message (#{new_msg.count})
+				li.dashboardTab
+					a Actifs (#{i})
 				li.dashboardTab
 					a Tous (#{items.length})
 
@@ -574,6 +581,118 @@
 						= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
 				div.tabs_item
 					table
+						- actifs.each do | item |
+							- if item.projet.actif === 1
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
+										p = anonymize anonymized, edit_url do
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent.instructeur?
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+											- else
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
+										- else
+											p &nbsp;
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+											span.lastname<= projet.demandeur.nom if projet.demandeur.present?
+										- if current_agent.operateur? || current_agent.siege?
+											p = anonymize anonymized, edit_url do
+													= projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+										- else
+											p = projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+									td
+										- if projet.themes.present?
+											p = anonymize anonymized, edit_url do
+												= projet.themes.map(&:libelle).join(', ')
+										- else
+											p Type d'intervention inconnu
+										p &nbsp;
+									td
+										div.dashboardDateTextContainer = anonymize anonymized, edit_url do
+											div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+											- if projet.statut_updated_date.present?
+												div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboardDateText2 Inconnu
+										div
+											- if projet.status_already(:transmis_pour_instruction)
+												- if projet.invited_instructeur
+													= projet.invited_instructeur.try(:raison_sociale).to_s
+													- if projet.agent_instructeur.try(:fullname).present?
+														= " - " + projet.agent_instructeur.try(:fullname).to_s
+												- else
+													p &nbsp;
+											- elsif projet.status_already(:en_cours)
+												- if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+													= projet.contacted_operateur.try(:raison_sociale).to_s
+													- if projet.agent_operateur.try(:fullname).present?
+														= " - " + projet.agent_operateur.try(:fullname).to_s
+												- else
+													p &nbsp;
+											- elsif projet.invited_pris.present?
+												= projet.invited_pris.try(:raison_sociale).to_s
+											- else
+												p &nbsp;
+									td.tableRowIconsBorder
+										= link_to projet_or_dossier_path(projet)
+											p 
+												span.glyphicon.glyphicon-folder-open
+											p Dossier
+									td.tableRowIconsBorder
+										- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+											= link_to projet_or_dossier_payments_path(project)
+												p 
+													span.glyphicon.glyphicon-euro
+												p Paiement
+										- else
+											p 
+												span.glyphicon.glyphicon-euro.paiementInactive
+											p Paiement
+									td.tableRowIconsBorder
+										= link_to projet_or_dossier_documents_path(projet)
+											p 
+												span.glyphicon.glyphicon-paperclip
+											p Pièces
+									td.tableRowIconsBorder
+										= link_to new_projet_or_dossier_message_path(projet)
+											- if current_agent
+												- unread_messages_count = projet.unread_messages(current_agent).count
+											- if 0 < (unread_messages_count || 0)
+												span.project-menu__badge= unread_messages_count
+											p 
+												span.glyphicon.glyphicon-envelope
+											p Messages
+									td.tableRowIconsBorder
+										= link_to projet_or_dossier_intervenants_path(projet)
+											p 
+												span.glyphicon.glyphicon-user
+											p Contacts
+									td.tableRowIconsBorder
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+					- if actifs.respond_to?(:total_pages) && 1 < actifs.total_pages
+						= render "shared/paginate", items: actifs, cur_page: "page_actifs"
+
+
+
+				div.tabs_item
+					table
 						- items.each do | item |
 							- projet = item.is_a?(Invitation) ? item.projet : item
 							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
@@ -679,7 +798,9 @@
 												span.glyphicon.glyphicon-eye-open
 											p Activer
 					- if items.respond_to?(:total_pages) && 1 < items.total_pages
-						= render "shared/paginate", items: items, cur_page: "page"
+						= render "shared/paginate", items: items, cur_page: "page_new_msg"
+
+
 
 javascript:
 	/*
