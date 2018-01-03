@@ -22,7 +22,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     @page_heading = I18n.t("demarrage_projet.users.section_name")
     super
     if resource.valid?
-      @projet_courant.users << current_user
+      @projet_courant.users << resource
       session.delete :project_id
     end
   end
