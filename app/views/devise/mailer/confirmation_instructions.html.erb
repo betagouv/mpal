@@ -1,0 +1,24 @@
+
+
+<doctype html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+  	<p>Bonjour <%= @email %>!</p>
+
+	<p>Afin de finaliser la création de votre compte, veuillez cliquer sur le lien suivant ou copier le dans votre navigateur :</p>
+
+	<p><%= link_to confirmation_url(@resource, confirmation_token: @token), confirmation_url(@resource, confirmation_token: @token) %></p>
+    <p>
+      |--
+      <br/>
+      En cas de problème vous pouvez contacter nos services en cliquant sur le lien suivant : <br/>
+      <%= link_to app_name, root_url %>
+      <br/>
+		Cordialement,
+		l'équipe ANAH.
+    </p>
+  </body>
+</html>
