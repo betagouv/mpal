@@ -592,7 +592,7 @@
 							- projet = item.is_a?(Invitation) ? item.projet : item
 							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
 							- edit_url = dossier_path(projet)
-							- if projet.actif === 1
+							- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
 								tr id="projet_#{projet.id}-all"
 									td
 										p = anonymize anonymized, edit_url do
