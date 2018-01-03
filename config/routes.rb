@@ -47,6 +47,7 @@ Rails.application.routes.draw do
     passwords:     "users/passwords",
     registrations: "users/registrations",
     sessions:      "users/sessions",
+    confirmations: 'users/confirmations'
   }
   devise_for :agents, controllers: { cas_sessions: "my_cas" }
   devise_scope :agent do
