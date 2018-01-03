@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   </head>
   <body>
-  	<p>Bonjour <%= @email %>!</p>
+  	<p>Bonjour <%= @email %> !</p>
 
 	<p>Afin de finaliser la création de votre compte, veuillez cliquer sur le lien suivant ou copier le dans votre navigateur :</p>
 
@@ -15,9 +15,9 @@
       |--
       <br/>
       En cas de problème vous pouvez contacter nos services en cliquant sur le lien suivant : <br/>
-      <%= link_to app_name, root_url %>
+      <%= link_to root_url + "contacts/new", root_url + "contacts/new" %>
       <br/>
-		Cordialement,
+		Cordialement,<br/>
 		l'équipe ANAH.
     </p>
   </body>
