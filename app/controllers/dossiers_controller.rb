@@ -166,7 +166,7 @@ class DossiersController < ApplicationController
         redirect_to "/dossiers", notice: "Une erreur est survenue." and return
         # render :json => {"parametre" => params, "projet" => projet} and return
       end
-      redirect_to "/dossiers", notice: "Le projet a bien ete active" and return
+      redirect_to "/dossiers", notice: "Le projet a bien été activé" and return
       # render :json => {"parametre" => params, "projet" => projet} and return
     end
     redirect_to "/dossiers", notice: "Une erreur est survenue." and return
@@ -186,7 +186,7 @@ class DossiersController < ApplicationController
       rescue
         redirect_to "/dossiers", notice: "Une erreur est survenue." and return
       end
-      redirect_to "/dossiers", notice: "Le projet a bien ete desactive" and return
+      redirect_to "/dossiers", notice: "Le projet a bien été désactivé" and return
       # render :json => {"parametre" => params, "projet" => projet} and return
     end
     redirect_to "/dossiers", notice: "Une erreur est survenue." and return
