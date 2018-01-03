@@ -128,9 +128,16 @@
 											span.glyphicon.glyphicon-user
 										p Contacts
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-eye-close
-									p Vérouiller
+									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-close
+											p Desactiver
+									- if projet.actif === 0
+										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-open
+											p Activer
 					- if traite.respond_to?(:total_pages) && 1 < traite.total_pages
 						= render "shared/paginate", items: traite, cur_page: "page_traited"
 				div.tabs_item
@@ -229,9 +236,16 @@
 											span.glyphicon.glyphicon-user
 										p Contacts
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-eye-close
-									p Vérouiller
+									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-close
+											p Desactiver
+									- if projet.actif === 0
+										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-open
+											p Activer
 					- if action.respond_to?(:total_pages) && 1 < action.total_pages
 						= render "shared/paginate", items: action, cur_page: "page_action"
 				div.tabs_item
@@ -330,9 +344,16 @@
 											span.glyphicon.glyphicon-user
 										p Contacts
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-eye-close
-									p Vérouiller
+									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-close
+											p Desactiver
+									- if projet.actif === 0
+										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-open
+											p Activer
 					- if verif.respond_to?(:total_pages) && 1 < verif.total_pages
 						= render "shared/paginate", items: verif, cur_page: "page_verif"
 				div.tabs_item
@@ -431,9 +452,16 @@
 											span.glyphicon.glyphicon-user
 										p Contacts
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-eye-close
-									p Vérouiller
+									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-close
+											p Desactiver
+									- if projet.actif === 0
+										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-open
+											p Activer
 					- if other.respond_to?(:total_pages) && 1 < other.total_pages
 						= render "shared/paginate", items: other, cur_page: "page_other"
 				div.tabs_item
@@ -532,9 +560,16 @@
 											span.glyphicon.glyphicon-user
 										p Contacts
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-eye-close
-									p Vérouiller
+									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-close
+											p Desactiver
+									- if projet.actif === 0
+										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-open
+											p Activer
 					- if new_msg.respond_to?(:total_pages) && 1 < new_msg.total_pages
 						= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
 				div.tabs_item
