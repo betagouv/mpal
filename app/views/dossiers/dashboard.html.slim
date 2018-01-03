@@ -16,12 +16,12 @@
 	- actifs = items
 	- inactifs = items
 	- i = 0
-	- actifs.each do |item|
-		- if item.projet.actif == 1
-			- i += 1
 	- y = 0
-	- inactifs.each do |item|
-		- if item.projet.actif == 0
+	- actifs.each do |item|
+		- projet = item.is_a?(Invitation) ? item.projet : item
+		- if projet.actif == 1
+			- i += 1
+		- if projet.actif == 0
 			- y += 1
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
   
@@ -589,10 +589,10 @@
 				div.tabs_item
 					table
 						- actifs.each do | item |
-							- if item.projet.actif === 1
-								- projet = item.is_a?(Invitation) ? item.projet : item
-								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-								- edit_url = dossier_path(projet)
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							- if projet.actif === 1
 								tr id="projet_#{projet.id}-all"
 									td
 										p = anonymize anonymized, edit_url do
@@ -699,11 +699,11 @@
 
 				div.tabs_item
 					table
-						- inactifs.each do | item |
-							- if item.projet.actif === 0
-								- projet = item.is_a?(Invitation) ? item.projet : item
-								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-								- edit_url = dossier_path(projet)
+						- inactifs.each do | item |							
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							- if projet.actif === 0
 								tr id="projet_#{projet.id}-all"
 									td
 										p = anonymize anonymized, edit_url do
