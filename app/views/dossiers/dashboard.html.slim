@@ -633,9 +633,16 @@
 											span.glyphicon.glyphicon-user
 										p Contacts
 								td.tableRowIconsBorder
-									p 
-										span.glyphicon.glyphicon-eye-close
-									p Vérouiller
+									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-close
+											p Desactiver
+									- if projet.actif === 0
+										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-open
+											p Activer
 					- if items.respond_to?(:total_pages) && 1 < items.total_pages
 						= render "shared/paginate", items: items, cur_page: "page"
 
