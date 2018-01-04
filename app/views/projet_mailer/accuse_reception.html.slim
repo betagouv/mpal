@@ -1,28 +1,33 @@
-p Bonjour #{@demandeur.fullname},
+p #{@demandeur.civility} #{@demandeur.fullname}
 
-p Le #{format_date(@projet.date_depot, :long)}, vous avez déposé auprès de l’Agence nationale de l’habitat – Anah – une demande de subvention.
+p Bonjour,
 
-p Votre demande a été enregistrée sous le numéro « #{@projet.plateforme_id} ». Elle sera instruite par le service suivant :
+p Le #{format_date(@projet.date_depot, :long)}, vous avez déposé une demande d’aide auprès de l’Agence nationale de l’habitat (Anah).
+
+p Votre demande est enregistrée sous le numéro « #{@projet.plateforme_id} ». Elle est instruite par notre service :
 
 ul
   li= @instructeur.raison_sociale
   li= @instructeur.description_adresse
   li= @instructeur.email
+  li= @instructeur.phone
 
-p La décision d’attribution ou de refus de subvention sera prise en fonction, notamment, des priorités d’actions définies par le Conseil d’administration de l’Anah, des priorités définies localement ainsi que des crédits disponibles.
+p La décision d’attribution d’une aide est prise en fonction de priorités nationales et locales ainsi que du budget disponible. 
 
-p L’enregistrement de votre demande de subvention vous permet de commencer les travaux. Il vous est néanmoins rappelé que seule une décision expresse d’attribution vous garantit le bénéfice d’une subvention de l’Anah.
+p Vous serez informé-e par courrier postal de la décision de vous attribuer ou pas une aide.
 
 p
   | En l’absence de réponse dans les quatre mois à compter de la réception du présent accusé de réception, votre demande sera réputée rejetée
   sup 1
   | .
 
-p Si votre demande est incomplète, une demande de renseignements et/ou de pièces complémentaires vous sera adressée et suspendra le délai mentionné ci-dessus.
+p Si votre dossier est incomplet, des renseignements et/ou  pièces complémentaires vous seront demandés, ce qui suspendra le délai mentionné ci-dessus.
+
+p= "Vous pouvez suivre où en est votre demande en allant dans votre espace personnel sur #{link_to(app_name, root_url)}.".html_safe
 
 p Cordialement,
 
-p Pour l’Anah, #{@instructeur.raison_sociale}
+p Pour l’Anah, la (le) #{@instructeur.raison_sociale}
 
 p &nbsp;
 
