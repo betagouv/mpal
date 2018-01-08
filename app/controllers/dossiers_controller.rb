@@ -51,7 +51,7 @@ class DossiersController < ApplicationController
     if render_index
       @page_full_width = true
       @page_heading = I18n.t('tableau_de_bord.titre_section')
-      render "dashboard"
+      render "dashboard", :notice => flash
     end
   end
 
@@ -293,6 +293,7 @@ class DossiersController < ApplicationController
         @action = []
         @verif = []
         @new_msg = []
+        @rfrn2 = []
         @others = []
         @actifs = []
         @inactifs = []
@@ -314,6 +315,21 @@ class DossiersController < ApplicationController
           end
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
+          if search.present?
+            if search[:from].present?
+              @dossiers = @dossiers.updated_since(search[:from])
+            end
+            if search[:to].present?
+              @dossiers = @dossiers.updated_upto(search[:to])
+            end
+            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
+            @dossiers = @dossiers.for_text(search[:type])
+            @dossiers = @dossiers.for_text(search[:folder])
+            @dossiers = @dossiers.for_text(search[:tenant])
+            @dossiers = @dossiers.for_text(search[:location])
+            @dossiers = @dossiers.for_text(search[:interv])
+          end
+          @dossiers = @dossiers.order('projets.actif desc')
           all = @dossiers
           all.each do |i|
             if i.actif == 1
@@ -398,6 +414,7 @@ class DossiersController < ApplicationController
               end
             end
           elsif current_agent.operateur?
+
             all.each do |i|
               if i.projet.status_already(:proposition_proposee) && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1
                 @traited << i
@@ -412,6 +429,13 @@ class DossiersController < ApplicationController
               end
               if i.projet.unread_messages(current_agent).count > 0
                 @new_msg << i
+              end
+              i.projet.avis_impositions.each do |avis|
+                if avis.annee.to_i < Time.now.strftime("%Y").to_i - 2
+                  @rfrn2 << i
+                  flash.now[:notice] = "Certains dossiers nécéssitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
+                  break
+                end
               end
             end
           elsif current_agent.instructeur?
