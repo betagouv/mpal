@@ -294,6 +294,8 @@ class DossiersController < ApplicationController
         @verif = []
         @new_msg = []
         @others = []
+        @actifs = []
+        @inactifs = []
         if current_agent.admin?
           @dossiers = Projet.all.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
@@ -312,6 +314,17 @@ class DossiersController < ApplicationController
           end
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
+          all = @dossiers
+          all.each do |i|
+            if i.actif == 1
+              @others << i
+            else
+              @inactifs << i
+            end
+            if i.unread_messages(current_agent).count > 0
+              @new_msg << i
+            end
+          end
         elsif current_agent.siege?
           @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
@@ -323,6 +336,17 @@ class DossiersController < ApplicationController
             @dossiers = @dossiers.for_text(search[:interv])
           end
           @dossiers = @dossiers.order('projets.actif desc')
+          all = @dossiers
+          all.each do |i|
+            if i.actif == 1
+              @others << i
+            else
+              @inactifs << i
+            end
+            if i.unread_messages(current_agent).count > 0
+              @new_msg << i
+            end
+          end
         else
           @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
           if search.present?
@@ -346,29 +370,33 @@ class DossiersController < ApplicationController
           end
            if current_agent.pris?
             all.each do |i|
-              if i.projet.pris_suggested_operateurs != [] && i.projet.status_already(:en_cours)
+              if i.projet.pris_suggested_operateurs != [] && i.projet.status_already(:en_cours) && i.projet.actif == 1
                 @traited << i
-              elsif i.projet.pris_suggested_operateurs == []
+              elsif i.projet.pris_suggested_operateurs == [] && i.projet.actif == 1
                 @action << i
-              elsif i.projet.pris_suggested_operateurs != [] && i.projet.status_not_yet(:en_cours)
+              elsif i.projet.pris_suggested_operateurs != [] && i.projet.status_not_yet(:en_cours) && i.projet.actif == 1
                 @verif << i
-              else
+              elsif i.projet.actif == 1
                 @others << i
+              else
+                @inactifs << i
               end
               if i.projet.unread_messages(current_agent).count > 0
-                new_msg << i
+                @new_msg << i
               end
             end
           elsif current_agent.operateur?
             all.each do |i|
-              if i.projet.status_already(:proposition_proposee) && i.projet.status_not_yet(:transmis_pour_instruction)
+              if i.projet.status_already(:proposition_proposee) && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1
                 @traited << i
-              elsif i.projet.action_agent_operateur?
+              elsif i.projet.action_agent_operateur? && i.projet.actif == 1
                 @action << i
-              elsif i.projet.payments.blank? && i.projet.status_not_yet(:transmis_pour_instruction)
+              elsif i.projet.payments.blank? && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1
                 @verif << i
-              else
+              elsif i.projet.actif == 1
                 @others << i
+              else
+                @inactifs << i
               end
               if i.projet.unread_messages(current_agent).count > 0
                 @new_msg << i
@@ -376,12 +404,14 @@ class DossiersController < ApplicationController
             end
           elsif current_agent.instructeur?
             all.each do |i|
-              if i.projet.status_already(:en_cours_d_instruction)
+              if i.projet.status_already(:en_cours_d_instruction) && i.projet.actif == 1
                 @traited << i
-              elsif i.projet.status_already(:transmis_pour_instruction)
+              elsif i.projet.status_already(:transmis_pour_instruction) && i.projet.actif == 1
                 @action << i
-              else
+              elsif i.projet.actif == 1
                 @others << i
+              else
+                @inactifs << i
               end
               if i.projet.unread_messages(current_agent).count > 0
                 @new_msg << i
@@ -394,6 +424,7 @@ class DossiersController < ApplicationController
           @new_msg = @new_msg.paginate(page: page_new_msg, per_page: per_page)
           @others = @others.paginate(page: page_others, per_page: per_page)
           @invitations = @invitations.paginate(page: page, per_page: per_page)
+          @inactifs = @inactifs.paginate(page: page, per_page: per_page)
         end
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
