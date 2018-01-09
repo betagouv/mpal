@@ -131,8 +131,13 @@ class DossiersController < ApplicationController
 
   def show
     list_department_intervenants
-    if Time.now.strftime("%Y").to_i - @projet_courant.avis_impositions.first.annee.to_i >= 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
-      flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
+    annee = Time.now.strftime("%Y").to_i - @projet_courant.avis_impositions.first.annee.to_i
+    if annee >= 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
+      if annee == 3 and Time.now.strftime("%m") < 9
+        flash.now[:notice] = nil
+      else
+        flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
+      end
     end
     render_show
   end
@@ -296,6 +301,7 @@ class DossiersController < ApplicationController
         @others = []
         @actifs = []
         @inactifs = []
+        @rfrn2 = []
         if current_agent.admin?
           @dossiers = Projet.all.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
@@ -314,6 +320,21 @@ class DossiersController < ApplicationController
           end
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
+          if search.present?
+            if search[:from].present?
+              @dossiers = @dossiers.updated_since(search[:from])
+            end
+            if search[:to].present?
+              @dossiers = @dossiers.updated_upto(search[:to])
+            end
+            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
+            @dossiers = @dossiers.for_text(search[:type])
+            @dossiers = @dossiers.for_text(search[:folder])
+            @dossiers = @dossiers.for_text(search[:tenant])
+            @dossiers = @dossiers.for_text(search[:location])
+            @dossiers = @dossiers.for_text(search[:interv])
+          end
+          @dossiers = @dossiers.order('projets.actif desc')
           all = @dossiers
           all.each do |i|
             if i.actif == 1
