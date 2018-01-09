@@ -431,7 +431,12 @@ class DossiersController < ApplicationController
                 @new_msg << i
               end
               i.projet.avis_impositions.each do |avis|
-                if avis.annee.to_i < Time.now.strftime("%Y").to_i - 2
+                annee = Time.now.strftime("%Y").to_i - avis.annee.to_i
+                if annee > 2
+                  @rfrn2 << i
+                  flash.now[:notice] = "Certains dossiers nécéssitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
+                  break
+                elsif annee == 2 and Time.now.strftime("%m") > 9
                   @rfrn2 << i
                   flash.now[:notice] = "Certains dossiers nécéssitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
                   break
