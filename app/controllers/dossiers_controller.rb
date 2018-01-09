@@ -135,7 +135,7 @@ class DossiersController < ApplicationController
     if annee > 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
         flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
-    if annee == 2 and Time.now.strftime("%m") < 9
+    if annee == 2 and Time.now.strftime("%m") > 9
         flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
     render_show
