@@ -414,7 +414,6 @@ class DossiersController < ApplicationController
               end
             end
           elsif current_agent.operateur?
-
             all.each do |i|
               if i.projet.status_already(:proposition_proposee) && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1
                 @traited << i
@@ -436,7 +435,7 @@ class DossiersController < ApplicationController
                   @rfrn2 << i
                   flash.now[:notice] = "Certains dossiers nécéssitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
                   break
-                elsif annee == 2 and Time.now.strftime("%m") > 9
+                elsif annee == 2 and Time.now.strftime("%m").to_i >= 9
                   @rfrn2 << i
                   flash.now[:notice] = "Certains dossiers nécéssitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
                   break
