@@ -135,7 +135,7 @@ class DossiersController < ApplicationController
     if annee > 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
         flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
-    if annee == 2 and Time.now.strftime("%m") > 9
+    if annee == 2 and Time.now.strftime("%m").to_i >= 9
         flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
     render_show
@@ -287,7 +287,6 @@ class DossiersController < ApplicationController
     page_verif = params[:page_verif] || 1
     page_new_msg = params[:page_new_msg] || 1
     page_others = params[:page_others] || 1
-
     per_page = params[:per_page]  || 20
 
     respond_to do |format|
@@ -491,7 +490,7 @@ class DossiersController < ApplicationController
         end
         response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
         response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render plain: Projet.to_csv(current_agent, @selected_projects)
+        render plain: Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
         return false
       }
     end
