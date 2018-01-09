@@ -287,7 +287,6 @@ class DossiersController < ApplicationController
     page_verif = params[:page_verif] || 1
     page_new_msg = params[:page_new_msg] || 1
     page_others = params[:page_others] || 1
-
     per_page = params[:per_page]  || 20
 
     respond_to do |format|
