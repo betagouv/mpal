@@ -132,12 +132,11 @@ class DossiersController < ApplicationController
   def show
     list_department_intervenants
     annee = Time.now.strftime("%Y").to_i - @projet_courant.avis_impositions.first.annee.to_i
-    if annee >= 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
-      if annee == 3 and Time.now.strftime("%m") < 9
-        flash.now[:notice] = nil
-      else
+    if annee > 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
         flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
-      end
+    end
+    if annee == 2 and Time.now.strftime("%m") < 9
+        flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
     render_show
   end
