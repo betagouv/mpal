@@ -315,6 +315,18 @@ class DossiersController < ApplicationController
             @dossiers = @dossiers.for_text(search[:tenant])
             @dossiers = @dossiers.for_text(search[:location])
             @dossiers = @dossiers.for_text(search[:interv])
+            @dossiers = @dossiers.order('projets.actif desc')
+            all = @dossiers
+            all.each do |i|
+              if i.actif == 1
+                @others << i
+              else
+                @inactifs << i
+              end
+              if i.unread_messages(current_agent).count > 0
+                @new_msg << i
+              end
+            end
           end
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
