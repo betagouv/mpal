@@ -278,6 +278,11 @@ class DossiersController < ApplicationController
     attributes
   end
 
+  def search_dossier tab
+    tab = tab.for_text(search[:query]).for_intervenant_status(search[:status]).for_text(search[:type]).for_text(search[:folder]).for_text(search[:tenant]).for_text(search[:location]).for_text(search[:interv])
+    return tab
+  end
+
   def render_index
     params.permit(:page, :per_page, search: [:query, :status, :sort_by])
     search = params[:search] || {}
@@ -309,23 +314,18 @@ class DossiersController < ApplicationController
             if search[:to].present?
               @dossiers = @dossiers.updated_upto(search[:to])
             end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
-            @dossiers = @dossiers.order('projets.actif desc')
-            all = @dossiers
-            all.each do |i|
-              if i.actif == 1
-                @others << i
-              else
-                @inactifs << i
-              end
-              if i.unread_messages(current_agent).count > 0
-                @new_msg << i
-              end
+            @dossiers = search_dossier(@dossiers)
+          end
+          @dossiers = @dossiers.order('projets.actif desc')
+          all = @dossiers
+          all.each do |i|
+            if i.actif == 1
+              @others << i
+            else
+              @inactifs << i
+            end
+            if i.unread_messages(current_agent).count > 0
+              @new_msg << i
             end
           end
         elsif current_agent.dreal?
@@ -337,12 +337,7 @@ class DossiersController < ApplicationController
             if search[:to].present?
               @dossiers = @dossiers.updated_upto(search[:to])
             end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
+            @dossiers = search_dossier(@dossiers)
           end
           @dossiers = @dossiers.order('projets.actif desc')
           all = @dossiers
@@ -365,12 +360,7 @@ class DossiersController < ApplicationController
             if search[:to].present?
               @dossiers = @dossiers.updated_upto(search[:to])
             end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
+            @dossiers = search_dossier(@dossiers)
           end
           @dossiers = @dossiers.order('projets.actif desc')
           all = @dossiers
@@ -393,12 +383,7 @@ class DossiersController < ApplicationController
             if search[:to].present?
               @dossiers = @dossiers.updated_upto(search[:to])
             end
-            @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
-            @invitations = @invitations.for_text(search[:type])
-            @invitations = @invitations.for_text(search[:folder])
-            @invitations = @invitations.for_text(search[:tenant])
-            @invitations = @invitations.for_text(search[:location])
-            @invitations = @invitations.for_text(search[:interv])
+            @invitations = search_dossier(@invitations)
           end
           if current_agent.operateur?
             @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
