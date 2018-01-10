@@ -131,8 +131,12 @@ class DossiersController < ApplicationController
 
   def show
     list_department_intervenants
-    if Time.now.strftime("%Y").to_i - @projet_courant.avis_impositions.first.annee.to_i >= 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
-      flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
+    annee = Time.now.strftime("%Y").to_i - @projet_courant.avis_impositions.first.annee.to_i
+    if annee > 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
+        flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
+    end
+    if annee == 2 and Time.now.strftime("%m").to_i >= 9
+        flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
     render_show
   end
@@ -274,6 +278,11 @@ class DossiersController < ApplicationController
     attributes
   end
 
+  def search_dossier tab
+    tab = tab.for_text(search[:query]).for_intervenant_status(search[:status]).for_text(search[:type]).for_text(search[:folder]).for_text(search[:tenant]).for_text(search[:location]).for_text(search[:interv])
+    return tab
+  end
+
   def render_index
     params.permit(:page, :per_page, search: [:query, :status, :sort_by])
     search = params[:search] || {}
@@ -283,7 +292,6 @@ class DossiersController < ApplicationController
     page_verif = params[:page_verif] || 1
     page_new_msg = params[:page_new_msg] || 1
     page_others = params[:page_others] || 1
-
     per_page = params[:per_page]  || 20
 
     respond_to do |format|
@@ -297,6 +305,7 @@ class DossiersController < ApplicationController
         @others = []
         @actifs = []
         @inactifs = []
+        @rfrn2 = []
         if current_agent.admin?
           @dossiers = Projet.all.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
           if search.present?
@@ -306,12 +315,19 @@ class DossiersController < ApplicationController
             if search[:to].present?
               @dossiers = @dossiers.updated_upto(search[:to])
             end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
+            @dossiers = search_dossier(@dossiers)
+          end
+          @dossiers = @dossiers.order('projets.actif desc')
+          all = @dossiers
+          all.each do |i|
+            if i.actif == 1
+              @others << i
+            else
+              @inactifs << i
+            end
+            if i.unread_messages(current_agent).count > 0
+              @new_msg << i
+            end
           end
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
@@ -322,12 +338,7 @@ class DossiersController < ApplicationController
             if search[:to].present?
               @dossiers = @dossiers.updated_upto(search[:to])
             end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
+            @dossiers = search_dossier(@dossiers)
           end
           @dossiers = @dossiers.order('projets.actif desc')
           all = @dossiers
@@ -350,12 +361,7 @@ class DossiersController < ApplicationController
             if search[:to].present?
               @dossiers = @dossiers.updated_upto(search[:to])
             end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
+            @dossiers = search_dossier(@dossiers)
           end
           @dossiers = @dossiers.order('projets.actif desc')
           all = @dossiers
@@ -378,12 +384,7 @@ class DossiersController < ApplicationController
             if search[:to].present?
               @dossiers = @dossiers.updated_upto(search[:to])
             end
-            @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
-            @invitations = @invitations.for_text(search[:type])
-            @invitations = @invitations.for_text(search[:folder])
-            @invitations = @invitations.for_text(search[:tenant])
-            @invitations = @invitations.for_text(search[:location])
-            @invitations = @invitations.for_text(search[:interv])
+            @invitations = search_dossier(@invitations)
           end
           if current_agent.operateur?
             @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
