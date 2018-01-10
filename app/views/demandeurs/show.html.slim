@@ -1,4 +1,17 @@
-= simple_form_for @projet_courant, url: { controller: "demandeurs", action: "update" }, html: { class: "form" } do |f|
+
+div#modalAdresseContainer.modal
+  div.modal-content
+    p.modal-text Confirmez votre adresse : 
+    p.modal-text-addr
+    <br />
+    p.modal-text2
+    p.modal-text-addr2
+
+    button.modalAdresse-cancel.btn.popin__close Modifier
+    button.modalAdresse-confirm.btn.modal-confirm Confirmer
+
+
+= simple_form_for @projet_courant, url: { controller: "demandeurs", action: "update" }, html: { class: "form form-addr-submit" } do |f|
   = render "shared/errors", resource: @projet_courant
   .js-demandeur-civility
     = f.fields_for @demandeur do |ff|
@@ -28,7 +41,7 @@
         = ff.input :tel, wrapper_html: { class: "size-s" }
         = ff.input :email, wrapper_html: { class: "size-m" }
         = ff.input :lien_avec_demandeur, label: t("helpers.label.personne.lien_avec_demandeur"), wrapper_html: { class: "size-m" }
-  = btn name: t("demarrage_projet.action"), class: "btn-large btn-centered", icon: "arrow-right"
+  = btn name: t("demarrage_projet.action"), class: "btn-large btn-centered btn_submit_addr", icon: "arrow-right"
 
   javascript:
 
@@ -37,11 +50,70 @@
     var doneTypingInterval = 100;
     var doneFocusInterval = 500;
     var minCharToSearch = 4;
+    var confirmTimer = 5;
+    
+    var timerConfirm;
+    var confirmButtonText = $('.modalAdresse-confirm').text();
     var $input = $('#projet_adresse_postale');
     var $input2 = $('#projet_adresse_a_renover');
+    var modalAddr = document.getElementById("modalAdresseContainer"); 
 
     $input.attr("autocomplete", "off");
     $input2.attr("autocomplete", "off");
+
+
+    function activate_confirm(){
+      if (timerConfirm <= 0) {
+        $('.modalAdresse-confirm').text(confirmButtonText);
+        $('.modalAdresse-confirm').removeClass('modal-unclickable');
+      }
+      else {
+        timerConfirm--;
+        $('.modalAdresse-confirm').text(confirmButtonText + ' (' + timerConfirm + ')');
+        setTimeout(activate_confirm, 1000);
+      }
+    }
+
+    $('.btn_submit_addr').click(function(e){
+      e.preventDefault();
+      var addr = $("#projet_adresse_postale").val();
+      var addr2 = $("#projet_adresse_a_renover").val();
+      timerConfirm = confirmTimer;
+
+      modalAddr.style.display = "block";
+      if ("" != addr && null != addr && undefined != addr)
+        $('.modal-text-addr').text(addr);
+
+      if ("" != addr2 && null != addr2 && undefined != addr2)
+      {
+        $('.modal-text2').text("Confirmez votre addresse a renover :");
+        $('.modal-text-addr2').text(addr2);
+      }
+
+      $('.modalAdresse-confirm').addClass('modal-unclickable');
+      $('.modalAdresse-confirm').text(confirmButtonText + ' (' + timerConfirm + ')');
+      setTimeout(activate_confirm, 1000);
+
+    });
+
+    $('.modal').click(function(event){
+      if (event.target == modalAddr)
+        modalAddr.style.display = "none";
+    });
+
+    $('.modalAdresse-cancel').click(function(e){
+      e.stopPropagation();
+      e.preventDefault();
+
+      modalAddr.style.display = "none";
+    });
+    $('.modalAdresse-confirm').click(function(e){
+      e.stopPropagation();
+      e.preventDefault();
+      if (!$(this).hasClass('modal-unclickable'))
+        $('.form-addr-submit').submit();
+    });
+
 
     //on keyup, start the countdown
     $input.on('keyup', function (e) {
