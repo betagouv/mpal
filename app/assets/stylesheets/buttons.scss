@@ -94,6 +94,40 @@
   margin-top: 10px;
 }
 
+.modalAdresse-confirm, .modalAdresse-cancel{
+  margin-top: 10px;
+  width: 100px;
+}
+
+.modal-text, .modal-text2 {
+  font-size: 16px;
+  font-style: italic;
+  text-decoration: underline;
+  text-align: left;
+}
+
+.modal-text-addr, .modal-text-addr2 {
+  font-size: 16px;
+  font-weight: bold;
+  text-align: left;
+}
+
+.modal-confirm {
+  margin: 2em auto 0;
+  background-color: $color-dark-green;
+}
+
+.modal-unclickable {
+  &:hover {
+    background-color: #F1F1F1;
+    color: black;
+  }
+  background-color: #F1F1F1;
+  color: black;
+  width: 150px;
+  cursor: not-allowed;
+}
+
 #displayIntervenantsContainer {
   p {
     margin-bottom: 20px;
@@ -114,15 +148,4 @@
   line-height: 23px;
   margin-bottom: 5px;
   word-break: keep-all; 
-}
-
-.buttonActive {
-  text-align: center;
-  width: 200px;
-  .btn-button-activate, .btn-button-deactivate {
-    display: inline-block;
-    width: 100%;
-  }
-  .btn-button-activate { background-color: #009900; }
-  .btn-button-deactivate { background-color: $color-red; }
 }
