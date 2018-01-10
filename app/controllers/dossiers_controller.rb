@@ -51,7 +51,7 @@ class DossiersController < ApplicationController
     if render_index
       @page_full_width = true
       @page_heading = I18n.t('tableau_de_bord.titre_section')
-      render "dashboard"
+      render "dashboard", :notice => flash
     end
   end
 
@@ -301,6 +301,7 @@ class DossiersController < ApplicationController
         @action = []
         @verif = []
         @new_msg = []
+        @rfrn2 = []
         @others = []
         @actifs = []
         @inactifs = []
@@ -428,6 +429,18 @@ class DossiersController < ApplicationController
               end
               if i.projet.unread_messages(current_agent).count > 0
                 @new_msg << i
+              end
+              i.projet.avis_impositions.each do |avis|
+                annee = Time.now.strftime("%Y").to_i - avis.annee.to_i
+                if annee > 2
+                  @rfrn2 << i
+                  flash.now[:notice] = "Certains dossiers nécéssitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
+                  break
+                elsif annee == 2 and Time.now.strftime("%m").to_i >= 9
+                  @rfrn2 << i
+                  flash.now[:notice] = "Certains dossiers nécéssitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
+                  break
+                end
               end
             end
           elsif current_agent.instructeur?
