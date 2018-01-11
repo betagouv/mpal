@@ -596,7 +596,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date de visite',
        'Date dépôt',
        'État',
-       'Actif/Incatif'
+       'Actif/Inactif'
      ]
 
      if is_admin == true

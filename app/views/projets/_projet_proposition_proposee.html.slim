@@ -2,4 +2,7 @@
   .button-group
     = btn name: t("projets.transmission.modification_demande"), href: new_projet_or_dossier_message_path(@projet_courant), class: "btn-secondary transmission__button"
     = btn name: t('projets.transmission.bouton_accepter'), href: projet_transmission_path(@projet_courant), class: 'proposal'
+    
+    = "Les montants affichés sont prévisionnels, le montant des aides définitives sera communiqué ultérieurement, à la réception de la notification."
+
 = render 'projet_proposition'
