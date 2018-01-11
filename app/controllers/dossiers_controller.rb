@@ -299,6 +299,12 @@ class DossiersController < ApplicationController
   end
 
   def render_csv search
+    response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
+    response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
+    response.status = 200
+    response.headers['X-Accel-Buffering'] = 'no'
+    response.headers["Cache-Control"] ||= "no-cache"
+    response.headers.delete("Content-Length")
     if current_agent.admin?
       @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
       @selected_projects = search_for_intervenant_status(search, @dossiers)
@@ -318,8 +324,6 @@ class DossiersController < ApplicationController
       end
       @selected_projects = @invitations.map{ |invitation| invitation.projet }
     end
-    response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
-    response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
     render plain: Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
     return false
   end
