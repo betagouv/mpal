@@ -52,7 +52,6 @@ describe PaymentMailer, type: :mailer do
     it { expect(email.cc).to eq([projet.personne.email]) }
     it { expect(email.subject).to eq(I18n.t("mailers.paiement_mailer.accuse_reception_depot.sujet")) }
     it { expect(email.body).to include(projet.demandeur.fullname) }
-    it { expect(email.body).to include("Votre demande sera instruite") }
   end
 
   describe "notifie l'intervenant qu'un demandeur a soumis une correction pour une demande de paiement déposée" do
