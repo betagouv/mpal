@@ -12,9 +12,6 @@ class DemandeursController < ApplicationController
   end
 
   def update
-    if @projet_courant.max_registration_step >= 6 and @projet_courant.adresse_a_renover == nil
-      @projet_courant.adresse_a_renover = @projet_courant.adresse_postale
-    end
     if save_demandeur
       if @projet_courant.max_registration_step >= 6
         redirect_to root_path and return
@@ -89,7 +86,10 @@ private
       flash.now[:alert] = e.message
       return false
     end
-
+    
+    if @projet_courant.max_registration_step >= 6 and @projet_courant.adresse_a_renover == nil
+      @projet_courant.adresse_a_renover = @projet_courant.adresse_postale
+    end
     @projet_courant.assign_attributes(projet_params)
     if "1" == params[:contact]
       @projet_courant.assign_attributes(projet_personne_params)
