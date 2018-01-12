@@ -423,6 +423,9 @@ class Projet < ApplicationRecord
   end
 
   def calcul_revenu_fiscal_reference_total(annee_revenus)
+    if revenu_fiscal_reference == nil
+      self.update(:revenu_fiscal_reference => 0)
+    end
     avis_impositions.where(annee: annee_revenus).map(&:revenu_fiscal_reference).inject(0,:+)
   end
 
