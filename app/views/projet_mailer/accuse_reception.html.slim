@@ -1,4 +1,7 @@
-p #{@demandeur.civility} #{@demandeur.fullname}
+- if @projet.demandeur.civility == "mr"
+  p Monsieur #{@projet.demandeur.fullname}
+- else
+  p Madame #{@projet.demandeur.fullname}
 
 p Bonjour,
 
