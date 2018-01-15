@@ -81,27 +81,6 @@ describe Invitation do
       end
     end
 
-    describe ".for_intervenant_status" do
-      let(:operateur)    { create :operateur }
-      let(:projet2)      { create :projet, statut: :prospect }
-      let(:projet3)      { create :projet, statut: :en_cours }
-      let(:projet4)      { create :projet, statut: :proposition_enregistree }
-      let(:projet5)      { create :projet, statut: :proposition_proposee }
-      let(:projet6)      { create :projet, statut: :transmis_pour_instruction }
-      let(:projet7)      { create :projet, statut: :en_cours_d_instruction }
-      let!(:invitation2) { create :invitation, intervenant: operateur, projet: projet2 }
-      let!(:invitation3) { create :invitation, intervenant: operateur, projet: projet3 }
-      let!(:invitation4) { create :invitation, intervenant: operateur, projet: projet4 }
-      let!(:invitation5) { create :invitation, intervenant: operateur, projet: projet5 }
-      let!(:invitation6) { create :invitation, intervenant: operateur, projet: projet6 }
-      let!(:invitation7) { create :invitation, intervenant: operateur, projet: projet7 }
-
-      it { expect(Invitation.for_intervenant_status(:prospect)).to eq [invitation2] }
-      it { expect(Invitation.for_intervenant_status(:en_cours_de_montage)).to eq [invitation3, invitation4, invitation5] }
-      it { expect(Invitation.for_intervenant_status(:depose)).to eq [invitation6] }
-      it { expect(Invitation.for_intervenant_status(:en_cours_d_instruction)).to eq [invitation7] }
-    end
-
     describe ".for_sort_by" do
       let(:operateur)    { create :operateur }
       let(:projet2)      { create :projet, :prospect, created_at: DateTime.new(2017, 10, 18, 10, 42, 30) }
