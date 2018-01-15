@@ -9,7 +9,7 @@ p Bonjour,
 	p= "Le #{l(@payment.updated_at, format: :humanized)}, vous avez déposé auprès de l’Agence nationale de l’habitat (Anah) une demande de #{@payment.type_paiement} de votre aide."
 - else
 	p= "Le #{l(@payment.updated_at, format: :humanized)}, vous avez déposé auprès de l’Agence nationale de l’habitat (Anah) une demande d'#{@payment.type_paiement} de votre aide."
-p= "Vous avez demandé que ce paiement soit effectué à : " + @payment.beneficiaire
+p= "Vous avez demandé que ce paiement soit effectué à : " +  @payment.beneficiaire
 p= "Si votre demande est incomplète, des renseignements et/ou pièces complémentaires vous seront demandés."
 p= "Vous pouvez suivre où en est votre demande en allant dans votre espace personnel sur #{link_to(app_name, root_url)}".html_safe
 
