@@ -16,7 +16,7 @@ class DemandeursController < ApplicationController
       @projet_courant.adresse_a_renover = @projet_courant.adresse_postale
     end
     if save_demandeur
-      if @projet_courant.max_registration_step >= 6
+      if @projet_courant.max_registration_step >= 6 and @current_agent.nil?
         redirect_to root_path and return
       end
       return redirect_to_next_step
