@@ -8,19 +8,17 @@ class ApisController < ApplicationController
 			if (request.headers["token"]) != ENV['secret']
 				render json: {
 					status: 403,
-					message: "Your are not allowed Sir"
+					message: "Le token n'est pas valide"
 				}.to_json and return
 			else
 				parsed_json = JSON.parse(params["selDossiers"])
 
 				parsed_json["selDossiers"].each do |dossier|
 
-					if dossier["properties"]
-
+					if dossier["properties"]["numero"]
 						projet = Projet.find_by(:opal_numero => dossier["properties"]["numero"])
 
 						if projet
-							
 							opalPosition = dossier["properties"]["position"]
 							opalDatePosition = dossier["properties"]["date"]
 							opalPositionLabel = ""
@@ -74,8 +72,8 @@ class ApisController < ApplicationController
 				end
 
 				render json: {
-					status: 200,
-					message: "Update okay Sir"
+					status: 202,
+					message: "La requête a ete acceptée et son traitement est en cours"
 				}.to_json and return
 			end
 
