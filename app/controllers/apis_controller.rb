@@ -5,7 +5,7 @@ class ApisController < ApplicationController
 	def update_state
 
 		begin
-			if (request.headers["token"]) != ENV['secret']
+			if (request.headers["token"]) != ENV['SECRET_SEL_API_FOR_OPAL']
 				render json: {
 					status: 403,
 					message: "Le token n'est pas valide"
@@ -63,9 +63,8 @@ class ApisController < ApplicationController
 								opalPositionLabel = "Solde Payée"
 							end
 
-
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil
-								projet.update(:position_opal => opalPositionLabel, :opal_date_position => opalDatePosition)
+								projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPositionLabel)
 							end
 						end
 					end

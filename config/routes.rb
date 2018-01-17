@@ -113,10 +113,8 @@ Rails.application.routes.draw do
   end
 
 
-  # post '/api/update_state/:id_dossier' => "apis#update_state"
-  post '/api/update_state/' => "apis#update_state"
+  # mise a jours des dossiers avec la position OPAL; Opal contact l'api regulierement
   put '/api/update_state/' => "apis#update_state"
-  put '/dossiers/batch' => "apis#update_state"
 
   # gestion des fonctions administrateurs
   get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"
