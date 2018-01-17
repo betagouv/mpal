@@ -368,11 +368,17 @@ $(document).ready(function() {
 					index = $(this).closest('li').index();
 			
 			tab.find('ul.dashboardTabContainer > li').removeClass('current');
+			tab.find('ul.dashboardTabContainer > li:after').css({
+	            'background': '#eee'
+        	});
 			$(this).closest('li').addClass('current');
 			
 			tab.find('.tab_content').find('div.tabs_item').not('div.tabs_item:eq(' + index + ')').hide();;
 			tab.find('.tab_content').find('div.tabs_item:eq(' + index + ')').show();
-			
+			tab.find('ul.dashboardTabContainer > li.current:after').css({
+	            'background': '#008CBA'
+        	});
+
 			e.preventDefault();
 		} );
 	}
