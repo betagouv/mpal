@@ -1,11 +1,11 @@
 article.block.occupants
-  h3 Ma situation
+  h3 Récapitulatif de ma demande
   - if can? :update, @projet_courant
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
   .occupants-recap
     ul
       li
-        | Nombre d’occupants :
+        | Nombre total d’occupant(s) du logement :
         span= " #{@projet_courant.nb_total_occupants} " + (@projet_courant.future_birth ? "+ enfant à naître" : "")
       li
         = t('demarrage_projet.demandeur.revenu_fiscal_reference')
