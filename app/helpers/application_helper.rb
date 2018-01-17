@@ -113,7 +113,7 @@ module ApplicationHelper
   end
 
   def affiche_demande_souhaitee(demande)
-    html = content_tag(:h4, "Adresse du logement")
+    html = content_tag(:h4, "Adresse du logement à rénover")
     html << content_tag(:p, demande.projet.adresse.description)
     html << tag(:br)
     besoins = []
@@ -167,14 +167,18 @@ module ApplicationHelper
     complements << "#{t("demarrage_projet.demande.date_achevement_15_ans")} : #{date_achevement_15_ans_strong}"
 
     if demande.ptz.nil?
-      ptz = "Non renseigné"
+      ptz = "Prêt à Taux Zéro (moins de 5 ans)"
     elsif demande.ptz
       ptz = "Oui"
     else
       ptz = "Non"
     end
 
-    ptz_strong = content_tag(:strong, ptz)
+    if ptz == "Prêt à Taux Zéro (moins de 5 ans)"
+      ptz_strong = content_tag(:strong, ptz, :class => 'ptz_red_color')
+    else
+      ptz_strong = content_tag(:strong, ptz)
+    end
     complements << "#{t("demarrage_projet.demande.ptz")} : #{ptz_strong}"
     annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
     annee_construction_strong = content_tag(:strong, annee_construction)

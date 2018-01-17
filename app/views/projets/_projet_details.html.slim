@@ -1,9 +1,9 @@
-h3 Logement
+h3 &nbsp;
 .table-responsive
   table.table.table-striped.table-sm
     tbody
       tr
-        td= sf_label :projet, :date_de_visite
+        td= sf_label :projet, :date_de_visite_du_logement
         td.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
       - if @projet_courant.type_logement.present?
         tr
