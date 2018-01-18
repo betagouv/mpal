@@ -14,7 +14,7 @@ set -u
 
 # Récupère le nom de la remote principale du projet (généralement 'origin' ou 'upstream')
 function remote_name {
-  git remote -v | grep "github.com.sgmap" | head -n 1 | cut -f 1
+  git remote -v | grep "github.com.betagouv" | head -n 1 | cut -f 1
 }
 
 # Vérifie qu'aucun fichier n'est modifié sans être committé.
@@ -75,7 +75,7 @@ function perform_merge {
   echo
   echo "Les commits ont été mergées dans '${target_branch}'."
   echo "CircleCI va maintenant tester et déployer le commit sur l'environnement de démo."
-  echo "Vous pouvez suivre la progression du déploiement sur https://circleci.com/gh/sgmap/mpal/tree/${target_branch}"
+  echo "Vous pouvez suivre la progression du déploiement sur https://circleci.com/gh/betagouv/mpal/tree/${target_branch}"
 }
 
 # Configuration des branches
