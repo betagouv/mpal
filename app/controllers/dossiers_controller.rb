@@ -43,8 +43,11 @@ class DossiersController < ApplicationController
 
   def home
     if render_index
-      @page_heading = "Accueil"
+      @page_full_width = true
+      @page_heading = I18n.t('tableau_de_bord.titre_section')
+      render "dashboard", :notice => flash and return
     end
+    redirect_to root_path, alert: t('sessions.access_forbidden')
   end
 
   def index
@@ -390,15 +393,20 @@ class DossiersController < ApplicationController
     end
   end
 
-  def render_index
-    params.permit(:page, :per_page, search: [:query, :status, :sort_by])
+  def render_index    
+    params.permit(:page, :per_page, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :from, :to, :advanced, :activeTab])
     search = params[:search] || {}
+    #numéro de la page
     page = params[:page] || 1
     page_traited = params[:page_traited] || 1
     page_action = params[:page_action] || 1
     page_verif = params[:page_verif] || 1
     page_new_msg = params[:page_new_msg] || 1
     page_others = params[:page_others] || 1
+    page_inactifs = params[:page_inactifs] || 1
+    page_rfrn2 = params[:page_rfrn2] || 1
+    #nombre d'objet par page
+
     per_page = params[:per_page]  || 20
 
     respond_to do |format|
@@ -408,27 +416,26 @@ class DossiersController < ApplicationController
         @action = []
         @verif = []
         @new_msg = []
-        @rfrn2 = []
         @others = []
         @actifs = []
         @inactifs = []
         @rfrn2 = []
         if current_agent.admin?
-          @dossiers = Projet.all.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
+          @dossiers = Projet.all.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
           all = @dossiers
           all.each do |i|
             fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
           end
         elsif current_agent.dreal?
-          @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
+          @dossiers = current_agent.intervenant.projets
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
           all = @dossiers
           all.each do |i|
             fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
           end
         elsif current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
+          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
           all = @dossiers
           all.each do |i|
@@ -449,14 +456,19 @@ class DossiersController < ApplicationController
             all = all.where(intervenant_id: current_agent.intervenant_id)
           end
           fill_tab_intervenant(all)
-          @traited = @traited.paginate(page: page_traited, per_page: per_page)
-          @action = @action.paginate(page: page_action, per_page: per_page)
-          @verif = @verif.paginate(page: page_verif, per_page: per_page)
-          @new_msg = @new_msg.paginate(page: page_new_msg, per_page: per_page)
-          @others = @others.paginate(page: page_others, per_page: per_page)
           @invitations = @invitations.paginate(page: page, per_page: per_page)
-          @inactifs = @inactifs.paginate(page: page, per_page: per_page)
         end
+        @traited = @traited.paginate(page: page_traited, per_page: per_page)
+        @action = @action.paginate(page: page_action, per_page: per_page)
+        @verif = @verif.paginate(page: page_verif, per_page: per_page)
+        @new_msg = @new_msg.paginate(page: page_new_msg, per_page: per_page)
+        @others = @others.paginate(page: page_others, per_page: per_page)
+        @inactifs = @inactifs.paginate(page: page_inactifs, per_page: per_page)
+        @rfrn2 = @rfrn2.paginate(page: page_rfrn2, per_page: per_page)
+        if @dossiers
+          @dossiers = @dossiers.paginate(page: page, per_page: per_page)
+        end
+
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
