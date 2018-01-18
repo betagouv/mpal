@@ -7,7 +7,7 @@ set -e
 
 # Récupère le nom de la remote principale du projet (généralement 'origin' ou 'upstream')
 function remote_name {
-  git remote -v | grep "github.com.sgmap" | head -n 1 | cut -f 1
+  git remote -v | grep "github.com.betagouv" | head -n 1 | cut -f 1
 }
 
 # Vérifie que le repo se trouve bien sur la branche à tagger en production.
