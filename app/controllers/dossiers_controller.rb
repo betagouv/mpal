@@ -421,26 +421,29 @@ class DossiersController < ApplicationController
         @inactifs = []
         @rfrn2 = []
         if current_agent.admin?
-          @dossiers = Projet.all.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+          @dossiers = Projet.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
           all = @dossiers
-          all.each do |i|
-            fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
-          end
+          @inactifs = all.where(:actif => 0)
+          #all.each do |i|
+          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
+          #end
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
           all = @dossiers
-          all.each do |i|
-            fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
-          end
+          @inactifs = all.where(:actif => 0)
+          #all.each do |i|
+          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
+          #end
         elsif current_agent.siege?
           @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
           all = @dossiers
-          all.each do |i|
-            fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
-          end
+          @inactifs = all.where(:actif => 0)
+          #all.each do |i|
+          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
+          #end
         else
           @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
           @invitations = search_dossier(search, @invitations)
