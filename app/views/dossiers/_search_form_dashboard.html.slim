@@ -59,4 +59,5 @@ div.dashboardFilterContainer
 				span Au :
 				<input type="date" name="freeSearch" placeholder="Date de fin">
 - search = params.fetch(:search, {}).permit(:query, :status, :sort_by, :from, :to, :type, :folder, :tenant, :location, :interv)
-= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
+- if current_agent.admin == false
+	= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
