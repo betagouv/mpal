@@ -33,13 +33,19 @@ article.block.occupants
           = @projet_courant.email
 
     h4 Avis Fiscal :
-    p
-      = "Numéro Fiscal : #{@projet_courant.numero_fiscal}"
-      br/
-      = "Référence de l'avis : #{@projet_courant.reference_avis}"
-      - if current_agent
+    - i = 1
+    - @projet_courant.avis_impositions.each do |avis_fiscal|
+      p
+        = "Avis numero #{i}"
         br/
-        = link_to "Vérification de l'avis fiscal", "https://cfsmsp.impots.gouv.fr/secavis/", target: :_blank
+        = "Numéro Fiscal : #{avis_fiscal.numero_fiscal}"
+        br/
+        = "Référence de l'avis : #{avis_fiscal.reference_avis}"
+        - if current_agent
+          br/
+          = link_to "Vérification de l'avis fiscal", "https://cfsmsp.impots.gouv.fr/secavis/", target: :_blank
+      - i += 1
+      br/
 
     h4 Occupants :
     span= t('projets.visualisation.future_birth') if @projet_courant.future_birth
