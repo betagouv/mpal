@@ -12,7 +12,7 @@
       p= @projet_courant.email
       - if @projet_courant.tel.present?
         p= @projet_courant.tel
-      - if can? :update, @projet_courant
+      - if (can? :update, @projet_courant) or current_user 
         .contact-details__actions
           = btn href: dossier_demandeur_path(@projet_courant), icon: "pencil", class: "btn-secondary", html: { title: "Modifier" }
 
