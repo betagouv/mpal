@@ -113,9 +113,8 @@ Rails.application.routes.draw do
   end
 
 
-#activation et desactivation des dossiers
-  # get  "/dossiers/activate/:dossier_id" => "dossiers#activate"
-  # get  "/dossiers/desactivate/:dossier_id" => "dossiers#desactivate"
+  # mise a jours des dossiers avec la position OPAL; Opal contact l'api regulierement
+  put '/api/update_state/' => "apis#update_state"
 
   # gestion des fonctions administrateurs
   get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"
