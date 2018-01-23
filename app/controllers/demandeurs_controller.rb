@@ -12,11 +12,8 @@ class DemandeursController < ApplicationController
   end
 
   def update
-    if @projet_courant.max_registration_step >= 6 and @projet_courant.adresse_a_renover == nil
-      @projet_courant.adresse_a_renover = @projet_courant.adresse_postale
-    end
     if save_demandeur
-      if @projet_courant.max_registration_step >= 6 and @current_agent.nil?
+      if @projet_courant.max_registration_step >= 6
         redirect_to root_path and return
       end
       return redirect_to_next_step
@@ -73,6 +70,7 @@ private
   end
 
   def save_demandeur
+    old_addr = @projet_courant.adresse_postale
     begin
       @projet_courant.adresse_postale = ProjetInitializer.new.precise_adresse(
         params[:projet][:adresse_postale],
@@ -90,6 +88,9 @@ private
       return false
     end
 
+    if @projet_courant.max_registration_step >= 6 and @projet_courant.adresse_a_renover == nil
+      @projet_courant.adresse_a_renover = old_addr
+    end
     @projet_courant.assign_attributes(projet_params)
     if "1" == params[:contact]
       @projet_courant.assign_attributes(projet_personne_params)
