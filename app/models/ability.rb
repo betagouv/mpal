@@ -16,7 +16,6 @@ private
 
     can :read, :eligibility
     can :departement_non_eligible, :demandeur
-    can :manage, :demandeur
 
     if projet.locked_at.nil?
       can :manage, Projet
