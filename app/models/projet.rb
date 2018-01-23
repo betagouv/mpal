@@ -130,7 +130,6 @@ class Projet < ApplicationRecord
       end
     end
   }
-
   scope :for_text, ->(opts) {
     words = opts && opts.to_s.split(';')
     next all if words.blank?
@@ -142,10 +141,6 @@ class Projet < ApplicationRecord
         ON (ift_avis_impositions.id = ift_occupants.avis_imposition_id AND ift_occupants.demandeur = true)
       INNER JOIN adresses ift_adresses1
         ON (projets.adresse_postale_id = ift_adresses1.id)
-      LEFT OUTER JOIN projets_themes ift_ptheme
-        ON (projets.id = ift_ptheme.projet_id)
-      LEFT OUTER JOIN themes ift_themes
-        ON (ift_ptheme.theme_id = ift_themes.id)
       LEFT OUTER JOIN invitations ift_invitations
         ON (projets.id = ift_invitations.projet_id)
       LEFT OUTER JOIN intervenants ift_intervenants
@@ -176,8 +171,7 @@ class Projet < ApplicationRecord
         "ift_adresses1.region", "ift_adresses2.region",
         "ift_adresses1.departement", "ift_adresses2.departement",
         "ift_occupants.prenom", "projets.opal_numero",
-        "ift_intervenants.raison_sociale",
-        "ift_themes.libelle"
+        "ift_intervenants.raison_sociale"
       ].each do |field|
         conditions[0] << " OR #{field} ILIKE ?"
         conditions << "%#{word}%"
@@ -371,7 +365,7 @@ class Projet < ApplicationRecord
   end
 
   FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
-  ALLOWED_ATTRIBUTES_WHEN_FROZEN = [:statut, :opal_numero, :opal_id, :agent_instructeur_id]
+  ALLOWED_ATTRIBUTES_WHEN_FROZEN = [:statut, :opal_numero, :opal_id, :agent_instructeur_id, :opal_position, :opal_date_position, :opal_position_label]
 
   def projet_frozen?
     persisted_statut = (changed_attributes[:statut] || statut).to_sym
@@ -423,11 +417,6 @@ class Projet < ApplicationRecord
   end
 
   def calcul_revenu_fiscal_reference_total(annee_revenus)
-    avis_impositions.each do |avis|
-      if avis.revenu_fiscal_reference == nil
-        avis.update(:revenu_fiscal_reference => 0)
-      end
-    end
     avis_impositions.where(annee: annee_revenus).map(&:revenu_fiscal_reference).inject(0,:+)
   end
 
@@ -601,14 +590,13 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date de visite',
        'Date dépôt',
        'État',
-       'Actif/Inactif'
+       'Actif/Incatif'
      ]
 
      if is_admin == true
        titles.append('Etape avancement creation Dossier')
        titles.append('Nbre de messages dans la messagerie')
        titles.append('Operation Programmee')
-       titles.append('Agent Pris')
        titles.append('PRIS')
        titles.append('PRIS EIE')
        titles.append('project id')
@@ -635,7 +623,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
          projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
          projet.date_depot.present? ? format_date(projet.date_depot) : "",
          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
-         projet.actif? ? "Actif" : "Inactif"
+         projet.actif? ? "Actif" : "Incatif"
        ]
 
        if is_admin == true
