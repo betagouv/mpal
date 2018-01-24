@@ -70,7 +70,7 @@ class ProjetMailer < ApplicationMailer
       reply_to: projet.invited_instructeur.email,
       to: projet.email,
       cc: projet.personne.try(:email),
-      bcc: @projet.agent_operateur.try(:username), @projet.invited_instructeur.try(:username)
+      bcc: @projet.agent_operateur.try(:username) + " ; " + @projet.invited_instructeur.try(:username),
       subject: t('mailers.projet_mailer.accuse_reception.sujet')
     )
   end
