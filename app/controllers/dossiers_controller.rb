@@ -459,8 +459,17 @@ class DossiersController < ApplicationController
             all = all.where(intervenant_id: current_agent.intervenant_id)
           end
           fill_tab_intervenant(all)
+          @invitations_count = @invitations.count
           @invitations = @invitations.paginate(page: page, per_page: per_page)
         end
+        @traited_count = @traited.count
+        @action_count = @action.count
+        @verif_count = @verif.count
+        @new_msg_count = @new_msg.count
+        @others_count = @others.count
+        @inactifs_count = @inactifs.count
+        @rfrn2_count = @rfrn2.count
+
         @traited = @traited.paginate(page: page_traited, per_page: per_page)
         @action = @action.paginate(page: page_action, per_page: per_page)
         @verif = @verif.paginate(page: page_verif, per_page: per_page)
@@ -469,8 +478,10 @@ class DossiersController < ApplicationController
         @inactifs = @inactifs.paginate(page: page_inactifs, per_page: per_page)
         @rfrn2 = @rfrn2.paginate(page: page_rfrn2, per_page: per_page)
         if @dossiers
+          @dossiers_count = @dossiers.count
           @dossiers = @dossiers.paginate(page: page, per_page: per_page)
         end
+
 
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
