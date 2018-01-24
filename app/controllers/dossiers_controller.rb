@@ -73,7 +73,7 @@ class DossiersController < ApplicationController
         str = "(ift_adresses2.departement = '" + departements[0] + "' OR (ift_adresses1.departement =  '" + departements[0] + "' AND ift_adresses2 IS NULL))"
         departements.each_with_index do |d, i|
           if i > 0
-            str += " AND (ift_adresses2.departement = '" + d + "' OR (ift_adresses1.departement = '" + d + "' AND ift_adresses2 IS NULL))"
+            str += " OR (ift_adresses2.departement = '" + d + "' OR (ift_adresses1.departement = '" + d + "' AND ift_adresses2 IS NULL))"
           end
         end
         projets = Projet.joins("INNER JOIN adresses ift_adresses1 ON (projets.adresse_postale_id = ift_adresses1.id) LEFT OUTER JOIN adresses ift_adresses2 ON (projets.adresse_a_renover_id = ift_adresses2.id)").where(str)
