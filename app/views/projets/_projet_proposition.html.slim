@@ -1,6 +1,6 @@
 /! PROJET PROPOSE - vue operateur 2eme etape
 article.block.projet-ope
-  h3.is-open Projet proposé
+  h3.is-open = current_agent ? "Projet proposé" : "Mon Dossier"
   - if current_agent && current_agent.operateur?
     = edit_projet_button(@projet_courant, dossier_proposition_path(@projet_courant))
   .content-block

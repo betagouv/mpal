@@ -126,8 +126,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -236,8 +234,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -346,8 +342,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -456,8 +450,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -566,8 +558,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -676,8 +666,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -787,8 +775,6 @@
 										= link_to new_projet_or_dossier_message_path(projet)
 											- if current_agent
 												- unread_messages_count = projet.unread_messages(current_agent).count
-											- if 0 < (unread_messages_count || 0)
-												span.project-menu__badge= unread_messages_count
 											p 
 												span.glyphicon.glyphicon-envelope
 											p Messages
@@ -898,8 +884,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -953,13 +937,17 @@ javascript:
 			"to": $('.dashboardFilterTo input')
 		};
 
-		// Hide Tabs
+		// START Hide Tabs
+
+		// Get the number of items into a tabs
 		var rfrn2 = '#{@rfrn2.count}';
 
+		// If number == 0, catch the items by it's unique class (tabXXXX) and hide it, else do the same to show it
 		if (rfrn2 == 0)
 			$('.tabRFRN2').hide();
 		else
 			$('.tabRFRN2').show();
+		// END Hide tabs
 
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {
 			var jsonURL = JSON.parse('{"' + decodeURI(sPageURL).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
