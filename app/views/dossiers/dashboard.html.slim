@@ -22,21 +22,24 @@
 		div.dashboardContainer
 			ul.dashboardTabContainer
 				li.dashboardTab.tabTreated
-					a Traités (#{traite.count})
+					a Traités (#{@traited_count})
 				li.dashboardTab.tabAction
-					a Nécessite action (#{action.count})
+					a Nécessite action (#{@action_count})
 				li.dashboardTab.tabVerif
-					a Nécessite vérification (#{verif.count})
+					a Nécessite vérification (#{@verif_count})
 				li.dashboardTab.tabOthers
 					a Autres (#{other.count})
 				li.dashboardTab.tabNewMSG
-					a Nouveau Message (#{new_msg.count})
+					a Nouveau Message (#{@new_msg_count})
 				li.dashboardTab.tabRFRN2
-					a RFR N-2 (#{rfrn2.count})
+					a RFR à mettre à jour (#{@rfrn2_count})
 				li.dashboardTab.tabInactifs
-					a Inactifs (#{inactifs.length})
+					a Inactifs (#{@inactifs_count})
 				li.dashboardTab.tabAll
-					a Tous (#{items.length})
+					- if @dossiers_count.present?
+						a Tous (#{@dossiers_count})
+					- else
+						a Tous (#{@invitations_count})
 
 			div.tab_content
 
@@ -78,7 +81,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -126,8 +133,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -188,7 +193,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -236,8 +245,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -298,7 +305,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -346,8 +357,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -408,7 +417,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -456,8 +469,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -518,7 +529,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -566,8 +581,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -628,7 +641,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -676,8 +693,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -739,7 +754,11 @@
 										p &nbsp;
 									td
 										div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-											div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+											div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 											- if projet.statut_updated_date.present?
 												div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 											- else
@@ -850,7 +869,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -898,8 +921,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
