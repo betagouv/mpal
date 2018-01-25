@@ -18,14 +18,39 @@
 	overflow: hidden;
 	margin-left: 20px;
 	width: calc(100% - 20px);
-	li {
+	li:not(.current) {
+		padding: 0;
+		position: relative;
+		display: inline-block;
+		overflow: hidden;
+		color: #eee;
+		border-left: 1px solid #eee; 
+		// border-radius: 3px;
+		z-index: 0;
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: -18px;
+			width: 100%;
+			height: 100%;
+			background: #fff;
+			border: 1px solid #eee;
+			-webkit-transform-origin: 100% 0;
+			-ms-transform-origin: 100% 0;
+			transform-origin: 100% 0;
+			-webkit-transform: skew(35deg);
+			-ms-transform: skew(35deg);
+			transform: skew(35deg);
+			z-index: -1;
+		}
+	}
+	.current {
 		padding: 0;
 		position: relative;
 		display: inline-block;
 		overflow: hidden;
 		color: #fff;
-		border-left: 1px solid $color-dark-grey;
-		border-radius: 3px;
 		z-index: 0;
 		&:after {
 			content: '';
@@ -42,8 +67,6 @@
 			-ms-transform: skew(35deg);
 			transform: skew(35deg);
 			z-index: -1;
-			border: 1px solid $color-dark-grey;
-			border-radius: 3px;
 		}
 	}
 	a {
@@ -57,28 +80,28 @@
 		-webkit-transition: all 0.2s ease-in-out;
 		-moz-transition: all 0.2s ease-in-out;
 		transition: all 0.2s ease-in-out;
-		border-bottom: 2px solid $color-very-dark-grey;
 		overflow: hidden;
 	}
 	.current a {
-		color: $color-very-dark-grey;
-		border-bottom: 3px solid $color-very-dark-grey;
+		color: white;
+		margin-bottom: 3px;
 	}
 }
 .tab_content {
-	border: 3px solid black;
     top: -9px;
     position: relative;
-    border-radius: 5px;
 }
 .tabs_item {
 	display: none;
+	a { text-decoration: none; }
 	table {
 		width: 100%;
 		tr {
+			&:first-child { border-top: 1px solid #008CBA; }
 			&:nth-child(odd) {
 				a {
 					color: black;
+					text-decoration: none;
 				}
 				color: black;
 				background: $color-alt-grey;
@@ -91,6 +114,7 @@
 			&:hover {
 				a {
 					color: white;
+					text-decoration: none;
 				}
 				background: $color-dark-grey;
 				color: white;
@@ -105,7 +129,7 @@
 			}
 			.dashboardDateText1, .dashboardDateText2 {
 				display: inline-block;
-				text-decoration: underline;
+				text-decoration: none;
 				&:hover { text-decoration: none; }
 			}
 			.dashboardDateText1 { float: left; }
@@ -113,7 +137,6 @@
 		}
 		.tableRowIconsBorder {
 			text-align: center;
-			border-left: 1px solid $color-very-dark-grey;
 			width: 90px;
 			&:hover {
 				font-size: 12px;
@@ -122,10 +145,51 @@
 			}
 			.paiementInactive { color: #888; }
 		}
+		.glyphicon-eye-close, .glyphicon-eye-open { color: #D9184E; }
+
 	}
 	&:first-child { display: block; }
 }
 
+.dashboardFilterSearch {
+	float: right;
+	display: inline-block;
+	margin-left: 10px;
+	width: 110px;
+	height: 40px;
+	div {
+		border-radius: 0.25rem;
+		border: 1px solid rgba(0, 0, 0, 0.15);
+		padding: 0.5rem 0.75rem;
+		font-size: 1rem;
+		line-height: 1.25;
+		color: white;
+		background-color: $color_red;
+		cursor: pointer;
+		&:hover { background-color: $color-dark-red; }
+	}
+}
+.dashboard-dossiers {
+	min-height: 200px;
+	.btn-export {
+		position: relative;
+		display: inline-block;
+		margin-left: 10px;
+		width: 140px;
+		border-radius: 0.25rem;
+		border: 1px solid #777;
+		padding: 0.5rem 0.75rem;
+		font-size: 1rem;
+		line-height: 1.25;
+		color: white;
+		background-color: #888;
+		cursor: pointer;
+		&:hover {
+			background-color: #666;
+			border-color: #555;
+		}
+	}
+}
 // DASHBOARD FILTERS PART NORMAL
 .dashboardFilterContainer {
 	display: inline-block;
@@ -136,33 +200,11 @@
 	background-color: $color-grey;
 	z-index: 100;
 	margin-bottom: 20px;
-	.dashboardFilterSearch {
-		position: relative;
-		display: inline-block;
-		margin-left: 10px;
-		width: 110px;
-		height: 40px;
-		margin-top: 5px;
-		div {
-			border-radius: 0.25rem;
-			border: 1px solid rgba(0, 0, 0, 0.15);
-			padding: 0.5rem 0.75rem;
-			font-size: 1rem;
-			line-height: 1.25;
-			color: white;
-			background-color: $color_red;
-			cursor: pointer;
-			&:hover {
-				background-color: $color-dark-red;
-			}
-		}
-	}
 	.dashboardFilterFreeSearch {
 		position: relative;
 		display: inline-block;
 		margin-left: 10px;
-		// min-width: 215px;
-		width: 40%;
+		width: 35%;
 		height: 40px;
 		margin-top: 5px;
 		input {
@@ -182,7 +224,6 @@
 	.dashboardFilterStatus, .dashboardFilterState {
 		position: relative;
 		display: inline-block;
-		// min-width: 215px;
 		width: 20%;
 		height: 40px;
 		bottom: 1px;
@@ -212,7 +253,6 @@
 .dashboardFilterContainerAdvanced {
 	display: none;
 	position: relative;
-	// bottom: 20px;
 	width: 100%;
 	height: 250px;
 	background-color: $color-grey;
@@ -252,9 +292,7 @@
 			position: relative;
 			&:last-child { float: right; }
 			&:first-child { float: left; }
-			input {
-				margin-right: 4px;
-			}
+			input { margin-right: 4px; }
 		}
 	}
 	.dashboardFilterContainerAdvancedRight {
