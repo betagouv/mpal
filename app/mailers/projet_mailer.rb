@@ -66,11 +66,16 @@ class ProjetMailer < ApplicationMailer
     @demandeur = projet.demandeur
     @instructeur = projet.invited_instructeur
     @date_depot = projet.date_depot
+    bcc_mails = ""
+    if @projet.operateur.present?
+      bcc_mails = @projet.operateur.try(:username) + " ; "
+    end
+    bcc_mails += @projet.invited_instructeur.try(:email)
     mail(
       reply_to: projet.invited_instructeur.email,
       to: projet.email,
       cc: projet.personne.try(:email),
-      bcc: @projet.operateur.try(:username) + " ; " + @projet.invited_instructeur.try(:email),
+      bcc: bcc_mails,
       subject: t('mailers.projet_mailer.accuse_reception.sujet')
     )
   end
