@@ -69,8 +69,17 @@ class DossiersController < ApplicationController
       projets = Projet.all
     elsif (current_agent.dreal? || current_agent.instructeur?) && current_agent.intervenant.try(:departements).present?
       departements = current_agent.intervenant.try(:departements) || []
-      #TODO Optimiser le Projet.all
-      projets = departements.map { |d| Projet.all.select { |p| p.adresse.try(:departement) == d } }.flatten
+      if departements != []
+        str = "(ift_adresses2.departement = '" + departements[0] + "' OR (ift_adresses1.departement =  '" + departements[0] + "' AND ift_adresses2 IS NULL))"
+        departements.each_with_index do |d, i|
+          if i > 0
+            str += " OR (ift_adresses2.departement = '" + d + "' OR (ift_adresses1.departement = '" + d + "' AND ift_adresses2 IS NULL))"
+          end
+        end
+        projets = Projet.joins("INNER JOIN adresses ift_adresses1 ON (projets.adresse_postale_id = ift_adresses1.id) LEFT OUTER JOIN adresses ift_adresses2 ON (projets.adresse_a_renover_id = ift_adresses2.id)").where(str)
+      else
+        projets = []
+      end
     else
       projets = current_agent.intervenant.try(:projets) || []
     end
