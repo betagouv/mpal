@@ -2,12 +2,6 @@
 
 $search-inline-breakpoint: 870px;
 
-.dashboard-dossiers {
-  min-height: 200px;
-  .btn-export {
-    float: right;
-  }
-}
 .dashboard-dossiers__search {
   margin-bottom: 2em;
   @media screen and (min-width: $search-inline-breakpoint) {
