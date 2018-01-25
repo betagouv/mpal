@@ -468,16 +468,16 @@ class DossiersController < ApplicationController
             all = all.where(intervenant_id: current_agent.intervenant_id)
           end
           fill_tab_intervenant(all)
-          @invitations_count = @invitations.count
+          @invitations_count = @invitations.length
           @invitations = @invitations.paginate(page: page, per_page: per_page)
         end
-        @traited_count = @traited.count
-        @action_count = @action.count
-        @verif_count = @verif.count
-        @new_msg_count = @new_msg.count
-        @others_count = @others.count
-        @inactifs_count = @inactifs.count
-        @rfrn2_count = @rfrn2.count
+        @traited_count = @traited.length
+        @action_count = @action.length
+        @verif_count = @verif.length
+        @new_msg_count = @new_msg.length
+        @others_count = @others.length
+        @inactifs_count = @inactifs.length
+        @rfrn2_count = @rfrn2.length
 
         @traited = @traited.paginate(page: page_traited, per_page: per_page)
         @action = @action.paginate(page: page_action, per_page: per_page)
@@ -487,7 +487,7 @@ class DossiersController < ApplicationController
         @inactifs = @inactifs.paginate(page: page_inactifs, per_page: per_page)
         @rfrn2 = @rfrn2.paginate(page: page_rfrn2, per_page: per_page)
         if @dossiers
-          @dossiers_count = @dossiers.count
+          @dossiers_count = @dossiers.length
           @dossiers = @dossiers.paginate(page: page, per_page: per_page)
         end
 
