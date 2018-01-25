@@ -67,8 +67,8 @@ class ProjetMailer < ApplicationMailer
     @instructeur = projet.invited_instructeur
     @date_depot = projet.date_depot
     bcc_mails = ""
-    if @projet.operateur.present?
-      bcc_mails = @projet.operateur.try(:username) + " ; "
+    if @projet.operateur.try(:email) != nil
+      bcc_mails = @projet.operateur.try(:email) + " ; "
     end
     bcc_mails += @projet.invited_instructeur.try(:email)
     mail(

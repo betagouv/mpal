@@ -32,8 +32,8 @@ class PaymentMailer < ApplicationMailer
   def accuse_reception_depot(payment)
     @payment = payment
     @projet  = payment.projet
-    if @projet.operateur.present?
-      bcc_mails = @projet.operateur.try(:username) + " ; "
+    if @projet.operateur.try(:email) != nil
+      bcc_mails = @projet.operateur.try(:email) + " ; "
     end
     bcc_mails += @projet.invited_instructeur.try(:email)
     mail(
