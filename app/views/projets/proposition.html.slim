@@ -114,5 +114,26 @@
 
   = f.input :precisions_travaux
   = f.input :precisions_financement
-  = btn name: 'Enregistrer cette proposition', icon: 'save'
+  <p class="alert alert-danger invalidDate" style="display: none;">Année de construction incohérente ou format INVALIDE (AAAA)</p>
+  = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
 
+javascript:
+  $('.btn-validate-submit').click(function(e) {
+    e.preventDefault();
+    var currYear = new Date().toString().match(/(\d{4})/)[1];
+    var validDate = true;
+
+    var annee = $('#projet_demande_attributes_annee_construction').val();
+    console.log(annee);
+    if (undefined != annee && null != annee && "" != annee) {
+      annee = parseInt(annee);
+      if (annee < 1500 || annee > currYear)
+        validDate = false;
+    }
+
+    if (validDate)
+      $('.simple_form').submit();
+    else
+      $('.invalidDate').css("display", "block");
+  });
+  

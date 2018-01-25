@@ -521,7 +521,7 @@ fr:
       notification_validation_dossier:
         sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
-        sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
+        sujet: "[Anah] Accusé de réception de votre demande d’aide"
 
     messagerie_mailer:
       nouveau_message:
@@ -535,7 +535,7 @@ fr:
       depot:
         sujet: "[Anah] %{demandeur} a déposé sa demande de paiement"
       accuse_reception_depot:
-        sujet: "[Anah] Accusé de réception électronique de votre demande de paiement"
+        sujet: "[Anah] Accusé de réception de votre demande de paiement"
       correction_depot:
         sujet: "[Anah] %{demandeur} a modifié sa demande de paiement"
       accuse_reception_correction_depot:

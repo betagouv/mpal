@@ -365,7 +365,7 @@ class Projet < ApplicationRecord
   end
 
   FROZEN_STATUTS = [:transmis_pour_instruction, :en_cours_d_instruction]
-  ALLOWED_ATTRIBUTES_WHEN_FROZEN = [:statut, :opal_numero, :opal_id, :agent_instructeur_id]
+  ALLOWED_ATTRIBUTES_WHEN_FROZEN = [:statut, :opal_numero, :opal_id, :agent_instructeur_id, :opal_position, :opal_date_position, :opal_position_label]
 
   def projet_frozen?
     persisted_statut = (changed_attributes[:statut] || statut).to_sym

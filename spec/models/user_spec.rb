@@ -28,7 +28,6 @@ shared_context :common_projet_abilities do
   it do
     is_expected.not_to be_able_to :manage, AvisImposition
     is_expected.not_to be_able_to :manage, Demande
-    is_expected.not_to be_able_to :manage, :demandeur
     is_expected.not_to be_able_to :manage, :eligibility
     is_expected.not_to be_able_to :manage, Occupant
     is_expected.not_to be_able_to :manage, Projet

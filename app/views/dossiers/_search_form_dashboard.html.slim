@@ -1,6 +1,7 @@
 div.dashboardFilterContainer
 	- search = params.fetch(:search, {}).permit(:query, :status, :sort_by, :from, :to, :type, :folder, :tenant, :location, :interv)
-	= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
+  - if current_agent.admin == false
+  	= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
 	div.dashboardFilterFreeSearch
 		<input type="text" name="freeSearch" placeholder="ID PF ou OP@L ID, nom ou prenom du propriétaire, région, département (n° ou nom), ville ou CP, programme">
 	div.dashboardFilterStatus
@@ -8,7 +9,7 @@ div.dashboardFilterContainer
 			<option selected disabled hidden>Type d'intervention</option>
 			<option value=""></option>
 			<option value="Autonomie">Autonomie</option>
-			<option value="Energie">Energie</option>
+			<option value="Énergie">Énergie</option>
 			<option value="SSI">SSI petit LHI</option>
 			<option value="travauxLourd">Travaux lourds</option>
 			<option value="autre">Autres travaux</option>
@@ -51,7 +52,7 @@ div.dashboardFilterContainer
 		div.dashboardFilterContainerAdvancedRight
 			div.dashboardFilterArea.dashboardFilterInterv
 				span Intervenant
-				<input type="text" name="freeSearch" placeholder="Pris, opérateur, serivice instructeur ...">
+				<input type="text" name="freeSearch" placeholder="Pris, opérateur, service instructeur ...">
 			div.dashboardFilterAreaDate.dashboardFilterFrom
 				span Du :
 				<input type="date" name="freeSearch" placeholder="Date de début">
@@ -61,3 +62,4 @@ div.dashboardFilterContainer
 
 div.dashboardFilterSearch
 	<div class="dashboardFilterSearchButton">Rechercher</div>
+

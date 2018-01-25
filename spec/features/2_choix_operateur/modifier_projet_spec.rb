@@ -141,20 +141,6 @@ describe "En tant que demandeur :" do
   before { login_as projet.demandeur_user, scope: :user }
 
   context "une fois l'éligibilité vérouillée" do
-    it "Je ne peux pas accéder aux pages pour modifier mon projet" do
-      visit projet_demandeur_path(projet)
-      expect(page).to have_current_path projet_path(projet)
-
-      visit projet_avis_impositions_path(projet)
-      expect(page).to have_current_path projet_path(projet)
-
-      visit projet_occupants_path(projet)
-      expect(page).to have_current_path projet_path(projet)
-
-      visit projet_demande_path(projet)
-      expect(page).to have_current_path projet_path(projet)
-
-    end
 
     it "affiche le modified RFR" do
       visit projet_path(projet)

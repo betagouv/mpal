@@ -45,7 +45,7 @@ javascript:
     var annee = $('#demande_annee_construction').val();
     if (undefined != annee && null != annee && "" != annee) {
       annee = parseInt(annee);
-      if (annee < 1500 && annee > currYear)
+      if (annee < 1500 || annee > currYear)
         validDate = false;
     }
     if (radio && validDate)

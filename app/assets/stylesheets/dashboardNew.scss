@@ -59,7 +59,7 @@
 			left: -18px;
 			width: 100%;
 			height: 100%;
-			background: #008CBA;
+			background: #eee;
 			-webkit-transform-origin: 100% 0;
 			-ms-transform-origin: 100% 0;
 			transform-origin: 100% 0;
@@ -104,19 +104,19 @@
 					text-decoration: none;
 				}
 				color: black;
-				background: white;
+				background: $color-alt-grey;
 			}
 			&:nth-child(even) {
 				color: black;
 				background: white;
 			}
-			& { border-bottom: 1px solid $color-steel; }
+			& { border-bottom: 2px solid $color-very-dark-grey; }
 			&:hover {
 				a {
 					color: white;
 					text-decoration: none;
 				}
-				background: $color-steel;
+				background: $color-dark-grey;
 				color: white;
 			}
 			.dashboardDateTextContainer {
@@ -146,6 +146,7 @@
 			.paiementInactive { color: #888; }
 		}
 		.glyphicon-eye-close, .glyphicon-eye-open { color: #D9184E; }
+
 	}
 	&:first-child { display: block; }
 }
