@@ -82,17 +82,13 @@
 		width: 100%;
 		tr {
 			&:first-child { border-top: 1px solid #008CBA; }
+			color: black;
+			background: white;
 			&:nth-child(odd) {
 				a {
 					color: black;
 					text-decoration: none;
 				}
-				color: black;
-				background: white;
-			}
-			&:nth-child(even) {
-				color: black;
-				background: white;
 			}
 			& { border-bottom: 1px solid $color-steel; }
 			&:hover {
@@ -242,16 +238,15 @@
 	vertical-align: top;
 	padding: 0.5rem 0.75rem;
 	z-index: 100;
-	.dashboardFilterContainerAdvancedLeft {
+	.dashboardFilterContainerAdvancedLeft, .dashboardFilterContainerAdvancedCenter, .dashboardFilterContainerAdvancedRight {
 		position: absolute;
 		display: inline-block;
-		height: 250px;
-		width: 30%;
+	}
+	.dashboardFilterContainerAdvancedLeft, .dashboardFilterContainerAdvancedRight {
 		.dashboardFilterArea {
 			position: relative;
 			display: block;
 			margin-top: 10px;
-			width: calc(100% - 10px);
 			bottom: 1px;
 			input {
 				width: 100%;
@@ -264,9 +259,12 @@
 			}
 		}
 	}
+	.dashboardFilterContainerAdvancedLeft {
+		height: 250px;
+		width: 30%;
+		.dashboardFilterArea { width: calc(100% - 10px); }
+	}
 	.dashboardFilterContainerAdvancedCenter {
-		position: absolute;
-		display: inline-block;
 		margin-left: calc(30% + 30px);
 		margin-top: 10px;
 		height: 250px;
@@ -279,26 +277,11 @@
 		}
 	}
 	.dashboardFilterContainerAdvancedRight {
-		position: absolute;
-		display: inline-block;
 		margin-left: calc(55% + 40px);
 		width: 40%;
 		.dashboardFilterArea {
-			position: relative;
-			display: block;
 			margin-left: 10px;
-			margin-top: 10px;
 			width: calc(60% - 10px);
-			bottom: 1px;
-			input {
-				width: 100%;
-				height: 40px;
-				border-radius: 0.25rem;
-				border: 1px solid rgba(0, 0, 0, 0.15);
-				padding: 0.5rem 0.75rem;
-				font-size: 1rem;
-				line-height: 1.25;
-			}
 		}
 		.dashboardFilterAreaDate {
 			position: relative;
