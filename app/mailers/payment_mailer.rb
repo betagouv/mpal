@@ -35,7 +35,7 @@ class PaymentMailer < ApplicationMailer
     mail(
       to: @projet.email,
       cc: @projet.personne.try(:email),
-      bcc: @projet.agent_operateur.try(:username) + " ; " + @projet.invited_instructeur.try(:username),
+      bcc: @projet.operateur.try(:username) + " ; " + @projet.invited_instructeur.try(:email),
       subject: t('mailers.paiement_mailer.accuse_reception_depot.sujet')
     )
   end
