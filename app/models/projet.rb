@@ -97,7 +97,7 @@ class Projet < ApplicationRecord
   localized_numeric_setter :note_degradation
   localized_numeric_setter :note_insalubrite
 
-  attr_accessor :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum
+  attr_accessor :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
 
   before_create { self.plateforme_id = Time.now.to_i }
   before_save :clean_numero_fiscal, :clean_reference_avis
