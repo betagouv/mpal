@@ -25,6 +25,7 @@ fr:
         etiquette_avant_travaux: "Étiquette énergétique avant travaux"
         etiquette_apres_travaux: "Étiquette énergétique après travaux"
         fundings_sum: "Total des financements"
+        remaining_sum: "Reste à charge"
         gain_energetique: "Gain énergétique"
         travaux_ttc_amount: "Coût des travaux à réaliser TTC"
         travaux_ht_amount: "Coût des travaux à réaliser HT"
@@ -32,6 +33,7 @@ fr:
         amo_amount: "Coût Assistance à Maîtrise d’Ouvrage (AMO)"
         maitrise_oeuvre_amount: "Coût Maîtrise d’Œuvre"
         global_ttc_sum: "Montant global TTC"
+        global_ht_sum: "Montant global HT"
         personal_funding_amount: "Apport de fonds personnels"
         loan_amount: "Prêt"
         precisions_travaux: "Précisions travaux proposés"
@@ -239,8 +241,10 @@ fr:
 
     transmission:
       bouton_accepter: "Suivant"
+      bouton_continuer: "Continuer"
       envoi_demande: "Je dépose ma demande d’aide"
       modification_demande: "Je souhaite modifier ma demande"
+      modification_demande_2: "Modifier"
       messages:
         success: "Dépôt effectué auprès du service en charge de l’instruction : %{instructeur}"
         error: Une erreur s’est produite lors de la transmission du dossier aux services instructeurs.
@@ -521,7 +525,7 @@ fr:
       notification_validation_dossier:
         sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
-        sujet: "[Anah] Accusé de réception électronique de votre demande de subvention"
+        sujet: "[Anah] Accusé de réception de votre demande d’aide"
 
     messagerie_mailer:
       nouveau_message:
@@ -535,7 +539,7 @@ fr:
       depot:
         sujet: "[Anah] %{demandeur} a déposé sa demande de paiement"
       accuse_reception_depot:
-        sujet: "[Anah] Accusé de réception électronique de votre demande de paiement"
+        sujet: "[Anah] Accusé de réception de votre demande de paiement"
       correction_depot:
         sujet: "[Anah] %{demandeur} a modifié sa demande de paiement"
       accuse_reception_correction_depot:

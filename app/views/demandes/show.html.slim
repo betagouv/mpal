@@ -23,11 +23,36 @@
     = f.input :travaux_autres
 
   = f.input :complement, label: t("helpers.label.demande.complement")
+  <p class="alert alert-danger invalidDate" style="display: none;">Année incohérente ou format INVALIDE (AAAA)</p>
   = f.input :date_achevement_15_ans, as: :radio_buttons, label: t("helpers.label.demande.date_achevement_15_ans")
   = f.input :annee_construction, label: t("helpers.label.demande.annee_construction"), wrapper_html: { class: "size-xs" }
   = f.input :ptz, as: :radio_buttons, label: t("helpers.label.demande.ptz")
   .btn-centered
     - unless current_agent
       = btn name: t("demarrage_projet.go_back"), href: projet_or_dossier_occupants_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true
-    = btn name: @action_label, class: "btn-large", icon: "arrow-right"
+    = btn name: @action_label, class: "btn-large btn-validate-submit", icon: "arrow-right"
 
+javascript:
+  $('.btn-validate-submit').click(function(e) {
+    e.preventDefault();
+    var currYear = new Date().toString().match(/(\d{4})/)[1];
+    var radio = false;
+    var validDate = true;
+
+    var radioTrue = $('input[id=demande_date_achevement_15_ans_true]:checked').val();
+    radio = radioTrue != undefined ? true : false;
+
+    var annee = $('#demande_annee_construction').val();
+    if (undefined != annee && null != annee && "" != annee) {
+      annee = parseInt(annee);
+      if (annee < 1500 || annee > currYear)
+        validDate = false;
+    }
+    if (radio && validDate)
+      if (annee > currYear - 16)
+        validDate = false;
+    if (validDate)
+      $('.simple_form').submit();
+    else
+      $('.invalidDate').css("display", "block");
+  });

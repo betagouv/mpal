@@ -32,9 +32,14 @@ class PaymentMailer < ApplicationMailer
   def accuse_reception_depot(payment)
     @payment = payment
     @projet  = payment.projet
+    if @projet.operateur.try(:email) != nil
+      bcc_mails = @projet.operateur.try(:email) + " ; "
+    end
+    bcc_mails += @projet.invited_instructeur.try(:email)
     mail(
       to: @projet.email,
       cc: @projet.personne.try(:email),
+      bcc: bcc_mails,
       subject: t('mailers.paiement_mailer.accuse_reception_depot.sujet')
     )
   end

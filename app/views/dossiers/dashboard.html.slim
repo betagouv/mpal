@@ -13,6 +13,7 @@
 	- verif = @verif
 	- other = @others
 	- new_msg = @new_msg
+	-rfrn2 = @rfrn2
 
 	- inactifs = @inactifs
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
@@ -20,23 +21,30 @@
 	- if items.present?
 		div.dashboardContainer
 			ul.dashboardTabContainer
-				li.dashboardTab
-					a Traités (#{traite.count})
-				li.dashboardTab
-					a Nécessite action (#{action.count})
-				li.dashboardTab
-					a Nécessite vérification (#{verif.count})
-				li.dashboardTab
+				li.dashboardTab.tabTreated
+					a Traités (#{@traited_count})
+				li.dashboardTab.tabAction
+					a Nécessite action (#{@action_count})
+				li.dashboardTab.tabVerif
+					a Nécessite vérification (#{@verif_count})
+				li.dashboardTab.tabOthers
 					a Autres (#{other.count})
-				li.dashboardTab
-					a Nouveau Message (#{new_msg.count})
-				li.dashboardTab
-					a Inactifs (#{inactifs.length})
-				li.dashboardTab
-					a Tous (#{items.length})
+				li.dashboardTab.tabNewMSG
+					a Nouveau Message (#{@new_msg_count})
+				li.dashboardTab.tabRFRN2
+					a RFR à mettre à jour (#{@rfrn2_count})
+				li.dashboardTab.tabInactifs
+					a Inactifs (#{@inactifs_count})
+				li.dashboardTab.tabAll
+					- if @dossiers_count.present?
+						a Tous (#{@dossiers_count})
+					- else
+						a Tous (#{@invitations_count})
 
 			div.tab_content
-				div.tabs_item
+
+				// Traités
+				div.tabs_item.tabTreated
 					table
 						- traite.each do | item |
 							- projet = item.is_a?(Invitation) ? item.projet : item
@@ -73,7 +81,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -97,7 +109,7 @@
 											= projet.invited_pris.try(:raison_sociale).to_s
 										- else
 											p &nbsp;
-								td.tableRowIconsBorder
+								td.tableRowIconsBorder.firstRowIcons
 									= link_to projet_or_dossier_path(projet)
 										p 
 											span.glyphicon.glyphicon-folder-open
@@ -121,8 +133,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -144,7 +154,9 @@
 											p Activer
 					- if traite.respond_to?(:total_pages) && 1 < traite.total_pages
 						= render "shared/paginate", items: traite, cur_page: "page_traited"
-				div.tabs_item
+
+				// Nécessite action
+				div.tabs_item.tabAction
 					table
 						- action.each do | item |
 							- projet = item.is_a?(Invitation) ? item.projet : item
@@ -181,7 +193,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -205,7 +221,7 @@
 											= projet.invited_pris.try(:raison_sociale).to_s
 										- else
 											p &nbsp;
-								td.tableRowIconsBorder
+								td.tableRowIconsBorder.firstRowIcons
 									= link_to projet_or_dossier_path(projet)
 										p 
 											span.glyphicon.glyphicon-folder-open
@@ -229,8 +245,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -252,7 +266,9 @@
 											p Activer
 					- if action.respond_to?(:total_pages) && 1 < action.total_pages
 						= render "shared/paginate", items: action, cur_page: "page_action"
-				div.tabs_item
+
+				// Nécessite vérification
+				div.tabs_item.tabVerif
 					table
 						- verif.each do | item |
 							- projet = item.is_a?(Invitation) ? item.projet : item
@@ -289,7 +305,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -313,7 +333,7 @@
 											= projet.invited_pris.try(:raison_sociale).to_s
 										- else
 											p &nbsp;
-								td.tableRowIconsBorder
+								td.tableRowIconsBorder.firstRowIcons
 									= link_to projet_or_dossier_path(projet)
 										p 
 											span.glyphicon.glyphicon-folder-open
@@ -337,8 +357,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -360,7 +378,9 @@
 											p Activer
 					- if verif.respond_to?(:total_pages) && 1 < verif.total_pages
 						= render "shared/paginate", items: verif, cur_page: "page_verif"
-				div.tabs_item
+
+				// Autres
+				div.tabs_item.tabOthers
 					table
 						- other.each do | item |
 							- projet = item.is_a?(Invitation) ? item.projet : item
@@ -397,7 +417,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -421,7 +445,7 @@
 											= projet.invited_pris.try(:raison_sociale).to_s
 										- else
 											p &nbsp;
-								td.tableRowIconsBorder
+								td.tableRowIconsBorder.firstRowIcons
 									= link_to projet_or_dossier_path(projet)
 										p 
 											span.glyphicon.glyphicon-folder-open
@@ -445,8 +469,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -468,7 +490,9 @@
 											p Activer
 					- if other.respond_to?(:total_pages) && 1 < other.total_pages
 						= render "shared/paginate", items: other, cur_page: "page_other"
-				div.tabs_item
+
+				// Nouveau message
+				div.tabs_item.tabNewMSG
 					table
 						- new_msg.each do | item |
 							- projet = item.is_a?(Invitation) ? item.projet : item
@@ -505,7 +529,123 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										- if projet.statut_updated_date.present?
+											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
+										- else
+											div.dashboardDateText2 Inconnu
+									div
+										- if projet.status_already(:transmis_pour_instruction)
+											- if projet.invited_instructeur
+												= projet.invited_instructeur.try(:raison_sociale).to_s
+												- if projet.agent_instructeur.try(:fullname).present?
+													= " - " + projet.agent_instructeur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.status_already(:en_cours)
+											- if (current_agent.operateur? || current_agent.instructeur? || !anonymized) && projet.agent_operateur
+												= projet.contacted_operateur.try(:raison_sociale).to_s
+												- if projet.agent_operateur.try(:fullname).present?
+													= " - " + projet.agent_operateur.try(:fullname).to_s
+											- else
+												p &nbsp;
+										- elsif projet.invited_pris.present?
+											= projet.invited_pris.try(:raison_sociale).to_s
+										- else
+											p &nbsp;
+								td.tableRowIconsBorder.firstRowIcons
+									= link_to projet_or_dossier_path(projet)
+										p 
+											span.glyphicon.glyphicon-folder-open
+										p Dossier
+								td.tableRowIconsBorder
+									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
+										= link_to projet_or_dossier_payments_path(project)
+											p 
+												span.glyphicon.glyphicon-euro
+											p Paiement
+									- else
+										p 
+											span.glyphicon.glyphicon-euro.paiementInactive
+										p Paiement
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_documents_path(projet)
+										p 
+											span.glyphicon.glyphicon-paperclip
+										p Pièces
+								td.tableRowIconsBorder
+									= link_to new_projet_or_dossier_message_path(projet)
+										- if current_agent
+											- unread_messages_count = projet.unread_messages(current_agent).count
+										p 
+											span.glyphicon.glyphicon-envelope
+										p Messages
+								td.tableRowIconsBorder
+									= link_to projet_or_dossier_intervenants_path(projet)
+										p 
+											span.glyphicon.glyphicon-user
+										p Contacts
+								td.tableRowIconsBorder
+									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-close
+											p Desactiver
+									- if projet.actif === 0
+										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+											p
+												span.glyphicon.glyphicon-eye-open
+											p Activer
+					- if new_msg.respond_to?(:total_pages) && 1 < new_msg.total_pages
+						= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
+
+				// RFR N-2
+				div.tabs_item.tabRFRN2
+					table
+						- rfrn2.each do | item |
+							- projet = item.is_a?(Invitation) ? item.projet : item
+							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+							- edit_url = dossier_path(projet)
+							tr id="projet_#{projet.id}-all"
+								td
+									p = anonymize anonymized, edit_url do
+										= projet.numero_plateforme
+
+									- if projet.opal_numero.present?
+										- if current_agent.instructeur?
+											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+										- else
+											p = anonymize anonymized, edit_url do
+												= projet.opal_numero
+									- else
+										p &nbsp;
+								td
+									p = anonymize anonymized, edit_url do
+										span.firstname= projet.demandeur.prenom if projet.demandeur.present?
+										span.lastname<= projet.demandeur.nom if projet.demandeur.present?
+									- if current_agent.operateur? || current_agent.siege?
+										p = anonymize anonymized, edit_url do
+												= projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+									- else
+										p = projet.adresse.try(:code_postal).to_s + " " + projet.adresse.try(:ville).to_s
+								td
+									- if projet.themes.present?
+										p = anonymize anonymized, edit_url do
+											= projet.themes.map(&:libelle).join(', ')
+									- else
+										p Type d'intervention inconnu
+									p &nbsp;
+								td
+									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -553,8 +693,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -574,10 +712,11 @@
 											p
 												span.glyphicon.glyphicon-eye-open
 											p Activer
-					- if new_msg.respond_to?(:total_pages) && 1 < new_msg.total_pages
-						= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
+					- if items.respond_to?(:total_pages) && 1 < items.total_pages
+						= render "shared/paginate", items: items, cur_page: "page_rfrn2"
 
-				div.tabs_item
+				// Inactifs
+				div.tabs_item.tabInactifs
 					table
 						- inactifs.each do | item |							
 							- projet = item.is_a?(Invitation) ? item.projet : item
@@ -615,7 +754,11 @@
 										p &nbsp;
 									td
 										div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-											div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+											div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 											- if projet.statut_updated_date.present?
 												div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 											- else
@@ -639,7 +782,7 @@
 												= projet.invited_pris.try(:raison_sociale).to_s
 											- else
 												p &nbsp;
-									td.tableRowIconsBorder
+									td.tableRowIconsBorder.firstRowIcons
 										= link_to projet_or_dossier_path(projet)
 											p 
 												span.glyphicon.glyphicon-folder-open
@@ -663,8 +806,6 @@
 										= link_to new_projet_or_dossier_message_path(projet)
 											- if current_agent
 												- unread_messages_count = projet.unread_messages(current_agent).count
-											- if 0 < (unread_messages_count || 0)
-												span.project-menu__badge= unread_messages_count
 											p 
 												span.glyphicon.glyphicon-envelope
 											p Messages
@@ -685,11 +826,11 @@
 													span.glyphicon.glyphicon-eye-open
 												p Activer
 					- if inactifs.respond_to?(:total_pages) && 1 < inactifs.total_pages
-						= render "shared/paginate", items: inactifs, cur_page: "page_actifs"
+						= render "shared/paginate", items: inactifs, cur_page: "page_inactifs"
 
 
-
-				div.tabs_item
+				// TOUS
+				div.tabs_item.tabAll
 					table
 						- items.each do | item |
 							- projet = item.is_a?(Invitation) ? item.projet : item
@@ -726,7 +867,11 @@
 									p &nbsp;
 								td
 									div.dashboardDateTextContainer = anonymize anonymized, edit_url do
-										div.dashboardDateText1 = t(projet.status_for_intervenant, scope: "projets.statut") + " : "
+										div.dashboardDateText1
+											- if projet.opal_position_label.present?
+												= projet.opal_position_label
+											- else
+											 	= t(projet.status_for_intervenant, scope: "projets.statut") + " : "
 										- if projet.statut_updated_date.present?
 											div.dashboardDateText2 = projet.statut_updated_date.strftime("%d/%m/%Y")
 										- else
@@ -750,7 +895,7 @@
 											= projet.invited_pris.try(:raison_sociale).to_s
 										- else
 											p &nbsp;
-								td.tableRowIconsBorder
+								td.tableRowIconsBorder.firstRowIcons
 									= link_to projet_or_dossier_path(projet)
 										p 
 											span.glyphicon.glyphicon-folder-open
@@ -774,8 +919,6 @@
 									= link_to new_projet_or_dossier_message_path(projet)
 										- if current_agent
 											- unread_messages_count = projet.unread_messages(current_agent).count
-										- if 0 < (unread_messages_count || 0)
-											span.project-menu__badge= unread_messages_count
 										p 
 											span.glyphicon.glyphicon-envelope
 										p Messages
@@ -796,7 +939,7 @@
 												span.glyphicon.glyphicon-eye-open
 											p Activer
 					- if items.respond_to?(:total_pages) && 1 < items.total_pages
-						= render "shared/paginate", items: items, cur_page: "page_new_msg"
+						= render "shared/paginate", items: items, cur_page: "page"
 
 
 
@@ -828,6 +971,18 @@ javascript:
 			"from": $('.dashboardFilterFrom input'),
 			"to": $('.dashboardFilterTo input')
 		};
+
+		// START Hide Tabs
+
+		// Get the number of items into a tabs
+		var rfrn2 = '#{@rfrn2.count}';
+
+		// If number == 0, catch the items by it's unique class (tabXXXX) and hide it, else do the same to show it
+		if (rfrn2 == 0)
+			$('.tabRFRN2').hide();
+		else
+			$('.tabRFRN2').show();
+		// END Hide tabs
 
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {
 			var jsonURL = JSON.parse('{"' + decodeURI(sPageURL).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');

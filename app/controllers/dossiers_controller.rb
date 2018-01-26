@@ -43,15 +43,18 @@ class DossiersController < ApplicationController
 
   def home
     if render_index
-      @page_heading = "Accueil"
+      @page_full_width = true
+      @page_heading = I18n.t('tableau_de_bord.titre_section')
+      render "dashboard", :notice => flash and return
     end
+    redirect_to root_path, alert: t('sessions.access_forbidden')
   end
 
   def index
     if render_index
       @page_full_width = true
       @page_heading = I18n.t('tableau_de_bord.titre_section')
-      render "dashboard"
+      render "dashboard", :notice => flash
     end
   end
 
@@ -66,8 +69,17 @@ class DossiersController < ApplicationController
       projets = Projet.all
     elsif (current_agent.dreal? || current_agent.instructeur?) && current_agent.intervenant.try(:departements).present?
       departements = current_agent.intervenant.try(:departements) || []
-      #TODO Optimiser le Projet.all
-      projets = departements.map { |d| Projet.all.select { |p| p.adresse.try(:departement) == d } }.flatten
+      if departements != []
+        str = "(ift_adresses2.departement = '" + departements[0] + "' OR (ift_adresses1.departement =  '" + departements[0] + "' AND ift_adresses2 IS NULL))"
+        departements.each_with_index do |d, i|
+          if i > 0
+            str += " OR (ift_adresses2.departement = '" + d + "' OR (ift_adresses1.departement = '" + d + "' AND ift_adresses2 IS NULL))"
+          end
+        end
+        projets = Projet.joins("INNER JOIN adresses ift_adresses1 ON (projets.adresse_postale_id = ift_adresses1.id) LEFT OUTER JOIN adresses ift_adresses2 ON (projets.adresse_a_renover_id = ift_adresses2.id)").where(str)
+      else
+        projets = []
+      end
     else
       projets = current_agent.intervenant.try(:projets) || []
     end
@@ -135,7 +147,7 @@ class DossiersController < ApplicationController
     if annee > 2 && current_agent.operateur? == true && @projet_courant.date_depot == nil
         flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
-    if annee == 2 and Time.now.strftime("%m") < 9
+    if annee == 2 and Time.now.strftime("%m").to_i >= 9
         flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
     render_show
@@ -278,15 +290,131 @@ class DossiersController < ApplicationController
     attributes
   end
 
-  def render_index
-    params.permit(:page, :per_page, search: [:query, :status, :sort_by])
+  def search_dossier search, tab
+    if search.present?
+      if search[:from].present?
+        tab = tab.updated_since(search[:from])
+      end
+      if search[:to].present?
+        tab = tab.updated_upto(search[:to])
+      end
+      tab = tab.for_text(search[:query]).for_intervenant_status(search[:status]).for_text(search[:type]).for_text(search[:folder]).for_text(search[:tenant]).for_text(search[:location]).for_text(search[:interv])
+    end
+    return tab
+  end
+
+  def search_for_intervenant_status search, dossiers
+      if search.present?
+        dossiers = dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
+      end
+      return dossiers
+  end
+
+  def render_csv search
+    response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
+    response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
+    response.status = 200
+    response.headers['X-Accel-Buffering'] = 'no'
+    response.headers["Cache-Control"] ||= "no-cache"
+    response.headers.delete("Content-Length")
+    if current_agent.admin?
+      @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+      @selected_projects = search_for_intervenant_status(search, @dossiers)
+    elsif current_agent.siege?
+      @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+      @selected_projects = search_for_intervenant_status(search, @dossiers)
+    elsif current_agent.dreal?
+      @dossiers = current_agent.intervenant.projets
+      @selected_projects = @dossiers
+    else
+      @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+      @selected_projects = search_for_intervenant_status(search, @invitations)
+      if current_agent.operateur?
+        @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
+      else
+        @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
+      end
+      @selected_projects = @invitations.map{ |invitation| invitation.projet }
+    end
+    render plain: Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
+    return false
+  end
+
+  def fill_deep_tab traited, action, verif, actif, message, dossier
+    if traited
+      @traited << dossier
+    elsif action
+      @action << dossier
+    elsif verif
+      @verif << dossier
+    elsif actif
+      @others << dossier
+    else
+      @inactifs << dossier
+    end
+    if message
+      @new_msg << dossier
+    end
+  end
+
+  def fill_tab_intervenant all   
+    if current_agent.pris?
+      all.each do |i|
+        fill_deep_tab(i.projet.pris_suggested_operateurs != [] && i.projet.status_already(:en_cours) && i.projet.actif == 1,
+          i.projet.pris_suggested_operateurs == [] && i.projet.actif == 1,
+          i.projet.pris_suggested_operateurs != [] && i.projet.status_not_yet(:en_cours) && i.projet.actif == 1,
+          i.projet.actif == 1,
+          i.projet.unread_messages(current_agent).count > 0,
+          i
+          )
+      end
+    elsif current_agent.operateur?
+      all.each do |i|
+        fill_deep_tab(i.projet.status_already(:proposition_proposee) && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1,
+          i.projet.action_agent_operateur? && i.projet.actif == 1,
+          i.projet.payments.blank? && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1,
+          i.projet.actif == 1,
+          i.projet.unread_messages(current_agent).count > 0,
+          i
+          )
+        i.projet.avis_impositions.each do |avis|
+          annee = Time.now.strftime("%Y").to_i - avis.annee.to_i
+          if annee > 2
+            @rfrn2 << i
+            flash.now[:notice] = "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
+            break
+          elsif annee == 2 and Time.now.strftime("%m").to_i >= 9
+            @rfrn2 << i
+            flash.now[:notice] = "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
+            break
+          end
+        end
+      end
+    elsif current_agent.instructeur?
+      all.each do |i|
+        fill_deep_tab(i.projet.status_already(:en_cours_d_instruction) && i.projet.actif == 1,
+          i.projet.status_already(:transmis_pour_instruction) && i.projet.actif == 1,
+          false,
+          i.projet.actif == 1,
+          i.projet.unread_messages(current_agent).count > 0,
+          i)
+      end
+    end
+  end
+
+  def render_index    
+    params.permit(:page, :per_page, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :from, :to, :advanced, :activeTab])
     search = params[:search] || {}
+    #numéro de la page
     page = params[:page] || 1
     page_traited = params[:page_traited] || 1
     page_action = params[:page_action] || 1
     page_verif = params[:page_verif] || 1
     page_new_msg = params[:page_new_msg] || 1
     page_others = params[:page_others] || 1
+    page_inactifs = params[:page_inactifs] || 1
+    page_rfrn2 = params[:page_rfrn2] || 1
+    #nombre d'objet par page
 
     per_page = params[:per_page]  || 20
 
@@ -302,93 +430,32 @@ class DossiersController < ApplicationController
         @inactifs = []
         @rfrn2 = []
         if current_agent.admin?
-          @dossiers = Projet.all.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
-          if search.present?
-            if search[:from].present?
-              @dossiers = @dossiers.updated_since(search[:from])
-            end
-            if search[:to].present?
-              @dossiers = @dossiers.updated_upto(search[:to])
-            end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
-          end
+          @dossiers = Projet.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+          @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
+          all = @dossiers
+          @inactifs = all.where(:actif => 0)
+          #all.each do |i|
+          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
+          #end
         elsif current_agent.dreal?
-          @dossiers = current_agent.intervenant.projets.paginate(page: page, per_page: per_page)
-          if search.present?
-            if search[:from].present?
-              @dossiers = @dossiers.updated_since(search[:from])
-            end
-            if search[:to].present?
-              @dossiers = @dossiers.updated_upto(search[:to])
-            end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
-          end
-          @dossiers = @dossiers.order('projets.actif desc')
+          @dossiers = current_agent.intervenant.projets
+          @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
           all = @dossiers
-          all.each do |i|
-            if i.actif == 1
-              @others << i
-            else
-              @inactifs << i
-            end
-            if i.unread_messages(current_agent).count > 0
-              @new_msg << i
-            end
-          end
+          @inactifs = all.where(:actif => 0)
+          #all.each do |i|
+          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
+          #end
         elsif current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]).paginate(page: page, per_page: per_page)
-          if search.present?
-            if search[:from].present?
-              @dossiers = @dossiers.updated_since(search[:from])
-            end
-            if search[:to].present?
-              @dossiers = @dossiers.updated_upto(search[:to])
-            end
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-            @dossiers = @dossiers.for_text(search[:type])
-            @dossiers = @dossiers.for_text(search[:folder])
-            @dossiers = @dossiers.for_text(search[:tenant])
-            @dossiers = @dossiers.for_text(search[:location])
-            @dossiers = @dossiers.for_text(search[:interv])
-          end
-          @dossiers = @dossiers.order('projets.actif desc')
+          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+          @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
           all = @dossiers
-          all.each do |i|
-            if i.actif == 1
-              @others << i
-            else
-              @inactifs << i
-            end
-            if i.unread_messages(current_agent).count > 0
-              @new_msg << i
-            end
-          end
+          @inactifs = all.where(:actif => 0)
+          #all.each do |i|
+          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
+          #end
         else
           @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
-          if search.present?
-            if search[:from].present?
-              @dossiers = @dossiers.updated_since(search[:from])
-            end
-            if search[:to].present?
-              @dossiers = @dossiers.updated_upto(search[:to])
-            end
-            @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
-            @invitations = @invitations.for_text(search[:type])
-            @invitations = @invitations.for_text(search[:folder])
-            @invitations = @invitations.for_text(search[:tenant])
-            @invitations = @invitations.for_text(search[:location])
-            @invitations = @invitations.for_text(search[:interv])
-          end
+          @invitations = search_dossier(search, @invitations)
           if current_agent.operateur?
             @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
           else
@@ -400,99 +467,36 @@ class DossiersController < ApplicationController
           else
             all = all.where(intervenant_id: current_agent.intervenant_id)
           end
-           if current_agent.pris?
-            all.each do |i|
-              if i.projet.pris_suggested_operateurs != [] && i.projet.status_already(:en_cours) && i.projet.actif == 1
-                @traited << i
-              elsif i.projet.pris_suggested_operateurs == [] && i.projet.actif == 1
-                @action << i
-              elsif i.projet.pris_suggested_operateurs != [] && i.projet.status_not_yet(:en_cours) && i.projet.actif == 1
-                @verif << i
-              elsif i.projet.actif == 1
-                @others << i
-              else
-                @inactifs << i
-              end
-              if i.projet.unread_messages(current_agent).count > 0
-                @new_msg << i
-              end
-            end
-          elsif current_agent.operateur?
-            all.each do |i|
-              if i.projet.status_already(:proposition_proposee) && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1
-                @traited << i
-              elsif i.projet.action_agent_operateur? && i.projet.actif == 1
-                @action << i
-              elsif i.projet.payments.blank? && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1
-                @verif << i
-              elsif i.projet.actif == 1
-                @others << i
-              else
-                @inactifs << i
-              end
-              if i.projet.unread_messages(current_agent).count > 0
-                @new_msg << i
-              end
-            end
-          elsif current_agent.instructeur?
-            all.each do |i|
-              if i.projet.status_already(:en_cours_d_instruction) && i.projet.actif == 1
-                @traited << i
-              elsif i.projet.status_already(:transmis_pour_instruction) && i.projet.actif == 1
-                @action << i
-              elsif i.projet.actif == 1
-                @others << i
-              else
-                @inactifs << i
-              end
-              if i.projet.unread_messages(current_agent).count > 0
-                @new_msg << i
-              end
-            end
-          end
-          @traited = @traited.paginate(page: page_traited, per_page: per_page)
-          @action = @action.paginate(page: page_action, per_page: per_page)
-          @verif = @verif.paginate(page: page_verif, per_page: per_page)
-          @new_msg = @new_msg.paginate(page: page_new_msg, per_page: per_page)
-          @others = @others.paginate(page: page_others, per_page: per_page)
+          fill_tab_intervenant(all)
+          @invitations_count = @invitations.count
           @invitations = @invitations.paginate(page: page, per_page: per_page)
-          @inactifs = @inactifs.paginate(page: page, per_page: per_page)
         end
+        @traited_count = @traited.count
+        @action_count = @action.count
+        @verif_count = @verif.count
+        @new_msg_count = @new_msg.count
+        @others_count = @others.count
+        @inactifs_count = @inactifs.count
+        @rfrn2_count = @rfrn2.count
+
+        @traited = @traited.paginate(page: page_traited, per_page: per_page)
+        @action = @action.paginate(page: page_action, per_page: per_page)
+        @verif = @verif.paginate(page: page_verif, per_page: per_page)
+        @new_msg = @new_msg.paginate(page: page_new_msg, per_page: per_page)
+        @others = @others.paginate(page: page_others, per_page: per_page)
+        @inactifs = @inactifs.paginate(page: page_inactifs, per_page: per_page)
+        @rfrn2 = @rfrn2.paginate(page: page_rfrn2, per_page: per_page)
+        if @dossiers
+          @dossiers_count = @dossiers.count
+          @dossiers = @dossiers.paginate(page: page, per_page: per_page)
+        end
+
+
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
       }
       format.csv {
-        if current_agent.admin?
-          @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
-          if search.present?
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
-          @selected_projects = @dossiers
-        elsif current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
-          if search.present?
-            @dossiers = @dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
-          @selected_projects = @dossiers
-        elsif current_agent.dreal?
-          @dossiers = current_agent.intervenant.projets
-          @selected_projects = @dossiers
-        else
-          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
-          if search.present?
-            @invitations = @invitations.for_text(search[:query]).for_intervenant_status(search[:status])
-          end
-          if current_agent.operateur?
-            @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
-          else
-            @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
-          end
-          @selected_projects = @invitations.map{ |invitation| invitation.projet }
-        end
-        response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
-        response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        render plain: Projet.to_csv(current_agent, @selected_projects)
-        return false
+        return render_csv(search)
       }
     end
     true

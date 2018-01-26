@@ -34,7 +34,7 @@ deployment:
       - git push -f git@scalingo.com:anah-demo.git $CIRCLE_SHA1:master
   production:
     tag: /production-.*/
-    owner: sgmap
+    owner: betagouv
     commands:
       - git fetch --unshallow
       - git push -f git@scalingo.com:anah-production.git $CIRCLE_SHA1:master

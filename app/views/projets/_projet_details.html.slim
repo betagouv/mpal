@@ -1,9 +1,9 @@
-h3 Logement
+h3 &nbsp;
 .table-responsive
   table.table.table-striped.table-sm
     tbody
       tr
-        td= sf_label :projet, :date_de_visite
+        td= sf_label :projet, :date_de_visite_du_logement
         td.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
       - if @projet_courant.type_logement.present?
         tr
@@ -138,40 +138,63 @@ h3 Travaux
           th
           th Proposition
       tbody
-        - [:travaux_ttc_amount, :travaux_ht_amount, :assiette_subventionnable_amount, :amo_amount, :maitrise_oeuvre_amount].each do |field|
+        - [:travaux_ht_amount, :assiette_subventionnable_amount].each do |field|
           - value = @projet_courant.send field
           - if value.present?
             tr
-              td= sf_label :projet, field
-              td class="proposition__cell-price test-#{field.to_s.dasherize}"= number_to_currency value
+              td = sf_label :projet, field
+              td class="proposition__cell-price test-#{field.to_s.dasherize}" = number_to_currency value
+
+        - if 0 < @global_ht_sum
+          tr
+            td.bold_label.black_label.medium_size_label = sf_label :projet, :global_ht_sum
+            td.proposition__cell-price.test-global-ht-sum.bold_label.black_label.medium_size_label = number_to_currency @global_ht_sum
+
+        - [:travaux_ttc_amount, :amo_amount, :maitrise_oeuvre_amount].each do |field|
+          - value = @projet_courant.send field
+          - if value.present?
+            tr
+              td = sf_label :projet, field
+              td class="proposition__cell-price test-#{field.to_s.dasherize}" = number_to_currency value
+
         - if 0 < @projet_courant.global_ttc_sum
           tr
-            td= sf_label :projet, :global_ttc_sum
-            td.proposition__cell-price.test-global-ttc-sum= number_to_currency @projet_courant.global_ttc_sum
+            td.bold_label.black_label.medium_size_label = sf_label :projet, :global_ttc_sum
+            td.proposition__cell-price.test-global-ttc-sum.bold_label.black_label.medium_size_label = number_to_currency @projet_courant.global_ttc_sum
+
         - @public_aids_with_amounts.each do |aid|
           - if aid.amount.present? && 0 < aid.amount
             tr
-              td= aid.libelle
+              td = aid.libelle
               td class="proposition__cell-price test-projet-aide-#{aid.id}"= number_to_currency aid.amount
+
         - if 0 < @public_aids_sum
           tr
-            td= sf_label :projet, :public_aids_sum
-            td.proposition__cell-price.test-public-aids-sum= number_to_currency @public_aids_sum
+            td.bold_label.black_label.medium_size_label = sf_label :projet, :public_aids_sum
+            td.proposition__cell-price.test-public-aids-sum.bold_label.black_label.medium_size_label = number_to_currency @public_aids_sum
+
         - @private_aids_with_amounts.each do |aid|
           - if aid.amount.present? && 0 < aid.amount
             tr
-              td= aid.libelle
+              td = aid.libelle
               td class="proposition__cell-price test-projet-aide-#{aid.id}"= number_to_currency aid.amount
+
         - [:personal_funding_amount, :loan_amount].each do |field|
           - value = @projet_courant.send field
           - if value.present?
             tr
-              td= sf_label :projet, field
+              td = sf_label :projet, field
               td class="proposition__cell-price test-#{field.to_s.dasherize}"= number_to_currency value
+
         - if 0 < @fundings_sum
           tr
-            td= sf_label :projet, :fundings_sum
-            td.proposition__cell-price.test-fundings-sum= number_to_currency @fundings_sum
+            td.bold_label.black_label.medium_size_label = sf_label :projet, :fundings_sum
+            td.proposition__cell-price.test-fundings-sum.bold_label.black_label.medium_size_label = number_to_currency @fundings_sum
+
+        - if 0 < @remaining_sum
+          tr
+            td.bold_label.black_label.medium_size_label = sf_label :projet, :remaining_sum
+            td.proposition__cell-price.test-fundings-sum.bold_label.black_label.medium_size_label = number_to_currency @remaining_sum
 
 ul.ctr-ope
   - if @projet_courant.precisions_travaux.present?

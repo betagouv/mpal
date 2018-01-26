@@ -16,7 +16,7 @@ feature "Transmettre à l'instructeur :" do
 
         visit projet_path(projet)
         expect(page).to have_current_path(projet_path(projet))
-        click_link I18n.t('projets.transmission.bouton_accepter')
+        click_link I18n.t('projets.transmission.bouton_continuer')
 
         expect(page).to have_current_path(projet_transmission_path(projet))
         check I18n.t('projets.proposition.confirmation')
