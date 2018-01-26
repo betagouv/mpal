@@ -141,6 +141,10 @@ class Projet < ApplicationRecord
         ON (ift_avis_impositions.id = ift_occupants.avis_imposition_id AND ift_occupants.demandeur = true)
       INNER JOIN adresses ift_adresses1
         ON (projets.adresse_postale_id = ift_adresses1.id)
+      LEFT OUTER JOIN projets_themes ift_ptheme
+        ON (projets.id = ift_ptheme.projet_id)
+      LEFT OUTER JOIN themes ift_themes
+        ON (ift_ptheme.theme_id = ift_themes.id)
       LEFT OUTER JOIN invitations ift_invitations
         ON (projets.id = ift_invitations.projet_id)
       LEFT OUTER JOIN intervenants ift_intervenants
@@ -171,7 +175,8 @@ class Projet < ApplicationRecord
         "ift_adresses1.region", "ift_adresses2.region",
         "ift_adresses1.departement", "ift_adresses2.departement",
         "ift_occupants.prenom", "projets.opal_numero",
-        "ift_intervenants.raison_sociale"
+        "ift_intervenants.raison_sociale",
+        "ift_themes.libelle"
       ].each do |field|
         conditions[0] << " OR #{field} ILIKE ?"
         conditions << "%#{word}%"
