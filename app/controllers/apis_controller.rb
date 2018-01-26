@@ -79,7 +79,7 @@ class ApisController < ApplicationController
 		rescue
 			render json: {
 				status: 412,
-				message: "Une erreur a eu lieu côté Serveur Sir"
+				message: "Une erreur a eu lieu côté Serveur"
 			}.to_json and return
 		end
 	end
