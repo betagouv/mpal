@@ -78,13 +78,18 @@ div#modalAdresseContainer.modal
       e.preventDefault();
       var addr = $("#projet_adresse_postale").val();
       var addr2 = $("#projet_adresse_a_renover").val();
+
       timerConfirm = confirmTimer;
 
       modalAddr.style.display = "block";
       if ("" != addr && null != addr && undefined != addr)
         $('.modal-text-addr').text(addr);
 
-      if ("" != addr2 && null != addr2 && undefined != addr2)
+
+      $('.modal-text2').text("");
+      $('.modal-text-addr2').text("");
+
+      if (addr2 != "" && null != addr2 && undefined != addr2)
       {
         $('.modal-text2').text("Confirmez l'adresse du logement à rénover :");
         $('.modal-text-addr2').text(addr2);

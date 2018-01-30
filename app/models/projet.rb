@@ -590,7 +590,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date de visite',
        'Date dépôt',
        'État',
-       'Actif/Incatif'
+       'Actif/Inactif'
      ]
 
      if is_admin == true
@@ -623,7 +623,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
          projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
          projet.date_depot.present? ? format_date(projet.date_depot) : "",
          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
-         projet.actif? ? "Actif" : "Incatif"
+         projet.actif? ? "Actif" : "Inactif"
        ]
 
        if is_admin == true
