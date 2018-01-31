@@ -1,4 +1,3 @@
-<div class="disableEaster" id="snow"></div> 
 = simple_form_for @projet_courant, url: projet_or_dossier_proposition_path(@projet_courant), html: { method: :put, class: "form form-proposition" } do |f|
   = render "shared/errors", resource: @projet_courant
   .occupants-recap Opérateur : #{@projet_courant.operateur.raison_sociale}
