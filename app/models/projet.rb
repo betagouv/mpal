@@ -595,7 +595,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date de visite',
        'Date dépôt',
        'État',
-       'Actif/Incatif'
+       'Actif/Inactif'
      ]
 
      if is_admin == true
@@ -628,7 +628,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
          projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
          projet.date_depot.present? ? format_date(projet.date_depot) : "",
          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
-         projet.actif? ? "Actif" : "Incatif"
+         projet.actif? ? "Actif" : "Inactif"
        ]
 
        if is_admin == true
@@ -645,7 +645,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
          line.append(projet.try(:max_registration_step))
          line.append(projet.messages.count)
          line.append(op)
-         line.append(projet.invited_pris.try(:fullname))
+         # line.append(projet.invited_pris.try(:fullname))
          line.append(pris)
          line.append(pris_eie)
          line.append(projet.id)
