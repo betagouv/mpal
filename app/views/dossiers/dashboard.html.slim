@@ -979,8 +979,6 @@ javascript:
 
 		if (rfrn2 == 0)
 			$('.tabRFRN2').hide();
-		else
-			$('.tabRFRN2').show();
 
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {
 			var jsonURL = JSON.parse('{"' + decodeURI(sPageURL).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
