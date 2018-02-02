@@ -5,6 +5,11 @@ class BigNumberValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
     localized_value = record.send("localized_#{attribute}").to_s.gsub(/\s+/, "")
     unless localized_value == "" || localized_value =~ NUMBER_LIMITED_TO_8_DIGITS_REGEXP
+
+      if (attribute == :amount && nil != record.aide_id)
+      	attribute = Aide.find(record.aide_id).libelle
+      end
+
       record.errors.add(attribute, "doit être inférieur à '100 000 000'")
     end
   end
