@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	function bindReliablePersonForm() {
 		if (!$("#js-reliable-person-select-yes").is(":checked")) {
 			$(".js-reliable-person-form").hide();
@@ -409,9 +410,7 @@ $(document).ready(function() {
 			tab.find('.tab_content').find('div.tabs_item').not('div.tabs_item:eq(' + index + ')').hide();;
 			tab.find('.tab_content').find('div.tabs_item:eq(' + index + ')').show();
 			
-			var searchParam = preserveSearch();
-			var url = "/dossiers" + searchParam;
-			window.history.replaceState(null, null, url);
+			preserveSearch();
 			e.preventDefault();
 		} );
 	}
@@ -426,29 +425,32 @@ $(document).ready(function() {
 				$(".dashboardFilterContainerAdvanced").slideUp();
 				$(".dashboardFilterFreeSearch input").removeAttr('disabled');
 			}
+			preserveSearch();
 		});
 	}
 
 	function preserveSearch() {
-		var advanced = false;
-		var currentTab = $('.dashboardContainer ul.dashboardTabContainer li').index($('.current'));
-		var searchParam = "?utf8=✓";
+		var advanced = false,
+			currentTab = $('.dashboardContainer ul.dashboardTabContainer li').index($('.current')),
+			searchParam = {};
+
+		searchParam["utf8"] = "✓";
 
 		// Catch Type d'intervention
 		var intervType = $('.dashboardFilterStatus select').find(":selected").text();
 		if (intervType == "Type d'intervention" || intervType == "")
 			intervType = "";
-		searchParam += "&search[type]=" + intervType;
+		searchParam["search[type]"] = intervType;
 
 		// Catch Etat du dossier
 		var status = $('.dashboardFilterState select').find(":selected").val();
 		if (status == "Etat du dossier" || status == "")
 			status = "";
-		searchParam += "&search[status]=" + status;
+		searchParam["search[status]"] = status;
 
 		// If advanced filter is on
 		if ($(".dashboardFilterAdvancedCheckbox").is(':checked')) {
-			advanced = true;
+			searchParam["search[advanced]"] = "true";
 			// Catch Trier par Date de creation / Date de depot
 			var filterOrderBy = $(".OrderBy input[type='radio']:checked").attr("id");
 			if (filterOrderBy == "dateDeCreation")
@@ -463,53 +465,67 @@ $(document).ready(function() {
 			else
 				filterOrderOrder = "DESC";
 
+			searchParam["search[sort_by]"] = filterOrderBy + " " + filterOrderOrder;
+
 			// Catch N° dossier
 			var freeSearchFNum = $('.dashboardFilterFolderNumber input').val();
-			searchParam += "&search[folder]=" + freeSearchFNum;
+			searchParam["search[folder]"] = freeSearchFNum;
 
 			// Catch nom Propriétaire
 			var freeSearchTenant = $('.dashboardFilterTenantName input').val();
-			searchParam += "&search[tenant]=" + freeSearchTenant;
+			searchParam["search[tenant]"] = freeSearchTenant;
 
 			// Catch Lieu / programme
 			var freeSearchLocation = $('.dashboardFilterLocation input').val();
-			searchParam += "&search[location]=" + freeSearchLocation;
+			searchParam["search[location]"] = freeSearchLocation;
 
 			// Catch Intervenant
 			var freeSearchInterv = $('.dashboardFilterInterv input').val();
-			searchParam += "&search[interv]=" + freeSearchInterv;
+			searchParam["search[interv]"] = freeSearchInterv;
 
 			// Catch date from
-			var freeSearchInterv = $('.dashboardFilterFrom input').val();
-			searchParam += "&search[from]=" + freeSearchInterv;
+			var freeSearchFrom = $('.dashboardFilterFrom input').val();
+			searchParam["search[from]"] = freeSearchFrom;
 
 			// Catch date to
-			var freeSearchInterv = $('.dashboardFilterTo input').val();
-			searchParam += "&search[to]=" + freeSearchInterv;
-
-			searchParam += "&search[sort_by]=" + filterOrderBy + " " + filterOrderOrder;
+			var freeSearchTo = $('.dashboardFilterTo input').val();
+			searchParam["search[to]"] = freeSearchTo;
 		}
 		// If advanced filter is off catch free search
 		else {
+			searchParam["search[advanced]"] = "false";
 			var freeSearch = $('.dashboardFilterFreeSearch input').val();
-			searchParam += "&search[query]=" + freeSearch;
+			searchParam["search[query]"] = freeSearch;
 		}
+		searchParam["search[activeTab]"] = currentTab;
 
-		if (advanced)
-			searchParam += "&search[advanced]=true";
-		else
-			searchParam += "&search[advanced]=false";
-		searchParam += "&search[activeTab]=" + currentTab;
+		$.urlLib.urlBulkUpdCrtParam(searchParam);
 
-		return searchParam;
+		$('.pagination a')
+			.each(function() {
+				var uri = decodeURIComponent($(this).prop("href")).split("?")[1],
+					sURLVariables = uri.split('&'),
+					sParameterName,
+					newURL,
+					i;
+
+				for (i = 0; i < sURLVariables.length; i++) {
+					sParameterName = sURLVariables[i].split('=');
+
+					if (sParameterName[0] === "search[activeTab]")
+						sURLVariables[i] = sParameterName[0] + "=" + $.urlLib.urlGetParamValue("search[activeTab]");
+				}
+				sURLVariables = sURLVariables.join("&");
+				newURL = $(this).prop("href").split(window.location.pathname)[0] + window.location.pathname + "?" + sURLVariables;
+
+				$(this).prop("href", newURL);
+			});
 	}
 
 	function dashboardSearchClick() {
 		$('.dashboardFilterSearchButton').click(function(e) {
-			
-			var searchParam = preserveSearch();
-			var url = "/dossiers" + searchParam;
-			document.location = url;
+			preserveSearch();
+			$.urlLib.urlLoad();
 		});
 	}
 	

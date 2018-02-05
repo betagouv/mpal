@@ -946,16 +946,6 @@
 
 
 javascript:
-	/*
-		-# if projet.actif === 0
-			p 
-				span.glyphicon.glyphicon-eye-close
-			p Vérouiller
-		-# else
-			p 
-				span.glyphicon.glyphicon-eye-open
-			p Dévérouiller
-	*/
 	$(document).ready(function() {
 		$("html").keypress(function(e) {
 			if (e.which == 13)
@@ -987,34 +977,36 @@ javascript:
 				if (jsonURL.hasOwnProperty(index)) {
 					if (index != "utf8") {
 						var indexData = index.split("[");
-						var newArrayTmp = indexData[1].split("]")[0];
+						if (undefined !== indexData[1]) {
+							var newArrayTmp = indexData[1].split("]")[0];
 
-						// Restore advanced menu state
-						if ("advanced" == newArrayTmp) {
-							if (jsonURL[index] == "true") {
-								$(".dashboardFilterAdvancedCheckbox").prop('checked', true);
-								$(".dashboardFilterAdvancedCheckbox").trigger("change");
+							// Restore advanced menu state
+							if ("advanced" == newArrayTmp) {
+								if (jsonURL[index] == "true") {
+									$(".dashboardFilterAdvancedCheckbox").prop('checked', true);
+									$(".dashboardFilterAdvancedCheckbox").trigger("change");
+								}
 							}
-						}
-						// Restore active Tab
-						if ("activeTab" == newArrayTmp)
-							var testTab = $('.dashboardContainer ul.dashboardTabContainer').find('> li:eq(' + jsonURL[index] + ')').find("a").trigger('click');
-						// Restore filter "order by (ascendent / descendant, date de depot / date de creation)"
-						if ("sort_by" == newArrayTmp) {
-							if (~jsonURL[index].indexOf("DESC"))
-								$("#descend").prop('checked', true);
-							else if (~jsonURL[index].indexOf("ASC"))
-								$("#ascend").prop('checked', true);
+							// Restore active Tab
+							if ("activeTab" == newArrayTmp)
+								var testTab = $('.dashboardContainer ul.dashboardTabContainer').find('> li:eq(' + jsonURL[index] + ')').find("a").trigger('click');
+							// Restore filter "order by (ascendent / descendant, date de depot / date de creation)"
+							if ("sort_by" == newArrayTmp) {
+								if (~jsonURL[index].indexOf("DESC"))
+									$("#descend").prop('checked', true);
+								else if (~jsonURL[index].indexOf("ASC"))
+									$("#ascend").prop('checked', true);
 
-							if (~jsonURL[index].indexOf("depot"))
-								$("#dateDeDepot").prop('checked', true);
-							else if (~jsonURL[index].indexOf("created"))
-								$("#dateDeCreation").prop('checked', true);
-						}
-						// Restore other filters
-						if ("" != jsonURL[index] && "advanced" != newArrayTmp && "activeTab" != newArrayTmp && "sort_by" != newArrayTmp) {
-							if (searchFormElement.hasOwnProperty(newArrayTmp))
-								searchFormElement[newArrayTmp].val(jsonURL[index]);
+								if (~jsonURL[index].indexOf("depot"))
+									$("#dateDeDepot").prop('checked', true);
+								else if (~jsonURL[index].indexOf("created"))
+									$("#dateDeCreation").prop('checked', true);
+							}
+							// Restore other filters
+							if ("" != jsonURL[index] && "advanced" != newArrayTmp && "activeTab" != newArrayTmp && "sort_by" != newArrayTmp) {
+								if (searchFormElement.hasOwnProperty(newArrayTmp))
+									searchFormElement[newArrayTmp].val(jsonURL[index]);
+							}
 						}
 					}
 				}
