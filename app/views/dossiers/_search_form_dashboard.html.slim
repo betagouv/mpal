@@ -1,7 +1,6 @@
 div.dashboardFilterContainer
 	- search = params.fetch(:search, {}).permit(:query, :status, :sort_by, :from, :to, :type, :folder, :tenant, :location, :interv)
-	- if current_agent.admin == false
-		= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
+	= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
 	div.dashboardFilterFreeSearch
 		<input type="text" name="freeSearch" placeholder="ID PF ou OP@L ID, nom ou prenom du propriétaire, région, département (n° ou nom), ville ou CP, programme">
 	div.dashboardFilterStatus
