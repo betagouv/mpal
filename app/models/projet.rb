@@ -581,9 +581,9 @@ class Projet < ApplicationRecord
   end
 
 def self.to_csv(agent, selected_projects, is_admin = false)
-
    utf8 = CSV.generate(csv_options) do |csv|
-
+     droit1 = agent.siege? || agent.instructeur? || agent.operateur?
+     droit2 = agent.siege? || agent.operateur?
      titles = [
        'Numéro plateforme',
        'Date création',
@@ -608,58 +608,66 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        titles.append('Date de modification du Statut')
      end
 
-     titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
-     titles.insert 6, 'Agent opérateur'    if agent.siege? || agent.instructeur? || agent.operateur?
-     titles.insert 4, 'Agent instructeur'  if agent.siege? || agent.instructeur? || agent.operateur?
-     titles.insert 2, 'Département'        if agent.siege? || agent.operateur?
-     titles.insert 2, 'Région'             if agent.siege? || agent.operateur?
-     titles.insert 1, 'Identifiant OPAL'   if agent.siege? || agent.instructeur? || agent.operateur?
-     csv << titles
-     selected_projects.each do |projet|
+     if droit1
+       titles.insert 9, 'État des paiements' 
+       titles.insert 6, 'Agent opérateur'    
+       titles.insert 4, 'Agent instructeur'  
+       titles.insert 1, 'Identifiant OPAL'   
+     end
 
+     if droit2
+       titles.insert 2, 'Département'
+       titles.insert 2, 'Région'     
+     end
+     csv << titles
+    
+      selected_projects.select("projets.* , CONCAT(CONCAT(demandeur.prenom, ' '), demandeur.nom) as demandeur_fullname, array_to_string(ARRAY_AGG(DISTINCT ift_themes.libelle), ', ') as libelle_theme, COUNT(DISTINCT messages.id) as message_count, array_to_string(ARRAY_AGG(DISTINCT CONCAT(CONCAT(ift_payement.type_paiement, ' '), ift_payement.statut)), ' - ') as payement_status, ift_adresse_postale.ville as postale_ville, ift_adresse_postale.departement as postale_dep,  ift_adresse_postale.region as postale_region,ift_adresse_a_renover.ville as renov_ville, ift_adresse_a_renover.departement as renov_dep,  ift_adresse_a_renover.region as renov_region, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants1.raison_sociale), '') as ift_pris, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants2.raison_sociale), '') as ift_operateur, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants3.raison_sociale), '') as ift_instructeur, CONCAT(CONCAT(ift_agent_instructeur.prenom, ' '), ift_agent_instructeur.nom) as ift_agent_instructeur, CONCAT(CONCAT(ift_agent_operateur.prenom, ' '), ift_agent_operateur.nom)  as ift_agent_operateur").joins("INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse_postale ON (ift_adresse_postale.id = projets.adresse_postale_id) LEFT OUTER JOIN adresses ift_adresse_a_renover ON (ift_adresse_a_renover.id = projets.adresse_a_renover_id) LEFT OUTER JOIN payments ift_payement on ift_payement.projet_id = projets.id LEFT OUTER JOIN messages on messages.projet_id = projets.id LEFT OUTER JOIN invitations on projets.id = invitations.projet_id LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id) LEFT OUTER JOIN intervenants ift_intervenants1 ON (ift_invitations.intervenant_id = ift_intervenants1.id AND 'pris' = ANY(ift_intervenants1.roles)) LEFT OUTER JOIN intervenants ift_intervenants2 ON (ift_invitations.intervenant_id = ift_intervenants2.id AND 'operateur' = ANY(ift_intervenants2.roles)) LEFT OUTER JOIN intervenants ift_intervenants3 ON (ift_invitations.intervenant_id = ift_intervenants3.id AND 'instructeur' = ANY(ift_intervenants3.roles)) LEFT OUTER JOIN agents ift_agent_operateur ON (projets.agent_operateur_id = ift_agent_operateur.id) LEFT OUTER JOIN agents ift_agent_instructeur ON (projets.agent_instructeur_id = ift_agent_instructeur.id)").group("projets.id, demandeur.id, ift_adresse_postale.id, ift_adresse_a_renover.id, ift_agent_instructeur.id, ift_agent_operateur.id").each do |projet|
        line = [
          projet.numero_plateforme,
          format_date(projet.created_at),
-         projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.try(:fullname),
-         projet.adresse.try(:ville),
-         projet.invited_instructeur.try(:raison_sociale),
-         projet.themes.map(&:libelle).join(", "),
-         projet.contacted_operateur.try(:raison_sociale),
-         projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
-         projet.date_depot.present? ? format_date(projet.date_depot) : "",
+         projet.demandeur_fullname,
+         projet.postale_ville || projet.renov_ville,
+         projet.ift_instructeur,
+         projet.libelle_theme,
+         projet.ift_operateur,
+         format_date(projet.date_de_visite),
+         format_date(projet.date_depot),
          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
          projet.actif? ? "Actif" : "Inactif"
        ]
 
        if is_admin == true
-        begin
-         pris_eie = !projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
-         pris = projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
-       rescue
-          pris_eie = nil
-          pris = nil
-       end
-         op = (projet.intervenants != [] && projet.invited_pris == nil) ? "Oui" : "Non"
-         date_update = projet.statut_updated_date == nil ? "" : projet.statut_updated_date.strftime("%d/%m/%Y %Hh%M")
-
+         pris_eie = nil
+         #pris = nil
+         pris = projet.ift_pris
+         # if projet.eligible?
+         # else
+         #    pris_eie = projet.ift_pris
+         # end
+         op = ((projet.ift_operateur.present? || projet.ift_instructeur.present?) && !projet.ift_pris.present?) ? "Oui" : "Non"
+         
+         date_update = format_date(projet.statut_updated_date)
          line.append(projet.try(:max_registration_step))
-         line.append(projet.messages.count)
+         line.append(projet.message_count)
          line.append(op)
-         # line.append(projet.invited_pris.try(:fullname))
          line.append(pris)
          line.append(pris_eie)
          line.append(projet.id)
          line.append(date_update)
        end
 
-       payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
+       payment_statuses = projet.payement_status
 
-       line.insert 9, payment_statuses                        if agent.siege? || agent.instructeur? || agent.operateur?
-       line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
-       line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
-       line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?
-       line.insert 2, projet.adresse.try(:region)             if agent.siege? || agent.operateur?
-       line.insert 1, projet.opal_numero                      if agent.siege? || agent.instructeur? || agent.operateur?
+       if droit1
+         line.insert 9, payment_statuses            
+         line.insert 6, projet.ift_agent_operateur  
+         line.insert 4, projet.ift_agent_instructeur
+         line.insert 1, projet.opal_numero          
+       end
+       if droit2
+         line.insert 2, (projet.postale_dep || projet.renov_dep)      
+         line.insert 2, (projet.postale_region || projet.renov_region)
+       end
        csv << line
      end
    end
