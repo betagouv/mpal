@@ -311,33 +311,39 @@ class DossiersController < ApplicationController
   end
 
   def render_csv search
-    response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
-    response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-    response.status = 200
-    response.headers['X-Accel-Buffering'] = 'no'
-    response.headers["Cache-Control"] ||= "no-cache"
-    response.headers.delete("Content-Length")
-    if current_agent.admin?
-      @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
-      @selected_projects = search_for_intervenant_status(search, @dossiers)
-    elsif current_agent.siege?
-      @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
-      @selected_projects = search_for_intervenant_status(search, @dossiers)
-    elsif current_agent.dreal?
-      @dossiers = current_agent.intervenant.projets
-      @selected_projects = @dossiers
-    else
-      @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
-      @selected_projects = search_for_intervenant_status(search, @invitations)
-      if current_agent.operateur?
-        @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
-      else
-        @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
-      end
-      @selected_projects = @invitations.map{ |invitation| invitation.projet }
-    end
-    render plain: Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
-    return false
+
+        response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
+        response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
+        response.status = 200
+        response.headers['X-Accel-Buffering'] = 'no'
+        response.headers["Cache-Control"] ||= "no-cache"
+        response.headers.delete("Content-Length")
+        if current_agent.admin?
+          @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+          @selected_projects = search_for_intervenant_status(search, @dossiers)
+        elsif current_agent.siege?
+          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+          @selected_projects = search_for_intervenant_status(search, @dossiers)
+        elsif current_agent.dreal?
+          @dossiers = current_agent.intervenant.projets
+          @selected_projects = @dossiers
+        else
+          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+          @selected_projects = search_for_intervenant_status(search, @invitations)
+          if current_agent.operateur?
+            @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
+          else
+            @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
+          end
+          @selected_projects = @invitations.map{ |invitation| invitation.projet }
+        end
+
+        
+        self.response_body = Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
+        # render plain: Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
+        return false
+
+
   end
 
   def fill_deep_tab traited, action, verif, actif, message, dossier
@@ -403,7 +409,7 @@ class DossiersController < ApplicationController
   end
 
   def render_index    
-    params.permit(:page, :per_page, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :from, :to, :advanced, :activeTab])
+    params.permit(:format, :page, :per_page, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :from, :to, :advanced, :activeTab])
     search = params[:search] || {}
     #numéro de la page
     page = params[:page] || 1
