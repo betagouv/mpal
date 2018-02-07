@@ -16,5 +16,5 @@
         li= @pris.phone
       br
       | Si votre situation a changé, veuillez poursuivre la démarche en créant un compte.
-  = btn name: t("demarrage_projet.action"), href: new_user_registration_path, class: "btn-large btn-centered", icon: "arrow-right"
-
+  
+  = btn name: t("demarrage_projet.action"), href: projet_or_dossier_demande_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"

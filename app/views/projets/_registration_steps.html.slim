@@ -1,5 +1,5 @@
 .registration-menu.clearfix
-  - ["Identité", "Imposition", "Occupants", "Travaux", "Éligibilité", "Contacts"].each_with_index do |name, index|
+  - ["Identité", "Imposition", "Occupants", "Éligibilité", "Travaux", "Contacts"].each_with_index do |name, index|
     - classes = ["registration-menu__item"]
     - classes << "registration-menu__item--active" if @current_registration_step == index + 1
     .registration-menu__item-wrapper

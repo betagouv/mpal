@@ -3,6 +3,7 @@ class DemandesController < ApplicationController
 
   before_action :assert_projet_courant
   load_and_authorize_resource
+
   before_action do
     set_current_registration_step Projet::STEP_DEMANDE
   end
@@ -13,7 +14,13 @@ class DemandesController < ApplicationController
   end
 
   def update
+
     @demande.update_attributes(demande_params)
+
+    fetch_pris
+    @projet_courant.update_attributes(locked_at: Time.now)
+    
+
     unless @demande.save
       init_show
       return render :show
@@ -36,6 +43,15 @@ private
       t('demarrage_projet.action')
     else
       t('projets.edition.action')
+    end
+  end
+
+  def fetch_pris
+    if ENV['ROD_ENABLED'] == 'true'
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      @pris = @eligible ? rod_response.pris : rod_response.pris_eie
+    else
+      @pris = @projet_courant.intervenants_disponibles(role: :pris).first
     end
   end
 
@@ -70,7 +86,7 @@ private
 
   def redirect_to_next_step
     if needs_next_step?
-      redirect_to projet_eligibility_path @projet_courant
+      redirect_to new_user_registration_path
     else
       redirect_to projet_or_dossier_path @projet_courant
     end

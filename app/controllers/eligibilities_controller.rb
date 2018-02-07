@@ -9,10 +9,10 @@ class EligibilitiesController < ApplicationController
 
   def show
     @eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse
-    fetch_pris
-    if @projet_courant.locked_at.blank?
-      @projet_courant.update_attributes(locked_at: Time.now)
-    end
+    # fetch_pris
+    # if @projet_courant.locked_at.blank?
+      # @projet_courant.update_attributes(locked_at: Time.now)
+    # end
     @page_heading = "Mon résultat"
   end
 

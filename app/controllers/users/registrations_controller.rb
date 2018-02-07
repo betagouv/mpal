@@ -3,7 +3,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   before_action :assert_projet_courant
   before_action do
-    set_current_registration_step Projet::STEP_ELIGIBILITY
+    set_current_registration_step Projet::STEP_DEMANDE
   end
 
   # before_action :configure_sign_up_params, only: [:create]
@@ -12,8 +12,11 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # GET /resource/sign_up
   def new
     @page_heading = I18n.t("demarrage_projet.users.section_name")
+
     super do
+
       resource.email = @projet_courant.email if resource.email.blank?
+
     end
   end
 
