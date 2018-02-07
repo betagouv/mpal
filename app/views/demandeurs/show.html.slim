@@ -10,12 +10,15 @@ div#modalAdresseContainer.modal
     button.modalAdresse-cancel.btn.popin__close Modifier
     button.modalAdresse-confirm.btn.modal-confirm Confirmer
 
-- if params[:projet].present? and params[:projet][:occupant].present? and params[:projet][:occupant][:civility] == "mrs"
-  - civ = Occupant::CIVILITIES[0]
-- elsif params[:projet].present? and params[:projet][:occupant].present? and params[:projet][:occupant][:civility] == "mr"
-  - civ = Occupant::CIVILITIES[1]
+- civ = ""
+
+- if !@projet_courant.demandeur.try(:id)
+  - if params[:projet].present? and params[:projet][:occupant].present? and params[:projet][:occupant][:civility] == "mrs"
+    - civ = Occupant::CIVILITIES[0]
+  - elsif params[:projet].present? and params[:projet][:occupant].present? and params[:projet][:occupant][:civility] == "mr"
+    - civ = Occupant::CIVILITIES[1]
 - else
-  - civ = ""
+  - civ = @projet_courant.demandeur.try(:civility)
 
 = simple_form_for @projet_courant, url: { controller: "demandeurs", action: "update" }, html: { class: "form form-addr-submit" } do |f|
   = render "shared/errors", resource: @projet_courant
