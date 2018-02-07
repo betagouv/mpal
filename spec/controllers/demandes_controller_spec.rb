@@ -78,11 +78,6 @@ describe DemandesController do
           #expect(flash[:alert]).to eq I18n.t("unauthorized.default")
           expect(response).to redirect_to new_user_registration_path
         end
-        
-        it "met à jour le locked_at" do
-          get :show, params: { projet_id: projet.id }
-          expect(projet.reload.locked_at).to eq Time.now
-        end
       end
 
       context "quand l’opérateur se connecte" do
