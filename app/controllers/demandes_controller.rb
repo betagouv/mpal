@@ -17,8 +17,9 @@ class DemandesController < ApplicationController
 
     @demande.update_attributes(demande_params)
 
-    fetch_pris
-    @projet_courant.update_attributes(locked_at: Time.now)
+    if @projet_courant.locked_at.blank?
+      @projet_courant.update_attributes(locked_at: Time.now)
+    end
     
 
     unless @demande.save
@@ -43,15 +44,6 @@ private
       t('demarrage_projet.action')
     else
       t('projets.edition.action')
-    end
-  end
-
-  def fetch_pris
-    if ENV['ROD_ENABLED'] == 'true'
-      rod_response = Rod.new(RodClient).query_for(@projet_courant)
-      @pris = @eligible ? rod_response.pris : rod_response.pris_eie
-    else
-      @pris = @projet_courant.intervenants_disponibles(role: :pris).first
     end
   end
 
