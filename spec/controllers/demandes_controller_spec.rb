@@ -76,7 +76,12 @@ describe DemandesController do
 
           # TODO: pas critique, mais le message d’alerte ne s’affiche pas alors qu’il devrait
           #expect(flash[:alert]).to eq I18n.t("unauthorized.default")
-          expect(response).to redirect_to projet_eligibility_path(projet.id)
+          expect(response).to redirect_to new_user_registration_path
+        end
+        
+        it "met à jour le locked_at" do
+          get :show, params: { projet_id: projet.id }
+          expect(projet.reload.locked_at).to eq Time.now
         end
       end
 

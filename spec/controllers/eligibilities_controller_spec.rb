@@ -10,11 +10,6 @@ describe EligibilitiesController do
 
     before { authenticate_as_project projet.id }
 
-    it "met à jour le locked_at" do
-      get :show, params: { projet_id: projet.id }
-      expect(projet.reload.locked_at).to eq Time.now
-    end
-
     context "pour un projet éligible" do
       it "renvoie le PRIS" do
         get :show, params: { projet_id: projet.id }
