@@ -10,12 +10,18 @@ div#modalAdresseContainer.modal
     button.modalAdresse-cancel.btn.popin__close Modifier
     button.modalAdresse-confirm.btn.modal-confirm Confirmer
 
+- if params[:projet][:occupant][:civility] == "mrs"
+  - civ = Occupant::CIVILITIES[0]
+- elsif params[:projet][:occupant][:civility] == "mr"
+  - civ = Occupant::CIVILITIES[1]
+- else
+  - civ = ""
 
 = simple_form_for @projet_courant, url: { controller: "demandeurs", action: "update" }, html: { class: "form form-addr-submit" } do |f|
   = render "shared/errors", resource: @projet_courant
   .js-demandeur-civility
     = f.fields_for @demandeur do |ff|
-      = ff.input :civility, as: :radio_buttons, collection: Occupant::CIVILITIES, required: true
+      = ff.input :civility, as: :radio_buttons, collection: Occupant::CIVILITIES, required: true, :checked => civ
   = f.input :demandeur, collection: @declarants, selected: @projet_courant.demandeur.try(:id), wrapper_html: { class: "size-m" }, prompt: @declarants_prompt, required: @declarants_prompt.present?
   = f.input :adresse_postale, as: :string, input_html: { value: @projet_courant.adresse_postale.try(:description) }
   = f.input :adresse_a_renover, as: :string, input_html: { value: @projet_courant.adresse_a_renover.try(:description)}
