@@ -14,6 +14,19 @@ class DemandesController < ApplicationController
 
   def update
     @demande.update_attributes(demande_params)
+
+    if @demande.changement_chauffage == true || @demande.froid == true || @demande.travaux_fenetres == true || @demande.travaux_isolation == true || @demande.travaux_chauffage
+      @projet_courant.themes << Theme.find_by(:libelle => "Énergie")
+    end
+
+    if @demande.probleme_deplacement == true || @demande.accessibilite == true || @demande.hospitalisation == true || @demande.adaptation_salle_de_bain == true || @demande.travaux_adaptation_sdb == true || @demande.travaux_monte_escalier == true || @demande.travaux_amenagement_ext == true
+      @projet_courant.themes << Theme.find_by(:libelle => "Autonomie")
+    end
+
+    if @demande.arrete == true || @demande.saturnisme == true
+      # @projet_courant.themes << Theme.find_by(:libelle => "")
+    end
+
     unless @demande.save
       init_show
       return render :show
