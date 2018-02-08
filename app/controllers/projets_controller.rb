@@ -90,7 +90,7 @@ private
     if projet.demandeur.blank?
       redirect_to projet_demandeur_path(projet)
     elsif @projet.locked_at && @projet.demandeur_user.blank?
-      redirect_to projet_eligibility_path(projet)
+      redirect_to new_user_registration_path
     else
       redirect_to projet
     end
