@@ -73,9 +73,15 @@
 										span.lastname<= projet.demandeur_nom
 									- if current_agent_operateur || current_agent_siege
 										p = anonymize anonymized, edit_url do
-												= projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 									- else
-										p = projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -183,9 +189,15 @@
 										span.lastname<= projet.demandeur_nom
 									- if current_agent_operateur || current_agent_siege
 										p = anonymize anonymized, edit_url do
-												= projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 									- else
-										p = projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -293,9 +305,15 @@
 										span.lastname<= projet.demandeur_nom
 									- if current_agent_operateur || current_agent_siege
 										p = anonymize anonymized, edit_url do
-												= projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 									- else
-										p = projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -403,9 +421,15 @@
 										span.lastname<= projet.demandeur_nom
 									- if current_agent_operateur || current_agent_siege
 										p = anonymize anonymized, edit_url do
-												= projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 									- else
-										p = projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -513,9 +537,15 @@
 										span.lastname<= projet.demandeur_nom
 									- if current_agent_operateur || current_agent_siege
 										p = anonymize anonymized, edit_url do
-												= projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 									- else
-										p = projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -623,9 +653,15 @@
 										span.lastname<= projet.demandeur_nom
 									- if current_agent_operateur || current_agent_siege
 										p = anonymize anonymized, edit_url do
-												= projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 									- else
-										p = projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -845,9 +881,16 @@
 										span.lastname<= projet.demandeur_nom
 									- if current_agent_operateur || current_agent_siege
 										p = anonymize anonymized, edit_url do
-												= projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+										
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 									- else
-										p = projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+												- if projet.renov_code_postal
+													= projet.renov_code_postal + " " + projet.renov_ville
+												- else
+													= projet.postale_code_postal + " " + projet.postale_ville
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
