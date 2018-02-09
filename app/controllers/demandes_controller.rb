@@ -15,16 +15,23 @@ class DemandesController < ApplicationController
   def update
     @demande.update_attributes(demande_params)
 
+    themes = Theme.all
     if @demande.changement_chauffage == true || @demande.froid == true || @demande.travaux_fenetres == true || @demande.travaux_isolation == true || @demande.travaux_chauffage
-      @projet_courant.themes << Theme.find_by(:libelle => "Énergie")
+      if not (@projet_courant.themes).include?(themes.find_by(:libelle => "Énergie"))
+        @projet_courant.themes << themes.find_by(:libelle => "Énergie")
+      end
     end
 
     if @demande.probleme_deplacement == true || @demande.accessibilite == true || @demande.hospitalisation == true || @demande.adaptation_salle_de_bain == true || @demande.travaux_adaptation_sdb == true || @demande.travaux_monte_escalier == true || @demande.travaux_amenagement_ext == true
-      @projet_courant.themes << Theme.find_by(:libelle => "Autonomie")
+      if not (@projet_courant.themes).include?(themes.find_by(:libelle => "Autonomie"))
+        @projet_courant.themes << themes.find_by(:libelle => "Autonomie")
+      end
     end
 
     if @demande.arrete == true || @demande.saturnisme == true
-      @projet_courant.themes << Theme.find_by(:libelle => "SSH - petite LHI")
+      if not (@projet_courant.themes).include?(themes.find_by(:libelle => "SSH - petite LHI"))
+        @projet_courant.themes << themes.find_by(:libelle => "SSH - petite LHI")
+      end
     end
 
     unless @demande.save
