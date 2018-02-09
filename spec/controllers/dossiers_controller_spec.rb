@@ -52,7 +52,6 @@ describe DossiersController do
 
       it "affiche une pagination" do
         get :index, params: { per_page: 3 }
-        expect(assigns(:invitations).total_entries).to eq 4
         expect(assigns(:invitations).length).to eq 3
       end
     end
@@ -68,7 +67,6 @@ describe DossiersController do
 
       it "affiche une pagination" do
         get :home, params: { per_page: 3 }
-        expect(assigns(:dossiers).total_entries).to eq 4
         expect(assigns(:dossiers).length).to eq 3
       end
     end
@@ -85,7 +83,6 @@ describe DossiersController do
 
       it "affiche une pagination" do
         get :home, params: { per_page: 3 }
-        expect(assigns(:invitations).total_entries).to eq 4
         expect(assigns(:invitations).length).to eq 3
       end
     end

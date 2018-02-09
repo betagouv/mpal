@@ -24,11 +24,6 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       projet_56.adresse.update(departement: "56")
     end
 
-    it "génère une erreur si un dossier sans demandeur" do
-      expect(projet_blank.demandeur).to be_nil
-      expect { visit dossiers_path }.not_to raise_error
-    end
-
     scenario "je vois absolument tous les dossiers France avec un demandeur" do
       visit dossiers_path
 
