@@ -406,7 +406,7 @@ class DossiersController < ApplicationController
       @traited = all.where("projets.actif = 1 and projets.statut >= 6")
       @action = all.where("projets.actif = 1 and projets.statut = 5")
       @verif = []
-      @others = all.where("projet.actif = 1 and projets.statut < 5")
+      @others = all.where("projets.actif = 1 and projets.statut < 5")
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
