@@ -24,7 +24,7 @@ class DemandesController < ApplicationController
     end
 
     if @demande.arrete == true || @demande.saturnisme == true
-      # @projet_courant.themes << Theme.find_by(:libelle => "")
+      @projet_courant.themes << Theme.find_by(:libelle => "SSH - petite LHI")
     end
 
     unless @demande.save
