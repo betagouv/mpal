@@ -311,39 +311,34 @@ class DossiersController < ApplicationController
   end
 
   def render_csv search
+    response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
+    response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
+    response.status = 200
+    response.headers['X-Accel-Buffering'] = 'no'
+    response.headers["Cache-Control"] ||= "no-cache"
+    response.headers.delete("Content-Length")
+    to_select = "projets.* , CONCAT(CONCAT(string_agg(DISTINCT demandeur.prenom, ''), ' '), string_agg(DISTINCT demandeur.nom, '')) as demandeur_fullname, array_to_string(ARRAY_AGG(DISTINCT ift_themes.libelle), ', ') as libelle_theme, COUNT(DISTINCT messages.id) as message_count, array_to_string(ARRAY_AGG(DISTINCT CONCAT(CONCAT(ift_payement.type_paiement, ' '), ift_payement.statut)), ' - ') as payement_status, string_agg(DISTINCT ift_adresse_postale.ville, '') as postale_ville, string_agg(DISTINCT ift_adresse_postale.departement, '') as postale_dep,  string_agg(DISTINCT ift_adresse_postale.region, '') as postale_region, string_agg(DISTINCT ift_adresse_a_renover.ville, '') as renov_ville, string_agg(DISTINCT ift_adresse_a_renover.departement, '') as renov_dep, string_agg(DISTINCT ift_adresse_a_renover.region, '') as renov_region, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants1.raison_sociale), '') as ift_pris, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants2.raison_sociale), '') as ift_operateur, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants3.raison_sociale), '') as ift_instructeur, CONCAT(CONCAT(string_agg(DISTINCT ift_agent_instructeur.prenom, ''), ' '), string_agg(DISTINCT ift_agent_instructeur.nom, '')) as ift_agent_instructeur, CONCAT(CONCAT(string_agg(DISTINCT ift_agent_operateur.prenom, ''), ' '), string_agg(DISTINCT ift_agent_operateur.nom, ''))  as ift_agent_operateur"
+    to_join = "INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse_postale ON (ift_adresse_postale.id = projets.adresse_postale_id) LEFT OUTER JOIN adresses ift_adresse_a_renover ON (ift_adresse_a_renover.id = projets.adresse_a_renover_id) LEFT OUTER JOIN payments ift_payement on ift_payement.projet_id = projets.id LEFT OUTER JOIN messages on messages.projet_id = projets.id LEFT OUTER JOIN invitations on projets.id = invitations.projet_id LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id) LEFT OUTER JOIN intervenants ift_intervenants1 ON (ift_invitations.intervenant_id = ift_intervenants1.id AND 'pris' = ANY(ift_intervenants1.roles)) LEFT OUTER JOIN intervenants ift_intervenants2 ON (ift_invitations.intervenant_id = ift_intervenants2.id AND 'operateur' = ANY(ift_intervenants2.roles)) LEFT OUTER JOIN intervenants ift_intervenants3 ON (ift_invitations.intervenant_id = ift_intervenants3.id AND 'instructeur' = ANY(ift_intervenants3.roles)) LEFT OUTER JOIN agents ift_agent_operateur ON (projets.agent_operateur_id = ift_agent_operateur.id) LEFT OUTER JOIN agents ift_agent_instructeur ON (projets.agent_instructeur_id = ift_agent_instructeur.id)"
+    if current_agent.admin?
+      @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+      @selected_projects = search_for_intervenant_status(search, @dossiers).select(to_select).joins(to_join).group("projets.id")
+    elsif current_agent.siege?
+      @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+      @selected_projects = search_for_intervenant_status(search, @dossiers).select(to_select).joins(to_join).group("projets.id")
+    elsif current_agent.dreal?
+      @dossiers = current_agent.intervenant.projets
+      @selected_projects = @dossiers.select(to_select).joins(to_join).group("projets.id")
+    else
+      if current_agent.operateur?
+        @invitations = @Projet.select(to_select).joins(to_join).where(["projets.operateur_id is NULL or projets.operateur_id = ?", current_agent.intervenant.id]).group("projets.id")
+      else
+        @invitations = @Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", current_agent.intervenant_id]).group("projets.id")
+      end
+      @selected_projects = search_for_intervenant_status(search, @invitations.for_sort_by(search[:sort_by]))
 
-        response.headers["Content-Type"]        = "text/csv; charset=#{csv_ouput_encoding.name}"
-        response.headers["Content-Disposition"] = "attachment; filename=#{export_filename}"
-        response.status = 200
-        response.headers['X-Accel-Buffering'] = 'no'
-        response.headers["Cache-Control"] ||= "no-cache"
-        response.headers.delete("Content-Length")
-        if current_agent.admin?
-          @dossiers = Projet.all.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
-          @selected_projects = search_for_intervenant_status(search, @dossiers)
-        elsif current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
-          @selected_projects = search_for_intervenant_status(search, @dossiers)
-        elsif current_agent.dreal?
-          @dossiers = current_agent.intervenant.projets
-          @selected_projects = @dossiers
-        else
-          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
-          @selected_projects = search_for_intervenant_status(search, @invitations)
-          if current_agent.operateur?
-            @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
-          else
-            @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
-          end
-          @selected_projects = @invitations.map{ |invitation| invitation.projet }
-        end
-
-        
-        self.response_body = Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
-        # render plain: Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
-        return false
-
-
+    end
+    self.response_body = Projet.to_csv(current_agent, @selected_projects, current_agent.admin?)
+    return false
   end
 
   def fill_deep_tab traited, action, verif, actif, message, dossier
@@ -365,25 +360,29 @@ class DossiersController < ApplicationController
 
   def fill_tab_intervenant all   
     if current_agent.pris?
-      all.each do |i|
-        fill_deep_tab(i.projet.pris_suggested_operateurs != [] && i.projet.status_already(:en_cours) && i.projet.actif == 1,
-          i.projet.pris_suggested_operateurs == [] && i.projet.actif == 1,
-          i.projet.pris_suggested_operateurs != [] && i.projet.status_not_yet(:en_cours) && i.projet.actif == 1,
-          i.projet.actif == 1,
-          i.projet.unread_messages(current_agent).count > 0,
-          i
-          )
-      end
+      @traited = all.where("projets.actif = 1 and projets.statut >= 1 and ift_intervenants4 is not NULL")
+      @action = all.where("projets.actif = 1  and ift_intervenants4 is NULL")
+      @verif = all.where("projets.actif = 1 and projets.statut < 1  and ift_intervenants4 is not NULL")
+      @others = []
+      @inactifs = all.where.not("projets.actif = 1")
+      @new_msg = []
+      @rfrn2 = []
+
+
+
     elsif current_agent.operateur?
+
+      @traited = all.where("projets.actif = 1 and projets.statut < 5 and projets.statut >= 3")
+      @action = all.where("projets.actif = 1  and projets.statut < 5 and projets.statut >= 3 and ('a_valider' = ift_payement.statut or 'a_instruire' = ift_payement.statut)")
+      @verif = all.where("projets.actif = 1 and projets.statut < 5 and projets.statut >= 3 and ift_payement is NULL")
+      @others = all.where("projets.actif = 1 and (projets.statut < 3 or projets.statut >= 5)")
+      @inactifs = all.where.not("projets.actif = 1")
+      @new_msg = []
+      @rfrn2 = []
+
+
       all.each do |i|
-        fill_deep_tab(i.projet.status_already(:proposition_proposee) && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1,
-          i.projet.action_agent_operateur? && i.projet.actif == 1,
-          i.projet.payments.blank? && i.projet.status_not_yet(:transmis_pour_instruction) && i.projet.actif == 1,
-          i.projet.actif == 1,
-          i.projet.unread_messages(current_agent).count > 0,
-          i
-          )
-        i.projet.avis_impositions.each do |avis|
+        i.avis_impositions.each do |avis|
           annee = Time.now.strftime("%Y").to_i - avis.annee.to_i
           if annee > 2
             @rfrn2 << i
@@ -397,18 +396,18 @@ class DossiersController < ApplicationController
         end
       end
     elsif current_agent.instructeur?
-      all.each do |i|
-        fill_deep_tab(i.projet.status_already(:en_cours_d_instruction) && i.projet.actif == 1,
-          i.projet.status_already(:transmis_pour_instruction) && i.projet.actif == 1,
-          false,
-          i.projet.actif == 1,
-          i.projet.unread_messages(current_agent).count > 0,
-          i)
-      end
+      @traited = all.where("projets.actif = 1 and projets.statut >= 6")
+      @action = all.where("projets.actif = 1 and projets.statut = 5")
+      @verif = []
+      @others = all.where("projets.actif = 1 and projets.statut < 5")
+      @inactifs = all.where.not("projets.actif = 1")
+      @new_msg = []
+      @rfrn2 = []
+     
     end
   end
 
-  def render_index    
+def render_index    
     params.permit(:format, :page, :per_page, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :from, :to, :advanced, :activeTab])
     search = params[:search] || {}
     #numéro de la page
@@ -435,55 +434,34 @@ class DossiersController < ApplicationController
         @actifs = []
         @inactifs = []
         @rfrn2 = []
+        to_select = "projets.* , string_agg(DISTINCT demandeur.prenom, '') as demandeur_prenom,string_agg(DISTINCT demandeur.nom, '') as demandeur_nom,array_to_string(ARRAY_AGG(DISTINCT ift_themes.libelle), ', ') as libelle_theme,string_agg(DISTINCT ift_adresse_postale.ville, '') as postale_ville,string_agg(DISTINCT ift_adresse_postale.code_postal, '') as postale_code_postal,string_agg(DISTINCT ift_adresse_a_renover.ville, '') as renov_ville,string_agg(DISTINCT ift_adresse_a_renover.code_postal, '') as renov_code_postal,array_to_string(ARRAY_AGG(DISTINCT ift_intervenants1.raison_sociale), '') as ift_pris,array_to_string(ARRAY_AGG(DISTINCT ift_intervenants2.raison_sociale), '') as ift_operateur,array_to_string(ARRAY_AGG(DISTINCT ift_intervenants3.raison_sociale), '') as ift_instructeur,CONCAT(CONCAT(string_agg(DISTINCT ift_agent_instructeur.prenom, ''), ' '),string_agg(DISTINCT ift_agent_instructeur.nom, '')) as ift_agent_instructeur,CONCAT(CONCAT(string_agg(DISTINCT ift_agent_operateur.prenom, ''), ' '),string_agg(DISTINCT ift_agent_operateur.nom, ''))  as ift_agent_operateur,ARRAY_AGG(ift_payement.action) as ift_payement_action,ARRAY_AGG(DISTINCT ift_intervenants4.id) as pris_suggested"
+        to_join = "INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse_postale ON (ift_adresse_postale.id = projets.adresse_postale_id) LEFT OUTER JOIN adresses ift_adresse_a_renover ON (ift_adresse_a_renover.id = projets.adresse_a_renover_id) LEFT OUTER JOIN invitations on projets.id = invitations.projet_id LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id) LEFT OUTER JOIN intervenants ift_intervenants1 ON (ift_invitations.intervenant_id = ift_intervenants1.id AND 'pris' = ANY(ift_intervenants1.roles)) LEFT OUTER JOIN intervenants ift_intervenants2 ON (ift_invitations.intervenant_id = ift_intervenants2.id AND 'operateur' = ANY(ift_intervenants2.roles)) LEFT OUTER JOIN intervenants ift_intervenants3 ON (ift_invitations.intervenant_id = ift_intervenants3.id AND 'instructeur' = ANY(ift_intervenants3.roles)) LEFT OUTER JOIN agents ift_agent_operateur ON (projets.agent_operateur_id = ift_agent_operateur.id) LEFT OUTER JOIN agents ift_agent_instructeur ON (projets.agent_instructeur_id = ift_agent_instructeur.id) LEFT OUTER JOIN payments ift_payement on ift_payement.projet_id = projets.id LEFT OUTER JOIN intervenants ift_intervenants4 ON (ift_invitations.intervenant_id = ift_intervenants4.id AND 'operateur' = ANY(ift_intervenants4.roles) AND ift_invitations.suggested = true)"
         if current_agent.admin?
-          @dossiers = Projet.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+          @dossiers = Projet.for_sort_by(search[:sort_by]).order("projets.actif DESC")
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
-          all = @dossiers
+          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
           @inactifs = all.where(:actif => 0)
-          #all.each do |i|
-          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
-          #end
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
-          all = @dossiers
+          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
           @inactifs = all.where(:actif => 0)
-          #all.each do |i|
-          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
-          #end
         elsif current_agent.siege?
           @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
-          all = @dossiers
+          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
           @inactifs = all.where(:actif => 0)
-          #all.each do |i|
-          #  fill_deep_tab(false, false, false, i.actif == 1, i.unread_messages(current_agent).count > 0, i)
-          #end
         else
-          @invitations = Invitation.for_sort_by(search[:sort_by]).includes(projet: [:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant]])
+          if current_agent.operateur?
+            @invitations = Projet.select(to_select).joins(to_join).where(["projets.operateur_id is NULL or projets.operateur_id = ?", current_agent.intervenant.id]).group("projets.id")
+          else
+            @invitations = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", current_agent.intervenant_id]).group("projets.id")
+          end
+          @invitations = @invitations.for_sort_by(search[:sort_by])
           @invitations = search_dossier(search, @invitations)
-          if current_agent.operateur?
-            @invitations = @invitations.visible_for_operateur(current_agent.intervenant)
-          else
-            @invitations = @invitations.where(intervenant_id: current_agent.intervenant_id)
-          end
-          all = @invitations
-          if current_agent.operateur?
-            all = all.visible_for_operateur(current_agent.intervenant)
-          else
-            all = all.where(intervenant_id: current_agent.intervenant_id)
-          end
-          fill_tab_intervenant(all)
-          @invitations_count = @invitations.length
-          @invitations = @invitations.paginate(page: page, per_page: per_page)
+          fill_tab_intervenant(@invitations)
+          all = @invitations 
         end
-        @traited_count = @traited.length
-        @action_count = @action.length
-        @verif_count = @verif.length
-        @new_msg_count = @new_msg.length
-        @others_count = @others.length
-        @inactifs_count = @inactifs.length
-        @rfrn2_count = @rfrn2.length
 
         @traited = @traited.paginate(page: page_traited, per_page: per_page)
         @action = @action.paginate(page: page_action, per_page: per_page)
@@ -492,11 +470,7 @@ class DossiersController < ApplicationController
         @others = @others.paginate(page: page_others, per_page: per_page)
         @inactifs = @inactifs.paginate(page: page_inactifs, per_page: per_page)
         @rfrn2 = @rfrn2.paginate(page: page_rfrn2, per_page: per_page)
-        if @dossiers
-          @dossiers_count = @dossiers.length
-          @dossiers = @dossiers.paginate(page: page, per_page: per_page)
-        end
-
+        @dossiers = all.paginate(page: page, per_page: per_page)
 
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
