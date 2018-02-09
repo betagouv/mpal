@@ -151,10 +151,6 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       context "recommandé par un PRIS" do
         before { projet.suggest_operateurs!([operateur.id]) }
 
-        scenario "j'ai accès au tableau de bord avec des données anonymisées" do
-          visit dossiers_path
-          expect(page).to have_no_link(projet.numero_plateforme)
-        end
       end
 
       context "non recommandé par un PRIS" do
