@@ -1,116 +1,94 @@
-@import "variables";
-
 .header {
-  position: relative;
-  width: 100%;
-  margin-bottom: 20px;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -moz-box-orient: vertical;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-
-  flex-wrap: wrap;
+	position: relative;
+	width: 100%;
+	margin-bottom: 20px;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-moz-box-orient: vertical;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
 .header__title {
-  float: left;
-  line-height: 40px;
-  padding: 10px 0;
-  font-size: 1.2em;
-  font-weight: normal;
+	float: left;
+	line-height: 40px;
+	padding: 10px 0;
+	font-size: 1.2em;
+	font-weight: normal;
 }
-
 .header__logo-anah {
-  -webkit-box-ordinal-group: 1;
-  -moz-box-ordinal-group: 1;
-  -ms-flex-order: 1;
-  -webkit-order: 1;
-  order: 1;
-  /* optional */
-  -webkit-box-align: start;
-  -moz-box-align: start;
-  -ms-flex-align: start;
-  -webkit-align-items: flex-start;
-  align-items: flex-start;
-  @media screen and (max-width: 599px) { margin-right: 15px; }
+	-webkit-box-ordinal-group: 1;
+	-moz-box-ordinal-group: 1;
+	-ms-flex-order: 1;
+	-webkit-order: 1;
+	order: 1;
+	-webkit-box-align: start;
+	-moz-box-align: start;
+	-ms-flex-align: start;
+	-webkit-align-items: flex-start;
+	align-items: flex-start;
+	@include respond-to(medium_screens_599) { margin-right: 15px; }
 }
-.header__logo-anah-img {
-  width: 70px;
-  height: 60px;
-}
-
+.header__logo-anah-img { width: 70px; }
 .header__anah-chartnum {
-  min-width: 270px;
-  
-  @media screen and (min-width: 600px) {
-    -webkit-box-ordinal-group: 2;
-    -moz-box-ordinal-group: 2;
-    -ms-flex-order: 2;
-    -webkit-order: 2;
-    order: 2;
-  }
-  @media screen and (max-width: 599px) {
-    width: 100%;
-    -webkit-box-ordinal-group: 3;
-    -moz-box-ordinal-group: 3;
-    -ms-flex-order: 3;
-    -webkit-order: 3;
-    order: 3;
-    margin-top: 10px;
-
-    margin-left: calc((90% - 191px) / 2);
-  }
-  @media screen and (max-width: 295px) {
-    margin-left: 0;
-  }
-
-  @media screen and (min-width: 600px) {
-    &:before {
-      content: "";
-      width: 1px; /* Line width */
-      background-color: #5a869f; /* Line color */
-      height: 60px;
-      float: left;
-      margin-right: 15px;
-      margin-left: 15px;
-    }
-  }
+	min-width: 270px;
+	@include respond-to(medium_screens_600) {
+		-webkit-box-ordinal-group: 2;
+		-moz-box-ordinal-group: 2;
+		-ms-flex-order: 2;
+		-webkit-order: 2;
+		order: 2;
+	}
+	@include respond-to(medium_screens_599) {
+		width: 100%;
+		-webkit-box-ordinal-group: 3;
+		-moz-box-ordinal-group: 3;
+		-ms-flex-order: 3;
+		-webkit-order: 3;
+		order: 3;
+		margin-top: 10px;
+		margin-left: calc((90% - 191px) / 2);
+	}
+	@include respond-to(mobile_screens_295) { margin-left: 0; }
+	@include respond-to(medium_screens_600) {
+		&:before {
+			content: "";
+			width: 1px; /* Line width */
+			background-color: $color-mostly-desaturated-dark-blue; /* Line color */
+			height: 60px;
+			float: left;
+			margin-right: 15px;
+			margin-left: 15px;
+		}
+	}
 }
-.header__anah-chartnum-img {
-  width: auto;
-  height: 60px;
-}
-
+.header__anah-chartnum-img, .header__logo-ministere, .header__logo-anah-img{ height: 60px; }
+.header__anah-chartnum-img { width: auto; }
 .header__logo-ministere {
-  width: 191px;
-  height: 60px;
-
-  @media screen and (min-width: 600px) {
-    -webkit-box-ordinal-group: 3;
-    -moz-box-ordinal-group: 3;
-    -ms-flex-order: 3;
-    -webkit-order: 3;
-    order: 3;
-
-    margin-left: auto;
-  }
-  @media screen and (max-width: 599px) {
-    -webkit-box-ordinal-group: 2;
-    -moz-box-ordinal-group: 2;
-    -ms-flex-order: 2;
-    -webkit-order: 2;
-    order: 2;
-
-    margin-left: auto;
-  }
-  @media screen and (max-width: 295px) {
-    margin-top: 10px;
-    margin-left: 0;
-  }
+	width: 191px;
+	@include respond-to(medium_screens_600) {
+		-webkit-box-ordinal-group: 3;
+		-moz-box-ordinal-group: 3;
+		-ms-flex-order: 3;
+		-webkit-order: 3;
+		order: 3;
+		margin-left: auto;
+	}
+	@include respond-to(medium_screens_599) {
+		-webkit-box-ordinal-group: 2;
+		-moz-box-ordinal-group: 2;
+		-ms-flex-order: 2;
+		-webkit-order: 2;
+		order: 2;
+		margin-left: auto;
+	}
+	@include respond-to(mobile_screens_295) {
+		margin-top: 10px;
+		margin-left: 0;
+	}
 }
-

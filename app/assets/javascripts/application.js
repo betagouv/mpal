@@ -12,5 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require _calculateAid
+//= require _modal
+//= require _dashboard
+//= require _demandes
+//= require _proposition
 //= require main
-

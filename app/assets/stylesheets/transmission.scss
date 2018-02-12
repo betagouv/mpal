@@ -1,41 +1,35 @@
-@import "variables";
-
 .ins-form.transmission__form {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 30px;
-  padding-right: 30px;
+	max-width: 800px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 30px;
+	padding-right: 30px;
 }
 .transmission__subtitle {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  font-weight: 600;
+	margin-top: 30px;
+	margin-bottom: 10px;
+	font-weight: 600;
 }
+.transmission__textfield, .ins-form .transmission__list li { width: 100%; }
 .transmission__textfield {
-  display: block;
-  margin-right: -4px;
-  padding: 10px 0 10px;
-  width: 100%;
+	display: block;
+	margin-right: -4px;
+	padding: 10px 0 10px;
 }
 .transmission__button-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
 }
-.transmission__button {
-  margin-top: 10px;
-}
+.transmission__button { margin-top: 10px; }
 .ins-form .transmission__list {
-  margin-top: 5px;
-  margin-bottom: 10px;
-  list-style-position: inside;
+	margin-top: 5px;
+	margin-bottom: 10px;
+	list-style-position: inside;
 }
 .ins-form .transmission__list li {
-  display: list-item;
-  width: 100%;
-  margin: 10px 0;
-  padding: 0;
-  list-style-type: '–  ';
+	display: list-item;
+	margin: 10px 0;
+	padding: 0;
+	list-style-type: '–  ';
 }
-

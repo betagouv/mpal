@@ -1,24 +1,17 @@
-@import "variables";
-
 .patterns-icon-list {
-  color: #222;
-  @extend .clearfix;
+	color: $color-very-black;
+	@extend .clearfix;
 }
 .patterns-icon-list__item {
-  float: left;
-  width: 5.4em;
-  height: 6em;
-  padding: 1em 0.2em;
-  margin-right: 1em;
-  margin-bottom: 1em;
-  text-align: center;
-  background-color: #eee;
-  overflow: hidden;
+	float: left;
+	width: 5.4em;
+	height: 6em;
+	padding: 1em 0.2em;
+	margin-right: 1em;
+	margin-bottom: 1em;
+	text-align: center;
+	background-color: $color-very-light-gray;
+	overflow: hidden;
 }
-.patterns-icon-list__icon {
-  font-size: 2em;
-}
-.patterns-icon-list__name {
-  font-size: 0.7em;
-}
-
+.patterns-icon-list__icon { font-size: 2em; }
+.patterns-icon-list__name { font-size: 0.7em; }

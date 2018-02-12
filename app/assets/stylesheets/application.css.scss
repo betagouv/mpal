@@ -14,17 +14,16 @@
  *= require_self
  */
 
-@import "reboot";
 @import "custom_bootstrap";
+@import "_variables";
+@import "reboot";
 @import "main";
 
 @import "alert";
 @import "agent-menu";
 @import "buttons";
-@import "components";
 @import "contacts";
 @import "contact-details";
-@import "dashboards";
 @import "departement_non_eligible";
 @import "document";
 @import "eligibility";

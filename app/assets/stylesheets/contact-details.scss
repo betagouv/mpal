@@ -1,35 +1,24 @@
-@import "variables";
-
-.contact-details {
-  @extend .clearfix;
-}
-@media screen and (min-width: 600px) {
-  .contact-details__column {
-    float: left;
-    width: 50%;
-    padding-right: 2em;
-  }
+.contact-details { @extend .clearfix; }
+@include respond-to(medium_screens_600) {
+	.contact-details__column {
+		float: left;
+		width: 50%;
+		padding-right: 2em;
+	}
 }
 .contact-details__item {
-  position: relative;
-  margin-bottom: 1em;
+	position: relative;
+	margin-bottom: 1em;
 }
-.contact-details__role {
-  font-size: 1.5em;
-  font-weight: bold;
-}
+.contact-details__role, .contact-details__name { font-weight: bold; }
+.contact-details__role { font-size: 1.5em; }
 .contact-details__title {
-  margin-top: 1.5em;
-  margin-bottom: 0.5em;
-}
-.contact-details__name {
-  font-weight: bold;
+	margin-top: 1.5em;
+	margin-bottom: 0.5em;
 }
 .contact-details__actions {
-  position: absolute;
-  top: 0;
-  right: 1em;
-  @media screen and (min-width: 600px) {
-    right: 3em;
-  }
+	position: absolute;
+	top: 0;
+	right: 1em;
+	@include respond-to(medium_screens_600) { right: 3em; }
 }

@@ -1,25 +1,23 @@
-@import "variables";
-
 .patterns {
-  h2, h3, h4, h5, h6 {
-    margin-top: 2em;
-    margin-bottom: 0.5em;
-    color: #111;
-    font-weight: bold;
-  }
+	h2, h3, h4, h5, h6 {
+		margin-top: 2em;
+		margin-bottom: 0.5em;
+		color: $color-black;
+		font-weight: bold;
+	}
 }
 .table-patterns {
-  th, td {
-    padding: 0.5em 0;
-    min-width: 200px;
-  }
-  code {
-    font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-    padding: .2rem .4rem;
-    font-size: 90%;
-    color: #bd4147;
-    background-color: #f7f7f9;
-    border-radius: .25rem;
-  }
+	th, td {
+		padding: 0.5em 0;
+		min-width: 200px;
+	}
+	code {
+		font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+		padding: .2rem .4rem;
+		font-size: 90%;
+		color: $color-brick-red;
+		background-color: $color-ghost-white;
+		border-radius: .25rem;
+	}
 }
 

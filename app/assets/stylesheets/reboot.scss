@@ -1,179 +1,113 @@
-@import "variables";
-
 *,
 *::before,
 *::after {
-  outline: none;
-  box-sizing: inherit;
+	outline: none;
+	box-sizing: inherit;
 }
-
 html, body, h1, h2, h3, h4, h5, h6, abbr, acronym, address, article, aside, big,
 blockquote, button, cite, code, details, div, dd, dl, dt, em, fieldset, figcaption,
 figure, font, footer, form, header, hgroup, input, img, label, legend, nav, p, pre,
 section, small, span, select, strong, sub, sup, textarea,
 ul, ol {
-  margin: 0;
-  padding: 0;
-  font-style: normal;
-  list-style: none;
-  font-weight: inherit;
+	margin: 0;
+	padding: 0;
+	font-style: normal;
+	list-style: none;
+	font-weight: inherit;
 }
-
 html {
-  font-size: 100%;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  height: 100%;
-  box-sizing: border-box;
-  font-family: sans-serif;
-  -ms-text-size-adjust: 100%;
-  -webkit-text-size-adjust: 100%;
-  -ms-overflow-style: scrollbar;
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+	font-size: 100%;
+	-webkit-text-size-adjust: 100%;
+	-ms-text-size-adjust: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	font-family: sans-serif;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	-ms-overflow-style: scrollbar;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
 }
-
 body {
-  position: relative;
-  font-size: 100%;
-  line-height: 1.5;
-  height: 100%;
+	position: relative;
+	font-size: 100%;
+	line-height: 1.5;
+	height: 100%;
 }
-
 a {
-  text-decoration: none;
-  cursor: pointer;
-  &:hover {
-    text-decoration: none;
-  }
-  &:focus {
-    outline: none;
-  }
+	text-decoration: none;
+	cursor: pointer;
+	&:hover { text-decoration: none; }
+	&:focus { outline: none; }
 }
-
-abbr[title] {
-  border-bottom: 1px dotted $color-primary;
-}
-
+abbr[title] { border-bottom: 1px dotted $color-primary; }
 abbr[title],
 abbr[data-original-title] {
-  text-decoration: underline;
-  text-decoration: underline dotted;
-  cursor: help;
-  border-bottom: 0;
+	text-decoration: underline;
+	text-decoration: underline dotted;
+	cursor: help;
+	border-bottom: 0;
 }
-
-strong {
-  font-weight: bolder;
-}
-
+strong { font-weight: bolder; }
 hr {
-  box-sizing: content-box;
-  height: 1px;
-  overflow: visible;
-  border: 0;
-  border-bottom: 1px solid #fff;
-  border-top: 1px solid #dadfea;
+	box-sizing: content-box;
+	height: 1px;
+	overflow: visible;
+	border: 0;
+	border-bottom: 1px solid #fff;
+	border-top: 1px solid #dadfea;
 }
-
 sub, sup {
-  position: relative;
-  font-size: 75%;
-  line-height: 0;
-  vertical-align: baseline;
+	position: relative;
+	font-size: 75%;
+	line-height: 0;
+	vertical-align: baseline;
 }
-
-sup {
-  top: -0.5em;
-}
-
-sub {
-  bottom: -0.25em;
-}
-
+sup { top: -0.5em; }
+sub { bottom: -0.25em; }
 img {
-  border: 0;
-  -ms-interpolation-mode: bicubic;
-  display: block;
+	-ms-interpolation-mode: bicubic;
+	display: block;
 }
-
-iframe {
-  border: none;
-}
-
-svg:not(:root) {
-  overflow: hidden;
-}
-
-fieldset {
-  border: 0;
-}
-
-legend {
-  border: 0;
-}
-
-label {
-  cursor: pointer;
-}
-
-em {
-  font-style: italic;
-}
-
+iframe { border: none; }
+svg:not(:root) { overflow: hidden; }
+fieldset, legend, img, button::-moz-focus-inner, input::-moz-focus-inner { border: 0; }
+label { cursor: pointer; }
+em { font-style: italic; }
 button, input, select, textarea {
-  font-size: 100%;
-  vertical-align: baseline;
+	font-size: 100%;
+	vertical-align: baseline;
 }
-
 button, input {
-  line-height: normal;
-  outline: none;
+	line-height: normal;
+	outline: none;
 }
-
 button, input[type="button"], input[type="reset"], input[type="submit"] {
-  cursor: pointer;
-  -webkit-appearance: button;
-  -moz-appearance: button;
-  appearance: button;
-  &.disabled, &[disabled] {
-    cursor: not-allowed;
-    pointer-events: none; // Future-proof disabling of clicks
-    opacity: .65;
-  }
+	cursor: pointer;
+	-webkit-appearance: button;
+	-moz-appearance: button;
+	appearance: button;
+	&.disabled, &[disabled] {
+		cursor: not-allowed;
+		pointer-events: none;
+		opacity: .65;
+	}
 }
-
-input[type="checkbox"], input[type="radio"] {
-  box-sizing: border-box;
-}
-
-input[type="search"] {
-  box-sizing: content-box;
-}
-
-button::-moz-focus-inner, input::-moz-focus-inner {
-  border: 0;
-  padding: 0;
-}
-
+input[type="checkbox"], input[type="radio"] { box-sizing: border-box; }
+input[type="search"] { box-sizing: content-box; }
+button::-moz-focus-inner, input::-moz-focus-inner { padding: 0; }
 textarea {
-  overflow: auto;
-  vertical-align: top;
+	overflow: auto;
+	vertical-align: top;
 }
-
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
-
 blockquote, q {
-  quotes: none;
-  &:before, &:after {
-    content: "";
-    content: none;
-  }
+	quotes: none;
+	&:before, &:after {
+		content: "";
+		content: none;
+	}
 }
-
-/* Remove tap highlight on iOS */
-input, textarea, button, select, a {
-  -webkit-tap-highlight-color: transparent;
-}
+input, textarea, button, select, a { -webkit-tap-highlight-color: transparent; }

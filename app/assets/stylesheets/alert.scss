@@ -1,14 +1,9 @@
-.alert {
-  a {
-    color: white;
-    font-weight: bold;
-  }
+.alert a {
+	color: white;
+	font-weight: bold;
 }
 .alert__icon {
-  float: left;
-  font-size: 1.4em;
+	float: left;
+	font-size: 1.4em;
 }
-.alert__p {
-  margin-left: 2.5em;
-}
-
+.alert__p { margin-left: 2.5em; }

@@ -1,65 +1,36 @@
-@import "variables";
-
 .new-project {
-  background: white;
-  vertical-align: top;
-  box-sizing: border-box;
+	background: white;
+	vertical-align: top;
+	box-sizing: border-box;
 }
+.new-project__heading-projet, .new-project__label { font-weight: bold; }
 .new-project__heading-projet {
-  font-size: 26px;
-  font-weight: bold;
-  margin: 30px 0;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+	font-size: 26px;
+	margin: 30px 0;
+	text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .new-project__label {
-  display: inline-block;
-  margin-top: 2em;
-  font-weight: bold;
-  line-height: 32px;
+	display: inline-block;
+	margin-top: 2em;
+	line-height: 32px;
 }
-.new-project__label--p {
-  display: block;
-}
-.new-project__label--first {
-  margin-top: 0;
-}
-.new-project__label--second {
-  margin-bottom: 5px;
-}
-.new-project__proprietaire-input {
-  margin-right: 10px;
-}
-.new-project__proprietaire-label {
-  margin-right: 20px;
-}
+.new-project__label--p { display: block; }
+.new-project__label--first { margin-top: 0; }
+.new-project__label--second { margin-bottom: 5px; }
+.new-project__proprietaire-input, .new-project__mentions-input { margin-right: 10px; }
+.new-project__proprietaire-label { margin-right: 20px; }
 .new-project__btn {
-  display: table;
-  margin: 1em 0 0;
+	display: table;
+	margin: 1em 0 0;
 }
-.new-project__mentions {
-  margin-top: 1em;
-}
-.new-project__mentions-input {
-  margin-right: 10px;
-}
-.new-project__mentions-label-projet{
-  color: black;
-}
-.new-project__mentions-abbr-projet {
-  color: black;
-  border-bottom-color: white;
-}
-.new-project__commentaire {
-  color: grey;
-  margin-bottom: 1em
-}
-.new-project__links {
-  margin-bottom: 1em;
-}
+.new-project__mentions { margin-top: 1em; }
+.new-project__mentions-label-projet, .new-project__mentions-abbr-projet { color: black; }
+.new-project__mentions-abbr-projet { border-bottom-color: white; }
+.new-project__commentaire { color: grey; }
+.new-project__links, .new-project__commentaire { margin-bottom: 1em; }
 .new-project__link {
-  &:hover {
-    color: $color-primary;
-    text-decoration: underline;
-  }
+	&:hover {
+		color: $color-primary;
+		text-decoration: underline;
+	}
 }
-

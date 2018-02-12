@@ -1,44 +1,24 @@
-@import "variables";
-
 .login-demo {
-  background-color: #e6eaed;
-  margin-top: 2em;
-  @media screen and (min-width: 1000px) {
-    display: flex;
-  }
+	background-color: $color-solitude;
+	margin-top: 2em;
+	@include respond-to(large_screens_1000) { display: flex; }
 }
-.login-demo__subtitle {
-  margin: 2em 0 1em;
-}
-.login-demo__list {
-  list-style-position: inside;
-}
+.login-demo__subtitle { margin: 2em 0 1em; }
+.login-demo__list { list-style-position: inside; }
 .login-demo__column {
-  padding: 30px;
-  @media screen and (min-width: 1000px) {
-    width: 60%;
-  }
+	padding: 30px;
+	@include respond-to(large_screens_1000) { width: 60%; }
 }
-@media screen and (min-width: 1000px) {
-  .login-demo__column-left {
-    width: 40%;
-  }
-}
-.login-demo__table {
-  width: 100%;
-}
+@include respond-to(large_screens_1000) { .login-demo__column-left { width: 40%; } }
+.login-demo__table { width: 100%; }
+.login-demo__title, .login-demo__th { text-align: left; }
 .login-demo__title {
-  padding-top: 1em;
-  text-align: left;
-  color: black;
+	padding-top: 1em;
+	color: black;
 }
 .login-demo__th {
-  text-align: left;
-  a {
-    color: #398439;
-    &:hover {
-      color: black;
-    }
-  }
+	a {
+		color: $color-deep-green;
+		&:hover { color: black; }
+	}
 }
-

@@ -1,15 +1,12 @@
-@import "variables";
-
 .eligibility {
-  max-width: 50em;
-  margin: 0 auto 2em;
+	max-width: 50em;
+	margin: 0 auto 2em;
 }
-
 .eligibility__contact-info {
-  margin-left: 1em;
-  font-weight: bold;
-  ul {
-    margin-top: 1em;
-    font-weight: normal;
-  }
+	margin-left: 1em;
+	font-weight: bold;
+	ul {
+		margin-top: 1em;
+		font-weight: normal;
+	}
 }

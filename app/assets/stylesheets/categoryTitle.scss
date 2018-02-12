@@ -1,63 +1,43 @@
-// CATEGORY TITLE CSS
-.catFlexBox {
-  display: flex;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-
-  flex-direction: row;
-  align-items: stretch;
-
-  width: 100%;
-  margin-top: 20px;
-
-  .subtitle {
-    margin-right: 17px;
-    position: relative;
-    white-space: nowrap;
-    width: auto;
-  }
-  .subtitle2 {
-    margin-left: 30px;
-    margin-right: 17px;
-    position: relative;
-    white-space: nowrap;
-    width: auto;
-  }
-  .line {
-    position: relative;
-    width: 100%;
-    top: -9px;
-    border-bottom: 1px solid #54869B;
-  }
+.catFlexBox, .catFlexBoxHome {
+	display: flex;
+	display: -webkit-box;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	flex-direction: row;
+	align-items: stretch;
+	width: 100%;
 }
-
-
-// CATEGORY TITLE CSS
+.catFlexBox {
+	margin-top: 20px;
+	.subtitle, .subtitle2 {
+		margin-right: 17px;
+		position: relative;
+		white-space: nowrap;
+		width: auto;
+	}
+	.subtitle2 { margin-left: 30px; }
+	.line {
+		position: relative;
+		width: 100%;
+		top: -9px;
+		border-bottom: 1px solid $color-light-blue;
+	}
+}
 .catFlexBoxHome {
-  display: flex;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  flex-direction: row;
-  align-items: stretch;
-  width: 100%;
-  margin-top: 30px;
-  
-  .subtitleHome {
-    margin-right: 37px;
-    margin-left: 37px;
-    position: relative;
-    white-space: nowrap;
-    width: auto;
-    font-size: 20px;
-  }
-  .lineHome {
-    position: relative;
-    width: 100%;
-    top: -15px;
-    border-bottom: 1px solid #54869B;
-  }
+	margin-top: 30px;
+	.subtitleHome {
+		margin-right: 37px;
+		margin-left: 37px;
+		position: relative;
+		white-space: nowrap;
+		width: auto;
+		font-size: 20px;
+	}
+	.lineHome {
+		position: relative;
+		width: 100%;
+		top: -15px;
+		border-bottom: 1px solid $color-light-blue;
+	}
 }

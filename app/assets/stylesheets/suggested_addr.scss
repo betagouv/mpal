@@ -36,11 +36,7 @@
 	}
 }
 
-.addrError {
-	&:focus {
-		outline: none !important;
-	    border: 2px solid red;
-	}
+.addrError, .addrError:focus {
 	outline: none !important;
     border: 2px solid red;
 }

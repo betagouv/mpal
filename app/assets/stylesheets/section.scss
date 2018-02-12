@@ -1,26 +1,12 @@
-@import "variables";
-
 .section__content {
-  @media screen and (min-width: 600px) {
-    padding: 1.5em;
-  }
-  @media screen and (min-width: 920px) {
-    padding: 2.5em;
-  }
+	@include respond-to(medium_screens_600) { padding: 1.5em; }
+	@include respond-to(medium_screens_920) { padding: 2.5em; }
 }
-
-.section__content-p {
-  margin-bottom: 1em;
-}
+.section__content-p, .content__question { margin-bottom: 1em; }
 .section__content-link {
-  color: $color-primary;
-  &:hover {
-    text-decoration: underline;
-    color: #111;
-  }
+	color: $color-primary;
+	&:hover {
+		text-decoration: underline;
+		color: $color-black;
+	}
 }
-
-.content__question {
-  margin-bottom: 1em;
-}
-

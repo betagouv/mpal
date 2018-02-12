@@ -943,8 +943,6 @@
 					- if items.respond_to?(:total_pages) && 1 < items.total_pages
 						= render "shared/paginate", items: items, cur_page: "page"
 
-
-
 javascript:
 	/*
 		-# if projet.actif === 0
@@ -973,13 +971,10 @@ javascript:
 			"from": $('.dashboardFilterFrom input'),
 			"to": $('.dashboardFilterTo input')
 		};
-
 		// Hide Tabs
 		var rfrn2 = '#{@rfrn2.count}';
-
 		if (rfrn2 == 0)
 			$('.tabRFRN2').hide();
-
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {
 			var jsonURL = JSON.parse('{"' + decodeURI(sPageURL).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 			var search = [];
@@ -988,7 +983,6 @@ javascript:
 					if (index != "utf8") {
 						var indexData = index.split("[");
 						var newArrayTmp = indexData[1].split("]")[0];
-
 						// Restore advanced menu state
 						if ("advanced" == newArrayTmp) {
 							if (jsonURL[index] == "true") {
@@ -1005,7 +999,6 @@ javascript:
 								$("#descend").prop('checked', true);
 							else if (~jsonURL[index].indexOf("ASC"))
 								$("#ascend").prop('checked', true);
-
 							if (~jsonURL[index].indexOf("depot"))
 								$("#dateDeDepot").prop('checked', true);
 							else if (~jsonURL[index].indexOf("created"))

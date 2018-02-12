@@ -1,18 +1,13 @@
-@import "variables";
-
 .footer {
-  text-align: center;
-  padding: 30px 0;
-  a {
-    color: #222;
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-  #version_number {
-  	font-size: 12px;
-  	font-weight: light;
-    float: right;
-  }
+	text-align: center;
+	padding: 30px 0;
+	a {
+		color: $color-very-black;
+		&:hover { text-decoration: underline; }
+	}
+	#version_number {
+		font-size: 12px;
+		font-weight: light;
+		float: right;
+	}
 }
-
