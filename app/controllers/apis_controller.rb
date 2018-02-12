@@ -5,7 +5,7 @@ class ApisController < ApplicationController
 	def update_state
 
 		begin
-			if (request.headers["token"]) != ENV['SECRET_SEL_API_FOR_OPAL']
+			if (request.headers["token"]) != ENV['SECRET_SEL_API_FOR_OPAL'] || ENV['SECRET_SEL_API_FOR_OPAL'] == nil
 				render json: {
 					status: 403,
 					message: "Le token n'est pas valide"
