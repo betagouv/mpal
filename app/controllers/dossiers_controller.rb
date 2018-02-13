@@ -371,30 +371,13 @@ class DossiersController < ApplicationController
 
 
     elsif current_agent.operateur?
-
       @traited = all.where("projets.actif = 1 and projets.statut < 5 and projets.statut >= 3")
       @action = all.where("projets.actif = 1  and projets.statut < 5 and projets.statut >= 3 and ('a_valider' = ift_payement.statut or 'a_instruire' = ift_payement.statut)")
       @verif = all.where("projets.actif = 1 and projets.statut < 5 and projets.statut >= 3 and ift_payement is NULL")
       @others = all.where("projets.actif = 1 and (projets.statut < 3 or projets.statut >= 5)")
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
-      @rfrn2 = []
-
-
-      all.each do |i|
-        i.avis_impositions.each do |avis|
-          annee = Time.now.strftime("%Y").to_i - avis.annee.to_i
-          if annee > 2
-            @rfrn2 << i
-            flash.now[:notice] = "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR à mettre à jour)"
-            break
-          elsif annee == 2 and Time.now.strftime("%m").to_i >= 9
-            @rfrn2 << i
-            flash.now[:notice] = "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR à mettre à jour)"
-            break
-          end
-        end
-      end
+      @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
     elsif current_agent.instructeur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 6")
       @action = all.where("projets.actif = 1 and projets.statut = 5")
@@ -434,8 +417,10 @@ def render_index
         @actifs = []
         @inactifs = []
         @rfrn2 = []
+        anne_var = (Time.now.strftime("%Y").to_i - 2).to_s
+        month_var = (Time.now.strftime("%m").to_i).to_s
         to_select = "projets.* , string_agg(DISTINCT demandeur.prenom, '') as demandeur_prenom,string_agg(DISTINCT demandeur.nom, '') as demandeur_nom,array_to_string(ARRAY_AGG(DISTINCT ift_themes.libelle), ', ') as libelle_theme,string_agg(DISTINCT ift_adresse_postale.ville, '') as postale_ville,string_agg(DISTINCT ift_adresse_postale.code_postal, '') as postale_code_postal,string_agg(DISTINCT ift_adresse_a_renover.ville, '') as renov_ville,string_agg(DISTINCT ift_adresse_a_renover.code_postal, '') as renov_code_postal,array_to_string(ARRAY_AGG(DISTINCT ift_intervenants1.raison_sociale), '') as ift_pris,array_to_string(ARRAY_AGG(DISTINCT ift_intervenants2.raison_sociale), '') as ift_operateur,array_to_string(ARRAY_AGG(DISTINCT ift_intervenants3.raison_sociale), '') as ift_instructeur,CONCAT(CONCAT(string_agg(DISTINCT ift_agent_instructeur.prenom, ''), ' '),string_agg(DISTINCT ift_agent_instructeur.nom, '')) as ift_agent_instructeur,CONCAT(CONCAT(string_agg(DISTINCT ift_agent_operateur.prenom, ''), ' '),string_agg(DISTINCT ift_agent_operateur.nom, ''))  as ift_agent_operateur,ARRAY_AGG(ift_payement.action) as ift_payement_action,ARRAY_AGG(DISTINCT ift_intervenants4.id) as pris_suggested"
-        to_join = "INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse_postale ON (ift_adresse_postale.id = projets.adresse_postale_id) LEFT OUTER JOIN adresses ift_adresse_a_renover ON (ift_adresse_a_renover.id = projets.adresse_a_renover_id) LEFT OUTER JOIN invitations on projets.id = invitations.projet_id LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id) LEFT OUTER JOIN intervenants ift_intervenants1 ON (ift_invitations.intervenant_id = ift_intervenants1.id AND 'pris' = ANY(ift_intervenants1.roles)) LEFT OUTER JOIN intervenants ift_intervenants2 ON (ift_invitations.intervenant_id = ift_intervenants2.id AND 'operateur' = ANY(ift_intervenants2.roles)) LEFT OUTER JOIN intervenants ift_intervenants3 ON (ift_invitations.intervenant_id = ift_intervenants3.id AND 'instructeur' = ANY(ift_intervenants3.roles)) LEFT OUTER JOIN agents ift_agent_operateur ON (projets.agent_operateur_id = ift_agent_operateur.id) LEFT OUTER JOIN agents ift_agent_instructeur ON (projets.agent_instructeur_id = ift_agent_instructeur.id) LEFT OUTER JOIN payments ift_payement on ift_payement.projet_id = projets.id LEFT OUTER JOIN intervenants ift_intervenants4 ON (ift_invitations.intervenant_id = ift_intervenants4.id AND 'operateur' = ANY(ift_intervenants4.roles) AND ift_invitations.suggested = true)"
+        to_join = "INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) LEFT OUTER JOIN avis_impositions ift_avis_impositions2 ON (projets.id = ift_avis_impositions2.projet_id and (ift_avis_impositions2.annee < #{anne_var} or (ift_avis_impositions2.annee = #{anne_var} and #{month_var} >= 9))) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse_postale ON (ift_adresse_postale.id = projets.adresse_postale_id) LEFT OUTER JOIN adresses ift_adresse_a_renover ON (ift_adresse_a_renover.id = projets.adresse_a_renover_id) LEFT OUTER JOIN invitations on projets.id = invitations.projet_id LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id) LEFT OUTER JOIN intervenants ift_intervenants1 ON (ift_invitations.intervenant_id = ift_intervenants1.id AND 'pris' = ANY(ift_intervenants1.roles)) LEFT OUTER JOIN intervenants ift_intervenants2 ON (ift_invitations.intervenant_id = ift_intervenants2.id AND 'operateur' = ANY(ift_intervenants2.roles)) LEFT OUTER JOIN intervenants ift_intervenants3 ON (ift_invitations.intervenant_id = ift_intervenants3.id AND 'instructeur' = ANY(ift_intervenants3.roles)) LEFT OUTER JOIN agents ift_agent_operateur ON (projets.agent_operateur_id = ift_agent_operateur.id) LEFT OUTER JOIN agents ift_agent_instructeur ON (projets.agent_instructeur_id = ift_agent_instructeur.id) LEFT OUTER JOIN payments ift_payement on ift_payement.projet_id = projets.id LEFT OUTER JOIN intervenants ift_intervenants4 ON (ift_invitations.intervenant_id = ift_intervenants4.id AND 'operateur' = ANY(ift_intervenants4.roles) AND ift_invitations.suggested = true)"
         if current_agent.admin?
           @dossiers = Projet.for_sort_by(search[:sort_by]).order("projets.actif DESC")
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')

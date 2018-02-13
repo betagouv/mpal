@@ -128,6 +128,7 @@ class Projet < ApplicationRecord
       else # :created == sorting
         scope.order("projets.created_at " + arr[1])
       end
+      scope.order("projets.actif DESC")
     end
   }
   scope :for_text, ->(opts) {

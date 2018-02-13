@@ -72,6 +72,17 @@ module ApplicationHelper
     year > SITE_START_YEAR ? "#{SITE_START_YEAR}&ndash;#{year}".html_safe : year.to_s
   end
 
+  def custom_count_each_tab(collection)
+    count = collection.total_entries
+    if count <= 0
+      0
+    elsif 1 == count
+      1
+    else
+      count
+    end
+  end
+
   def custom_page_entries_info(collection)
     count = collection.total_entries
     if count <= 0

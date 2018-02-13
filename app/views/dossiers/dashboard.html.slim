@@ -26,24 +26,24 @@
 		div.dashboardContainer
 			ul.dashboardTabContainer
 				li.dashboardTab.tabTreated
-					a Traités (#{custom_page_entries_info @traited})
+					a Traités (#{custom_count_each_tab @traited})
 				li.dashboardTab.tabAction
-					a Nécessite action (#{custom_page_entries_info @action})
+					a Nécessite action (#{custom_count_each_tab @action})
 				li.dashboardTab.tabVerif
-					a Nécessite vérification (#{custom_page_entries_info @verif})
+					a Nécessite vérification (#{custom_count_each_tab @verif})
 				li.dashboardTab.tabOthers
-					a Autres (#{custom_page_entries_info @others})
+					a Autres (#{custom_count_each_tab @others})
 				li.dashboardTab.tabNewMSG
-					a Nouveau Message (#{custom_page_entries_info @new_msg})
+					a Nouveau Message (#{custom_count_each_tab @new_msg})
 				li.dashboardTab.tabRFRN2
-					a RFR à mettre à jour (#{custom_page_entries_info @rfrn2})
+					a RFR à mettre à jour (#{custom_count_each_tab @rfrn2})
 				li.dashboardTab.tabInactifs
-					a Inactifs (#{custom_page_entries_info @inactifs})
+					a Inactifs (#{custom_count_each_tab @inactifs})
 				li.dashboardTab.tabAll
 					- if @dossiers.present?
-						a Tous (#{custom_page_entries_info @dossiers})
+						a Tous (#{custom_count_each_tab @dossiers})
 					- else
-						a Tous (#{custom_page_entries_info @invitations})
+						a Tous (#{custom_count_each_tab @invitations})
 
 			div.tab_content
 

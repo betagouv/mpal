@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 20180117100529) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "region", default: "", null: false
+    t.index ["departement"], name: "index_adresses_on_departement"    
   end
 
   create_table "agents", id: :serial, force: :cascade do |t|
@@ -76,6 +77,7 @@ ActiveRecord::Schema.define(version: 20180117100529) do
     t.string "declarant_2"
     t.integer "nombre_personnes_charge"
     t.index ["projet_id"], name: "index_avis_impositions_on_projet_id"
+    t.index ["annee"], name: "index_avis_impositions_on_annee"
   end
 
   create_table "contacts", id: :serial, force: :cascade do |t|
@@ -202,6 +204,8 @@ ActiveRecord::Schema.define(version: 20180117100529) do
     t.integer "avis_imposition_id"
     t.boolean "declarant", default: false, null: false
     t.string "civility"
+    t.index ["avis_imposition_id"], name: "index_occupants_on_avis_imposition_id"
+    t.index ["demandeur"], name: "index_occupants_on_demandeur"
   end
 
   create_table "operations", id: :serial, force: :cascade do |t|
