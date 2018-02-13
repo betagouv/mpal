@@ -73,9 +73,9 @@ module ApplicationHelper
   end
 
   def custom_count_each_tab(collection)
-    count = collection.total_entries
+    count = 0
     if count <= 0
-      0
+      "indispo"
     elsif 1 == count
       1
     else
@@ -84,7 +84,8 @@ module ApplicationHelper
   end
 
   def custom_page_entries_info(collection)
-    count = collection.total_entries
+    # count = collection.total_entries
+    count = 0
     if count <= 0
       I18n.t("will_paginate.page_entries_info.single_page.zero")
     elsif 1 == count
