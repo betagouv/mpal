@@ -4,6 +4,8 @@ class ApisController < ApplicationController
 
 	def update_state
 
+		# count = 0
+
 		begin
 			if (request.headers["token"]) != ENV['SECRET_SEL_API_FOR_OPAL'] || ENV['SECRET_SEL_API_FOR_OPAL'] == nil
 				render json: {
@@ -19,8 +21,15 @@ class ApisController < ApplicationController
 						projet = Projet.find_by(:opal_numero => dossier["properties"]["numero"])
 
 						if projet
+							
 							opalPosition = dossier["properties"]["position"]
-							opalDatePosition = dossier["properties"]["date"]
+							
+							begin
+								opalDatePosition = DateTime.parse(dossier["properties"]["date"])
+							rescue
+								opalDatePosition = nil
+							end
+							
 							opalPositionLabel = ""
 
 							if opalPosition == "10058"
@@ -63,13 +72,20 @@ class ApisController < ApplicationController
 								opalPositionLabel = "Solde Payée"
 							end
 
+
+
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil
-								projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPositionLabel)
+
+								if projet.opal_position != opalPosition || projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel
+									projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPositionLabel)
+									# count += 1
+								end
 							end
 						end
 					end
 				end
 
+				# Rails.logger.debug("Dossiers mis à jour: " + count.to_s)
 				render json: {
 					status: 202,
 					message: "La requête a ete acceptée et son traitement est en cours"
