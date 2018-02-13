@@ -421,17 +421,17 @@ def render_index
         if current_agent.admin?
           @dossiers = Projet.for_sort_by(search[:sort_by]).order("projets.actif DESC")
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
-          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
+          all = @dossiers.select(to_select).joins(to_join).group("projets.id").limit(5000)
           @inactifs = all.where(:actif => 0)
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
-          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
+          all = @dossiers.select(to_select).joins(to_join).group("projets.id").limit(5000)
           @inactifs = all.where(:actif => 0)
         elsif current_agent.siege?
-          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC").includes(:adresse_postale, :adresse_a_renover, :avis_impositions, :agents_projets, :messages, :payments, :themes, invitations: [:intervenant])
+          @dossiers = Projet.with_demandeur.for_sort_by(search[:sort_by]).order("projets.actif DESC")
           @dossiers = search_dossier(search, @dossiers).order('projets.actif desc')
-          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
+          all = @dossiers.select(to_select).joins(to_join).group("projets.id").limit(5000)
           @inactifs = all.where(:actif => 0)
         else
           if current_agent.operateur?
@@ -441,6 +441,7 @@ def render_index
           end
           @invitations = @invitations.for_sort_by(search[:sort_by])
           @invitations = search_dossier(search, @invitations)
+          @invitations = @invitations.limit(5000)
           fill_tab_intervenant(@invitations)
           all = @invitations 
         end
