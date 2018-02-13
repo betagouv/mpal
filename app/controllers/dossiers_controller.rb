@@ -421,29 +421,27 @@ def render_index
         if current_agent.admin?
           @dossiers = Projet.order("projets.actif DESC").for_sort_by(search[:sort_by])
           @dossiers = search_dossier(search, @dossiers)
-          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
-          @inactifs = all.where(:actif => 0)
+          @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
+          @inactifs = @dossiers.where(:actif => 0)
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets.order('projets.actif desc')
           @dossiers = search_dossier(search, @dossiers)
-          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
-          @inactifs = all.where(:actif => 0)
+          @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
+          @inactifs = @dossiers.where(:actif => 0)
         elsif current_agent.siege?
           @dossiers = Projet.with_demandeur.order("projets.actif DESC").for_sort_by(search[:sort_by])
           @dossiers = search_dossier(search, @dossiers)
-          all = @dossiers.select(to_select).joins(to_join).group("projets.id")
-          @inactifs = all.where(:actif => 0)
+          @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
+          @inactifs = @dossiers.where(:actif => 0)
         else
           if current_agent.operateur?
-            @invitations = Projet.select(to_select).joins(to_join).where(["projets.operateur_id is NULL or projets.operateur_id = ?", current_agent.intervenant.id]).group("projets.id")
+            @dossiers = Projet.select(to_select).joins(to_join).where(["projets.operateur_id is NULL or projets.operateur_id = ?", current_agent.intervenant.id]).group("projets.id")
           else
-            @invitations = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", current_agent.intervenant_id]).group("projets.id")
+            @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", current_agent.intervenant_id]).group("projets.id")
           end
-          @invitations = @invitations.for_sort_by(search[:sort_by])
-          @invitations = search_dossier(search, @invitations)
-          @invitations = @invitations.limit(5000)
-          fill_tab_intervenant(@invitations)
-          all = @invitations 
+          @dossiers = @dossiers.for_sort_by(search[:sort_by])
+          @dossiers = search_dossier(search, @dossiers)
+          fill_tab_intervenant(@dossiers)
         end
 
         @traited = @traited.paginate(page: page_traited, per_page: per_page)
@@ -453,7 +451,7 @@ def render_index
         @others = @others.paginate(page: page_others, per_page: per_page)
         @inactifs = @inactifs.paginate(page: page_inactifs, per_page: per_page)
         @rfrn2 = @rfrn2.paginate(page: page_rfrn2, per_page: per_page)
-        @dossiers = all.paginate(page: page, per_page: per_page)
+        @dossiers = @dossiers.paginate(page: page, per_page: per_page)
 
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
