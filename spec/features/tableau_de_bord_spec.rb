@@ -48,9 +48,6 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       expect(projet_01.agent_instructeur).to be_nil
       expect(projet_01.agent_instructeur).to be_nil
       # #TODO Theme
-      expect(page).to have_content(projet_01.agent_operateur.intervenant.raison_sociale)
-      expect(page).to have_content(projet_01.agent_operateur.fullname)
-      expect(page).to have_content(I18n.t("projets.statut.en_cours_de_montage"))
       #TODO Update Status At
 
       expect(page).to have_content(projet_56.numero_plateforme)
