@@ -17,7 +17,7 @@
 	- verif = @verif
 	- other = @others
 	- new_msg = @new_msg
-	-rfrn2 = @rfrn2
+	- rfrn2 = @rfrn2
 
 	- inactifs = @inactifs
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
@@ -71,17 +71,7 @@
 									p = anonymize anonymized, edit_url do
 										span.firstname= projet.demandeur_prenom
 										span.lastname<= projet.demandeur_nom
-									- if current_agent_operateur || current_agent_siege
-										p = anonymize anonymized, edit_url do
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
-									- else
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
+									p = projet.addr_ville + " " + projet.addr_code
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -101,20 +91,8 @@
 										- else
 											div.dashboardDateText2 Depuis le: Inconnu
 									div
-										- if projet.status_already(:transmis_pour_instruction)
-											- if projet.invited_instructeur
-												= projet.ift_instructeur
-												= " - " + projet.ift_agent_instructeur
-											- else
-												p &nbsp;
-										- elsif projet.status_already(:en_cours)
-											- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-												= projet.ift_operateur
-												= " - " + projet.ift_agent_operateur
-											- else
-												p &nbsp;
-										- elsif projet.ift_pris
-											= projet.ift_pris
+										- if projet.ift_intervenant.present?
+											= projet.ift_intervenant + " - " + projet.ift_agent
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder.firstRowIcons
@@ -187,17 +165,7 @@
 									p = anonymize anonymized, edit_url do
 										span.firstname= projet.demandeur_prenom
 										span.lastname<= projet.demandeur_nom
-									- if current_agent_operateur || current_agent_siege
-										p = anonymize anonymized, edit_url do
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
-									- else
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
+									p = projet.addr_ville + " " + projet.addr_code
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -217,20 +185,8 @@
 										- else
 											div.dashboardDateText2 Depuis le: Inconnu
 									div
-										- if projet.status_already(:transmis_pour_instruction)
-											- if projet.invited_instructeur
-												= projet.ift_instructeur
-												= " - " + projet.ift_agent_instructeur
-											- else
-												p &nbsp;
-										- elsif projet.status_already(:en_cours)
-											- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-												= projet.ift_operateur
-												= " - " + projet.ift_agent_operateur
-											- else
-												p &nbsp;
-										- elsif projet.ift_pris
-											= projet.ift_pris
+										- if projet.ift_intervenant.present?
+											= projet.ift_intervenant + " - " + projet.ift_agent
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder.firstRowIcons
@@ -303,17 +259,7 @@
 									p = anonymize anonymized, edit_url do
 										span.firstname= projet.demandeur_prenom
 										span.lastname<= projet.demandeur_nom
-									- if current_agent_operateur || current_agent_siege
-										p = anonymize anonymized, edit_url do
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
-									- else
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
+									p = projet.addr_ville + " " + projet.addr_code
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -333,20 +279,8 @@
 										- else
 											div.dashboardDateText2 Depuis le: Inconnu
 									div
-										- if projet.status_already(:transmis_pour_instruction)
-											- if projet.invited_instructeur
-												= projet.ift_instructeur
-												= " - " + projet.ift_agent_instructeur
-											- else
-												p &nbsp;
-										- elsif projet.status_already(:en_cours)
-											- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-												= projet.ift_operateur
-												= " - " + projet.ift_agent_operateur
-											- else
-												p &nbsp;
-										- elsif projet.ift_pris
-											= projet.ift_pris
+										- if projet.ift_intervenant.present?
+											= projet.ift_intervenant + " - " + projet.ift_agent
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder.firstRowIcons
@@ -419,17 +353,7 @@
 									p = anonymize anonymized, edit_url do
 										span.firstname= projet.demandeur_prenom
 										span.lastname<= projet.demandeur_nom
-									- if current_agent_operateur || current_agent_siege
-										p = anonymize anonymized, edit_url do
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
-									- else
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
+									p = projet.addr_ville + " " + projet.addr_code
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -449,20 +373,8 @@
 										- else
 											div.dashboardDateText2 Depuis le: Inconnu
 									div
-										- if projet.status_already(:transmis_pour_instruction)
-											- if projet.invited_instructeur
-												= projet.ift_instructeur
-												= " - " + projet.ift_agent_instructeur
-											- else
-												p &nbsp;
-										- elsif projet.status_already(:en_cours)
-											- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-												= projet.ift_operateur
-												= " - " + projet.ift_agent_operateur
-											- else
-												p &nbsp;
-										- elsif projet.ift_pris
-											= projet.ift_pris
+										- if projet.ift_intervenant.present?
+											= projet.ift_intervenant + " - " + projet.ift_agent
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder.firstRowIcons
@@ -535,17 +447,7 @@
 									p = anonymize anonymized, edit_url do
 										span.firstname= projet.demandeur_prenom
 										span.lastname<= projet.demandeur_nom
-									- if current_agent_operateur || current_agent_siege
-										p = anonymize anonymized, edit_url do
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
-									- else
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
+									p = projet.addr_ville + " " + projet.addr_code
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -565,20 +467,8 @@
 										- else
 											div.dashboardDateText2 Depuis le: Inconnu
 									div
-										- if projet.status_already(:transmis_pour_instruction)
-											- if projet.invited_instructeur
-												= projet.ift_instructeur
-												= " - " + projet.ift_agent_instructeur
-											- else
-												p &nbsp;
-										- elsif projet.status_already(:en_cours)
-											- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-												= projet.ift_operateur
-												= " - " + projet.ift_agent_operateur
-											- else
-												p &nbsp;
-										- elsif projet.ift_pris
-											= projet.ift_pris
+										- if projet.ift_intervenant.present?
+											= projet.ift_intervenant + " - " + projet.ift_agent
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder.firstRowIcons
@@ -651,17 +541,7 @@
 									p = anonymize anonymized, edit_url do
 										span.firstname= projet.demandeur_prenom
 										span.lastname<= projet.demandeur_nom
-									- if current_agent_operateur || current_agent_siege
-										p = anonymize anonymized, edit_url do
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
-									- else
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
+									p = projet.addr_ville + " " + projet.addr_code
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -681,20 +561,8 @@
 										- else
 											div.dashboardDateText2 Depuis le: Inconnu
 									div
-										- if projet.status_already(:transmis_pour_instruction)
-											- if projet.invited_instructeur
-												= projet.ift_instructeur
-												= " - " + projet.ift_agent_instructeur
-											- else
-												p &nbsp;
-										- elsif projet.status_already(:en_cours)
-											- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-												= projet.ift_operateur
-												= " - " + projet.ift_agent_operateur
-											- else
-												p &nbsp;
-										- elsif projet.ift_pris
-											= projet.ift_pris
+										- if projet.ift_intervenant.present?
+											= projet.ift_intervenant + " - " + projet.ift_agent
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder
@@ -768,11 +636,7 @@
 										p = anonymize anonymized, edit_url do
 											span.firstname= projet.demandeur_prenom
 											span.lastname<= projet.demandeur_nom
-										- if current_agent_operateur || current_agent_siege
-											p = anonymize anonymized, edit_url do
-													= projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
-										- else
-											p = projet.postale_code_postal == nil ? projet.renov_code_postal : projet.postale_code_postal + " " + projet.postale_ville == nil ? projet.renov_ville : projet.postale_ville
+										p = projet.addr_ville + " " + projet.addr_code
 									td
 										- if projet.libelle_theme
 											p = anonymize anonymized, edit_url do
@@ -879,18 +743,7 @@
 									p = anonymize anonymized, edit_url do
 										span.firstname= projet.demandeur_prenom
 										span.lastname<= projet.demandeur_nom
-									- if current_agent_operateur || current_agent_siege
-										p = anonymize anonymized, edit_url do
-										
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
-									- else
-												- if projet.renov_code_postal
-													= projet.renov_code_postal + " " + projet.renov_ville
-												- else
-													= projet.postale_code_postal + " " + projet.postale_ville
+									p = projet.addr_ville + " " + projet.addr_code
 								td
 									- if projet.libelle_theme
 										p = anonymize anonymized, edit_url do
@@ -910,20 +763,8 @@
 										- else
 											div.dashboardDateText2 Depuis le: Inconnu
 									div
-										- if projet.status_already(:transmis_pour_instruction)
-											- if projet.invited_instructeur
-												= projet.ift_instructeur
-												= " - " + projet.ift_agent_instructeur
-											- else
-												p &nbsp;
-										- elsif projet.status_already(:en_cours)
-											- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-												= projet.ift_operateur
-												= " - " + projet.ift_agent_operateur
-											- else
-												p &nbsp;
-										- elsif projet.ift_pris
-											= projet.ift_pris
+										- if projet.ift_intervenant.present?
+											= projet.ift_intervenant + " - " + projet.ift_agent
 										- else
 											p &nbsp;
 								td.tableRowIconsBorder.firstRowIcons
