@@ -581,8 +581,8 @@ class Projet < ApplicationRecord
     end
   end
 
-def self.find_project @dossiers, is_admin, droit1, droit2
-    @dossiers.each do |projet|
+def self.find_project all, is_admin, droit1, droit2
+    all.each do |projet|
        line = [
          projet.numero_plateforme,
          format_date(projet.created_at),
@@ -599,7 +599,12 @@ def self.find_project @dossiers, is_admin, droit1, droit2
 
        if is_admin == true
          pris_eie = nil
+         #pris = nil
          pris = projet.ift_pris
+         # if projet.eligible?
+         # else
+         #    pris_eie = projet.ift_pris
+         # end
          op = ((projet.ift_operateur.present? || projet.ift_instructeur.present?) && !projet.ift_pris.present?) ? "Oui" : "Non"
          
          date_update = format_date(projet.statut_updated_date)
@@ -628,14 +633,14 @@ def self.find_project @dossiers, is_admin, droit1, droit2
       end
 end
 
-def self.build_csv_enumerator titles, @dossiers, is_admin, droit1, droit2
+def self.build_csv_enumerator titles, all, is_admin, droit1, droit2
   Enumerator.new do |y|
     y << CSV.generate_line(titles, :col_sep => ';').encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
-    Projet.find_project(@dossiers, is_admin, droit1, droit2) {|line| y << CSV.generate_line(line, :col_sep => ';').encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")}
+    Projet.find_project(all, is_admin, droit1, droit2) {|line| y << CSV.generate_line(line, :col_sep => ';').encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")}
   end
 end
 
-def self.to_csv(agent, @dossiers, is_admin = false)
+def self.to_csv(agent, selected_projects, is_admin = false)
    # utf8 = CSV.generate(csv_options) do |csv|
      droit1 = agent.siege? || agent.instructeur? || agent.operateur?
      droit2 = agent.siege? || agent.operateur?
@@ -675,7 +680,7 @@ def self.to_csv(agent, @dossiers, is_admin = false)
        titles.insert 2, 'Région'     
      end
      # csv << titles
-      Projet.build_csv_enumerator titles, @dossiers, is_admin, droit1, droit2
+      Projet.build_csv_enumerator titles, selected_projects, is_admin, droit1, droit2
 
        # csv << line
      # end
