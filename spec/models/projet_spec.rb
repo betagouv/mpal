@@ -147,14 +147,7 @@ describe Projet do
       it { expect(Projet.for_intervenant_status(:en_cours_d_instruction)).to eq [projet6] }
     end
 
-    describe ".for_sort_by" do
-      let(:projet1) { create :projet, :prospect, created_at: DateTime.new(2017, 10, 18, 10, 42, 30) }
-      let(:projet2) { create :projet, :prospect, created_at: DateTime.new(2017, 10, 17, 10, 36, 20), date_depot: DateTime.new(2017, 10, 21, 11, 21, 10) }
-      let(:projet3) { create :projet, :prospect, created_at: DateTime.new(2017, 10, 19, 12, 03, 50), date_depot: DateTime.new(2017, 10, 20, 14, 55, 30) }
-
-      it { expect(Projet.for_sort_by("created")).to eq [projet3, projet1, projet2] }
-      it { expect(Projet.for_sort_by("depot")).to eq [projet2, projet3] }
-    end
+    
   end
 
   describe "#validate_frozen_attributes" do
