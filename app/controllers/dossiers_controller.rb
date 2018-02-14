@@ -362,15 +362,15 @@ class DossiersController < ApplicationController
     if current_agent.pris?
       @traited = all.where("projets.actif = 1 and projets.statut >= 2 and ift_intervenants4 is not NULL")
       @action = all.where("projets.actif = 1 and ift_intervenants4 is NULL")
-      @verif = all.where("projets.actif = 1 and projets.statut >= 1 and ift_intervenants4 is not NULL")
+      @verif = all.where("projets.actif = 1 and projets.statut = 1 and ift_intervenants4 is not NULL")
       @others = []
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
     elsif current_agent.operateur?
-      @traited = all.where("projets.actif = 1 and projets.statut > 5")
+      @traited = all.where("projets.actif = 1 and projets.statut >= 5")
       @action = all.where("projets.actif = 1  and projets.statut < 5 and projets.statut >= 1")
-      @verif = all.where("projets.actif = 1 and projets.statut >= 5")
+      @verif = all.where("projets.actif = 1 and projets.statut = 3")
       @others = []
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
