@@ -128,6 +128,7 @@ class Projet < ApplicationRecord
       else # :created == sorting
         scope.order("projets.created_at " + arr[1])
       end
+      scope.order("projets.actif DESC")
     end
   }
   scope :for_text, ->(opts) {
@@ -679,9 +680,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        titles.insert 2, 'Région'     
      end
      # csv << titles
-      all = selected_projects.select("projets.* , CONCAT(CONCAT(demandeur.prenom, ' '), demandeur.nom) as demandeur_fullname, array_to_string(ARRAY_AGG(DISTINCT ift_themes.libelle), ', ') as libelle_theme, COUNT(DISTINCT messages.id) as message_count, array_to_string(ARRAY_AGG(DISTINCT CONCAT(CONCAT(ift_payement.type_paiement, ' '), ift_payement.statut)), ' - ') as payement_status, ift_adresse_postale.ville as postale_ville, ift_adresse_postale.departement as postale_dep,  ift_adresse_postale.region as postale_region,ift_adresse_a_renover.ville as renov_ville, ift_adresse_a_renover.departement as renov_dep,  ift_adresse_a_renover.region as renov_region, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants1.raison_sociale), '') as ift_pris, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants2.raison_sociale), '') as ift_operateur, array_to_string(ARRAY_AGG(DISTINCT ift_intervenants3.raison_sociale), '') as ift_instructeur, CONCAT(CONCAT(ift_agent_instructeur.prenom, ' '), ift_agent_instructeur.nom) as ift_agent_instructeur, CONCAT(CONCAT(ift_agent_operateur.prenom, ' '), ift_agent_operateur.nom)  as ift_agent_operateur").joins("INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse_postale ON (ift_adresse_postale.id = projets.adresse_postale_id) LEFT OUTER JOIN adresses ift_adresse_a_renover ON (ift_adresse_a_renover.id = projets.adresse_a_renover_id) LEFT OUTER JOIN payments ift_payement on ift_payement.projet_id = projets.id LEFT OUTER JOIN messages on messages.projet_id = projets.id LEFT OUTER JOIN invitations on projets.id = invitations.projet_id LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id) LEFT OUTER JOIN intervenants ift_intervenants1 ON (ift_invitations.intervenant_id = ift_intervenants1.id AND 'pris' = ANY(ift_intervenants1.roles)) LEFT OUTER JOIN intervenants ift_intervenants2 ON (ift_invitations.intervenant_id = ift_intervenants2.id AND 'operateur' = ANY(ift_intervenants2.roles)) LEFT OUTER JOIN intervenants ift_intervenants3 ON (ift_invitations.intervenant_id = ift_intervenants3.id AND 'instructeur' = ANY(ift_intervenants3.roles)) LEFT OUTER JOIN agents ift_agent_operateur ON (projets.agent_operateur_id = ift_agent_operateur.id) LEFT OUTER JOIN agents ift_agent_instructeur ON (projets.agent_instructeur_id = ift_agent_instructeur.id)").group("projets.id, demandeur.id, ift_adresse_postale.id, ift_adresse_a_renover.id, ift_agent_instructeur.id, ift_agent_operateur.id")
-
-      Projet.build_csv_enumerator titles, all, is_admin, droit1, droit2
+      Projet.build_csv_enumerator titles, selected_projects, is_admin, droit1, droit2
 
        # csv << line
      # end
