@@ -1,58 +1,68 @@
 .document-panel {
-	padding: 1.5em 1em;
-	border-left: 10px solid white;
+	border-left: 10px solid $color-very-white;
 	border-radius: 2px;
-	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	box-shadow: 0 1px 3px $color-transparent-black-1-2, 0 1px 2px $color-transparent-black-2-4;
+	padding: 1.5em 1em;
 }
-.document-panel--missing {
-	padding-left: 1em;
-	padding-right: 1em;
-	border-left-color: $brand-danger;
-}
-.document-panel__header {
-	margin-bottom: 0.8em;
+
+.document-panel-header {
+	margin-bottom: .8em;
 	overflow: hidden;
 }
-.document-panel__body {
-	font-size: 0.8em;
+
+.document-panel-body {
+	font-size: .8em;
 	margin-bottom: 1em;
 }
-.document-panel__footer {
+
+.document-panel-footer {
 	display: flex;
 	flex-wrap: wrap;
 }
+
 .document {
-	display: flex;
 	align-items: center;
-	justify-content: center;
 	background: $color-alt-grey;
-	padding: 0.5em 1em;
+	display: flex;
+	justify-content: center;
+	padding: .5em 1em;
+
 	@include respond-to(large_screens_1199) { padding: 5px 10px; }
 	&:nth-child(even) { background: $color-grey; }
 }
-.document__icon { font-size: 1.25em; }
-.document__actions {
-	margin-left: 0.5em;
+
+.document-icon { font-size: 1.25em; }
+
+.document-actions {
 	font-size: 1.25em;
+	margin-left: .5em;
 	@include respond-to(large_screens_1199) { margin-left: 5px; }
 }
-.document__name, .document-panel__header { font-weight: bold; }
-.document__name {
+
+.document-name,
+.document-panel-header { font-weight: bold; }
+
+.document-name {
+	@include ellipsis();
 	flex: 1;
+
 	a {
 		text-decoration: none;
 		&:hover { text-decoration: underline; }
 	}
-	@include ellipsis();
 }
-.document__upload-time, .document__name {
-	margin-left: 0.5em;
+
+.document-upload-time,
+.document-name {
+	margin-left: .5em;
 	@include respond-to(large_screens_1199) { margin-left: 5px; }
 }
-.document__upload-time { color: $color-dark-grey; }
-.document__file-upload--invisible { display: none; }
-.document__file-upload { margin-right: 1em; }
-.document__file-added {
-	margin-right: 2em;
+
+.document-upload-time { color: $color-dark-grey; }
+.document-file-upload-invisible { display: none; }
+.document-file-upload { margin-right: 1em; }
+
+.document-file-added {
 	@include ellipsis();
+	margin-right: 2em;
 }

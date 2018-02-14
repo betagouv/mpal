@@ -2,24 +2,33 @@
 	clear: both;
 	margin-bottom: 1em;
 	text-align: left;
-	.btn + .btn { margin-left: 0.5em; }
+	.btn + .btn { margin-left: .5em; }
 }
-.agent-menu__item { margin-top: 1em; }
-.agent-menu__text-button {
+
+.agent-menu-item { margin-top: 1em; }
+
+.agent-menu-text-button {
 	display: none;
-	margin-left: 0.5em;
-	@include respond-to(medium_screens_600) { display: inline-block; }
+	margin-left: .5em;
+
+	@include respond-to(medium_screens_600) {
+		display: inline-block;
+	}
 }
-.agent-menu__right { float: right; }
-.agent-menu__identity {
+
+.agent-menu-right { float: right; }
+
+.agent-menu-identity {
 	float: left;
-	font-size: 0.9em;
-	margin-right: 1em;
+	font-size: .9em;
 	line-height: 1.2em;
+	margin-right: 1em;
 	text-align: right;
 }
-.agent-menu__fullname {
+
+.agent-menu-fullname {
 	display: block;
 	font-weight: bold;
 }
-.agent-menu__intervenant { display: block; }
+
+.agent-menu-intervenant { display: block; }

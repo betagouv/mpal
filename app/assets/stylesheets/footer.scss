@@ -1,13 +1,15 @@
 .footer {
-	text-align: center;
 	padding: 30px 0;
+	text-align: center;
+
 	a {
 		color: $color-very-black;
 		&:hover { text-decoration: underline; }
 	}
-	#version_number {
+
+	#version-number {
+		float: right;
 		font-size: 12px;
 		font-weight: light;
-		float: right;
 	}
 }

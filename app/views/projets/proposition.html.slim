@@ -73,10 +73,10 @@
 
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome COUT DES TRAVAUX
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home COUT DES TRAVAUX
+        span.line-home
       br
 
       - [:travaux_ht_amount].each do |field|
@@ -113,10 +113,10 @@
 
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome MONTANT DES AIDES
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home MONTANT DES AIDES
+        span.line-home
       br
 
       = f.simple_fields_for :projet_aides do |ff|
@@ -148,10 +148,10 @@
         end
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome MONTANT DES APPORTS PERSONNELS
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home MONTANT DES APPORTS PERSONNELS
+        span.line-home
       br
 
       - [:personal_funding_amount, :loan_amount].each do |field|
@@ -161,10 +161,10 @@
           span.input-group-addon €
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome TOTAL DES FINANCEMENTS
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home TOTAL DES FINANCEMENTS
+        span.line-home
       br
 
       = f.input :localized_fundings_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
@@ -172,10 +172,10 @@
         span.input-group-addon €
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome RESTE A CHARGE
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home RESTE A CHARGE
+        span.line-home
       br
 
       = f.input :localized_remaining_sum, wrapper: "append", wrapper_html: { class: "size-s" } do

@@ -1,23 +1,30 @@
 .patterns {
-	h2, h3, h4, h5, h6 {
-		margin-top: 2em;
-		margin-bottom: 0.5em;
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
 		color: $color-black;
 		font-weight: bold;
+		margin-bottom: .5em;
+		margin-top: 2em;
 	}
 }
+
 .table-patterns {
-	th, td {
-		padding: 0.5em 0;
+	th,
+	td {
 		min-width: 200px;
+		padding: .5em 0;
 	}
+
 	code {
-		font-family: Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-		padding: .2rem .4rem;
-		font-size: 90%;
-		color: $color-brick-red;
 		background-color: $color-ghost-white;
 		border-radius: .25rem;
+		color: $color-brick-red;
+		font-family: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+		font-size: 90%;
+		padding: .2rem .4rem;
 	}
 }
 

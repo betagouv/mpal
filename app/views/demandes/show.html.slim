@@ -1,7 +1,7 @@
 = simple_form_for @demande, url: { controller: "demandes", action: "update" }, method: "patch", html: { class: "form"} do |f|
   = render "shared/errors", resource: @demande
   .vertical-booleans
-    label.vertical-booleans__title= t("demarrage_projet.demande.titre_besoins")
+    label.vertical-booleans-title= t("demarrage_projet.demande.titre_besoins")
     = f.input :changement_chauffage
     = f.input :froid
     = f.input :probleme_deplacement
@@ -13,7 +13,7 @@
     = f.input :autre
 
   .vertical-booleans
-    label.vertical-booleans__title= t("demarrage_projet.demande.titre_travaux")
+    label.vertical-booleans-title= t("demarrage_projet.demande.titre_travaux")
     = f.input :travaux_fenetres
     = f.input :travaux_isolation
     = f.input :travaux_chauffage

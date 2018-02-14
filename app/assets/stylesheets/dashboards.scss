@@ -1,0 +1,59 @@
+.dashboard-dossiers-search {
+	margin-bottom: 2em;
+
+	@include respond-to(medium_screens_870) { .form-search { display: flex; } }
+	.form-group { margin-bottom: 0; }
+}
+
+.dashboard-dossiers-search-item {
+	background: $color-very-light-gray;
+	flex-grow: 1;
+	padding: 10px;
+}
+
+@include respond-to(medium_screens_870) {
+	.dashboard-dossiers-search-item-top-padded { padding-top: 46px; }
+}
+
+.dashboard-table {
+	font-size: .8em;
+	margin-bottom: 2em;
+}
+
+.flex-indicateurs-projet { margin-top: 30px; }
+
+.indicateur-projet {
+	background-color: $color-moderate-cyan;
+	border-radius: 10px;
+	box-shadow: 2px 2px 3px $color-dark-grey;
+	float: left;
+	height: 150px;
+	margin-bottom: 30px;
+	margin-left: 30px;
+	padding-top: 20px;
+	position: relative;
+	text-align: center;
+	width: 300px;
+
+	h3 {
+		color: $color-very-white;
+		font-size: 20px;
+		font-weight: bolder;
+	}
+}
+
+.nombre-projets {
+	align-items: center;
+	border-radius: 50%;
+	bottom: 10%;
+	color: $color-very-white;
+	display: flex;
+	font-size: 25px;
+	font-weight: 600;
+	height: 60px;
+	justify-content: space-around;
+	left: 38%;
+	position: absolute;
+	text-align: center;
+	width: 60px;
+}

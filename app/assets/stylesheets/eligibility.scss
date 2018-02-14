@@ -1,12 +1,14 @@
 .eligibility {
-	max-width: 50em;
 	margin: 0 auto 2em;
+	max-width: 50em;
 }
-.eligibility__contact-info {
-	margin-left: 1em;
+
+.eligibility-contact-info {
 	font-weight: bold;
+	margin-left: 1em;
+
 	ul {
-		margin-top: 1em;
 		font-weight: normal;
+		margin-top: 1em;
 	}
 }

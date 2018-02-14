@@ -1,21 +1,24 @@
-.reliable-person__header {
+.reliable-person-header {
 	@extend .clearfix;
+
 	label {
-		float: left;
 		clear: left;
-		margin-top: 0.5em;
+		float: left;
+		margin-top: .5em;
 	}
+
 	input { margin-right: 5px; }
 }
 
-.reliable-person__question {
+.reliable-person-question {
 	font-weight: bold;
 	margin-top: 2em;
 }
 
-.reliable-person__form {
+.reliable-person-form {
+	background-color: $color-very-light-gray;
 	margin-top: 1em;
-	padding: 0.5em 1.5em;
-	background-color: #eee;
-	@include respond-to(medium_screens_920) { padding: 0.5em 2.5em; }
+	padding: .5em 1.5em;
+
+	@include respond-to(medium_screens_920) { padding: .5em 2.5em; }
 }

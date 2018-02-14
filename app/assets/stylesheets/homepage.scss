@@ -1,81 +1,102 @@
 .homepage { position: relative; }
-.homepage__banner { @extend .clearfix; }
-.homepage__banner-holder {
-	width: 100%;
-	padding-top: 18.25%;
+
+.homepage-banner { @extend .clearfix; }
+
+.homepage-banner-holder {
 	background: image-url('homepage_mosaic_banner_sm.jpg') center center no-repeat;
-	background-size: cover;
-	background-size: auto 100%;
 	background-position: center;
+	// background-size: cover;
+	background-size: auto 100%;
 	margin-bottom: 2em;
+	padding-top: 18.25%;
+	width: 100%;
+
 	@include respond-to(medium_screens_800) {
-		float: right;
-		width: 50%;
-		padding-top: 37.22%;
 		background-image: image-url('homepage_mosaic_banner_lg.jpg');
+		float: right;
 		margin-bottom: 0;
+		padding-top: 37.22%;
+		width: 50%;
 	}
+
 	@include respond-to(large_screens_1020) {
-		width: 40%;
 		padding-top: 29.77%;
+		width: 40%;
 	}
 }
-.homepage__banner-text {
-	padding: 0 1em;
+
+.homepage-banner-text {
 	color: $color-primary;
 	font-weight: bold;
+	padding: 0 1em;
 	text-align: center;
+
 	@include respond-to(medium_screens_800) {
 		float: left;
-		width: 50%;
 		padding-top: 1em;
+		width: 50%;
 	}
+
 	@include respond-to(medium_screens_900) { padding-top: 2em; }
+
 	@include respond-to(large_screens_1020) {
-		width: 60%;
 		padding-top: 3em;
+		width: 60%;
 	}
 }
-.homepage__text {
+
+.homepage-text {
 	display: inline;
 	@include respond-to(medium_screens_800) { display: inline-block; }
 }
-.homepage__heading1 {
-	margin-bottom: 1em;
+
+.homepage-heading1 {
 	font-size: 1.1em;
+	margin-bottom: 1em;
+
 	@include respond-to(medium_screens_900) {
 		font-size: 1.4em;
 		line-height: 133%;
 	}
+
 	@include respond-to(large_screens_1020) { font-size: 1.5em; }
 }
-.homepage__heading2 {
+
+.homepage-heading2 {
 	font-size: 1em;
 	margin: 1em 0;
+
 	@include respond-to(medium_screens_900) {
 		font-size: 1.2em;
-		margin: 1.5em 0;
 		line-height: 133%;
-		.homepage__text { color: $color-primary; }
+		margin: 1.5em 0;
+
+		.homepage-text { color: $color-primary; }
 	}
+
 	@include respond-to(large_screens_1020) { font-size: 1.4em; }
 }
-.homepage__action {
+
+.homepage-action {
 	padding: 1em 0;
 	text-align: center;
+
 	@include respond-to(medium_screens_630) {
 		float: left;
 		width: 50%;
 	}
+
 	@include respond-to(medium_screens_800) {
 		float: none;
 		width: auto;
 	}
+
 	@include respond-to(large_screens_1020) {
 		float: left;
 		width: 50%;
 	}
 }
-.homepage__action--sign-up > a { width: 80%; }
-.homepage__action--sign-in > a { width: 80%; }
+
+.homepage-action-sign-up > a { width: 80%; }
+.homepage-action-sign-in > a { width: 80%; }
 

@@ -26,17 +26,17 @@ $(document).ready(function() {
 		var newLength = infos_api_particulier_avis.length;
 
 		// changing pop-in_container css
-		$('.popin__container').css({
+		$('.popin-container').css({
 			width: "650px",
 			height: "370px"
 		});
-		$('.popin__p').css({ "margin-top": "0" });
+		$('.popin-p').css({ "margin-top": "0" });
 
 		// emptying field before injecting data in it.
 		$("#text__p").empty();
 
 		// generating table.
-		$("#text__p").append('<div id="infos_api_particulier_fixed">' +
+		$("#text__p").append('<div id="infos-api-particulier-fixed">' +
 				'<table>' +
 					'<thead>' +
 						'<tr>' +
@@ -54,7 +54,7 @@ $(document).ready(function() {
 					'</tbody>' +
 				'</table>' +
 			'</div>' +
-			'<div id="infos_api_particulier_table_container">' +
+			'<div id="infos-api-particulier-table-container">' +
 				'<table id="infos_api_particulier_table">' +
 					'<thead id="infos_api_particulier_table_head">' +
 						'<tr id="infos_api_particulier_table_head_row">' +
@@ -92,8 +92,8 @@ $(document).ready(function() {
 	function bindPopins() {
 		$(".popin").click(function(e) {
 			// List of unclickable elements
-			var element1 = document.getElementById("infos_api_particulier_table_container");
-			var element2 = document.getElementById("infos_api_particulier_fixed");
+			var element1 = document.getElementById("infos-api-particulier-table-container");
+			var element2 = document.getElementById("infos-api-particulier-fixed");
 			// Prevent click on element and sub child
 			if (undefined !== element1 && null !== element1 && undefined !== element2 && null !== element2) {
 				if (element1.contains(e.target) || element2.contains(e.target)) return ;
@@ -101,11 +101,11 @@ $(document).ready(function() {
 			if ($(this).has("#api-particulier")) {
 				// restaure of default popin value
 				$("#text__p").text("Les données d'avis d'impositions et d'occupants du projet vont être mis à jour.");
-				$('.popin__container').css({
+				$('.popin-container').css({
 					width: "600px",
 					height: "286px"
 				});
-				$('.popin__p').css({
+				$('.popin-p').css({
 					"margin-top": "1em"
 				});
 				$(".api-particulier_confirm").css("display", "inline-block");
@@ -130,7 +130,7 @@ $(document).ready(function() {
 			$.get( "/api/particulier/refresh/" + content)
 				.done(function( data ) {
 					if (data.status == 0) {
-						info = $(".popin__container")
+						info = $(".popin-container")
 						var infos_api_particulier = JSON.stringify(data);
 						var infos_api_particulier_old = data.old;
 						var infos_api_particulier_avis = data.avis;
@@ -145,7 +145,7 @@ $(document).ready(function() {
 	function intervenantsModal() {
 		var modal = document.getElementById('modalIntervenants');
 		if (undefined !== modal && null !== modal) {
-			var no_redirect = document.getElementsByClassName("modalIntervenants-cancel")[0];
+			var no_redirect = document.getElementsByClassName("modal-intervenants-cancel")[0];
 			no_redirect.onclick = function(e ) {
 					e.preventDefault();
 					modal.style.display = "none";
@@ -154,12 +154,12 @@ $(document).ready(function() {
 					e.preventDefault();
 					var checked = intervenantsCaptureCheckbox().split(",");
 					$(".modal-text").empty();
-					$(".modal-text").append("<div id='displayIntervenantsContainer'></div>");
-					$("#displayIntervenantsContainer").append("<p>Souhaitez-vous vraiment associer ces intervenants au projet ?</p>");
+					$(".modal-text").append("<div class='display-intervenants-container'></div>");
+					$(".display-intervenants-container").append("<p>Souhaitez-vous vraiment associer ces intervenants au projet ?</p>");
 					for (var i in checked) {
 							if (checked.hasOwnProperty(i))
 									if (i < checked.length - 1)
-											$("#displayIntervenantsContainer").append("<div class='displayIntervenants'>" + checked[i] + "</div>");
+											$(".display-intervenants-container").append("<div class='display-intervenants'>" + checked[i] + "</div>");
 					}
 					modal.style.display = "block";
 			});

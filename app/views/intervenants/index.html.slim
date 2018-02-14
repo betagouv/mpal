@@ -1,75 +1,75 @@
 .contact-details
-  .contact-details__column
+  .contact-details-column
     - if current_user
-      h2.contact-details__title Vos coordonnées
+      h2.contact-details-title Vos coordonnées
     - else
-      h2.contact-details__title Côté particulier
+      h2.contact-details-title Côté particulier
 
-    .contact-details__item
-      .contact-details__role Demandeur
-      p.contact-details__name= @demandeur.fullname
+    .contact-details-item
+      .contact-details-role Demandeur
+      p.contact-details-name= @demandeur.fullname
       p= @projet_courant.adresse_postale.description
       p= @projet_courant.email
       - if @projet_courant.tel.present?
         p= @projet_courant.tel
       - if (can? :update, @projet_courant) or current_user 
-        .contact-details__actions
+        .contact-details-actions
           = btn href: dossier_demandeur_path(@projet_courant), icon: "pencil", class: "btn-secondary", html: { title: "Modifier" }
 
     - if @personne.present?
-      .contact-details__item
-        .contact-details__role Personne de confiance
-        p.contact-details__name #{"mrs" == @personne.civilite ? "Madame" : "Monsieur"} #{@personne.fullname}
+      .contact-details-item
+        .contact-details-role Personne de confiance
+        p.contact-details-name #{"mrs" == @personne.civilite ? "Madame" : "Monsieur"} #{@personne.fullname}
         - if @personne.email.present?
           p= @personne.email
         - if @personne.tel.present?
           p= @personne.tel
         - if can? :update, @projet_courant
-          .contact-details__actions
+          .contact-details-actions
             = btn href: dossier_demandeur_path(@projet_courant), icon: "pencil", class: "btn-secondary", html: { title: "Modifier" }
 
-  .contact-details__column
+  .contact-details-column
     - if current_user
-      h2.contact-details__title Qui contacter ?
+      h2.contact-details-title Qui contacter ?
     - else
-      h2.contact-details__title Intervenants
+      h2.contact-details-title Intervenants
 
     - if @pris.present?
-      .contact-details__item
-        .contact-details__role PRIS
-        p.contact-details__name= @pris.raison_sociale
+      .contact-details-item
+        .contact-details-role PRIS
+        p.contact-details-name= @pris.raison_sociale
         - if @pris.adresse_postale.present?
           p= @pris.adresse_postale
         p= @pris.email
         - if @pris.phone.present?
           p= @pris.phone
         - if can? :manage, Invitation
-          .contact-details__actions
+          .contact-details-actions
             = btn href: dossier_demandeur_path(@projet_courant), icon: "pencil", class: "btn-secondary", html: { title: "Modifier" }
 
     - if @operateur.present?
-      .contact-details__item
-        .contact-details__role Opérateur
-        p.contact-details__name= @operateur.raison_sociale
+      .contact-details-item
+        .contact-details-role Opérateur
+        p.contact-details-name= @operateur.raison_sociale
         - if @operateur.adresse_postale.present?
           p= @operateur.adresse_postale
         p= @operateur.email
         - if @operateur.phone.present?
           p= @operateur.phone
         - if can? :manage, Invitation
-          .contact-details__actions
+          .contact-details-actions
             = btn href: dossier_demandeur_path(@projet_courant), icon: "pencil", class: "btn-secondary", html: { title: "Modifier" }
 
     - if @projet_courant.status_already(:transmis_pour_instruction)
-      .contact-details__item
-        .contact-details__role Instructeur
-        p.contact-details__name= @instructeur.raison_sociale
+      .contact-details-item
+        .contact-details-role Instructeur
+        p.contact-details-name= @instructeur.raison_sociale
         - if @instructeur.adresse_postale.present?
           p= @instructeur.adresse_postale
         p= @instructeur.email
         - if @instructeur.phone.present?
           p= @instructeur.phone
         - if can? :manage, Invitation
-          .contact-details__actions
+          .contact-details-actions
             = btn href: dossier_demandeur_path(@projet_courant), icon: "pencil", class: "btn-secondary", html: { title: "Modifier" }
 

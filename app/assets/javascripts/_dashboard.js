@@ -2,19 +2,19 @@
 
 $(document).ready(function() {
 	function dashboardNewTab() {
-		$('.dashboardContainer ul.dashboardTabContainer').addClass('active').find('> li:eq(0)').addClass('current');
+		$('.dashboard-container ul.dashboard-tab-container').addClass('active').find('> li:eq(0)').addClass('current');
 
-		$('.dashboardContainer ul.dashboardTabContainer li a').click(function (e) { 
-			
-			var tab = $(this).closest('.dashboardContainer'), 
+		$('.dashboard-container ul.dashboard-tab-container li a').click(function (e) {
+
+			var tab = $(this).closest('.dashboard-container'),
 					index = $(this).closest('li').index();
-			
-			tab.find('ul.dashboardTabContainer > li').removeClass('current');
+
+			tab.find('ul.dashboard-tab-container > li').removeClass('current');
 			$(this).closest('li').addClass('current');
-			
-			tab.find('.tab_content').find('div.tabs_item').not('div.tabs_item:eq(' + index + ')').hide();;
-			tab.find('.tab_content').find('div.tabs_item:eq(' + index + ')').show();
-			
+
+			tab.find('.tab-content').find('div.tabs-item').not('div.tabs-item:eq(' + index + ')').hide();;
+			tab.find('.tab-content').find('div.tabs-item:eq(' + index + ')').show();
+
 			var searchParam = preserveSearch();
 			var url = "/dossiers" + searchParam;
 			window.history.replaceState(null, null, url);
@@ -23,31 +23,31 @@ $(document).ready(function() {
 	}
 
 	function dashboardFilterAdvanced() {
-		$(".dashboardFilterContainerAdvanced").slideUp();
+		$(".dashboard-filter-container-advanced").slideUp();
 		$(".dashboardFilterAdvancedCheckbox").change(function(e) {
 			if ($(this).is(':checked')) {
-				$(".dashboardFilterContainerAdvanced").slideDown();
-				$(".dashboardFilterFreeSearch input").attr('disabled','disabled');
+				$(".dashboard-filter-container-advanced").slideDown();
+				$(".dashboard-filter-free-search input").attr('disabled','disabled');
 			} else {
-				$(".dashboardFilterContainerAdvanced").slideUp();
-				$(".dashboardFilterFreeSearch input").removeAttr('disabled');
+				$(".dashboard-filter-container-advanced").slideUp();
+				$(".dashboard-filter-free-search input").removeAttr('disabled');
 			}
 		});
 	}
 
 	function preserveSearch() {
 		var advanced = false;
-		var currentTab = $('.dashboardContainer ul.dashboardTabContainer li').index($('.current'));
+		var currentTab = $('.dashboard-container ul.dashboard-tab-container li').index($('.current'));
 		var searchParam = "?utf8=✓";
 
 		// Catch Type d'intervention
-		var intervType = $('.dashboardFilterStatus select').find(":selected").text();
+		var intervType = $('.dashboard-filter-status select').find(":selected").text();
 		if (intervType == "Type d'intervention" || intervType == "")
 			intervType = "";
 		searchParam += "&search[type]=" + intervType;
 
 		// Catch Etat du dossier
-		var status = $('.dashboardFilterState select').find(":selected").val();
+		var status = $('.dashboard-filter-state select').find(":selected").val();
 		if (status == "Etat du dossier" || status == "")
 			status = "";
 		searchParam += "&search[status]=" + status;
@@ -97,7 +97,7 @@ $(document).ready(function() {
 		}
 		// If advanced filter is off catch free search
 		else {
-			var freeSearch = $('.dashboardFilterFreeSearch input').val();
+			var freeSearch = $('.dashboard-filter-free-search input').val();
 			searchParam += "&search[query]=" + freeSearch;
 		}
 

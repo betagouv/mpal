@@ -3,22 +3,32 @@
 	margin-top: 2em;
 	@include respond-to(large_screens_1000) { display: flex; }
 }
-.login-demo__subtitle { margin: 2em 0 1em; }
-.login-demo__list { list-style-position: inside; }
-.login-demo__column {
+
+.login-demo-subtitle { margin: 2em 0 1em; }
+
+.login-demo-column {
 	padding: 30px;
 	@include respond-to(large_screens_1000) { width: 60%; }
 }
-@include respond-to(large_screens_1000) { .login-demo__column-left { width: 40%; } }
-.login-demo__table { width: 100%; }
-.login-demo__title, .login-demo__th { text-align: left; }
-.login-demo__title {
-	padding-top: 1em;
-	color: black;
+
+@include respond-to(large_screens_1000) {
+	.login-demo-column-left { width: 40%; }
 }
-.login-demo__th {
+
+.login-demo-table { width: 100%; }
+.login-demo-title,
+.login-demo-th {
+	text-align: left;
+}
+
+.login-demo-title {
+	color: $color-pure-black;
+	padding-top: 1em;
+}
+
+.login-demo-th {
 	a {
 		color: $color-deep-green;
-		&:hover { color: black; }
+		&:hover { color: $color-pure-black; }
 	}
 }

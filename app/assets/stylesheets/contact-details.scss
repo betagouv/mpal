@@ -1,24 +1,34 @@
 .contact-details { @extend .clearfix; }
+
 @include respond-to(medium_screens_600) {
-	.contact-details__column {
+	.contact-details-column {
 		float: left;
-		width: 50%;
 		padding-right: 2em;
+		width: 50%;
 	}
 }
-.contact-details__item {
-	position: relative;
+
+.contact-details-item {
 	margin-bottom: 1em;
+	position: relative;
 }
-.contact-details__role, .contact-details__name { font-weight: bold; }
-.contact-details__role { font-size: 1.5em; }
-.contact-details__title {
+
+.contact-details-role,
+.contact-details-name {
+	font-weight: bold;
+}
+
+.contact-details-role { font-size: 1.5em; }
+
+.contact-details-title {
+	margin-bottom: .5em;
 	margin-top: 1.5em;
-	margin-bottom: 0.5em;
 }
-.contact-details__actions {
+
+.contact-details-actions {
 	position: absolute;
-	top: 0;
 	right: 1em;
+	top: 0;
+
 	@include respond-to(medium_screens_600) { right: 3em; }
 }

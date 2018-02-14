@@ -1,24 +1,31 @@
-@include respond-to(medium_screens_600) { .project-layout { height: 100%; } }
-.project-layout__links {
-	display: none;
-	padding: 1em;
-	margin-top: 1em;
-	border-radius: 3px;
+@include respond-to(medium_screens_600) {
+	.project-layout { height: 100%; }
+}
+
+.project-layout-links {
 	border: solid 3px $color-light-grey;
-	@include respond-to(medium_screens_600) { 
+	border-radius: 3px;
+	display: none;
+	margin-top: 1em;
+	padding: 1em;
+
+	@include respond-to(medium_screens_600) {
 		flex: 0 0 200px;
 		margin-left: 1em;
 		margin-top: 0;
 	}
+
 	@include respond-to(medium_screens_700) { flex: 0 0 250px; }
 	@include respond-to(medium_screens_800) { flex: 0 0 300px; }
 	@include respond-to(large_screens_1200) {  margin-left: 2em; }
 }
-#indentDepot {
+
+#indent-depot {
 	@include respond-to(mobile_screens_500) { float: left; }
 	@include respond-to(mobile_screens_501) {  float: right; }
 }
-#indentDate {
-	padding-left: 26px;
+
+#indent-date {
 	font-weight: bold;
+	padding-left: 26px;
 }

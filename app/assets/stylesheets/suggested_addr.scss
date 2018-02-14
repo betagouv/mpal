@@ -1,42 +1,46 @@
-.suggestedAddr {
-	display: block;
-	max-width: 480px;
-	width: 100%;
-	height: auto;
-	position: absolute;
-	z-index: 100;
+.suggested-addr {
 	border: 2px solid $color-steel;
 	border-radius: 5px;
+	display: block;
+	height: auto;
 	margin-top: 2px;
-	.suggestedAddrList {
-		width: 100%;
+	max-width: 480px;
+	position: absolute;
+	width: 100%;
+	z-index: 100;
+
+	.suggested-addr-list {
 		height: 100%;
 		position: relative;
+		width: 100%;
+
 		li {
-			width: auto;
-			height: auto;
-			position: relative;
-			color: black;
-			padding: 0.5rem 0.75rem;
+			background-color: $color-very-white;
+			color: $color-pure-black;
 			font-size: 1rem;
+			height: auto;
 			line-height: 1.25;
-			background-color: white;
-			&:not(:last-child) {
-				border-bottom: 1px solid $color-steel;
-			}
+			padding: .5rem .75rem;
+			position: relative;
+			width: auto;
+
+			&:not(:last-child) { border-bottom: 1px solid $color-steel; }
+
 			&:hover {
 				font-size: 1.1rem;
 				font-weight: bold;
 			}
 		}
-		.li_addr_active {
+
+		.li-addr-active {
 			background-color: $color-steel;
-			color: white;
+			color: $color-very-white;
 		}
 	}
 }
 
-.addrError, .addrError:focus {
+.addr-error,
+.addr-error:focus {
+	border: 2px solid $color-pure-red;
 	outline: none !important;
-    border: 2px solid red;
 }

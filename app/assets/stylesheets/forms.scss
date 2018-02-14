@@ -1,75 +1,91 @@
-@import "custom_bootstrap/variables";
-@import "custom_bootstrap/mixins";
-
 .form-group { @include clearfix(); }
+
 .form {
-	.form-required-mark abbr[title] {
-		position: absolute;
-		left: -15px;
-		text-decoration: none;
-	}
-	label {
-		position: relative;
-		display: inline-block;
-		cursor: pointer;
-		font-weight: normal;
-		&.required {
-			font-weight: bold;
-			> abbr { color: $color-very-gray; }
-		}
-	}
-	.form-field {
-		display: block;
-		position: relative;
-		min-height: 1px;
-		width: 100%;
-	}
-	.form-control-label {
-		padding-top: calc(.5rem - 1px * 2);
-		padding-bottom: calc(.5rem - 1px * 2);
-		margin-bottom: 0;
-	}
-	p.form-field { padding-top: 7px; }
-	.form-group.price .form-control { text-align: right; }
-	.form-field { max-width: 480px; }
 	@include media-breakpoint-up(md) {
 		.size-xs .form-field { max-width: 120px; }
 		.size-s  .form-field { max-width: 240px; }
 		.size-l  .form-field { max-width: 100%; }
 	}
-	.has-error .form-field-label { padding-bottom: 7px; }
-	.form-control-icon {
+
+	.form-required-mark abbr[title] {
+		left: -15px;
 		position: absolute;
-		top: 0;
-		right: 0;
-		width: 38px;
-		height: 38px;
-		line-height: 38px;
-		text-align: center;
-		margin: 0;
-		color: $brand-danger;
+		text-decoration: none;
 	}
-	&.has-danger .form-control { padding-right: calc(38px * 1.25); }
-	.form-check-input { margin-left: 0; }
-	.form-check-hacked {
-		> label {
-			display: block;
-			cursor: default;
+
+	label {
+		cursor: pointer;
+		display: inline-block;
+		font-weight: normal;
+		position: relative;
+
+		&.required {
+			font-weight: bold;
+			> abbr { color: $color-very-gray; }
 		}
 	}
-	.form-check-label > input { margin-right: 0.5em; }
+
+	.form-field {
+		display: block;
+		min-height: 1px;
+		position: relative;
+		width: 100%;
+	}
+
+	.form-control-label {
+		margin-bottom: 0;
+		padding-bottom: calc(.5rem - 1px * 2);
+		padding-top: calc(.5rem - 1px * 2);
+	}
+
+	p.form-field { padding-top: 7px; }
+	.form-group.price .form-control { text-align: right; }
+	.form-field { max-width: 480px; }
+	.has-error .form-field-label { padding-bottom: 7px; }
+
+	.form-control-icon {
+		color: $brand-danger;
+		height: 38px;
+		line-height: 38px;
+		margin: 0;
+		position: absolute;
+		right: 0;
+		text-align: center;
+		top: 0;
+		width: 38px;
+	}
+
+	&.has-danger .form-control { padding-right: calc(38px * 1.25); }
+	.form-check-input { margin-left: 0; }
+
+	.form-check-hacked {
+		> label {
+			cursor: default;
+			display: block;
+		}
+	}
+
+	.form-check-label > input { margin-right: .5em; }
 	.text-muted { color: $color-very-gray; }
 }
 
 .form-inline {
-	.form-control-label, .form-field { float: left; }
-	.form-control-label { padding-right: 1em; }
 	@include media-breakpoint-up(480px) {
 		.form-control-label { max-width: percentage((4 / $grid-columns)); }
-		.form-field         { max-width: percentage((8 / $grid-columns)); }
-		.form-field-label   { margin-left: percentage((4 / $grid-columns)); }
+		.form-field { max-width: percentage((8 / $grid-columns)); }
+		.form-field-label { margin-left: percentage((4 / $grid-columns)); }
 	}
+
+	.form-control-label,
+	.form-field {
+		float: left;
+	}
+
+	.form-control-label { padding-right: 1em; }
 }
 
 .form-explanations { margin-bottom: 1em; }
-.input-number, .input-price { text-align: right;}
+.input-number,
+.input-price {
+	text-align: right;
+}

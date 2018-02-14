@@ -1,12 +1,18 @@
-.section__content {
+.section-content {
 	@include respond-to(medium_screens_600) { padding: 1.5em; }
 	@include respond-to(medium_screens_920) { padding: 2.5em; }
 }
-.section__content-p, .content__question { margin-bottom: 1em; }
-.section__content-link {
+
+.section-content-p,
+.content-question {
+	margin-bottom: 1em;
+}
+
+.section-content-link {
 	color: $color-primary;
+
 	&:hover {
-		text-decoration: underline;
 		color: $color-black;
+		text-decoration: underline;
 	}
 }

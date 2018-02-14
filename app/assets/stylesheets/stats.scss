@@ -1,32 +1,38 @@
 .stats { @extend .clearfix; }
-.stats__heading {
-	margin-top: 1.5em;
+
+.stats-heading {
 	margin-bottom: 1em;
+	margin-top: 1.5em;
 }
-.stats__metric {
-	float: left;
-	margin-right: 10px;
-	margin-bottom: 10px;
-	width: 140px;
-	height: 110px;
-	padding: 10px 5px 0;
-	border-radius: 3px;
-	text-align: center;
-	color: $color-black;
+
+.stats-metric {
 	background-color: $color-light-grey;
+	border-radius: 3px;
+	color: $color-black;
+	float: left;
+	height: 110px;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	padding: 10px 5px 0;
+	text-align: center;
+	width: 140px;
+
 	@include respond-to(large_screens_1110) {
-		margin-right: 30px;
-		margin-bottom: 30px;
-		width: 170px;
 		height: 150px;
+		margin-bottom: 30px;
+		margin-right: 30px;
 		padding-top: 20px;
+		width: 170px;
 	}
+
 	&:last-child { margin-right: 0; }
 }
-.stats__metric-value {
+
+.stats-metric-value {
 	font-size: 24px;
-	line-height: 1.5em;
 	font-weight: bold;
+	line-height: 1.5em;
+
 	@include respond-to(large_screens_1110) { font-size: 42px; }
 }
 

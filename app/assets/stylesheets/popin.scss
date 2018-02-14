@@ -1,38 +1,53 @@
-.popin__container, .popin { position: fixed; }
+.popin-container,
 .popin {
-	display: none;
-	z-index: 1000;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.4);
+	position: fixed;
 }
-.popin__container {
+
+.popin {
+	background: $color-transparent-black-4;
+	display: none;
+	height: 100%;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+}
+
+.popin-container {
+	background: $color-very-light-gray;
+	border: 3px solid $color-primary;
+	height: 286px;
 	left: 50%;
-	top: 50%;
 	margin-left: -300px;
 	margin-top: -143px;
-	width: 600px;
-	height: 286px;
 	padding: 30px;
-	border: 3px solid $color-primary;
-	background: $color-very-light-gray;
+	top: 50%;
+	width: 600px;
 }
-.popin__image {
+
+.popin-image {
 	float: left;
-	width: 245px;
 	height: 220px;
 	margin-right: 30px;
+	width: 245px;
 }
-.popin__p { margin-top: 1em; }
-.popin__p--centered { text-align: center; }
-.popin__close, .popin__confirm { margin: 2em auto 0; }
-.popin__confirm { background-color: $color-dark-green; }
-#infos_api_particulier_table_container, #infos_api_particulier_fixed {
+
+.popin-p { margin-top: 1em; }
+.popin-p-centered { text-align: center; }
+
+.popin-close,
+.popin-confirm {
+	margin: 2em auto 0;
+}
+
+.popin-confirm { background-color: $color-dark-green; }
+
+#infos-api-particulier-table-container,
+#infos-api-particulier-fixed {
+	border: 1px solid $color-black-russian;
 	display: inline-block;
 	height: 210px;
-	border: 1px solid $color-black-russian;
+
 	table {
 		thead {
 			th {
@@ -41,36 +56,51 @@
 				min-width: 200px;
 			}
 		}
+
 		tbody {
 			tr {
 				min-width: 200px;
+
 				&:nth-child(even) { background-color: $color-very-white; }
 				&:nth-child(odd) { background-color: $color-gray92; }
 			}
 		}
 	}
 }
-#infos_api_particulier_table_container {
-	width: 384px;
+
+#infos-api-particulier-table-container {
 	overflow: scroll;
+	width: 384px;
+
 	table {
 		color: $color-waikawa-gray;
-		thead { th { text-align: center; } }
+
+		thead {
+			th { text-align: center; }
+		}
+
 		tbody {
 			tr {
 				&:hover td {
-					background:#4E5066;
-					color:$color-very-white;
+					background: $color-steel-metal-blue;
+					color: $color-very-white;
 				}
+
 				td {
-					text-align: left;
 					padding-left: 20px;
+					text-align: left;
 				}
 			}
 		}
 	}
 }
-#infos_api_particulier_fixed {
+
+#infos-api-particulier-fixed {
 	width: 200px;
-	table { thead { th { text-align: left; } } }
+
+	table {
+		thead {
+			th { text-align: left; }
+		}
+	}
 }

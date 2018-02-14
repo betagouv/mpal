@@ -1,36 +1,48 @@
-.messages__history {
-	padding: 1.5em 0;
+.messages-history {
+	border-bottom: 1px solid $color-primary;
+	border-top: 1px solid $color-primary;
 	margin: 1.5em 0;
 	max-width: 40em;
-	border-top: 1px solid $color-primary;
-	border-bottom: 1px solid $color-primary;
+	padding: 1.5em 0;
 }
-.messages__message {
+
+.messages-message {
 	margin-top: 1em;
 	padding-right: 3em;
+
 	&:first-child { margin-top: 0; }
 }
-.messages__message--mine {
-	padding-right: 0;
+
+.messages-message-mine {
 	padding-left: 3em;
+	padding-right: 0;
 }
-.messages__message-informations {
-	font-size: 0.8em;
+
+.messages-message-informations {
 	@extend .clearfix;
+	font-size: .8em;
 }
-.messages__fullname, .messages__datetime { display: inline-block; }
-.messages__fullname { color: $color-black; }
-.messages__message--mine .messages__fullname { color: $color-primary; }
-.messages__datetime {
-	float: right;
+
+.messages-fullname,
+.messages-datetime {
+	display: inline-block;
+}
+
+.messages-fullname { color: $color-black; }
+.messages-message-mine .messages-fullname { color: $color-primary; }
+
+.messages-datetime {
 	color: $color-very-gray;
+	float: right;
 }
-.messages__content {
-	padding: 1em;
-	border-radius: 3px;
+
+.messages-content {
 	background-color: $color-very-light-gray;
+	border-radius: 3px;
+	padding: 1em;
 }
-.messages__message--mine .messages__content {
+
+.messages-message-mine .messages-content {
 	background-color: $color-primary;
-	color: white;
+	color: $color-very-white;
 }

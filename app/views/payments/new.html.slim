@@ -1,8 +1,8 @@
 = simple_form_for @payment, url: { controller: "payments", action: "create" }, html: { class: "form" } do |f|
-  h2.payment__title= t("payment.creation")
+  h2.payment-title= t("payment.creation")
   = render "payments/form", form: f
-  .payment__button_group
-    = link_to dossier_payments_path(@projet_courant), class: "btn btn-icon btn-secondary payment__button"
+  .payment-button-group
+    = link_to dossier_payments_path(@projet_courant), class: "btn btn-icon btn-secondary payment-button"
       = t("payment.actions.cancel.label")
       i.glyphicon.glyphicon-remove
-    = btn name: t("payment.actions.create.label"), class: "payment__button", icon: "ok"
+    = btn name: t("payment.actions.create.label"), class: "payment-button", icon: "ok"

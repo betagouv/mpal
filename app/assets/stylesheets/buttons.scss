@@ -1,130 +1,163 @@
 .btn {
-	position: relative;
-	display: inline-block;
-	border-radius: 3px;
+	background-color: $color-red-pink-gradient;
 	border: solid 1px $color-magenta;
-	color: white;
-	padding: 0.3125em 0.6125em;
+	border-radius: 3px;
+	color: $color-very-white;
+	display: inline-block;
 	font-size: 1em;
 	line-height: 1.6em;
-	background-color: $color-red-pink-gradient;
-	transition: all 200ms ease;
+	padding: .3125em .6125em;
+	position: relative;
 	text-decoration: none;
+	transition: all 200ms ease;
+
 	&:hover { background-color: $color-red; }
-	span + .glyphicon, .glyphicon + span { margin-left: 0.4em; }
+
+	span + .glyphicon,
+	.glyphicon + span {
+		margin-left: .4em;
+	}
 }
+
 .btn + .btn { margin-left: 2em; }
+
 .btn-small {
-	font-size: 0.8em;
+	font-size: .8em;
 	line-height: 1.3em;
 }
+
 .btn-large {
 	font-size: 1.25em;
 	height: 2.5em;
 }
+
 .btn-centered {
 	display: table;
 	margin: 15px auto 0;
 }
+
 .btn-test {
 	background-color: $color-triplet-de-sortileges;
 	border-color: $color-deep-green;
+
 	&:hover {
 		background-color: $color-fern;
 		border-color: $color-fruit-salad;
 	}
 }
+
 .btn-secondary {
 	background-color: $color-very-gray;
 	border-color: $color-very-light-dark-gray;
+
 	&:hover {
 		background-color: $color-very-dark-gray;
 		border-color: $color-very-lighter-dark-gray;
 	}
 }
+
 .btn-default {
-	background-color: white;
+	background-color: $color-very-white;
 	border-color: $color-grey80;
 	color: $color-very-darker-gray;
+
 	&:hover {
 		background-color: $color-whisper;
 		border-color: $color-gray68;
 		color: $color-very-darker-gray;
 	}
 }
+
 .align-top-right {
 	position: absolute;
 	right: 15px;
 	top: 5px;
 }
+
 .modal {
+	background-color: $color-transparent-black-4;
 	display: none;
-	position: fixed;
-	z-index: 1;
+	height: 100%;
 	left: 0;
+	overflow: auto;
+	position: fixed;
 	top: 0;
 	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: rgb(0,0,0);
-	background-color: rgba(0,0,0,0.4);
+	z-index: 1;
 }
+
 .modal-content {
 	background-color: $color-white2;
+	border: 1px solid $color-very-gray;
 	margin: 15% auto;
 	padding: 20px;
-	border: 1px solid $color-very-gray;
-	width: 360px;
 	text-align: center;
+	width: 360px;
 }
-.modalIntervenants-confirm, .modalIntervenants-cancel{ margin-top: 10px; }
-.modalAdresse-confirm, .modalAdresse-cancel{
+
+.modal-intervenants-confirm,
+.modal-intervenants-cancel {
+	margin-top: 10px;
+}
+
+.modal-adresse-confirm,
+.modal-adresse-cancel {
 	margin-top: 10px;
 	width: 100px;
 }
-.modal-text, .modal-text2 {
+
+.modal-text,
+.modal-text2 {
 	font-size: 16px;
 	font-style: italic;
-	text-decoration: underline;
 	text-align: left;
+	text-decoration: underline;
 }
-.modal-text-addr, .modal-text-addr2 {
+
+.modal-text-addr,
+.modal-text-addr2 {
 	font-size: 16px;
 	font-weight: bold;
 	text-align: left;
 }
+
 .modal-confirm {
-	margin: 2em auto 0;
 	background-color: $color-dark-green;
+	margin: 2em auto 0;
 }
+
 .modal-unclickable {
+	background-color: $color-white-smoke;
+	color: $color-pure-black;
+	cursor: not-allowed;
+	width: 150px;
+
 	&:hover {
 		background-color: $color-white-smoke;
-		color: black;
+		color: $color-pure-black;
 	}
-	background-color: $color-white-smoke;
-	color: black;
-	width: 150px;
-	cursor: not-allowed;
 }
-#displayIntervenantsContainer {
+
+.display-intervenants-container {
 	p {
-		margin-bottom: 20px;
-		text-align: left;
 		font-size: 18px;
 		font-weight: 800;
+		margin-bottom: 20px;
 		margin-top: -15px;
-	}
-	.displayIntervenants {
-		display: block;
-		width: 100%;
 		text-align: left;
 	}
+
+	.display-intervenants {
+		display: block;
+		text-align: left;
+		width: 100%;
+	}
 }
-.intervenant_label_align {
-	padding-left: 23px;
-	margin-top: -23px;
+
+.intervenant-label-align {
 	line-height: 23px;
 	margin-bottom: 5px;
-	word-break: keep-all; 
+	margin-top: -23px;
+	padding-left: 23px;
+	word-break: keep-all;
 }

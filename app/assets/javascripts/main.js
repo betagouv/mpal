@@ -31,7 +31,6 @@ $(document).ready(function() {
 	// Open by default last block
 	$(".block").last().children().addClass("is-open").slideDown(0);
 
-	// Smooth scroll anchor
 	function bindSmoothScrolling() {
 		$('a[href*="#"]:not([href="#"])').click(function() {
 			if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
@@ -153,5 +152,3 @@ $(document).ready(function() {
 		procuration.click(toggle_beneficiary);
 	}
 });
-
-

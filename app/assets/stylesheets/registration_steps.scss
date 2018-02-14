@@ -1,41 +1,51 @@
 .registration-menu {
-	margin: 0.5em 0 1em 0;
-	font-weight: bold;
-	color: $font-color;
 	border-radius: 3px;
+	color: $font-color;
 	display: flex;
+	font-weight: bold;
+	margin: .5em 0 1em;
+
 	@include respond-to(medium_screens_640) { padding-top: 1em; }
 }
-.registration-menu__item-wrapper {
+
+.registration-menu-item-wrapper {
+	color: $color-dark-grey;
 	display: inline-block;
 	-webkit-flex-grow: 1;
 	flex-grow: 1;
 	text-align: center;
-	color: $color-dark-grey;
 }
-.registration-menu__item {
+
+.registration-menu-item {
 	margin: 0 auto;
+
 	@include respond-to(medium_screens_700) {
-		width: 110px;
 		height: 110px;
+		width: 110px;
 	}
 }
-.registration-menu__item--active {
-	border-radius: 100px;
+
+.registration-menu-item-active {
 	background-color: $color-steel;
-	color: white;
+	border-radius: 100px;
+	color: $color-very-white;
 }
-.registration-menu__number {
+
+.registration-menu-number {
 	display: block;
 	font-size: 2em;
 	line-height: 1.3;
+
 	@include respond-to(mobile_screens_400) { font-size: 2.5em; }
+
 	@include respond-to(medium_screens_700) {
 		font-size: 3em;
-		padding-top: 0.1em;
+		padding-top: .1em;
 	}
 }
-.registration-menu__name {
+
+.registration-menu-name {
 	display: none;
+
 	@include respond-to(medium_screens_700) { display: block; }
 }

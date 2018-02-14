@@ -1,12 +1,19 @@
-.occupant-inline-form__title {
-	margin-bottom: 1em;
+.occupant-inline-form-title {
 	font-size: 1em;
 	font-weight: bold;
+	margin-bottom: 1em;
 }
-.occupant-inline-form__fields { @extend .clearfix; }
-.occupant-inline-form__field, .occupant-inline-form__submit { float: left; }
-.occupant-inline-form__field {
+
+.occupant-inline-form-fields { @extend .clearfix; }
+
+.occupant-inline-form-field,
+.occupant-inline-form-submit {
+	float: left;
+}
+
+.occupant-inline-form-field {
 	margin-right: 2em;
 	max-width: 210px;
 }
-.occupant-inline-form__submit { margin-top: 2em; }
+
+.occupant-inline-form-submit { margin-top: 2em; }

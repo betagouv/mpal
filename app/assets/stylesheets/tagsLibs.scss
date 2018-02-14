@@ -1,48 +1,91 @@
 // Variables colors are not used here, 'cause it's supposed to be a stand-alone library
-.simpleTag {
-	position: relative;
+$tc-transparent-white: rgba(255, 255, 255, .5);
+$tc-dark-gray: #a5a5a5;
+$tc-white: #fff;
+$tc-black: #000;
+$tc-silver: #bcbcbc;
+$tc-gold: #ffd700;
+$tc-paris-daisy: #ffff3f;
+$tc-orange: #ffa500;
+$tc-red: #f00;
+$tc-dark-red: #8b0000;
+$tc-green: #008000;
+$tc-dark-green: #006400;
+$tc-blue: #00f;
+$tc-dark-blue: #00008b;
+$tc-magenta: #f0f;
+$tc-purple: #800080;
+$tc-pink: #ffc0cb;
+$tc-turquoise: #40e0d0;
+
+.simple-tag {
+	bottom: 2px;
 	display: inline-block;
-	width: auto;
-	height: auto;
 	font-size: 10px;
 	font-weight: italic;
+	height: auto;
+	margin-bottom: 1px;
+	margin-left: 5px;
 	padding-left: 3px;
 	padding-right: 3px;
-	-webkit-user-select: none;    
-	-moz-user-select: none;
-	-ms-user-select: none;
-	-o-user-select: none;
+	position: relative;
 	user-select: none;
-	margin-left: 5px;
-	margin-bottom: 1px;
-	bottom: 2px;
+	width: auto;
 }
-.blackTag, .goldenTag, .lemonTag,
-.orangeTag, .redTag, .darkredTag,
-.greenTag, .darkgreenTag, .blueTag,
-.darkblueTag, .purpleTag, .darkpurpleTag,
-.pinkTag, .turquoiseTag, .grayTag {
-	border: 1px solid #a5a5a5;
+
+.black-tag,
+.golden-tag,
+.paris-daisy-tag,
+.orange-tag,
+.red-tag,
+.darkred-tag,
+.green-tag,
+.darkgreen-tag,
+.blue-tag,
+.darkblue-tag,
+.magenta-tag,
+.purple-tag,
+.pink-tag,
+.turquoise-tag,
+.silver-tag {
+	border: 1px solid $tc-dark-gray;
 	border-radius: 5px;
-	box-shadow: -1px 2px 10px rgba(255, 255, 255, 0.5) inset;
+	box-shadow: -1px 2px 10px $tc-transparent-white inset;
 }
-.blackTag, .grayTag, .redTag, .darkredTag,
-.greenTag, .darkgreenTag, .blueTag,
-.darkblueTag, .purpleTag, .darkpurpleTag,
-.pinkTag, .turquoiseTag { color: white; }
-.goldenTag, .lemonTag, .orangeTag { color: black; }
-.blackTag { background-color: black; }
-.grayTag { background-color: #bcbcbc; }
-.goldenTag { background-color: #d8b55d; }
-.lemonTag { background-color: #ffff3f; }
-.orangeTag { background-color: #d17e0a; }
-.redTag { background-color: #ff0000; }
-.darkredTag { background-color: #7a1c1c; }
-.greenTag { background-color: #399b18; }
-.darkgreenTag { background-color: #0d4c1c; }
-.blueTag { background-color: #177093; }
-.darkblueTag { background-color: #09078c; }
-.purpleTag { background-color: #a313c6; }
-.darkpurpleTag { background-color: #540a66; }
-.pinkTag { background-color: #ff6bda; }
-.turquoiseTag { background-color: #17e9ed; }
+
+.black-tag,
+.silver-tag,
+.red-tag,
+.darkred-tag,
+.green-tag,
+.darkgreen-tag,
+.blue-tag,
+.darkblue-tag,
+.magenta-tag,
+.purple-tag,
+.pink-tag,
+.turquoise-tag {
+	color: $tc-white;
+}
+
+.golden-tag,
+.paris-daisy-tag,
+.orange-tag {
+	color: $tc-black;
+}
+
+.black-tag { background-color: $tc-black; }
+.silver-tag { background-color: $tc-silver; }
+.golden-tag { background-color: $tc-gold; }
+.paris-daisy-tag { background-color: $tc-paris-daisy; }
+.orange-tag { background-color: $tc-orange; }
+.red-tag { background-color: $tc-red; }
+.darkred-tag { background-color: $tc-dark-red; }
+.green-tag { background-color: $tc-green; }
+.darkgreen-tag { background-color: $tc-dark-green; }
+.blue-tag { background-color: $tc-blue; }
+.darkblue-tag { background-color: $tc-dark-blue; }
+.magenta-tag { background-color: $tc-magenta; }
+.purple-tag { background-color: $tc-purple; }
+.pink-tag { background-color: $tc-pink; }
+.turquoise-tag { background-color: $tc-turquoise; }
