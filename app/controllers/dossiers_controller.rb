@@ -369,7 +369,7 @@ class DossiersController < ApplicationController
       @rfrn2 = []
     elsif current_agent.operateur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 5")
-      @action = all.where("projets.actif = 1  and projets.statut < 5 and projets.statut >= 1")
+      @action = all.where("projets.actif = 1  and projets.statut < 3 and projets.statut >= 1")
       @verif = all.where("projets.actif = 1 and projets.statut = 3")
       @others = []
       @inactifs = all.where.not("projets.actif = 1")
