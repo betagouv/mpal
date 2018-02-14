@@ -360,9 +360,9 @@ class DossiersController < ApplicationController
 
   def fill_tab_intervenant all   
     if current_agent.pris?
-      @traited = all.where("projets.actif = 1 and projets.statut >= 1 and ift_intervenants4 is not NULL")
+      @traited = all.where("projets.actif = 1 and projets.statut >= 2 and ift_intervenants4 is not NULL")
       @action = all.where("projets.actif = 1 and ift_intervenants4 is NULL")
-      @verif = []
+      @verif = all.where("projets.actif = 1 and projets.statut >= 1 and ift_intervenants4 is not NULL")
       @others = []
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
