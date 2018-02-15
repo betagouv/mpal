@@ -656,20 +656,8 @@
 											- else
 												div.dashboardDateText2 Depuis le: Inconnu
 										div
-											- if projet.status_already(:transmis_pour_instruction)
-												- if projet.invited_instructeur
-													= projet.ift_instructeur
-													= " - " + projet.ift_agent_instructeur
-												- else
-													p &nbsp;
-											- elsif projet.status_already(:en_cours)
-												- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-													= projet.ift_operateur
-													= " - " + projet.ift_agent_operateur
-												- else
-													p &nbsp;
-											- elsif projet.ift_pris
-												= projet.ift_pris
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
 											- else
 												p &nbsp;
 									td.tableRowIconsBorder.firstRowIcons
