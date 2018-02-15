@@ -4,7 +4,7 @@ class ApisController < ApplicationController
 
 	def update_state
 
-		count = 0
+		# count = 0
 
 		begin
 			if (request.headers["token"]) != ENV['SECRET_SEL_API_FOR_OPAL'] || ENV['SECRET_SEL_API_FOR_OPAL'] == nil
@@ -33,20 +33,19 @@ class ApisController < ApplicationController
 								opalDatePosition = nil
 							end
 
-							Rails.logger.debug(opalDatePosition)
-
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil
 
 								if projet.opal_position != opalPosition || projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel
 									projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPosition)
-									count += 1
+									# count += 1
 								end
 							end
 						end
 					end
 				end
 
-				Rails.logger.debug("Dossiers mis à jour: " + count.to_s)
+				# Rails.logger.debug("Dossiers mis à jour: " + count.to_s)
+				
 				render json: {
 					status: 202,
 					message: "La requête a ete acceptée et son traitement est en cours"
