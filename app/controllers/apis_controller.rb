@@ -17,7 +17,8 @@ class ApisController < ApplicationController
 
 				parsed_json["selDossiers"].each do |dossier|
 
-					if dossier["properties"]["numero"]
+					if dossier["properties"]["numero"] && /\A\d+\z/.match(dossier["properties"]["numero"])
+
 						projet = Projet.find_by(:opal_numero => dossier["properties"]["numero"])
 
 						if projet
@@ -25,59 +26,19 @@ class ApisController < ApplicationController
 							opalPosition = dossier["properties"]["position"]
 							
 							begin
-								opalDatePosition = DateTime.parse(dossier["properties"]["date"])
+								opalDatePosition = DateTime.strptime(dossier["properties"]["date"], '%s')
 							rescue
 								opalDatePosition = nil
 							end
 							
-							opalPositionLabel = ""
 
-							if opalPosition == "10058"
-								opalPositionLabel = "En cours d'instruction"
-
-							elsif opalPosition == "8"
-								opalPositionLabel = "Accordé"
-
-							elsif opalPosition == "10"
-								opalPositionLabel = "Rejeté"
-
-							elsif opalPosition == "10060"
-								opalPositionLabel = "Classé sans suite"
-
-							elsif opalPosition == "10055"
-								opalPositionLabel = "Aide retirée"
-
-							elsif opalPosition == "10072"
-								opalPositionLabel = "Aide retirée avec reversement"
-
-							elsif opalPosition == "10015"
-								opalPositionLabel = "Acompte Deposée en attente d'instruction"
-
-							elsif opalPosition == "10053"
-								opalPositionLabel = "Acompte Payé"
-
-							elsif opalPosition == "10075"
-								opalPositionLabel = "Avance Deposée en attente d'instruction"
-
-							elsif opalPosition == "10076"
-								opalPositionLabel = "Avance Payée"
-
-							elsif opalPosition == "10016"
-								opalPositionLabel = "Solde Deposée en attente d'instruction"
-
-							elsif opalPosition == "10056"
-								opalPositionLabel = "Demande solde supplementaire"
-
-							elsif opalPosition == "10033"
-								opalPositionLabel = "Solde Payée"
-							end
 
 
 
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil
 
 								if projet.opal_position != opalPosition || projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel
-									projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPositionLabel)
+									projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPosition)
 									# count += 1
 								end
 							end
