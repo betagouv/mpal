@@ -17,16 +17,16 @@ class ApisController < ApplicationController
 
 				parsed_json["selDossiers"].each do |dossier|
 
-					if dossier["properties"]["numero"] && /\A\d+\z/.match(dossier["properties"]["numero"])
+					if dossier["numero"] && /\A\d+\z/.match(dossier["numero"])
 
-						projet = Projet.find_by(:opal_numero => dossier["properties"]["numero"])
+						projet = Projet.find_by(:opal_numero => dossier["numero"])
 
 						if projet
 							
-							opalPosition = dossier["properties"]["position"]
+							opalPosition = dossier["position"]
 							
 							begin
-								opalDatePosition = DateTime.strptime(dossier["properties"]["date"], '%s')
+								opalDatePosition = DateTime.strptime(dossier["date"], '%s')
 							rescue
 								opalDatePosition = nil
 							end
