@@ -18,3 +18,4 @@
 //= require _demandes
 //= require _proposition
 //= require main
+//= require urlLib

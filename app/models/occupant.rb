@@ -24,7 +24,7 @@ class Occupant < ApplicationRecord
   end
 
   def can_be_deleted?
-    !demandeur && avis_imposition.occupants.count > 1
+    !demandeur
   end
 end
 
