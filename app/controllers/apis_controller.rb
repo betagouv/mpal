@@ -10,7 +10,11 @@ class ApisController < ApplicationController
 					message: "Le token n'est pas valide"
 				}.to_json and return
 			else
-				json = ActiveSupport::JSON.decode(params["_json"])
+
+
+				json = request.raw_post
+				Rails.logger.debug(json)
+
 
 				json.each do |dossier|
 					if dossier["numero"] && /\A\d+\z/.match(dossier["numero"])
