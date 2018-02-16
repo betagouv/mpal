@@ -9,7 +9,7 @@ table.table.table-striped.table-sm
       th Personnes à charge
       th
   tbody
-    - @projet_courant.avis_impositions.each_with_index do |avis_imposition, index|
+    - @projet_courant.avis_impositions.order("created_at").each_with_index do |avis_imposition, index|
       tr
         td= avis_imposition.numero_fiscal
         td= avis_imposition.reference_avis
