@@ -28,7 +28,8 @@
     = f.input :ventilation_adaptee, as: :radio_buttons, collection: yes_no_collection
     = f.input :presence_humidite, as: :radio_buttons, collection: yes_no_collection
     = f.input :auto_rehabilitation, as: :radio_buttons, collection: yes_no_collection
-    = f.input :remarques_diagnostic
+    = f.input :remarques_diagnostic, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'remarques_diagnostic_count')"}
+    <div class="char_count" id="remarques_diagnostic_count">250 caractère(s) restant</div>
 
   / TODO CSS pas jolie
   fieldset.form-proposition__fieldset
@@ -182,8 +183,10 @@
         = f.input_field :localized_remaining_sum, class: "input-price", id: "js-remaining-sum", disabled: true
         span.input-group-addon €
 
-  = f.input :precisions_travaux
-  = f.input :precisions_financement
+  = f.input :precisions_travaux, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_travaux_count')"}
+  <div class="char_count" id="precisions_travaux_count">250 caractère(s) restant</div>
+  = f.input :precisions_financement, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_financement_count')"}
+  <div class="char_count" id="precisions_financement_count">250 caractère(s) restant</div>
   <p class="alert alert-danger invalidDate" style="display: none;">Année de construction incohérente ou format INVALIDE (AAAA)</p>
   = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
 
@@ -203,6 +206,15 @@ javascript:
       "blackTag", "coût"
   );
   */
+
+  function countChar(val, inject) {
+    var len = val.value.length;
+    if (len > 250) {
+      val.value = val.value.substring(0, 250);
+    } else {
+      $('#' + inject).text(250 - len + " caractère(s) restant");
+    }
+  };
 
   $('.btn-validate-submit').click(function(e) {
     e.preventDefault();
