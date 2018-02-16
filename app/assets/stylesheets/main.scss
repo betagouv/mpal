@@ -1,5 +1,3 @@
-@import "variables";
-
 @font-face {
 	font-family: 'Open Sans';
 	src: font-url('opensans-regular/opensans-regular-webfont.eot');
@@ -10,203 +8,234 @@
 	font-weight: normal;
 	font-style: normal;
 }
+
+body,
+.page-centered {
+	background-color: $color-very-white;
+}
+
 body {
 	color: $font-color;
-	background-color: white;
 	font-family: "Open Sans", Arial, Helvetica, sans-serif;
 }
+
 a {
 	color: $color-very-dark-grey;
 	text-decoration: underline;
 }
+
 .clearfix::after {
-	display: block;
-	content: "";
 	clear: both;
+	content: '';
+	display: block;
 }
 
-/** Lists */
-ul.list {
-	margin-bottom: 1em;
-	li {
-		list-style-type: disc;
-		margin-left: 1.5em;
-	}
-}
+ul.list,
 ol.list {
 	margin-bottom: 1em;
-	li {
-		list-style-type: decimal;
-		margin-left: 1.5em;
-	}
+
+	li { margin-left: 1.5em; }
 }
 
-/** Forms */
+ul.list {
+	li { list-style-type: disc; }
+}
+
+ol.list {
+	li { list-style-type: decimal; }
+}
+
 fieldset {
 	border: 1px solid $color-light-blue;
 	margin: 1em auto;
 	padding: 0 30px;
 }
+
 legend {
 	font-size: 1.3em;
 	padding: 0 15px;
 }
 
-/** Tables */
-th, td { text-align: left; }
+th,
+td {
+	text-align: left;
+}
 
-/** Main container **/
-.main-container {
+.main-container,
+.page-centered,
+.page-projet,
+.content-projet {
 	position: relative;
-	width: 100%;
+}
+
+.main-container {
+	background: image-url('background.jpg') 0 0 no-repeat;
+	background-size: cover;
 	min-height: 100%;
 	overflow: hidden;
-	background: image-url("background.jpg") 0 0 no-repeat;
-	background-size: cover;
+	width: 100%;
 }
+
 .page-centered {
-	position: relative;
 	margin: 0 auto;
 	padding: 10px 10px 0;
-	background-color: white;
-	@include respond-to(wide-screens) {
+
+	@include respond-to(large_screens_1200) {
 		margin: 0 10px;
 		padding: 10px 30px 0;
 	}
 }
+
 .page-max-width {
 	margin: 0 auto;
 	max-width: 1200px;
 }
-#beta-ribbon:before {
-	display: block;
-	content: "Beta";
-	width: 100%;
-	height: 30px;
-	text-align: center;
-	text-transform: uppercase;
+
+#beta-ribbon::before {
 	background-color: $color-steel;
-	color: white;
-	padding: 5px;
+	color: $color-very-white;
+	content: 'Beta';
+	display: block;
 	font-size: 15px;
 	font-weight: bold;
-	@include respond-to(wide-screens) { margin-bottom: 15px; }
-	@include respond-to(wide-screens) {
+	height: 30px;
+	padding: 5px;
+	text-align: center;
+	text-transform: uppercase;
+	width: 100%;
+
+	@include respond-to(large_screens_1200) {
+		margin-bottom: 15px;
 		position: absolute;
-		top: 0;
-		z-index: 10;
-		top: 26px;
 		right: -35px;
-		width: 150px;
+		top: 26px;
 		-ms-transform: rotate(45deg);
 		transform: rotate(45deg);
+		width: 150px;
+		z-index: 10;
 	}
 }
-.lastname { text-transform: uppercase; }
 
-/** Page projet **/
-.page-projet {
-	position: relative;
-	margin: 0 auto;
-}
+.lastname { text-transform: uppercase; }
+.page-projet { margin: 0 auto; }
+
 .page-projet-2-cols {
 	@include respond-to(medium-screens) {
 		display: flex;
 		height: 100%;
 	}
 }
+
 .content-projet {
-	position: relative;
 	.edit {
-		position: absolute;
-		top: 12px;
-		right: 12px;
+		background: image-url('edit.svg') 100% 0 no-repeat;
+		color: $color-red-pink-gradient;
 		font-size: 12px;
 		padding-right: 26px;
-		color: $color-flash-red;
-		background: image-url("edit.svg") 100% 0 no-repeat;
+		position: absolute;
+		right: 12px;
+		top: 12px;
+
 		&:hover { text-decoration: underline; }
 	}
+
 	.block {
-		position: relative;
-		display: inline-block;
-		width: 100%;
-		margin-bottom: 1em;
-		background-color: white;
-		border-radius: 3px;
+		background-color: $color-very-white;
 		border: solid 3px $color-light-grey;
+		border-radius: 3px;
+		display: inline-block;
+		margin-bottom: 1em;
+		position: relative;
+		width: 100%;
+
 		&:last-child { margin-bottom: 0; }
+
 		> h3 {
-			padding: 0.85em;
-			cursor: pointer;
 			background-color: $color-light-grey;
+			cursor: pointer;
+			padding: .85em;
 		}
 	}
+
 	.content-block {
-		padding: 1em;
 		@extend .clearfix;
+		padding: 1em;
 	}
-	.btn {
-		float: right;
-		margin: 10px 0 0 30px;
-	}
+
 	h4 { font-weight: 600; }
 }
+
 .occupants-recap {
-	padding: 1em;
 	font-weight: bold;
+	padding: 1em;
 }
+
 .invoice {
-	padding: 30px;
 	@extend .clearfix;
+	padding: 30px;
+
 	.operateur-info { text-align: right; }
+
 	.delegataire {
 		padding: 30px 0 40px;
 		text-align: center;
 	}
+
 	.recap-projet-table {
-		min-width: 70%;
-		margin: 0 auto;
 		border-collapse: collapse;
+		margin: 0 auto;
+		min-width: 70%;
 	}
+
 	.recap-projet-table {
-		td, th {
-			padding: 8px 8px 8px 8px;
-			font-weight: 400;
-			text-align: left;
+		td,
+		th {
 			border: 1px solid $color-another-grey;
+			font-weight: 400;
+			padding: 8px;
+			text-align: left;
 		}
+
 		td.recap-projet-image-cell { text-align: center; }
 	}
-	.empty { border: none; }
+
+	.empty { border: 0; }
 	img { display: inline-block; }
+
 	date {
-		text-align: right;
 		display: block;
 		margin-top: 50px;
+		text-align: right;
 	}
 }
+
 .recap-projet .invoice {
 	background: $color-very-light-grey;
-	box-shadow: 0px 0px 8px 0px rgba(50, 50, 50, 0.5);
+	box-shadow: 0 0 8px 0 $color-transparent-gray-5;
 }
+
 .description-operateur {
 	border-left: 5px solid $color-lighter-grey;
 	padding-left: 10px;
 }
+
 .button-group { @extend .clearfix; }
+
 .dashboard-dossiers {
 	.heading { margin-bottom: 1em; }
 }
+
 .documents-list {
 	a:hover { text-decoration: underline; }
 }
-/** RECOMMANDER OPERATEUR */
+
+// Naming exception cause of the many link with this class
 .recommander_operateurs {
 	p:not(:last-child) { margin: 10px 0; }
 	ul { margin: 20px; }
 	input[type=submit] { margin-top: 10px; }
 }
+
 .checkboxes-list {
 	input[type=checkbox] { margin-right: 5px; }
 	label {
@@ -214,9 +243,8 @@ th, td { text-align: left; }
 		padding: 5px 0;
 	}
 }
-/** MOBILE IMPORT **/
-/** PRINT **/
-@media print {
-	html, body { overflow: visible !important; }
-}
 
+@media print {
+	html,
+	body { overflow: visible !important; }
+}

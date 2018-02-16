@@ -1,6 +1,6 @@
 = simple_form_for @payment, url: { controller: "payments", action: "update" }, html: { method: :put, class: "form" } do |f|
-  h2.payment__title= t("payment.edition")
+  h2.payment-title= t("payment.edition")
   = render "payments/form", form: f
-  .payment__button_group
-    = btn name: t("payment.actions.cancel.label"), href: dossier_payments_path(@projet_courant), icon: "remove", class: "btn-secondary payment__button"
-    = btn name: t("payment.actions.modify.label"), class: "payment__button", icon: "edit"
+  .payment-button-group
+    = btn name: t("payment.actions.cancel.label"), href: dossier_payments_path(@projet_courant), icon: "remove", class: "btn-secondary payment-button"
+    = btn name: t("payment.actions.modify.label"), class: "payment-button", icon: "edit"

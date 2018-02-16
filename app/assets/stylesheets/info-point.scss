@@ -1,33 +1,32 @@
-@import "variables";
-
 .info-point {
-  display: inline-block;
-  width: 22px;
-  height: 22px;
-  line-height: 17px;
-  text-align: center;
-  border-width: 2px;
-  border-style: solid;
-  border-radius: 12px;
-  margin-left: 5px;
-  cursor: default;
-  text-decoration: none;
-  color: $font-color;
-  border-color: $color-primary;
-  &:hover {
-    color: #CCC;
-    border-color: #CCC;
-  }
-}
-.info-point--light {
-  color: #111;
-  border-color: #111;
-  &:hover {
-    color: $color-primary;
-    border-color: $color-primary;
-  }
-}
-a.info-point {
-  cursor: pointer;
+	border-color: $color-primary;
+	border-radius: 12px;
+	border-style: solid;
+	border-width: 2px;
+	color: $font-color;
+	cursor: default;
+	display: inline-block;
+	height: 22px;
+	line-height: 17px;
+	margin-left: 5px;
+	text-align: center;
+	text-decoration: none;
+	width: 22px;
+
+	&:hover {
+		border-color: $color-grey80;
+		color: $color-grey80;
+	}
 }
 
+.info-point-light {
+	border-color: $color-black;
+	color: $color-black;
+
+	&:hover {
+		border-color: $color-primary;
+		color: $color-primary;
+	}
+}
+
+a.info-point { cursor: pointer; }

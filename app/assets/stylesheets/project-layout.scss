@@ -1,44 +1,31 @@
-@import "variables";
-
-@media screen and (min-width: 600px) {
-  .project-layout {
-    //TODO ajouter le menu dossier
-    // display: flex;
-    height: 100%;
-  }
-}
-.project-layout__links {
-  display: none; //TODO ajouter le menu dossier
-  padding: 1em;
-  margin-top: 1em;
-  border-radius: 3px;
-  border: solid 3px $color-light-grey;
-  @media screen and (min-width: 600px) {
-    flex: 0 0 200px;
-    margin-left: 1em;
-    margin-top: 0;
-  }
-  @media screen and (min-width: 700px) {
-    flex: 0 0 250px;
-  }
-  @media screen and (min-width: 800px) {
-    flex: 0 0 300px;
-  }
-  @media screen and (min-width: 1200px) {
-    margin-left: 2em;
-  }
+@include respond-to(medium_screens_600) {
+	.project-layout { height: 100%; }
 }
 
-#indentDepot {
-  @media screen and (min-width: 500px) {
-    float: left;
-  }
-  @media screen and (min-width: 501px) {
-    float: right;
-  }
+.project-layout-links {
+	border: solid 3px $color-light-grey;
+	border-radius: 3px;
+	display: none;
+	margin-top: 1em;
+	padding: 1em;
+
+	@include respond-to(medium_screens_600) {
+		flex: 0 0 200px;
+		margin-left: 1em;
+		margin-top: 0;
+	}
+
+	@include respond-to(medium_screens_700) { flex: 0 0 250px; }
+	@include respond-to(medium_screens_800) { flex: 0 0 300px; }
+	@include respond-to(large_screens_1200) {  margin-left: 2em; }
 }
 
-#indentDate {
-  padding-left: 26px;
-  font-weight: bold;
+#indent-depot {
+	@include respond-to(mobile_screens_500) { float: left; }
+	@include respond-to(mobile_screens_501) {  float: right; }
+}
+
+#indent-date {
+	font-weight: bold;
+	padding-left: 26px;
 }

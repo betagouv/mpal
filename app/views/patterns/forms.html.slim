@@ -21,7 +21,7 @@ table.table-patterns
       td= btn name: "Default", class: "btn-default"
       td
         code .btn.btn-default
-        
+
 h3 Tailles
 
 table.table-patterns
@@ -116,7 +116,7 @@ h3 Check boxes
 
 = simple_form_for Demande.new, url: "#", html: { class: "form" } do |f|
   .vertical-booleans
-    label.vertical-booleans__title= t("demarrage_projet.demande.titre_besoins")
+    label.vertical-booleans-title= t("demarrage_projet.demande.titre_besoins")
     = f.input :changement_chauffage
     = f.input :froid
     = f.input :probleme_deplacement
@@ -175,7 +175,7 @@ h3 Check boxes
 
 = simple_form_for Demande.new, url: "#", html: { class: "form form-inline" } do |f|
   .vertical-booleans
-    label.vertical-booleans__title= t("demarrage_projet.demande.titre_besoins")
+    label.vertical-booleans-title= t("demarrage_projet.demande.titre_besoins")
     = f.input :changement_chauffage
     = f.input :froid
     = f.input :probleme_deplacement

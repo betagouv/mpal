@@ -1,65 +1,47 @@
-@import "variables";
-
 .new-project {
-  background: white;
-  vertical-align: top;
-  box-sizing: border-box;
-}
-.new-project__heading-projet {
-  font-size: 26px;
-  font-weight: bold;
-  margin: 30px 0;
-  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
-}
-.new-project__label {
-  display: inline-block;
-  margin-top: 2em;
-  font-weight: bold;
-  line-height: 32px;
-}
-.new-project__label--p {
-  display: block;
-}
-.new-project__label--first {
-  margin-top: 0;
-}
-.new-project__label--second {
-  margin-bottom: 5px;
-}
-.new-project__proprietaire-input {
-  margin-right: 10px;
-}
-.new-project__proprietaire-label {
-  margin-right: 20px;
-}
-.new-project__btn {
-  display: table;
-  margin: 1em 0 0;
-}
-.new-project__mentions {
-  margin-top: 1em;
-}
-.new-project__mentions-input {
-  margin-right: 10px;
-}
-.new-project__mentions-label-projet{
-  color: black;
-}
-.new-project__mentions-abbr-projet {
-  color: black;
-  border-bottom-color: white;
-}
-.new-project__commentaire {
-  color: grey;
-  margin-bottom: 1em
-}
-.new-project__links {
-  margin-bottom: 1em;
-}
-.new-project__link {
-  &:hover {
-    color: $color-primary;
-    text-decoration: underline;
-  }
+	background: $color-very-white;
+	box-sizing: border-box;
+	vertical-align: top;
 }
 
+.new-project-label { font-weight: bold; }
+
+.new-project-label {
+	display: inline-block;
+	line-height: 32px;
+	margin-top: 2em;
+}
+
+.new-project-label-p { display: block; }
+.new-project-label-first { margin-top: 0; }
+.new-project-label-second { margin-bottom: 5px; }
+
+.new-project-proprietaire-input,
+.new-project-mentions-input {
+	margin-right: 10px;
+}
+
+.new-project-proprietaire-label { margin-right: 20px; }
+
+.new-project-btn {
+	display: table;
+	margin: 1em 0 0;
+}
+
+.new-project-mentions { margin-top: 1em; }
+
+.new-project-mentions-label-projet { color: $color-pure-black; }
+
+.new-project-commentaire { color: $color-dark-grey; }
+
+.new-project-links,
+.new-project-commentaire {
+	margin-bottom: 1em;
+}
+
+.new-project-link {
+	&:hover {
+		color: $color-primary;
+		text-decoration: underline;
+	}
+}

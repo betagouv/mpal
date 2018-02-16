@@ -1,5 +1,5 @@
 .project-menu.clearfix
-  .project-menu__top
+  .project-menu-top
     .project-menu__demandeur
       - if demandeur = project.demandeur
         h2
@@ -12,7 +12,7 @@
         - if project.themes.any?
           = " / #{project.themes.map(&:name).join(", ")}"
       / TODO 2017-08-07: suppression à valider avec PO
-      - if current_agent          
+      - if current_agent
         p
           = project.numero_plateforme
           - if project.opal_numero.present?
@@ -22,41 +22,40 @@
             - else
               = project.opal_numero
 
-  / TODO dynamiser l’élément actif avec la classe `project-menu__item--active`
-  .project-menu__list.clearfix
-    = link_to projet_or_dossier_path(project), class: "project-menu__item"
-      span.project-menu__icon.glyphicon.glyphicon-folder-open
-      span.project-menu__text Dossier
+  .project-menu-list.clearfix
+    = link_to projet_or_dossier_path(project), class: "project-menu-item"
+      span.project-menu-icon.glyphicon.glyphicon-folder-open
+      span.project-menu-text Dossier
     - if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-      = link_to projet_or_dossier_payments_path(project), class: "project-menu__item"
-        span.project-menu__icon.glyphicon.glyphicon-euro
-        span.project-menu__text Paiements
+      = link_to projet_or_dossier_payments_path(project), class: "project-menu-item"
+        span.project-menu-icon.glyphicon.glyphicon-euro
+        span.project-menu-text Paiements
     - else
-      .project-menu__item
-        span.project-menu__icon.glyphicon.glyphicon-euro
-        span.project-menu__text Paiements
-    = link_to projet_or_dossier_documents_path(project), class: "project-menu__item"
-      span.project-menu__icon.glyphicon.glyphicon-paperclip
-      span.project-menu__text Pièces
-    = link_to new_projet_or_dossier_message_path(project), class: "project-menu__item"
-      span.project-menu__icon.glyphicon.glyphicon-envelope
+      .project-menu-item
+        span.project-menu-icon.glyphicon.glyphicon-euro
+        span.project-menu-text Paiements
+    = link_to projet_or_dossier_documents_path(project), class: "project-menu-item"
+      span.project-menu-icon.glyphicon.glyphicon-paperclip
+      span.project-menu-text Pièces
+    = link_to new_projet_or_dossier_message_path(project), class: "project-menu-item"
+      span.project-menu-icon.glyphicon.glyphicon-envelope
         - if current_agent
           - unread_messages_count = project.unread_messages(current_agent).count
         - if 0 < (unread_messages_count || 0)
-          span.project-menu__badge= unread_messages_count
-      span.project-menu__text Messages
-    = link_to projet_or_dossier_intervenants_path(project), class: "project-menu__item"
-      span.project-menu__icon.glyphicon.glyphicon-user
-      span.project-menu__text Contacts
-    /.project-menu__item
-      span.project-menu__icon.glyphicon.glyphicon-question-sign
-      span.project-menu__text Aide
+          span.project-menu-badge= unread_messages_count
+      span.project-menu-text Messages
+    = link_to projet_or_dossier_intervenants_path(project), class: "project-menu-item"
+      span.project-menu-icon.glyphicon.glyphicon-user
+      span.project-menu-text Contacts
+    /.project-menu-item
+      span.project-menu-icon.glyphicon.glyphicon-question-sign
+      span.project-menu-text Aide
     - if current_user
       / TODO
-      /.project-menu__item
-        span.project-menu__icon.glyphicon.glyphicon-user
-        span.project-menu__text= current_user.projet.demandeur.fullname
-      = link_to deconnexion_path, class: "project-menu__item"
-        span.project-menu__icon.glyphicon.glyphicon-off
-        span.project-menu__text= t("sessions.lien_deconnexion")
+      /.project-menu-item
+        span.project-menu-icon.glyphicon.glyphicon-user
+        span.project-menu-text= current_user.projet.demandeur.fullname
+      = link_to deconnexion_path, class: "project-menu-item"
+        span.project-menu-icon.glyphicon.glyphicon-off
+        span.project-menu-text= t("sessions.lien_deconnexion")
 

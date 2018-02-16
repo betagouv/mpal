@@ -4,16 +4,16 @@
       .col-menu
         - if @projet.present?
           - if @projet.max_registration_step == 5
-            = link_to t("Revenir à mon projet"), projet_eligibility_path(@projet), class: "col-menu__item"
+            = link_to t("Revenir à mon projet"), projet_eligibility_path(@projet), class: "col-menu-item"
           - else
-            = link_to t("Revenir à mon projet"), projet_path(@projet), class: "col-menu__item"
+            = link_to t("Revenir à mon projet"), projet_path(@projet), class: "col-menu-item"
         - else
-          = link_to t("menu.homepage"), root_path,              class: "col-menu__item"
-        /= link_to t("menu.about"),   informations_about_path,  class: "col-menu__item"
-        = link_to t("menu.terms_of_use_acronym"), informations_terms_of_use_path, class: "col-menu__item"
-        /= link_to t("menu.faq"),     informations_faq_path,    class: "col-menu__item"
-        = link_to t("menu.legal"),    informations_legal_path,  class: "col-menu__item"
-        = link_to t("menu.contact"),  new_contact_path,         class: "col-menu__item"
+          = link_to t("menu.homepage"), root_path,              class: "col-menu-item"
+        /= link_to t("menu.about"),   informations_about_path,  class: "col-menu-item"
+        = link_to t("menu.terms_of_use_acronym"), informations_terms_of_use_path, class: "col-menu-item"
+        /= link_to t("menu.faq"),     informations_faq_path,    class: "col-menu-item"
+        = link_to t("menu.legal"),    informations_legal_path,  class: "col-menu-item"
+        = link_to t("menu.contact"),  new_contact_path,         class: "col-menu-item"
     .col.col-main
       = render "shared/flash"
       = yield

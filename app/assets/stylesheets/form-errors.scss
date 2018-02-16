@@ -1,13 +1,9 @@
-@import "variables";
-
-.form-errors__item {
-  display: list-item;
-  list-style-type: square;
-  margin-left: 1.5em;
-}
-.form-errors__label {
-  &:hover {
-    text-decoration: underline;
-  }
+.form-errors-item {
+	display: list-item;
+	list-style-type: square;
+	margin-left: 1.5em;
 }
 
+.form-errors-label {
+	&:hover { text-decoration: underline; }
+}

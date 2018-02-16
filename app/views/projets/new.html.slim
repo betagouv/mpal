@@ -1,61 +1,61 @@
 - content_for :popins do
   #numero-fiscal.popin.popin--numero-fiscal
-    .popin__container
-      = image_tag "numero-fiscal.png", class: "popin__image popin__image--numero-fiscal"
-      p.popin__p Le numéro fiscal est un identifiant unique composé de 13 chiffres.
-      p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
-      p.popin__p.popin__p--centered
-        = btn name: "Fermer", href: "#", class: "popin__close"
+    .popin-container
+      = image_tag "numero-fiscal.png", class: "popin-image popin__image--numero-fiscal"
+      p.popin-p Le numéro fiscal est un identifiant unique composé de 13 chiffres.
+      p.popin-p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
+      p.popin-p.popin-p-centered
+        = btn name: "Fermer", href: "#", class: "popin-close"
   #reference-avis.popin.popin--reference-avis
-    .popin__container
-      = image_tag "reference-avis.png", class: "popin__image popin__image--reference-avis"
-      p.popin__p La référence de l’avis est un identifiant unique composé de 13 caractères.
-      p.popin__p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
-      p.popin__p.popin__p--centered
-        = btn name: "Fermer", href: "#", class: "popin__close"
+    .popin-container
+      = image_tag "reference-avis.png", class: "popin-image popin__image--reference-avis"
+      p.popin-p La référence de l’avis est un identifiant unique composé de 13 caractères.
+      p.popin-p Il se situe sur votre avis d’imposition dans le cadre "Vos références".
+      p.popin-p.popin-p-centered
+        = btn name: "Fermer", href: "#", class: "popin-close"
   #info-avis-fiscal.popin.popin--info_avis_fiscal
-    .popin__container
-      p.popin__p Pour bénéficier des aides de l’Anah, les ressources de toutes les personnes habitant le logement sont prises en compte.
-      p.popin__p Pour faire votre démarche en ligne, nous vous invitons à vous munir du ou des avis d’imposition des personnes vivant chez vous.
-      p.popin__p.popin__p--centered
-        = btn name: "Fermer", href: "#", class: "popin__close"
+    .popin-container
+      p.popin-p Pour bénéficier des aides de l’Anah, les ressources de toutes les personnes habitant le logement sont prises en compte.
+      p.popin-p Pour faire votre démarche en ligne, nous vous invitons à vous munir du ou des avis d’imposition des personnes vivant chez vous.
+      p.popin-p.popin-p-centered
+        = btn name: "Fermer", href: "#", class: "popin-close"
 
 section.new-project
-  p.new-project__links
-    = link_to "J’ai déjà un dossier", new_user_session_path, class: "new-project__link"
-  p.new-project__commentaire Tous les champs sont obligatoires
+  p.new-project-links
+    = link_to "J’ai déjà un dossier", new_user_session_path, class: "new-project-link"
+  p.new-project-commentaire Tous les champs sont obligatoires
 
   = simple_form_for @projet, html: { id: "js-login-form", class: "form" } do |f|
     = render "shared/errors", resource: @projet
 
-    p.new-project__label.new-project__label--p.new-project__label--first Je suis propriétaire de ma résidence principale
+    p.new-project-label.new-project-label-p.new-project-label-first Je suis propriétaire de ma résidence principale
     - proprietaire = params[:proprietaire] == "1"
-    label.new-project__proprietaire-label for="lab-proprietaire-yes"
-      = radio_button_tag "proprietaire", "1", proprietaire, class: "new-project__proprietaire-input", id: "lab-proprietaire-yes"
+    label.new-project-proprietaire-label for="lab-proprietaire-yes"
+      = radio_button_tag "proprietaire", "1", proprietaire, class: "new-project-proprietaire-input", id: "lab-proprietaire-yes"
       | Oui
-    label.new-project__proprietaire-label for="lab-proprietaire-no"
-      = radio_button_tag "proprietaire", "0", !proprietaire, class: "new-project__proprietaire-input", id: "lab-proprietaire-no"
+    label.new-project-proprietaire-label for="lab-proprietaire-no"
+      = radio_button_tag "proprietaire", "0", !proprietaire, class: "new-project-proprietaire-input", id: "lab-proprietaire-no"
       | Non
 
     .labeled-info-point
-      p.new-project__label.new-project__label--second Mon avis d’imposition sur les revenus #{Time.current.year-2} :
-      a.info-point.info-point--light.js-popin data-target="#info-avis-fiscal" title="Informations" ?
+      p.new-project-label.new-project-label-second Mon avis d’imposition sur les revenus #{Time.current.year-2} :
+      a.info-point.info-point-light.js-popin data-target="#info-avis-fiscal" title="Informations" ?
 
     .labeled-info-point
       = f.label :numero_fiscal
-      a.info-point.info-point--light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
+      a.info-point.info-point-light.js-popin data-target="#numero-fiscal" title="Où trouver le numéro fiscal ?" ?
     = f.input :numero_fiscal, wrapper_html: { class: "size-m" }, required: true, label: false
 
     .labeled-info-point
       = f.label :reference_avis
-      a.info-point.info-point--light.js-popin data-target="#reference-avis" title="Où trouver la référence de l’avis ?" ?
+      a.info-point.info-point-light.js-popin data-target="#reference-avis" title="Où trouver la référence de l’avis ?" ?
     = f.input :reference_avis, wrapper_html: { class: "size-m" }, required: true, label: false
 
-    .new-project__mentions
-      = check_box_tag "autorisation", "1", params[:autorisation], class: "new-project__mentions-input js-engagement", id: "lab-rfr"
-      label.new-project__mentions-label-projet for="lab-rfr"
+    .new-project-mentions
+      = check_box_tag "autorisation", "1", params[:autorisation], class: "new-project-mentions-input js-engagement", id: "lab-rfr"
+      label.new-project-mentions-label-projet for="lab-rfr"
         | J’accepte les conditions générales d’utilisation du service (CGU)
-    = btn name: t("sessions.commencer"), class: "new-project__btn js-login-btn js-engagement", icon: "arrow-right"
+    = btn name: t("sessions.commencer"), class: "new-project-btn js-login-btn js-engagement", icon: "arrow-right"
 
   - if Tools.demo?
     section.login-demo

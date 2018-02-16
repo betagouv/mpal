@@ -1,15 +1,10 @@
-@import "variables";
+.col-menu-item {
+	border-bottom: 1px solid $color-lighter-grey;
+	display: block;
+	padding: 10px;
+	text-decoration: none;
 
-.col-menu__item {
-  display: block;
-  padding: 10px;
-  text-decoration: none;
-  border-bottom: 1px solid #ddd;
-  &:hover {
-    background-color: #eee;
-  }
-  &:last-child {
-    border-bottom: none;
-  }
+	&:hover { background-color: $color-very-light-gray; }
+
+	&:last-child { border-bottom: 0; }
 }
-

@@ -10,22 +10,22 @@
           - id = "#{block_id}-#{group_id}-#{element_id}"
 
           div class="document-panel document-panel--#{(group[:condition] != :none && element[:missing]) ? "missing" : "present"} test-document-panel-#{id}"
-            .document-panel__header= I18n.t("document.#{block[:payment_id] ? "payment" : "projet"}.#{element[:type]}")
+            .document-panel-header= I18n.t("document.#{block[:payment_id] ? "payment" : "projet"}.#{element[:type]}")
 
             - unless element[:missing]
-              ul.document-panel__body
+              ul.document-panel-body
                 - element[:documents].each do |document|
                   li.document
-                    .document__icon
+                    .document-icon
                       i.glyphicon.glyphicon-file
-                    .document__name
+                    .document-name
                       - if can? :show, document
                         = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
                       - else
                         = document.label
-                    .document__upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
+                    .document-upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
                     - if can? :destroy, document
-                      .document__actions
+                      .document-actions
                         - if block[:payment_id].present?
                           - delete_path = dossier_payment_document_path(@projet_courant, block[:payment_id], document)
                         - else
@@ -38,10 +38,10 @@
                 - create_path = dossier_payment_documents_path(@projet_courant, block[:payment_id])
               - else
                 - create_path = projet_or_dossier_documents_path(@projet_courant)
-              = form_tag create_path, class: "document-panel__footer", multipart: true do
-                = file_field_tag :fichier, id: "document__file-upload-#{id}", class: "document__file-upload--invisible js-document__file"
+              = form_tag create_path, class: "document-panel-footer", multipart: true do
+                = file_field_tag :fichier, id: "document-file-upload-#{id}", class: "document-file-upload-invisible js-document__file"
                 = hidden_field_tag :type_piece, element[:type]
-                = label_tag "document__file-upload-#{id}", class: "btn btn-secondary btn-small document__file-upload"
+                = label_tag "document-file-upload-#{id}", class: "btn btn-secondary btn-small document-file-upload"
                   = t("document.select")
                 = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
-                .document__file-added.js-document__file-added
+                .document-file-added.js-document__file-added

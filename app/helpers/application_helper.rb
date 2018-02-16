@@ -186,7 +186,7 @@ module ApplicationHelper
     end
 
     if ptz == "Prêt à Taux Zéro (moins de 5 ans)"
-      ptz_strong = content_tag(:strong, ptz, :class => 'ptz_red_color')
+      ptz_strong = content_tag(:strong, ptz, :class => 'ptz-red-color')
     else
       ptz_strong = content_tag(:strong, ptz)
     end

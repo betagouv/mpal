@@ -1,289 +1,347 @@
 // DASHBOARD PART
-.dashboardTab { display: inline-block; }
-.dashboardContainer {
-	margin-bottom: 20px;
-	position: relative;
-	overflow: hidden;
-	background: #fff;
-	width: 100%;
+.dashboard-tab { display: inline-block; }
+
+.dashboard-container {
+	background: $color-very-white;
+	color: $color-very-gray;
 	font-family: 'Roboto', sans-serif;
-	line-height: 1.5;
 	font-weight: 300;
-	color: #888;
-	-webkit-font-smoothing: antialiased;
-}
-.dashboardTabContainer {
-	display: table;
-	position: relative;
+	line-height: 1.5;
+	margin-bottom: 20px;
 	overflow: hidden;
+	position: relative;
+	width: 100%;
+}
+
+.dashboard-tab-container {
+	display: table;
 	margin-left: 20px;
+	overflow: hidden;
+	position: relative;
 	width: calc(100% - 20px);
+
 	li {
-		padding: 0;
-		position: relative;
 		display: inline-block;
 		overflow: hidden;
+		padding: 0;
+		position: relative;
 		z-index: 0;
+
 		&:not(.current) {
-			color: #eee;
-			border-left: 1px solid #eee;
-			&:after {
-				background: #fff;
-				border: 1px solid #eee;
-				
+			border-left: 1px solid $color-very-light-gray;
+			color: $color-very-light-gray;
+
+			&::after {
+				background: $color-very-white;
+				border: 1px solid $color-very-light-gray;
 			}
 		}
+
 		&.current {
-			color: #fff;
-			&:after { background: #008CBA; }
+			color: $color-very-white;
+
+			&::after { background: $color-steel; }
+
 			a {
-				color: white;
+				color: $color-very-white;
 				margin-bottom: 3px;
 			}
 		}
-		&:after {
+
+		&::after {
 			content: '';
+			height: 100%;
+			left: -18px;
 			position: absolute;
 			top: 0;
-			left: -18px;
-			width: 100%;
-			height: 100%;
-			-webkit-transform-origin: 100% 0;
-			-ms-transform-origin: 100% 0;
-			transform-origin: 100% 0;
-			-webkit-transform: skew(35deg);
 			-ms-transform: skew(35deg);
+			-webkit-transform: skew(35deg);
 			transform: skew(35deg);
+			-ms-transform-origin: 100% 0;
+			-webkit-transform-origin: 100% 0;
+			transform-origin: 100% 0;
+			width: 100%;
 			z-index: -1;
 		}
 	}
+
 	a {
-		color: #888;
-		font-weight: 500;
+		color: $color-very-gray;
 		display: block;
+		font-weight: 500;
 		letter-spacing: 0;
 		outline: none;
+		overflow: hidden;
 		padding: 0 20px;
 		text-decoration: none;
-		-webkit-transition: all 0.2s ease-in-out;
-		-moz-transition: all 0.2s ease-in-out;
-		transition: all 0.2s ease-in-out;
-		overflow: hidden;
+		-moz-transition: all .2s ease-in-out;
+		-webkit-transition: all .2s ease-in-out;
+		transition: all .2s ease-in-out;
 	}
 }
-.tab_content {
-    top: -9px;
-    position: relative;
+
+.tab-content {
+	position: relative;
+	top: -9px;
 }
-.tabs_item {
+
+.tabs-item {
 	display: none;
+
 	a { text-decoration: none; }
+
 	table {
 		width: 100%;
+
 		tr {
-			&:first-child { border-top: 1px solid #008CBA; }
-			color: black;
-			background: white;
+			background: $color-very-white;
+			border-bottom: 1px solid $color-steel;
+			color: $color-pure-black;
+
+			&:first-child { border-top: 1px solid $color-steel; }
+
 			&:nth-child(odd) {
 				a {
-					color: black;
+					color: $color-pure-black;
 					text-decoration: none;
 				}
 			}
-			& { border-bottom: 1px solid $color-steel; }
+
 			&:hover {
+				background: $color-steel;
+				color: $color-very-white;
+
 				a {
-					color: white;
+					color: $color-very-white;
 					text-decoration: none;
 				}
-				background: $color-steel;
-				color: white;
 			}
-			.dashboardDateTextContainer {
-				width: 100%;
+
+			.dashboard-date-text-container {
 				min-height: 25px;
+				width: 100%;
+
 				a {
 					display: inline-block;
 					width: 100%;
 				}
 			}
-			.dashboardDateText1, .dashboardDateText2 {
+
+			.dashboard-date-text-1,
+			.dashboard-date-text-2 {
 				display: inline-block;
 				text-decoration: none;
+
 				&:hover { text-decoration: none; }
 			}
-			.dashboardDateText1 { float: left; }
-			.dashboardDateText2 { float: right; }
+
+			.dashboard-date-text-1 { float: left; }
+
+			.dashboard-date-text-2 { float: right; }
 		}
-		.tableRowIconsBorder {
+
+		.table-row-icons-border {
 			text-align: center;
 			width: 90px;
+
 			&:hover {
+				cursor: pointer;
 				font-size: 12px;
 				font-weight: bold;
-				cursor: pointer;
 			}
-			.paiementInactive { color: #888; }
+
+			.paiement-inactive { color: $color-very-gray; }
 		}
-		.glyphicon-eye-close, .glyphicon-eye-open { color: #D9184E; }
+
+		.glyphicon-eye-close,
+		.glyphicon-eye-open {
+			color: $color-red;
+		}
 	}
+
 	&:first-child { display: block; }
 }
 
-.dashboardFilterSearch {
-	float: right;
+.dashboard-filter-search {
 	display: inline-block;
+	float: right;
+	height: 40px;
 	margin-left: 10px;
 	width: 110px;
-	height: 40px;
+
 	div {
-		border-radius: 0.25rem;
-		border: 1px solid rgba(0, 0, 0, 0.15);
-		padding: 0.5rem 0.75rem;
+		background-color: $color-red;
+		border: 1px solid $color-transparent-black-1-5;
+		border-radius: .25rem;
+		color: $color-very-white;
+		cursor: pointer;
 		font-size: 1rem;
 		line-height: 1.25;
-		color: white;
-		background-color: $color_red;
-		cursor: pointer;
+		padding: .5rem .75rem;
+
 		&:hover { background-color: $color-dark-red; }
 	}
 }
+
 .dashboard-dossiers {
 	min-height: 200px;
+
 	.btn-export {
-		position: relative;
+		background-color: $color-very-gray;
+		border: 1px solid $color-very-light-dark-gray;
+		border-radius: .25rem;
+		color: $color-very-white;
+		cursor: pointer;
 		display: inline-block;
-		margin-left: 10px;
-		width: 140px;
-		border-radius: 0.25rem;
-		border: 1px solid #777;
-		padding: 0.5rem 0.75rem;
 		font-size: 1rem;
 		line-height: 1.25;
-		color: white;
-		background-color: #888;
-		cursor: pointer;
+		margin-left: 10px;
+		padding: .5rem .75rem;
+		position: relative;
+		width: 140px;
+
 		&:hover {
-			background-color: #666;
-			border-color: #555;
+			background-color: $color-very-dark-gray;
+			border-color: $color-very-lighter-dark-gray;
 		}
 	}
 }
-// DASHBOARD FILTERS PART NORMAL
-.dashboardFilterContainer {
+
+.dashboard-filter-container {
+	background-color: $color-grey;
 	display: inline-block;
+	height: auto;
+	margin-bottom: 20px;
+	min-height: 50px;
 	position: relative;
 	width: 100%;
-	min-height: 50px;
-	height: auto;
-	background-color: $color-grey;
 	z-index: 100;
-	margin-bottom: 20px;
-	.dashboardFilterFreeSearch {
-		position: relative;
+
+	.dashboard-filter-free-search {
 		display: inline-block;
-		margin-left: 10px;
-		width: 35%;
 		height: 40px;
+		margin-left: 10px;
 		margin-top: 5px;
+		position: relative;
+		width: 35%;
+
 		input {
-			width: 100%;
-			height: 100%;
-			border-radius: 0.25rem;
-			border: 1px solid rgba(0, 0, 0, 0.15);
-			padding: 0.5rem 0.75rem;
+			border: 1px solid $color-transparent-black-1-5;
+			border-radius: .25rem;
 			font-size: 1rem;
+			height: 100%;
 			line-height: 1.25;
+			padding: .5rem .75rem;
+			width: 100%;
+
 			&:disabled {
 				background-color: $color-another-grey;
 				cursor: not-allowed;
 			}
 		}
 	}
-	.dashboardFilterStatus, .dashboardFilterState {
-		position: relative;
-		display: inline-block;
-		width: 20%;
-		height: 40px;
+
+	.dashboard-filter-status,
+	.dashboard-filter-state {
 		bottom: 1px;
+		display: inline-block;
+		height: 40px;
 		margin-left: 10px;
+		position: relative;
+		width: 20%;
+
 		select {
-			width: 100%;
-			height: 100%;
-			border-radius: 0.25rem;
-			border: 1px solid rgba(0, 0, 0, 0.15);
-			padding: 0.5rem 0.75rem;
-			background-color: white;
+			background-color: $color-very-white;
+			border: 1px solid $color-transparent-black-1-5;
+			border-radius: .25rem;
 			font-size: 1rem;
+			height: 100%;
 			line-height: 1.25;
+			padding: .5rem .75rem;
+			width: 100%;
 		}
 	}
-	.dashboardFilterAdvanced {
-		position: relative;
+
+	.dashboard-filter-advanced {
+		color: $color-pure-black;
 		display: inline-block;
-		margin-left: 10px;
 		height: 40px;
 		line-height: 40px;
-		color: black;
+		margin-left: 10px;
+		position: relative;
 	}
 }
 
-// DASHBOARD FILTERS PART NORMAL
-.dashboardFilterContainerAdvanced {
-	display: none;
-	position: relative;
-	width: 100%;
-	height: 250px;
+.dashboard-filter-container-advanced {
 	background-color: $color-grey;
+	display: none;
+	height: 250px;
+	padding: .5rem .75rem;
+	position: relative;
 	vertical-align: top;
-	padding: 0.5rem 0.75rem;
+	width: 100%;
 	z-index: 100;
-	.dashboardFilterContainerAdvancedLeft, .dashboardFilterContainerAdvancedCenter, .dashboardFilterContainerAdvancedRight {
-		position: absolute;
+
+	.dashboard-filter-container-advanced-left,
+	.dashboard-filter-container-advanced-center,
+	.dashboard-filter-container-advanced-right {
 		display: inline-block;
+		position: absolute;
 	}
-	.dashboardFilterContainerAdvancedLeft, .dashboardFilterContainerAdvancedRight {
-		.dashboardFilterArea, .dashboardFilterAreaDate {
-			position: relative;
+
+	.dashboard-filter-container-advanced-left,
+	.dashboard-filter-container-advanced-right {
+		.dashboard-filter-area,
+		.dashboard-filter-area-date {
+			bottom: 1px;
 			display: block;
 			margin-top: 10px;
-			bottom: 1px;
+			position: relative;
+
 			input {
-				width: 100%;
-				height: 40px;
-				border-radius: 0.25rem;
-				border: 1px solid rgba(0, 0, 0, 0.15);
-				padding: 0.5rem 0.75rem;
+				border: 1px solid $color-transparent-black-1-5;
+				border-radius: .25rem;
 				font-size: 1rem;
+				height: 40px;
 				line-height: 1.25;
+				padding: .5rem .75rem;
+				width: 100%;
 			}
 		}
 	}
-	.dashboardFilterContainerAdvancedLeft {
+
+	.dashboard-filter-container-advanced-left {
 		height: 250px;
 		width: 30%;
-		.dashboardFilterArea { width: calc(100% - 10px); }
+
+		.dashboard-filter-area { width: calc(100% - 10px); }
 	}
-	.dashboardFilterContainerAdvancedCenter {
+
+	.dashboard-filter-container-advanced-center {
+		height: 250px;
 		margin-left: calc(30% + 30px);
 		margin-top: 10px;
-		height: 250px;
 		width: 23%;
-		.dashboardFilterOrder {
+
+		.dashboard-filter-order {
 			position: relative;
+
 			&:last-child { float: right; }
 			&:first-child { float: left; }
 			input { margin-right: 4px; }
 		}
 	}
-	.dashboardFilterContainerAdvancedRight {
+
+	.dashboard-filter-container-advanced-right {
 		margin-left: calc(55% + 40px);
 		width: 40%;
-		.dashboardFilterArea {
+
+		.dashboard-filter-area {
 			margin-left: 10px;
 			width: calc(60% - 10px);
 		}
-		.dashboardFilterAreaDate {
+
+		.dashboard-filter-area-date {
 			margin-left: 10px;
 			width: calc(40% - 10px);
 		}

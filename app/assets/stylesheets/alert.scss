@@ -1,14 +1,13 @@
 .alert {
-  a {
-    color: white;
-    font-weight: bold;
-  }
-}
-.alert__icon {
-  float: left;
-  font-size: 1.4em;
-}
-.alert__p {
-  margin-left: 2.5em;
+	a {
+		color: $color-very-white;
+		font-weight: bold;
+	}
 }
 
+.alert-icon {
+	float: left;
+	font-size: 1.4em;
+}
+
+.alert-p { margin-left: 2.5em; }

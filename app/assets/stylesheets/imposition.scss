@@ -1,35 +1,8 @@
-@import "variables";
-
-.imposition-form {
-  margin: 10px 30px;
-}
-.imposition-form__field {
-  display: block;
-  margin-right: -4px;
-  padding: 10px 0 10px;
-}
-.imposition-form__label  {
-  display: block;
-  padding: 5px 0;
-}
-.imposition-form__input {
-  background-color: #f2f6fa;
-  border: solid 1px #909eaf;
-  border-radius: 3px;
-  box-shadow: inset 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  padding: 9px 10px 8px;
-  width: 90%;
-}
-.imposition-form__cell-price {
-  text-align: right;
-}
-.imposition-form__footer {
-  margin-top: 2em;
-  text-align: center;
+.imposition-form-footer,
+.imposition-form-align-left {
+	margin-top: 2em;
 }
 
-.imposition-form__align-left {
-  margin-top: 2em;
-  text-align: left;
-}
-
+.imposition-form-cell-price { text-align: right; }
+.imposition-form-footer { text-align: center; }
+.imposition-form-align-left { text-align: left; }

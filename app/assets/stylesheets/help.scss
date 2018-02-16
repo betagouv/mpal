@@ -1,30 +1,30 @@
-@import "variables";
-
-.help__container {
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
+.help-container {
+	bottom: 15px;
+	position: fixed;
+	right: 15px;
 }
-.help__button {
-  display: inline-block;
-  color: white;
-  background-color: $color-steel;
-  width: 60px;
-  height: 60px;
-  border-radius: 30px;
-  box-shadow: 0px 2px 4px -1px darken($color-steel, 30);
-  line-height: 60px;
-  text-align: center;
-  font-size: 30px;
-  font-weight: bold;
-  text-shadow: 0px -1px 0 rgba(0, 0, 0, 0.2);
-  transition: transform 0.1s, box-shadow 0.1s;
-  &:hover, &:active {
-    transform: scale(1.15);
-    box-shadow: 0px 2px 6px -1px darken($color-steel, 30);
-  }
-  &:focus {
-    background-color: darken($color-steel, 10);
-  }
+
+.help-button {
+	background-color: $color-steel;
+	border-radius: 30px;
+	box-shadow: 0 2px 4px -1px darken($color-steel, 30);
+	color: $color-very-white;
+	display: inline-block;
+	font-size: 30px;
+	font-weight: bold;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	text-shadow: 0 -1px 0 $color-transparent-black-2;
+	transition: transform .1s, box-shadow .1s;
+	width: 60px;
+
+	&:hover,
+	&:active {
+		box-shadow: 0 2px 6px -1px darken($color-steel, 30);
+		transform: scale(1.15);
+	}
+
+	&:focus { background-color: darken($color-steel, 10); }
 }
 

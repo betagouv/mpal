@@ -74,10 +74,10 @@
 
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome COUT DES TRAVAUX
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home COUT DES TRAVAUX
+        span.line-home
       br
 
       - [:travaux_ht_amount].each do |field|
@@ -114,10 +114,10 @@
 
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome MONTANT DES AIDES
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home MONTANT DES AIDES
+        span.line-home
       br
 
       = f.simple_fields_for :projet_aides do |ff|
@@ -149,10 +149,10 @@
         end
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome MONTANT DES APPORTS PERSONNELS
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home MONTANT DES APPORTS PERSONNELS
+        span.line-home
       br
 
       - [:personal_funding_amount, :loan_amount].each do |field|
@@ -162,10 +162,10 @@
           span.input-group-addon €
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome TOTAL DES FINANCEMENTS
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home TOTAL DES FINANCEMENTS
+        span.line-home
       br
 
       = f.input :localized_fundings_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
@@ -173,10 +173,10 @@
         span.input-group-addon €
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome RESTE A CHARGE
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home RESTE A CHARGE
+        span.line-home
       br
 
       = f.input :localized_remaining_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
@@ -188,24 +188,10 @@
   = f.input :precisions_financement, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_financement_count')"}
   <div class="char_count" id="precisions_financement_count">250 caractère(s) restant</div>
   <p class="alert alert-danger invalidDate" style="display: none;">Année de construction incohérente ou format INVALIDE (AAAA)</p>
+
   = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
 
 javascript:
-  
-  // function addTags(labelList, tagColor, tagText) {
-  //   $(labelList).each(function(index) {
-  //     $("." + this).find("label").append("<div class='simpleTag " + tagColor + "'>" + tagText + "</div>");
-  //   });
-  // }
-  /*
-  addTags(
-    ["projet_localized_travaux_ttc_amount",
-      "projet_localized_amo_amount",
-      "projet_localized_maitrise_oeuvre_amount",
-      "projet_localized_global_ttc_sum"],
-      "blackTag", "coût"
-  );
-  */
 
   function countChar(val, inject) {
     var len = val.value.length;

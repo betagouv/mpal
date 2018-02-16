@@ -1,12 +1,12 @@
-.dashboard-dossiers__search
+.dashboard-dossiers-search
   = simple_form_for :search, url: url, method: :get, html: { class: "form form-search" } do |f|
-    .dashboard-dossiers__search-item
+    .dashboard-dossiers-search-item
       = f.input :query, input_html: { value: (params[:search] || {})[:query] }, required: false, autofocus: true
-    .dashboard-dossiers__search-item
+    .dashboard-dossiers-search-item
       = f.input :status, collection: @statuses, selected: (params[:search] || {})[:status], required: false
-    .dashboard-dossiers__search-item
+    .dashboard-dossiers-search-item
       = f.input :sort_by, collection: @sort_by_options, selected: (params[:search] || {})[:sort_by], required: false
-    .dashboard-dossiers__search-item.dashboard-dossiers__search-item--top-padded
+    .dashboard-dossiers-search-item.dashboard-dossiers-search-item-top-padded
       = btn name: "Rechercher", icon: "search"
       - if show_export_button
         - search = params.fetch(:search, {}).permit(:query, :status, :sort_by)
