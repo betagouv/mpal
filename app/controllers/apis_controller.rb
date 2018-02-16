@@ -24,16 +24,14 @@ class ApisController < ApplicationController
 						if projet
 							
 							opalPosition = dossier["position"]
+							opalPositionLabel = dossier["position"]
 							
 							begin
-								opalDatePosition = DateTime.strptime(dossier["date"], '%s')
+								opalDatePosition = DateTime.strptime(dossier["date"])
+
 							rescue
 								opalDatePosition = nil
 							end
-							
-
-
-
 
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil
 
@@ -47,6 +45,7 @@ class ApisController < ApplicationController
 				end
 
 				# Rails.logger.debug("Dossiers mis à jour: " + count.to_s)
+				
 				render json: {
 					status: 202,
 					message: "La requête a ete acceptée et son traitement est en cours"
