@@ -358,7 +358,8 @@ class DossiersController < ApplicationController
     end
   end
 
-  def fill_tab_intervenant all   
+  def fill_tab_intervenant all
+    flash.now[:notice] = "" 
     if current_agent.pris?
       @traited = all.where("projets.actif = 1 and projets.statut >= 2 and projets.operateur_id is not NULL")
       @action = all.where("projets.actif = 1 and projets.operateur_id is NULL")
@@ -375,6 +376,9 @@ class DossiersController < ApplicationController
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
+      if @rfrn2.count >= 0
+        flash.now[:notice] = "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
+      end
     elsif current_agent.instructeur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 6")
       @action = all.where("projets.actif = 1 and projets.statut = 5")
@@ -383,8 +387,8 @@ class DossiersController < ApplicationController
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
-     
     end
+    flash.now[:notice] += " L'onglet Nouveau Message est pour le moment indisponible, nous nous excusons pour la gêne occassionée. "
   end
 
 def render_index    
@@ -434,10 +438,11 @@ def render_index
           @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
           @inactifs = @dossiers.where(:actif => 0)
         else
+          intervenant_id = current_agent.intervenant.id
           if current_agent.operateur?
-            @dossiers = Projet.select(to_select).joins(to_join).where(["projets.operateur_id is NULL or projets.operateur_id = ?", current_agent.intervenant.id]).group("projets.id")
+            @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).where(["projets.operateur_id is NULL or projets.operateur_id = ?", intervenant_id]).group("projets.id")
           else
-            @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", current_agent.intervenant_id]).group("projets.id")
+            @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).group("projets.id")
           end
           @dossiers = @dossiers.for_sort_by(search[:sort_by])
           @dossiers = search_dossier(search, @dossiers)
