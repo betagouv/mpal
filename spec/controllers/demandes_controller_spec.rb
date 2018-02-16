@@ -3,6 +3,20 @@ require "support/mpal_helper"
 require "support/api_ban_helper"
 
 describe DemandesController do
+  THEMES = [
+    "Énergie",
+    "Autonomie",
+    "Travaux lourds",
+    "SSH - petite LHI",
+    "Autres travaux",
+  ]
+
+  def seed_themes
+    table_name = 'themes'
+    THEMES.each do |libelle_theme|
+      theme = Theme.find_or_create_by!(libelle: libelle_theme)
+    end
+  end
   let(:projet) { create :projet, :initial, :with_demandeur }
 
   describe "#show" do

@@ -4,6 +4,20 @@ require 'support/api_ban_helper'
 require 'support/rod_helper'
 
 describe "En tant qu'opérateur engagé avec le demandeur" do
+    THEMES = [
+    "Énergie",
+    "Autonomie",
+    "Travaux lourds",
+    "SSH - petite LHI",
+    "Autres travaux",
+  ]
+
+  def seed_themes
+    table_name = 'themes'
+    THEMES.each do |libelle_theme|
+      theme = Theme.find_or_create_by!(libelle: libelle_theme)
+    end
+  end
   let(:projet) { create :projet, :en_cours, :with_committed_operateur }
   let(:agent_operateur) { create :agent, intervenant: projet.operateur }
 
