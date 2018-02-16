@@ -359,7 +359,7 @@ class DossiersController < ApplicationController
   end
 
   def fill_tab_intervenant all
-    flash.now[:notice] = "" 
+    flash.now[:notice_html] = "" 
     if current_agent.pris?
       @traited = all.where("projets.actif = 1 and projets.statut >= 2 and projets.operateur_id is not NULL")
       @action = all.where("projets.actif = 1 and projets.operateur_id is NULL")
