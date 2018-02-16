@@ -162,7 +162,7 @@ describe ProjetsController do
       let(:numero_fiscal)  { projet.numero_fiscal }
       let(:reference_avis) { projet.reference_avis }
 
-      it "je suis redirigé vers la page eligibilité" do
+      it "je suis redirigé vers la page sign_in" do
         post :create, params: {
           projet: {
             numero_fiscal: numero_fiscal,
@@ -170,7 +170,7 @@ describe ProjetsController do
           },
           proprietaire: "1",
         }
-        expect(response).to redirect_to projet_eligibility_path(projet)
+        expect(response).to redirect_to new_user_registration_path
       end
     end
   end

@@ -99,7 +99,7 @@ describe OccupantsController do
           let(:submit_button_params) { { submit_button: "" } }
 
           it "je passe à l'étape suivante" do
-            expect(response).to redirect_to(projet_demande_path(projet))
+            expect(response).to redirect_to(projet_eligibility_path(projet))
           end
         end
 

@@ -33,7 +33,7 @@ describe DemandesController do
         projet.demande.reload
         expect(projet.demande.changement_chauffage).to be true
         expect(projet.demande.froid).to be false
-        expect(response).to redirect_to projet_eligibility_path projet
+        expect(response).to redirect_to new_user_registration_path
         expect(flash[:alert]).to be_blank
       end
 
@@ -76,7 +76,7 @@ describe DemandesController do
 
           # TODO: pas critique, mais le message d’alerte ne s’affiche pas alors qu’il devrait
           #expect(flash[:alert]).to eq I18n.t("unauthorized.default")
-          expect(response).to redirect_to projet_eligibility_path(projet.id)
+          expect(response).to redirect_to new_user_registration_path
         end
       end
 

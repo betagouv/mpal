@@ -34,7 +34,7 @@ feature "Préciser le projet :" do
       fill_in :demande_travaux_autres, with: "Aménager une chambre au RDC"
 
       click_button I18n.t('demarrage_projet.action')
-      expect(page).to have_current_path projet_eligibility_path projet
+      expect(page).to have_current_path new_user_registration_path
 
       projet.reload
       expect(projet.demande.froid).to be_truthy

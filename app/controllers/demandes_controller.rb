@@ -3,6 +3,7 @@ class DemandesController < ApplicationController
 
   before_action :assert_projet_courant
   load_and_authorize_resource
+
   before_action do
     set_current_registration_step Projet::STEP_DEMANDE
   end
@@ -13,7 +14,12 @@ class DemandesController < ApplicationController
   end
 
   def update
+
     @demande.update_attributes(demande_params)
+
+    if @projet_courant.locked_at.blank?
+      @projet_courant.update_attributes(locked_at: Time.now)
+    end
 
     if @demande.changement_chauffage == true || @demande.froid == true || @demande.travaux_fenetres == true || @demande.travaux_isolation == true || @demande.travaux_chauffage
       if not (@projet_courant.themes).include?(Theme.find_by(:libelle => "Énergie"))
@@ -89,7 +95,7 @@ private
 
   def redirect_to_next_step
     if needs_next_step?
-      redirect_to projet_eligibility_path @projet_courant
+      redirect_to new_user_registration_path
     else
       redirect_to projet_or_dossier_path @projet_courant
     end
