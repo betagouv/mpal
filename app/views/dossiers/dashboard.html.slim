@@ -18,6 +18,7 @@
 	- other = @others
 	- new_msg = @new_msg
 	- rfrn2 = @rfrn2
+	- rfr_count = custom_count_each_tab @rfrn2
 
 	- inactifs = @inactifs
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
@@ -36,7 +37,7 @@
 				li.dashboardTab.tabNewMSG
 					a Nouveau Message (#{custom_count_each_tab @new_msg})
 				li.dashboardTab.tabRFRN2
-					a RFR à mettre à jour (#{custom_count_each_tab @rfrn2})
+					a RFR à mettre à jour (rfr_count)
 				li.dashboardTab.tabInactifs
 					a Inactifs (#{custom_count_each_tab @inactifs})
 				li.dashboardTab.tabAll
@@ -833,7 +834,7 @@ javascript:
 		};
 
 		// Hide Tabs
-		var rfrn2 = '#{@rfrn2.count}';
+		var rfrn2 = '#{rfr_count}';
 
 		if (rfrn2 == 0)
 			$('.tabRFRN2').hide();
