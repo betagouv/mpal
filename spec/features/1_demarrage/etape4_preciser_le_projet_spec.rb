@@ -5,20 +5,6 @@ require 'support/api_ban_helper'
 require 'support/rod_helper'
 
 feature "Préciser le projet :" do
-    THEMES = [
-    "Énergie",
-    "Autonomie",
-    "Travaux lourds",
-    "SSH - petite LHI",
-    "Autres travaux",
-  ]
-
-  def seed_themes
-    table_name = 'themes'
-    THEMES.each do |libelle_theme|
-      theme = Theme.find_or_create_by!(libelle: libelle_theme)
-    end
-  end
   let(:projet) { Projet.last }
 
   context "en tant que demandeur" do

@@ -51,8 +51,8 @@ describe Document do
   end
 
   describe "#for_projet" do
-    let(:theme_autonomie) { create :theme, libelle: "Autonomie" }
-    let(:theme_energie)   { create :theme, libelle: "Énergie" }
+    let(:theme_autonomie) { Theme.find_by(:libelle => "Autonomie") }
+    let(:theme_energie)   { Theme.find_by(:libelle => "Énergie") }
     let(:theme_travaux)   { create :theme, libelle: "Travaux lourds" }
     let(:theme_ssh_lhi)   { create :theme, libelle: "SSH - petite LHI" }
     let(:theme_autres)    { create :theme, libelle: "Autres travaux" }

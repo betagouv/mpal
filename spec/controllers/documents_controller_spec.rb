@@ -4,7 +4,7 @@ require "support/api_ban_helper"
 
 describe DocumentsController do
   describe "#index" do
-    let(:theme_energie) { create :theme, libelle: "Énergie" }
+    let(:theme_energie) { Theme.find_by(:libelle => "Énergie") }
     let(:theme_travaux) { create :theme, libelle: "Travaux lourds" }
 
     let(:projet)  { create :projet, :transmis_pour_instruction, themes: [theme_energie, theme_travaux] }
