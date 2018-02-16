@@ -13,9 +13,9 @@ class ApisController < ApplicationController
 					message: "Le token n'est pas valide"
 				}.to_json and return
 			else
-				parsed_json = JSON.parse(params["selDossiers"])
+				parsed_json = JSON.parse(params["_json"])
 
-				parsed_json["selDossiers"].each do |dossier|
+				parsed_json["_json"].each do |dossier|
 
 					if dossier["numero"] && /\A\d+\z/.match(dossier["numero"])
 
