@@ -378,7 +378,7 @@ class DossiersController < ApplicationController
       @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
       if @rfrn2.limit(1).present?
         flash.now[:notice] = "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
-        flash.now[:notice] = "</br>"
+        flash.now[:notice] += "\n"
       end
     elsif current_agent.instructeur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 6")
