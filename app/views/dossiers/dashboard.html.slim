@@ -18,6 +18,7 @@
 	- other = @others
 	- new_msg = @new_msg
 	- rfrn2 = @rfrn2
+	- rfr_count = custom_count_each_tab @rfrn2
 
 	- inactifs = @inactifs
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
@@ -35,9 +36,9 @@
 					a Autres (#{custom_count_each_tab @others})
 				li.dashboard-tab.tabNewMSG
 					a Nouveau Message (#{custom_count_each_tab @new_msg})
-				li.dashboard-tab.tabRFRN2
-					a RFR à mettre à jour (#{custom_count_each_tab @rfrn2})
-				li.dashboard-tab.tabInactifs
+				li.dashboardTab.tabRFRN2
+					a RFR à mettre à jour (rfr_count)
+				li.dashboardTab.tabInactifs
 					a Inactifs (#{custom_count_each_tab @inactifs})
 				li.dashboard-tab.tabAll
 					- if @dossiers.present?
@@ -656,20 +657,8 @@
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
-											- if projet.status_already(:transmis_pour_instruction)
-												- if projet.invited_instructeur
-													= projet.ift_instructeur
-													= " - " + projet.ift_agent_instructeur
-												- else
-													p &nbsp;
-											- elsif projet.status_already(:en_cours)
-												- if (current_agent_operateur || current_agent_instructeur || !anonymized) && projet.agent_operateur
-													= projet.ift_operateur
-													= " - " + projet.ift_agent_operateur
-												- else
-													p &nbsp;
-											- elsif projet.ift_pris
-												= projet.ift_pris
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
 											- else
 												p &nbsp;
 									td.table-row-icons-border.firstRowIcons
@@ -842,9 +831,13 @@ javascript:
 			"to": $('.dashboardFilterTo input')
 		};
 		// Hide Tabs
-		var rfrn2 = '#{@rfrn2.count}';
+		var rfrn2 = '#{rfr_count}';
+
 		if (rfrn2 == 0)
 			$('.tabRFRN2').hide();
+		
+		$('.tabNewMSG').hide();
+
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {
 			var jsonURL = JSON.parse('{"' + decodeURI(sPageURL).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 			var search = [];
