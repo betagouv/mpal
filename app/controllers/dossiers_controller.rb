@@ -376,7 +376,7 @@ class DossiersController < ApplicationController
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
-      if @rfrn2.limit(1).total_entries > 0
+      if custom_count_each_tab(@rfrn2.limit(1)) > 0
         flash.now[:notice] = "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
       end
     elsif current_agent.instructeur?
