@@ -1,16 +1,11 @@
-@import "variables";
-
 .page-error {
-  margin: 2em;
-  color: #222;
-}
-.page-error__heading {
-  margin-bottom: 1em;
-}
-.page-error__p {
-  margin-bottom: 1em;
-}
-.page-error__button {
-  margin-top: 1em;
+	color: $color-very-black;
+	margin: 2em;
 }
 
+.page-error-heading,
+.page-error-p {
+	margin-bottom: 1em;
+}
+
+.page-error-button { margin-top: 1em; }

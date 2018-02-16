@@ -76,6 +76,7 @@ ActiveRecord::Schema.define(version: 20180117100529) do
     t.string "declarant_2"
     t.integer "nombre_personnes_charge"
     t.index ["projet_id"], name: "index_avis_impositions_on_projet_id"
+    t.index ["annee"], name: "index_avis_impositions_on_annee"
   end
 
   create_table "contacts", id: :serial, force: :cascade do |t|
@@ -178,6 +179,7 @@ ActiveRecord::Schema.define(version: 20180117100529) do
     t.index ["intermediaire_id"], name: "index_invitations_on_intermediaire_id"
     t.index ["intervenant_id"], name: "index_invitations_on_intervenant_id"
     t.index ["projet_id"], name: "index_invitations_on_projet_id"
+    t.index ["suggested"], name: "index_invitations_on_suggested"
   end
 
   create_table "messages", id: :serial, force: :cascade do |t|
@@ -202,6 +204,8 @@ ActiveRecord::Schema.define(version: 20180117100529) do
     t.integer "avis_imposition_id"
     t.boolean "declarant", default: false, null: false
     t.string "civility"
+    t.index ["avis_imposition_id"], name: "index_occupants_on_avis_imposition_id"
+    t.index ["demandeur"], name: "index_occupants_on_demandeur"
   end
 
   create_table "operations", id: :serial, force: :cascade do |t|
@@ -332,6 +336,8 @@ ActiveRecord::Schema.define(version: 20180117100529) do
     t.index ["personne_id"], name: "index_projets_on_personne_id"
     t.index ["themes"], name: "index_projets_on_themes", using: :gin
     t.index ["user_id"], name: "index_projets_on_user_id"
+    t.index ["statut"], name: "index_projets_on_statut"
+    t.index ["actif"], name: "index_projets_on_actif"
   end
 
   create_table "projets_themes", id: false, force: :cascade do |t|
@@ -358,6 +364,7 @@ ActiveRecord::Schema.define(version: 20180117100529) do
 
   create_table "themes", id: :serial, force: :cascade do |t|
     t.string "libelle"
+    t.index ["libelle"], name: "index_projets_on_libelle"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

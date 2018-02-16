@@ -1,100 +1,102 @@
-@import "variables";
+.homepage { position: relative; }
 
-$breakpoint_2_columns:   800px;
-$breakpoint_full_width: 1020px;
+.homepage-banner { @extend .clearfix; }
 
-.homepage {
-  position: relative;
+.homepage-banner-holder {
+	background: image-url('homepage_mosaic_banner_sm.jpg') center center no-repeat;
+	background-position: center;
+	// background-size: cover;
+	background-size: auto 100%;
+	margin-bottom: 2em;
+	padding-top: 18.25%;
+	width: 100%;
+
+	@include respond-to(medium_screens_800) {
+		background-image: image-url('homepage_mosaic_banner_lg.jpg');
+		float: right;
+		margin-bottom: 0;
+		padding-top: 37.22%;
+		width: 50%;
+	}
+
+	@include respond-to(large_screens_1020) {
+		padding-top: 29.77%;
+		width: 40%;
+	}
 }
-.homepage__banner {
-  @extend .clearfix;
+
+.homepage-banner-text {
+	color: $color-primary;
+	font-weight: bold;
+	padding: 0 1em;
+	text-align: center;
+
+	@include respond-to(medium_screens_800) {
+		float: left;
+		padding-top: 1em;
+		width: 50%;
+	}
+
+	@include respond-to(medium_screens_900) { padding-top: 2em; }
+
+	@include respond-to(large_screens_1020) {
+		padding-top: 3em;
+		width: 60%;
+	}
 }
-.homepage__banner-holder {
-  width: 100%;
-  padding-top: 18.25%;
-  background: image-url('homepage_mosaic_banner_sm.jpg') center center no-repeat;
-  background-size: cover;
-  background-size: auto 100%;
-  background-position: center;
-  margin-bottom: 2em;
-  @media screen and (min-width: $breakpoint_2_columns) {
-    float: right;
-    width: 50%;
-    padding-top: 37.22%;
-    background-image: image-url('homepage_mosaic_banner_lg.jpg');
-    margin-bottom: 0;
-  }
-  @media screen and (min-width: $breakpoint_full_width) {
-    width: 40%;
-    padding-top: 29.77%;
-  }
+
+.homepage-text {
+	display: inline;
+	@include respond-to(medium_screens_800) { display: inline-block; }
 }
-.homepage__banner-text {
-  padding: 0 1em;
-  color: $color-primary;
-  font-weight: bold;
-  text-align: center;
-  @media screen and (min-width: $breakpoint_2_columns) {
-    float: left;
-    width: 50%;
-    padding-top: 1em;
-  }
-  @media screen and (min-width: 900px) {
-    padding-top: 2em;
-  }
-  @media screen and (min-width: $breakpoint_full_width) {
-    width: 60%;
-    padding-top: 3em;
-  }
+
+.homepage-heading1 {
+	font-size: 1.1em;
+	margin-bottom: 1em;
+
+	@include respond-to(medium_screens_900) {
+		font-size: 1.4em;
+		line-height: 133%;
+	}
+
+	@include respond-to(large_screens_1020) { font-size: 1.5em; }
 }
-.homepage__text {
-  display: inline;
-  @media screen and (min-width: $breakpoint_2_columns) {
-    display: inline-block;
-  }
+
+.homepage-heading2 {
+	font-size: 1em;
+	margin: 1em 0;
+
+	@include respond-to(medium_screens_900) {
+		font-size: 1.2em;
+		line-height: 133%;
+		margin: 1.5em 0;
+
+		.homepage-text { color: $color-primary; }
+	}
+
+	@include respond-to(large_screens_1020) { font-size: 1.4em; }
 }
-.homepage__heading1 {
-  margin-bottom: 1em;
-  font-size: 1.1em;
-  @media screen and (min-width: 900px) {
-    font-size: 1.4em;
-    line-height: 133%;
-  }
-  @media screen and (min-width: $breakpoint_full_width) {
-    font-size: 1.5em;
-  }
+
+.homepage-action {
+	padding: 1em 0;
+	text-align: center;
+
+	@include respond-to(medium_screens_630) {
+		float: left;
+		width: 50%;
+	}
+
+	@include respond-to(medium_screens_800) {
+		float: none;
+		width: auto;
+	}
+
+	@include respond-to(large_screens_1020) {
+		float: left;
+		width: 50%;
+	}
 }
-.homepage__heading2 {
-  font-size: 1em;
-  margin: 1em 0;
-  @media screen and (min-width: 900px) {
-    font-size: 1.2em;
-    margin: 1.5em 0;
-    line-height: 133%;
-    .homepage__text {
-      color: $color-primary;
-    }
-  }
-  @media screen and (min-width: $breakpoint_full_width) {
-    font-size: 1.4em;
-  }
-}
-.homepage__action {
-  padding: 1em 0;
-  text-align: center;
-  @media screen and (min-width: 630px) {
-    float: left;
-    width: 50%;
-  }
-  @media screen and (min-width: $breakpoint_2_columns) {
-    float: none;
-    width: auto;
-  }
-  @media screen and (min-width: $breakpoint_full_width) {
-    float: left;
-    width: 50%;
-  }
-}
-.homepage__action--sign-up > a { width: 80%; }
-.homepage__action--sign-in > a { width: 80%; }
+
+.homepage-action-sign-up > a { width: 80%; }
+.homepage-action-sign-in > a { width: 80%; }
 

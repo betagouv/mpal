@@ -6,8 +6,8 @@
       - alert_data = alert_data_for level
       div class="alert alert-#{alert_data[:class]}"
         /button.close data-dismiss="alert" type="button" &times;
-        i class="alert__icon glyphicon glyphicon-#{alert_data[:icon]}"
-        p.alert__p
+        i class="alert-icon glyphicon glyphicon-#{alert_data[:icon]}"
+        p.alert-p
           - if :notice == level && (title = flash[:notice_titre]).present?
             strong= title
             br

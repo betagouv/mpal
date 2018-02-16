@@ -12,7 +12,7 @@
       .project-layout
         .project-layout__content
           = yield
-        .project-layout__links
+        .project-layout-links
           = render "projets/links", project: @projet_courant
     - else
       = yield

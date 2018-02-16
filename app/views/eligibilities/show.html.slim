@@ -1,13 +1,13 @@
 .eligibility
   - if @eligible
     .alert.alert-success
-      i.glyphicon.glyphicon-ok.alert__icon
-      p.alert__p= t("demarrage_projet.eligibility.eligible")
+      i.glyphicon.glyphicon-ok.alert-icon
+      p.alert-p= t("demarrage_projet.eligibility.eligible")
   - else
     .alert.alert-danger
-      i.glyphicon.glyphicon-remove.alert__icon
-      p.alert__p= t("demarrage_projet.eligibility.not_eligible")
-    .eligibility__contact-info
+      i.glyphicon.glyphicon-remove.alert-icon
+      p.alert-p= t("demarrage_projet.eligibility.not_eligible")
+    .eligibility-contact-info
       | Pour plus d’informations, vous pouvez contacter le Point Rénovation Info Service (Espace Info Énergie) le plus proche de chez vous :
       ul
         li= @pris.raison_sociale

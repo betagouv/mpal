@@ -7,7 +7,6 @@ class Users::ConfirmationsController < Devise::ConfirmationsController
       projet_or_dossier_path(Projet.find_by_id(projet_id))
     else
       resource.projets.first.update(:max_registration_step => Projet::STEP_MISE_EN_RELATION)
-      resource.projets.first.update(:email => resource.email)
       stored_location_for(resource) || root_path
     end
   end

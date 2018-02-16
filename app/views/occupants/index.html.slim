@@ -46,15 +46,15 @@
 
   p.chapo= t("occupants.confirmer_nombre_personnes_ajouter")
   .occupant-inline-form
-    h3.occupant-inline-form__title Ajouter un occupant
-    .occupant-inline-form__fields
-      = f.input :prenom, wrapper_html: { class: "occupant-inline-form__field size-l" }
-      = f.input :nom, wrapper_html: { class: "occupant-inline-form__field size-l" }
-      = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form__field size-l" }, required: true
-      = btn name: t("occupants.nouveau.action"), class: "btn-secondary occupant-inline-form__submit", icon: "plus"
+    h3.occupant-inline-form-title Ajouter un occupant
+    .occupant-inline-form-fields
+      = f.input :prenom, wrapper_html: { class: "occupant-inline-form-field size-l" }
+      = f.input :nom, wrapper_html: { class: "occupant-inline-form-field size-l" }
+      = f.input :date_de_naissance, as: :string, wrapper_html: { class: "occupant-inline-form-field size-l" }, required: true
+      = btn name: t("occupants.nouveau.action"), class: "btn-secondary occupant-inline-form-submit", icon: "plus"
 
   .occupant-inline-form
-    h3.occupant-inline-form__title Autre situation
+    h3.occupant-inline-form-title Autre situation
     = f.fields_for @projet_courant do |ff|
       = ff.input :future_birth
 

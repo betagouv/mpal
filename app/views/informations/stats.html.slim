@@ -3,17 +3,17 @@
   = javascript_include_tag "chartist.min"
   = javascript_include_tag "moment"
 
-h2.stats__heading Depuis la création du service
+h2.stats-heading Depuis la création du service
 
 .stats
-  .stats__metric
-    p.stats__metric-value= Tools.enabled_state_count
-    p.stats__metric-name départements ouverts
-  .stats__metric
-    p.stats__metric-value= @project_count
-    p.stats__metric-name demandes de projet
+  .stats-metric
+    p.stats-metric-value= Tools.enabled_state_count
+    p.stats-metric-name départements ouverts
+  .stats-metric
+    p.stats-metric-value= @project_count
+    p.stats-metric-name demandes de projet
 
-h2.stats__heading Nouvelles demandes de projet par semaine
+h2.stats-heading Nouvelles demandes de projet par semaine
 
 .stats
   .ct-chart
@@ -35,11 +35,11 @@ javascript:
   };
   new Chartist.Line('.ct-chart', data, options);
 
-h2.stats__heading Ces 30 derniers jours
+h2.stats-heading Ces 30 derniers jours
 
 .stats
   - @project_count_by_status.each do |status, count|
-    .stats__metric
-      p.stats__metric-value= count
-      p.stats__metric-name= t("stats.status.#{status}")
+    .stats-metric
+      p.stats-metric-value= count
+      p.stats-metric-name= t("stats.status.#{status}")
 

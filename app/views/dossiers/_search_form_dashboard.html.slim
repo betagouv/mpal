@@ -1,10 +1,9 @@
-div.dashboardFilterContainer
+div.dashboard-filter-container
 	- search = params.fetch(:search, {}).permit(:query, :status, :sort_by, :from, :to, :type, :folder, :tenant, :location, :interv)
-	- if current_agent.admin == false
-		= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
-	div.dashboardFilterFreeSearch
+	= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
+	div.dashboard-filter-free-search
 		<input type="text" name="freeSearch" placeholder="ID PF ou OP@L ID, nom ou prenom du propriétaire, région, département (n° ou nom), ville ou CP, programme">
-	div.dashboardFilterStatus
+	div.dashboard-filter-status
 		select
 			<option selected disabled hidden>Type d'intervention</option>
 			<option value=""></option>
@@ -13,27 +12,27 @@ div.dashboardFilterContainer
 			<option value="SSH - petite LHI">SSI petite LHI</option>
 			<option value="Travaux lourds">Travaux lourds</option>
 			<option value="autre">Autres travaux</option>
-	div.dashboardFilterState
+	div.dashboard-filter-state
 		select
 			<option selected disabled hidden>Etat du dossier</option>
 			= @statuses.each do | status |
 				<option value="#{status[1]}">#{status[0]}</option>
-	div.dashboardFilterAdvanced
+	div.dashboard-filter-advanced
 		<input class="dashboardFilterAdvancedCheckbox" type="checkbox" name="advanced"> Avancé
 
-	div.dashboardFilterContainerAdvanced
-		div.dashboardFilterContainerAdvancedLeft
-			div.dashboardFilterArea.dashboardFilterID.dashboardFilterFolderNumber
+	div.dashboard-filter-container-advanced
+		div.dashboard-filter-container-advanced-left
+			div.dashboard-filter-area.dashboardFilterID.dashboardFilterFolderNumber
 				span N° de dossier
 				<input type="text" name="freeSearch" placeholder="ID PF ou OP@L ID">
-			div.dashboardFilterArea.dashboardFilterID.dashboardFilterTenantName
+			div.dashboard-filter-area.dashboardFilterID.dashboardFilterTenantName
 				span Nom du propriétaire
 				<input type="text" name="freeSearch" placeholder="Nom ou prenom du propriétaire">
-			div.dashboardFilterArea.dashboardFilterID.dashboardFilterLocation
+			div.dashboard-filter-area.dashboardFilterID.dashboardFilterLocation
 				span Lieu / Programme
 				<input type="text" name="freeSearch" placeholder="Région, département (n° ou nom), ville ou CP, programme">
-		div.dashboardFilterContainerAdvancedCenter
-			div.dashboardFilterOrder
+		div.dashboard-filter-container-advanced-center
+			div.dashboard-filter-order
 				span Trier par :
 				div.OrderBy
 					<input id="dateDeDepot" type="radio" name="advancedType">
@@ -41,7 +40,7 @@ div.dashboardFilterContainer
 					br
 					<input id="dateDeCreation" type="radio" name="advancedType" checked="checked">
 					<label for="dateDeCreation">Date de création</label>
-			div.dashboardFilterOrder
+			div.dashboard-filter-order
 				span Ordre de tris :
 				div.OrderOrder
 					<input id="ascend" type="radio" name="advancedOrder">
@@ -49,17 +48,17 @@ div.dashboardFilterContainer
 					br
 					<input id="descend" type="radio" name="advancedOrder" checked="checked">
 					<label for="descend">Descendant</label>
-		div.dashboardFilterContainerAdvancedRight
-			div.dashboardFilterArea.dashboardFilterInterv
+		div.dashboard-filter-container-advanced-right
+			div.dashboard-filter-area.dashboardFilterInterv
 				span Intervenant
 				<input type="text" name="freeSearch" placeholder="Pris, opérateur, service instructeur ...">
-			div.dashboardFilterAreaDate.dashboardFilterFrom
+			div.dashboard-filter-area-date.dashboardFilterFrom
 				span Du :
 				<input type="date" name="freeSearch" placeholder="Date de début">
-			div.dashboardFilterAreaDate.dashboardFilterTo
+			div.dashboard-filter-area-date.dashboardFilterTo
 				span Au :
 				<input type="date" name="freeSearch" placeholder="Date de fin">
 
-div.dashboardFilterSearch
+div.dashboard-filter-search
 	<div class="dashboardFilterSearchButton">Rechercher</div>
 

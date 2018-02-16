@@ -143,6 +143,8 @@ RSpec.configure do |config|
       MSG
     end
     DatabaseCleaner.clean_with(:truncation)
+    Theme.create(:libelle => "Énergie")
+    Theme.create(:libelle => "Autonomie")
   end
 
   config.before(:each) do

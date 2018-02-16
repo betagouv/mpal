@@ -1,63 +1,48 @@
-// CATEGORY TITLE CSS
-.catFlexBox {
-  display: flex;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-
-  flex-direction: row;
-  align-items: stretch;
-
-  width: 100%;
-  margin-top: 20px;
-
-  .subtitle {
-    margin-right: 17px;
-    position: relative;
-    white-space: nowrap;
-    width: auto;
-  }
-  .subtitle2 {
-    margin-left: 30px;
-    margin-right: 17px;
-    position: relative;
-    white-space: nowrap;
-    width: auto;
-  }
-  .line {
-    position: relative;
-    width: 100%;
-    top: -9px;
-    border-bottom: 1px solid #54869B;
-  }
+.cat-flex-box,
+.cat-flex-box-home {
+	align-items: stretch;
+	display: flex;
+	flex-direction: row;
+	width: 100%;
 }
 
+.cat-flex-box {
+	margin-top: 20px;
 
-// CATEGORY TITLE CSS
-.catFlexBoxHome {
-  display: flex;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  flex-direction: row;
-  align-items: stretch;
-  width: 100%;
-  margin-top: 30px;
-  
-  .subtitleHome {
-    margin-right: 37px;
-    margin-left: 37px;
-    position: relative;
-    white-space: nowrap;
-    width: auto;
-    font-size: 20px;
-  }
-  .lineHome {
-    position: relative;
-    width: 100%;
-    top: -15px;
-    border-bottom: 1px solid #54869B;
-  }
+	.subtitle,
+	.subtitle2 {
+		margin-right: 17px;
+		position: relative;
+		white-space: nowrap;
+		width: auto;
+	}
+
+	.subtitle2 { margin-left: 30px; }
+
+	.line {
+		border-bottom: 1px solid $color-light-blue;
+		position: relative;
+		top: -9px;
+		width: 100%;
+	}
+}
+
+.cat-flex-box-home {
+	margin-top: 30px;
+
+	.subtitle-home {
+		font-size: 20px;
+		margin-left: 37px;
+		margin-right: 37px;
+		position: relative;
+		white-space: nowrap;
+		width: auto;
+	}
+
+	.line-home {
+		border-bottom: 1px solid $color-light-blue;
+		position: relative;
+		top: -15px;
+		width: 100%;
+	}
 }

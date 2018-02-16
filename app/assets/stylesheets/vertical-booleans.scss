@@ -1,40 +1,35 @@
-@import "variables";
-
 .vertical-booleans {
-  margin-bottom: 2em;
+	margin-bottom: 2em;
 
-  .vertical-booleans__title {
-    font-weight: bold;
-    cursor: unset;
-  }
-  .form-group {
-    margin-bottom: 0;
-  }
-  .form-field-label {
-    float: left;
-    width: auto;
-    max-width: 100%;
-    padding-right: 0;
-    @extend .clearfix;
-  }
-  input.boolean {
-    margin-right: 0.5em;
-  }
+	.vertical-booleans-title {
+		cursor: unset;
+		font-weight: bold;
+	}
+
+	.form-group { margin-bottom: 0; }
+
+	.form-field-label {
+		@extend .clearfix;
+
+		float: left;
+		max-width: 100%;
+		padding-right: 0;
+		width: auto;
+	}
+
+	input.boolean { margin-right: .5em; }
 }
 
 #select-intervenants {
-  .vertical-booleans__title {
-    width:100%;
-  }
+	.vertical-booleans-title { width: 100%; }
 }
 
 .block-intervenants {
-  display: inline-block;
-  vertical-align: top;
-  width: 30%;
-  word-break: break-all;
-  input {
-    margin-right: 5px;
-  }
-  padding: 15px 10px 25px 0;
+	display: inline-block;
+	padding: 15px 10px 25px 0;
+	vertical-align: top;
+	width: 30%;
+	word-break: break-all;
+
+	input { margin-right: 5px; }
 }

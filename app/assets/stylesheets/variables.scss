@@ -1,0 +1,124 @@
+$color-primary:							#435c70;
+$color-alice-blue:						#f2f6fa;
+$color-steel:							#008cba;
+$color-red:								#d9184e;
+$color-light-green:						#b6e89f;
+$color-dark-green:						#1c5d1d;
+$color-light-yellow:					#eae5a3;
+$color-brown:							#764c11;
+$color-light-red:						#e89d9a;
+$color-dark-red:						#851b0d;
+$color-grey80:							#ccc;
+$color-grey:							#f0f0f0;
+$color-light-grey:						#eef1f7;
+$color-alt-grey:						#e1e1e1;
+$color-dark-grey:						#808080;
+$color-very-dark-grey:					#353940;
+$color-very-light-grey:					#eef1f7;
+$color-lighter-grey:					#ddd;
+$color-another-grey:					#cbd4e7;
+$color-very-gray:						#888;
+$color-very-light-dark-gray:			#777;
+$color-very-dark-gray:					#666;
+$color-very-lighter-dark-gray:			#555;
+$color-very-darker-gray:				#333;
+$color-very-black:						#222;
+$color-black:							#111;
+$color-very-light-gray:					#eee;
+$color-whisper:							#e6e6e6;
+$color-gray68:							#adadad;
+$color-white2:							#fefefe;
+$color-white-smoke:						#f1f1f1;
+$color-dark-cyan-blue:					#576f8c;
+$color-magenta:							#86062d;
+$color-red-pink-gradient:				#e7235a;
+$color-triplet-de-sortileges:			#449d44;
+$color-deep-green:						#398439;
+$color-fern:							#5cb85c;
+$color-fruit-salad:						#4cae4c;
+$color-desatured-cian-blue:				#909eaf;
+$color-mostly-desaturated-dark-blue:	#5a869f;
+$color-light-blue:						#54869b;
+$color-very-light-cyan-blue:			#5ab0ee;
+$color-light-grayish-pink:				#dba8bc;
+$color-cyan-bluish-white:				#d2daea;
+$color-solitude:						#e6eaed;
+$color-dark-dark-gray:					#aaa;
+$color-brick-red:						#bd4147;
+$color-ghost-white:						#f7f7f9;
+$color-black-russian:					#1b1e24;
+$color-waikawa-gray:					#666b85;
+$color-snow:							#fafafa;
+$color-gray92:							#ebebeb;
+$color-very-white:						#fff;
+$color-pure-black:						#000;
+$color-pure-red:						#f00;
+$color-steel-metal-blue:				#4e5066;
+$color-hawkes-blue:						#dadfea;
+$color-moderate-cyan:					#67a2bc;
+$color-transparent-black-4:				rgba(0, 0, 0, .4);
+$color-transparent-black-3:				rgba(0, 0, 0, .3);
+$color-transparent-black-2-4:			rgba(0, 0, 0, .24);
+$color-transparent-black-2:				rgba(0, 0, 0, .2);
+$color-transparent-black-1-5:			rgba(0, 0, 0, .15);
+$color-transparent-black-1-2:			rgba(0, 0, 0, .12);
+$color-transparent-black-1:				rgba(0, 0, 0, .1);
+$color-transparent-gray-5:				rgba(50, 50, 50, .5);
+$color-transparent-white-7:				rgba(255, 255, 255, .7);
+$color-transparent-white-5:				rgba(255, 255, 255, .5);
+
+$font-color: $color-primary;
+
+$break-little-295: 295px;
+$break-little-400: 400px;
+$break-little-440: 440px;
+$break-little-480: 480px;
+$break-little-500: 500px;
+$break-little-501: 501px;
+$break-medium-599: 599px;
+$break-medium-600: 600px;
+$break-medium-630: 630px;
+$break-medium-640: 640px;
+$break-medium-700: 700px;
+$break-medium-800: 800px;
+$break-medium-820: 820px;
+$break-medium-870: 900px;
+$break-medium-900: 900px;
+$break-medium-920: 920px;
+$break-large-1000: 1000px;
+$break-large-1020: 1020px;
+$break-large-1110: 1110px;
+$break-large-1199: 1199px;
+$break-large-1200: 1200px;
+
+// MIXIN DECLARATION FOR RESPONSIVE HANDLING
+// usage : @include respond-to(<name>) {
+@mixin respond-to($media) {
+	@if $media == large_screens_1200 { @media only screen and (min-width: $break-large-1200) { @content; } }
+	@else if $media == large_screens_1199 { @media only screen and (min-width: $break-large-1199) { @content; } }
+	@else if $media == large_screens_1110 { @media only screen and (min-width: $break-large-1110) { @content; } }
+	@else if $media == large_screens_1020 { @media only screen and (min-width: $break-large-1020) { @content; } }
+	@else if $media == large_screens_1000 { @media only screen and (min-width: $break-large-1000) { @content; } }
+	@else if $media == medium_screens_920 { @media only screen and (min-width: $break-medium-920) { @content; } }
+	@else if $media == medium_screens_900 { @media only screen and (min-width: $break-medium-900) { @content; } }
+	@else if $media == medium_screens_870 { @media only screen and (min-width: $break-medium-870) { @content; } }
+	@else if $media == medium_screens_820 { @media only screen and (min-width: $break-medium-820) { @content; } }
+	@else if $media == medium_screens_800 { @media only screen and (min-width: $break-medium-800) { @content; } }
+	@else if $media == medium_screens_700 { @media only screen and (min-width: $break-medium-700) { @content; } }
+	@else if $media == medium_screens_640 { @media only screen and (min-width: $break-medium-640) { @content; } }
+	@else if $media == medium_screens_630 { @media only screen and (min-width: $break-medium-630) { @content; } }
+	@else if $media == medium_screens_600 { @media only screen and (min-width: $break-medium-600) { @content; } }
+	@else if $media == medium_screens_599 { @media only screen and (max-width: $break-medium-599) { @content; } }
+	@else if $media == mobile_screens_501 { @media only screen and (min-width: $break-little-501) { @content; } }
+	@else if $media == mobile_screens_500 { @media only screen and (min-width: $break-little-500) { @content; } }
+	@else if $media == mobile_screens_480 { @media only screen and (min-width: $break-little-480) { @content; } }
+	@else if $media == mobile_screens_440 { @media only screen and (min-width: $break-little-440) { @content; } }
+	@else if $media == mobile_screens_400 { @media only screen and (min-width: $break-little-400) { @content; } }
+	@else if $media == mobile_screens_295 { @media only screen and (max-width: $break-little-295) { @content; } }
+}
+
+@mixin ellipsis($no-wrap: true) {
+	@if $no-wrap { white-space: nowrap; }
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

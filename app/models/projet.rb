@@ -128,6 +128,7 @@ class Projet < ApplicationRecord
       else # :created == sorting
         scope.order("projets.created_at " + arr[1])
       end
+      scope.order("projets.actif DESC")
     end
   }
   scope :for_text, ->(opts) {
@@ -135,22 +136,22 @@ class Projet < ApplicationRecord
     next all if words.blank?
     conditions = ["true"]
     joins = %(
-      INNER JOIN avis_impositions ift_avis_impositions
-        ON (projets.id = ift_avis_impositions.projet_id)
-      INNER JOIN occupants ift_occupants
-        ON (ift_avis_impositions.id = ift_occupants.avis_imposition_id AND ift_occupants.demandeur = true)
-      INNER JOIN adresses ift_adresses1
-        ON (projets.adresse_postale_id = ift_adresses1.id)
-      LEFT OUTER JOIN projets_themes ift_ptheme
-        ON (projets.id = ift_ptheme.projet_id)
-      LEFT OUTER JOIN themes ift_themes
-        ON (ift_ptheme.theme_id = ift_themes.id)
-      LEFT OUTER JOIN invitations ift_invitations
-        ON (projets.id = ift_invitations.projet_id)
-      LEFT OUTER JOIN intervenants ift_intervenants
-        ON (ift_invitations.intervenant_id = ift_intervenants.id)
-      LEFT OUTER JOIN adresses ift_adresses2
-        ON (projets.adresse_a_renover_id = ift_adresses2.id)
+      INNER JOIN avis_impositions ift_avis_impositions_search
+        ON (projets.id = ift_avis_impositions_search.projet_id)
+      INNER JOIN occupants ift_occupants_search
+        ON (ift_avis_impositions_search.id = ift_occupants_search.avis_imposition_id AND ift_occupants_search.demandeur = true)
+      INNER JOIN adresses ift_adresses1_search
+        ON (projets.adresse_postale_id = ift_adresses1_search.id)
+      LEFT OUTER JOIN projets_themes ift_ptheme_search
+        ON (projets.id = ift_ptheme_search.projet_id)
+      LEFT OUTER JOIN themes ift_themes_search
+        ON (ift_ptheme_search.theme_id = ift_themes_search.id)
+      LEFT OUTER JOIN invitations ift_invitations_search
+        ON (projets.id = ift_invitations_search.projet_id)
+      LEFT OUTER JOIN intervenants ift_intervenants_search
+        ON (ift_invitations_search.intervenant_id = ift_intervenants_search.id)
+      LEFT OUTER JOIN adresses ift_adresses2_search
+        ON (projets.adresse_a_renover_id = ift_adresses2_search.id)
     )
     words.each do |word|
       conditions[0] << " AND (projets.id = ?"
@@ -163,20 +164,20 @@ class Projet < ApplicationRecord
       end
       [
         "projets.numero_fiscal", "projets.reference_avis",
-        "ift_adresses1.departement", "ift_adresses2.departement",
-        "ift_adresses1.code_postal", "ift_adresses2.code_postal",
+        "ift_adresses1_search.departement", "ift_adresses2_search.departement",
+        "ift_adresses1_search.code_postal", "ift_adresses2_search.code_postal",
       ].each do |field|
         conditions[0] << " OR #{field} = ?"
         conditions << word
       end
       [
-        "ift_occupants.nom", "ift_adresses1.ville", "ift_adresses2.ville",
+        "ift_occupants_search.nom", "ift_adresses1_search.ville", "ift_adresses2_search.ville",
         "projets.opal_numero",
-        "ift_adresses1.region", "ift_adresses2.region",
-        "ift_adresses1.departement", "ift_adresses2.departement",
-        "ift_occupants.prenom", "projets.opal_numero",
-        "ift_intervenants.raison_sociale",
-        "ift_themes.libelle"
+        "ift_adresses1_search.region", "ift_adresses2_search.region",
+        "ift_adresses1_search.departement", "ift_adresses2_search.departement",
+        "ift_occupants_search.prenom", "projets.opal_numero",
+        "ift_intervenants_search.raison_sociale",
+        "ift_themes_search.libelle"
       ].each do |field|
         conditions[0] << " OR #{field} ILIKE ?"
         conditions << "%#{word}%"
@@ -580,10 +581,69 @@ class Projet < ApplicationRecord
     end
   end
 
+def self.find_project all, is_admin, droit1, droit2
+    all.each do |projet|
+       line = [
+         projet.numero_plateforme,
+         format_date(projet.created_at),
+         projet.demandeur_fullname,
+         projet.postale_ville || projet.renov_ville,
+         projet.ift_instructeur,
+         projet.libelle_theme,
+         projet.ift_operateur,
+         format_date(projet.date_de_visite),
+         format_date(projet.date_depot),
+         I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
+         projet.actif? ? "Actif" : "Inactif"
+       ]
+
+       if is_admin == true
+         pris_eie = nil
+         #pris = nil
+         pris = projet.ift_pris
+         # if projet.eligible?
+         # else
+         #    pris_eie = projet.ift_pris
+         # end
+         op = ((projet.ift_operateur.present? || projet.ift_instructeur.present?) && !projet.ift_pris.present?) ? "Oui" : "Non"
+         
+         date_update = format_date(projet.statut_updated_date)
+         line.append(projet.try(:max_registration_step))
+         line.append(projet.message_count)
+         line.append(op)
+         line.append(pris)
+         line.append(pris_eie)
+         line.append(projet.id)
+         line.append(date_update)
+       end
+
+       payment_statuses = projet.payement_status
+
+       if droit1
+         line.insert 9, payment_statuses            
+         line.insert 6, projet.ift_agent_operateur  
+         line.insert 4, projet.ift_agent_instructeur
+         line.insert 1, projet.opal_numero          
+       end
+       if droit2
+         line.insert 2, (projet.postale_dep || projet.renov_dep)      
+         line.insert 2, (projet.postale_region || projet.renov_region)
+       end
+       yield line
+      end
+end
+
+def self.build_csv_enumerator titles, all, is_admin, droit1, droit2
+  Enumerator.new do |y|
+    y << CSV.generate_line(titles, :col_sep => ';').encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
+    Projet.find_project(all, is_admin, droit1, droit2) {|line| y << CSV.generate_line(line, :col_sep => ';').encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")}
+  end
+end
+
 def self.to_csv(agent, selected_projects, is_admin = false)
-
-   utf8 = CSV.generate(csv_options) do |csv|
-
+   # utf8 = CSV.generate(csv_options) do |csv|
+     droit1 = agent.siege? || agent.instructeur? || agent.operateur?
+     droit2 = agent.siege? || agent.operateur?
      titles = [
        'Numéro plateforme',
        'Date création',
@@ -608,62 +668,24 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        titles.append('Date de modification du Statut')
      end
 
-     titles.insert 9, 'État des paiements' if agent.siege? || agent.instructeur? || agent.operateur?
-     titles.insert 6, 'Agent opérateur'    if agent.siege? || agent.instructeur? || agent.operateur?
-     titles.insert 4, 'Agent instructeur'  if agent.siege? || agent.instructeur? || agent.operateur?
-     titles.insert 2, 'Département'        if agent.siege? || agent.operateur?
-     titles.insert 2, 'Région'             if agent.siege? || agent.operateur?
-     titles.insert 1, 'Identifiant OPAL'   if agent.siege? || agent.instructeur? || agent.operateur?
-     csv << titles
-     selected_projects.each do |projet|
-
-       line = [
-         projet.numero_plateforme,
-         format_date(projet.created_at),
-         projet.is_anonymized_for?(agent.intervenant) ? '' : projet.demandeur.try(:fullname),
-         projet.adresse.try(:ville),
-         projet.invited_instructeur.try(:raison_sociale),
-         projet.themes.map(&:libelle).join(", "),
-         projet.contacted_operateur.try(:raison_sociale),
-         projet.date_de_visite.present? ? format_date(projet.date_de_visite) : "",
-         projet.date_depot.present? ? format_date(projet.date_depot) : "",
-         I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
-         projet.actif? ? "Actif" : "Inactif"
-       ]
-
-       if is_admin == true
-        begin
-         pris_eie = !projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
-         pris = projet.eligible? ? projet.invited_pris.try(:raison_sociale) : nil
-       rescue
-          pris_eie = nil
-          pris = nil
-       end
-         op = (projet.intervenants != [] && projet.invited_pris == nil) ? "Oui" : "Non"
-         date_update = projet.statut_updated_date == nil ? "" : projet.statut_updated_date.strftime("%d/%m/%Y %Hh%M")
-
-         line.append(projet.try(:max_registration_step))
-         line.append(projet.messages.count)
-         line.append(op)
-         # line.append(projet.invited_pris.try(:fullname))
-         line.append(pris)
-         line.append(pris_eie)
-         line.append(projet.id)
-         line.append(date_update)
-       end
-
-       payment_statuses = projet.payments.map(&:dashboard_status).join(" - ")
-
-       line.insert 9, payment_statuses                        if agent.siege? || agent.instructeur? || agent.operateur?
-       line.insert 6, projet.agent_operateur.try(:fullname)   if agent.siege? || agent.instructeur? || agent.operateur?
-       line.insert 4, projet.agent_instructeur.try(:fullname) if agent.siege? || agent.instructeur? || agent.operateur?
-       line.insert 2, projet.adresse.try(:departement)        if agent.siege? || agent.operateur?
-       line.insert 2, projet.adresse.try(:region)             if agent.siege? || agent.operateur?
-       line.insert 1, projet.opal_numero                      if agent.siege? || agent.instructeur? || agent.operateur?
-       csv << line
+     if droit1
+       titles.insert 9, 'État des paiements' 
+       titles.insert 6, 'Agent opérateur'    
+       titles.insert 4, 'Agent instructeur'  
+       titles.insert 1, 'Identifiant OPAL'   
      end
-   end
-   utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
+
+     if droit2
+       titles.insert 2, 'Département'
+       titles.insert 2, 'Région'     
+     end
+     # csv << titles
+      Projet.build_csv_enumerator titles, selected_projects, is_admin, droit1, droit2
+
+       # csv << line
+     # end
+   # end
+   # utf8.encode(csv_ouput_encoding, invalid: :replace, undef: :replace, replace: "")
  end
 
   def is_anonymized_for?(intervenant)

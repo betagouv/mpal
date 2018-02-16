@@ -20,7 +20,24 @@ class DemandesController < ApplicationController
     if @projet_courant.locked_at.blank?
       @projet_courant.update_attributes(locked_at: Time.now)
     end
-    
+
+    if @demande.changement_chauffage == true || @demande.froid == true || @demande.travaux_fenetres == true || @demande.travaux_isolation == true || @demande.travaux_chauffage
+      if not (@projet_courant.themes).include?(Theme.find_by(:libelle => "Énergie"))
+        @projet_courant.themes << Theme.find_by(:libelle => "Énergie")
+      end
+    end
+
+    if @demande.probleme_deplacement == true || @demande.accessibilite == true || @demande.hospitalisation == true || @demande.adaptation_salle_de_bain == true || @demande.travaux_adaptation_sdb == true || @demande.travaux_monte_escalier == true || @demande.travaux_amenagement_ext == true
+      if not (@projet_courant.themes).include?(Theme.find_by(:libelle => "Autonomie"))
+        @projet_courant.themes << Theme.find_by(:libelle => "Autonomie")
+      end
+    end
+
+    if @demande.arrete == true || @demande.saturnisme == true
+      if not (@projet_courant.themes).include?(Theme.find_by(:libelle => "SSH - petite LHI"))
+        @projet_courant.themes << Theme.find_by(:libelle => "SSH - petite LHI")
+      end
+    end
 
     unless @demande.save
       init_show

@@ -28,7 +28,8 @@
     = f.input :ventilation_adaptee, as: :radio_buttons, collection: yes_no_collection
     = f.input :presence_humidite, as: :radio_buttons, collection: yes_no_collection
     = f.input :auto_rehabilitation, as: :radio_buttons, collection: yes_no_collection
-    = f.input :remarques_diagnostic
+    = f.input :remarques_diagnostic, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'remarques_diagnostic_count')"}
+    <div class="char_count" id="remarques_diagnostic_count">250 caractère(s) restant</div>
 
   / TODO CSS pas jolie
   fieldset.form-proposition__fieldset
@@ -73,10 +74,10 @@
 
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome COUT DES TRAVAUX
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home COUT DES TRAVAUX
+        span.line-home
       br
 
       - [:travaux_ht_amount].each do |field|
@@ -113,10 +114,10 @@
 
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome MONTANT DES AIDES
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home MONTANT DES AIDES
+        span.line-home
       br
 
       = f.simple_fields_for :projet_aides do |ff|
@@ -148,10 +149,10 @@
         end
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome MONTANT DES APPORTS PERSONNELS
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home MONTANT DES APPORTS PERSONNELS
+        span.line-home
       br
 
       - [:personal_funding_amount, :loan_amount].each do |field|
@@ -161,10 +162,10 @@
           span.input-group-addon €
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome TOTAL DES FINANCEMENTS
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home TOTAL DES FINANCEMENTS
+        span.line-home
       br
 
       = f.input :localized_fundings_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
@@ -172,37 +173,34 @@
         span.input-group-addon €
 
       br
-      div.catFlexBoxHome
-        span.lineHome
-        span.subtitleHome RESTE A CHARGE
-        span.lineHome
+      div.cat-flex-box-home
+        span.line-home
+        span.subtitle-home RESTE A CHARGE
+        span.line-home
       br
 
       = f.input :localized_remaining_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
         = f.input_field :localized_remaining_sum, class: "input-price", id: "js-remaining-sum", disabled: true
         span.input-group-addon €
 
-  = f.input :precisions_travaux
-  = f.input :precisions_financement
+  = f.input :precisions_travaux, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_travaux_count')"}
+  <div class="char_count" id="precisions_travaux_count">250 caractère(s) restant</div>
+  = f.input :precisions_financement, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_financement_count')"}
+  <div class="char_count" id="precisions_financement_count">250 caractère(s) restant</div>
   <p class="alert alert-danger invalidDate" style="display: none;">Année de construction incohérente ou format INVALIDE (AAAA)</p>
+
   = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
 
 javascript:
-  
-  // function addTags(labelList, tagColor, tagText) {
-  //   $(labelList).each(function(index) {
-  //     $("." + this).find("label").append("<div class='simpleTag " + tagColor + "'>" + tagText + "</div>");
-  //   });
-  // }
-  /*
-  addTags(
-    ["projet_localized_travaux_ttc_amount",
-      "projet_localized_amo_amount",
-      "projet_localized_maitrise_oeuvre_amount",
-      "projet_localized_global_ttc_sum"],
-      "blackTag", "coût"
-  );
-  */
+
+  function countChar(val, inject) {
+    var len = val.value.length;
+    if (len > 250) {
+      val.value = val.value.substring(0, 250);
+    } else {
+      $('#' + inject).text(250 - len + " caractère(s) restant");
+    }
+  };
 
   $('.btn-validate-submit').click(function(e) {
     e.preventDefault();
