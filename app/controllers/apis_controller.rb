@@ -15,7 +15,7 @@ class ApisController < ApplicationController
 			else
 				parsed_json = JSON.parse(params["_json"])
 
-				parsed_json["_json"].each do |dossier|
+				parsed_json.each do |dossier|
 
 					if dossier["numero"] && /\A\d+\z/.match(dossier["numero"])
 
