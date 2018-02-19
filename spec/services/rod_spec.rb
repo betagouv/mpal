@@ -43,6 +43,7 @@ describe Rod do
     subject(:rod_response) { Rod.new(RodClient).query_for(projet) }
 
     context "en cas de succès" do
+      
       context "si le PRIS n'existe pas " do
         it "crée le PRIS" do
           expect(rod_response.pris.raison_sociale).to    eq "ADIL du Doubs"
@@ -120,6 +121,18 @@ describe Rod do
 
       context "si des opérations programmées n'existent pas" do
         before { Fakeweb::Rod.register_query_for_success_with_operations }
+
+        context "si on est en opération programmées" do
+          it "ajoute le nom et le code opal au projet" do
+                expect(rod_response.operations).to_not eq([])
+                expect(rod_response.name_operation).to_not eq("")
+                expect(rod_response.code_opal).to_not eq("")
+                expect(projet.name_op).to_not eq("")
+                expect(projet.name_op).to_not eq(nil)
+                expect(projet.code_opal_op).to_not eq("")
+                expect(projet.code_opal_op).to_not eq(nil)
+          end
+        end
 
         it "crée les opérations programmées" do
           expect(rod_response.operations.first.name).to      eq "PIG"

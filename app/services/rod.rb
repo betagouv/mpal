@@ -55,6 +55,7 @@ class Rod
     end
 
     rod_response = RodResponse.new(JSON.parse(response.body))
+    projet.update(:name_op => rod_response.name_operation, :code_opal_op => rod_response.code_opal)
     log_successful_query(projet, rod_response)
     rod_response
   end
