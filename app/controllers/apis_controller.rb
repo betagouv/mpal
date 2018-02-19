@@ -48,16 +48,18 @@ class ApisController < ApplicationController
 								opalNewStatut = "Reversement prononcé"
 							end
 
+							
 							begin
 								opalDatePosition = DateTime.strptime(dossier["date"].to_s.slice(0..-4), '%s')
 							rescue
 								opalDatePosition = ""
 							end
 
+
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil && opalNewStatut != ""
 
-								if projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel || projet.statut != opalNewStatut
-									projet.update(:opal_date_position => opalDatePosition, :opal_position_label => opalPositionLabel, :statut => opalNewStatut)
+								if projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel || projet.opal_position != opalNewStatut
+									projet.update(:opal_date_position => opalDatePosition, :opal_position_label => opalNewStatut, :opal_position => opalPositionLabel)
 								end
 							end
 						end
