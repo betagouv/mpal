@@ -11,10 +11,7 @@ class ApisController < ApplicationController
 				}.to_json and return
 			else
 
-
-				json = request.raw_post
-				Rails.logger.debug(json)
-
+				json = params[:_json]
 
 				json.each do |dossier|
 					if dossier["numero"] && /\A\d+\z/.match(dossier["numero"])
@@ -26,7 +23,7 @@ class ApisController < ApplicationController
 							opalDatePosition = ""
 
 							begin
-								opalDatePosition = DateTime.strptime(dossier["date"].to_s, '%s')
+								opalDatePosition = DateTime.strptime(dossier["date"].to_s.slice(0..-4), '%s')
 							rescue
 								opalDatePosition = ""
 							end
@@ -34,7 +31,7 @@ class ApisController < ApplicationController
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil
 
 								if projet.opal_position != opalPosition || projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel
-									projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPosition)
+									projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPositionLabel)
 								end
 							end
 						end
