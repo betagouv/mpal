@@ -35,7 +35,27 @@ class ProjetsController < ApplicationController
     @projet = Projet.where(numero_fiscal: param_numero_fiscal, reference_avis: param_reference_avis).first
     if @projet
       if @projet.demandeur_user
-        return redirect_to new_user_session_path, alert: t("sessions.user_exists")
+        if  @projet.demandeur_user.active_for_authentication?
+          return redirect_to new_user_session_path, alert: t("sessions.user_exists")
+        else
+          if !@projet.demandeur_user.confirmed? && (@projet.demandeur_user.confirmation_sent_at + Devise.confirm_within) < Time.now
+            begin
+              uid = @projet.demandeur_user.id
+              ProjetsUser.where(:user_id => @projet.demandeur_user.id).first.delete
+              User.find(uid).delete
+              @projet.update(:locked_at => nil)
+            rescue
+              return redirect_to root_path, alert: t("sessions.signed_up_but_unconfirmed")
+            end
+          else
+            return redirect_to root_path, alert: t("sessions.signed_up_but_unconfirmed")
+          end
+          if session[:project_id] != @projet.id
+            session[:project_id] = @projet.id
+          end
+
+          return redirect_to_next_step(@projet)
+        end
       end
       if session[:project_id] != @projet.id
         session[:project_id] = @projet.id
