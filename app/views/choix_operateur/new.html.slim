@@ -25,3 +25,20 @@
       hr/
     = render "mises_en_relation/disponibilite_form", simple_form_builder: f
     = btn name: @action_label, class: "btn-large btn-centered", icon: "ok"
+
+javascript:
+  $(document).ready(function() {
+    var labelList = $('.choose-operator label');
+    var maxHeight = 0;
+    var curHeight;
+
+    labelList.each(function() {
+      curHeight = $(this).height();
+      if (curHeight > maxHeight)
+        maxHeight = curHeight;
+    });
+
+    labelList.each(function() {
+      $(this).height(maxHeight);
+    });
+  });
