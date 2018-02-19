@@ -4,7 +4,7 @@ h3 &nbsp;
     tbody
       tr
         td= sf_label :projet, :date_de_visite_du_logement
-        td.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
+        td.proposition-cell-price.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
       - if @projet_courant.type_logement.present?
         tr
           td= sf_label :projet, :type_logement
@@ -136,7 +136,7 @@ h3 Travaux
       thead
         tr
           th
-          th Proposition
+          th.proposition-cell-price Proposition
       tbody
         - [:travaux_ht_amount, :assiette_subventionnable_amount].each do |field|
           - value = @projet_courant.send field
