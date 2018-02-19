@@ -84,16 +84,8 @@
 	.form-control-label { padding-right: 1em; }
 }
 
-.totalSperator {
-    position: relative;
-    width: 100%;
-    height: 10px;
-    top: -9px;
-    border-bottom: 1px solid #54869B;
-}
-
-.char_count {
-  margin-bottom: 10px;
-  font-size: 14px;
-  margin-top: -15px;
+.form-explanations { margin-bottom: 1em; }
+.input-number,
+.input-price {
+	text-align: right;
 }
