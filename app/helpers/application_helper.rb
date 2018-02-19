@@ -162,6 +162,7 @@ module ApplicationHelper
         travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
       end
     end
+    html << tag(:br)
     html << content_tag(:h4, "Informations supplémentaires")
     complements = []
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite.present?
