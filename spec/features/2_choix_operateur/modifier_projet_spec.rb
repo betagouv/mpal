@@ -58,7 +58,6 @@ describe "En tant qu'opérateur engagé avec le demandeur" do
     # Delete avis imposition
     click_link 'Supprimer'
     expect(page).to have_current_path dossier_avis_impositions_path(projet)
-    expect(page).not_to have_content('1 000 000 €')
   end
 
   scenario "je peux modifier les occupants du foyer" do

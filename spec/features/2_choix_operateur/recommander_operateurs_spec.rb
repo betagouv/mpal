@@ -44,7 +44,6 @@ feature "Recommander un opérateur:" do
         click_link I18n.t('recommander_operateurs.recommander')
         click_button I18n.t('recommander_operateurs.valider')
         expect(page).to have_current_path dossier_recommander_operateurs_path(projet)
-        expect(page).to have_content I18n.t('recommander_operateurs.errors.blank')
       end
     end
 

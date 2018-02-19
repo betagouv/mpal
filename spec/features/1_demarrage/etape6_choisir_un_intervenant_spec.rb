@@ -19,6 +19,11 @@ feature "En tant que demandeur" do
       fill_in I18n.t('activerecord.attributes.projet.disponibilite'), with: "Plutôt le matin"
       click_button I18n.t('demarrage_projet.action')
 
+      expect(rod_response.name_operation).to eq("")
+      expect(rod_response.code_opal).to eq("")
+      expect(projet.name_op).to eq("")
+      expect(projet.code_opal_op).to eq("")
+
       expect(page).to have_current_path projet_path(projet)
       expect(page).to have_content "Plutôt le matin"
       expect(page).to have_content I18n.t("invitations.messages.succes", intervenant: rod_response.pris.raison_sociale)
@@ -37,6 +42,8 @@ feature "En tant que demandeur" do
       login_as user, scope: :user
 
       visit projet_mise_en_relation_path(projet)
+
+
 
       expect(page).to have_current_path projet_mise_en_relation_path(projet)
       expect(page).to have_content Regexp.new(I18n.t('demarrage_projet.mise_en_relation.operation_programmee', operateur: 'Operateur\d+'))

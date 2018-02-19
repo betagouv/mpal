@@ -583,6 +583,12 @@ class Projet < ApplicationRecord
 
 def self.find_project all, is_admin, droit1, droit2
     all.each do |projet|
+       if projet.code_opal_op.present?
+         op = projet.code_opal_op + " " + projet.name_op
+       else
+        op = "OP : N/A"
+       end
+
        line = [
          projet.numero_plateforme,
          format_date(projet.created_at),
@@ -594,23 +600,17 @@ def self.find_project all, is_admin, droit1, droit2
          format_date(projet.date_de_visite),
          format_date(projet.date_depot),
          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
-         projet.actif? ? "Actif" : "Inactif"
+         projet.actif? ? "Actif" : "Inactif",
+         op
        ]
 
        if is_admin == true
          pris_eie = nil
-         #pris = nil
          pris = projet.ift_pris
-         # if projet.eligible?
-         # else
-         #    pris_eie = projet.ift_pris
-         # end
-         op = ((projet.ift_operateur.present? || projet.ift_instructeur.present?) && !projet.ift_pris.present?) ? "Oui" : "Non"
          
          date_update = format_date(projet.statut_updated_date)
          line.append(projet.try(:max_registration_step))
          line.append(projet.message_count)
-         line.append(op)
          line.append(pris)
          line.append(pris_eie)
          line.append(projet.id)
@@ -655,13 +655,13 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date de visite',
        'Date dépôt',
        'État',
-       'Actif/Inactif'
+       'Actif/Inactif',
+       'Operation Programmee'
      ]
 
      if is_admin == true
        titles.append('Etape avancement creation Dossier')
        titles.append('Nbre de messages dans la messagerie')
-       titles.append('Operation Programmee')
        titles.append('PRIS')
        titles.append('PRIS EIE')
        titles.append('project id')
