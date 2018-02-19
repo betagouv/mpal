@@ -19,9 +19,34 @@ class ApisController < ApplicationController
 
 						projet = Projet.find_by(:opal_numero => dossier["numero"])
 						if projet
-							opalPosition = dossier["position"]
+
 							opalPositionLabel = dossier["position"]
 							opalDatePosition = ""
+							opalNewStatut = ""
+
+							if dossier["position"] == "AGREE"
+								opalNewStatut = "Aide accordée"
+							end
+
+							if dossier["position"] == "REJET"
+								opalNewStatut = "Aide rejetée"
+							end
+
+							if dossier["position"] == "TRAITINT"
+								opalNewStatut = "Traitement interrompu"
+							end
+
+							if dossier["position"] == "SANS_SUITE"
+								opalNewStatut = "Classé sans suite"
+							end
+
+							if dossier["position"] == "ANNULE"
+								opalNewStatut = "Annulé"
+							end
+
+							if dossier["position"] == "RVS_PRONONCE"
+								opalNewStatut = "Reversement prononcé"
+							end
 
 							begin
 								opalDatePosition = DateTime.strptime(dossier["date"].to_s.slice(0..-4), '%s')
@@ -29,16 +54,16 @@ class ApisController < ApplicationController
 								opalDatePosition = ""
 							end
 
-							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil
+							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil && opalNewStatut != ""
 
-								if projet.opal_position != opalPosition || projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel
-									projet.update(:opal_position => opalPosition, :opal_date_position => opalDatePosition, :opal_position_label => opalPositionLabel)
+								if projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel || projet.statut != opalNewStatut
+									projet.update(:opal_date_position => opalDatePosition, :opal_position_label => opalPositionLabel, :statut => opalNewStatut)
 								end
 							end
 						end
 					end
 				end
-				
+
 				ret = {
 					status: 202,
 					message: "La requête a ete acceptée et son traitement est en cours" 
