@@ -60,6 +60,6 @@
 
   .btn-centered
     - unless current_agent
-      = btn name: t("demarrage_projet.go_back"), href: projet_eligibility_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true
+      = btn name: t("demarrage_projet.go_back"), href: projet_or_dossier_avis_impositions_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true
     = btn name: @action_label, class: "btn-large", icon: "arrow-right", html: { name: :submit_button }
 
