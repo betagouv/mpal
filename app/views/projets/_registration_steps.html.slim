@@ -2,7 +2,7 @@
   - ["Identité", "Imposition", "Occupants", "Éligibilité", "Travaux", "Contacts"].each_with_index do |name, index|
     - classes = ["registration-menu-item"]
     - classes << "registration-menu-item-active" if @current_registration_step == index + 1
-    .registration-menu__item-wrapper
+    .registration-menu-item-wrapper
       div class="#{classes.join(" ")}"
         span.registration-menu-number= index + 1
         span.registration-menu-name= name
