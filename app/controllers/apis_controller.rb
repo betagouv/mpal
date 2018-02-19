@@ -48,10 +48,6 @@ class ApisController < ApplicationController
 								opalNewStatut = "Reversement prononcé"
 							end
 
-							if dossier["position"] == "Lebowski"
-								opalNewStatut = "Lebowski"
-							end
-
 							
 							begin
 								opalDatePosition = DateTime.strptime(dossier["date"].to_s.slice(0..-4), '%s')
