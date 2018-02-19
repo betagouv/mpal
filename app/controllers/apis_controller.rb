@@ -5,10 +5,11 @@ class ApisController < ApplicationController
 	def update_state
 		begin
 			if (request.headers["token"]) != ENV['SECRET_SEL_API_FOR_OPAL'] || ENV['SECRET_SEL_API_FOR_OPAL'] == nil
-				render json: {
+				ret = {
 					status: 403,
 					message: "Le token n'est pas valide"
-				}.to_json and return
+				}
+				render json: ret, status: 403
 			else
 
 				json = params[:_json]
@@ -37,17 +38,20 @@ class ApisController < ApplicationController
 						end
 					end
 				end
-				render json: {
+				
+				ret = {
 					status: 202,
-					message: "La requête a ete acceptée et son traitement est en cours"
-				}.to_json and return
+					message: "La requête a ete acceptée et son traitement est en cours" 
+				}
+				render json: ret, status: 202
 			end
 
 		rescue
-			render json: {
-				status: 412,
-				message: "Une erreur a eu lieu côté Serveur"
-			}.to_json and return
+			ret = {
+				status: 422,
+				message: "Une erreur a eu lieu côté Serveur" 
+			}
+			render json: ret, status: 422
 		end
 	end
 end
