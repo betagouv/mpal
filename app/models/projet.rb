@@ -585,8 +585,10 @@ def self.find_project all, is_admin, droit1, droit2
     all.each do |projet|
        if projet.code_opal_op.present?
          op = projet.code_opal_op + " " + projet.name_op
+       elsif @projet_courant.code_opal_op != nil
+         op = "Diffus"
        else
-        op = "OP : N/A"
+         op = "OP : N/A"
        end
 
        line = [
