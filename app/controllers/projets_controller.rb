@@ -45,10 +45,10 @@ class ProjetsController < ApplicationController
               User.find(uid).delete
               @projet.update(:locked_at => nil)
             rescue
-              return redirect_to root_path, alert: t("fr.helpers.label.alert.confirmation_mail")
+              return redirect_to root_path, alert: t("helpers.label.alert.confirmation_mail")
             end
           else
-            return redirect_to root_path, alert: t("fr.helpers.label.alert.confirmation_mail")
+            return redirect_to root_path, alert: t("helpers.label.alert.confirmation_mail")
           end
           if session[:project_id] != @projet.id
             session[:project_id] = @projet.id
