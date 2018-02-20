@@ -14,8 +14,8 @@
 //= require jquery_ujs
 //= require _calculateAid
 //= require _modal
+//= require urlLib
 //= require _dashboard
 //= require _demandes
 //= require _proposition
 //= require main
-//= require urlLib
