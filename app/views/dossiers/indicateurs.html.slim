@@ -6,3 +6,14 @@ h3 Il y a #{@projets_count} #{"projet".pluralize(@projets_count)}
         h3= t("projets.statut.#{statut}")
         p.nombre-projets= count
 
+  .indicateur-projet id="projet_inactif"
+    h3= "Inactif"
+    p.nombre-projets= "#{@inactif.count}"
+
+  .indicateur-projet id="projet_non_eligible"
+    h3= "Non eligible"
+    p.nombre-projets= "#{@no_eligible.count}"
+
+  .indicateur-projet id="projet_non_eligible_a-reevaluer"
+    h3= "Non eligible à réévaluer"
+    p.nombre-projets= "#{@no_eligible_reevaluer.count}"

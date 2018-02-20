@@ -84,6 +84,9 @@ class DossiersController < ApplicationController
       projets = current_agent.intervenant.try(:projets) || []
     end
 
+    @inactif = projets.where("actif = 1")
+    @no_eligible = projets.where("eligibilite = 2")
+    @no_eligible_reevaluer = projets.where("eligibilite = 1")
     @projets_count = projets.count
     all_projets_status = projets.map(&:status_for_intervenant)
     status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
