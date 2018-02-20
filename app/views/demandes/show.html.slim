@@ -28,6 +28,4 @@
   = f.input :annee_construction, label: t("helpers.label.demande.annee_construction"), wrapper_html: { class: "size-xs" }
   = f.input :ptz, as: :radio_buttons, label: t("helpers.label.demande.ptz")
   .btn-centered
-    - unless current_agent
-      = btn name: t("demarrage_projet.go_back"), href: projet_or_dossier_occupants_path(@projet_courant), class: "btn-secondary btn-large", icon: "arrow-left", icon_before: true
     = btn name: @action_label, class: "btn-large btn-validate-submit", icon: "arrow-right"
