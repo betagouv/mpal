@@ -26,6 +26,11 @@ class Projet < ApplicationRecord
     en_cours_d_instruction: 6
   }
 
+  #pas d'etat eligible      : projet.eligible = 0
+  #non eligible a reevalue  : projet.eligible = 1
+  #non eligible             : projet.eligible = 2
+  #eligible                 : projet.eligible = 3
+
   STEP_DEMANDEUR = 1
   STEP_AVIS_IMPOSITIONS = 2
   STEP_OCCUPANTS = 3
