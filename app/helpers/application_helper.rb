@@ -140,7 +140,7 @@ module ApplicationHelper
     html << content_tag(:ul) do
       if besoins.present?
         html << content_tag(:h4, "Difficultés rencontrées dans le logement")
-        besoins.map { |besoin| content_tag(:li, besoin.html_safe) }.join.html_safe
+        besoins.map { |besoin| content_tag(:li , besoin.html_safe, :class => "dont-break-out") }.join.html_safe
       end
     end
     html << tag(:br)
@@ -159,7 +159,7 @@ module ApplicationHelper
     html << content_tag(:ul) do
       if travaux.present?
         html << content_tag(:h4, "Travaux envisagés")
-        travaux.map { |tache| content_tag(:li, tache.html_safe) }.join.html_safe
+        travaux.map { |tache| content_tag(:li, tache.html_safe, :class => "dont-break-out") }.join.html_safe
       end
     end
     html << tag(:br)
@@ -199,7 +199,7 @@ module ApplicationHelper
       complements << "#{t("demarrage_projet.demande.precisions")} : #{content_tag(:strong, demande.complement)}"
     end
     html << content_tag(:ul) do
-      complements.map { |complement| content_tag(:li, complement.html_safe) }.join.html_safe
+      complements.map { |complement| content_tag(:li, complement.html_safe, :class => "dont-break-out") }.join.html_safe
     end
   end
 
