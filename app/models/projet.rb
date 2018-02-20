@@ -26,6 +26,11 @@ class Projet < ApplicationRecord
     en_cours_d_instruction: 6
   }
 
+  #pas d'etat eligible      : projet.eligibilite = 0
+  #non eligible a reevalue  : projet.eligibilite = 1
+  #non eligible             : projet.eligibilite = 2
+  #eligible                 : projet.eligibilite = 3
+
   STEP_DEMANDEUR = 1
   STEP_AVIS_IMPOSITIONS = 2
   STEP_OCCUPANTS = 3
@@ -585,8 +590,10 @@ def self.find_project all, is_admin, droit1, droit2
     all.each do |projet|
        if projet.code_opal_op.present?
          op = projet.code_opal_op + " " + projet.name_op
+       elsif @projet_courant.code_opal_op != nil
+         op = "Diffus"
        else
-        op = "OP : N/A"
+         op = "OP : N/A"
        end
 
        line = [
@@ -718,7 +725,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
   end
 
   def eligible?
-    not (preeligibilite(annee_fiscale_reference) == :plafond_depasse)
+    not (preeligibilite(annee_fiscale_reference) == :plafond_depasse)#prendre @projet_courant.eligibilite
   end
 
   #ACTIONS INSTRUCTEUR

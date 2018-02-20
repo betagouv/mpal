@@ -52,7 +52,11 @@ module ApplicationConcern
         end
       end
       if @projet_courant
-        @page_heading = "Dossier : #{I18n.t(@projet_courant.statut, scope: "projets.statut").downcase}"
+        if @projet_courant.opal_position_label
+          @page_heading = "Dossier: #{@projet_courant.opal_position_label}"
+        else
+          @page_heading = "Dossier : #{I18n.t(@projet_courant.statut, scope: "projets.statut").downcase}"
+        end
       end
     end
 
@@ -101,6 +105,8 @@ module ApplicationConcern
     expose_routing_helper :projet_or_dossier_document_path
     expose_routing_helper :projet_or_dossier_documents_path
     expose_routing_helper :projet_or_dossier_intervenants_path
+    expose_routing_helper :projet_or_dossier_show_non_eligible_path
+    expose_routing_helper :projet_or_dossier_show_a_reevaluer_path
   end
 end
 
