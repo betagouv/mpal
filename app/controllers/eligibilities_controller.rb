@@ -9,7 +9,14 @@ class EligibilitiesController < ApplicationController
 
   def show
     @eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse
+    if @eligible
+      @projet_courant.reload
+      @projet_courant.update(:eligibilite => 3)
+    end
     fetch_pris
+    if @projet_courant.eligibilite == 2
+      render 'eligibilities/a_reevaluer' and return
+    end
     @page_heading = "Mon résultat"
   end
 

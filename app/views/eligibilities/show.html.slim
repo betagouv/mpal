@@ -3,6 +3,7 @@
     .alert.alert-success
       i.glyphicon.glyphicon-ok.alert-icon
       p.alert-p= t("demarrage_projet.eligibility.eligible")
+    = btn name: t("demarrage_projet.action"), href: projet_or_dossier_demande_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"
   - else
     .alert.alert-danger
       i.glyphicon.glyphicon-remove.alert-icon
@@ -16,5 +17,8 @@
         li= @pris.phone
       br
       | Si votre situation a changé, veuillez poursuivre la démarche en créant un compte.
-  
-  = btn name: t("demarrage_projet.action"), href: projet_or_dossier_demande_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"
+    div.btn-centered
+      = btn name: t("demarrage_projet.eligibility_stop"), href: projet_or_dossier_show_non_eligible_path(@projet_courant), class: "btn-large", icon: "arrow-left"
+      = btn name: t("demarrage_projet.eligibility_continue"), href: projet_or_dossier_show_a_reevaluer_path(@projet_courant), class: "btn-large", icon: "arrow-right"
+
+

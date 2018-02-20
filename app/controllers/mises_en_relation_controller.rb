@@ -7,7 +7,7 @@ class MisesEnRelationController < ApplicationController
   end
 
   def show
-    if rod_response.scheduled_operation? && (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse)
+    if rod_response.scheduled_operation? && (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse)#prendre @projet_courant.eligible?
       @operateur = rod_response.operateurs.first
       @action_label = action_label
       render :scheduled_operation
@@ -24,7 +24,7 @@ class MisesEnRelationController < ApplicationController
   end
 
   def update
-    eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse
+    eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse#prendre @projet_courant.eligible?
     @projet_courant.update_attribute(
       :disponibilite,
       params[:projet][:disponibilite]

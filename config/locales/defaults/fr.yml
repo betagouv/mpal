@@ -93,6 +93,8 @@ fr:
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
+    eligibility_continue: "Poursuivre la démarche"
+    eligibility_stop: "Arrêter la démarche"
     action: "Continuer"
     go_back: "Revenir"
     # ----------------------- Demandeur ---------------------
