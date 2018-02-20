@@ -359,41 +359,47 @@ class DossiersController < ApplicationController
   end
 
   def fill_tab_intervenant all
-    flash.now[:notice_html] = "" 
+    flash.now[:notice_html] = ""
     if current_agent.pris?
-      @traited = all.where("projets.actif = 1 and projets.statut >= 2 and projets.operateur_id is not NULL")
-      @action = all.where("projets.actif = 1 and projets.operateur_id is NULL")
-      @verif = all.where("projets.actif = 1 and projets.statut = 1 and projets.operateur_id is not NULL")
+      @traited = all.where("projets.actif = 1 and projets.statut >= 2 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
+      @action = all.where("projets.actif = 1 and projets.operateur_id is NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
+      @verif = all.where("projets.actif = 1 and projets.statut = 1 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
+      @non_eligible = all.where("projets.eligibilite = 2")
+      @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
     elsif current_agent.operateur?
-      @traited = all.where("projets.actif = 1 and projets.statut >= 5")
-      @action = all.where("projets.actif = 1  and projets.statut < 3 and projets.statut >= 1")
-      @verif = all.where("projets.actif = 1 and projets.statut = 3")
+      @traited = all.where("projets.actif = 1 and projets.statut >= 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
+      @action = all.where("projets.actif = 1  and projets.statut < 3 and projets.statut >= 1 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
+      @verif = all.where("projets.actif = 1 and projets.statut = 3 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
+      @non_eligible = all.where("projets.eligibilite = 2")
+      @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
       if @rfrn2.limit(1).present?
         flash.now[:notice_html] += "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
         flash.now[:notice_html] += "<br>"
       end
     elsif current_agent.instructeur?
-      @traited = all.where("projets.actif = 1 and projets.statut >= 6")
-      @action = all.where("projets.actif = 1 and projets.statut = 5")
+      @traited = all.where("projets.actif = 1 and projets.statut >= 6 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
+      @action = all.where("projets.actif = 1 and projets.statut = 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = []
       @others = []
       @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
+      @non_eligible = all.where("projets.eligibilite = 2")
+      @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
     end
     flash.now[:notice_html] += " L'onglet Nouveau Message est pour le moment indisponible, nous nous excusons pour la gêne occassionée. "
   end
 
-def render_index    
-    params.permit(:format, :page, :per_page, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :from, :to, :advanced, :activeTab])
+def render_index
+    params.permit(:format, :page, :per_page, :page_noel, :page_noelre, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :from, :to, :advanced, :activeTab])
     search = params[:search] || {}
     #numéro de la page
     page = params[:page] || 1
@@ -403,6 +409,8 @@ def render_index
     page_new_msg = params[:page_new_msg] || 1
     page_others = params[:page_others] || 1
     page_inactifs = params[:page_inactifs] || 1
+    page_noel = params[:page_noel] || 1
+    page_noelre = params[:page_noelre] || 1
     page_rfrn2 = params[:page_rfrn2] || 1
     #nombre d'objet par page
 
@@ -428,16 +436,22 @@ def render_index
           @dossiers = search_dossier(search, @dossiers)
           @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
           @inactifs = @dossiers.where(:actif => 0)
+          @non_eligible = @dossiers.where("projets.eligibilite = 2")
+          @non_eligible_a_reeval = @dossiers.where("projets.eligibilite = 1")
         elsif current_agent.dreal?
           @dossiers = current_agent.intervenant.projets.order('projets.actif desc')
           @dossiers = search_dossier(search, @dossiers)
           @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
           @inactifs = @dossiers.where(:actif => 0)
+          @non_eligible = @dossiers.where("projets.eligibilite = 2")
+          @non_eligible_a_reeval = @dossiers.where("projets.eligibilite = 1")
         elsif current_agent.siege?
           @dossiers = Projet.with_demandeur.order("projets.actif DESC").for_sort_by(search[:sort_by])
           @dossiers = search_dossier(search, @dossiers)
           @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
           @inactifs = @dossiers.where(:actif => 0)
+          @non_eligible = @dossiers.where("projets.eligibilite = 2")
+          @non_eligible_a_reeval = @dossiers.where("projets.eligibilite = 1")
         else
           intervenant_id = current_agent.intervenant.id
           if current_agent.operateur?
@@ -458,6 +472,8 @@ def render_index
         @inactifs = @inactifs.paginate(page: page_inactifs, per_page: per_page)
         @rfrn2 = @rfrn2.paginate(page: page_rfrn2, per_page: per_page)
         @dossiers = @dossiers.paginate(page: page, per_page: per_page)
+        @non_eligible = @non_eligible.paginate(page: page_noel, per_page: per_page)
+        @non_eligible_a_reeval = @non_eligible_a_reeval.paginate(page: page_noelre, per_page: per_page)
 
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
