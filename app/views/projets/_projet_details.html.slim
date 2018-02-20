@@ -8,31 +8,31 @@ h3 &nbsp;
       - if @projet_courant.type_logement.present?
         tr
           td= sf_label :projet, :type_logement
-          td.test-type-logement= @projet_courant.type_logement
+          td.proposition-cell-price.test-type-logement= @projet_courant.type_logement
       - if @projet_courant.etage.present?
         tr
           td= sf_label :projet, :etage
-          td.test-etage= @projet_courant.etage
+          td.proposition-cell-price.test-etage= @projet_courant.etage
       - if @projet_courant.nb_pieces.present?
         tr
           td= sf_label :projet, :nb_pieces
-          td.test-pieces= @projet_courant.nb_pieces
+          td.proposition-cell-price.test-pieces= @projet_courant.nb_pieces
       - if @projet_courant.demande.try(:annee_construction).present?
         tr
           td= sf_label "projet.demande", :annee_construction
-          td.test-annee-construction= @projet_courant.demande.annee_construction
+          td.proposition-cell-price.test-annee-construction= @projet_courant.demande.annee_construction
       - if @projet_courant.surface_habitable.present?
         tr
           td= sf_label :projet, :surface_habitable
-          td.test-surface-habitable #{@projet_courant.surface_habitable} m²
+          td.proposition-cell-price.test-surface-habitable #{@projet_courant.surface_habitable} m²
       - if @projet_courant.consommation_avant_travaux.present?
         tr
           td= sf_label :projet, :consommation_avant_travaux
-          td.test-consommation-avant= number_to_power_consumption(@projet_courant.consommation_avant_travaux)
+          td.proposition-cell-price.test-consommation-avant= number_to_power_consumption(@projet_courant.consommation_avant_travaux)
       - if @projet_courant.etiquette_avant_travaux.present?
         tr
           td= sf_label :projet, :etiquette_avant_travaux
-          td.test-etiquette-avant= @projet_courant.etiquette_avant_travaux
+          td.proposition-cell-price.test-etiquette-avant= @projet_courant.etiquette_avant_travaux
 
 - if @projet_courant.has_house_evaluation?
   h3 Diagnostic opérateur
@@ -42,39 +42,39 @@ h3 &nbsp;
         - if @projet_courant.autonomie.present?
           tr
             td= sf_label :projet, :autonomie
-            td.test-autonomie= readable_bool @projet_courant.autonomie
+            td.proposition-cell-price.test-autonomie= readable_bool @projet_courant.autonomie
         - if @projet_courant.niveau_gir.present?
           tr
             td= sf_label :projet, :niveau_gir
-            td.test-niveau-gir= @projet_courant.niveau_gir
+            td.proposition-cell-price.test-niveau-gir= @projet_courant.niveau_gir
         - if @projet_courant.handicap.present?
           tr
             td= sf_label :projet, :handicap
-            td.test-handicap= readable_bool @projet_courant.handicap
+            td.proposition-cell-price.test-handicap= readable_bool @projet_courant.handicap
         - if @projet_courant.note_degradation.present?
           tr
             td= sf_label :projet, :note_degradation
-            td.test-note-degradation= number_with_delimiter @projet_courant.note_degradation
+            td.proposition-cell-price.test-note-degradation= number_with_delimiter @projet_courant.note_degradation
         - if @projet_courant.note_insalubrite.present?
           tr
             td= sf_label :projet, :note_insalubrite
-            td.test-note-insalubrite= number_with_delimiter @projet_courant.note_insalubrite
+            td.proposition-cell-price.test-note-insalubrite= number_with_delimiter @projet_courant.note_insalubrite
         - if @projet_courant.ventilation_adaptee.present?
           tr
             td= sf_label :projet, :ventilation_adaptee
-            td.test-ventilation-adaptee= readable_bool @projet_courant.ventilation_adaptee
+            td.proposition-cell-price.test-ventilation-adaptee= readable_bool @projet_courant.ventilation_adaptee
         - if @projet_courant.presence_humidite.present?
           tr
             td= sf_label :projet, :presence_humidite
-            td.test-presence-humidite= readable_bool @projet_courant.presence_humidite
+            td.proposition-cell-price.test-presence-humidite= readable_bool @projet_courant.presence_humidite
         - if @projet_courant.auto_rehabilitation.present?
           tr
             td= sf_label :projet, :auto_rehabilitation
-            td.test-auto-rehabilitation= readable_bool @projet_courant.auto_rehabilitation
+            td.proposition-cell-price.test-auto-rehabilitation= readable_bool @projet_courant.auto_rehabilitation
         - if @projet_courant.remarques_diagnostic.present?
           tr
             td= sf_label :projet, :remarques_diagnostic
-            td.test-remarques-diagnostic= @projet_courant.remarques_diagnostic
+            td.proposition-cell-price.test-remarques-diagnostic.dont-break-out= @projet_courant.remarques_diagnostic
 
 h3 Type d’intervention
 .table-responsive
@@ -200,11 +200,11 @@ ul.ctr-ope
   - if @projet_courant.precisions_travaux.present?
     li
       = with_semicolon(t('helpers.label.proposition.precisions_travaux'))
-      span= @projet_courant.precisions_travaux
+      span.dont-break-out= @projet_courant.precisions_travaux
   - if @projet_courant.precisions_financement.present?
     li
       = with_semicolon(t('helpers.label.proposition.precisions_financement'))
-      span= @projet_courant.precisions_financement
+      span.dont-break-out= @projet_courant.precisions_financement
 
 - if @projet_courant.date_depot.present?
   div#indent-depot
