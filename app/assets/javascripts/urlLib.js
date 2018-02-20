@@ -117,7 +117,7 @@
 					return false;
 			} else
 				return false;
-			
+
 		},
 
 		// Delete a bulk of given parameters from the URL
