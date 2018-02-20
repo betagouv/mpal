@@ -83,7 +83,7 @@ h3 Type d’intervention
     - if @projet_courant.themes.present?
       tr
         td Type d’intervention
-        td= @projet_courant.themes.map(&:libelle).join(", ")
+        td.proposition-cell-price= @projet_courant.themes.map(&:libelle).join(", ")
 
 h3 Travaux
 - if @projet_courant.prestations.present?
