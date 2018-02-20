@@ -26,6 +26,11 @@ class Projet < ApplicationRecord
     en_cours_d_instruction: 6
   }
 
+  #pas d'etat eligible      : projet.eligibilite = 0
+  #non eligible a reevalue  : projet.eligibilite = 1
+  #non eligible             : projet.eligibilite = 2
+  #eligible                 : projet.eligibilite = 3
+
   STEP_DEMANDEUR = 1
   STEP_AVIS_IMPOSITIONS = 2
   STEP_OCCUPANTS = 3
@@ -720,7 +725,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
   end
 
   def eligible?
-    not (preeligibilite(annee_fiscale_reference) == :plafond_depasse)
+    not (preeligibilite(annee_fiscale_reference) == :plafond_depasse)#prendre @projet_courant.eligibilite
   end
 
   #ACTIONS INSTRUCTEUR

@@ -105,6 +105,8 @@ module ApplicationConcern
     expose_routing_helper :projet_or_dossier_document_path
     expose_routing_helper :projet_or_dossier_documents_path
     expose_routing_helper :projet_or_dossier_intervenants_path
+    expose_routing_helper :projet_or_dossier_show_non_eligible_path
+    expose_routing_helper :projet_or_dossier_show_a_reevaluer_path
   end
 end
 

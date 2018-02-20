@@ -10,7 +10,28 @@ class DemandesController < ApplicationController
   before_action :init_demande
 
   def show
+    if @projet_courant.eligibilite == 2
+      @eligible = false
+      @pris = @projet_courant.intervenants_disponibles(role: :pris).first
+      render 'eligibilities/a_reevaluer' and return
+    end
     init_show
+  end
+
+
+  def show_non_eligible
+      @projet_courant.reload
+    @projet_courant.update(:eligibilite => 2)
+    @eligible = false
+    @pris = @projet_courant.intervenants_disponibles(role: :pris).first
+    render 'eligibilities/a_reevaluer' and return
+  end
+
+  def show_a_reevaluer
+      @projet_courant.reload
+    @projet_courant.update(:eligibilite => 1)
+    init_show
+    redirect_to projet_or_dossier_demande_path and return
   end
 
   def update
@@ -100,5 +121,6 @@ private
       redirect_to projet_or_dossier_path @projet_courant
     end
   end
+
 end
 
