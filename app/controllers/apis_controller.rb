@@ -67,11 +67,11 @@ class ApisController < ApplicationController
 					end
 				end
 
-				# ret = [{
-				# 	status: 202,
-				# 	message: "La requête a ete acceptée et son traitement est en cours" 
-				# }]
-				ret = []
+				ret = [{
+					status: 202,
+					message: "La requête a ete acceptée et son traitement est en cours"
+				}]
+				# ret = []
 				render plain: ret.to_json, status: 202
 			end
 
