@@ -9,7 +9,7 @@ class ApisController < ApplicationController
 					status: 403,
 					message: "Le token n'est pas valide"
 				}]
-				render json: ret, status: 403
+				render plain: ret.to_json, status: 403
 			else
 
 				json = params[:_json]
@@ -18,6 +18,7 @@ class ApisController < ApplicationController
 					if dossier["numero"] && /\A\d+\z/.match(dossier["numero"])
 
 						projet = Projet.find_by(:opal_numero => dossier["numero"])
+
 						if projet
 
 							opalPositionLabel = dossier["position"]
@@ -48,7 +49,7 @@ class ApisController < ApplicationController
 								opalNewStatut = "Reversement prononcé"
 							end
 
-							
+
 							begin
 								opalDatePosition = DateTime.strptime(dossier["date"].to_s.slice(0..-4), '%s')
 							rescue
@@ -66,11 +67,12 @@ class ApisController < ApplicationController
 					end
 				end
 
-				ret = [{
-					status: 202,
-					message: "La requête a ete acceptée et son traitement est en cours" 
-				}]
-				render json: ret, status: 202
+				# ret = [{
+				# 	status: 202,
+				# 	message: "La requête a ete acceptée et son traitement est en cours" 
+				# }]
+				ret = []
+				render plain: ret.to_json, status: 202
 			end
 
 		rescue
@@ -78,7 +80,8 @@ class ApisController < ApplicationController
 				status: 422,
 				message: "Une erreur a eu lieu côté Serveur" 
 			}]
-			render json: ret, status: 422
+			# ret = []
+			render plain: ret.to_json, status: 422
 		end
 	end
 end
