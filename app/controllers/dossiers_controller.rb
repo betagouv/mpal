@@ -84,7 +84,7 @@ class DossiersController < ApplicationController
       projets = current_agent.intervenant.try(:projets) || []
     end
 
-    @inactif = projets.where("actif = 1")
+    @inactif = projets.where("actif = 0")
     @no_eligible = projets.where("eligibilite = 2")
     @no_eligible_reevaluer = projets.where("eligibilite = 1")
     @projets_count = projets.count
@@ -293,19 +293,6 @@ class DossiersController < ApplicationController
     attributes
   end
 
-  def search_dossier search, tab
-    if search.present?
-      if search[:from].present?
-        tab = tab.updated_since(search[:from])
-      end
-      if search[:to].present?
-        tab = tab.updated_upto(search[:to])
-      end
-      tab = tab.for_text(search[:query]).for_intervenant_status(search[:status]).for_text(search[:type]).for_text(search[:folder]).for_text(search[:tenant]).for_text(search[:location]).for_text(search[:interv])
-    end
-    return tab
-  end
-
   def search_for_intervenant_status search, dossiers
       if search.present?
         dossiers = dossiers.for_text(search[:query]).for_intervenant_status(search[:status])
@@ -368,21 +355,21 @@ class DossiersController < ApplicationController
       @action = all.where("projets.actif = 1 and projets.operateur_id is NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = all.where("projets.actif = 1 and projets.statut = 1 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
-      @inactifs = all.where.not("projets.actif = 1")
+      # @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
-      @non_eligible = all.where("projets.eligibilite = 2")
-      @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
+      # @non_eligible = all.where("projets.eligibilite = 2")
+      # @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
     elsif current_agent.operateur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @action = all.where("projets.actif = 1  and projets.statut < 3 and projets.statut >= 1 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = all.where("projets.actif = 1 and projets.statut = 3 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
-      @inactifs = all.where.not("projets.actif = 1")
+      # @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
-      @non_eligible = all.where("projets.eligibilite = 2")
-      @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
+      # @non_eligible = all.where("projets.eligibilite = 2")
+      # @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
       if @rfrn2.limit(1).present?
         flash.now[:notice_html] += "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
         flash.now[:notice_html] += "<br>"
@@ -392,11 +379,11 @@ class DossiersController < ApplicationController
       @action = all.where("projets.actif = 1 and projets.statut = 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = []
       @others = []
-      @inactifs = all.where.not("projets.actif = 1")
+      # @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
-      @non_eligible = all.where("projets.eligibilite = 2")
-      @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
+      # @non_eligible = all.where("projets.eligibilite = 2")
+      # @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
     end
     flash.now[:notice_html] += " L'onglet Nouveau Message est pour le moment indisponible, nous nous excusons pour la gêne occassionée. "
   end
@@ -435,26 +422,11 @@ def render_index
         to_select = "projets.*, string_agg(DISTINCT demandeur.prenom, '') as demandeur_prenom, string_agg(DISTINCT demandeur.nom, '') as demandeur_nom, array_to_string(ARRAY_AGG(DISTINCT ift_themes.libelle), ', ') as libelle_theme, string_agg(DISTINCT ift_adresse.ville, '') as addr_ville, string_agg(DISTINCT ift_adresse.code_postal, '') as addr_code, array_to_string(ARRAY_AGG(DISTINCT ift_intervenant.raison_sociale), ' / ') as ift_intervenant, CONCAT(CONCAT(string_agg(DISTINCT ift_agent.prenom, ''), ' '), string_agg(DISTINCT ift_agent.nom, '')) as ift_agent"
         to_join = "INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse ON (projets.adresse_a_renover_id = ift_adresse.id) OR (projets.adresse_postale_id = ift_adresse.id AND projets.adresse_a_renover_id is NULL)  LEFT OUTER JOIN invitations on projets.id = invitations.projet_id  LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id  LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id)  LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id)  LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id)  LEFT OUTER JOIN agents ift_agent ON ( (projets.statut >= 5 AND projets.agent_instructeur_id = ift_agent.id) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.agent_operateur_id = ift_agent.id) )  LEFT OUTER JOIN intervenants ift_intervenant ON (ift_invitations.intervenant_id = ift_intervenant.id AND ( (projets.statut >= 5 AND 'instructeur' = ANY(ift_intervenant.roles)) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.operateur_id is not null AND 'operateur' = ANY(ift_intervenant.roles)) OR ('pris' = ANY(ift_intervenant.roles) AND projets.statut <= 1 AND projets.operateur_id is null)))  LEFT OUTER JOIN avis_impositions ift_avis_impositions2 ON (projets.id = ift_avis_impositions2.projet_id and (ift_avis_impositions2.annee < #{anne_var} or (ift_avis_impositions2.annee = #{anne_var} and #{month_var} >= 9)))"
         if current_agent.admin?
-          @dossiers = Projet.order("projets.actif DESC").for_sort_by(search[:sort_by])
-          @dossiers = search_dossier(search, @dossiers)
-          @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
-          @inactifs = @dossiers.where(:actif => 0)
-          @non_eligible = @dossiers.where("projets.eligibilite = 2")
-          @non_eligible_a_reeval = @dossiers.where("projets.eligibilite = 1")
+          @dossiers = Projet.all.search_dossier(search, to_select, to_join)
         elsif current_agent.dreal?
-          @dossiers = current_agent.intervenant.projets.order('projets.actif desc')
-          @dossiers = search_dossier(search, @dossiers)
-          @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
-          @inactifs = @dossiers.where(:actif => 0)
-          @non_eligible = @dossiers.where("projets.eligibilite = 2")
-          @non_eligible_a_reeval = @dossiers.where("projets.eligibilite = 1")
+          @dossiers = current_agent.intervenant.projets.search_dossier(search, to_select, to_join)
         elsif current_agent.siege?
-          @dossiers = Projet.with_demandeur.order("projets.actif DESC").for_sort_by(search[:sort_by])
-          @dossiers = search_dossier(search, @dossiers)
-          @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
-          @inactifs = @dossiers.where(:actif => 0)
-          @non_eligible = @dossiers.where("projets.eligibilite = 2")
-          @non_eligible_a_reeval = @dossiers.where("projets.eligibilite = 1")
+          @dossiers =  Projet.with_demandeur.search_dossier(search, to_select, to_join)
         else
           intervenant_id = current_agent.intervenant.id
           if current_agent.operateur?
@@ -462,10 +434,13 @@ def render_index
           else
             @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).group("projets.id")
           end
-          @dossiers = @dossiers.for_sort_by(search[:sort_by])
-          @dossiers = search_dossier(search, @dossiers)
+          @dossiers = @dossiers.search_dossier(search, to_select, to_join)
           fill_tab_intervenant(@dossiers)
         end
+
+        @inactifs = @dossiers.where(:actif => 0)
+        @non_eligible = @dossiers.where("projets.eligibilite = 2")
+        @non_eligible_a_reeval = @dossiers.where("projets.eligibilite = 1")
 
         @traited = @traited.paginate(page: page_traited, per_page: per_page)
         @action = @action.paginate(page: page_action, per_page: per_page)
