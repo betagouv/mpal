@@ -1,5 +1,10 @@
 class ApisController < ApplicationController
-	skip_before_action :verify_authenticity_token, :only => [:update_state]
+	skip_before_action :verify_authenticity_token, :only => [:update_state, :not_implemented]
+
+	def not_implemented
+		ret = [{erreur: "403",erreur_description: "Le token n'est pas valide"}]
+		render plain: ret.to_json, status: 403
+	end
 
 	def update_state
 		begin
