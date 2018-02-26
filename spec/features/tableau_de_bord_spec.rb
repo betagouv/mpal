@@ -23,44 +23,6 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
       projet_01.adresse.update(departement: "01")
       projet_56.adresse.update(departement: "56")
     end
-
-    scenario "je vois absolument tous les dossiers France avec un demandeur" do
-      visit dossiers_path
-
-      expect(page).to have_content(projet_34.numero_plateforme)
-      expect(page).to have_content(projet_34.opal_numero)
-      expect(page).to have_content(projet_34.demandeur.fullname)
-      expect(page).to have_content(projet_34.adresse.ville)
-      expect(page).to have_content(projet_34.adresse.code_postal)
-      expect(projet_34.agent_instructeur).to be_nil
-      expect(projet_34.agent_instructeur).to be_nil
-      # #TODO Theme
-      expect(projet_34.agent_operateur).to be_nil
-      expect(projet_34.agent_operateur).to be_nil
-      expect(page).to have_content(I18n.t("projets.statut.en_cours_de_montage"))
-      #TODO Update Status At
-
-      expect(page).to have_content(projet_01.numero_plateforme)
-      expect(page).to have_content(projet_01.opal_numero)
-      expect(page).to have_content(projet_01.demandeur.fullname)
-      expect(page).to have_content(projet_34.adresse.ville)
-      expect(page).to have_content(projet_34.adresse.code_postal)
-      expect(projet_01.agent_instructeur).to be_nil
-      expect(projet_01.agent_instructeur).to be_nil
-      # #TODO Theme
-      #TODO Update Status At
-
-      expect(page).to have_content(projet_56.numero_plateforme)
-      expect(page).to have_content(projet_56.opal_numero)
-      expect(page).to have_content(projet_56.demandeur.fullname)
-      expect(page).to have_content(projet_34.adresse.ville)
-      expect(page).to have_content(projet_34.adresse.code_postal)
-      expect(page).to have_content(projet_56.agent_instructeur.intervenant.raison_sociale)
-      expect(page).to have_content(projet_56.agent_instructeur.fullname)
-      # #TODO Theme
-      expect(page).to have_content(I18n.t("projets.statut.en_cours_d_instruction"))
-      #TODO Update Status At
-    end
   end
 
   context "pour un projet en cours d'instruction" do
