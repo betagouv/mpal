@@ -805,14 +805,16 @@ describe Projet do
     context "retourne les projets modifiés après" do
       let!(:projet) { create :projet, updated_at: now + 1.day }
 
-      it { expect(Projet.updated_since(now).length).to eq 1 }
-      it { expect(Projet.updated_since(now)).to include projet }
+      search = {}
+      search[:from] = now
+      it { expect(Projet.updated_since(search).length).to eq 1 }
+      it { expect(Projet.updated_since(search)).to include projet }
     end
 
     context "ne retourne pas les projets modifiés avant" do
       let!(:projet) { create :projet, updated_at: now - 1.day }
 
-      it { expect(Projet.updated_since(now).length).to eq 0 }
+      it { expect(Projet.updated_since(search).length).to eq 0 }
     end
   end
 
