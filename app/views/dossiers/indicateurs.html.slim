@@ -17,3 +17,7 @@ h3 Il y a #{@projets_count} #{"projet".pluralize(@projets_count)}
   .indicateur-projet id="projet_non_eligible_a-reevaluer"
     h3= "Non eligible à réévaluer"
     p.nombre-projets= "#{@no_eligible_reevaluer.count}"
+
+  .indicateur-projet id="projet_non_eligible_confirmé"
+    h3= "Non eligible confirmé"
+    p.nombre-projets= "#{@no_eligible_confirmer.count}"
