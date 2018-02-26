@@ -769,7 +769,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date dépôt',
        'État',
        'Actif/Inactif',
-       'Operation Programmee'
+       'Operation Programmee',
        'Eligibilité'
      ]
 
