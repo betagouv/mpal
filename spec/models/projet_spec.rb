@@ -810,7 +810,7 @@ describe Projet do
     end
 
     context "ne retourne pas les projets modifiés avant" do
-      let!(:projet) { create :projet, updated_at: now - 1.day }
+      let!(:projet) { create :projet, created_at: now - 1.day }
 
       it { expect(Projet.updated_since({:from => now}).length).to eq 0 }
     end
