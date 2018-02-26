@@ -293,6 +293,10 @@ class Projet < ApplicationRecord
       dossiers = dossiers.search_filter(search)
     end
     dossiers = dossiers.select(to_select).joins(to_join).group("projets.id")
+    @inactifs = dossiers.where(:actif => 0)
+    @non_eligible = dossiers.where("projets.eligibilite = 2")
+    @non_eligible_a_reeval = dossiers.where("projets.eligibilite = 1")
+    return dossiers
   end
 
   def reset_fiscal_information
@@ -701,7 +705,11 @@ def self.find_project all, is_admin, droit1, droit2
          pris_eie = nil
          pris = projet.ift_pris
          
-         date_update = format_date(projet.statut_updated_date)
+         if projet.statut == 0
+           date_update = format_date(projet.created_at)
+         else
+           date_update = format_date(projet.statut_updated_date)
+         end
          line.append(projet.try(:max_registration_step))
          line.append(projet.message_count)
          line.append(pris)
