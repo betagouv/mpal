@@ -11,6 +11,7 @@ article.block.occupants
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
   .occupants-recap
     ul
+      li 
       li
         | Nombre total d’occupant(s) du logement :
         span= " #{@projet_courant.nb_total_occupants} " + (@projet_courant.future_birth ? "+ enfant à naître" : "")

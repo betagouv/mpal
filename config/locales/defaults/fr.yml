@@ -289,6 +289,7 @@ fr:
       s_engager_avec_operateur: "Continuer"
       engagement_action: "Continuer"
       remplir_le_projet: "Je remplis le projet"
+      rendre_eligible_projet: "Je modifie l'éligibilité du projet"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
       future_birth: "Enfant à naître"

@@ -294,11 +294,11 @@ class Projet < ApplicationRecord
       dossiers = dossiers.search_filter(search)
     end
     dossiers = dossiers.select(to_select).joins(to_join).group("projets.id")
-    @inactifs = dossiers.where(:actif => 0)
-    @non_eligible = dossiers.where("projets.eligibilite = 2")
-    @non_eligible_a_reeval = dossiers.where("projets.eligibilite = 1")
-    @non_eligible_confirm = dossiers.where("projets.eligibilite = 4")
-    return dossiers
+    inactifs = dossiers.where(:actif => 0)
+    non_eligible = dossiers.where("projets.eligibilite = 2")
+    non_eligible_a_reeval = dossiers.where("projets.eligibilite = 1")
+    non_eligible_confirm = dossiers.where("projets.eligibilite = 4")
+    return dossiers, inactifs, non_eligible, non_eligible_a_reeval, non_eligible_confirm
   end
 
   def reset_fiscal_information

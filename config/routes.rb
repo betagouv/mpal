@@ -72,6 +72,8 @@ Rails.application.routes.draw do
       patch :update_project_intervenants
       get  :recommander_operateurs
       post :recommander_operateurs
+      get  :manage_eligibility
+      post :confirm_eligibility
       get  :proposer
       get  :proposition
       put  :proposition
