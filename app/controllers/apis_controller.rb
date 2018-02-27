@@ -48,7 +48,6 @@ class ApisController < ApplicationController
 								opalNewStatut = "Solde payé"
 							end
 							opalDatePosition = DateTime.strptime(dossier["date"].to_s.slice(0..-4), '%s')
-							opalDatePosition = ""
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil && opalNewStatut != ""
 								if projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel || projet.opal_position != opalNewStatut
 									projet.update(:opal_date_position => opalDatePosition, :opal_position_label => opalNewStatut, :opal_position => opalPositionLabel)
