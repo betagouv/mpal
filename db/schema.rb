@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180220095330) do
+ActiveRecord::Schema.define(version: 20180228152559) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,8 @@ ActiveRecord::Schema.define(version: 20180220095330) do
     t.boolean "date_achevement_15_ans"
     t.boolean "arrete", default: false, null: false
     t.boolean "saturnisme", default: false, null: false
+    t.boolean "travaux_isolation_murs"
+    t.boolean "travaux_isolation_combles"
     t.index ["projet_id"], name: "index_demandes_on_projet_id"
   end
 

@@ -147,6 +147,8 @@ module ApplicationHelper
     travaux = []
     if demande.projet.prestations.blank?
       travaux << t("demarrage_projet.demande.travaux_fenetres") if demande.travaux_fenetres
+      travaux << t("demarrage_projet.demande.travaux_isolation_murs") if demande.travaux_isolation_murs
+      travaux << t("demarrage_projet.demande.travaux_isolation_combles") if demande.travaux_isolation_combles
       travaux << t("demarrage_projet.demande.travaux_isolation") if demande.travaux_isolation
       travaux << t("demarrage_projet.demande.travaux_chauffage") if demande.travaux_chauffage
       travaux << t("demarrage_projet.demande.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb

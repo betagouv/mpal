@@ -42,7 +42,7 @@ class DemandesController < ApplicationController
       @projet_courant.update_attributes(locked_at: Time.now)
     end
 
-    if @demande.changement_chauffage == true || @demande.froid == true || @demande.travaux_fenetres == true || @demande.travaux_isolation == true || @demande.travaux_chauffage
+    if @demande.changement_chauffage == true || @demande.froid == true || @demande.travaux_fenetres == true || @demande.travaux_isolation_murs == true || @demande.travaux_isolation_combles == true || @demande.travaux_isolation == true || @demande.travaux_chauffage
       if not (@projet_courant.themes).include?(Theme.find_by(:libelle => "Énergie"))
         @projet_courant.themes << Theme.find_by(:libelle => "Énergie")
       end
@@ -97,6 +97,8 @@ private
       :saturnisme,
       :autre,
       :travaux_fenetres,
+      :travaux_isolation_murs,
+      :travaux_isolation_combles,
       :travaux_isolation,
       :travaux_chauffage,
       :travaux_adaptation_sdb,

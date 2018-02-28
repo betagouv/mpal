@@ -14,6 +14,8 @@ class Demande < ApplicationRecord
     :saturnisme,
     :autre,
     :travaux_fenetres,
+    :travaux_isolation_murs,
+    :travaux_isolation_combles,
     :travaux_isolation,
     :travaux_chauffage,
     :travaux_adaptation_sdb,
@@ -28,7 +30,7 @@ class Demande < ApplicationRecord
   end
 
   def is_about_energy?
-    !!(changement_chauffage || froid || travaux_fenetres || travaux_isolation || travaux_chauffage)
+    !!(changement_chauffage || froid || travaux_fenetres || travaux_isolation || travaux_isolation_murs || travaux_isolation_combles || travaux_chauffage)
   end
 
   def is_about_self_sufficiency?
