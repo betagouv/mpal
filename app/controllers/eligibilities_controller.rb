@@ -14,7 +14,7 @@ class EligibilitiesController < ApplicationController
       @projet_courant.update(:eligibilite => 3)
     end
     fetch_pris
-    if @projet_courant.eligibilite == 2
+    if @projet_courant.eligibilite == 2 || @projet_courant.eligibilite == 4
       render 'eligibilities/a_reevaluer' and return
     end
     @page_heading = "Mon résultat"

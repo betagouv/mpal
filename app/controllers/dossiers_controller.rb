@@ -87,6 +87,7 @@ class DossiersController < ApplicationController
     @inactif = projets.where("actif = 0")
     @no_eligible = projets.where("eligibilite = 2")
     @no_eligible_reevaluer = projets.where("eligibilite = 1")
+    @no_eligible_confirmer = projets.where("eligibilite = 4")
     @projets_count = projets.count
     all_projets_status = projets.map(&:status_for_intervenant)
     status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
@@ -355,21 +356,15 @@ class DossiersController < ApplicationController
       @action = all.where("projets.actif = 1 and projets.operateur_id is NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = all.where("projets.actif = 1 and projets.statut = 1 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
-      # @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
-      # @non_eligible = all.where("projets.eligibilite = 2")
-      # @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
     elsif current_agent.operateur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @action = all.where("projets.actif = 1  and projets.statut < 3 and projets.statut >= 1 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = all.where("projets.actif = 1 and projets.statut = 3 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
-      # @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
-      # @non_eligible = all.where("projets.eligibilite = 2")
-      # @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
       if @rfrn2.limit(1).present?
         flash.now[:notice_html] += "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
         flash.now[:notice_html] += "<br>"
@@ -379,11 +374,8 @@ class DossiersController < ApplicationController
       @action = all.where("projets.actif = 1 and projets.statut = 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = []
       @others = []
-      # @inactifs = all.where.not("projets.actif = 1")
       @new_msg = []
       @rfrn2 = []
-      # @non_eligible = all.where("projets.eligibilite = 2")
-      # @non_eligible_a_reeval = all.where("projets.eligibilite = 1")
     end
     flash.now[:notice_html] += " L'onglet Nouveau Message est pour le moment indisponible, nous nous excusons pour la gêne occassionée. "
   end

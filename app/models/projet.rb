@@ -30,6 +30,7 @@ class Projet < ApplicationRecord
   #non eligible a reevalue  : projet.eligibilite = 1
   #non eligible             : projet.eligibilite = 2
   #eligible                 : projet.eligibilite = 3
+  #non eligible confirmé    : projet.eligibilite = 4
 
   STEP_DEMANDEUR = 1
   STEP_AVIS_IMPOSITIONS = 2
@@ -685,7 +686,16 @@ def self.find_project all, is_admin, droit1, droit2
        else
          op = "OP : N/A"
        end
-
+       el = "Non défini"
+       if projet.eligibilite == 1
+        el = "A réévaluer"
+       elsif projet.eligibilite == 2
+        el = "Non Éligible"
+       elsif projet.eligibilite == 3
+        el = "Éligible"
+       elsif projet.eligibilite == 4
+        el = "Non Éligible confirmé"
+       end
        line = [
          projet.numero_plateforme,
          format_date(projet.created_at),
@@ -698,7 +708,8 @@ def self.find_project all, is_admin, droit1, droit2
          format_date(projet.date_depot),
          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
          projet.actif? ? "Actif" : "Inactif",
-         op
+         op,
+         el
        ]
 
        if is_admin == true
@@ -757,7 +768,8 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date dépôt',
        'État',
        'Actif/Inactif',
-       'Operation Programmee'
+       'Operation Programmee',
+       'Eligibilité'
      ]
 
      if is_admin == true
