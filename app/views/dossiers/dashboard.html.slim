@@ -18,1058 +18,858 @@
 	- other = @others
 	- new_msg = @new_msg
 	- rfrn2 = @rfrn2
+
 	- rfr_count = custom_count_each_tab @rfrn2
+	- traite_count = custom_count_each_tab @traited
+	- action_count = custom_count_each_tab @action
+	- verif_count = custom_count_each_tab @verif
+	- other_count = custom_count_each_tab @others
+	- new_msg_count = custom_count_each_tab @new_msg
+	- noel_count = custom_count_each_tab @non_eligible
+	- noelre_count = custom_count_each_tab @non_eligible_a_reeval
+	- inactif_count = custom_count_each_tab @inactifs
+	- all_count = custom_count_each_tab @dossiers
 
 	- inactifs = @inactifs
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
 
 	- if items.present?
+		div.notif-dashboard-container
+			div.notif-modal
+				div.notif-modal-close
+				span Vous avez des dossiers en attente d'actions
+			div class="notif-dashboard-icon" title="Notifications"
+				span.notif-pastille
+				div.notif-container
+					- if action_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabAction'));"
+							div.notif-text Nécessite action 
+							div.notif-count = action_count
+					- if verif_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabVerif'));"
+							div.notif-text Nécessite vérification 
+							div.notif-count = verif_count
+					- if other_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabOthers'));"
+							div.notif-text Autres 
+							div.notif-count = other_count
+					- if new_msg_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabNewMSG'));"
+							div.notif-text Nouveau message 
+							div.notif-count = new_msg_count
+					- if rfr_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabRFRN2'));"
+							div.notif-text RFR à mettre à jour 
+							div.notif-count = rfr_count
+					- if noel_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabNoElig'));"
+							div.notif-text Non éligible 
+							div.notif-count = noel_count
+					- if noelre_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabNoEligEval'));"
+							div.notif-text Non éligible à réévaluer 
+							div.notif-count = noelre_count
+					- if inactif_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabInactifs'));"
+							div.notif-text Inactifs 
+							div.notif-count = inactif_count
+
+
 		div.dashboard-container
 			ul.dashboard-tab-container
-				li.dashboard-tab.tabTreated
-					a Traités (#{custom_count_each_tab @traited})
-				li.dashboard-tab.tabAction
-					a Nécessite action (#{custom_count_each_tab @action})
-				li.dashboard-tab.tabVerif
-					a Nécessite vérification (#{custom_count_each_tab @verif})
-				li.dashboard-tab.tabOthers
-					a Autres (#{custom_count_each_tab @others})
-				li.dashboard-tab.tabNewMSG
-					a Nouveau Message (#{custom_count_each_tab @new_msg})
-				li.dashboardTab.tabRFRN2
-					a RFR à mettre à jour (#{rfr_count})
-				li.dashboardTab.tabNoElig
-					a Non éligible (#{custom_count_each_tab @non_eligible})
-				li.dashboardTab.tabNoEligEval
-					a Non éligible à réévaluer (#{custom_count_each_tab @non_eligible_a_reeval})
-				li.dashboardTab.tabInactifs
-					a Inactifs (#{custom_count_each_tab @inactifs})
-				li.dashboard-tab.tabAll
-					- if @dossiers.present?
-						a Tous (#{custom_count_each_tab @dossiers})
-					- else
-						a Tous (#{custom_count_each_tab @invitations})
 
 			div.tab-content
 
 				// Traités
 				div.tabs-item.tabTreated
+					div.table-title Traités
 					table
-						- traite.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if traite_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- traite.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border.firstRowIcons
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if traite.respond_to?(:total_pages) && 1 < traite.total_pages
-						= render "shared/paginate", items: traite, cur_page: "page_traited"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if traite.respond_to?(:total_pages) && 1 < traite.total_pages
+							= render "shared/paginate", items: traite, cur_page: "page_traited"
 
 				// Nécessite action
 				div.tabs-item.tabAction
+					div.table-title Nécessite action
 					table
-						- action.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if action_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- action.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border.firstRowIcons
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if action.respond_to?(:total_pages) && 1 < action.total_pages
-						= render "shared/paginate", items: action, cur_page: "page_action"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if action.respond_to?(:total_pages) && 1 < action.total_pages
+							= render "shared/paginate", items: action, cur_page: "page_action"
 
 				// Nécessite vérification
 				div.tabs-item.tabVerif
+					div.table-title Nécessite vérification
 					table
-						- verif.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if verif_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- verif.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border.firstRowIcons
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if verif.respond_to?(:total_pages) && 1 < verif.total_pages
-						= render "shared/paginate", items: verif, cur_page: "page_verif"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if verif.respond_to?(:total_pages) && 1 < verif.total_pages
+							= render "shared/paginate", items: verif, cur_page: "page_verif"
 
 				// Autres
 				div.tabs-item.tabOthers
+					div.table-title Autres
 					table
-						- other.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if other_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- other.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border.firstRowIcons
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if other.respond_to?(:total_pages) && 1 < other.total_pages
-						= render "shared/paginate", items: other, cur_page: "page_other"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if other.respond_to?(:total_pages) && 1 < other.total_pages
+							= render "shared/paginate", items: other, cur_page: "page_other"
 
 				// Nouveau message
 				div.tabs-item.tabNewMSG
+					div.table-title Nouveau message
 					table
-						- new_msg.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if new_msg_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- new_msg.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border.firstRowIcons
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if new_msg.respond_to?(:total_pages) && 1 < new_msg.total_pages
-						= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if new_msg.respond_to?(:total_pages) && 1 < new_msg.total_pages
+							= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
 
 				// RFR N-2
 				div.tabs-item.tabRFRN2
+					div.table-title RFR à mettre à jour
 					table
-						- rfrn2.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if rfr_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- rfrn2.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if items.respond_to?(:total_pages) && 1 < items.total_pages
-						= render "shared/paginate", items: items, cur_page: "page_rfrn2"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if items.respond_to?(:total_pages) && 1 < items.total_pages
+							= render "shared/paginate", items: items, cur_page: "page_rfrn2"
 
 				// Non éligible
 				div.tabs-item.tabNoElig
+					div.table-title Non éligible
 					table
-						- @non_eligible.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if noel_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- @non_eligible.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if items.respond_to?(:total_pages) && 1 < items.total_pages
-						= render "shared/paginate", items: items, cur_page: "page_noel"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if items.respond_to?(:total_pages) && 1 < items.total_pages
+							= render "shared/paginate", items: items, cur_page: "page_noel"
 
 				// Non éligible à réévaluer
 				div.tabs-item.tabNoElig
+					div.table-title Non éligible à réévaluer
 					table
-						- @non_eligible_a_reeval.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if noelre_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- @non_eligible_a_reeval.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if items.respond_to?(:total_pages) && 1 < items.total_pages
-						= render "shared/paginate", items: items, cur_page: "page_noelre"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if items.respond_to?(:total_pages) && 1 < items.total_pages
+							= render "shared/paginate", items: items, cur_page: "page_noelre"
 
 
 
 				// Inactifs
 				div.tabs-item.tabInactifs
+					div.table-title Inactifs
 					table
-						- inactifs.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if inactif_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- inactifs.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-								div.dashboard-date-text-container = anonymize anonymized, edit_url do
-									div.dashboard-date-text-1
-										- if projet.opal_position_label
-											= projet.opal_position_label
-										- else
-										 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+											- else
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border.firstRowIcons
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if inactifs.respond_to?(:total_pages) && 1 < inactifs.total_pages
-						= render "shared/paginate", items: inactifs, cur_page: "page_inactifs"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if inactifs.respond_to?(:total_pages) && 1 < inactifs.total_pages
+							= render "shared/paginate", items: inactifs, cur_page: "page_inactifs"
 
 
 				// TOUS
 				div.tabs-item.tabAll
+					div.table-title Tous
 					table
-						- items.each do | item |
-							- projet = item.is_a?(Invitation) ? item.projet : item
-							- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
-							- edit_url = dossier_path(projet)
-							tr id="projet_#{projet.id}-all"
-								td
-									p = anonymize anonymized, edit_url do
-										= projet.numero_plateforme
-
-									- if projet.opal_numero.present?
-										- if current_agent_instructeur
-											p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
-										- else
-											p = anonymize anonymized, edit_url do
-												= projet.opal_numero
-									- else
-										p &nbsp;
-								td
-									p = anonymize anonymized, edit_url do
-										span.firstname= projet.demandeur_prenom
-										span.lastname<= projet.demandeur_nom
-									p = projet.addr_ville + " " + projet.addr_code
-								td
-									- if projet.libelle_theme
+						- if all_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- items.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
 										p = anonymize anonymized, edit_url do
-											= projet.libelle_theme
-									- else
-										p Type d'intervention inconnu
-									- if projet.code_opal_op.present?
-										p = "OP : " + projet.code_opal_op
-									- elsif projet.code_opal_op != nil
-										p &nbsp;
-									- else
-										p OP : N/A
-								td
-									div.dashboard-date-text-container = anonymize anonymized, edit_url do
-										div.dashboard-date-text-1
-											- if projet.opal_position_label
-												= projet.opal_position_label
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
 											- else
-											 	= t(projet.status_for_intervenant, scope: "projets.statut")
-										- if projet.statut_updated_date.present?
-											div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
-										- else
-											div.dashboard-date-text-2 Depuis le: Inconnu
-									div
-										- if projet.ift_intervenant.present?
-											= projet.ift_intervenant + " - " + projet.ift_agent
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
 										- else
 											p &nbsp;
-								td.table-row-icons-border.firstRowIcons
-									= link_to projet_or_dossier_path(projet)
-										p
-											span.glyphicon.glyphicon-folder-open
-										p Dossier
-								td.table-row-icons-border
-									- if ENV["PAYMENTS_ENABLED"] == "true" && (can? :index, Payment)
-										= link_to projet_or_dossier_payments_path(project)
-											p
-												span.glyphicon.glyphicon-euro
-											p Paiement
-									- else
-										p
-											span.glyphicon.glyphicon-euro.paiement-inactive
-										p Paiement
-								td.table-row-icons-border
-									= link_to projet_or_dossier_documents_path(projet)
-										p
-											span.glyphicon.glyphicon-paperclip
-										p Pièces
-								td.table-row-icons-border
-									= link_to new_projet_or_dossier_message_path(projet)
-										- if current_agent
-											- unread_messages_count = 0
-										p
-											span.glyphicon.glyphicon-envelope
-										p Messages
-								td.table-row-icons-border
-									= link_to projet_or_dossier_intervenants_path(projet)
-										p
-											span.glyphicon.glyphicon-user
-										p Contacts
-								td.table-row-icons-border
-									- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
-										= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-close
-											p Desactiver
-									- if projet.actif === 0
-										= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
-											p
-												span.glyphicon.glyphicon-eye-open
-											p Activer
-					- if items.respond_to?(:total_pages) && 1 < items.total_pages
-						= render "shared/paginate", items: items, cur_page: "page"
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if items.respond_to?(:total_pages) && 1 < items.total_pages
+							= render "shared/paginate", items: items, cur_page: "page"
 
 javascript:
 	$(document).ready(function() {
+		$(".notif-dashboard-icon").click(function () {
+			$('.notif-dashboard-container').toggleClass('active');
+		});
+
+		$(".notif-modal-close").click(function () {
+			$('.notif-modal').hide();
+		});
+
+		if ($('.action-notif').length > 0) {
+			var number = 0;
+
+
+			$(".notif-count").each(function( index ) {
+				number += parseInt($(this).text() || 0);
+			});
+			$('.notif-pastille').text('+' + number);
+			$('.notif-pastille').show();
+			// $('.notif-dashboard-icon').css('color', '#d9184e');
+		} else {
+			$('.notif-pastille').hide();
+			$('.notif-dashboard-icon').css('color', '#838e95');
+		}
+
 		$("html").keypress(function(e) {
 			if (e.which == 13)
 				$('.dashboardFilterSearchButton').trigger('click');
 		});
-		var sPageURL = location.search.substring(1);
-		var searchFormElement = {
-			"query": $('.dashboard-filter-free-search input'),
-			"status": $('.dashboard-filter-state select'),
-			"type": $('.dashboard-filter-status select'),
-			"folder" : $('.dashboardFilterFolderNumber input'),
-			"tenant" : $('.dashboardFilterTenantName input'),
-			"location": $('.dashboardFilterLocation input'),
-			"interv": $('.dashboardFilterInterv input'),
-			"from": $('.dashboardFilterFrom input'),
-			"to": $('.dashboardFilterTo input')
-		};
+
 
 		// Hide Tabs
 		var rfrn2 = '#{rfr_count}';
 		if (rfrn2 == 0)
 			$('.tabRFRN2').hide();
-
 		$('.tabNewMSG').hide();
+
+		var sPageURL = location.search.substring(1);
+		var searchFormElement = {
+			"query": $('.free-search-input'),
+			"folder" : $('.search-folder-number'),
+			"tenant" : $('.search-tenant-name'),
+			"location": $('.search-location'),
+			"interv": $('.search-intervenant'),
+			"from": $('.search-date-from'),
+			"to": $('.search-date-to')
+		};
 
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {
 			var jsonURL = JSON.parse('{"' + decodeURI(sPageURL).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
@@ -1080,7 +880,7 @@ javascript:
 						var indexData = index.split("[");
 						if (undefined !== indexData[1]) {
 							var newArrayTmp = indexData[1].split("]")[0];
-							// Restore advanced menu state
+
 							if ("advanced" == newArrayTmp) {
 								if (jsonURL[index] == "true") {
 									$(".dashboardFilterAdvancedCheckbox").prop('checked', true);
@@ -1089,7 +889,7 @@ javascript:
 							}
 							// Restore active Tab
 							if ("activeTab" == newArrayTmp)
-								var testTab = $('.dashboard-container ul.dashboard-tab-container').find('> li:eq(' + jsonURL[index] + ')').find("a").trigger('click');
+								forceSelect($('span.' + jsonURL[index]));
 							// Restore filter "order by (ascendent / descendant, date de depot / date de creation)"
 							if ("sort_by" == newArrayTmp) {
 								if (~jsonURL[index].indexOf("DESC"))
@@ -1101,8 +901,21 @@ javascript:
 								else if (~jsonURL[index].indexOf("created"))
 									$("#dateDeCreation").prop('checked', true);
 							}
-							// Restore other filters
-							if ("" != jsonURL[index] && "advanced" != newArrayTmp && "activeTab" != newArrayTmp && "sort_by" != newArrayTmp) {
+							// Restore type of intervention
+							if ("type" == newArrayTmp)
+								$("#dropdownType .dropdown-list li[name='" + jsonURL[index] + "']").trigger( "click" );
+
+							// Restore status
+							if ("status" == newArrayTmp)
+								$("#dropdownState .dropdown-list li[name='" + jsonURL[index] + "']").trigger( "click" );
+
+							// // Restore other filters
+							if ("" != jsonURL[index] &&
+								"advanced" != newArrayTmp &&
+								"activeTab" != newArrayTmp &&
+								"sort_by" != newArrayTmp &&
+								"status" != newArrayTmp &&
+								"type" != newArrayTmp) {
 								if (searchFormElement.hasOwnProperty(newArrayTmp))
 									searchFormElement[newArrayTmp].val(jsonURL[index]);
 							}
