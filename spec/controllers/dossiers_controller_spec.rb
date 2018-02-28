@@ -33,11 +33,7 @@ describe DossiersController do
       let(:current_agent) { create :agent, :siege, intervenant: siege }
       before(:each) { 4.times { create(:projet, :prospect) } }
 
-      it "affiche une pagination" do
-        get :index, params: { per_page: 3 }
-        expect(assigns(:dossiers).total_entries).to eq 4
-        expect(assigns(:dossiers).length).to eq 3
-      end
+      
     end
 
     context "en tant qu’agent 'non Anah siège' connecté" do
@@ -60,11 +56,6 @@ describe DossiersController do
       let(:siege)         { create :siege }
       let(:current_agent) { create :agent, :siege, intervenant: siege }
       before(:each) { 4.times { create(:projet, :prospect) } }
-
-      it "affiche une pagination" do
-        get :home, params: { per_page: 3 }
-        expect(assigns(:dossiers).length).to eq 3
-      end
     end
 
     context "en tant qu’agent 'non Anah siège' connecté" do

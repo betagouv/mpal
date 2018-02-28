@@ -30,6 +30,7 @@ class Projet < ApplicationRecord
   #non eligible a reevalue  : projet.eligibilite = 1
   #non eligible             : projet.eligibilite = 2
   #eligible                 : projet.eligibilite = 3
+  #non eligible confirmé    : projet.eligibilite = 4
 
   STEP_DEMANDEUR = 1
   STEP_AVIS_IMPOSITIONS = 2
@@ -121,23 +122,22 @@ class Projet < ApplicationRecord
     where(["projets.statut IN (?)", Projet::INTERVENANT_STATUSES_MAPPING[status.to_sym].map { |x| Projet::statuts[x] }])
   }
   scope :for_sort_by, ->(field) {
-    # sorting = field.to_sym if field.present? && Projet::SORT_BY_OPTIONS.include?(field.to_sym)
-    scope = group("projets.id")
+    ret = self
     if !field.nil? && !field.empty?
       arr = field.split(' ')
       if !arr[1].present? || arr[1] != "ASC"
         arr[1] = "DESC"
       end
       if arr[0] == 'depot'
-        scope.where("projets.date_depot IS NOT NULL").order("projets.date_depot " + arr[1])
+        ret = ret.where("projets.date_depot IS NOT NULL").order("projets.date_depot " + arr[1])
       else # :created == sorting
-        scope.order("projets.created_at " + arr[1])
+        ret = ret.order("projets.created_at " + arr[1])
       end
-      scope.order("projets.actif DESC")
     end
+    ret
   }
   scope :for_text, ->(opts) {
-    words = opts && opts.to_s.split(';')
+    words = opts && opts.to_s.split(/[\s,;]/)
     next all if words.blank?
     conditions = ["true"]
     joins = %(
@@ -191,14 +191,83 @@ class Projet < ApplicationRecord
     end
     joins(joins).where(conditions).group("projets.id")
   }
+  scope :search_by_folder, -> (search_param) {
+    ret = self
+    if search_param.key?(:folder) && search_param[:folder].present?
+      words = search_param[:folder].split(/[\s,;]/)
+      words.each do |word|
+        word = "%" + word + "%"
+        ret = ret.where(["projets.opal_numero ILIKE ? or projets.plateforme_id ILIKE ?", word, word])
+      end
+    end
+    ret
+  }
+  scope :search_by_type, -> (search_param) {
+    if search_param.key?(:type) && search_param[:type].present?
+        where(["? = ift_themes.libelle", search_param[:type]])
+    end
+  }
+  scope :search_by_status, -> (search_param) {
+    if search_param.key?(:status) && search_param[:status].present?
+      where(["projets.statut in (?) or projets.opal_position_label = ?", Projet::INTERVENANT_STATUSES_MAPPING[search_param[:status].to_sym].map { |x| Projet::statuts[x] }, search_param[:status]])
+    end
+  }
+  scope :search_by_name, -> (search_param) {
+    ret = self
+    if search_param.key?(:tenant) && search_param[:tenant].present?
+      words = search_param[:tenant].split(/[\s,;]/)
+      words.each do |word|
+        word = "%" + word + "%"
+        ret = ret.where(["demandeur.nom ILIKE ? or demandeur.prenom ILIKE ?", word, word])
+      end
+    end
+    ret
+  }
+  scope :search_by_intervenant, -> (search_param) {
+    ret = self
+    if search_param.key?(:interv) && search_param[:interv].present?
+      words = search_param[:interv].split(/[\s,;]/)
+      words.each do |word|
+        word = "%" + word + "%"
+        ret = ret.where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.raison_sociale ILIKE ?", word, word])
+      end
+    end
+    ret
+  }
+  scope :search_by_location, -> (search_param) {
+    ret = self
+    if search_param.key?(:location) && search_param[:location].present?
+      words = search_param[:location].split(/[\s,;]/)
+      words.each do |word|
+        word = "%" + word + "%"
+        ret = ret.where(["ift_adresse.ville ILIKE ? or ift_adresse.region ILIKE ? or ift_adresse.departement ILIKE ? or ift_adresse.code_postal ILIKE ?", word, word, word, word])
+      end
+    end
+    ret
+  }
+  scope :search_by_operation_programmee, -> (search_param) {
+    ret = self
+    if search_param.key?(:operation_programmee) && search_param[:operation_programmee].present?
+      words = search_param[:operation_programmee].split(/[\s,;]/)
+      words.each do |word|
+        word = "%" + word + "%"
+        ret = ret.where(["projets.name_op ILIKE ?", word])
+      end
+    end
+    ret
+  }
   scope :created_since, ->(datetime) {
     where("created_at >= ?", datetime)
   }
-  scope :updated_since, ->(datetime) {
-    where("projets.updated_at >= ?", datetime)
+  scope :updated_since, ->(search_param) {
+    if search_param.key?(:from) && search_param[:from].present?
+      where("projets.created_at >= ?", search_param[:from])
+    end
   }
-  scope :updated_upto, ->(datetime) {
-    where("projets.updated_at <= ?", datetime)
+  scope :updated_upto, ->(search_param) {
+    if search_param.key?(:to) && search_param[:to].present?
+      where("projets.created_at <= ?", search_param[:to])
+    end
   }
   scope :count_by_week, -> {
     fields = [
@@ -208,6 +277,29 @@ class Projet < ApplicationRecord
     ]
     select(fields.join(", ")).group("year, week").order("year, week")
   }
+
+  scope :order_filter, -> (search) {
+    order("projets.actif")
+  }
+
+  scope :search_filter, -> (search) {
+    updated_since(search).updated_upto(search).search_by_folder(search).search_by_name(search).search_by_intervenant(search).search_by_location(search).search_by_operation_programmee(search).search_by_type(search).search_by_status(search)
+  }
+
+  def self.search_dossier search, to_select, to_join
+    dossiers = self.order("projets.actif DESC").for_sort_by(search[:sort_by])
+    if search.key?(:query) && search[:query].present?
+      dossiers =  dossiers.for_text(search[:query])
+    else
+      dossiers = dossiers.search_filter(search)
+    end
+    dossiers = dossiers.select(to_select).joins(to_join).group("projets.id")
+    @inactifs = dossiers.where(:actif => 0)
+    @non_eligible = dossiers.where("projets.eligibilite = 2")
+    @non_eligible_a_reeval = dossiers.where("projets.eligibilite = 1")
+    @non_eligible_confirm = dossiers.where("projets.eligibilite = 4")
+    return dossiers
+  end
 
   def reset_fiscal_information
     contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable_no_cache
@@ -595,7 +687,16 @@ def self.find_project all, is_admin, droit1, droit2
        else
          op = "OP : N/A"
        end
-
+       el = "Non défini"
+       if projet.eligibilite == 1
+        el = "A réévaluer"
+       elsif projet.eligibilite == 2
+        el = "Non Éligible"
+       elsif projet.eligibilite == 3
+        el = "Éligible"
+       elsif projet.eligibilite == 4
+        el = "Non Éligible confirmé"
+       end
        line = [
          projet.numero_plateforme,
          format_date(projet.created_at),
@@ -608,14 +709,19 @@ def self.find_project all, is_admin, droit1, droit2
          format_date(projet.date_depot),
          I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
          projet.actif? ? "Actif" : "Inactif",
-         op
+         op,
+         el
        ]
 
        if is_admin == true
          pris_eie = nil
          pris = projet.ift_pris
          
-         date_update = format_date(projet.statut_updated_date)
+         if projet.statut == 0
+           date_update = format_date(projet.created_at)
+         else
+           date_update = format_date(projet.statut_updated_date)
+         end
          line.append(projet.try(:max_registration_step))
          line.append(projet.message_count)
          line.append(pris)
@@ -663,7 +769,8 @@ def self.to_csv(agent, selected_projects, is_admin = false)
        'Date dépôt',
        'État',
        'Actif/Inactif',
-       'Operation Programmee'
+       'Operation Programmee',
+       'Eligibilité'
      ]
 
      if is_admin == true
