@@ -1,8 +1,50 @@
+css:
+  .bloc {padding:15px 20px;}
+  .editorialsanstitre li {margin-left: 50px; }
+  .editorialsanstitre li:before {content : ''; left:-15px; top:1px;position:relative; width:8px; height:8px;background:#C23801; display:inline-block;}
+  .editorialsanstitre h2 {color:#C23801;font-size:1.28em; font-weight:normal; margin:20px 0 12px; padding:0; text-transform:none;}
+  .editorialsanstitre h1 {margin:0; padding:0;font-weight:600; font-size:1.8em; text-transform:uppercase; margin:4px 0 0; padding-bottom:8px;}
+
+
 .eligibility
   - if @eligible
     .alert.alert-success
       i.glyphicon.glyphicon-ok.alert-icon
       p.alert-p= t("demarrage_projet.eligibility.eligible")
+
+    div.col-md-12
+      div.bloc.editorialsanstitre.editorial-article
+        h1 Les conditions générales à remplir
+        h2 Les conditions concernant votre situation et votre logement
+        ul
+          li Vous ne dépassez pas un niveau de ressources fixé nationalement.
+        ul
+          li Votre logement a plus de 15 ans à la date où est acceptée votre demande d’aide.
+        ul
+          li Vous n'avez pas bénéficié d'un PTZ (Prêt à taux zéro pour l’accession à la propriété) dans les cinq dernières années.
+        h2 Les conditions concernant les travaux
+        ul
+          li Vos travaux ne concernent pas la décoration de votre logement, ils ne sont pas assimilables à une construction neuve ni à un agrandissement.
+        ul
+          li Le montant minimum des travaux est de 1 500 €. 
+        ul
+          li
+            | Si vous bénéficiez de la prime 
+            strong Habiter Mieux
+            | *, vos travaux doivent permettre de faire baisser votre consommation énergétique d'au moins 25 %.
+        h2 Vos engagements
+        ul
+          li Ne pas avoir commencé les travaux avant d'avoir déposé votre dossier d'aide auprès de l’Anah. Nous vous recommandons d’attendre la notification du montant de l’aide dont vous allez bénéficier pour engager des travaux.
+        ul
+          li Faire intégralement réaliser les travaux par des professionnels du bâtiment, sauf en cas d’auto-réhabilitation accompagnée.
+        ul
+          li Réserver à l’Anah l’enregistrement des Certificats d’Economie d’Energie (CEE) générés par les travaux de rénovation thermique.
+        ul
+          li Habiter votre logement en tant que résidence principale pendant au moins 6 ans après la fin des travaux.
+        p &nbsp;
+        p * Cette prime Habiter Mieux est octroyée dès lors que les travaux de rénovation énergétique permettent un gain de consommation énergétique d’au moins 25 %.
+        a href="http://anah.fr/proprietaires/proprietaires-occupants/les-conditions-generales-a-remplir/" target="_blank" Pour en savoir plus, accedez au site de l'ANAH
+
     = btn name: t("demarrage_projet.action"), href: projet_or_dossier_demande_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"
   - else
     .alert.alert-danger
