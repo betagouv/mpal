@@ -422,15 +422,15 @@ def render_index
         to_join = "INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse ON (projets.adresse_a_renover_id = ift_adresse.id) OR (projets.adresse_postale_id = ift_adresse.id AND projets.adresse_a_renover_id is NULL)  LEFT OUTER JOIN invitations on projets.id = invitations.projet_id  LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id  LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id)  LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id)  LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id)  LEFT OUTER JOIN agents ift_agent ON ( (projets.statut >= 5 AND projets.agent_instructeur_id = ift_agent.id) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.agent_operateur_id = ift_agent.id) )  LEFT OUTER JOIN intervenants ift_intervenant ON (ift_invitations.intervenant_id = ift_intervenant.id AND ( (projets.statut >= 5 AND 'instructeur' = ANY(ift_intervenant.roles)) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.operateur_id is not null AND 'operateur' = ANY(ift_intervenant.roles)) OR ('pris' = ANY(ift_intervenant.roles) AND projets.statut <= 1 AND projets.operateur_id is null)))  LEFT OUTER JOIN avis_impositions ift_avis_impositions2 ON (projets.id = ift_avis_impositions2.projet_id and (ift_avis_impositions2.annee < #{anne_var} or (ift_avis_impositions2.annee = #{anne_var} and #{month_var} >= 9)))"
         if current_agent.admin?
           if is_there_search?(search)
-            @dossiers = Projet.all.search_dossier(search, to_select, to_join)
+            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval = Projet.all.search_dossier(search, to_select, to_join)
           end
         elsif current_agent.dreal?
           if is_there_search?(search)
-            @dossiers = current_agent.intervenant.projets.search_dossier(search, to_select, to_join)
+            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval = current_agent.intervenant.projets.search_dossier(search, to_select, to_join)
           end
         elsif current_agent.siege?
           if is_there_search?(search)
-            @dossiers =  Projet.with_demandeur.search_dossier(search, to_select, to_join)
+            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval =  Projet.with_demandeur.search_dossier(search, to_select, to_join)
           end
         else
           intervenant_id = current_agent.intervenant.id
@@ -439,7 +439,7 @@ def render_index
           else
             @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).group("projets.id")
           end
-          @dossiers = @dossiers.search_dossier(search, to_select, to_join)
+          @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval = @dossiers.search_dossier(search, to_select, to_join)
           fill_tab_intervenant(@dossiers)
         end
 
