@@ -213,7 +213,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_intervenant, -> (search_param) {
-		where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.raison_sociale ILIKE ?", search_param, search_param])
+		where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.nom ILIKE ? or ift_agent.prenom ILIKE ?", search_param, search_param, search_param])
 	}
 
 	scope :search_by_location, -> (search_param) {
@@ -302,30 +302,26 @@ class Projet < ApplicationRecord
 			else
 				status_label = ""
 				if status == 5
-					status_label = "Aide accordée"
+					status_label = "Subvention accordée"
 				elsif status == 6
-					status_label = "Aide rejetée"
+					status_label = "Subvention rejetée"
 				elsif status == 7
-					status_label = "Traitement interrompu"
-				elsif status == 8
 					status_label = "Classé sans suite"
-				elsif status == 9
+				elsif status == 8
 					status_label = "Subvention retiré"
-				elsif status == 10
+				elsif status == 9
 					status_label = "Subvention retiré avec reversement"
+				elsif status == 10
+					status_label = "Demande d'acompte"
 				elsif status == 11
-					status_label = "Demande de paiement ACOMPTE"
-				elsif status == 12
 					status_label = "Acompte payé"
+				elsif status == 12
+					status_label = "Demande d'avance"
 				elsif status == 13
-					status_label = "Demande de paiement Avance"
-				elsif status == 14
 					status_label = "Avance payée"
+				elsif status == 14
+					status_label = "Demande de solde"
 				elsif status == 15
-					status_label = "Demande de paiement Solde"
-				elsif status == 16
-					status_label = "Demande de paiement Solde"
-				elsif status == 17
 					status_label = "Solde payé"
 				end
 				dossiers = dossiers.search_by_status_opal(status_label)

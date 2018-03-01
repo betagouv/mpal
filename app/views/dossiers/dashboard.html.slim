@@ -204,8 +204,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -217,7 +218,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -280,8 +283,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -293,7 +297,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -356,8 +362,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -369,7 +376,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -432,8 +441,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -445,7 +455,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -508,8 +520,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -521,7 +534,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -584,8 +599,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -597,7 +613,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -660,8 +678,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -673,7 +692,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -736,8 +757,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -749,7 +771,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -813,8 +837,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -826,7 +851,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -889,8 +916,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -902,7 +930,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -966,8 +996,9 @@
 												= projet.libelle_theme
 										- else
 											p Type d'intervention inconnu
-										- if projet.code_opal_op.present?
-											p = "OP : " + projet.code_opal_op
+										- if projet.name_op.present?
+											p title="#{projet.name_op}"
+												span = "OP : " + projet.code_opal_op
 										- elsif projet.code_opal_op != nil
 											p &nbsp;
 										- else
@@ -979,7 +1010,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -1052,7 +1085,7 @@ javascript:
 			"interv": $('.search-intervenant'),
 			"from": $('.search-date-from'),
 			"to": $('.search-date-to'),
-			"operation_programmee": $('search-programme')
+			"operation_programmee": $('.search-programme')
 		};
 
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {

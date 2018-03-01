@@ -199,8 +199,8 @@ $(document).ready(function() {
 			searchParam["search[location]"] = freeSearchLocation;
 
 			// Catch Programme
-			var freeSearchLocation = $('.search-programme').val();
-			searchParam["search[operation_programmee]"] = freeSearchLocation;
+			var freeSearchOP = $('.search-programme').val();
+			searchParam["search[operation_programmee]"] = freeSearchOP;
 
 			// Catch Intervenant
 			var freeSearchInterv = $('.search-intervenant').val();
