@@ -163,12 +163,17 @@ class DossiersController < ApplicationController
   end
 
   def confirm_eligibility
-    if params[:response].present? && params[:response] == "true"
-      @projet_courant.update(:eligibilite => 3)
-    else
-      @projet_courant.update(:eligibilite => 4)
+    @projet_courant.reload
+    commentaire = @projet_courant.eligibility_commentaire
+    if params[:comment].present?
+      commentaire += "<br>Commentaire de l'intervenant : <br>" + params[:comment]
     end
-    render_show
+    if params[:response].present? && params[:response] == "true"
+      @projet_courant.update(:eligibilite => 3, :eligibility_commentaire => commentaire)
+    else
+      @projet_courant.update(:eligibilite => 4, :eligibility_commentaire => commentaire)
+    end
+    redirect_to :action => :show and return
   end
 
   def update_api_particulier

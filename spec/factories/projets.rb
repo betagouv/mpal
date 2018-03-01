@@ -178,6 +178,7 @@ FactoryGirl.define do
 
     trait :prospect do
       statut :prospect
+      eligibilite 3
       with_demandeur
       with_demande
       with_intervenants_disponibles
@@ -185,6 +186,7 @@ FactoryGirl.define do
 
     trait :en_cours do
       statut :en_cours
+      eligibilite 3
       with_demandeur
       with_account
       with_demande
