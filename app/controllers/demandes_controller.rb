@@ -28,14 +28,28 @@ class DemandesController < ApplicationController
   end
 
   def show_a_reevaluer
-      @projet_courant.reload
-    @projet_courant.update(:eligibilite => 1)
-    init_show
-    redirect_to projet_or_dossier_demande_path and return
+    @projet_courant.reload
+    if params[:eligibility].present? && params[:eligibility] == "situation_changed"
+      commentaire = "Informations du demandeur :<br>"
+      if params[:other_details].present?
+        commentaire += params[:other_details]
+      elsif params[:situation].present?
+        commentaire += params[:situation]
+      else
+        flash[:alert] = "Veuillez entrer des Informations"
+        redirect_to projet_or_dossier_demande_path and return
+      end
+      @projet_courant.update(:eligibilite => 1, :eligibility_commentaire => commentaire)
+      init_show
+      redirect_to projet_or_dossier_demande_path and return
+    elsif params[:eligibility].present? && params[:eligibility] == "situation_not_changed"
+      redirect_to :action => 'show_non_eligible'  and return
+    else
+      redirect_to projet_eligibility_path and return
+    end
   end
 
   def update
-
     @demande.update_attributes(demande_params)
 
     if @projet_courant.locked_at.blank?
@@ -111,7 +125,7 @@ private
   end
 
   def needs_next_step?
-    @projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank?
+    @projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank? || @projet_courant.eligibilite == 1
   end
 
   def redirect_to_next_step

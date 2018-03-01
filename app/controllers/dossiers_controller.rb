@@ -5,7 +5,7 @@ class DossiersController < ApplicationController
   before_action :authenticate_agent!
   before_action :assert_projet_courant, except: [:index, :home, :indicateurs]
   load_and_authorize_resource class: "Projet"
-  skip_load_and_authorize_resource only: [:index, :home, :indicateurs, :update_api_particulier, :activate, :desactivate]
+  skip_load_and_authorize_resource only: [:index, :home, :indicateurs, :update_api_particulier, :activate, :desactivate, :manage_eligibility, :confirm_eligibility]
 
   def affecter_agent
     if @projet_courant.update_attribute(:agent, current_agent)
@@ -155,6 +155,25 @@ class DossiersController < ApplicationController
         flash.now[:notice] = "Veuillez modifier le RFR (cumulé) de ce dossier et indiquer la référence du(des) nouvel(eaux) avis dans les champs libres de la synthèse du dossier."
     end
     render_show
+  end
+
+
+  def manage_eligibility
+
+  end
+
+  def confirm_eligibility
+    @projet_courant.reload
+    commentaire = @projet_courant.eligibility_commentaire
+    if params[:comment].present?
+      commentaire += "<br>Commentaire de l'intervenant : <br>" + params[:comment]
+    end
+    if params[:response].present? && params[:response] == "true"
+      @projet_courant.update(:eligibilite => 3, :eligibility_commentaire => commentaire)
+    else
+      @projet_courant.update(:eligibilite => 4, :eligibility_commentaire => commentaire)
+    end
+    redirect_to :action => :show and return
   end
 
   def update_api_particulier

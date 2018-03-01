@@ -35,4 +35,7 @@ article.block.projet
               li = operateur.raison_sociale
             = btn name: t('recommander_operateurs.modifier'), href: dossier_recommander_operateurs_path(@projet_courant)
           - else
-            = btn name: t('recommander_operateurs.recommander'), href: dossier_recommander_operateurs_path(@projet_courant)
+            - if @projet_courant.eligibilite == 3
+              = btn name: t('recommander_operateurs.recommander'), href: dossier_recommander_operateurs_path(@projet_courant)
+            - if @projet_courant.eligibilite == 1
+              = btn name: t('projets.visualisation.rendre_eligible_projet'), href: dossier_manage_eligibility_path(@projet_courant)

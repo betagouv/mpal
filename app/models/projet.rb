@@ -1,4 +1,5 @@
 class Projet < ApplicationRecord
+
 	include LocalizedModelConcern
 	extend CsvProperties, ApplicationHelper
 
