@@ -385,7 +385,7 @@ def is_there_search? search
 end
 
 def render_index
-    params.permit(:format, :page, :per_page, :page_noel, :page_noelre, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :operation_programmee, :from, :to, :advanced, :activeTab])
+    params.permit(:format, :page, :per_page, :page_noel, :page_noelre, :page_noelco, :page_rfrn2, :page_actif, :page_others, :page_new_msg, :page_verif, :page_action, :page_traited, search: [:query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :operation_programmee, :from, :to, :advanced, :activeTab])
     search = params[:search] || {}
     #numéro de la page
     page = params[:page] || 1
@@ -397,6 +397,7 @@ def render_index
     page_inactifs = params[:page_inactifs] || 1
     page_noel = params[:page_noel] || 1
     page_noelre = params[:page_noelre] || 1
+    page_noelco = params[:page_noelco] || 1
     page_rfrn2 = params[:page_rfrn2] || 1
     #nombre d'objet par page
 
@@ -416,21 +417,22 @@ def render_index
         @rfrn2 = []
         @non_eligible = []
         @non_eligible_a_reeval = []
+        @non_eligible_confirm = []
         anne_var = (Time.now.strftime("%Y").to_i - 2).to_s
         month_var = (Time.now.strftime("%m").to_i).to_s
         to_select = "projets.*, string_agg(DISTINCT demandeur.prenom, '') as demandeur_prenom, string_agg(DISTINCT demandeur.nom, '') as demandeur_nom, array_to_string(ARRAY_AGG(DISTINCT ift_themes.libelle), ', ') as libelle_theme, string_agg(DISTINCT ift_adresse.ville, '') as addr_ville, string_agg(DISTINCT ift_adresse.code_postal, '') as addr_code, array_to_string(ARRAY_AGG(DISTINCT ift_intervenant.raison_sociale), ' / ') as ift_intervenant, CONCAT(CONCAT(string_agg(DISTINCT ift_agent.prenom, ''), ' '), string_agg(DISTINCT ift_agent.nom, '')) as ift_agent"
         to_join = "INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse ON (projets.adresse_a_renover_id = ift_adresse.id) OR (projets.adresse_postale_id = ift_adresse.id AND projets.adresse_a_renover_id is NULL)  LEFT OUTER JOIN invitations on projets.id = invitations.projet_id  LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id  LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id)  LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id)  LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id)  LEFT OUTER JOIN agents ift_agent ON ( (projets.statut >= 5 AND projets.agent_instructeur_id = ift_agent.id) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.agent_operateur_id = ift_agent.id) )  LEFT OUTER JOIN intervenants ift_intervenant ON (ift_invitations.intervenant_id = ift_intervenant.id AND ( (projets.statut >= 5 AND 'instructeur' = ANY(ift_intervenant.roles)) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.operateur_id is not null AND 'operateur' = ANY(ift_intervenant.roles)) OR ('pris' = ANY(ift_intervenant.roles) AND projets.statut <= 1 AND projets.operateur_id is null)))  LEFT OUTER JOIN avis_impositions ift_avis_impositions2 ON (projets.id = ift_avis_impositions2.projet_id and (ift_avis_impositions2.annee < #{anne_var} or (ift_avis_impositions2.annee = #{anne_var} and #{month_var} >= 9)))"
         if current_agent.admin?
           if is_there_search?(search)
-            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval = Projet.all.search_dossier(search, to_select, to_join)
+            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval, @non_eligible_confirm = Projet.all.search_dossier(search, to_select, to_join)
           end
         elsif current_agent.dreal?
           if is_there_search?(search)
-            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval = current_agent.intervenant.projets.search_dossier(search, to_select, to_join)
+            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval, @non_eligible_confirm = current_agent.intervenant.projets.search_dossier(search, to_select, to_join)
           end
         elsif current_agent.siege?
           if is_there_search?(search)
-            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval =  Projet.with_demandeur.search_dossier(search, to_select, to_join)
+            @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval, @non_eligible_confirm =  Projet.with_demandeur.search_dossier(search, to_select, to_join)
           end
         else
           intervenant_id = current_agent.intervenant.id
@@ -439,8 +441,8 @@ def render_index
           else
             @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).group("projets.id")
           end
-          @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval = @dossiers.search_dossier(search, to_select, to_join)
           fill_tab_intervenant(@dossiers)
+          @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval, @non_eligible_confirm = @dossiers.search_dossier(search, to_select, to_join)
         end
 
         @traited = @traited.paginate(page: page_traited, per_page: per_page)
@@ -453,6 +455,7 @@ def render_index
         @dossiers = @dossiers.paginate(page: page, per_page: per_page)
         @non_eligible = @non_eligible.paginate(page: page_noel, per_page: per_page)
         @non_eligible_a_reeval = @non_eligible_a_reeval.paginate(page: page_noelre, per_page: per_page)
+        @non_eligible_confirm = @non_eligible_confirm.paginate(page: page_noelco, per_page: per_page)
 
         @statuses = Projet::INTERVENANT_STATUSES.inject([["", ""]]) { |acc, x| acc << [I18n.t("projets.statut.#{x}"), x] }
         @sort_by_options = Projet::SORT_BY_OPTIONS.map { |x| [I18n.t("projets.sort_by_options.#{x}"), x] }
