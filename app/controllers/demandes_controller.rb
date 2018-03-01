@@ -20,10 +20,10 @@ class DemandesController < ApplicationController
 
 
   def show_non_eligible
-      @projet_courant.reload
+    @projet_courant.reload
     @projet_courant.update(:eligibilite => 2)
     @eligible = false
-    @pris = @projet_courant.intervenants_disponibles(role: :pris).first
+    fetch_pris_eie
     render 'eligibilities/a_reevaluer' and return
   end
 
@@ -119,6 +119,14 @@ private
       redirect_to new_user_registration_path
     else
       redirect_to projet_or_dossier_path @projet_courant
+    end
+  end
+
+  def fetch_pris_eie
+    if ENV['ROD_ENABLED'] == 'true'
+      @projet_courant.reload
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      @pris = rod_response.pris_eie
     end
   end
 
