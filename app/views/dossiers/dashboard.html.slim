@@ -218,7 +218,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -295,7 +297,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -372,7 +376,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -449,7 +455,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -526,7 +534,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -603,7 +613,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -680,7 +692,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -757,7 +771,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -835,7 +851,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -912,7 +930,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
@@ -990,7 +1010,9 @@
 													= projet.opal_position_label
 												- else
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
-											- if projet.statut_updated_date.present?
+											- if projet.opal_date_position.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+											- elsif projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
 											- elsif projet.statut == "prospect"
 												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
