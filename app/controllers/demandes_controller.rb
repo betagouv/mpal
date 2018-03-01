@@ -12,7 +12,7 @@ class DemandesController < ApplicationController
   def show
     if @projet_courant.eligibilite == 2
       @eligible = false
-      @pris = @projet_courant.intervenants_disponibles(role: :pris).first
+      fetch_pris_eie
       render 'eligibilities/a_reevaluer' and return
     end
     init_show
