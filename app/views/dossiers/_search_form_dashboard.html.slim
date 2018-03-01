@@ -1,64 +1,195 @@
-div.dashboard-filter-container
-	- search = params.fetch(:search, {}).permit(:query, :status, :sort_by, :from, :to, :type, :folder, :tenant, :location, :interv)
-	= btn name: "Export CSV", href: dossiers_path(format: :csv, search: search), icon: "download", class: "btn-secondary btn-export"
-	div.dashboard-filter-free-search
-		<input type="text" name="freeSearch" placeholder="ID PF ou OP@L ID, nom ou prenom du propriétaire, région, département (n° ou nom), ville ou CP, programme">
-	div.dashboard-filter-status
-		select
-			<option selected disabled hidden>Type d'intervention</option>
-			<option value=""></option>
-			<option value="Autonomie">Autonomie</option>
-			<option value="Énergie">Énergie</option>
-			<option value="SSH - petite LHI">SSI petite LHI</option>
-			<option value="Travaux lourds">Travaux lourds</option>
-			<option value="autre">Autres travaux</option>
-	div.dashboard-filter-state
-		select
-			<option selected disabled hidden>Etat du dossier</option>
-			= @statuses.each do | status |
-				<option value="#{status[1]}">#{status[0]}</option>
-	div.dashboard-filter-advanced
-		<input class="dashboardFilterAdvancedCheckbox" type="checkbox" name="advanced"> Avancé
+div.filter-dash-container
+	div.simple-filter-container
+		div.group-full
+			input class="search-input free-search-input" type="text" required="required" name="freeSearch"
+			span.highlight
+			span.bar
+			label.search-label Recherche
 
-	div.dashboard-filter-container-advanced
-		div.dashboard-filter-container-advanced-left
-			div.dashboard-filter-area.dashboardFilterID.dashboardFilterFolderNumber
-				span N° de dossier
-				<input type="text" name="freeSearch" placeholder="ID PF ou OP@L ID">
-			div.dashboard-filter-area.dashboardFilterID.dashboardFilterTenantName
-				span Nom du propriétaire
-				<input type="text" name="freeSearch" placeholder="Nom ou prenom du propriétaire">
-			div.dashboard-filter-area.dashboardFilterID.dashboardFilterLocation
-				span Lieu / Programme
-				<input type="text" name="freeSearch" placeholder="Région, département (n° ou nom), ville ou CP, programme">
-		div.dashboard-filter-container-advanced-center
-			div.dashboard-filter-order
-				span Trier par :
-				div.OrderBy
-					<input id="dateDeDepot" type="radio" name="advancedType">
-					<label for="dateDeDepot">Date de dépot</label>
-					br
-					<input id="dateDeCreation" type="radio" name="advancedType" checked="checked">
-					<label for="dateDeCreation">Date de création</label>
-			div.dashboard-filter-order
-				span Ordre de tris :
-				div.OrderOrder
-					<input id="ascend" type="radio" name="advancedOrder">
-					<label for="ascend">Ascendant</label>
-					br
-					<input id="descend" type="radio" name="advancedOrder" checked="checked">
-					<label for="descend">Descendant</label>
-		div.dashboard-filter-container-advanced-right
-			div.dashboard-filter-area.dashboardFilterInterv
-				span Intervenant
-				<input type="text" name="freeSearch" placeholder="Pris, opérateur, service instructeur ...">
-			div.dashboard-filter-area-date.dashboardFilterFrom
-				span Du :
-				<input type="date" name="freeSearch" placeholder="Date de début">
-			div.dashboard-filter-area-date.dashboardFilterTo
-				span Au :
-				<input type="date" name="freeSearch" placeholder="Date de fin">
+		div.filter-button
+			button class="ripple new-btn-search" data-ripple-color="#fff" Rechercher
 
-div.dashboard-filter-search
-	<div class="dashboardFilterSearchButton">Rechercher</div>
+			label.switch
+				span.switch-label Avancé
+				input type="checkbox" class="dashboardFilterAdvancedCheckbox" name="advanced"
+				span.slider.round
+
+		div.select-group
+			div.sel.sel-tab
+				select name="select-profession" id="select-profession"
+					option value="" disabled="disabled" Selectionnez une liste de dossiers
+					option class="tabTreated" value="treated" Traités
+					option class="tabAction" value="action" Nécessite action
+					option class="tabVerif" value="verification" Nécessite vérification
+					option class="tabOthers" value="others" Autres
+					option class="tabNewMSG" value="new_msg" Nouveau Message
+					option class="tabRFRN2" value="rfr" RFR à mettre à jour
+					option class="tabNoElig" value="no_eligible" Non éligible
+					option class="tabNoEligEval" value="no_eligible_reeval" Non éligible à réévaluer
+					option class="tabNoEligConf" value="no_eligible_confirme" Non éligible confirmé
+					option class="tabInactifs" value="inactive" Inactifs
+					option class="tabAll" value="all" Tous
+
+	div.global-advanced
+		div.cat-flex-box-dash
+			span.line-dash
+
+		div.advanced-filter-container
+			div.filter-advanced-top
+				div.filter-drop-down
+					div.select-group-type.select-group-filter
+						div.sel.sel-tab
+							select name="select-profession" id="select-profession"
+								option value="" disabled="disabled" Type d'intervention
+								option class="text-drop-down" name="Type d'intervention" Type d'intervention
+								option class="text-drop-down" name="Autonomie" Autonomie
+								option class="text-drop-down" name="Énergie" Énergie
+								option class="text-drop-down" name="SSH - petite LHI" SSH - petite LHI
+								option class="text-drop-down" name="Travaux lourds" Travaux lourds
+								option class="text-drop-down" name="Autres travaux" Autres travaux
+
+					div.select-group-status.select-group-filter
+						div.sel.sel-tab
+							select name="select-profession" id="select-profession"
+								option value="" disabled="disabled" Etat du dossier
+								option class="text-drop-down" value="0" Etat du dossier
+								- @statuses.each_with_index do | status, index |
+									- if index != 0
+										option value="#{index}" class="text-drop-down" #{status[0]}
+								option class="text-drop-down" value="5" Aide accordée
+								option class="text-drop-down" value="6" Aide rejetée
+								option class="text-drop-down" value="7" Traitement interrompu
+								option class="text-drop-down" value="8" Classé sans suite
+								option class="text-drop-down" value="9" Subvention retiré
+								option class="text-drop-down" value="10" Subvention retiré avec reversement
+								option class="text-drop-down" value="11" Demande de paiement ACOMPTE
+								option class="text-drop-down" value="12" Acompte payé
+								option class="text-drop-down" value="13" Demande de paiement Avance
+								option class="text-drop-down" value="14" Avance payée
+								option class="text-drop-down" value="15" Demande de paiement Solde
+								option class="text-drop-down" value="16" Demande de paiement Solde
+								option class="text-drop-down" value="17" Solde payé
+			div.filter-advanced-middle
+				div.filter-advanced-middle-left
+					div.dashboard-filter-radio
+						span Filtrer par :
+						div.OrderBy
+							div.md-radio
+								input id="dateDeDepot" type="radio" name="advancedType"
+								label for="dateDeDepot" Date de dépot
+							div.md-radio
+								input id="dateDeCreation" type="radio" name="advancedType" checked="checked"
+								label for="dateDeCreation" Date de création
+					div.dashboard-filter-radio
+						span Ordre de tris :
+						div.OrderOrder
+							div.md-radio
+								input id="ascend" type="radio" name="advancedOrder"
+								label for="ascend" Ascendant
+							div.md-radio
+								input id="descend" type="radio" name="advancedOrder" checked="checked"
+								label for="descend" Descendant
+				div.filter-advanced-middle-top
+					div.dashboard-filter-date
+						div.group-date
+							span Du :
+							input class="search-input search-date-from" type="date" required="required" name="freeSearch"
+							span.highlight
+							span.bar
+						.group-date
+							span Au :
+							input class="search-input search-date-to" type="date" required="required" name="freeSearch"
+							span.highlight
+							span.bar
+
+						div class="group-advanced-search" title="OPAL ou plateforme"
+							input class="search-input search-folder-number" type="text" required="required" name="freeSearch"
+							span.highlight
+							span.bar
+							label.search-label N° de dossier
+					div.filter-advanced-middle-bottom
+						div class="group-advanced-search-bottom" title="Nom et prénom du propriétaire"
+							input class="search-input search-tenant-name" type="text" required="required" name="freeSearch"
+							span.highlight
+							span.bar
+							label.search-label Nom du propriétaire
+						div class="group-advanced-search-bottom" title="région département commune EPCI"
+							input class="search-input search-location" type="text" required="required" name="freeSearch"
+							span.highlight
+							span.bar
+							label.search-label Lieu
+						div class="group-advanced-search-bottom" title="PIG OPAH ..."
+							input class="search-input search-programme" type="text" required="required" name="freeSearch"
+							span.highlight
+							span.bar
+							label.search-label Programme
+						div class="group-advanced-search-bottom" title="opérateur pris ou service instructeur"
+							input class="search-input search-intervenant" type="text" required="required" name="freeSearch"
+							span.highlight
+							span.bar
+							label.search-label Intervenant
+
+			div.filter-button
+				- search = params.fetch(:search, {}).permit(:query, :status, :sort_by, :from, :to, :type, :folder, :tenant, :location, :interv)
+				button class="ripple new-btn-export" data-ripple-color="#fff" onclick="window.location.href='#{dossiers_path(format: :csv, search: search)}'" Export CSV
+
+javascript:
+	(function (window, $) {
+		$(function() {
+			$('.ripple').on('click', function (event) {
+				event.preventDefault();
+
+				var $div = $('<div/>'),
+					btnOffset = $(this).offset(),
+					xPos = event.pageX - btnOffset.left,
+					yPos = event.pageY - btnOffset.top;
+
+				$div.addClass('ripple-effect');
+				var $ripple = $(".ripple-effect");
+
+				$ripple.css("height", $(this).height());
+				$ripple.css("width", $(this).height());
+				$div.css({
+					top: yPos - ($ripple.height()/2),
+					left: xPos - ($ripple.width()/2),
+					background: $(this).data("ripple-color")
+				}).appendTo($(this));
+
+				window.setTimeout(function(){
+					$div.remove();
+				}, 1000);
+			});
+		});
+	})(window, jQuery);
+
+	$(document).ready(function() {
+		$('.select-group .sel')
+			.mouseenter(function() {
+				$('.select-group .sel-placeholder').css('color', '#000');
+			})
+			.mouseleave(function() {
+				$('.select-group .sel-placeholder').css('color', '#838e95');
+			});
+
+		$("#selLabelType").click(function () {
+			$('#dropdownType').toggleClass('active');
+		});
+		$("#selLabelState").click(function () {
+			$('#dropdownState').toggleClass('active');
+		});
+
+		$(".dropdown-list li").click(function() {
+			var dataValue = $(this).attr('name');
+			var closeDropID = "#" + $(this).closest( ".dropdown" ).get(0).id;
+			var closeSelID = "#" + $(closeDropID).children(".sel-label").get(0).id;
+
+			if (undefined !== dataValue)
+				$(closeSelID).attr('name', dataValue);
+
+			$(closeSelID + ' div').text($(this).text());
+			$(closeDropID).removeClass('active');
+			$('.selected-item p span').text($(closeSelID).text());
+		});
+	});
+
 

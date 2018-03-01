@@ -29,9 +29,9 @@ class ApisController < ApplicationController
 							elsif dossier["position"] == "SANS_SUITE"
 								opalNewStatut = "Classé sans suite"
 							elsif dossier["position"] == "ANNULE"
-								opalNewStatut = "Annulé"
+								opalNewStatut = "Subvention retiré"
 							elsif dossier["position"] == "RVS_PRONONCE"
-								opalNewStatut = "Reversement prononcé"
+								opalNewStatut = "Subvention retiré avec reversement"
 							elsif dossier["position"] == "DEMAC"
 								opalNewStatut = "Demande de paiement ACOMPTE"
 							elsif dossier["position"] == "AC_PAYE"
@@ -48,7 +48,6 @@ class ApisController < ApplicationController
 								opalNewStatut = "Solde payé"
 							end
 							opalDatePosition = DateTime.strptime(dossier["date"].to_s.slice(0..-4), '%s')
-							opalDatePosition = ""
 							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil && opalNewStatut != ""
 								if projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel || projet.opal_position != opalNewStatut
 									projet.update(:opal_date_position => opalDatePosition, :opal_position_label => opalNewStatut, :opal_position => opalPositionLabel)
