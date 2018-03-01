@@ -84,6 +84,26 @@
 	.form-control-label { padding-right: 1em; }
 }
 
+.not-eligible {
+	margin-left: 15px;
+	margin-top: 10px;
+	width: 100%;
+}
+.situation-changed {
+	margin-left: 15px;
+}
+.other-details {
+	margin-left: 0;
+}
+.situation-changed,
+.other-details {
+	display: none;
+	margin-top: 10px;
+	max-width: 240px;
+}
+.eligibility-radio { display: inline-block; }
+.eligibility-radio:not(:first-child) { margin-left: 10px; }
+
 .char-count {
 	font-size: 14px;
 	margin-bottom: 10px;

@@ -17,8 +17,59 @@
         li= @pris.phone
       br
       | Si votre situation a changé, veuillez poursuivre la démarche en créant un compte.
+
+    div.not-eligible
+      input type="radio" class="eligibility-radio" name="eligibility" id="situation_not_changed" value="situation_not_changed" checked="checked"
+      label for="situation_not_changed"= t("demarrage_projet.situation_not_changed")
+
+      input type="radio" class="eligibility-radio" name="eligibility" id="situation_changed" value="situation_changed"
+      label for="situation_changed"= t("demarrage_projet.situation_changed")
+
+    div.situation-changed
+      select.form-control
+        option value="divorce"= t("demarrage_projet.divoce")
+        option value="deces"= t("demarrage_projet.deces")
+        option value="naissances"= t("demarrage_projet.naissance")
+        option value="autres"= t("demarrage_projet.autres")
+
+      div.other-details
+        <textarea rows="5" cols="60" maxlength="250" onkeyup="countEligibilityChar(this, 'remarques_eligibility_detail')"></textarea>
+        <div class="char_count" id="remarques_eligibility_detail">250 caractère(s) restant</div>
     div.btn-centered
-      = btn name: t("demarrage_projet.eligibility_stop"), href: projet_or_dossier_show_non_eligible_path(@projet_courant), class: "btn-large", icon: "arrow-left"
-      = btn name: t("demarrage_projet.eligibility_continue"), href: projet_or_dossier_show_a_reevaluer_path(@projet_courant), class: "btn-large", icon: "arrow-right"
+      = btn name: t("demarrage_projet.eligibility_continue"), href: projet_or_dossier_show_non_eligible_path(@projet_courant), class: "btn-large btn-stop-elig", icon: "arrow-right"
+      = btn name: t("demarrage_projet.eligibility_continue"), href: projet_or_dossier_show_a_reevaluer_path(@projet_courant), class: "btn-large btn-go-elig", icon: "arrow-right"
 
+javascript:
+  function countEligibilityChar(val, inject) {
+    var len = val.value.length;
 
+    if (len > 250) {
+      val.value = val.value.substring(0, 250);
+    } else {
+      $('#' + inject).text(250 - len + " caractère(s) restant");
+    }
+  };
+  $(document).ready(function() {
+    $('.btn-go-elig').hide();
+    $('input[name=eligibility]').on('change', function() {
+      var eligible = $('input[name=eligibility]:checked', '.not-eligible').val();
+
+      if (eligible == "situation_changed") {
+        $('.btn-go-elig').show();
+        $('.btn-stop-elig').hide();
+        $('.situation-changed').css("display", "block");
+      } else {
+        $('.btn-go-elig').hide();
+        $('.btn-stop-elig').show();
+        $('.situation-changed').css("display", "none");
+      }
+    });
+    $('.situation-changed select').on('change', function() {
+      var selected = $('.situation-changed select option').filter(':selected').val();
+      if (selected == "autres") {
+        $('.other-details').css("display", "block");
+      } else {
+        $('.other-etails').css("display", "none");
+      }
+    });
+  });
