@@ -441,8 +441,8 @@ def render_index
           else
             @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).group("projets.id")
           end
-          fill_tab_intervenant(@dossiers)
           @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval, @non_eligible_confirm = @dossiers.search_dossier(search, to_select, to_join)
+          fill_tab_intervenant(@dossiers)
         end
 
         @traited = @traited.paginate(page: page_traited, per_page: per_page)

@@ -213,7 +213,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_intervenant, -> (search_param) {
-		where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.raison_sociale ILIKE ?", search_param, search_param])
+		where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.nom ILIKE ? or ift_agent.prenom ILIKE ?", search_param, search_param, search_param])
 	}
 
 	scope :search_by_location, -> (search_param) {
