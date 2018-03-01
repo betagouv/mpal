@@ -26,6 +26,7 @@ div.filter-dash-container
 					option class="tabRFRN2" value="rfr" RFR à mettre à jour
 					option class="tabNoElig" value="no_eligible" Non éligible
 					option class="tabNoEligEval" value="no_eligible_reeval" Non éligible à réévaluer
+					option class="tabNoEligConf" value="no_eligible_confirme" Non éligible confirmé
 					option class="tabInactifs" value="inactive" Inactifs
 					option class="tabAll" value="all" Tous
 
@@ -36,45 +37,57 @@ div.filter-dash-container
 		div.advanced-filter-container
 			div.filter-advanced-top
 				div.filter-drop-down
-					div.dropdown.type-drop-down#dropdownType
-						span.sel-label#selLabelType
-							div.text-drop-down Type d'intervention
-						input type="hidden" name="cd-dropdown"
-							ul.dropdown-list
-								<li data-value="1"><span class="text-drop-down">Autonomie</span></li>
-								<li data-value="2"><span class="text-drop-down">Énergie</span></li>
-								<li data-value="3"><span class="text-drop-down">SSI petite LHI</span></li>
-								<li data-value="4"><span class="text-drop-down">Travaux lourds</span></li>
-								<li data-value="5"><span class="text-drop-down">Autres travaux</span></li>
+					div.select-group-type.select-group-filter
+						div.sel.sel-tab
+							select name="select-profession" id="select-profession"
+								option value="" disabled="disabled" Type d'intervention
+								option class="text-drop-down" name="Type d'intervention" Type d'intervention
+								option class="text-drop-down" name="Autonomie" Autonomie
+								option class="text-drop-down" name="Énergie" Énergie
+								option class="text-drop-down" name="SSH - petite LHI" SSH - petite LHI
+								option class="text-drop-down" name="Travaux lourds" Travaux lourds
+								option class="text-drop-down" name="Autres travaux" Autres travaux
 
-					div.dropdown.type-drop-down#dropdownState
-						span.sel-label#selLabelState
-							div.text-drop-down Etat du dossier
-						<input type="hidden" name="cd-dropdown">
-							ul.dropdown-list
+					div.select-group-status.select-group-filter
+						div.sel.sel-tab
+							select name="select-profession" id="select-profession"
+								option value="" disabled="disabled" Etat du dossier
+								option class="text-drop-down" value="0" Etat du dossier
 								- @statuses.each_with_index do | status, index |
 									- if index != 0
-										li data-value="#{index}" value="#{status[1]}" name="#{status[1]}"
-											span value="#{status[1]}" class="text-drop-down" #{status[0]}
+										option value="#{index}" class="text-drop-down" #{status[0]}
+								option class="text-drop-down" value="5" Aide accordée
+								option class="text-drop-down" value="6" Aide rejetée
+								option class="text-drop-down" value="7" Traitement interrompu
+								option class="text-drop-down" value="8" Classé sans suite
+								option class="text-drop-down" value="9" Subvention retiré
+								option class="text-drop-down" value="10" Subvention retiré avec reversement
+								option class="text-drop-down" value="11" Demande de paiement ACOMPTE
+								option class="text-drop-down" value="12" Acompte payé
+								option class="text-drop-down" value="13" Demande de paiement Avance
+								option class="text-drop-down" value="14" Avance payée
+								option class="text-drop-down" value="15" Demande de paiement Solde
+								option class="text-drop-down" value="16" Demande de paiement Solde
+								option class="text-drop-down" value="17" Solde payé
 			div.filter-advanced-middle
 				div.filter-advanced-middle-left
 					div.dashboard-filter-radio
-						span Trier par :
+						span Filtrer par :
 						div.OrderBy
 							div.md-radio
-								input id="dateDeDepot" type="radio" name="advancedType" checked="checked"
+								input id="dateDeDepot" type="radio" name="advancedType"
 								label for="dateDeDepot" Date de dépot
 							div.md-radio
-								input id="dateDeCreation" type="radio" name="advancedType"
+								input id="dateDeCreation" type="radio" name="advancedType" checked="checked"
 								label for="dateDeCreation" Date de création
 					div.dashboard-filter-radio
 						span Ordre de tris :
 						div.OrderOrder
 							div.md-radio
-								input id="ascend" type="radio" name="advancedOrder" checked="checked"
+								input id="ascend" type="radio" name="advancedOrder"
 								label for="ascend" Ascendant
 							div.md-radio
-								input id="descend" type="radio" name="advancedOrder"
+								input id="descend" type="radio" name="advancedOrder" checked="checked"
 								label for="descend" Descendant
 				div.filter-advanced-middle-top
 					div.dashboard-filter-date
@@ -150,12 +163,12 @@ javascript:
 	})(window, jQuery);
 
 	$(document).ready(function() {
-		$('.sel')
+		$('.select-group .sel')
 			.mouseenter(function() {
-				$('.sel-placeholder').css('color', '#000');
+				$('.select-group .sel-placeholder').css('color', '#000');
 			})
 			.mouseleave(function() {
-				$('.sel-placeholder').css('color', '#838e95');
+				$('.select-group .sel-placeholder').css('color', '#838e95');
 			});
 
 		$("#selLabelType").click(function () {

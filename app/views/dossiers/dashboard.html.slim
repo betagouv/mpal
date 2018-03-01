@@ -27,13 +27,98 @@
 	- new_msg_count = custom_count_each_tab @new_msg
 	- noel_count = custom_count_each_tab @non_eligible
 	- noelre_count = custom_count_each_tab @non_eligible_a_reeval
+	- noelco_count = custom_count_each_tab @non_eligible_confirm
 	- inactif_count = custom_count_each_tab @inactifs
 	- all_count = custom_count_each_tab @dossiers
 
 	- inactifs = @inactifs
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
 
-	- if items.present?
+	- if !items.present?
+		div.notif-dashboard-container
+			div class="notif-dashboard-icon" title="Notifications"
+
+		div.dashboard-container
+			ul.dashboard-tab-container
+
+			div.tab-content
+
+				// Traités
+				div.tabs-item.tabTreated
+					div.table-title Traités
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+				// Nécessite action
+				div.tabs-item.tabAction
+					div.table-title Nécessite action
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// Nécessite vérification
+				div.tabs-item.tabVerif
+					div.table-title Nécessite vérification
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// Autres
+				div.tabs-item.tabOthers
+					div.table-title Autres
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// Nouveau message
+				div.tabs-item.tabNewMSG
+					div.table-title Nouveau message
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// RFR N-2
+				div.tabs-item.tabRFRN2
+					div.table-title RFR à mettre à jour
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// Non éligible
+				div.tabs-item.tabNoElig
+					div.table-title Non éligible
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// Non éligible à réévaluer
+				div.tabs-item.tabNoElig
+					div.table-title Non éligible à réévaluer
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// Non éligible confirmé
+				div.tabs-item.tabNoEligConf
+					div.table-title Non éligible confirmé
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// Inactifs
+				div.tabs-item.tabInactifs
+					div.table-title Inactifs
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+
+				// TOUS
+				div.tabs-item.tabAll
+					div.table-title Tous
+					table
+						tr
+							div class="no-results" Aucun(s) résultat(s) trouvé(s)
+	- else
 		div.notif-dashboard-container
 			div.notif-modal
 				div.notif-modal-close
@@ -69,11 +154,14 @@
 						div class="action-notif" onclick="forceSelect($('span.tabNoEligEval'));"
 							div.notif-text Non éligible à réévaluer 
 							div.notif-count = noelre_count
+					- if noelco_count != 0
+						div class="action-notif" onclick="forceSelect($('span.tabNoEligEval'));"
+							div.notif-text Non éligible confirmé 
+							div.notif-count = noelco_count
 					- if inactif_count != 0
 						div class="action-notif" onclick="forceSelect($('span.tabInactifs'));"
 							div.notif-text Inactifs 
 							div.notif-count = inactif_count
-
 
 		div.dashboard-container
 			ul.dashboard-tab-container
@@ -131,6 +219,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -205,6 +295,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -279,6 +371,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -353,6 +447,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -427,6 +523,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -501,6 +599,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -575,6 +675,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -649,6 +751,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -673,6 +777,81 @@
 							= render "shared/paginate", items: items, cur_page: "page_noelre"
 
 
+				// Non éligible confirmé
+				div.tabs-item.tabNoEligConf
+					div.table-title Non éligible confirmé
+					table
+						- if noelre_count === 0
+							tr
+								div class="no-results" Aucun(s) résultat(s) trouvé(s)
+						- else
+							- @non_eligible_confirm.each do | item |
+								- projet = item.is_a?(Invitation) ? item.projet : item
+								- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+								- edit_url = dossier_path(projet)
+								tr id="projet_#{projet.id}-all"
+									td
+										p = anonymize anonymized, edit_url do
+											= projet.numero_plateforme
+
+										- if projet.opal_numero.present?
+											- if current_agent_instructeur
+												p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+											- else
+												p = anonymize anonymized, edit_url do
+													= projet.opal_numero
+										- else
+											p &nbsp;
+									td
+										p = anonymize anonymized, edit_url do
+											span.firstname= projet.demandeur_prenom
+											span.lastname<= projet.demandeur_nom
+										p = projet.addr_ville + " " + projet.addr_code
+									td
+										- if projet.libelle_theme
+											p = anonymize anonymized, edit_url do
+												= projet.libelle_theme
+										- else
+											p Type d'intervention inconnu
+										- if projet.code_opal_op.present?
+											p = "OP : " + projet.code_opal_op
+										- elsif projet.code_opal_op != nil
+											p &nbsp;
+										- else
+											p OP : N/A
+									td
+										div.dashboard-date-text-container = anonymize anonymized, edit_url do
+											div.dashboard-date-text-1
+												- if projet.opal_position_label
+													= projet.opal_position_label
+												- else
+												 	= t(projet.status_for_intervenant, scope: "projets.statut")
+											- if projet.statut_updated_date.present?
+												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
+											- else
+												div.dashboard-date-text-2 Depuis le: Inconnu
+										div
+											- if projet.ift_intervenant.present?
+												= projet.ift_intervenant + " - " + projet.ift_agent
+											- else
+												p &nbsp;
+									td.table-row-icons-border
+
+									td.table-row-icons-border
+										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-close
+												p Desactiver
+										- if projet.actif === 0
+											= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+												p
+													span.glyphicon.glyphicon-eye-open
+												p Activer
+						- if items.respond_to?(:total_pages) && 1 < items.total_pages
+							= render "shared/paginate", items: items, cur_page: "page_noelco"
 
 				// Inactifs
 				div.tabs-item.tabInactifs
@@ -725,6 +904,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -800,6 +981,8 @@
 												 	= t(projet.status_for_intervenant, scope: "projets.statut")
 											- if projet.statut_updated_date.present?
 												div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+											- elsif projet.statut == "prospect"
+												div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
 											- else
 												div.dashboard-date-text-2 Depuis le: Inconnu
 										div
@@ -850,7 +1033,7 @@ javascript:
 
 		$("html").keypress(function(e) {
 			if (e.which == 13)
-				$('.dashboardFilterSearchButton').trigger('click');
+				$('.new-btn-search').trigger('click');
 		});
 
 
@@ -868,7 +1051,8 @@ javascript:
 			"location": $('.search-location'),
 			"interv": $('.search-intervenant'),
 			"from": $('.search-date-from'),
-			"to": $('.search-date-to')
+			"to": $('.search-date-to'),
+			"operation_programmee": $('search-programme')
 		};
 
 		if (null != sPageURL && "" != sPageURL && undefined != sPageURL) {
@@ -902,12 +1086,17 @@ javascript:
 									$("#dateDeCreation").prop('checked', true);
 							}
 							// Restore type of intervention
-							if ("type" == newArrayTmp)
-								$("#dropdownType .dropdown-list li[name='" + jsonURL[index] + "']").trigger( "click" );
+							if ("type" == newArrayTmp && '' != jsonURL[index]) {
+								$('.select-group-type .sel .sel-box-options:contains(' + jsonURL[index] + ')').trigger( "click" );
+								$('.select-group-type .sel .sel-box-options:contains(' + jsonURL[index] + ')').trigger( "click" );
+							}
 
 							// Restore status
-							if ("status" == newArrayTmp)
-								$("#dropdownState .dropdown-list li[name='" + jsonURL[index] + "']").trigger( "click" );
+							if ("status" == newArrayTmp && '' != jsonURL[index]) {
+								var indexStatus = parseInt(jsonURL[index]);
+								$('.select-group-status .sel .sel-box-options:eq(' + indexStatus + ')').trigger('click');
+								$('.select-group-status .sel .sel-box-options:eq(' + indexStatus + ')').trigger('click');
+							}
 
 							// // Restore other filters
 							if ("" != jsonURL[index] &&

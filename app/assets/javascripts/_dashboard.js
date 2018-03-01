@@ -19,7 +19,7 @@ function forceSelect(selboxLabel) {
 }
 
 $(document).ready(function() {
-	$('.sel').each(function() {
+	$('.select-group .sel').each(function() {
 		$(this).children('select').css('display', 'none');
 
 		var $current = $(this);
@@ -47,13 +47,59 @@ $(document).ready(function() {
 		});
 	});
 
+	$('.select-group-filter .sel').each(function() {
+		$(this).children('select').css('display', 'none');
+
+		var $current = $(this);
+
+		$(this).find('option').each(function(i) {
+			if (i == 0) {
+				$current.prepend($('<div>', {
+					class: $current.attr('class').replace(/sel/g, 'sel-box')
+				}));
+
+				var placeholder = $(this).text();
+				$current.prepend($('<span>', {
+					class: $current.attr('class').replace(/sel/g, 'sel-placeholder'),
+					text: placeholder,
+					'data-placeholder': placeholder
+				}));
+
+				return;
+			}
+
+			$current.children('div').append($('<span>', {
+				class: $current.attr('class').replace(/sel/g, 'sel-box-options') + ' ' + $(this).attr('class'),
+				name: $(this).attr('name'),
+				text: $(this).text()
+			}));
+		});
+	});
+
+	$('.select-group-filter .sel-box-options').click(function() {
+		var txt = $(this).text();
+		var index = $(this).index();
+		// preserveSearch();
+
+		$(this).siblings('.sel-box-options').removeClass('selected');
+		$(this).addClass('selected');
+
+		var $currentSel = $(this).closest('.sel');
+		$currentSel.children('.sel-placeholder').text(txt);
+		$currentSel.children('select').prop('selectedIndex', index + 1);
+	});
+
 	// Toggling the `.active` state on the `.sel`.
-	$('.sel').click(function() {
+	$('.select-group .sel').click(function() {
+		$(this).toggleClass('active');
+	});
+
+	$('.select-group-filter .sel').click(function() {
 		$(this).toggleClass('active');
 	});
 
 	// Toggling the `.selected` state on the options.
-	$('.sel-box-options').click(function() {
+	$('.select-group .sel-box-options').click(function() {
 		var txt = $(this).text();
 		var index = $(this).index();
 
@@ -112,14 +158,15 @@ $(document).ready(function() {
 
 		if (advanced) {
 			// Catch Type d'intervention
-			var intervType = $('#selLabelType').text();
+			var intervType = $('.select-group-type .sel span.selected').text();
 			if (intervType == "Type d'intervention" || intervType == "")
 				intervType = "";
 			searchParam["search[type]"] = intervType;
 
 			// Catch Etat du dossier
-			var status = $('#selLabelState').attr('name');
-			if (undefined == status || status == "Etat du dossier" || status == "")
+			var status = $('.select-group-status .sel select option:selected').val();
+			var statusText = $('.select-group-status .sel .sel-placeholder').text();
+			if (undefined == status || status == "Etat du dossier" || status == "" || statusText === "Etat du dossier")
 				status = "";
 			searchParam["search[status]"] = status;
 
@@ -153,7 +200,7 @@ $(document).ready(function() {
 
 			// Catch Programme
 			var freeSearchLocation = $('.search-programme').val();
-			searchParam["search[programme]"] = freeSearchLocation;
+			searchParam["search[operation_programmee]"] = freeSearchLocation;
 
 			// Catch Intervenant
 			var freeSearchInterv = $('.search-intervenant').val();
@@ -203,7 +250,7 @@ $(document).ready(function() {
 	function dashboardSearchClick() {
 		$('.new-btn-search').click(function(e) {
 			preserveSearch();
-			// $.urlLib.urlLoad();
+			$.urlLib.urlLoad();
 		});
 	}
 
