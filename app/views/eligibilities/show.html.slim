@@ -28,10 +28,10 @@
 
       div.situation-changed
         select.form-control name="situation"
-          option value="divorce"= t("demarrage_projet.divoce")
-          option value="deces"= t("demarrage_projet.deces")
-          option value="naissances"= t("demarrage_projet.naissance")
-          option value="autres"= t("demarrage_projet.autres")
+          option value="#{t("demarrage_projet.divoce")}"= t("demarrage_projet.divoce")
+          option value="#{t("demarrage_projet.deces")}"= t("demarrage_projet.deces")
+          option value="#{t("demarrage_projet.naissance")}"= t("demarrage_projet.naissance")
+          option value="#{t("demarrage_projet.autres")}"= t("demarrage_projet.autres")
 
         div.other-details
           <textarea name="other_details" rows="5" cols="60" maxlength="250" onkeyup="countEligibilityChar(this, 'remarques_eligibility_detail')"></textarea>

@@ -31,7 +31,8 @@ class DemandesController < ApplicationController
     @projet_courant.reload
     if params[:eligibility].present? && params[:eligibility] == "situation_changed"
       commentaire = "Informations du demandeur :<br>"
-      if params[:other_details].present?
+      if params[:other_details].present? && params[:situation].present?
+        commentaire += "Autres : "
         commentaire += params[:other_details]
       elsif params[:situation].present?
         commentaire += params[:situation]
