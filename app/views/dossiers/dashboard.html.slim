@@ -30,6 +30,7 @@
 	- noelco_count = custom_count_each_tab @non_eligible_confirm
 	- inactif_count = custom_count_each_tab @inactifs
 	- all_count = custom_count_each_tab @dossiers
+	- actionNeeded_count = action_count + verif_count + other_count + new_msg_count + rfr_count + noel_count + noelre_count + noelco_count + inactif_count
 
 	- inactifs = @inactifs
 	= render "search_form_dashboard", url: dossiers_path, show_export_button: items.present?
@@ -92,7 +93,7 @@
 							div class="no-results" Aucun(s) résultat(s) trouvé(s)
 
 				// Non éligible à réévaluer
-				div.tabs-item.tabNoElig
+				div.tabs-item.tabNoEligEval
 					div.table-title Non éligible à réévaluer
 					table
 						tr
@@ -120,9 +121,10 @@
 							div class="no-results" Aucun(s) résultat(s) trouvé(s)
 	- else
 		div.notif-dashboard-container
-			div.notif-modal
-				div.notif-modal-close
-				span Vous avez des dossiers en attente d'actions
+			- if actionNeeded_count > 0
+				div.notif-modal
+					div.notif-modal-close
+					span Vous avez des dossiers en attente d'actions
 			div class="notif-dashboard-icon" title="Notifications"
 				span.notif-pastille
 				div.notif-container
@@ -155,7 +157,7 @@
 							div.notif-text Non éligible à réévaluer 
 							div.notif-count = noelre_count
 					- if noelco_count != 0
-						div class="action-notif" onclick="forceSelect($('span.tabNoEligEval'));"
+						div class="action-notif" onclick="forceSelect($('span.tabNoEligConf'));"
 							div.notif-text Non éligible confirmé 
 							div.notif-count = noelco_count
 					- if inactif_count != 0
@@ -722,7 +724,7 @@
 							= render "shared/paginate", items: items, cur_page: "page_noel"
 
 				// Non éligible à réévaluer
-				div.tabs-item.tabNoElig
+				div.tabs-item.tabNoEligEval
 					div.table-title Non éligible à réévaluer
 					table
 						- if noelre_count === 0
