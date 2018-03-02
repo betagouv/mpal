@@ -12,7 +12,7 @@ article.block.occupants
   .occupants-recap
     ul
       - if @projet_courant.eligibility_commentaire.present?
-        li = @projet_courant.eligibility_commentaire.html_safe()
+        li.dont-break-out = @projet_courant.eligibility_commentaire.html_safe()
       li
         | Nombre total d’occupant(s) du logement :
         span= " #{@projet_courant.nb_total_occupants} " + (@projet_courant.future_birth ? "+ enfant à naître" : "")
