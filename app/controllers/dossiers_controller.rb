@@ -168,7 +168,7 @@ class DossiersController < ApplicationController
     if params[:comment].present?
       commentaire += "<br>Commentaire de l'intervenant : <br>" + params[:comment]
     end
-    if params[:response].present? && params[:response] == "true"
+    if params[:response].present? && params[:response] == "situation_changed"
       @projet_courant.update(:eligibilite => 3, :eligibility_commentaire => commentaire)
     else
       @projet_courant.update(:eligibilite => 4, :eligibility_commentaire => commentaire)
