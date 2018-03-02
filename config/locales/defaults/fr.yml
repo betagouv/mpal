@@ -100,10 +100,10 @@ fr:
     go_back: "Revenir"
     situation_changed: " Ma situation à changé"
     situation_not_changed: " Ma situation n'a pas changé"
-    divoce: "divorce / séparation"
-    deces: "décès"
-    naissance: "naissance multiples"
-    autre: "autres"
+    divoce: "Divorce / Séparation"
+    deces: "Décès"
+    naissance: "Naissance multiple"
+    autre: "Autres"
     # ----------------------- Demandeur ---------------------
     demandeur:
       erreurs:
