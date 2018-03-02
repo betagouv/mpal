@@ -222,7 +222,11 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_operation_programmee, -> (search_param) {
-		where(["projets.name_op ILIKE ?", search_param])
+		if search_param.downcase == "%diffus%"
+			where("projets.name_op = ''")
+		else
+			where(["projets.name_op ILIKE ?", search_param])
+		end
 	}
 
 	scope :created_since, ->(datetime) {
