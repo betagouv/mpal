@@ -108,7 +108,8 @@ private
       :complement,
       :annee_construction,
       :ptz,
-      :date_achevement_15_ans
+      :date_achevement_15_ans,
+      :prime_hma
     )
   end
 

@@ -194,6 +194,18 @@ module ApplicationHelper
       ptz_strong = content_tag(:strong, ptz)
     end
     complements << "#{t("demarrage_projet.demande.ptz")} : #{ptz_strong}"
+
+    if demande.prime_hma.nil?
+      prime_hma = "Non renseigné"
+    elsif demande.prime_hma
+      prime_hma = "Oui"
+    else
+      prime_hma = "Non"
+    end
+
+    prime_hma_strong = content_tag(:strong, prime_hma)
+    complements << "#{t("demarrage_projet.demande.prime_hma")} : #{prime_hma_strong}"
+
     annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
     annee_construction_strong = content_tag(:strong, annee_construction)
     complements << "#{t("demarrage_projet.demande.annee_construction")} : #{annee_construction_strong}"
