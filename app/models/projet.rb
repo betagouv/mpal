@@ -194,7 +194,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_folder, -> (search_param, int_param) {
-		where(["projets.opal_numero ILIKE ? or projets.plateforme_id ILIKE ? or projets.id = ?", search_param, search_param, int_param])
+		where(["projets.opal_numero ILIKE ? or projets.id = ?", search_param, search_param, int_param])
 	}
 
 	scope :search_by_type, -> (search_param) {
@@ -272,7 +272,7 @@ class Projet < ApplicationRecord
 			dossiers = dossiers.updated_upto(search_param[:to])
 		end
 		if search_param.key?(:folder) && search_param[:folder].present?
-			words = search_param[:folder].split(/[\s,;_]/)
+			words = search_param[:folder].split(/[\s,;]/)
 			words.each do |word|
 				word_int = word
 				word = "%" + word + "%"
