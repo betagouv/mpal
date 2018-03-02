@@ -16,7 +16,7 @@
         li= @pris.email
         li= @pris.phone
       br
-      | Si votre situation a changé, veuillez poursuivre la démarche en créant un compte.
+      | Veuillez indiquer si votre situation a changé.
 
     = form_tag projet_or_dossier_show_a_reevaluer_path(@projet_courant), class: ""
       div.not-eligible
@@ -32,6 +32,8 @@
           option value="#{t("demarrage_projet.deces")}"= t("demarrage_projet.deces")
           option value="#{t("demarrage_projet.naissance")}"= t("demarrage_projet.naissance")
           option value="#{t("demarrage_projet.autres")}"= t("demarrage_projet.autres")
+        p
+          | Votre situation a changé, veuillez valider pour poursuivre la démarche et créer un compte.
 
         div.other-details
           <textarea name="other_details" rows="5" cols="60" maxlength="250" onkeyup="countEligibilityChar(this, 'remarques_eligibility_detail')"></textarea>
