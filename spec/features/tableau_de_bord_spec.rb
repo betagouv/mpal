@@ -38,7 +38,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
 
         scenario "j'ai accès au tableau de bord avec toutes les informations disponibles" do
           visit dossiers_path
-          expect(page).to have_content(projet.numero_plateforme)
+          expect(page).to have_content(projet.id.to_s)
           expect(page).to have_content(projet.opal_numero)
           expect(page).to have_content(projet.demandeur.fullname)
           expect(page).to have_content(projet.adresse.ville)
@@ -54,7 +54,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
 
         scenario "je peux accéder à un dossier à partir du tableau de bord" do
           visit dossiers_path
-          first(:link, projet.numero_plateforme).click
+          first(:link, projet.id.to_s).click
           expect(page.current_path).to eq(dossier_path(projet))
           expect(page).to have_content(projet.demandeur.fullname)
         end
@@ -70,7 +70,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
 
       scenario "j'ai accès au tableau de bord avec toutes les informations disponibles" do
         visit dossiers_path
-        expect(page).to     have_content(projet.numero_plateforme)
+        expect(page).to     have_content(projet.id.to_s)
         expect(page).to     have_content(projet.opal_numero)
         expect(page).to     have_content(projet.demandeur.fullname)
         expect(page).not_to have_content(projet.adresse.region)
@@ -85,7 +85,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
 
       scenario "je peux accéder à un dossier à partir du tableau de bord" do
         visit dossiers_path
-        first(:link, projet.numero_plateforme).click
+        first(:link, projet.id.to_s).click
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content(projet.demandeur.fullname)
       end
@@ -136,7 +136,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
 
       scenario "je peux accéder à un dossier à partir du tableau de bord" do
         visit dossiers_path
-        first(:link, projet.numero_plateforme).click
+        first(:link, projet.id.to_s).click
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content(projet.demandeur.fullname)
       end
