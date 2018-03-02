@@ -11,8 +11,6 @@ article.block.occupants
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
   .occupants-recap
     ul
-      - if @projet_courant.eligibility_commentaire.present?
-        li.dont-break-out = @projet_courant.eligibility_commentaire.html_safe()
       li
         | Nombre total d’occupant(s) du logement :
         span= " #{@projet_courant.nb_total_occupants} " + (@projet_courant.future_birth ? "+ enfant à naître" : "")
@@ -24,6 +22,8 @@ article.block.occupants
         - else
           span.modified= number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)
           span= " (initialement #{number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)})"
+      - if @projet_courant.eligibility_commentaire.present?
+        li.dont-break-out = @projet_courant.eligibility_commentaire.html_safe()
   .content-block
     - if @projet_courant.demandeur.present?
       h4 Demandeur :

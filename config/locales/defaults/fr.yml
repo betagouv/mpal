@@ -95,7 +95,7 @@ fr:
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
-    eligibility_continue: "Valider mes informations"
+    eligibility_continue: "Valider"
     action: "Continuer"
     go_back: "Revenir"
     situation_changed: " Ma situation à changée"
@@ -294,7 +294,7 @@ fr:
       s_engager_avec_operateur: "Continuer"
       engagement_action: "Continuer"
       remplir_le_projet: "Je remplis le projet"
-      rendre_eligible_projet: "Je modifie l'éligibilité du projet"
+      rendre_eligible_projet: "Mettre à jour l’éligibilité"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
       future_birth: "Enfant à naître"
