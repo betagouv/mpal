@@ -202,7 +202,17 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_status, -> (search_param) {
-		where(["projets.statut = ? and projets.opal_position_label is NULL", search_param - 1])
+		statut_search = []
+		if search_param == 1
+			statut_search = [0]
+		elsif search_param == 2
+			statut_search = [1, 2, 3]
+		elsif search_param == 3
+			statut_search = [5]
+		elsif search_param == 4
+			statut_search = [6]
+		end
+		where(["projets.statut in (?) and projets.opal_position_label is NULL", statut_search])
 	}
 
 	scope :search_by_status_opal, -> (search_param) {
