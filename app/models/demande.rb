@@ -24,6 +24,20 @@ class Demande < ApplicationRecord
     :travaux_autres
   ]
 
+  def eligible_hma_travaux?
+    if changement_chauffage || froid || probleme_deplacement || accessibilite || hospitalisation || adaptation_salle_de_bain || arrete || saturnisme || autre || travaux_fenetres || travaux_isolation || travaux_adaptation_sdb || travaux_monte_escalier || travaux_amenagement_ext || travaux_autres
+      return false
+    end
+    critere_hma = 0
+    critere_hma += 1 if travaux_isolation_murs
+    critere_hma += 1 if travaux_isolation_combles
+    critere_hma += 1 if travaux_chauffage
+    if critere_hma == 0
+      return true
+    end
+    return false
+  end
+
   def complete?
     required_attributes_as_string = REQUIRED_ATTRIBUTES.map(&:to_s)
     attributes.slice(*required_attributes_as_string).values.any? { |v| v == true }
