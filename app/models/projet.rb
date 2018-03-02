@@ -178,10 +178,10 @@ class Projet < ApplicationRecord
 			end
 			[
 				"ift_occupants_search.nom", "ift_adresses1_search.ville", "ift_adresses2_search.ville",
-				"projets.opal_numero",
+				"projets.opal_numero", "projets.name_op",
 				"ift_adresses1_search.region", "ift_adresses2_search.region",
 				"ift_adresses1_search.departement", "ift_adresses2_search.departement",
-				"ift_occupants_search.prenom", "projets.opal_numero",
+				"ift_occupants_search.prenom",
 				"ift_intervenants_search.raison_sociale",
 				"ift_themes_search.libelle"
 			].each do |field|
