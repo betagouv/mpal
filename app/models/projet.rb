@@ -742,6 +742,11 @@ def self.find_project all, is_admin, droit1, droit2
 			 elsif projet.eligibilite == 4
 				el = "Non Éligible confirmé"
 			 end
+			 if projet.opal_position_label.present?
+			 	status = projet.opal_position_label
+			 else
+			 	status = I18n.t(projet.status_for_intervenant, scope: "projets.statut")
+			 end
 			 line = [
 				 projet.numero_plateforme,
 				 format_date(projet.created_at),
@@ -752,7 +757,7 @@ def self.find_project all, is_admin, droit1, droit2
 				 projet.ift_operateur,
 				 format_date(projet.date_de_visite),
 				 format_date(projet.date_depot),
-				 I18n.t(projet.status_for_intervenant, scope: "projets.statut"),
+				 status,
 				 projet.actif? ? "Actif" : "Inactif",
 				 op,
 				 el
@@ -762,7 +767,9 @@ def self.find_project all, is_admin, droit1, droit2
 				 pris_eie = nil
 				 pris = projet.ift_pris
 
-				 if projet.statut == "prospect"
+				 if projet.opal_date_position.present?
+					 date_update = format_date(projet.opal_date_position)
+				 elsif projet.statut == "prospect"
 					 date_update = format_date(projet.created_at)
 				 else
 					 date_update = format_date(projet.statut_updated_date)

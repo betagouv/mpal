@@ -390,7 +390,6 @@ class DossiersController < ApplicationController
       @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
       if @rfrn2.limit(1).present?
         flash.now[:notice_html] += "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
-        flash.now[:notice_html] += "<br>"
       end
     elsif current_agent.instructeur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 6 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
@@ -400,7 +399,6 @@ class DossiersController < ApplicationController
       @new_msg = []
       @rfrn2 = []
     end
-    flash.now[:notice_html] += " L'onglet Nouveau Message est pour le moment indisponible, nous nous excusons pour la gêne occassionée. "
   end
 
 def is_there_search? search
