@@ -18,7 +18,8 @@ fr:
         lien_avec_demandeur: "Quel est le lien de cette personne avec le propriétaire ?"
       demande:
         complement: "Je précise mon projet"
-        date_achevement_15_ans: "Mon logement (maison ou immeuble) a été construit il y a plus de 15 ans"
+        type_logement: "Le logement dans lequel je souhaite effectuer mes travaux est:"
+        date_achevement_15_ans: "Mon logement (maison ou appartement) a été construit il y a plus de 15 ans"
         annee_construction: "Si je la connais, j’indique l’année de construction de mon logement"
         ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover dans les 5 dernières années"
         prime_hma: "J'ai déjà bénéficié d'une prime « Habiter Mieux » (ou d'une « Aide à la Solidarité Ecologique ») pour réaliser des travaux dans mon logement:"

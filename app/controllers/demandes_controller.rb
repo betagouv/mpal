@@ -108,6 +108,7 @@ private
       :complement,
       :annee_construction,
       :ptz,
+      :type_logement,
       :date_achevement_15_ans,
       :prime_hma
     )
