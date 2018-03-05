@@ -1,74 +1,80 @@
 .eligibility
-  - if @eligible
-    .alert.alert-success
-      i.glyphicon.glyphicon-ok.alert-icon
-      p.alert-p= t("demarrage_projet.eligibility.eligible")
-    = btn name: t("demarrage_projet.action"), href: projet_or_dossier_demande_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"
-  - else
-    .alert.alert-danger
-      i.glyphicon.glyphicon-remove.alert-icon
-      p.alert-p= t("demarrage_projet.eligibility.not_eligible")
-    .eligibility-contact-info
-      | Pour plus d’informations, vous pouvez contacter le Point Rénovation Info Service (Espace Info Énergie) le plus proche de chez vous :
-      ul
-        li= @pris.raison_sociale
-        li= @pris.adresse_postale
-        li= @pris.email
-        li= @pris.phone
-      br
-      | Veuillez indiquer si votre situation a changé.
+	- if @eligible
+		.alert.alert-success
+			i.glyphicon.glyphicon-ok.alert-icon
+			p.alert-p= t("demarrage_projet.eligibility.eligible")
+		= btn name: t("demarrage_projet.action"), href: projet_or_dossier_demande_path(@projet_courant), class: "btn-large btn-centered", icon: "arrow-right"
+	- else
+		.alert.alert-danger
+			i.glyphicon.glyphicon-remove.alert-icon
+			p.alert-p= t("demarrage_projet.eligibility.not_eligible")
+		.eligibility-contact-info
+			| Pour plus d’informations, vous pouvez contacter le Point Rénovation Info Service (Espace Info Énergie) le plus proche de chez vous :
+			ul
+				li= @pris.raison_sociale
+				li= @pris.adresse_postale
+				li= @pris.email
+				li= @pris.phone
+			br
+			| Veuillez indiquer si votre situation a changé.
 
-    = form_tag projet_or_dossier_show_a_reevaluer_path(@projet_courant), class: ""
-      div.not-eligible
-        input type="radio" class="eligibility-radio" name="eligibility" id="situation_not_changed" value="situation_not_changed" checked="checked"
-        label for="situation_not_changed"= t("demarrage_projet.situation_not_changed")
+		= form_tag projet_or_dossier_show_a_reevaluer_path(@projet_courant), class: ""
+			div.not-eligible
+						label.eligibility-radio
+								input type="radio" class="eligibility-radio" name="eligibility" id="situation_not_changed" value="situation_not_changed" checked="checked"
+								i for="situation_not_changed"= t("demarrage_projet.situation_not_changed")
 
-        input type="radio" class="eligibility-radio" name="eligibility" id="situation_changed" value="situation_changed"
-        label for="situation_changed"= t("demarrage_projet.situation_changed")
+						label.eligibility-radio
+								input type="radio" class="eligibility-radio" name="eligibility" id="situation_changed" value="situation_changed"
+								i for="situation_changed"= t("demarrage_projet.situation_changed")
 
-      div.situation-changed
-        select.form-control name="situation"
-          option value="#{t("demarrage_projet.divoce")}"= t("demarrage_projet.divoce")
-          option value="#{t("demarrage_projet.deces")}"= t("demarrage_projet.deces")
-          option value="#{t("demarrage_projet.naissance")}"= t("demarrage_projet.naissance")
-          option value="#{t("demarrage_projet.autres")}"= t("demarrage_projet.autres")
-        p
-          | Votre situation a changé, veuillez valider pour poursuivre la démarche et créer un compte.
+			div.situation-changed
+				select.form-control name="situation"
+					option value="" disabled='disabled' selected='selected' = "Selectionnez"
+					option value="#{t("demarrage_projet.divoce")}" = t("demarrage_projet.divoce")
+					option value="#{t("demarrage_projet.deces")}"= t("demarrage_projet.deces")
+					option value="#{t("demarrage_projet.naissance")}"= t("demarrage_projet.naissance")
+					option value="#{t("demarrage_projet.other")}" = t("demarrage_projet.other")
 
-        div.other-details
-          <textarea name="other_details" rows="5" cols="60" maxlength="250" onkeyup="countEligibilityChar(this, 'remarques_eligibility_detail')"></textarea>
-          <div class="char_count" id="remarques_eligibility_detail">250 caractère(s) restant</div>
-      div.btn-centered
-        = submit_tag t("demarrage_projet.eligibility_continue"), class: "btn btn-large", icon: "arrow-right"
+				div.other-details
+					<textarea name="other_details" rows="5" cols="60" maxlength="250" onkeyup="countEligibilityChar(this, 'remarques_eligibility_detail')"></textarea>
+					<div class="char_count" id="remarques_eligibility_detail">250 caractère(s) restant</div>
+			p.situation-changed-text
+				| Votre situation a changé, veuillez valider pour poursuivre la démarche et créer un compte.
+			div.btn-centered
+				= submit_tag t("demarrage_projet.eligibility_continue"), class: "btn btn-large", icon: "arrow-right"
 
 javascript:
-  function countEligibilityChar(val, inject) {
-    var len = val.value.length;
+	function countEligibilityChar(val, inject) {
+		var len = val.value.length;
 
-    if (len > 250) {
-      val.value = val.value.substring(0, 250);
-    } else {
-      $('#' + inject).text(250 - len + " caractère(s) restant");
-    }
-  };
-  $(document).ready(function() {
-    $('input[name=eligibility]').on('change', function() {
-      var eligible = $('input[name=eligibility]:checked', '.not-eligible').val();
+		if (len > 250) {
+			val.value = val.value.substring(0, 250);
+		} else {
+			$('#' + inject).text(250 - len + " caractère(s) restant");
+		}
+	};
+	$(document).ready(function() {
+		$('input[name=eligibility]').on('change', function() {
+			var eligible = $('input[name=eligibility]:checked', '.not-eligible').val();
 
-      if (eligible == "situation_changed") {
-        $('.btn-stop-elig').hide();
-        $('.situation-changed').css("display", "block");
-      } else {
-        $('.btn-stop-elig').show();
-        $('.situation-changed').css("display", "none");
-      }
-    });
-    $('.situation-changed select').on('change', function() {
-      var selected = $('.situation-changed select option').filter(':selected').val();
-      if (selected == "autres") {
-        $('.other-details').css("display", "block");
-      } else {
-        $('.other-etails').css("display", "none");
-      }
-    });
-  });
+			if (eligible == "situation_changed") {
+				$('.btn-stop-elig').hide();
+				$('.situation-changed').css("display", "block");
+				$('.situation-changed-text').css("display", "block");
+			} else {
+				$('.btn-stop-elig').show();
+				$('.situation-changed').css("display", "none");
+				$('.situation-changed-text').css("display", "none");
+				$('.other-etails').css("display", "none");
+			}
+		});
+		$('.situation-changed select').on('change', function() {
+			var selected = $('.situation-changed select option').filter(':selected').val();
+			if (selected == "#{t('demarrage_projet.other')}") {
+				$('.other-details').css("display", "block");
+			} else {
+				$('.other-details').css("display", "none");
+			}
+		});
+	});
