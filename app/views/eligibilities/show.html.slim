@@ -28,16 +28,17 @@
 
       div.situation-changed
         select.form-control name="situation"
-          option value="#{t("demarrage_projet.divoce")}"= t("demarrage_projet.divoce")
+          option value="" disabled='disabled' selected='selected' = "Sélectionnez"
+          option value="#{t("demarrage_projet.divoce")}" = t("demarrage_projet.divoce")
           option value="#{t("demarrage_projet.deces")}"= t("demarrage_projet.deces")
           option value="#{t("demarrage_projet.naissance")}"= t("demarrage_projet.naissance")
-          option value="#{t("demarrage_projet.autres")}"= t("demarrage_projet.autres")
-        p
-          | Votre situation a changé, veuillez valider pour poursuivre la démarche et créer un compte.
+          option value="#{t("demarrage_projet.other")}" = t("demarrage_projet.other")
 
         div.other-details
           <textarea name="other_details" rows="5" cols="60" maxlength="250" onkeyup="countEligibilityChar(this, 'remarques_eligibility_detail')"></textarea>
           <div class="char_count" id="remarques_eligibility_detail">250 caractère(s) restant</div>
+      p.situation-changed-text
+        | Votre situation a changé, veuillez valider pour poursuivre la démarche et créer un compte.
       div.btn-centered
         = submit_tag t("demarrage_projet.eligibility_continue"), class: "btn btn-large", icon: "arrow-right"
 
@@ -58,17 +59,20 @@ javascript:
       if (eligible == "situation_changed") {
         $('.btn-stop-elig').hide();
         $('.situation-changed').css("display", "block");
+        $('.situation-changed-text').css("display", "block");
       } else {
         $('.btn-stop-elig').show();
         $('.situation-changed').css("display", "none");
+        $('.situation-changed-text').css("display", "none");
+        $('.other-etails').css("display", "none");
       }
     });
     $('.situation-changed select').on('change', function() {
       var selected = $('.situation-changed select option').filter(':selected').val();
-      if (selected == "autres") {
+      if (selected == "#{t('demarrage_projet.other')}") {
         $('.other-details').css("display", "block");
       } else {
-        $('.other-etails').css("display", "none");
+        $('.other-details').css("display", "none");
       }
     });
   });
