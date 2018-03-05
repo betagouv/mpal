@@ -84,8 +84,75 @@
 	.form-control-label { padding-right: 1em; }
 }
 
+.not-eligible {
+	margin-left: 15px;
+	margin-top: 10px;
+	width: 100%;
+}
+.situation-changed {
+	margin-left: 15px;
+}
+.other-details {
+	margin-left: 0;
+}
+
+.situation-changed-text {
+	display: none;
+}
+
+.situation-changed,
+.other-details {
+	display: none;
+	margin-top: 10px;
+	max-width: 240px;
+}
+.eligibility-radio { display: inline-block; }
+.eligibility-radio:not(:first-child) { margin-left: 10px; }
+
 .char-count {
 	font-size: 14px;
 	margin-bottom: 10px;
 	margin-top: -15px;
+}
+
+.not-eligibile-plaholder {
+	font-size: 14px;
+	font-style: italic;
+	margin-left: 20%;
+	margin-bottom: 20px;
+	width: 60%;
+}
+
+.not-eligible-op {
+	height: auto;
+	margin-left: 20%;
+	margin-top: 20px;
+	width: 60%;
+}
+
+.eligibility-radio-op {
+	display: inline-block;
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.eligibility-radio-op:nth-of-type(2) { margin-left: 40%; }
+.radio-op-label { margin-left: 15px; }
+
+.other-details-op {
+	margin-bottom: 30px;
+	margin-top: 20px;
+	position: relative;
+	width: 100%;
+}
+
+.other-details-op textarea {
+	resize: none;
+	width: 100%;
+}
+
+.btn-op-container {
+	margin-bottom: 20px;
+	margin-top: 10px;
+	width: 100%;
 }

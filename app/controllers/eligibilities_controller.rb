@@ -8,10 +8,11 @@ class EligibilitiesController < ApplicationController
   end
 
   def show
+    @projet_courant.reload
     @eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse
     if @eligible
-      @projet_courant.reload
       @projet_courant.update(:eligibilite => 3)
+      @projet_courant.reload
     end
     fetch_pris
     if @projet_courant.eligibilite == 2 || @projet_courant.eligibilite == 4
