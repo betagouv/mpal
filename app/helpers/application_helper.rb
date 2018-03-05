@@ -169,6 +169,17 @@ module ApplicationHelper
     complements = []
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite.present?
 
+    if demande.type_logement.nil?
+      type_logement = "Non renseigné"
+    elsif demande.type_logement
+      type_logement = "Oui"
+    else
+      type_logement = "Non"
+    end
+
+    type_logement_strong = content_tag(:strong, type_logement)
+    complements << "#{t("demarrage_projet.demande.type_logement")} : #{type_logement_strong}"
+
     if demande.date_achevement_15_ans.nil?
       date_achevement_15_ans = "Non renseigné"
     elsif demande.date_achevement_15_ans
