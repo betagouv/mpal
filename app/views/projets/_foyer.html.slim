@@ -22,6 +22,8 @@ article.block.occupants
         - else
           span.modified= number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)
           span= " (initialement #{number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)})"
+      - if @projet_courant.eligibility_commentaire.present?
+        li.dont-break-out = @projet_courant.eligibility_commentaire.html_safe()
   .content-block
     - if @projet_courant.demandeur.present?
       h4 Demandeur :
