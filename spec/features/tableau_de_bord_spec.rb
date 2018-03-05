@@ -125,7 +125,7 @@ feature "J'ai accès à mes dossiers depuis mon tableau de bord" do
 
       scenario "j'ai accès au tableau de bord avec des données non anonymisées" do
         visit dossiers_path
-        expect(page).to     have_content(projet.plateforme_id)
+        expect(page).to     have_content(projet.id.to_s)
         expect(page).to     have_content(projet.demandeur.fullname)
         expect(page).not_to have_content(projet.adresse.region)
         expect(page).to     have_content(projet.adresse.ville)
