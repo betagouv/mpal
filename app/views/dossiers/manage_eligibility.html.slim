@@ -1,15 +1,17 @@
-p Ce dossier est dans la catégorie "Non Éligible a réevaluer", êtes vous sur de vouloir déclarer ce dossier éligible ?
+p Ce dossier est dans la catégorie "Non Éligible a réevaluer". Après ajustement des informations, veuillez préciser la situation d’éligibilité.
 // params pour la checkbox == response
 // commentaire == comment
 
 = form_tag dossier_confirm_eligibility_path(@projet_courant), class: ""
 
 	div.not-eligible-op
-		input type="radio" class="eligibility-radio-op" name="response" id="situation_changed" value="situation_changed"
-		label for="situation_not_changed" class="radio-op-label" Oui
+		label.eligibility-radio-op
+			input type="radio" class="eligibility-radio-op" name="response" id="situation_changed" value="situation_changed"
+			i for="situation_not_changed" class="radio-op-label" Oui
 
-		input type="radio" class="eligibility-radio-op" name="response" id="situation_not_changed" value="situation_not_changed" checked="checked"
-		label for="situation_changed" class="radio-op-label" Non
+		label.eligibility-radio-op
+			input type="radio" class="eligibility-radio-op" name="response" id="situation_not_changed" value="situation_not_changed" checked="checked"
+			i for="situation_changed" class="radio-op-label" Non
 
 	p.not-eligibile-plaholder
 		| (Préciser en commentaire les raisons de l'éligibilité).
