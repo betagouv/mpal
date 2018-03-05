@@ -95,10 +95,15 @@ fr:
 
   # ----------------------- Initialisation d’un projet ---------------------
   demarrage_projet:
-    eligibility_continue: "Poursuivre la démarche"
-    eligibility_stop: "Arrêter la démarche"
+    eligibility_continue: "Valider"
     action: "Continuer"
     go_back: "Revenir"
+    situation_changed: " Ma situation a changé"
+    situation_not_changed: " Ma situation n'a pas changé"
+    divoce: "Divorce / Séparation"
+    deces: "Décès"
+    naissance: "Naissance multiple"
+    other: "Autres"
     # ----------------------- Demandeur ---------------------
     demandeur:
       erreurs:
@@ -289,6 +294,7 @@ fr:
       s_engager_avec_operateur: "Continuer"
       engagement_action: "Continuer"
       remplir_le_projet: "Je remplis le projet"
+      rendre_eligible_projet: "Mettre à jour l’éligibilité"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"
       future_birth: "Enfant à naître"

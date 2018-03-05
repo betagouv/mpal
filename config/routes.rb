@@ -16,8 +16,9 @@ Rails.application.routes.draw do
     resource  :eligibility,        only: :show
     get       :calcul_revenu_fiscal_reference
     get       :preeligibilite
+    post       :show_non_eligible, to: "demandes#show_non_eligible"
     get       :show_non_eligible, to: "demandes#show_non_eligible"
-    get       :show_a_reevaluer, to: "demandes#show_a_reevaluer"
+    post       :show_a_reevaluer, to: "demandes#show_a_reevaluer"
   end
 
 
@@ -72,6 +73,8 @@ Rails.application.routes.draw do
       patch :update_project_intervenants
       get  :recommander_operateurs
       post :recommander_operateurs
+      get  :manage_eligibility
+      post :confirm_eligibility
       get  :proposer
       get  :proposition
       put  :proposition

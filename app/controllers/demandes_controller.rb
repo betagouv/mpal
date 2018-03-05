@@ -12,7 +12,7 @@ class DemandesController < ApplicationController
   def show
     if @projet_courant.eligibilite == 2
       @eligible = false
-      @pris = @projet_courant.intervenants_disponibles(role: :pris).first
+      fetch_pris_eie
       render 'eligibilities/a_reevaluer' and return
     end
     init_show
@@ -20,22 +20,37 @@ class DemandesController < ApplicationController
 
 
   def show_non_eligible
-      @projet_courant.reload
+    @projet_courant.reload
     @projet_courant.update(:eligibilite => 2)
     @eligible = false
-    @pris = @projet_courant.intervenants_disponibles(role: :pris).first
+    fetch_pris_eie
     render 'eligibilities/a_reevaluer' and return
   end
 
   def show_a_reevaluer
-      @projet_courant.reload
-    @projet_courant.update(:eligibilite => 1)
-    init_show
-    redirect_to projet_or_dossier_demande_path and return
+    @projet_courant.reload
+    if params[:eligibility].present? && params[:eligibility] == "situation_changed"
+      commentaire = "Informations du demandeur :<br>"
+      if params[:other_details].present? && params[:situation].present?
+        commentaire += "Autres : "
+        commentaire += params[:other_details]
+      elsif params[:situation].present?
+        commentaire += params[:situation]
+      else
+        flash[:alert] = "Veuillez entrer des Informations"
+        redirect_to projet_or_dossier_demande_path and return
+      end
+      @projet_courant.update(:eligibilite => 1, :eligibility_commentaire => commentaire)
+      init_show
+      redirect_to projet_or_dossier_demande_path and return
+    elsif params[:eligibility].present? && params[:eligibility] == "situation_not_changed"
+      redirect_to :action => 'show_non_eligible'  and return
+    else
+      redirect_to projet_eligibility_path and return
+    end
   end
 
   def update
-
     @demande.update_attributes(demande_params)
 
     if @projet_courant.locked_at.blank?
@@ -111,7 +126,7 @@ private
   end
 
   def needs_next_step?
-    @projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank?
+    @projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank? || @projet_courant.eligibilite == 1
   end
 
   def redirect_to_next_step
@@ -119,6 +134,14 @@ private
       redirect_to new_user_registration_path
     else
       redirect_to projet_or_dossier_path @projet_courant
+    end
+  end
+
+  def fetch_pris_eie
+    if ENV['ROD_ENABLED'] == 'true'
+      @projet_courant.reload
+      rod_response = Rod.new(RodClient).query_for(@projet_courant)
+      @pris = rod_response.pris_eie
     end
   end
 

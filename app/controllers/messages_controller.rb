@@ -37,6 +37,7 @@ private
   end
 
   def render_new
+    @projet_courant.reload
     @message = Message.new(projet: @projet_courant)
     @page_heading = "Messagerie"
     render :new

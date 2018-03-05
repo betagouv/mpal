@@ -1,6 +1,122 @@
 // JS for /views/dossiers/dashboard.html.slim
 
+function forceSelect(selboxLabel) {
+	var txt = $(selboxLabel).text();
+	var index = $(selboxLabel).index();
+
+	var tab = $('.dashboard-container');
+
+	tab.find('.tab-content').find('div.tabs-item').not('div.tabs-item:eq(' + index + ')').hide();;
+	tab.find('.tab-content').find('div.tabs-item:eq(' + index + ')').show();
+	// preserveSearch();
+
+	$(selboxLabel).siblings('.sel-box-options').removeClass('selected');
+	$(selboxLabel).addClass('selected');
+
+	var $currentSel = $(selboxLabel).closest('.sel');
+	// $currentSel.children('.sel-placeholder').text(txt);
+	$currentSel.children('select').prop('selectedIndex', index + 1);
+}
+
 $(document).ready(function() {
+	$('.select-group .sel').each(function() {
+		$(this).children('select').css('display', 'none');
+
+		var $current = $(this);
+
+		$(this).find('option').each(function(i) {
+			if (i == 0) {
+				$current.prepend($('<div>', {
+					class: $current.attr('class').replace(/sel/g, 'sel-box')
+				}));
+
+				var placeholder = $(this).text();
+				$current.prepend($('<span>', {
+					class: $current.attr('class').replace(/sel/g, 'sel-placeholder'),
+					text: placeholder,
+					'data-placeholder': placeholder
+				}));
+
+				return;
+			}
+
+			$current.children('div').append($('<span>', {
+				class: $current.attr('class').replace(/sel/g, 'sel-box-options') + ' ' + $(this).attr('class'),
+				text: $(this).text()
+			}));
+		});
+	});
+
+	$('.select-group-filter .sel').each(function() {
+		$(this).children('select').css('display', 'none');
+
+		var $current = $(this);
+
+		$(this).find('option').each(function(i) {
+			if (i == 0) {
+				$current.prepend($('<div>', {
+					class: $current.attr('class').replace(/sel/g, 'sel-box')
+				}));
+
+				var placeholder = $(this).text();
+				$current.prepend($('<span>', {
+					class: $current.attr('class').replace(/sel/g, 'sel-placeholder'),
+					text: placeholder,
+					'data-placeholder': placeholder
+				}));
+
+				return;
+			}
+
+			$current.children('div').append($('<span>', {
+				class: $current.attr('class').replace(/sel/g, 'sel-box-options') + ' ' + $(this).attr('class'),
+				name: $(this).attr('name'),
+				text: $(this).text()
+			}));
+		});
+	});
+
+	$('.select-group-filter .sel-box-options').click(function() {
+		var txt = $(this).text();
+		var index = $(this).index();
+		// preserveSearch();
+
+		$(this).siblings('.sel-box-options').removeClass('selected');
+		$(this).addClass('selected');
+
+		var $currentSel = $(this).closest('.sel');
+		$currentSel.children('.sel-placeholder').text(txt);
+		$currentSel.children('select').prop('selectedIndex', index + 1);
+	});
+
+	// Toggling the `.active` state on the `.sel`.
+	$('.select-group .sel').click(function() {
+		$(this).toggleClass('active');
+	});
+
+	$('.select-group-filter .sel').click(function() {
+		$(this).toggleClass('active');
+	});
+
+	// Toggling the `.selected` state on the options.
+	$('.select-group .sel-box-options').click(function() {
+		var txt = $(this).text();
+		var index = $(this).index();
+
+		var tab = $('.dashboard-container');
+
+		tab.find('.tab-content').find('div.tabs-item').not('div.tabs-item:eq(' + index + ')').hide();;
+		tab.find('.tab-content').find('div.tabs-item:eq(' + index + ')').show();
+		// preserveSearch();
+
+		$(this).siblings('.sel-box-options').removeClass('selected');
+		$(this).addClass('selected');
+
+		var $currentSel = $(this).closest('.sel');
+		// $currentSel.children('.sel-placeholder').text(txt);
+		$currentSel.children('select').prop('selectedIndex', index + 1);
+	});
+
 	function dashboardNewTab() {
 		$('.dashboard-container ul.dashboard-tab-container').addClass('active').find('> li:eq(0)').addClass('current');
 
@@ -21,40 +137,39 @@ $(document).ready(function() {
 	}
 
 	function dashboardFilterAdvanced() {
-		$(".dashboard-filter-container-advanced").slideUp();
+		$(".global-advanced").slideUp();
 		$(".dashboardFilterAdvancedCheckbox").change(function(e) {
 			if ($(this).is(':checked')) {
-				$(".dashboard-filter-container-advanced").slideDown();
-				$(".dashboard-filter-free-search input").attr('disabled','disabled');
+				$(".global-advanced").slideDown();
+				$(".free-search-input").prop('disabled', true);
 			} else {
-				$(".dashboard-filter-container-advanced").slideUp();
-				$(".dashboard-filter-free-search input").removeAttr('disabled');
+				$(".global-advanced").slideUp();
+				$(".free-search-input").prop('disabled', false);
 			}
 		});
 	}
 
 	function preserveSearch() {
-		var advanced = false,
-			currentTab = $('.dashboard-container ul.dashboard-tab-container li').index($('.current')),
+		var advanced = $('input[name="advanced"]').is(":checked"),
+			currentTab = $('.sel.sel-tab').find(":selected").attr('class'),
 			searchParam = {};
 
 		searchParam["utf8"] = "✓";
 
-		// Catch Type d'intervention
-		var intervType = $('.dashboard-filter-status select').find(":selected").text();
-		if (intervType == "Type d'intervention" || intervType == "")
-			intervType = "";
-		searchParam["search[type]"] = intervType;
+		if (advanced) {
+			// Catch Type d'intervention
+			var intervType = $('.select-group-type .sel span.selected').text();
+			if (intervType == "Type d'intervention" || intervType == "")
+				intervType = "";
+			searchParam["search[type]"] = intervType;
 
-		// Catch Etat du dossier
-		var status = $('.dashboard-filter-state select').find(":selected").val();
-		if (status == "Etat du dossier" || status == "")
-			status = "";
-		searchParam["search[status]"] = status;
+			// Catch Etat du dossier
+			var status = $('.select-group-status .sel select option:selected').val();
+			var statusText = $('.select-group-status .sel .sel-placeholder').text();
+			if (undefined == status || status == "Etat du dossier" || status == "" || statusText === "Etat du dossier")
+				status = "";
+			searchParam["search[status]"] = status;
 
-		// If advanced filter is on
-		if ($(".dashboardFilterAdvancedCheckbox").is(':checked')) {
-			searchParam["search[advanced]"] = "true";
 			// Catch Trier par Date de creation / Date de depot
 			var filterOrderBy = $(".OrderBy input[type='radio']:checked").attr("id");
 			if (filterOrderBy == "dateDeCreation")
@@ -72,37 +187,43 @@ $(document).ready(function() {
 			searchParam["search[sort_by]"] = filterOrderBy + " " + filterOrderOrder;
 
 			// Catch N° dossier
-			var freeSearchFNum = $('.dashboardFilterFolderNumber input').val();
+			var freeSearchFNum = $('.search-folder-number').val();
 			searchParam["search[folder]"] = freeSearchFNum;
 
 			// Catch nom Propriétaire
-			var freeSearchTenant = $('.dashboardFilterTenantName input').val();
+			var freeSearchTenant = $('.search-tenant-name').val();
 			searchParam["search[tenant]"] = freeSearchTenant;
 
-			// Catch Lieu / programme
-			var freeSearchLocation = $('.dashboardFilterLocation input').val();
+			// Catch Lieu
+			var freeSearchLocation = $('.search-location').val();
 			searchParam["search[location]"] = freeSearchLocation;
 
+			// Catch Programme
+			var freeSearchOP = $('.search-programme').val();
+			searchParam["search[operation_programmee]"] = freeSearchOP;
+
 			// Catch Intervenant
-			var freeSearchInterv = $('.dashboardFilterInterv input').val();
+			var freeSearchInterv = $('.search-intervenant').val();
 			searchParam["search[interv]"] = freeSearchInterv;
 
 			// Catch date from
-			var freeSearchFrom = $('.dashboardFilterFrom input').val();
+			var freeSearchFrom = $('.search-date-from').val();
 			searchParam["search[from]"] = freeSearchFrom;
 
 			// Catch date to
-			var freeSearchTo = $('.dashboardFilterTo input').val();
+			var freeSearchTo = $('.search-date-to').val();
 			searchParam["search[to]"] = freeSearchTo;
-		}
-		// If advanced filter is off catch free search
-		else {
-			searchParam["search[advanced]"] = "false";
-			var freeSearch = $('.dashboard-filter-free-search input').val();
+		} else {
+
+			// Catch free search
+			var freeSearch = $('.free-search-input').val();
 			searchParam["search[query]"] = freeSearch;
 		}
+
+		searchParam["search[advanced]"] = advanced;
 		searchParam["search[activeTab]"] = currentTab;
 
+		$.urlLib.urlDeleteAllParam();
 		$.urlLib.urlBulkUpdCrtParam(searchParam);
 
 		$('.pagination a')
@@ -127,12 +248,13 @@ $(document).ready(function() {
 	}
 
 	function dashboardSearchClick() {
-		$('.dashboardFilterSearchButton').click(function(e) {
+		$('.new-btn-search').click(function(e) {
 			preserveSearch();
 			$.urlLib.urlLoad();
 		});
 	}
 
+	forceSelect($('span.tabAll'));
 	dashboardFilterAdvanced();
 	dashboardSearchClick();
 	dashboardNewTab();

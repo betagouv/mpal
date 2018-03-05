@@ -7,11 +7,13 @@ class MisesEnRelationController < ApplicationController
   end
 
   def show
-    if rod_response.scheduled_operation? && (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse)#prendre @projet_courant.eligible?
-      @operateur = rod_response.operateurs.first
-      @action_label = action_label
-      render :scheduled_operation
-      return
+    if rod_response.scheduled_operation? #prendre @projet_courant.eligible?
+      if (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse) || @projet_courant.eligibilite == 1
+        @operateur = rod_response.operateurs.first
+        @action_label = action_label
+        render :scheduled_operation
+        return
+      end
     end
     @demande = @projet_courant.demande
     if pris.blank?
@@ -31,7 +33,7 @@ class MisesEnRelationController < ApplicationController
     ) if params[:projet].present?
 
     #j'ai une question sur cette condition
-    if (@projet_courant.intervenants.include?(pris) || rod_response.scheduled_operation?) && eligible
+    if (@projet_courant.intervenants.include?(pris) || rod_response.scheduled_operation?) && (eligible ||  @projet_courant.eligibilite == 1)
       operateur = rod_response.operateurs.first
       @projet_courant.contact_operateur!(operateur.reload)
       @projet_courant.commit_with_operateur!(operateur.reload)
@@ -62,7 +64,11 @@ class MisesEnRelationController < ApplicationController
   end
 
   def pris
-    !@projet_courant.eligible? ? rod_response.pris_eie : rod_response.pris
+    if @projet_courant.eligible? || @projet_courant.eligibilite == 1
+      rod_response.pris
+    else
+      rod_response.pris_eie
+    end
   end
 
   def action_label
