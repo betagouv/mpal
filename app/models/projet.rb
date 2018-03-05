@@ -194,7 +194,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_folder, -> (search_param, int_param) {
-		where(["projets.opal_numero ILIKE ? or projets.id = ?", search_param, search_param, int_param])
+		where(["projets.opal_numero ILIKE ? or projets.id = ?", search_param, int_param])
 	}
 
 	scope :search_by_type, -> (search_param) {
