@@ -7,6 +7,10 @@ class MisesEnRelationController < ApplicationController
   end
 
   def show
+    @demande = @projet_courant.demande
+    if @demande.eligible_hma_first_step? && @demande.devis_rge && (ENV['ELIGIBLE_HMA'] == 'true')
+      render :show_eligible_hma and return
+    end      
     if rod_response.scheduled_operation? #prendre @projet_courant.eligible?
       if (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse) || @projet_courant.eligibilite == 1
         @operateur = rod_response.operateurs.first
@@ -23,6 +27,10 @@ class MisesEnRelationController < ApplicationController
     @pris = pris
     @page_heading = I18n.t("demarrage_projet.mise_en_relation.assignement_pris_titre")
     @action_label = action_label
+  end
+
+  def show_eligible_hma
+    
   end
 
   def update
