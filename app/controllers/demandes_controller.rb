@@ -9,7 +9,7 @@ class DemandesController < ApplicationController
   end
   before_action :init_demande
 
-  def show
+  def show  
     if @projet_courant.eligibilite == 2
       @eligible = false
       fetch_pris_eie
@@ -51,6 +51,7 @@ class DemandesController < ApplicationController
   end
 
   def update
+
     @demande.update_attributes(demande_params)
 
     if @projet_courant.locked_at.blank?
@@ -80,6 +81,10 @@ class DemandesController < ApplicationController
       return render :show
     end
     redirect_to_next_step
+  end
+
+  def show_eligible_hma
+    
   end
 
 private
@@ -125,7 +130,8 @@ private
       :ptz,
       :type_logement,
       :date_achevement_15_ans,
-      :prime_hma
+      :prime_hma,
+      :devis_rge
     )
   end
 
@@ -135,6 +141,9 @@ private
 
   def redirect_to_next_step
     if needs_next_step?
+      if @demande.eligible_hma_first_step? && @demande.devis_rge && (ENV['ELIGIBLE_HMA'] == 'true')
+        render :show_eligible_hma and return
+      end
       redirect_to new_user_registration_path
     else
       redirect_to projet_or_dossier_path @projet_courant

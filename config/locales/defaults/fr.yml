@@ -19,10 +19,11 @@ fr:
       demande:
         complement: "Je précise mon projet"
         type_logement: "Le logement dans lequel je souhaite effectuer mes travaux est:"
-        date_achevement_15_ans: "Mon logement (maison ou appartement) a été construit il y a plus de 15 ans"
-        annee_construction: "Si je la connais, j’indique l’année de construction de mon logement"
-        ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover dans les 5 dernières années"
+        date_achevement_15_ans: "Mon logement (maison ou appartement) a été construit il y a plus de 15 ans:"
+        annee_construction: "Si je la connais, j’indique l’année de construction de mon logement:"
+        ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover dans les 5 dernières années:"
         prime_hma: "J'ai déjà bénéficié d'une prime « Habiter Mieux » (ou d'une « Aide à la Solidarité Ecologique ») pour réaliser des travaux dans mon logement:"
+        devis_rge: "J'indique si je dispose du devis d'une entreprise labelisée RGE pour la réalisation de mes travaux:"
       proposition:
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
@@ -155,6 +156,8 @@ fr:
       ptz: "PTZ"
       date_achevement_15_ans: "Logement construit il y a plus de 15 ans"
       annee_construction: "Année de construction"
+      prime_hma: "Prime « Habiter Mieux »"
+      devis_rge: "Devis RGE"
       precisions: "Précisions"
     # ----------------------- Eligibilité ---------------------
     eligibility:
