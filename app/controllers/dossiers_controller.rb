@@ -5,7 +5,7 @@ class DossiersController < ApplicationController
   before_action :authenticate_agent!
   before_action :assert_projet_courant, except: [:index, :home, :indicateurs]
   load_and_authorize_resource class: "Projet"
-  skip_load_and_authorize_resource only: [:index, :home, :indicateurs, :update_api_particulier, :activate, :desactivate, :manage_eligibility, :confirm_eligibility]
+  skip_load_and_authorize_resource only: [:index, :home, :indicateurs, :update_api_particulier, :activate, :desactivate, :manage_eligibility, :confirm_eligibility, :ruby_rod]
 
   def affecter_agent
     if @projet_courant.update_attribute(:agent, current_agent)
@@ -39,6 +39,14 @@ class DossiersController < ApplicationController
 
     #TODO cas: opérations programmées, attention pris suggested operateurs, contacted operateurs etc
     # gérer l'envoi de mails
+  end
+
+  def ruby_rod
+    projet = Projet.find(params[:id])
+    if projet.admin_rod_button
+      redirect_to(dossier_path(projet), flash: { success: "success" }) and return
+    end
+    redirect_to(dossier_path(projet), flash: { alert: "nop" }) and return
   end
 
   def home
