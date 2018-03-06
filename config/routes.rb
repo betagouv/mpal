@@ -129,6 +129,8 @@ Rails.application.routes.draw do
 
   # gestion des fonctions administrateurs
   get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"
+  get "/ruby_rod/:id" => "dossiers#ruby_rod"
+
 
   require "sidekiq/web"
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|
