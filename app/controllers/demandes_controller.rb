@@ -53,7 +53,7 @@ class DemandesController < ApplicationController
   end
 
   def update
-
+bisqiboqo
     @demande.update_attributes(demande_params)
 
     if @projet_courant.locked_at.blank?
