@@ -173,26 +173,6 @@ javascript:
 			.mouseleave(function() {
 				$('.select-group .sel-placeholder').css('color', '#838e95');
 			});
-
-		$("#selLabelType").click(function () {
-			$('#dropdownType').toggleClass('active');
-		});
-		$("#selLabelState").click(function () {
-			$('#dropdownState').toggleClass('active');
-		});
-
-		$(".dropdown-list li").click(function() {
-			var dataValue = $(this).attr('name');
-			var closeDropID = "#" + $(this).closest( ".dropdown" ).get(0).id;
-			var closeSelID = "#" + $(closeDropID).children(".sel-label").get(0).id;
-
-			if (undefined !== dataValue)
-				$(closeSelID).attr('name', dataValue);
-
-			$(closeSelID + ' div').text($(this).text());
-			$(closeDropID).removeClass('active');
-			$('.selected-item p span').text($(closeSelID).text());
-		});
 	});
 
 
