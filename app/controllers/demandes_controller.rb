@@ -3,13 +3,15 @@ class DemandesController < ApplicationController
 
   before_action :assert_projet_courant
   load_and_authorize_resource
+  # skip_load_and_authorize_resource only: [:show]
 
   before_action do
     set_current_registration_step Projet::STEP_DEMANDE
   end
   before_action :init_demande
 
-  def show  
+
+  def show
     if @projet_courant.eligibilite == 2
       @eligible = false
       fetch_pris_eie
@@ -80,7 +82,7 @@ class DemandesController < ApplicationController
       init_show
       return render :show
     end
-    redirect_to_next_step
+    redirect_to_next_step and return
   end
 
   def show_eligible_hma
@@ -136,17 +138,18 @@ private
   end
 
   def needs_next_step?
-    @projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank? || @projet_courant.eligibilite == 1
+    (@projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank?) || @projet_courant.eligibilite == 1
   end
 
   def redirect_to_next_step
     if needs_next_step?
+      @demande = @projet_courant.demande
       if @demande.eligible_hma_first_step? && @demande.devis_rge && (ENV['ELIGIBLE_HMA'] == 'true')
         render :show_eligible_hma and return
       end
-      redirect_to new_user_registration_path
+      redirect_to new_user_registration_path and return
     else
-      redirect_to projet_or_dossier_path @projet_courant
+      redirect_to projet_or_dossier_path @projet_courant and return
     end
   end
 

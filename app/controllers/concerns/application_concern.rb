@@ -48,7 +48,7 @@ module ApplicationConcern
         end
         if @projet_courant.demandeur_user
           session.delete :project_id
-          redirect_to new_user_session_path, alert: t("sessions.user_exists")
+          redirect_to new_user_session_path, alert: t("sessions.user_exists") and return
         end
       end
       if @projet_courant
@@ -107,7 +107,6 @@ module ApplicationConcern
     expose_routing_helper :projet_or_dossier_intervenants_path
     expose_routing_helper :projet_or_dossier_show_non_eligible_path
     expose_routing_helper :projet_or_dossier_show_a_reevaluer_path
-    expose_routing_helper :projet_or_dossier_show_eligible_hma_path
   end
 end
 

@@ -19,7 +19,6 @@ Rails.application.routes.draw do
     post       :show_non_eligible, to: "demandes#show_non_eligible"
     get       :show_non_eligible, to: "demandes#show_non_eligible"
     post       :show_a_reevaluer, to: "demandes#show_a_reevaluer"
-    get       :show_eligible_hma, to: "demandes#show_eligible_hma"
   end
 
 
