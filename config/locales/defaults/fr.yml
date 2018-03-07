@@ -46,7 +46,7 @@ fr:
         public_aids_sum: "Total des aides publiques"
     units:
       power: "kWh"
-      power_consumption: "kWh/m²/an"
+      power_consumption: "kwhEp/m².an"
 
   # ----------------------- Admin ---------------------
   admin:
