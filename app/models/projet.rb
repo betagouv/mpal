@@ -932,6 +932,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
 		if date_depot == nil
 			clean_invitation 'pris'
 			clean_invitation 'operateur'
+			self.update(:operateur_id => nil)
 			if rod_response.scheduled_operation?
 				admin_commit_operateur rod_response.operateurs.first
 				admin_commit_instructeur rod_response.instructeur
