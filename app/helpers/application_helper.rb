@@ -221,16 +221,18 @@ module ApplicationHelper
     prime_hma_strong = content_tag(:strong, prime_hma)
     complements << "#{t("demarrage_projet.demande.prime_hma")} : #{prime_hma_strong}"
 
-    if demande.devis_rge.nil?
-      devis_rge = "Ne sais pas"
-    elsif demande.devis_rge
-      devis_rge = "Oui"
-    else
-      devis_rge = "Non"
-    end
+    if demande.eligible_hma_first_step?
+      if demande.devis_rge.nil?
+        devis_rge = "Non renseigné"
+      elsif demande.devis_rge
+        devis_rge = "Oui"
+      else
+        devis_rge = "Non"
+      end
 
-    devis_rge_strong = content_tag(:strong, devis_rge)
-    complements << "#{t("demarrage_projet.demande.devis_rge")} : #{devis_rge_strong}"
+      devis_rge_strong = content_tag(:strong, devis_rge)
+      complements << "#{t("demarrage_projet.demande.devis_rge")} : #{devis_rge_strong}"
+    end
 
     if demande.complement.present?
       complements << "#{t("demarrage_projet.demande.precisions")} : #{content_tag(:strong, demande.complement)}"

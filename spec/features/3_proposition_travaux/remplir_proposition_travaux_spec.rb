@@ -36,7 +36,7 @@ feature "Remplir la proposition de travaux" do
 
       # Section "Logement"
       fill_in 'projet_date_de_visite', with: '28/12/2016'
-      select 'Appartement', from: 'projet_type_logement'
+      select 'Appartement', from: 'projet_demande_attributes_type_logement'
       select '2', from: 'projet_etage'
       select 'Plus de 5', from: 'projet_nb_pieces'
       fill_in 'projet_demande_attributes_annee_construction', with: '1954'
@@ -85,7 +85,6 @@ feature "Remplir la proposition de travaux" do
 
       # Section "Logement"
       expect(page).to have_css(".test-date-de-visite",     text: "28 décembre 2016")
-      expect(page).to have_css(".test-type-logement",      text: "Appartement")
       expect(page).to have_css(".test-etage",              text: "2")
       expect(page).to have_css(".test-pieces",             text: "Plus de 5")
       expect(page).to have_css(".test-annee-construction", text: "1954")

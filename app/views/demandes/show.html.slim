@@ -37,7 +37,7 @@
   = f.input :ptz, as: :radio_buttons, label: t("helpers.label.demande.ptz")
   = f.input :prime_hma, as: :radio_buttons, label: t("helpers.label.demande.prime_hma")
   div.div_rge
-    = f.input :devis_rge, as: :radio_buttons, collection: [['Oui', true], ['Non', false], ['Je ne sais pas', nil]], :checked => ['Je ne sais pas', nil], label: t("helpers.label.demande.devis_rge"), label_html: { class: 'input_rge' }, input_html: { class: 'input_rge' }
+    = f.input :devis_rge, as: :radio_buttons, collection: [['Oui', true], ['Non', false], ['Je ne sais pas', false]], :checked => ['Je ne sais pas', false], label: t("helpers.label.demande.devis_rge"), label_html: { class: 'input_rge' }, input_html: { class: 'input_rge' }
   .btn-centered
     = btn name: @action_label, class: "btn-large btn-validate-submit", icon: "arrow-right"
 
@@ -83,6 +83,7 @@ javascript:
     
   }
 
+  check_hma();
   $(":input").change(check_hma);
   $("textarea").keyup(check_hma);
 

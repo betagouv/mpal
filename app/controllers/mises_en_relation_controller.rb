@@ -6,11 +6,7 @@ class MisesEnRelationController < ApplicationController
     set_current_registration_step Projet::STEP_MISE_EN_RELATION
   end
 
-  def show
-    @demande = @projet_courant.demande
-    if @demande.eligible_hma_first_step? && @demande.devis_rge && (ENV['ELIGIBLE_HMA'] == 'true')
-      render :show_eligible_hma and return
-    end      
+  def show   
     if rod_response.scheduled_operation? #prendre @projet_courant.eligible?
       if (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse) || @projet_courant.eligibilite == 1
         @operateur = rod_response.operateurs.first
@@ -52,7 +48,7 @@ class MisesEnRelationController < ApplicationController
       flash[:success] = t("invitations.messages.succes", intervenant: pris.raison_sociale)
     end
     @projet_courant.invite_instructeur! rod_response.instructeur
-    redirect_to projet_path(@projet_courant)
+    redirect_to projet_path(@projet_courant) and return
   rescue => e
     Rails.logger.error e.message
     redirect_to(

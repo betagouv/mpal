@@ -5,7 +5,8 @@
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Logement
     = f.input :date_de_visite, as: :string, required: true, wrapper_html: { class: "size-s" }, input_html: { value: @projet_courant.date_de_visite? ? l(@projet_courant.date_de_visite) : "" }
-    = f.input :type_logement, collection: Projet::TYPE_LOGEMENT_VALUES, wrapper_html: { class: "size-s" }
+    = f.fields_for :demande do |demande_form|
+      = demande_form.input :type_logement, collection: Projet::TYPE_LOGEMENT_VALUES, wrapper_html: { class: "size-s" }
     = f.input :etage,         collection: Projet::ETAGE_VALUES,         wrapper_html: { class: "size-s" }, input_html: { class: "input-number" }
     = f.input :nb_pieces,     collection: Projet::NB_PIECES_VALUES,     wrapper_html: { class: "size-s" }, input_html: { class: "input-number" }
     = f.fields_for :demande do |demande_form|
