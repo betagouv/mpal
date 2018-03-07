@@ -2,6 +2,8 @@ $md-radio-size: 20px;
 $md-radio-checked-size: 10px;
 $md-radio-ripple-size: 10px;
 
+.ui-datepicker { z-index: 111 !important;}
+
 .notif-modal {
 	background: $color-very-white;
 	border: 1px solid $color-select-gray;

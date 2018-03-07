@@ -91,12 +91,12 @@ div.filter-dash-container
 					div.dashboard-filter-date
 						div.group-date
 							span Du :
-							input class="search-input search-date-from" type="text" required="required" name="freeSearch" placeholder="aaaa-mm-dd"
+							input id="searchDateFrom" class="search-input search-date-from" type="text" required="required" name="freeSearch" placeholder="aaaa-mm-dd"
 							span.highlight
 							span.bar
 						.group-date
 							span Au :
-							input class="search-input search-date-to" type="text" required="required" name="freeSearch" placeholder="aaaa-mm-dd"
+							input id="searchDateTo" class="search-input search-date-to" type="text" required="required" name="freeSearch" placeholder="aaaa-mm-dd"
 							span.highlight
 							span.bar
 
@@ -132,11 +132,6 @@ div.filter-dash-container
 				button class="ripple new-btn-export" data-ripple-color="#fff" onclick="window.location.href='#{dossiers_path(format: :csv, search: search)}'" Export CSV
 
 javascript:
-	$(function() {
-		$( ".search-date-from" ).datepicker({ dateFormat: 'yy-mm-dd'});
-		$( ".search-date-to" ).datepicker({ dateFormat: 'yy-mm-dd'});
-	});
-
 	(function (window, $) {
 		$(function() {
 			$('.ripple').on('click', function (event) {
@@ -166,6 +161,11 @@ javascript:
 	})(window, jQuery);
 
 	$(document).ready(function() {
+		$(function() {
+			$( "#searchDateFrom" ).datepicker({ dateFormat: 'yy-mm-dd'});
+			$( "#searchDateTo" ).datepicker({ dateFormat: 'yy-mm-dd'});
+		});
+
 		$('.select-group .sel')
 			.mouseenter(function() {
 				$('.select-group .sel-placeholder').css('color', '#000');
