@@ -653,6 +653,10 @@ $md-radio-ripple-size: 10px;
 	width: 100%;
 
 	&:focus { outline: none; }
+	&:required {
+		box-shadow: none;
+		outline: none;
+	}
 }
 
 .search-label {
