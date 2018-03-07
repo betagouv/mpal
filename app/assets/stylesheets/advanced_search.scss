@@ -641,14 +641,13 @@ $md-radio-ripple-size: 10px;
 	margin-bottom: 30px;
 	margin-left: 21px;
 	position: relative;
-	top: 4px;
 	width: calc(49% - 5px);
 }
 
 .search-input {
 	border: 0;
 	border-bottom: 1px solid $color-another-gray;
-	display: block;
+	display: inline-block;
 	font-size: 18px;
 	padding: 10px 10px 10px 5px;
 	width: 100%;
