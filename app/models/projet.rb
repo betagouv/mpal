@@ -3,7 +3,7 @@ class Projet < ApplicationRecord
 	include LocalizedModelConcern
 	extend CsvProperties, ApplicationHelper
 
-	TYPE_LOGEMENT_VALUES     = ["Maison", "Appartement"]
+	TYPE_LOGEMENT_VALUES     = [["Maison", true], ["Appartement", false]]
 	ETAGE_VALUES             = ["0", "1", "2", "3", "4", "5", "Plus de 5"]
 	NB_PIECES_VALUES         = ["1", "2", "3", "4", "5", "Plus de 5"]
 	HOUSE_EVALUATION_FIELDS  = [:autonomie, :niveau_gir, :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation, :remarques_diagnostic]
