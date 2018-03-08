@@ -16,11 +16,11 @@
 
   .vertical-booleans
     label.vertical-booleans-title= t("demarrage_projet.demande.titre_travaux")
-    = f.input :travaux_fenetres
+    = f.input :travaux_chauffage
     = f.input :travaux_isolation_murs
     = f.input :travaux_isolation_combles
     = f.input :travaux_isolation
-    = f.input :travaux_chauffage
+    = f.input :travaux_fenetres
     = f.input :travaux_adaptation_sdb
     = f.input :travaux_monte_escalier
     = f.input :travaux_amenagement_ext
@@ -66,14 +66,14 @@ javascript:
     demande_travaux_amenagement_ext = $("#demande_travaux_amenagement_ext").is(":checked");
     demande_travaux_autres = $("#demande_travaux_autres").val();
 
-    checkbox_bol = demande_changement_chauffage || demande_froid || demande_probleme_deplacement || demande_accessibilite || demande_hospitalisation || demande_adaptation_salle_de_bain || demande_arrete || demande_saturnisme || demande_autre != "" || demande_travaux_fenetres || demande_travaux_isolation || demande_travaux_adaptation_sdb || demande_travaux_monte_escalier || demande_travaux_amenagement_ext || demande_travaux_autres != "";
+    checkbox_bol = demande_froid || demande_probleme_deplacement || demande_accessibilite || demande_hospitalisation || demande_adaptation_salle_de_bain || demande_arrete || demande_saturnisme || demande_autre != "" || demande_travaux_fenetres || demande_travaux_isolation || demande_travaux_adaptation_sdb || demande_travaux_monte_escalier || demande_travaux_amenagement_ext || demande_travaux_autres != "";
 
     hma_checkbox = 0;
     if (demande_travaux_isolation_murs == true)
       hma_checkbox = hma_checkbox + 1;
     if (demande_travaux_isolation_combles == true)
       hma_checkbox = hma_checkbox + 1;
-    if (demande_travaux_chauffage == true)
+    if (demande_travaux_chauffage == true || demande_changement_chauffage == true)
       hma_checkbox = hma_checkbox + 1;
 
     if (checkbox_bol == false && hma_checkbox == 1 && demande_type_logement == true && demande_date_achevement_15_ans == true)
