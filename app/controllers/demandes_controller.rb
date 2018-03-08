@@ -85,7 +85,12 @@ class DemandesController < ApplicationController
   end
 
   def show_eligible_hma
-    
+    @projet_courant.reload
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma_first_step? && @projet_courant.demande.devis_rge)
+      redirect_to root_path and return
+    end
+    response = Rod.new(RodClient).query_for(@projet_courant.reload)
+    @operateurs = response.operateurs
   end
 
 private
@@ -142,10 +147,6 @@ private
 
   def redirect_to_next_step
     if needs_next_step?
-      @demande = @projet_courant.demande
-      if @demande.eligible_hma_first_step? && @demande.devis_rge && (ENV['ELIGIBLE_HMA'] == 'true')
-        render :show_eligible_hma and return
-      end
       redirect_to new_user_registration_path and return
     else
       redirect_to projet_or_dossier_path @projet_courant and return

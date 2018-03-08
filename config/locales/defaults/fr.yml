@@ -23,7 +23,7 @@ fr:
         annee_construction: "Si je la connais, j’indique l’année de construction de mon logement:"
         ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover dans les 5 dernières années:"
         prime_hma: "J'ai déjà bénéficié d'une prime « Habiter Mieux » (ou d'une « Aide à la Solidarité Ecologique ») pour réaliser des travaux dans mon logement:"
-        devis_rge: "J'indique si je dispose du devis d'une entreprise labelisée RGE (Reconnu Garant de l'environnement) pour la réalisation de mes travaux:"
+        devis_rge: "J'indique si je dispose du devis d'une entreprise labelisée RGE (Reconnu Garant de l'Environnement) pour la réalisation de mes travaux:"
       proposition:
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
