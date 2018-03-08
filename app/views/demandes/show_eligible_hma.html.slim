@@ -1,1 +1,9 @@
 p Vous êtes bien eligible hma
+
+form
+
+	input type= "radio" name="operateur" value="true" Oui
+	input type= "radio" name="operateur" value="false" Non
+	select
+		- @operateurs.each |op|
+			= 'option value="#{op.raison_sociale}" #{op.raison_sociale}'

@@ -6,7 +6,12 @@ class MisesEnRelationController < ApplicationController
     set_current_registration_step Projet::STEP_MISE_EN_RELATION
   end
 
-  def show   
+  def show
+    @demande = @projet_courant.demande
+    if @demande.eligible_hma_first_step? && @demande.devis_rge && (ENV['ELIGIBLE_HMA'] == 'true')
+      # render :show_eligible_hma and return
+      redirect_to projet_show_eligible_hma_path and return
+    end 
     if rod_response.scheduled_operation? #prendre @projet_courant.eligible?
       if (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse) || @projet_courant.eligibilite == 1
         @operateur = rod_response.operateurs.first
@@ -26,7 +31,46 @@ class MisesEnRelationController < ApplicationController
   end
 
   def show_eligible_hma
-    
+    @projet_courant = @projet_courant.reload
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma_first_step? && @projet_courant.demande.devis_rge)
+      redirect_to root_path and return
+    end
+    response = Rod.new(RodClient).query_for(@projet_courant)
+    @ops = response.operateurs
+    return
+  end
+
+  def show_eligible_hma_valid_operateur
+    @projet_courant = @projet_courant.reload
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma_first_step? && @projet_courant.demande.devis_rge)
+      redirect_to root_path and return
+    end
+    if params.has_key?(:op_question) && params[:op_question] == "true" && params.has_key?(:operateur) && params[:operateur].present?
+      #rod
+      response = Rod.new(RodClient).query_for(@projet_courant)
+      var_op = nil
+      response.operateurs.each do |op|
+        if op.raison_sociale == params[:operateur]
+          var_op = op
+          break
+        end
+      end
+      if var_op != nil
+        begin
+          @projet_courant.commit_with_operateur!(var_op)
+        rescue
+        end
+      else
+        redirect_to projet_show_eligible_hma_path and return
+      end
+    elsif params.has_key?(:op_question)  && params[:op_question] == "false"
+      begin
+        invite_pris!(response.pris)      
+      rescue
+      end
+    else
+      redirect_to projet_show_eligible_hma_path and return
+    end
   end
 
   def update
