@@ -128,7 +128,7 @@ fr:
         autre: "Autre"
         # Travaux
         travaux_fenetres: "Fenêtres"
-        travaux_isolation_murs: "Isolation des murs intérieurs et extérieurs"
+        travaux_isolation_murs: "Isolation des murs intérieurs et/ou extérieurs"
         travaux_isolation_combles: "Isolation des combles aménagés ou aménageables"
         travaux_isolation: "Autre isolation"
         travaux_chauffage: "Chaudière / système de chauffage"
