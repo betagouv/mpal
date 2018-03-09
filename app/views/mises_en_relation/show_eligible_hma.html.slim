@@ -1,16 +1,34 @@
+css:
+	.margin-radio {
+		position: static;
+		margin-right: 0.5em;
+	}
+	.label-margin {
+		margin-right: 50px;
+	}
+	.op_select {
+		width: 40%;
+	}
+	.bloc-question {
+		padding-top: 1em;
+	}
+	.p-question {
+		padding-bottom: 1em;
+	}
+
 = form_tag(projet_show_eligible_hma_valid_operateur_path, method: :post)
-	p Je suis déjà en contact avec un opérateur-conseil pour m'accompagenr dans mon projet
-	div.md-radio
+	p Je suis déjà en contact avec un opérateur-conseil pour m'accompagner dans mon projet :
+	div.form-check-hacked.bloc-question
 			input.op_q.margin-radio id="op_question_true" type="radio" name="op_question" value="true"
-			label for="op_question_true" style="margin-right: 50px;"  Oui
+			label.label-margin for="op_question_true" Oui
 			input.op_q.margin-radio id="op_question_false" type="radio" name="op_question" value="false"
-			label for="op_question_false" Non
-	div.op_select
-		p Je sélectionne le nom de mon opérateur-conseil :
+			label.label-margin for="op_question_false" Non
+	div.op_select.bloc-question
+		p.p-question Je sélectionne le nom de mon opérateur-conseil :
 		select.op_s.form-control name="operateur"
 			- @ops.each do |op|
 				option value="#{op.raison_sociale}" #{op.raison_sociale}
-	input.btn.btn-large.btn-centered.btn-icon type="submit"
+	input.btn.btn-large.btn-centered.btn-icon type="submit" value="Continuer"
 
 javascript:
 	$(".op_select").hide();

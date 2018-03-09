@@ -57,6 +57,7 @@ class MisesEnRelationController < ApplicationController
       end
       if var_op != nil
         begin
+          invitation = Invitation.create! projet: @projet_courant, intervenant: var_op
           @projet_courant.commit_with_operateur!(var_op)
         rescue
         end

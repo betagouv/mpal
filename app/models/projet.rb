@@ -662,7 +662,7 @@ class Projet < ApplicationRecord
 
 	def commit_with_operateur!(committed_operateur)
 		raise "Commiting with an operateur expects a projet in `prospect` state, but got a `#{statut}` state instead" unless statut == :prospect.to_s
-		raise "To commit with an operateur there should be no pre-existing operateur" unless operateur.blank?
+		# raise "To commit with an operateur there should be no pre-existing operateur" unless operateur.blank?
 		raise "Cannot commit with an operateur: the operateur is empty" unless committed_operateur.present?
 
 		self.update(operateur: committed_operateur)
