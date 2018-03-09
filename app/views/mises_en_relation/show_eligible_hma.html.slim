@@ -28,7 +28,9 @@ css:
 		select.op_s.form-control name="operateur"
 			- @ops.each do |op|
 				option value="#{op.raison_sociale}" #{op.raison_sociale}
-	input.btn.btn-large.btn-centered.btn-icon type="submit" value="Continuer"
+	button.btn.btn-large.btn-centered.btn-icon class="btn btn-large btn-validate-submit btn-icon" type="submit" value="Continuer"
+		span Continuer
+		i class="glyphicon glyphicon-arrow-right"
 
 javascript:
 	$(".op_select").hide();
