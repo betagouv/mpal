@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180306114724) do
+ActiveRecord::Schema.define(version: 20180312154020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,8 @@ ActiveRecord::Schema.define(version: 20180306114724) do
     t.boolean "prime_hma"
     t.boolean "type_logement"
     t.boolean "devis_rge"
+    t.boolean "eligible_hma", default: false, null: false
+    t.boolean "seul", default: false, null: false
     t.index ["projet_id"], name: "index_demandes_on_projet_id"
   end
 

@@ -77,6 +77,10 @@ class DemandesController < ApplicationController
       end
     end
 
+    if @demande.eligible_hma_first_step? && @demande.devis_rge
+      @demande.eligible_hma = true
+    end
+
     unless @demande.save
       init_show
       return render :show
@@ -86,7 +90,7 @@ class DemandesController < ApplicationController
 
   def show_eligible_hma
     @projet_courant.reload
-    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma_first_step? && @projet_courant.demande.devis_rge)
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
       redirect_to root_path and return
     end
     response = Rod.new(RodClient).query_for(@projet_courant.reload)
