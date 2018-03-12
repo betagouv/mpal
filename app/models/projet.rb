@@ -793,10 +793,10 @@ def self.find_project all, is_admin, droit1, droit2
 				 line.append(date_update)
 			 end
 
-			 payment_statuses = projet.payement_status
+			 # payment_statuses = projet.payement_status
 
 			 if droit1
-				 line.insert 9, payment_statuses
+				 # line.insert 9, payment_statuses
 				 line.insert 6, projet.ift_agent_operateur
 				 line.insert 4, projet.ift_agent_instructeur
 				 line.insert 1, projet.opal_numero
@@ -846,7 +846,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
 		 end
 
 		 if droit1
-			 titles.insert 9, 'État des paiements'
+			 # titles.insert 9, 'État des paiements'
 			 titles.insert 6, 'Agent opérateur'
 			 titles.insert 4, 'Agent instructeur'
 			 titles.insert 1, 'Identifiant OPAL'
