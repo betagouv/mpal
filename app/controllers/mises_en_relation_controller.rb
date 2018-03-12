@@ -32,8 +32,11 @@ class MisesEnRelationController < ApplicationController
 
   def show_eligible_hma
     @projet_courant = @projet_courant.reload
-    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma_first_step? && @projet_courant.demande.devis_rge)
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
       redirect_to root_path and return
+    end
+    if @projet_courant.demande.seul
+      render :show_eligible_hma_valid_operateur and return
     end
     response = Rod.new(RodClient).query_for(@projet_courant)
     @ops = response.operateurs
@@ -43,7 +46,7 @@ class MisesEnRelationController < ApplicationController
 
   def show_eligible_hma_valid_operateur
     @projet_courant = @projet_courant.reload
-    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma_first_step? && @projet_courant.demande.devis_rge)
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
       redirect_to root_path and return
     end
     if params.has_key?(:accomp_question) && params[:accomp_question] == "true"
@@ -59,7 +62,7 @@ class MisesEnRelationController < ApplicationController
         end
         if var_op != nil
           begin
-            invitation = Invitation.create! projet: @projet_courant, intervenant: var_op
+            invitation = Invitation.create! projet: @projet_courant, intervenant: var_op, contacted: true
             @projet_courant.commit_with_operateur!(var_op)
           rescue
           end
@@ -74,7 +77,9 @@ class MisesEnRelationController < ApplicationController
       else
         redirect_to projet_show_eligible_hma_path and return
       end
-    elsif params.has_key?(:accomp_question) && params[:accomp_question] == "true"
+    elsif params.has_key?(:accomp_question) && params[:accomp_question] == "false"
+      @projet_courant.demande.update(:seul => true)
+    else
       redirect_to projet_show_eligible_hma_path and return
     end
   end
