@@ -41,6 +41,14 @@ class DossiersController < ApplicationController
     # gérer l'envoi de mails
   end
 
+  def ruby_rod
+    projet = Projet.find(params[:id])
+    if projet.admin_rod_button
+      redirect_to(dossier_path(projet), flash: { success: t('admin.rod.valider_selection_intervenant_success') }) and return
+    end
+    redirect_to(dossier_path(projet), flash: { alert: "Une erreur est survenue" }) and return
+  end
+
   def home
     if render_index
       @page_full_width = true

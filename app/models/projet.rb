@@ -587,9 +587,6 @@ class Projet < ApplicationRecord
 	end
 
 	def suggest_operateurs!(operateur_ids)
-		if operateur.present?
-			raise "Cannot suggest an operator: the projet is already committed with an operator (#{operateur.raison_sociale})"
-		end
 
 		if operateur_ids.blank?
 			errors[:base] << I18n.t('recommander_operateurs.errors.blank')
@@ -918,5 +915,65 @@ def self.to_csv(agent, selected_projects, is_admin = false)
 	# ACTIONS PRIS
 	def action_agent_pris?
 		!status_already(:en_cours) && !pris_suggested_operateurs.present?
+	end
+
+	def clean_invitation str_role
+		all = self.intervenants.where(["? = ANY(roles)", str_role])
+		all.each do |interv|
+			Invitation.where(["projet_id = ? and intervenant_id = ?", self.id, interv.id]).first.try(:destroy!)
+		end
+	end
+
+	def admin_rod_button
+		begin
+			rod_response = Rod.new(RodClient).query_for(self)
+			if date_depot == nil
+				clean_invitation 'pris'
+				clean_invitation 'operateur'
+				self.update(:operateur_id => nil)
+				if rod_response.scheduled_operation?
+					admin_commit_operateur rod_response.operateurs.first
+					admin_commit_instructeur rod_response.instructeur
+				else
+					admin_commit_pris rod_response.pris
+					admin_commit_instructeur rod_response.instructeur
+				end
+			end
+		rescue
+			return nil
+		end
+		return true
+	end
+
+	def admin_commit_operateur operateur
+		invitation = Invitation.create! projet: self, intervenant: operateur
+		invitation.update(contacted: true)
+
+		self.update(operateur: operateur)
+		self.statut = :en_cours
+		self.statut_updated_date = Time.now
+		save
+	end
+
+	def admin_commit_pris pris
+		previous_pris = invited_pris
+		return if previous_pris == pris
+
+		previous_pris = invited_pris
+		self.statut = :prospect
+		self.statut_updated_date = Time.now
+		invitation = Invitation.create! projet: self, intervenant: pris
+		invitations.where(intervenant: previous_pris).first.try(:destroy!)
+		save
+	end
+
+	def admin_commit_instructeur instructeur
+		previous_instructeur = invited_instructeur
+		return if previous_instructeur == instructeur
+
+		previous_instructeur = invited_instructeur
+		Invitation.create! projet_id: self.id, intervenant_id: instructeur.id
+		invitations.where(intervenant: previous_instructeur).first.try(:destroy!)
+		save
 	end
 end
