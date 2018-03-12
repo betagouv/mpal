@@ -64,6 +64,7 @@ class MisesEnRelationController < ApplicationController
           begin
             invitation = Invitation.create! projet: @projet_courant, intervenant: var_op, contacted: true
             @projet_courant.commit_with_operateur!(var_op)
+          redirect_to root_path and return
           rescue
           end
         else
@@ -72,6 +73,7 @@ class MisesEnRelationController < ApplicationController
       elsif params.has_key?(:op_question)  && params[:op_question] == "false"
         begin
           @projet_courant.invite_pris!(response.pris)
+          redirect_to root_path and return
         rescue
         end
       else
