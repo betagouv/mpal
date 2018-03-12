@@ -938,6 +938,8 @@ def self.to_csv(agent, selected_projects, is_admin = false)
 					admin_commit_pris rod_response.pris
 					admin_commit_instructeur rod_response.instructeur
 				end
+			else
+				return nil
 			end
 		rescue
 			return nil
