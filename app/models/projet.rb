@@ -587,9 +587,6 @@ class Projet < ApplicationRecord
 	end
 
 	def suggest_operateurs!(operateur_ids)
-		if operateur.present?
-			raise "Cannot suggest an operator: the projet is already committed with an operator (#{operateur.raison_sociale})"
-		end
 
 		if operateur_ids.blank?
 			errors[:base] << I18n.t('recommander_operateurs.errors.blank')
@@ -928,19 +925,24 @@ def self.to_csv(agent, selected_projects, is_admin = false)
 	end
 
 	def admin_rod_button
-		rod_response = Rod.new(RodClient).query_for(self)
-		if date_depot == nil
-			clean_invitation 'pris'
-			clean_invitation 'operateur'
-			self.update(:operateur_id => nil)
-			if rod_response.scheduled_operation?
-				admin_commit_operateur rod_response.operateurs.first
-				admin_commit_instructeur rod_response.instructeur
-			else
-				admin_commit_pris rod_response.pris
-				admin_commit_instructeur rod_response.instructeur
+		begin
+			rod_response = Rod.new(RodClient).query_for(self)
+			if date_depot == nil
+				clean_invitation 'pris'
+				clean_invitation 'operateur'
+				self.update(:operateur_id => nil)
+				if rod_response.scheduled_operation?
+					admin_commit_operateur rod_response.operateurs.first
+					admin_commit_instructeur rod_response.instructeur
+				else
+					admin_commit_pris rod_response.pris
+					admin_commit_instructeur rod_response.instructeur
+				end
 			end
+		rescue
+			return nil
 		end
+		return true
 	end
 
 	def admin_commit_operateur operateur
@@ -963,7 +965,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
 		invitation = Invitation.create! projet: self, intervenant: pris
 		invitations.where(intervenant: previous_pris).first.try(:destroy!)
 		save
-	end		
+	end
 
 	def admin_commit_instructeur instructeur
 		previous_instructeur = invited_instructeur

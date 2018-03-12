@@ -44,9 +44,9 @@ class DossiersController < ApplicationController
   def ruby_rod
     projet = Projet.find(params[:id])
     if projet.admin_rod_button
-      redirect_to(dossier_path(projet), flash: { success: "success" }) and return
+      redirect_to(dossier_path(projet), flash: { success: t('admin.rod.valider_selection_intervenant_success') }) and return
     end
-    redirect_to(dossier_path(projet), flash: { alert: "nop" }) and return
+    redirect_to(dossier_path(projet), flash: { alert: "Une erreur est survenue" }) and return
   end
 
   def home
