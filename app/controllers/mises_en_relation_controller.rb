@@ -45,31 +45,35 @@ class MisesEnRelationController < ApplicationController
     if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma_first_step? && @projet_courant.demande.devis_rge)
       redirect_to root_path and return
     end
-    if params.has_key?(:op_question) && params[:op_question] == "true" && params.has_key?(:operateur) && params[:operateur].present?
-      #rod
+    if params.has_key?(:accomp_question) && params[:accomp_question] == "true"
       response = Rod.new(RodClient).query_for(@projet_courant)
-      var_op = nil
-      response.operateurs.each do |op|
-        if op.raison_sociale == params[:operateur]
-          var_op = op
-          break
+      if params.has_key?(:op_question) && params[:op_question] == "true" && params.has_key?(:operateur) && params[:operateur].present?
+        #rod
+        var_op = nil
+        response.operateurs.each do |op|
+          if op.raison_sociale == params[:operateur]
+            var_op = op
+            break
+          end
         end
-      end
-      if var_op != nil
+        if var_op != nil
+          begin
+            invitation = Invitation.create! projet: @projet_courant, intervenant: var_op
+            @projet_courant.commit_with_operateur!(var_op)
+          rescue
+          end
+        else
+          redirect_to projet_show_eligible_hma_path and return
+        end
+      elsif params.has_key?(:op_question)  && params[:op_question] == "false"
         begin
-          invitation = Invitation.create! projet: @projet_courant, intervenant: var_op
-          @projet_courant.commit_with_operateur!(var_op)
+          @projet_courant.invite_pris!(response.pris)
         rescue
         end
       else
         redirect_to projet_show_eligible_hma_path and return
       end
-    elsif params.has_key?(:op_question)  && params[:op_question] == "false"
-      begin
-        invite_pris!(response.pris)      
-      rescue
-      end
-    else
+    elsif params.has_key?(:accomp_question) && params[:accomp_question] == "true"
       redirect_to projet_show_eligible_hma_path and return
     end
   end
