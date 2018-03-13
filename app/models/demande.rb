@@ -41,7 +41,7 @@ class Demande < ApplicationRecord
   end
 
   def eligible_hma_first_step?
-    return (eligible_hma_travaux? && type_logement && date_achevement_15_ans)
+    return (eligible_hma_travaux? && type_logement && date_achevement_15_ans && (projet.eligibilite == 3))
   end
 
   def complete?
