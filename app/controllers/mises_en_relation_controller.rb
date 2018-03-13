@@ -68,7 +68,7 @@ class MisesEnRelationController < ApplicationController
           rescue
           end
         else
-          redirect_to projet_show_eligible_hma_path and return
+          redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez choisir un autre opérateur-conseil" } and return
         end
       elsif params.has_key?(:op_question)  && params[:op_question] == "false"
         begin
@@ -77,12 +77,12 @@ class MisesEnRelationController < ApplicationController
         rescue
         end
       else
-        redirect_to projet_show_eligible_hma_path and return
+        redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez indiquer si vous êtes déjà en contact avec un opérateur-conseil" } and return
       end
     elsif params.has_key?(:accomp_question) && params[:accomp_question] == "false"
       @projet_courant.demande.update(:seul => true)
     else
-      redirect_to projet_show_eligible_hma_path and return
+      redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez sélectionner le mode d'accompagnement choisi" } and return
     end
   end
 
