@@ -10,10 +10,10 @@
 			p.italic-contact Un opérateur-conseil va vous être proposé. Il vous expliquera la marche à suivre et réalisera avec vous votre dossier de demande d’aide.
 
 	div.info-contact
-		p.italic-contact-infos Pour plus d'informations, contactez votre point Rénovation Infos Service:
-		p.italic-contact-infos = "Adresse : #{@pris.adresse_postale}"
-		p.italic-contact-infos = "Téléphone : #{@pris.phone}"
-		p.italic-contact-infos = "Mail : #{@pris.email}"
+		p.italic-contact-infos.bold-contact-infos Pour plus d'informations, contactez votre Point Rénovation Infos Service :
+		p.italic-contact-infos = "#{@pris.adresse_postale}"
+		p.italic-contact-infos = "#{@pris.phone}"
+		p.italic-contact-infos = "#{@pris.email}"
 
 	div.accomp
 		p Je suis déjà en contact avec un opérateur-conseil pour m'accompagner dans mon projet :
