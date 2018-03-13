@@ -8,8 +8,8 @@ article.block.projet
     - else
       = affiche_demande_souhaitee(@projet_courant.demande)
       - if can? :manage, :all
-        = btn name: t('admin.rod.changer_d_intervenant.selection_intervenant'), href: dossier_list_department_intervenants_path(@projet_courant), class: "btn btn-secondary"
         = btn name: t('admin.rod.rappel_rod'), href: "/ruby_rod/#{@projet_courant.id}", class: "btn btn-secondary"
+        = btn name: t('admin.rod.changer_d_intervenant.selection_intervenant'), href: dossier_list_department_intervenants_path(@projet_courant), class: "btn btn-secondary"
 
       hr/
       .operateurs_choisis-test
