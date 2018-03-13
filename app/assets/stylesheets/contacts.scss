@@ -34,7 +34,6 @@
 
 	.italic-contact {
 		font-size: 14px;
-		font-style: italic;
 		margin-bottom: 15px;
 	}
 }
@@ -44,13 +43,10 @@
 	margin-bottom: 30px;
 	margin-top: 30px;
 	position: relative;
-	text-align: center;
+	text-align: left;
 	width: 100%;
 
-	.italic-contact-infos {
-		font-size: 16px;
-		font-style: italic;
-	}
+	.italic-contact-infos { font-size: 16px; }
 }
 
 .p-question { padding-bottom: 1em; }
