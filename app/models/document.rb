@@ -3,7 +3,6 @@ class Document < ApplicationRecord
   mount_uploader :fichier, DocumentUploader
 
   validates :label, :fichier, presence: true
-  validate :scan_for_viruses, if: lambda { self.fichier_changed? && (ENV["CLAMAV_ENABLED"] == "true") }
 
   def self.for_payment(payment)
     hash = { required: [], none: [:autres_paiement] }
@@ -61,13 +60,4 @@ class Document < ApplicationRecord
 
   private
 
-  def scan_for_viruses
-    path = self.fichier.path
-    if Clamby.virus? path
-      File.delete path
-      self.errors.add(:base, :virus_found)
-      return false
-    end
-    return true
-  end
 end
