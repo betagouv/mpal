@@ -1,11 +1,10 @@
-source 'https://rubygems.org'
+.env.testsource 'https://rubygems.org'
 ruby '2.3.5'
 
 gem 'active_model_serializers'
 gem 'after_party'
 gem 'cancancan'
 gem 'carrierwave', '~> 1.0'
-gem 'clamby'
 gem 'devise'
 gem 'devise_cas_authenticatable'
 gem 'fog-core', '= 1.42.0'
