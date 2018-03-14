@@ -38,7 +38,7 @@ class ApisController < ApplicationController
 								opalNewStatut = "Demande d'avance"
 							elsif dossier["position"] == "AVANCE_PAYE"
 								opalNewStatut = "Avance payée"
-							elsif dossier["position"] == "DEMSOLDE" || dossier["position"] == "DEMSOLDECOMPL"
+							elsif dossier["position"] == "DEMSOLDE" || dossier["position"] == "DEMSOLDECOMPL" || dossier["position"] == "CALC_PAI"
 								opalNewStatut = "Demande de solde"
 							elsif dossier["position"] == "SOLDE"
 								opalNewStatut = "Solde payé"
