@@ -66,6 +66,8 @@ class Document < ApplicationRecord
     if Clamby.virus? path
       File.delete path
       self.errors.add(:base, :virus_found)
+      return false
     end
+    return true
   end
 end
