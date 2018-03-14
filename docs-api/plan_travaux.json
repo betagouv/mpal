@@ -1,7 +1,0 @@
-[
- {"libelle":"Chaudiere","montant":2400,"entreprise":"Plomberie Sanzot","scenario":"souhaite"},
- {"libelle":"Chaudiere","montant":2400,"entreprise":"Plomberie Sanzot","scenario":"preconise"},
- {"libelle":"Chaudiere","montant":2400,"entreprise":"Plomberie Sanzot","scenario":"retenu"},
- {"libelle":"Production ECS","montant":400,"entreprise":"RenovServices","scenario":"preconise"},
- {"libelle":"Production ECS","montant":400,"entreprise":"RenovServices","scenario":"retenu"}
-]
