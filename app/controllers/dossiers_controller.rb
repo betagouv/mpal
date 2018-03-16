@@ -387,7 +387,7 @@ class DossiersController < ApplicationController
       @action = all.where("projets.actif = 1 and projets.operateur_id is NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = all.where("projets.actif = 1 and projets.statut = 1 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
-      @new_msg = []
+      @new_msg = all.where("")
       @rfrn2 = []
     elsif current_agent.operateur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")

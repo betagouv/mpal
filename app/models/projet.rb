@@ -227,15 +227,15 @@ class Projet < ApplicationRecord
 		where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.nom ILIKE ? or ift_agent.prenom ILIKE ?", search_param, search_param, search_param])
 	}
 
-	scope :search_by_location, -> (search_param) {
-		where(["ift_adresse.ville ILIKE ? or ift_adresse.region ILIKE ? or ift_adresse.departement ILIKE ? or ift_adresse.code_postal ILIKE ?", search_param, search_param, search_param, search_param])
+	scope :search_by_location, -> (search_param, code_postal_param, dep_param) {
+		where(["ift_adresse.ville ILIKE ? or ift_adresse.region ILIKE ? or ift_adresse.departement = ? or ift_adresse.code_postal ILIKE ?", search_param, search_param, dep_param, code_postal_param])
 	}
 
 	scope :search_by_operation_programmee, -> (search_param) {
 		if search_param.downcase == "%diffus%"
 			where("projets.name_op = ''")
 		else
-			where(["projets.name_op ILIKE ?", search_param])
+			where(["projets.name_op ILIKE ? or projets.code_opal_op ILIKE ?", search_param, search_param])
 		end
 	}
 
@@ -296,8 +296,9 @@ class Projet < ApplicationRecord
 		if search_param.key?(:location) && search_param[:location].present?
 			words = search_param[:location].split(/[\s,;]/)
 			words.each do |word|
-				word = "%" + word + "%"
-				dossiers = dossiers.search_by_location(word)
+				word1 = "%" + word + "%"
+				word2 = word + "%"
+				dossiers = dossiers.search_by_location(word1, word2, word)
 			end
 		end
 		if search_param.key?(:operation_programmee) && search_param[:operation_programmee].present?
