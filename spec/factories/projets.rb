@@ -205,6 +205,7 @@ FactoryGirl.define do
       with_demande
       with_assigned_operateur
       with_selected_prestation
+      eligibilite 3
     end
 
     trait :proposition_proposee do
@@ -213,6 +214,7 @@ FactoryGirl.define do
       with_account
       with_demande
       with_assigned_operateur
+      eligibilite 3
       with_selected_prestation
     end
 
@@ -223,6 +225,7 @@ FactoryGirl.define do
       with_assigned_operateur
       with_selected_prestation
       with_invited_instructeur
+      eligibilite 3
       date_depot DateTime.new(2066, 06, 06)
 
       after(:build) do |projet|
