@@ -246,8 +246,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if traite.respond_to?(:total_pages) && 1 < traite.total_pages
-							= render "shared/paginate", items: traite, cur_page: "page_traited"
+						= render "shared/paginate", items: traite, cur_page: "page_traited"
 
 				// Nécessite action
 				div.tabs-item.tabAction
@@ -325,8 +324,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if action.respond_to?(:total_pages) && 1 < action.total_pages
-							= render "shared/paginate", items: action, cur_page: "page_action"
+						= render "shared/paginate", items: action, cur_page: "page_action"
 
 				// Nécessite vérification
 				div.tabs-item.tabVerif
@@ -404,8 +402,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if verif.respond_to?(:total_pages) && 1 < verif.total_pages
-							= render "shared/paginate", items: verif, cur_page: "page_verif"
+						= render "shared/paginate", items: verif, cur_page: "page_verif"
 
 				// Autres
 				div.tabs-item.tabOthers
@@ -483,8 +480,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if other.respond_to?(:total_pages) && 1 < other.total_pages
-							= render "shared/paginate", items: other, cur_page: "page_other"
+						= render "shared/paginate", items: other, cur_page: "page_other"
 
 				// Nouveau message
 				div.tabs-item.tabNewMSG
@@ -583,8 +579,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if new_msg.respond_to?(:total_pages) && 1 < new_msg.total_pages
-							= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
+						= render "shared/paginate", items: new_msg, cur_page: "page_new_msg"
 
 				// RFR N-2
 				div.tabs-item.tabRFRN2
@@ -662,8 +657,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if items.respond_to?(:total_pages) && 1 < items.total_pages
-							= render "shared/paginate", items: items, cur_page: "page_rfrn2"
+						= render "shared/paginate", items: rfrn2, cur_page: "page_rfrn2"
 
 				// Non éligible
 				div.tabs-item.tabNoElig
@@ -741,8 +735,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if items.respond_to?(:total_pages) && 1 < items.total_pages
-							= render "shared/paginate", items: items, cur_page: "page_noel"
+						= render "shared/paginate", items: @non_eligible, cur_page: "page_noel"
 
 				// Non éligible à réévaluer
 				div.tabs-item.tabNoEligEval
@@ -820,8 +813,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if items.respond_to?(:total_pages) && 1 < items.total_pages
-							= render "shared/paginate", items: items, cur_page: "page_noelre"
+						= render "shared/paginate", items: @non_eligible_a_reeval, cur_page: "page_noelre"
 
 
 				// Non éligible confirmé
@@ -900,8 +892,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if items.respond_to?(:total_pages) && 1 < items.total_pages
-							= render "shared/paginate", items: items, cur_page: "page_noelco"
+						= render "shared/paginate", items: @non_eligible_confirm, cur_page: "page_noelco"
 
 				// Inactifs
 				div.tabs-item.tabInactifs
@@ -979,8 +970,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if inactifs.respond_to?(:total_pages) && 1 < inactifs.total_pages
-							= render "shared/paginate", items: inactifs, cur_page: "page_inactifs"
+						= render "shared/paginate", items: inactifs, cur_page: "page_inactifs"
 
 
 				// TOUS
@@ -1059,8 +1049,7 @@
 												p
 													span.glyphicon.glyphicon-eye-open
 												p Activer
-						- if items.respond_to?(:total_pages) && 1 < items.total_pages
-							= render "shared/paginate", items: items, cur_page: "page"
+						= render "shared/paginate", items: items, cur_page: "page"
 
 javascript:
 	$(document).ready(function() {
