@@ -552,6 +552,27 @@
 									td.table-row-icons-border
 
 									td.table-row-icons-border
+										span.project-menu-icon.glyphicon.glyphicon-envelope
+											/ - unread_messages_count = projet.unread_messages(current_agent).count
+											/ - if 0 < (unread_messages_count || 0)
+
+												/ PRIS
+												- if !current_agent_siege && !current_agent_operateur && !current_agent_instructeur
+													- if projet.statut == 'prospect'
+														span.project-menu-badge= unread_messages_count
+												
+												/ Instructeur
+												- if current_agent_instructeur && !current_agent_operateur && !current_agent_siege
+													- if projet.statut == 'transmis_pour_instruction' || projet.statut == 'en_cours_d_instruction'
+														span.project-menu-badge= unread_messages_count
+
+												/ Operateur
+												- if !current_agent_instructeur && current_agent_operateur && !current_agent_siege
+													- if projet.statut == 'transmis_pour_instruction' || projet.statut == 'en_cours_d_instruction'
+														span.project-menu-badge= unread_messages_count
+										p Messages
+
+									td.table-row-icons-border
 										- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
 											= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
 												p
@@ -1076,7 +1097,7 @@ javascript:
 		var rfrn2 = '#{rfr_count}';
 		if (rfrn2 == 0)
 			$('.tabRFRN2').hide();
-		$('.tabNewMSG').hide();
+		// $('.tabNewMSG').hide();
 
 		var sPageURL = location.search.substring(1);
 		var searchFormElement = {

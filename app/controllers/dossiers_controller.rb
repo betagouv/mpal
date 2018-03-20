@@ -382,19 +382,21 @@ class DossiersController < ApplicationController
 
   def fill_tab_intervenant all
     flash.now[:notice_html] = ""
+
+
     if current_agent.pris?
       @traited = all.where("projets.actif = 1 and projets.statut >= 2 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @action = all.where("projets.actif = 1 and projets.operateur_id is NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = all.where("projets.actif = 1 and projets.statut = 1 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
-      @new_msg = []
+      @new_msg = all.where.not("projets.statut >= 2 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)").where("projets.actif = 1 and ift_agents_projets.last_read_messages_at < ift_messages.created_at")
       @rfrn2 = []
     elsif current_agent.operateur?
       @traited = all.where("projets.actif = 1 and projets.statut >= 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @action = all.where("projets.actif = 1  and projets.statut < 3 and projets.statut >= 1 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = all.where("projets.actif = 1 and projets.statut = 3 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @others = []
-      @new_msg = []
+      @new_msg = all.where.not("projets.statut >= 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)").where("projets.actif = 1 and ift_agents_projets.last_read_messages_at < ift_messages.created_at")
       @rfrn2 = all.where("ift_avis_impositions2.annee is not NULL")
       if @rfrn2.limit(1).present?
         flash.now[:notice_html] += "Certains dossiers nécessitent de mettre à jour le ou les avis d'imposition (dernier avis d'imposition ou avis de situation déclarative disponible) (voir onglet RFR N-2)"
@@ -404,7 +406,7 @@ class DossiersController < ApplicationController
       @action = all.where("projets.actif = 1 and projets.statut = 5 and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @verif = []
       @others = []
-      @new_msg = []
+      @new_msg = all.where.not("projets.statut >= 6 and (projets.eligibilite = 3 or projets.eligibilite = 0)").where("projets.actif = 1 and ift_agents_projets.last_read_messages_at < ift_messages.created_at")
       @rfrn2 = []
     end
   end
@@ -451,6 +453,7 @@ def render_index
         month_var = (Time.now.strftime("%m").to_i).to_s
         to_select = "projets.*, string_agg(DISTINCT demandeur.prenom, '') as demandeur_prenom, string_agg(DISTINCT demandeur.nom, '') as demandeur_nom, array_to_string(ARRAY_AGG(DISTINCT ift_themes.libelle), ', ') as libelle_theme, string_agg(DISTINCT ift_adresse.ville, '') as addr_ville, string_agg(DISTINCT ift_adresse.code_postal, '') as addr_code, array_to_string(ARRAY_AGG(DISTINCT ift_intervenant.raison_sociale), ' / ') as ift_intervenant, CONCAT(CONCAT(string_agg(DISTINCT ift_agent.prenom, ''), ' '), string_agg(DISTINCT ift_agent.nom, '')) as ift_agent"
         to_join = "INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse ON (projets.adresse_a_renover_id = ift_adresse.id) OR (projets.adresse_postale_id = ift_adresse.id AND projets.adresse_a_renover_id is NULL)  LEFT OUTER JOIN invitations on projets.id = invitations.projet_id  LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id  LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id)  LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id)  LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id)  LEFT OUTER JOIN agents ift_agent ON ( (projets.statut >= 5 AND projets.agent_instructeur_id = ift_agent.id) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.agent_operateur_id = ift_agent.id) )  LEFT OUTER JOIN intervenants ift_intervenant ON (ift_invitations.intervenant_id = ift_intervenant.id AND ( (projets.statut >= 5 AND 'instructeur' = ANY(ift_intervenant.roles)) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.operateur_id is not null AND 'operateur' = ANY(ift_intervenant.roles)) OR ('pris' = ANY(ift_intervenant.roles) AND projets.statut <= 1 AND projets.operateur_id is null)))  LEFT OUTER JOIN avis_impositions ift_avis_impositions2 ON (projets.id = ift_avis_impositions2.projet_id and (ift_avis_impositions2.annee < #{anne_var} or (ift_avis_impositions2.annee = #{anne_var} and #{month_var} >= 9)))"
+        to_join_with_messages_agent_projet = "INNER JOIN messages ift_messages ON (projets.id = ift_messages.projet_id) INNER JOIN agents_projets ift_agents_projets ON (projets.id = ift_agents_projets.projet_id) INNER JOIN avis_impositions ift_avis_impositions ON (projets.id = ift_avis_impositions.projet_id) INNER JOIN occupants demandeur ON (ift_avis_impositions.id = demandeur.avis_imposition_id AND demandeur.demandeur = true) INNER JOIN adresses ift_adresse ON (projets.adresse_a_renover_id = ift_adresse.id) OR (projets.adresse_postale_id = ift_adresse.id AND projets.adresse_a_renover_id is NULL)  LEFT OUTER JOIN invitations on projets.id = invitations.projet_id  LEFT OUTER JOIN intervenants ON  invitations.intervenant_id = intervenants.id  LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id)  LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id)  LEFT OUTER JOIN invitations ift_invitations ON (projets.id = ift_invitations.projet_id)  LEFT OUTER JOIN agents ift_agent ON ( (projets.statut >= 5 AND projets.agent_instructeur_id = ift_agent.id) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.agent_operateur_id = ift_agent.id) )  LEFT OUTER JOIN intervenants ift_intervenant ON (ift_invitations.intervenant_id = ift_intervenant.id AND ( (projets.statut >= 5 AND 'instructeur' = ANY(ift_intervenant.roles)) OR (projets.statut >= 1 AND projets.statut < 5 AND projets.operateur_id is not null AND 'operateur' = ANY(ift_intervenant.roles)) OR ('pris' = ANY(ift_intervenant.roles) AND projets.statut <= 1 AND projets.operateur_id is null)))  LEFT OUTER JOIN avis_impositions ift_avis_impositions2 ON (projets.id = ift_avis_impositions2.projet_id and (ift_avis_impositions2.annee < #{anne_var} or (ift_avis_impositions2.annee = #{anne_var} and #{month_var} >= 9)))"
         if current_agent.admin?
           if is_there_search?(search)
             @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval, @non_eligible_confirm = Projet.all.search_dossier(search, to_select, to_join)
@@ -466,11 +469,11 @@ def render_index
         else
           intervenant_id = current_agent.intervenant.id
           if current_agent.operateur?
-            @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).where(["projets.operateur_id is NULL or projets.operateur_id = ?", intervenant_id]).group("projets.id")
+            @dossiers = Projet.select(to_select).joins(to_join_with_messages_agent_projet).where(["invitations.intervenant_id = ?", intervenant_id]).where(["projets.operateur_id is NULL or projets.operateur_id = ?", intervenant_id]).group("projets.id")
           else
-            @dossiers = Projet.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).group("projets.id")
+            @dossiers = Projet.select(to_select).joins(to_join_with_messages_agent_projet).where(["invitations.intervenant_id = ?", intervenant_id]).group("projets.id")
           end
-          @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval, @non_eligible_confirm = @dossiers.search_dossier(search, to_select, to_join)
+          @dossiers, @inactifs, @non_eligible, @non_eligible_a_reeval, @non_eligible_confirm = @dossiers.search_dossier(search, to_select, to_join_with_messages_agent_projet)
           fill_tab_intervenant(@dossiers)
         end
 

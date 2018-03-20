@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312154020) do
+ActiveRecord::Schema.define(version: 20180319104832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -209,6 +209,7 @@ ActiveRecord::Schema.define(version: 20180312154020) do
     t.integer "avis_imposition_id"
     t.boolean "declarant", default: false, null: false
     t.string "civility"
+    t.datetime "last_read_messages_at"
   end
 
   create_table "operations", id: :serial, force: :cascade do |t|
@@ -331,6 +332,8 @@ ActiveRecord::Schema.define(version: 20180312154020) do
     t.string "opal_position"
     t.datetime "opal_date_position"
     t.string "opal_position_label"
+    t.integer "eligibility_state"
+    t.string "nature_changement_situation"
     t.string "name_op"
     t.string "code_opal_op"
     t.integer "eligibilite", default: 0, null: false

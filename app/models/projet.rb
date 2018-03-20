@@ -397,7 +397,12 @@ class Projet < ApplicationRecord
 	end
 
 	def mark_last_read_messages_at!(agent)
-		join = agents_projets.where(agent: agent).first
+
+		if defined?(agent.demandeur)
+			join = occupants.where(demandeur: agent.demandeur).first
+		else
+			join = agents_projets.where(agent: agent).first
+		end
 		join.update_attribute(:last_read_messages_at, Time.now) if join
 		join
 	end
@@ -413,7 +418,12 @@ class Projet < ApplicationRecord
 	end
 
 	def unread_messages(agent)
-		join = agents_projets.where(agent: agent).first
+		if defined?(agent.demandeur)
+			join = occupants.where(demandeur: agent.demandeur).first
+		else
+			join = agents_projets.where(agent: agent).first
+		end
+
 		if join && join.last_read_messages_at
 			messages.where(["messages.created_at > ?", join.last_read_messages_at])
 		else
