@@ -23,13 +23,6 @@ describe Document do
     end
   end
 
-  describe "#scan_for_viruses", if: (ENV["CLAMAV_ENABLED"] == "true") do
-    let(:virus)    { Rack::Test::UploadedFile.new(File.open(File.join(Rails.root, "/spec/fixtures/eicar.txt"))) }
-    let(:document) { build :document, fichier: virus }
-
-    it { expect(document).to be_invalid }
-  end
-
   describe "#for_payment" do
     let(:payment_avance)           { create :payment, type_paiement: :avance }
     let(:payment_acompte)          { create :payment, type_paiement: :acompte }

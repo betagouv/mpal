@@ -18,9 +18,12 @@ fr:
         lien_avec_demandeur: "Quel est le lien de cette personne avec le propriétaire ?"
       demande:
         complement: "Je précise mon projet"
-        date_achevement_15_ans: "Mon logement (maison ou immeuble) a été construit il y a plus de 15 ans"
-        annee_construction: "Si je la connais, j’indique l’année de construction de mon logement"
-        ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover dans les 5 dernières années"
+        type_logement: "Le logement dans lequel je souhaite effectuer mes travaux est:"
+        date_achevement_15_ans: "Mon logement (maison ou appartement) a été construit il y a plus de 15 ans:"
+        annee_construction: "Si je la connais, j’indique l’année de construction de mon logement:"
+        ptz: "J’ai obtenu un prêt à taux zéro (PTZ) pour acheter le logement à rénover dans les 5 dernières années:"
+        prime_hma: "J'ai déjà bénéficié d'une prime « Habiter Mieux » (ou d'une « Aide à la Solidarité Ecologique ») pour réaliser des travaux dans mon logement:"
+        devis_rge: "J'indique si je dispose du devis d'une entreprise labelisée RGE (Reconnu Garant de l'Environnement) pour la réalisation de mes travaux:"
       proposition:
         consommation_avant_travaux: "Consommation énergétique avant travaux"
         consommation_apres_travaux: "Consommation énergétique après travaux"
@@ -43,7 +46,7 @@ fr:
         public_aids_sum: "Total des aides publiques"
     units:
       power: "kWh"
-      power_consumption: "kWh/m²/an"
+      power_consumption: "kwhEp/m².an"
 
   # ----------------------- Admin ---------------------
   admin:
@@ -142,8 +145,10 @@ fr:
       autre: "Autre"
       # Travaux
       travaux_fenetres: "Fenêtres"
-      travaux_isolation: "Isolation"
-      travaux_chauffage: "Chauffage"
+      travaux_isolation_murs: "Isolation des murs intérieurs et/ou extérieurs"
+      travaux_isolation_combles: "Isolation des combles aménagés ou aménageables"
+      travaux_isolation: "Autre isolation"
+      travaux_chauffage: "Chaudière / système de chauffage"
       travaux_adaptation_sdb: "Adaptation salle de bain"
       travaux_monte_escalier: "Monte-escalier"
       travaux_amenagement_ext: "Aménagement extérieur"
@@ -151,6 +156,8 @@ fr:
       ptz: "PTZ"
       date_achevement_15_ans: "Logement construit il y a plus de 15 ans"
       annee_construction: "Année de construction"
+      prime_hma: "Prime « Habiter Mieux »"
+      devis_rge: "Devis RGE"
       precisions: "Précisions"
     # ----------------------- Eligibilité ---------------------
     eligibility:

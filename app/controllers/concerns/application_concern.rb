@@ -48,12 +48,12 @@ module ApplicationConcern
         end
         if @projet_courant.demandeur_user
           session.delete :project_id
-          redirect_to new_user_session_path, alert: t("sessions.user_exists")
+          redirect_to new_user_session_path, alert: t("sessions.user_exists") and return
         end
       end
       if @projet_courant
         if @projet_courant.opal_position_label
-          @page_heading = "Dossier: #{@projet_courant.opal_position_label}"
+          @page_heading = "Dossier : #{@projet_courant.opal_position_label}"
         else
           @page_heading = "Dossier : #{I18n.t(@projet_courant.statut, scope: "projets.statut").downcase}"
         end

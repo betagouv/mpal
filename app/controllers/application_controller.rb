@@ -62,6 +62,10 @@ class ApplicationController < ActionController::Base
         else
           format.html { redirect_to root_path, alert: exception.message }
         end
+      elsif @projet_courant.present? && @projet_courant.demandeur_user.present?
+        format.html { redirect_to new_user_session_path, alert: "veuillez vous connecter pour continuer" }
+      elsif @projet_courant.present? && @projet_courant.demande.present?
+        format.html { redirect_to new_user_registration_path, alert: "veuillez vous inscrire pour continuer" }
       else
         format.html { redirect_to root_path, alert: exception.message }
       end

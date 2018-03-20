@@ -3,11 +3,13 @@ class DemandesController < ApplicationController
 
   before_action :assert_projet_courant
   load_and_authorize_resource
+  # skip_load_and_authorize_resource only: [:show]
 
   before_action do
     set_current_registration_step Projet::STEP_DEMANDE
   end
   before_action :init_demande
+
 
   def show
     if @projet_courant.eligibilite == 2
@@ -57,7 +59,7 @@ class DemandesController < ApplicationController
       @projet_courant.update_attributes(locked_at: Time.now)
     end
 
-    if @demande.changement_chauffage == true || @demande.froid == true || @demande.travaux_fenetres == true || @demande.travaux_isolation == true || @demande.travaux_chauffage
+    if @demande.changement_chauffage == true || @demande.froid == true || @demande.travaux_fenetres == true || @demande.travaux_isolation_murs == true || @demande.travaux_isolation_combles == true || @demande.travaux_isolation == true || @demande.travaux_chauffage
       if not (@projet_courant.themes).include?(Theme.find_by(:libelle => "Énergie"))
         @projet_courant.themes << Theme.find_by(:libelle => "Énergie")
       end
@@ -75,11 +77,24 @@ class DemandesController < ApplicationController
       end
     end
 
+    if @demande.eligible_hma_first_step? && @demande.devis_rge
+      @demande.eligible_hma = true
+    end
+
     unless @demande.save
       init_show
       return render :show
     end
-    redirect_to_next_step
+    redirect_to_next_step and return
+  end
+
+  def show_eligible_hma
+    @projet_courant.reload
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
+      redirect_to root_path and return
+    end
+    response = Rod.new(RodClient).query_for(@projet_courant.reload)
+    @operateurs = response.operateurs
   end
 
 private
@@ -112,6 +127,8 @@ private
       :saturnisme,
       :autre,
       :travaux_fenetres,
+      :travaux_isolation_murs,
+      :travaux_isolation_combles,
       :travaux_isolation,
       :travaux_chauffage,
       :travaux_adaptation_sdb,
@@ -121,19 +138,22 @@ private
       :complement,
       :annee_construction,
       :ptz,
-      :date_achevement_15_ans
+      :type_logement,
+      :date_achevement_15_ans,
+      :prime_hma,
+      :devis_rge
     )
   end
 
   def needs_next_step?
-    @projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank? || @projet_courant.eligibilite == 1
+    (@projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank?) || @projet_courant.eligibilite == 1
   end
 
   def redirect_to_next_step
     if needs_next_step?
-      redirect_to new_user_registration_path
+      redirect_to new_user_registration_path and return
     else
-      redirect_to projet_or_dossier_path @projet_courant
+      redirect_to projet_or_dossier_path @projet_courant and return
     end
   end
 

@@ -59,8 +59,8 @@ div.filter-dash-container
 								option class="text-drop-down" value="5" Subvention accordée
 								option class="text-drop-down" value="6" Subvention rejetée
 								option class="text-drop-down" value="7" Classé sans suite
-								option class="text-drop-down" value="8" Subvention retiré
-								option class="text-drop-down" value="9" Subvention retiré avec reversement
+								option class="text-drop-down" value="8" Subvention retirée
+								option class="text-drop-down" value="9" Subvention retirée avec reversement
 								option class="text-drop-down" value="10" Demande d'acompte
 								option class="text-drop-down" value="11" Acompte payé
 								option class="text-drop-down" value="12" Demande d'avance
@@ -74,7 +74,7 @@ div.filter-dash-container
 						div.OrderBy
 							div.md-radio
 								input id="dateDeDepot" type="radio" name="advancedType"
-								label for="dateDeDepot" Date de dépot
+								label for="dateDeDepot" Date de dépôt
 							div.md-radio
 								input id="dateDeCreation" type="radio" name="advancedType" checked="checked"
 								label for="dateDeCreation" Date de création
@@ -91,12 +91,12 @@ div.filter-dash-container
 					div.dashboard-filter-date
 						div.group-date
 							span Du :
-							input class="search-input search-date-from" type="date" required="required" name="freeSearch"
+							input id="searchDateFrom" class="search-input search-date-from" type="text" required="required" name="freeSearch" placeholder="aaaa-mm-dd"
 							span.highlight
 							span.bar
 						.group-date
 							span Au :
-							input class="search-input search-date-to" type="date" required="required" name="freeSearch"
+							input id="searchDateTo" class="search-input search-date-to" type="text" required="required" name="freeSearch" placeholder="aaaa-mm-dd"
 							span.highlight
 							span.bar
 
@@ -161,6 +161,11 @@ javascript:
 	})(window, jQuery);
 
 	$(document).ready(function() {
+		$(function() {
+			$( "#searchDateFrom" ).datepicker({ dateFormat: 'yy-mm-dd'});
+			$( "#searchDateTo" ).datepicker({ dateFormat: 'yy-mm-dd'});
+		});
+
 		$('.select-group .sel')
 			.mouseenter(function() {
 				$('.select-group .sel-placeholder').css('color', '#000');
@@ -168,26 +173,6 @@ javascript:
 			.mouseleave(function() {
 				$('.select-group .sel-placeholder').css('color', '#838e95');
 			});
-
-		$("#selLabelType").click(function () {
-			$('#dropdownType').toggleClass('active');
-		});
-		$("#selLabelState").click(function () {
-			$('#dropdownState').toggleClass('active');
-		});
-
-		$(".dropdown-list li").click(function() {
-			var dataValue = $(this).attr('name');
-			var closeDropID = "#" + $(this).closest( ".dropdown" ).get(0).id;
-			var closeSelID = "#" + $(closeDropID).children(".sel-label").get(0).id;
-
-			if (undefined !== dataValue)
-				$(closeSelID).attr('name', dataValue);
-
-			$(closeSelID + ' div').text($(this).text());
-			$(closeDropID).removeClass('active');
-			$('.selected-item p span').text($(closeSelID).text());
-		});
 	});
 
 

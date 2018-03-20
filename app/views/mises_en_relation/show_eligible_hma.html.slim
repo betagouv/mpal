@@ -1,0 +1,44 @@
+= form_tag(projet_show_eligible_hma_valid_operateur_path, method: :post)
+	h1.title-contact Ma démarche :
+	div.bloc-question
+			div.block-label-contact
+				input.accomp_q.margin-radio id="accomp_question_true" type="radio" name="accomp_question" value="false"
+				label.label-margin for="accomp_question_true" Je souhaite réaliser ma demande d'aide seul(e).
+			div.block-label-contact
+				input.accomp_q.margin-radio id="accomp_question_false" type="radio" name="accomp_question" value="true"
+				label.label-margin for="accomp_question_false" Je souhaite être accompagné(e) dans ma démarche.
+			p.italic-contact Un opérateur-conseil va vous être proposé. Il vous expliquera la marche à suivre et réalisera avec vous votre dossier de demande d’aide.
+
+	div.info-contact
+		p.italic-contact-infos.bold-contact-infos Pour plus d'informations, contactez votre Point Rénovation Infos Service :
+		p.italic-contact-infos = "#{@pris.adresse_postale}"
+		p.italic-contact-infos = "#{@pris.phone}"
+		p.italic-contact-infos = "#{@pris.email}"
+
+	div.accomp
+		p Je suis déjà en contact avec un opérateur-conseil pour m'accompagner dans mon projet :
+		div.bloc-question
+				input.op_q.margin-radio id="op_question_true" type="radio" name="op_question" value="true"
+				label.label-margin for="op_question_true" Oui
+				input.op_q.margin-radio id="op_question_false" type="radio" name="op_question" value="false"
+				label.label-margin for="op_question_false" Non
+		div.op-select
+			p.p-question Je sélectionne le nom de mon opérateur-conseil :
+			select.op_s.form-control name="operateur"
+				- @ops.each do |op|
+					option value="#{op.raison_sociale}" #{op.raison_sociale}
+
+	button.btn.btn-large.btn-centered.btn-icon class="btn btn-large btn-validate-submit btn-icon" type="submit" value="Continuer"
+		span Continuer
+		i class="glyphicon glyphicon-arrow-right"
+
+javascript:
+	$(".accomp, .op-select, .page-heading").hide();
+
+	$(".accomp_q").change(function () {
+		$(this).val() == "true" ? $(".accomp").show() : $(".accomp").hide();
+	});
+
+	$(".op_q").change(function () {
+		$(this).val() == "true" ? $(".op-select").show() : $(".op-select").hide();
+	});

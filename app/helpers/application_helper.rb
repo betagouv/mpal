@@ -147,6 +147,8 @@ module ApplicationHelper
     travaux = []
     if demande.projet.prestations.blank?
       travaux << t("demarrage_projet.demande.travaux_fenetres") if demande.travaux_fenetres
+      travaux << t("demarrage_projet.demande.travaux_isolation_murs") if demande.travaux_isolation_murs
+      travaux << t("demarrage_projet.demande.travaux_isolation_combles") if demande.travaux_isolation_combles
       travaux << t("demarrage_projet.demande.travaux_isolation") if demande.travaux_isolation
       travaux << t("demarrage_projet.demande.travaux_chauffage") if demande.travaux_chauffage
       travaux << t("demarrage_projet.demande.travaux_adaptation_sdb") if demande.travaux_adaptation_sdb
@@ -167,6 +169,17 @@ module ApplicationHelper
     complements = []
     complements << "Je préfère être contacté " + demande.projet.disponibilite if demande.projet.disponibilite.present?
 
+    if demande.type_logement.nil?
+      type_logement = "Non renseigné"
+    elsif demande.type_logement
+      type_logement = "Une maison"
+    else
+      type_logement = "Un appartement"
+    end
+
+    type_logement_strong = content_tag(:strong, type_logement)
+    complements << "#{t("demarrage_projet.demande.type_logement")} : #{type_logement_strong}"
+
     if demande.date_achevement_15_ans.nil?
       date_achevement_15_ans = "Non renseigné"
     elsif demande.date_achevement_15_ans
@@ -177,6 +190,10 @@ module ApplicationHelper
 
     date_achevement_15_ans_strong = content_tag(:strong, date_achevement_15_ans)
     complements << "#{t("demarrage_projet.demande.date_achevement_15_ans")} : #{date_achevement_15_ans_strong}"
+
+    annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
+    annee_construction_strong = content_tag(:strong, annee_construction)
+    complements << "#{t("demarrage_projet.demande.annee_construction")} : #{annee_construction_strong}"
 
     if demande.ptz.nil?
       ptz = "Prêt à Taux Zéro (moins de 5 ans)"
@@ -192,9 +209,31 @@ module ApplicationHelper
       ptz_strong = content_tag(:strong, ptz)
     end
     complements << "#{t("demarrage_projet.demande.ptz")} : #{ptz_strong}"
-    annee_construction = demande.annee_construction.present? ? demande.annee_construction : "Non renseigné"
-    annee_construction_strong = content_tag(:strong, annee_construction)
-    complements << "#{t("demarrage_projet.demande.annee_construction")} : #{annee_construction_strong}"
+
+    if demande.prime_hma.nil?
+      prime_hma = "Non renseigné"
+    elsif demande.prime_hma
+      prime_hma = "Oui"
+    else
+      prime_hma = "Non"
+    end
+
+    prime_hma_strong = content_tag(:strong, prime_hma)
+    complements << "#{t("demarrage_projet.demande.prime_hma")} : #{prime_hma_strong}"
+
+    if demande.eligible_hma_first_step?
+      if demande.devis_rge.nil?
+        devis_rge = "Non renseigné"
+      elsif demande.devis_rge
+        devis_rge = "Oui"
+      else
+        devis_rge = "Non"
+      end
+
+      devis_rge_strong = content_tag(:strong, devis_rge)
+      complements << "#{t("demarrage_projet.demande.devis_rge")} : #{devis_rge_strong}"
+    end
+
     if demande.complement.present?
       complements << "#{t("demarrage_projet.demande.precisions")} : #{content_tag(:strong, demande.complement)}"
     end

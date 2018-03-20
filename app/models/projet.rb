@@ -3,7 +3,7 @@ class Projet < ApplicationRecord
 	include LocalizedModelConcern
 	extend CsvProperties, ApplicationHelper
 
-	TYPE_LOGEMENT_VALUES     = ["Maison", "Appartement"]
+	TYPE_LOGEMENT_VALUES     = [["Maison", true], ["Appartement", false]]
 	ETAGE_VALUES             = ["0", "1", "2", "3", "4", "5", "Plus de 5"]
 	NB_PIECES_VALUES         = ["1", "2", "3", "4", "5", "Plus de 5"]
 	HOUSE_EVALUATION_FIELDS  = [:autonomie, :niveau_gir, :note_degradation, :note_insalubrite, :ventilation_adaptee, :presence_humidite, :auto_rehabilitation, :remarques_diagnostic]
@@ -659,7 +659,7 @@ class Projet < ApplicationRecord
 
 	def commit_with_operateur!(committed_operateur)
 		raise "Commiting with an operateur expects a projet in `prospect` state, but got a `#{statut}` state instead" unless statut == :prospect.to_s
-		raise "To commit with an operateur there should be no pre-existing operateur" unless operateur.blank?
+		# raise "To commit with an operateur there should be no pre-existing operateur" unless operateur.blank?
 		raise "Cannot commit with an operateur: the operateur is empty" unless committed_operateur.present?
 
 		self.update(operateur: committed_operateur)
@@ -793,10 +793,10 @@ def self.find_project all, is_admin, droit1, droit2
 				 line.append(date_update)
 			 end
 
-			 payment_statuses = projet.payement_status
+			 # payment_statuses = projet.payement_status
 
 			 if droit1
-				 line.insert 9, payment_statuses
+				 # line.insert 9, payment_statuses
 				 line.insert 6, projet.ift_agent_operateur
 				 line.insert 4, projet.ift_agent_instructeur
 				 line.insert 1, projet.opal_numero
@@ -846,7 +846,7 @@ def self.to_csv(agent, selected_projects, is_admin = false)
 		 end
 
 		 if droit1
-			 titles.insert 9, 'État des paiements'
+			 # titles.insert 9, 'État des paiements'
 			 titles.insert 6, 'Agent opérateur'
 			 titles.insert 4, 'Agent instructeur'
 			 titles.insert 1, 'Identifiant OPAL'

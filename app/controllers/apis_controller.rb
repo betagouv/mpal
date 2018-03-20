@@ -27,7 +27,7 @@ class ApisController < ApplicationController
 							elsif dossier["position"] == "SANS_SUITE" || dossier["position"] == "TRAITINT"
 								opalNewStatut = "Classé sans suite"
 							elsif dossier["position"] == "ANNULE"
-								opalNewStatut = "Subvention retiré"
+								opalNewStatut = "Subvention retirée"
 							elsif dossier["position"] == "RVS_PRONONCE"
 								opalNewStatut = "Subvention retiré avec reversement"
 							elsif dossier["position"] == "DEMAC"
@@ -38,14 +38,15 @@ class ApisController < ApplicationController
 								opalNewStatut = "Demande d'avance"
 							elsif dossier["position"] == "AVANCE_PAYE"
 								opalNewStatut = "Avance payée"
-							elsif dossier["position"] == "DEMSOLDE" || dossier["position"] == "DEMSOLDECOMPL"
+							elsif dossier["position"] == "DEMSOLDE" || dossier["position"] == "DEMSOLDECOMPL" || dossier["position"] == "CALC_PAI"
 								opalNewStatut = "Demande de solde"
 							elsif dossier["position"] == "SOLDE"
 								opalNewStatut = "Solde payé"
 							end
 							opalDatePosition = DateTime.strptime(dossier["date"].to_s.slice(0..-4), '%s')
-							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil && opalNewStatut != ""
-								if projet.opal_date_position != opalDatePosition || projet.opal_position_label != opalPositionLabel || projet.opal_position != opalNewStatut
+
+							if opalPositionLabel != "" && opalDatePosition != "" && opalDatePosition != nil && opalNewStatut != "" && projet.opal_date_position.to_i < opalDatePosition.to_i
+								if projet.opal_position_label != opalPositionLabel || projet.opal_position != opalNewStatut
 									projet.update(:opal_date_position => opalDatePosition, :opal_position_label => opalNewStatut, :opal_position => opalPositionLabel)
 								end
 							end
