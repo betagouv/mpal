@@ -29,7 +29,7 @@ docker-compose run mpal rake intervenants:charger
 
 # Installation (sans passer par Docker)
 
-Pré-requis : ce projet nécessite un serveur PostgreSQL et un serveur Redis lancés localement.
+Pré-requis : ce projet nécessite un serveur PostgreSQL lancés localement.
 
 ## Configurer l’environnement
 
