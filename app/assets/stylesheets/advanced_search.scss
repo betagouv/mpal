@@ -4,6 +4,99 @@ $md-radio-ripple-size: 10px;
 
 .ui-datepicker { z-index: 111 !important; }
 
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.9; }
+}
+
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.9; }
+}
+
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.9; }
+}
+
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.9; }
+}
+
+@keyframes fadeout {
+    from { opacity: 0.9; }
+    to   { opacity: 0; }
+}
+
+@-moz-keyframes fadeout {
+    from { opacity: 0.9; }
+    to   { opacity: 0; }
+}
+
+@-webkit-keyframes fadeout {
+    from { opacity: 0.9; }
+    to   { opacity: 0; }
+}
+
+@-ms-keyframes fadeout {
+    from { opacity: 0.9; }
+    to   { opacity: 0; }
+}
+
+.tiptoo {
+
+	.tiptooSpan {
+		pointer-events: none;
+		background-color: $color-whisper;
+		color: $color-select-gray;
+		border: #c0c0c0 1px solid;
+		border-radius: 5px;
+		padding: 5px 20px 5px 5px;
+		display: block;
+		opacity: 0;
+		z-index: 100;
+		left: 0px;
+		width: auto;
+		position: absolute;
+		top: 35px;
+		text-decoration: none;
+		font-size: 14px;
+		margin-right: 10px;
+		margin-top: 10px;
+		-webkit-animation: fadeout 0.5s;
+		-moz-animation: fadeout 0.5s;
+		-ms-animation: fadeout 0.5s;
+		-o-animation: fadeout 0.5s;
+		animation: fadeout 0.5s;
+	}
+
+	&:hover .tiptooSpan {
+		pointer-events: none;
+		background-color: $color-whisper;
+		color: $color-select-gray;
+		border: #c0c0c0 1px solid;
+		border-radius: 5px;
+		padding: 5px 20px 5px 5px;
+		display: block;
+		opacity: 0.9;
+		z-index: 100;
+		left: 0px;
+		width: auto;
+		position: absolute;
+		top: 35px;
+		text-decoration: none;
+		font-size: 14px;
+		margin-right: 10px;
+		margin-top: 10px;
+		-webkit-animation: fadein 0.5s;
+		-moz-animation: fadein 0.5s;
+		-ms-animation: fadein 0.5s;
+		-o-animation: fadein 0.5s;
+		animation: fadein 0.5s;
+	}
+}
+
 .notif-modal {
 	background: $color-very-white;
 	border: 1px solid $color-select-gray;
@@ -92,12 +185,12 @@ $md-radio-ripple-size: 10px;
 
 	@include respond-to(medium_screens_600) {
 		left: 90%;
-		top: 160px;
+		top: 235px;
 	}
 
 	@include respond-to(large_screens_1200) {
 		left: 90%;
-		top: 160px;
+		top: 235px;
 	}
 }
 
@@ -485,7 +578,6 @@ $md-radio-ripple-size: 10px;
 .new-btn-export {
 	background: $color-very-gray;
 	display: inline-block;
-	left: -44px;
 	margin-left: auto;
 	margin-right: auto;
 	margin-top: 20px;
