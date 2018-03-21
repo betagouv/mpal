@@ -549,23 +549,6 @@
 
 									td.table-row-icons-border
 										span.project-menu-icon.glyphicon.glyphicon-envelope
-											/ - unread_messages_count = projet.unread_messages(current_agent).count
-											/ - if 0 < (unread_messages_count || 0)
-
-												/ PRIS
-												- if !current_agent_siege && !current_agent_operateur && !current_agent_instructeur
-													- if projet.statut == 'prospect'
-														span.project-menu-badge= unread_messages_count
-												
-												/ Instructeur
-												- if current_agent_instructeur && !current_agent_operateur && !current_agent_siege
-													- if projet.statut == 'transmis_pour_instruction' || projet.statut == 'en_cours_d_instruction'
-														span.project-menu-badge= unread_messages_count
-
-												/ Operateur
-												- if !current_agent_instructeur && current_agent_operateur && !current_agent_siege
-													- if projet.statut == 'transmis_pour_instruction' || projet.statut == 'en_cours_d_instruction'
-														span.project-menu-badge= unread_messages_count
 										p Messages
 
 									td.table-row-icons-border

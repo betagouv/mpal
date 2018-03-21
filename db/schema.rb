@@ -332,8 +332,6 @@ ActiveRecord::Schema.define(version: 20180319104832) do
     t.string "opal_position"
     t.datetime "opal_date_position"
     t.string "opal_position_label"
-    t.integer "eligibility_state"
-    t.string "nature_changement_situation"
     t.string "name_op"
     t.string "code_opal_op"
     t.integer "eligibilite", default: 0, null: false
