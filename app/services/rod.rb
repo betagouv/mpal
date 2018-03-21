@@ -28,7 +28,7 @@ class Rod
     intervenant.raison_sociale = response["raison_sociale"]
     intervenant.adresse_postale = [response["adresse"], response["code_postal"], response["commune"]].reject(&:blank?).join(" ")
     # DEV NOTE: themes à ajouter ?
-    intervenant.departements = response["departements"]
+    intervenant.departements = response["perimetre_geo"]
     intervenant.email = response["email"]
     intervenant.roles = [ROLE_MAPPING[response["type_service"]]].compact
     intervenant.clavis_service_id = response["id_service"]
