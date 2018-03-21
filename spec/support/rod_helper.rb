@@ -93,7 +93,7 @@ module Fakeweb
       "type_service": "DREAL",
       "autorite_gestion": false,
       "type_perimetre_geo": "region",
-      "departements": [
+      "perimetre_geo": [
         "04",
         "05",
         "06",
