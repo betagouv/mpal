@@ -41,8 +41,12 @@
       span.project-menu-icon.glyphicon.glyphicon-envelope
         - if current_agent
           - unread_messages_count = project.unread_messages(current_agent).count
+        - elsif demandeur
+          - unread_messages_count = project.unread_messages(demandeur).count
+
         - if 0 < (unread_messages_count || 0)
           span.project-menu-badge= unread_messages_count
+
       span.project-menu-text Messages
     = link_to projet_or_dossier_intervenants_path(project), class: "project-menu-item"
       span.project-menu-icon.glyphicon.glyphicon-user

@@ -182,6 +182,9 @@ FactoryGirl.define do
       with_demandeur
       with_demande
       with_intervenants_disponibles
+      after(:build) do |projet|
+        projet.agents_projets.create!
+      end
     end
 
     trait :en_cours do
@@ -205,6 +208,7 @@ FactoryGirl.define do
       with_demande
       with_assigned_operateur
       with_selected_prestation
+      eligibilite 3
     end
 
     trait :proposition_proposee do
@@ -213,6 +217,7 @@ FactoryGirl.define do
       with_account
       with_demande
       with_assigned_operateur
+      eligibilite 3
       with_selected_prestation
     end
 
@@ -223,6 +228,7 @@ FactoryGirl.define do
       with_assigned_operateur
       with_selected_prestation
       with_invited_instructeur
+      eligibilite 3
       date_depot DateTime.new(2066, 06, 06)
 
       after(:build) do |projet|
@@ -233,6 +239,7 @@ FactoryGirl.define do
     trait :en_cours_d_instruction do
       opal_numero 4567
       opal_id 8910
+
       with_demandeur
       with_account
       with_demande
@@ -242,6 +249,7 @@ FactoryGirl.define do
       with_invited_pris
 
       after(:build) do |projet|
+        projet.agents_projets.create!
         projet.statut = :en_cours_d_instruction
       end
     end
