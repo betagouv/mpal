@@ -1,4 +1,7 @@
 
+- current_agent_instructeur = current_agent.instructeur?
+- current_agent_operateur = current_agent.operateur?
+- current_agent_siege = current_agent.siege?
 
 - array_of_data.each do | item |
 	- projet = item.is_a?(Invitation) ? item.projet : item
