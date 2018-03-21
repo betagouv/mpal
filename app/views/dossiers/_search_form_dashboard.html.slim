@@ -6,29 +6,6 @@ div.filter-dash-container
 			span.bar
 			label.search-label Recherche
 
-		div.filter-button
-			button class="ripple new-btn-search" data-ripple-color="#fff" Rechercher
-
-			label.switch
-				span.switch-label Avancé
-				input type="checkbox" class="dashboardFilterAdvancedCheckbox" name="advanced"
-				span.slider.round
-
-		div.select-group
-			div.sel.sel-tab
-				select name="select-profession" id="select-profession"
-					option value="" disabled="disabled" Selectionnez une liste de dossiers
-					option class="tabTreated" value="treated" Traités
-					option class="tabAction" value="action" Nécessite action
-					option class="tabVerif" value="verification" Nécessite vérification
-					option class="tabOthers" value="others" Autres
-					option class="tabNewMSG" value="new_msg" Nouveau Message
-					option class="tabRFRN2" value="rfr" RFR à mettre à jour
-					option class="tabNoElig" value="no_eligible" Non éligible
-					option class="tabNoEligEval" value="no_eligible_reeval" Non éligible à réévaluer
-					option class="tabNoEligConf" value="no_eligible_confirme" Non éligible confirmé
-					option class="tabInactifs" value="inactive" Inactifs
-					option class="tabAll" value="all" Tous
 
 	div.global-advanced
 		div.cat-flex-box-dash
@@ -100,36 +77,67 @@ div.filter-dash-container
 							span.highlight
 							span.bar
 
-						div class="group-advanced-search" title="OPAL ou plateforme"
+						div class="group-advanced-search tiptoo"
+							span.tiptooSpan OPAL ou plateforme
 							input class="search-input search-folder-number" type="text" required="required" name="freeSearch"
 							span.highlight
 							span.bar
 							label.search-label N° de dossier
 					div.filter-advanced-middle-bottom
-						div class="group-advanced-search-bottom" title="Nom et prénom du propriétaire"
+						div class="group-advanced-search-bottom tiptoo"
+							span.tiptooSpan Nom et prénom du propriétaire
 							input class="search-input search-tenant-name" type="text" required="required" name="freeSearch"
 							span.highlight
 							span.bar
 							label.search-label Nom du propriétaire
-						div class="group-advanced-search-bottom" title="(commune, numéro de département, région, EPCI)"
+						div class="group-advanced-search-bottom tiptoo"
+							span.tiptooSpan commune, numéro de département, région, EPCI
 							input class="search-input search-location" type="text" required="required" name="freeSearch"
 							span.highlight
 							span.bar
 							label.search-label Lieu
-						div class="group-advanced-search-bottom" title="(nom ou partie du nom du programme, ou diffus)"
+						div class="group-advanced-search-bottom tiptoo"
+							span.tiptooSpan nom ou partie du nom du programme, ou diffus
 							input class="search-input search-programme" type="text" required="required" name="freeSearch"
 							span.highlight
 							span.bar
 							label.search-label Programme
-						div class="group-advanced-search-bottom" title="(nom du PRIS, de la DDT, de l'Opérateur, du Territoire de Gestion, nom de l'agent)"
-							input class="search-input search-intervenant" type="text" required="required" name="freeSearch" placeholder=""
+						div class="group-advanced-search-bottom tiptoo"
+							span.tiptooSpan nom du PRIS, de la DDT, de l'Opérateur, du Territoire de Gestion, nom de l'agent
+							input class="search-input search-intervenant" type="text" required="required" name="freeSearch"
 							span.highlight
 							span.bar
 							label.search-label Intervenant
 
-			div.filter-button
-				- search = params.fetch(:search, {}).permit(:tenant, :location, :interv, :operation_programmee, :query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :operation_programmee, :from, :to, :advanced, :activeTab)
-				button class="ripple new-btn-export" data-ripple-color="#fff" onclick="window.location.href='#{dossiers_path(format: :csv, search: search)}'" Export CSV
+	div.filter-button
+		button class="ripple new-btn-search" data-ripple-color="#fff" Rechercher
+
+		- search = params.fetch(:search, {}).permit(:tenant, :location, :interv, :operation_programmee, :query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :operation_programmee, :from, :to, :advanced, :activeTab)
+		button class="ripple new-btn-export" data-ripple-color="#fff" onclick="window.location.href='#{dossiers_path(format: :csv, search: search)}'" Export CSV
+
+		label.switch
+			span.switch-label Avancé
+			input type="checkbox" class="dashboardFilterAdvancedCheckbox" name="advanced"
+			span.slider.round
+
+		div.select-group
+			div.sel.sel-tab
+				select name="select-profession" id="select-profession"
+					option value="" disabled="disabled" Selectionnez une liste de dossiers
+					option class="tabTreated" value="treated" Traités
+					option class="tabAction" value="action" Nécessite action
+					option class="tabVerif" value="verification" Nécessite vérification
+					option class="tabOthers" value="others" Autres
+					option class="tabNewMSG" value="new_msg" Nouveau Message
+					option class="tabRFRN2" value="rfr" RFR à mettre à jour
+					option class="tabNoElig" value="no_eligible" Non éligible
+					option class="tabNoEligEval" value="no_eligible_reeval" Non éligible à réévaluer
+					option class="tabNoEligConf" value="no_eligible_confirme" Non éligible confirmé
+					option class="tabInactifs" value="inactive" Inactifs
+					option class="tabAll" value="all" Tous
+
+
+
 
 javascript:
 	(function (window, $) {

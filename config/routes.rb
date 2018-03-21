@@ -125,7 +125,7 @@ Rails.application.routes.draw do
   put '/api/update_state/dossiers/batch' => "apis#update_state"
   put '/api/update_state/aides/batch' => "apis#not_implemented"
   put '/api/update_state/paiements/batch' => "apis#not_implemented"
-  put "/api/update_statenet/sio/json/aides/batch" => "apis#not_implemented"
+  put "/api/update_statenet/sio/json/avis_impositionsdes/batch" => "apis#not_implemented"
   put "/api/update_statenet/sio/json/dossiers/batch" => "apis#not_implemented"
   put "/api/update_statenet/sio/json/paiements/batch" => "apis#not_implemented"
 

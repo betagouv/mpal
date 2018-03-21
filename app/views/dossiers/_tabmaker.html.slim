@@ -1,0 +1,77 @@
+
+
+- array_of_data.each do | item |
+	- projet = item.is_a?(Invitation) ? item.projet : item
+	- anonymized = item.is_a?(Invitation) ? projet.is_anonymized_for?(item.intervenant) : false
+	- edit_url = dossier_path(projet)
+	tr id="projet_#{projet.id}-all"
+		td
+			p = anonymize anonymized, edit_url do
+				= projet.id.to_s
+
+			- if projet.opal_numero.present?
+				- if current_agent_instructeur
+					p = link_to projet.opal_numero, dossier_opal_url(projet.opal_numero), target: "_blank"
+				- else
+					p = anonymize anonymized, edit_url do
+						= projet.opal_numero
+			- else
+				p &nbsp;
+		td
+			p = anonymize anonymized, edit_url do
+				span.firstname= projet.demandeur_prenom
+				span.lastname<= projet.demandeur_nom
+			p = projet.addr_ville + " " + projet.addr_code
+		td
+			- if projet.libelle_theme
+				p = anonymize anonymized, edit_url do
+					= projet.libelle_theme
+			- else
+				p Type d'intervention inconnu
+			- if projet.name_op.present?
+				p title="#{projet.name_op}"
+					span = "OP : " + projet.code_opal_op
+			- elsif projet.code_opal_op != nil
+				p &nbsp;
+			- else
+				p OP : N/A
+		td
+			div.dashboard-date-text-container = anonymize anonymized, edit_url do
+				div.dashboard-date-text-1
+					- if projet.opal_position_label
+						= projet.opal_position_label
+					- else
+					 	= t(projet.status_for_intervenant, scope: "projets.statut")
+				- if projet.opal_date_position.present?
+					div.dashboard-date-text-2 = "Depuis le: " + projet.opal_date_position.strftime("%d/%m/%Y")
+				- elsif projet.statut_updated_date.present?
+					div.dashboard-date-text-2 = "Depuis le: " + projet.statut_updated_date.strftime("%d/%m/%Y")
+				- elsif projet.statut == "prospect"
+					div.dashboard-date-text-2 = "Depuis le: " + projet.created_at.strftime("%d/%m/%Y")
+				- else
+					div.dashboard-date-text-2 Depuis le: Inconnu
+			div
+				- if projet.ift_intervenant.present?
+					= projet.ift_intervenant + " - " + projet.ift_agent
+				- else
+					p &nbsp;
+		
+		td.table-row-icons-border
+		
+		- if isMessage == true
+			td.table-row-icons-border
+				= link_to new_projet_or_dossier_message_path(projet)
+					span.project-menu-icon.glyphicon.glyphicon-envelope
+					p Messages
+
+		td.table-row-icons-border
+			- if projet.actif === 1 && projet.status_not_yet(:transmis_pour_instruction)
+				= link_to :controller => "dossiers", :action => "desactivate", :dossier_id => projet.id do
+					p
+						span.glyphicon.glyphicon-eye-close
+					p Desactiver
+			- if projet.actif === 0
+				= link_to :controller => "dossiers", :action => "activate", :dossier_id => projet.id do
+					p
+						span.glyphicon.glyphicon-eye-open
+					p Activer
