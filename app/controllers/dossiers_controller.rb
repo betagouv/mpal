@@ -104,7 +104,7 @@ class DossiersController < ApplicationController
 
   def proposer
     @projet_courant.statut = :proposition_proposee
-    if @projet_courant.save(context: :proposition)
+    if ((ENV['ELIGIBLE_HMA'] != 'true' || !@projet_courant.hma.present?) && @projet_courant.save(context: :proposition)) || (ENV['ELIGIBLE_HMA'] == 'true' && @projet_courant.hma.present? && @projet_courant.save)
       message = I18n.t('notification_validation_dossier.succes',
                        demandeur: @projet_courant.demandeur.fullname)
       ProjetMailer.notification_validation_dossier(@projet_courant).deliver_later!
@@ -122,8 +122,10 @@ class DossiersController < ApplicationController
     end
     if request.put?
       @projet_courant.statut = :proposition_enregistree
-      if @projet_courant.update_attributes(projet_params)
+      if ((ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)) && @projet_courant.update_attributes(projet_params)
         return redirect_to projet_or_dossier_path(@projet_courant), notice: t('projets.edition_projet.messages.succes')
+      elsif ((ENV['ELIGIBLE_HMA'] == 'true') && (@projet_courant.demande.eligible_hma)) && @projet_courant.update_attributes(projet_params_hma)
+          return redirect_to projet_or_dossier_path(@projet_courant), notice: t('projets.edition_projet.messages.succes')
       else
         flash.now[:alert] = t('projets.edition_projet.messages.erreur')
       end
@@ -241,6 +243,7 @@ class DossiersController < ApplicationController
 
 
   private
+
   def assign_projet_if_needed
     if !@projet_courant.agent_operateur && current_agent
       if @projet_courant.update_attribute(:agent_operateur, current_agent)
@@ -318,6 +321,19 @@ class DossiersController < ApplicationController
     )
     clean_projet_aides(attributes)
     clean_prestation_choices(attributes)
+    attributes
+  end
+
+  def projet_params_hma
+    attributes = params.require(:projet).permit(
+        :numero_siret,
+        :precisions_travaux, :precisions_financement,
+        :localized_loan_amount, :localized_personal_funding_amount,
+        :hma_attributes => [:id, :devis_ht, :devis_ttc, :moa, :other_aids, :other_aids_amount, :ptz],
+        :suggested_operateur_ids => [],
+        :projet_aides_attributes => [:aide_id, :localized_amount]
+    )
+    clean_projet_aides(attributes)
     attributes
   end
 
@@ -506,14 +522,19 @@ def render_index
     @public_aids_with_amounts = aids.try(:public_assistance)
     @private_aids_with_amounts = aids.try(:not_public_assistance)
 
-    @themes = Theme.ordered.all
     unless @projet_courant.projet_aides.any?
       Aide.active_for_projet(@projet_courant).ordered.each do |aide|
         @projet_courant.projet_aides.build(aide: aide)
       end
     end
     @page_heading = "Projet proposé par l’opérateur"
-    render "projets/proposition"
+
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.try(:eligible_hma))
+      @themes = Theme.ordered.all
+      render "projets/proposition" and return
+    else
+      render "projets/proposition_hma" and return
+    end
   end
 
   def suggested_operateurs_params

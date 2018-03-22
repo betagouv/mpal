@@ -235,6 +235,17 @@ FactoryGirl.define do
         projet.statut = :transmis_pour_instruction
       end
     end
+    trait :hma_projet do
+      statut :en_cours
+      eligibilite 3
+      with_demandeur
+      with_account
+      with_invited_pris
+      with_committed_operateur
+      after(:build) do |projet|
+        projet.demande = create(:demande, :demande_hma, projet: projet)
+      end
+    end
 
     trait :en_cours_d_instruction do
       opal_numero 4567

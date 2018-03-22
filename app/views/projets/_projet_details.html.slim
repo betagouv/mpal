@@ -1,40 +1,54 @@
-h3 &nbsp;
-.table-responsive
-  table.table.table-striped.table-sm
-    tbody
-      tr
-        td= sf_label :projet, :date_de_visite_du_logement
-        td.proposition-cell-price.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
-      - if @projet_courant.type_logement.present?
+- if (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
+  h3 &nbsp;
+  .table-responsive
+    table.table.table-striped.table-sm
+      tbody
         tr
-          td= sf_label :projet, :type_logement
-          td.proposition-cell-price.test-type-logement= @projet_courant.type_logement
-      - if @projet_courant.etage.present?
+          td= sf_label :projet, :date_de_visite_du_logement
+          td.proposition-cell-price.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
+        - if @projet_courant.type_logement.present?
+          tr
+            td= sf_label :projet, :type_logement
+            td.proposition-cell-price.test-type-logement= @projet_courant.type_logement
+        - if @projet_courant.etage.present?
+          tr
+            td= sf_label :projet, :etage
+            td.proposition-cell-price.test-etage= @projet_courant.etage
+        - if @projet_courant.nb_pieces.present?
+          tr
+            td= sf_label :projet, :nb_pieces
+            td.proposition-cell-price.test-pieces= @projet_courant.nb_pieces
+        - if @projet_courant.demande.try(:annee_construction).present?
+          tr
+            td= sf_label "projet.demande", :annee_construction
+            td.proposition-cell-price.test-annee-construction= @projet_courant.demande.annee_construction
+        - if @projet_courant.surface_habitable.present?
+          tr
+            td= sf_label :projet, :surface_habitable
+            td.proposition-cell-price.test-surface-habitable #{@projet_courant.surface_habitable} m²
+        - if @projet_courant.consommation_avant_travaux.present?
+          tr
+            td= sf_label :projet, :consommation_avant_travaux
+            td.proposition-cell-price.test-consommation-avant= number_to_power_consumption(@projet_courant.consommation_avant_travaux)
+        - if @projet_courant.etiquette_avant_travaux.present?
+          tr
+            td= sf_label :projet, :etiquette_avant_travaux
+            td.proposition-cell-price.test-etiquette-avant= @projet_courant.etiquette_avant_travaux
+- else
+  h3 &nbsp;
+  .table-responsive
+    table.table.table-striped.table-sm
+      tbody
         tr
-          td= sf_label :projet, :etage
-          td.proposition-cell-price.test-etage= @projet_courant.etage
-      - if @projet_courant.nb_pieces.present?
-        tr
-          td= sf_label :projet, :nb_pieces
-          td.proposition-cell-price.test-pieces= @projet_courant.nb_pieces
-      - if @projet_courant.demande.try(:annee_construction).present?
-        tr
-          td= sf_label "projet.demande", :annee_construction
-          td.proposition-cell-price.test-annee-construction= @projet_courant.demande.annee_construction
-      - if @projet_courant.surface_habitable.present?
-        tr
-          td= sf_label :projet, :surface_habitable
-          td.proposition-cell-price.test-surface-habitable #{@projet_courant.surface_habitable} m²
-      - if @projet_courant.consommation_avant_travaux.present?
-        tr
-          td= sf_label :projet, :consommation_avant_travaux
-          td.proposition-cell-price.test-consommation-avant= number_to_power_consumption(@projet_courant.consommation_avant_travaux)
-      - if @projet_courant.etiquette_avant_travaux.present?
-        tr
-          td= sf_label :projet, :etiquette_avant_travaux
-          td.proposition-cell-price.test-etiquette-avant= @projet_courant.etiquette_avant_travaux
+          td= sf_label :projet, :localized_numero_siret
+          td.proposition-cell-price.test-numero-siret= @projet_courant.numero_siret
 
-- if @projet_courant.has_house_evaluation?
+        - if @projet_courant.hma.present? && @projet_courant.hma.ptz.present?
+          tr
+            td= sf_label :hma, :localized_ptz
+            td.proposition-cell-price.test-date-de-ptz= l(Date.parse(@projet_courant.hma.ptz), format: :long)
+
+- if @projet_courant.has_house_evaluation? && (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
   h3 Diagnostic opérateur
   .table-responsive
     table.table.table-striped.table-sm
@@ -76,37 +90,39 @@ h3 &nbsp;
             td= sf_label :projet, :remarques_diagnostic
             td.proposition-cell-price.test-remarques-diagnostic.dont-break-out= @projet_courant.remarques_diagnostic
 
-h3 Type d’intervention
-.table-responsive
-  table.table.table-striped.table-sm
-    tbody
-    - if @projet_courant.themes.present?
-      tr
-        td Type d’intervention
-        td.proposition-cell-price= @projet_courant.themes.map(&:libelle).join(", ")
-
-h3 Travaux
-- if @projet_courant.prestations.present?
+- if (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
+  h3 Type d’intervention
   .table-responsive
     table.table.table-striped.table-sm
-      thead
-        tr
-          th
-          th= t("projets.proposition.state.desired")
-          th= t("projets.proposition.state.recommended")
-          th= t("projets.proposition.state.selected")
       tbody
-        - @projet_courant.prestation_choices.each do |prestation_choice|
-          tr
-            - prestation = prestation_choice.prestation
-            td= prestation.libelle
-            - [:desired, :recommended, :selected].each do |state|
-              td.recap-projet-image-cell
-                - if prestation_choice.send(state)
-                  - alt = t("projets.proposition.state.#{state}")
-                  = image_tag "check.svg", alt: alt, title: alt, id: "test-prestation-#{prestation.id}-#{state}"
+      - if @projet_courant.themes.present?
+        tr
+          td Type d’intervention
+          td.proposition-cell-price= @projet_courant.themes.map(&:libelle).join(", ")
 
-- if @projet_courant.has_energy_evaluation?
+- if (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
+  h3 Travaux
+  - if @projet_courant.prestations.present?
+    .table-responsive
+      table.table.table-striped.table-sm
+        thead
+          tr
+            th
+            th= t("projets.proposition.state.desired")
+            th= t("projets.proposition.state.recommended")
+            th= t("projets.proposition.state.selected")
+        tbody
+          - @projet_courant.prestation_choices.each do |prestation_choice|
+            tr
+              - prestation = prestation_choice.prestation
+              td= prestation.libelle
+              - [:desired, :recommended, :selected].each do |state|
+                td.recap-projet-image-cell
+                  - if prestation_choice.send(state)
+                    - alt = t("projets.proposition.state.#{state}")
+                    = image_tag "check.svg", alt: alt, title: alt, id: "test-prestation-#{prestation.id}-#{state}"
+
+- if @projet_courant.has_energy_evaluation? && (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
   h3 Consommation énergétique
   .table-responsive
     table.table.table-striped.table-sm
@@ -145,6 +161,14 @@ h3 Travaux
               td = sf_label :projet, field
               td class="proposition-cell-price test-#{field.to_s.dasherize}" = number_to_currency value
 
+        - if @projet_courant.hma.present?
+          - [:devis_ht].each do |field|
+              - value = @projet_courant.hma.send field
+              - if value.present?
+                tr
+                  td = sf_label :hma, field
+                  td class="proposition-cell-price test-#{field.to_s.dasherize}" = number_to_currency value
+
         - if 0 < @global_ht_sum
           tr
             td.bold-label.black-label.medium-size-label = sf_label :projet, :global_ht_sum
@@ -156,6 +180,14 @@ h3 Travaux
             tr
               td = sf_label :projet, field
               td class="proposition-cell-price test-#{field.to_s.dasherize}" = number_to_currency value
+
+        - if @projet_courant.hma.present?
+          - [:devis_ttc, :moa].each do |field|
+              - value = @projet_courant.hma.send field
+              - if value.present?
+                tr
+                  td = sf_label :hma, field
+                  td class="proposition-cell-price test-#{field.to_s.dasherize}" = number_to_currency value
 
         - if 0 < @projet_courant.global_ttc_sum
           tr
@@ -172,6 +204,15 @@ h3 Travaux
           tr
             td.bold-label.black-label.medium-size-label = sf_label :projet, :public_aids_sum
             td.proposition-cell-price.test-public-aids-sum.bold-label.black-label.medium-size-label = number_to_currency @public_aids_sum
+
+        - if @projet_courant.hma.present?
+          - if @projet_courant.hma.other_aids == true
+            - [:other_aids_amount].each do |field|
+              - value = @projet_courant.hma.send field
+              - if value.present?
+                tr
+                  td = sf_label :hma, "localized_#{field}"
+                  td class="proposition-cell-price test-#{field.to_s.dasherize}" = number_to_currency value
 
         - @private_aids_with_amounts.each do |aid|
           - if aid.amount.present? && 0 < aid.amount
@@ -191,7 +232,7 @@ h3 Travaux
             td.bold-label.black-label.medium-size-label = sf_label :projet, :fundings_sum
             td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @fundings_sum
 
-        - if 0 < @remaining_sum
+        - if 0 == @remaining_sum
           tr
             td.bold-label.black-label.medium-size-label = sf_label :projet, :remaining_sum
             td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @remaining_sum

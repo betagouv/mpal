@@ -79,12 +79,14 @@ class DemandesController < ApplicationController
 
     if @demande.eligible_hma_first_step? && @demande.devis_rge
       @demande.eligible_hma = true
+      @projet_courant.build_hma
     end
 
     unless @demande.save
       init_show
       return render :show
     end
+    @projet_courant.save
     redirect_to_next_step and return
   end
 
