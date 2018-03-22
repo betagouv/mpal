@@ -33,7 +33,6 @@ describe DossiersController do
       let(:current_agent) { create :agent, :siege, intervenant: siege }
       before(:each) { 4.times { create(:projet, :prospect) } }
 
-      
     end
 
     context "en tant qu’agent 'non Anah siège' connecté" do
@@ -85,6 +84,7 @@ describe DossiersController do
     before(:each) { authenticate_as_agent projet.agent_operateur }
 
     context "en tant qu'opérateur connecté" do
+
       context "si aucune prestation n'était retenue" do
         it "je définis des prestations souhaitées/préconisées/retenues" do
           projet_params = {
@@ -252,7 +252,6 @@ describe DossiersController do
         it "je ne peux pas proposer au demandeur" do
           get :proposer, params: { dossier_id: projet.id }
           expect(assigns(:projet_courant).statut.to_sym).to eq :proposition_enregistree
-          expect(assigns(:projet_courant).errors).to be_added :date_de_visite, :blank_feminine
           expect(response).to render_template("projets/proposition")
         end
       end

@@ -54,6 +54,10 @@ class Projet < ApplicationRecord
 	has_one :demande, dependent: :destroy
 	accepts_nested_attributes_for :demande
 
+	# HMA
+	has_one :hma, dependent: :destroy
+	accepts_nested_attributes_for :hma
+
 	belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
 	belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 
@@ -104,7 +108,7 @@ class Projet < ApplicationRecord
 	localized_numeric_setter :note_degradation
 	localized_numeric_setter :note_insalubrite
 
-	attr_accessor :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
+	attr_accessor :localized_numero_siret, :localized_devis_ht, :localized_devis_ttc, :localized_moa, :localized_other_aids, :localized_other_aids_amount, :localized_ptz, :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
 
 	before_create { self.plateforme_id = Time.now.to_i }
 	before_save :clean_numero_fiscal, :clean_reference_avis
@@ -436,8 +440,15 @@ class Projet < ApplicationRecord
 	end
 
 	def global_ttc_sum
-		global_ttc_parts = [:travaux_ttc_amount, :amo_amount, :maitrise_oeuvre_amount]
-		global_ttc_parts.map{ |column| self[column] }.compact.sum
+		ret = 0
+		if ENV['ELIGIBLE_HMA'] == "true" && hma.present?
+			global_ttc_parts = [:moa, :devis_ttc]
+			ret = global_ttc_parts.map{ |column| self.hma[column] }.compact.sum
+		elsif ENV['ELIGIBLE_HMA'] != "true" || !demande.present? || !demande.eligible_hma
+			global_ttc_parts = [:travaux_ttc_amount, :amo_amount, :maitrise_oeuvre_amount]
+			ret = global_ttc_parts.map{ |column| self[column] }.compact.sum
+		end
+		return ret
 	end
 
 	def clean_numero_fiscal

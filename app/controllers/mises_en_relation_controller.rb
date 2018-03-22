@@ -49,6 +49,7 @@ class MisesEnRelationController < ApplicationController
     if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
       redirect_to root_path and return
     end
+    hma = @projet_courant.hma || @projet_courant.build_hma
     if params.has_key?(:accomp_question) && params[:accomp_question] == "true"
       response = Rod.new(RodClient).query_for(@projet_courant)
       if params.has_key?(:op_question) && params[:op_question] == "true" && params.has_key?(:operateur) && params[:operateur].present?
@@ -63,7 +64,9 @@ class MisesEnRelationController < ApplicationController
         if var_op != nil
           begin
             invitation = Invitation.create! projet: @projet_courant, intervenant: var_op, contacted: true
+            @projet_courant.contact_operateur!(var_op.reload)
             @projet_courant.commit_with_operateur!(var_op)
+            @projet_courant.invite_instructeur! response.instructeur
           redirect_to root_path and return
           rescue
           end
@@ -72,7 +75,9 @@ class MisesEnRelationController < ApplicationController
         end
       elsif params.has_key?(:op_question)  && params[:op_question] == "false"
         begin
-          @projet_courant.invite_pris!(response.pris)
+          invitation = @projet_courant.invite_pris!(response.pris)
+          Projet.notify_intervenant_of(invitation)
+          @projet_courant.invite_instructeur! response.instructeur
           redirect_to root_path and return
         rescue
         end
