@@ -296,7 +296,7 @@ javascript:
             $('.projet_adresse_a_renover').append("<div class='suggested-addr'><ul class='suggested-addr-list'></ul></div>");
             for (var indexValue in suggestedAddr) {
               if (suggestedAddr.hasOwnProperty(indexValue)) {
-                var addrRaw = suggested-addr[indexValue].properties;
+                var addrRaw = suggestedAddr[indexValue].properties;
                 var formatedAddr = addrRaw.label;
                 if (formatedAddr.length <= 0)
                   $input2.addClass("addr-error");

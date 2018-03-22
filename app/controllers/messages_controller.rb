@@ -29,6 +29,8 @@ private
   def mark_last_read_messages_at
     if current_agent
       @projet_courant.mark_last_read_messages_at!(current_agent)
+    elsif @projet_courant.demandeur
+      @projet_courant.mark_last_read_messages_at!(@projet_courant.demandeur)
     end
   end
 

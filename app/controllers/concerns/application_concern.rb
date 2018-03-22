@@ -53,7 +53,7 @@ module ApplicationConcern
       end
       if @projet_courant
         if @projet_courant.opal_position_label
-          @page_heading = "Dossier: #{@projet_courant.opal_position_label}"
+          @page_heading = "Dossier : #{@projet_courant.opal_position_label}"
         else
           @page_heading = "Dossier : #{I18n.t(@projet_courant.statut, scope: "projets.statut").downcase}"
         end
