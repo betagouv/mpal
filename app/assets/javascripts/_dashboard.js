@@ -151,8 +151,10 @@ $(document).ready(function() {
 
 	function preserveSearch() {
 		var advanced = $('input[name="advanced"]').is(":checked"),
-			currentTab = $('.sel.sel-tab').find(":selected").attr('class'),
+			currentTab = $('.sel.sel-tab select[name="select-active-tab"]').find(":selected").attr('class'),
 			searchParam = {};
+
+		console.log(currentTab);
 
 		searchParam["utf8"] = "✓";
 
