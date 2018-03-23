@@ -5,11 +5,11 @@
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Logement
     = f.input :numero_siret, wrapper: "append", wrapper_html: { class: "size-s" } do
-      = f.input_field :numero_siret, class: "input-number siretNum", input_html: {value: @projet_courant.numero_siret? ? @projet_courant.numero_siret : ""}
+      = f.input_field :numero_siret, class: "input-number siretNum", input_html: {value: @projet_courant.numero_siret.present? ? @projet_courant.numero_siret : ""}
     = f.input :nom_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
-      = f.input_field :nom_entreprise, class: "input-number nomEntreprise", input_html: {value: @projet_courant.nom_entreprise? ? @projet_courant.nom_entreprise : ""}
+      = f.input_field :nom_entreprise, class: "input-number nomEntreprise", input_html: {value: @projet_courant.nom_entreprise.present? ? @projet_courant.nom_entreprise : ""}
     = f.input :cp_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
-      = f.input_field :cp_entreprise, class: "input-number cpEntreprise", input_html: {value: @projet_courant.cp_entreprise? ? @projet_courant.cp_entreprise : ""}
+      = f.input_field :cp_entreprise, class: "input-number cpEntreprise", input_html: {value: @projet_courant.cp_entreprise.present? ? @projet_courant.cp_entreprise : ""}
 
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Plan de financement prévisionnel
