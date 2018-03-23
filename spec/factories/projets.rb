@@ -244,6 +244,7 @@ FactoryGirl.define do
       with_committed_operateur
       after(:build) do |projet|
         projet.demande = create(:demande, :demande_hma, projet: projet)
+        projet.hma = projet.build_hma
       end
     end
 
