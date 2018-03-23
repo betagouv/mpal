@@ -43,6 +43,14 @@
           td= sf_label :projet, :localized_numero_siret
           td.proposition-cell-price.test-numero-siret= @projet_courant.numero_siret
 
+        tr
+          td= sf_label :projet, :localized_nom_entreprise
+          td.proposition-cell-price.test-nom-entreprise= @projet_courant.nom_entreprise
+
+        tr
+          td= sf_label :projet, :localized_cp_entreprise
+          td.proposition-cell-price.test-cp-entreprise= @projet_courant.cp_entreprise
+
         - if @projet_courant.hma.present? && @projet_courant.hma.ptz.present?
           tr
             td= sf_label :hma, :localized_ptz
@@ -204,15 +212,6 @@
           tr
             td.bold-label.black-label.medium-size-label = sf_label :projet, :public_aids_sum
             td.proposition-cell-price.test-public-aids-sum.bold-label.black-label.medium-size-label = number_to_currency @public_aids_sum
-
-        - if @projet_courant.hma.present?
-          - if @projet_courant.hma.other_aids == true
-            - [:other_aids_amount].each do |field|
-              - value = @projet_courant.hma.send field
-              - if value.present?
-                tr
-                  td = sf_label :hma, "localized_#{field}"
-                  td class="proposition-cell-price test-#{field.to_s.dasherize}" = number_to_currency value
 
         - @private_aids_with_amounts.each do |aid|
           - if aid.amount.present? && 0 < aid.amount

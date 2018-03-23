@@ -99,6 +99,8 @@ class Projet < ApplicationRecord
 	validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 	validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
 	validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
+	validates :numero_siret, presence: true, on: :proposition_hma
+	validates_associated :hma, on: :proposition_hma
 	validates :consommation_avant_travaux, :consommation_apres_travaux, :gain_energetique, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 999999999 }, allow_nil: true
 	validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
 	validates *FUNDING_FIELDS, :big_number => true
@@ -108,7 +110,7 @@ class Projet < ApplicationRecord
 	localized_numeric_setter :note_degradation
 	localized_numeric_setter :note_insalubrite
 
-	attr_accessor :localized_numero_siret, :localized_devis_ht, :localized_devis_ttc, :localized_moa, :localized_other_aids, :localized_other_aids_amount, :localized_ptz, :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
+	attr_accessor :localized_numero_siret, :localized_nom_entreprise, :localized_cp_entreprise, :localized_devis_ht, :localized_devis_ttc, :localized_moa, :localized_ptz, :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
 
 	before_create { self.plateforme_id = Time.now.to_i }
 	before_save :clean_numero_fiscal, :clean_reference_avis

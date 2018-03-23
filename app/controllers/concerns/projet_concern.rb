@@ -19,10 +19,6 @@ module ProjetConcern
       @fundings_sum += @projet_courant.loan_amount || 0
       @fundings_sum += @private_aids_with_amounts.sum(:amount)
 
-      if ENV['ELIGIBLE_HMA'] == "true" && @projet_courant.hma.present? && @projet_courant.hma.other_aids
-        @fundings_sum += @projet_courant.hma.other_aids_amount
-      end
-
       @remaining_sum = @projet_courant.global_ttc_sum
       @remaining_sum -= @fundings_sum || 0
       @global_ht_sum = @projet_courant.travaux_ht_amount || 0

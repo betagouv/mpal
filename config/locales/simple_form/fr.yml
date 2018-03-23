@@ -111,36 +111,25 @@ fr:
         surface_habitable: "Surface habitable"
         numero_siret: "Le numéro de siret de mon entreprise est"
         localized_numero_siret: "Numéro de siret"
+        nom_entreprise: "Nom de l'entreprise"
+        localized_nom_entreprise: "Nom de l'entreprise"
+        cp_entreprise: "Code postale de l'entreprise"
+        localized_cp_entreprise: "Code postale de l'entreprise"
         theme_ids: "Types d’interventions"
         travaux_ht_amount: "Coût des travaux à réaliser HT"
         travaux_ttc_amount: "Coût des travaux à réaliser TTC"
         type_logement: "Type de logement"
         ventilation_adaptee: "Ventilation adaptée"
 
-        hma:
-          # HMA
-          devis_ht: "Montant du devis Hors Taxe (HT)"
-          devis_ttc: "Montant du devis Toutes Taxes Comprises (TTC)"
-          moa: "Coût Assistance à Maîtrise d'Ouvrage (MOA)"
-          other_aids: "J'ai bénéficié d'autres aides"
-          other_aids_amount: "Le montant approximatif des autres aides attendues s'éléve à"
-          localized_other_aids_amount: "Autres aides attendues"
-          ptz: "Si j'ai déjà bénéficié d'un PTZ, j'indique la date de signature de mon PTZ"
-          localized_ptz: "Date de signature du PTZ"
-          localized_global_ttc_sum: "Montant global TTC"
-          localized_global_ht_sum: "Montant global HT"
-      # hma:
-      #   # HMA
-      #   devis_ht: "Montant du devis Hors Taxe (HT)"
-      #   devis_ttc: "Montant du devis Toutes Taxes Comprises (TTC)"
-      #   moa: "Coût Assistance à Maîtrise d'Ouvrage (MOA)"
-      #   other_aids: "J'ai bénéficié d'autres aides"
-      #   other_aids_amount: "Le montant approximatif des autres aides attendues s'éléve à"
-      #   localized_other_aids_amount: "Autres aides attendues"
-      #   ptz: "Si j'ai déjà bénéficié d'un PTZ, j'indique la date de signature de mon PTZ"
-      #   localized_ptz: "Date de signature du PTZ"
-      #   localized_global_ttc_sum: "Montant global TTC"
-      #   localized_global_ht_sum: "Montant global HT"
+      hma:
+        # HMA
+        devis_ht: "Montant du devis Hors Taxe (HT)"
+        devis_ttc: "Montant du devis Toutes Taxes Comprises (TTC)"
+        moa: "Coût Assistance à Maîtrise d'Ouvrage (MOA)"
+        ptz: "Si j'ai déjà bénéficié d'un PTZ, j'indique la date de signature de mon PTZ"
+        localized_ptz: "Date de signature du PTZ"
+        localized_global_ttc_sum: "Montant global TTC"
+        localized_global_ht_sum: "Montant global HT"
 
       demande:
         # Difficultés
