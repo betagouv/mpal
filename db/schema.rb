@@ -154,8 +154,6 @@ ActiveRecord::Schema.define(version: 20180319104832) do
     t.decimal "devis_ht", precision: 10, scale: 2
     t.decimal "devis_ttc", precision: 10, scale: 2
     t.decimal "moa", precision: 10, scale: 2
-    t.boolean "other_aids", default: false, null: false
-    t.decimal "other_aids_amount", precision: 10, scale: 2
     t.string "ptz"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -350,6 +348,8 @@ ActiveRecord::Schema.define(version: 20180319104832) do
     t.integer "eligibilite", default: 0, null: false
     t.string "eligibility_commentaire"
     t.string "numero_siret"
+    t.string "nom_entreprise"
+    t.string "cp_entreprise"
     t.index ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id"
     t.index ["adresse_postale_id"], name: "index_projets_on_adresse_postale_id"
     t.index ["agent_instructeur_id"], name: "index_projets_on_agent_instructeur_id"

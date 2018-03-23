@@ -5,8 +5,6 @@ class CreateHmas < ActiveRecord::Migration[4.2]
       t.decimal :devis_ht, precision: 10, scale: 2
       t.decimal :devis_ttc, precision: 10, scale: 2
       t.decimal :moa, precision: 10, scale: 2
-      t.boolean :other_aids, default: false, null: false
-      t.decimal :other_aids_amount, precision: 10, scale: 2
       t.string :ptz
 
       t.timestamps
