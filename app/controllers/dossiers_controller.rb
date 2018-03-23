@@ -529,7 +529,7 @@ def render_index
     end
     @page_heading = "Projet proposé par l’opérateur"
 
-    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.try(:eligible_hma))
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.hma.present?)
       @themes = Theme.ordered.all
       render "projets/proposition" and return
     else
