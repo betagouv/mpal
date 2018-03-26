@@ -16,7 +16,11 @@ module Tools
   end
 
   def self.city_exception
-    ENV['CITY_EXCEPTION'].delete(' ').split(',')
+    begin
+      return ENV['CITY_EXCEPTION'].delete(' ').split(',')
+    rescue
+      return []
+    end
   end
 
   def self.departement_enabled?(departement, code_postal)
