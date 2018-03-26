@@ -244,6 +244,10 @@ td {
 	}
 }
 
+.align-right {
+	text-align: right;	
+}
+
 @media print {
 	html,
 	body { overflow: visible !important; }
