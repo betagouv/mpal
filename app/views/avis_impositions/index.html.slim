@@ -18,7 +18,7 @@ table.table.table-striped.table-sm
         td= avis_imposition.declarant_2
         td= avis_imposition.nombre_personnes_charge
         td
-          - if 0 < index
+          - if avis_imposition.reference_avis != @projet_courant.reference_avis
             = link_to projet_or_dossier_avis_imposition_path(@projet_courant, avis_imposition),
                 method: :delete,
                 class: "btn btn-icon btn-secondary btn-small",

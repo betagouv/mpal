@@ -370,7 +370,7 @@ class Projet < ApplicationRecord
 	def reset_fiscal_information
 		contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable_no_cache
 		a = ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable)
-		AvisImposition.where(:numero_fiscal => self.numero_fiscal,:reference_avis => self.reference_avis, projet_id => self.id).first.try(:destroy)
+		AvisImposition.where(:numero_fiscal => self.numero_fiscal, :reference_avis => self.reference_avis, :projet_id => self.id).first.try(:destroy)
 		a.save!
 	end
 

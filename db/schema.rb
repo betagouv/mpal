@@ -154,6 +154,8 @@ ActiveRecord::Schema.define(version: 20180323145253) do
     t.decimal "devis_ht", precision: 10, scale: 2
     t.decimal "devis_ttc", precision: 10, scale: 2
     t.decimal "moa", precision: 10, scale: 2
+    t.boolean "other_aids", default: false, null: false
+    t.decimal "other_aids_amount", precision: 10, scale: 2
     t.string "ptz"
     t.datetime "created_at"
     t.datetime "updated_at"
