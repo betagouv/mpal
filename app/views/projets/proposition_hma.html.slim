@@ -3,10 +3,13 @@
   .occupants-recap Opérateur : #{@projet_courant.operateur.raison_sociale}
 
   fieldset.form-proposition__fieldset
-    legend.form-proposition__legend Logement
-    = f.input :numero_siret, required: true, wrapper: "append", wrapper_html: { class: "size-s" } do
-      / Edit input field with new schema value
-      = f.input_field :numero_siret, class: "input-number siretNum", input_html: {value: @projet_courant.numero_siret? ? @projet_courant.numero_siret : ""}
+    legend.form-proposition__legend Projet de travaux
+    = f.input :numero_siret, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = f.input_field :numero_siret, class: "input-number siretNum", input_html: {value: @projet_courant.numero_siret.present? ? @projet_courant.numero_siret : ""}
+    = f.input :nom_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = f.input_field :nom_entreprise, class: "input-number nomEntreprise", input_html: {value: @projet_courant.nom_entreprise.present? ? @projet_courant.nom_entreprise : ""}
+    = f.input :cp_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = f.input_field :cp_entreprise, class: "input-number cpEntreprise", input_html: {value: @projet_courant.cp_entreprise.present? ? @projet_courant.cp_entreprise : ""}
 
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Plan de financement prévisionnel
@@ -21,33 +24,21 @@
 
       = f.fields_for :hma do |hma_form|
 
-        = hma_form.input :devis_ht, required: true, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = hma_form.input :devis_ht, wrapper: "append", wrapper_html: { class: "size-s" } do
           = hma_form.input_field :devis_ht, class: "input-price js-global-ht-part devisHT", input_html: {value: @projet_courant.hma.devis_ht}
           span.input-group-addon €
 
-        = hma_form.input :devis_ttc, required: true, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = hma_form.input :devis_ttc, wrapper: "append", wrapper_html: { class: "size-s" } do
           = hma_form.input_field :devis_ttc, class: "input-price js-global-ttc-part devisTTC"
           span.input-group-addon €
 
-        = hma_form.input :moa, required: true, wrapper: "append", wrapper_html: { class: "size-s" } do
+        = hma_form.input :moa, wrapper: "append", wrapper_html: { class: "size-s" } do
           = hma_form.input_field :moa, class: "input-price js-global-ttc-part amountMOA"
           span.input-group-addon €
 
         = hma_form.input :localized_global_ttc_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
           = hma_form.input_field :localized_global_ttc_sum, class: "input-price", id: "js-global-ttc-sum", disabled: true
           span.input-group-addon €
-
-        = hma_form.input :other_aids, as: :radio_buttons, collection: yes_no_collection, :checked => [@projet_courant.hma.other_aids]
-
-        = hma_form.input :other_aids_amount, wrapper: "append", wrapper_html: { class: "size-s other_aids_amount" } do
-          = hma_form.input_field :other_aids_amount, class: "input-price js-private-aid"
-          span.input-group-addon €
-        div.other_aids_amount Pour le paiement de la subvention, vous devez fournir un document justifiant des sommes perçues dans le cadre des 'autres aides'
-
-        br
-
-        = hma_form.input :ptz, wrapper: "append", wrapper_html: { class: "size-s" } do
-          = hma_form.input_field :ptz, class: "input-price", id: "PTZDate", placeholder: "aaaa-mm-dd"
 
       br
       div.cat-flex-box-home
@@ -87,7 +78,7 @@
       br
       div.cat-flex-box-home
         span.line-home
-        span.subtitle-home MONTANT DES APPORTS PERSONNELS
+        span.subtitle-home Reste à charge
         span.line-home
       br
 
@@ -111,7 +102,7 @@
       br
       div.cat-flex-box-home
         span.line-home
-        span.subtitle-home RESTE A CHARGE
+        span.subtitle-home Contrôle / Dépenses / Recettes
         span.line-home
       br
 
@@ -119,36 +110,22 @@
         = f.input_field :localized_remaining_sum, class: "input-price", id: "js-remaining-sum", disabled: true
         span.input-group-addon €
 
+  br
+
+  = f.fields_for :hma do |hma_form|
+    = hma_form.input :ptz, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = hma_form.input_field :ptz, class: "input-price", id: "PTZDate", placeholder: "aaaa-mm-dd"
+
   = f.input :precisions_travaux, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_travaux_count')"}
   <div class="char-count" id="precisions_travaux_count">250 caractère(s) restant</div>
   = f.input :precisions_financement, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_financement_count')"}
   <div class="char-count" id="precisions_financement_count">250 caractère(s) restant</div>
-  <p class="alert alert-danger invalidSiret" style="display: none;">Valeur du numéro de siret incohérente ou format INVALIDE</p>
-  <p class="alert alert-danger invalidDevisHT" style="display: none;">Valeur du devis HT incohérente ou format INVALIDE</p>
-  <p class="alert alert-danger invalidDevisTTC" style="display: none;">Valeur du devis TTC incohérente ou format INVALIDE</p>
-  <p class="alert alert-danger invalidMOA" style="display: none;">Valeur de la MOA incohérente ou format INVALIDE</p>
-  <p class="alert alert-danger invalidRemain" style="display: none;">Le reste à charge doit être égale à 0</p>
 
   = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
+  <p class="alert alert-danger invalidSiret" style="display: none;">Valeur du numéro de siret incohérente ou format INVALIDE</p>
+  <p class="alert alert-danger invalidRemain" style="display: none;">Le reste à charge doit être égale à 0</p>
 
 javascript:
-  function checkInputCalculAid(elem) {
-    var input_other = $(elem).find('input:checked');
-
-    if (input_other.get(0).id == "projet_hma_attributes_other_aids_true") {
-      $('.other_aids_amount').find('input').addClass('js-private-aid');
-      $('.other_aids_amount').show();
-      sumFundings();
-    } else {
-      $('.other_aids_amount').find('input').removeClass('js-private-aid');
-      $('.other_aids_amount').hide();
-      sumFundings();
-    }
-  }
-
-  setTimeout(function() {
-    checkInputCalculAid(".projet_hma_other_aids");
-  }, 100);
 
   function countChar(val, inject) {
     var len = val.value.length;
@@ -190,61 +167,27 @@ javascript:
     return is_valid;
   }
 
-  $('.btn-validate-submit').click(function(e) {
+    $('.btn-validate-submit').click(function(e) {
     e.preventDefault();
     var validSiret,
-        validDHT,
-        validDHT,
-        validDTTC,
-        validMOA,
-        validRemain = false;
+      validRemain = false;
 
     var numSiret = $('.siretNum').val().toString(),
-        devisHT = $('.devisHT').val(),
-        devisTTC = $('.devisTTC').val(),
-        amountMOA = $('.amountMOA').val(),
-        remainSum = parseFloat($("#js-remaining-sum")[0].value);
-
-    console.log(remainSum);
+      remainSum = parseFloat($("#js-remaining-sum")[0].value);
 
     if (undefined != remainSum && remainSum == 0)
       validRemain = true;
-
-    if (undefined != devisHT && "" != devisHT && devisHT > 0)
-      validDHT = true;
-
-    if (undefined != devisTTC && "" != devisTTC && devisTTC > 0)
-      validDTTC = true;
-
-    if (undefined != amountMOA && "" != amountMOA && amountMOA > 0)
-      validMOA = true;
-
     if (undefined != numSiret && "" != numSiret) {
       if (verif_siren_siret(numSiret, 9) && verif_siren_siret(numSiret, 14))
         validSiret = true;
     }
 
-
-    if (validSiret && validDHT && validDTTC && validMOA && validRemain)
+    if (validSiret && validRemain)
       $('.simple_form').submit();
     else {
       if (!validSiret)
         $('.invalidSiret').css("display", "block");
-      if (!validDHT)
-        $('.invalidDevisHT').css("display", "block");
-      if (!validDTTC)
-        $('.invalidDevisTTC').css("display", "block");
-      if (!validMOA)
-        $('.invalidMOA').css("display", "block");
       if (!validRemain)
         $('.invalidRemain').css("display", "block");
     }
-  });
-
-  $(document).ready(function() {
-
-    $('.projet_hma_other_aids').change(function() {
-      checkInputCalculAid(this);
-    });
-
   });

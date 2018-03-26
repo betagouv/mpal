@@ -104,7 +104,7 @@ class DossiersController < ApplicationController
 
   def proposer
     @projet_courant.statut = :proposition_proposee
-    if ((ENV['ELIGIBLE_HMA'] != 'true' || !@projet_courant.hma.present?) && @projet_courant.save(context: :proposition)) || (ENV['ELIGIBLE_HMA'] == 'true' && @projet_courant.hma.present? && @projet_courant.save)
+    if ((ENV['ELIGIBLE_HMA'] != 'true' || !@projet_courant.hma.present?) && @projet_courant.save(context: :proposition)) || (ENV['ELIGIBLE_HMA'] == 'true' && @projet_courant.hma.present? && @projet_courant.save(context: :proposition_hma))
       message = I18n.t('notification_validation_dossier.succes',
                        demandeur: @projet_courant.demandeur.fullname)
       ProjetMailer.notification_validation_dossier(@projet_courant).deliver_later!
@@ -326,10 +326,10 @@ class DossiersController < ApplicationController
 
   def projet_params_hma
     attributes = params.require(:projet).permit(
-        :numero_siret,
+        :numero_siret, :nom_entreprise, :cp_entreprise,
         :precisions_travaux, :precisions_financement,
         :localized_loan_amount, :localized_personal_funding_amount,
-        :hma_attributes => [:id, :devis_ht, :devis_ttc, :moa, :other_aids, :other_aids_amount, :ptz],
+        :hma_attributes => [:id, :devis_ht, :devis_ttc, :moa, :ptz],
         :suggested_operateur_ids => [],
         :projet_aides_attributes => [:aide_id, :localized_amount]
     )
