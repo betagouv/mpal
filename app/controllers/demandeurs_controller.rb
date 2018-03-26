@@ -126,7 +126,7 @@ private
   end
 
   def redirect_to_next_step
-    if Tools.departement_enabled?(@projet_courant.departement)
+    if Tools.departement_enabled?(@projet_courant.departement, @projet_courant.adresse.code_postal)
       return redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
     else
       return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)
