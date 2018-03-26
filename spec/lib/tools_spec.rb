@@ -64,14 +64,14 @@ describe Tools do
 
     context "avec une liste définie" do
       let(:departements) { "77, 78" }
-      it { expect(Tools.departement_enabled?("77")).to be_truthy }
-      it { expect(Tools.departement_enabled?("78")).to be_truthy }
-      it { expect(Tools.departement_enabled?("2A")).to be_falsy }
+      it { expect(Tools.departement_enabled?("77", "77000")).to be_truthy }
+      it { expect(Tools.departement_enabled?("78", "78000")).to be_truthy }
+      it { expect(Tools.departement_enabled?("2A", "2A990")).to be_falsy }
     end
 
     context "avec un wildcard" do
       let(:departements) { Tools::STATES_WILDCARD }
-      it { expect(Tools.departement_enabled?("13")).to be_truthy }
+      it { expect(Tools.departement_enabled?("13", "13000")).to be_truthy }
     end
   end
 
