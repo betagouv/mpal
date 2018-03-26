@@ -2,19 +2,19 @@ class Seeder
   HELPS = {
       public: [
           "Aide de l'Anah",
-          "Aide ASE",
+          "Prime Habiter Mieux",
           "Aide AMO",
           "Aide commune",
           "Aide EPCI",
           "Aide département",
           "Aide région",
-          "Aide union européenne",
+          "Aide Union Européenne",
           "Caisse de retraite régime de base (CNAV/CARSAT, MSA, RSI, autres)",
           "Caisse de retraite complémentaires obligatoires (AGIRC, ARRCO, IRCANTEC, autres)",
           "Autre aide publique (ADEME, Agence de l'eau…)",
       ],
       private: [
-          "Aides non publiques",
+          "Total prévisionnel des aides non publiques",
       ],
   }
 
