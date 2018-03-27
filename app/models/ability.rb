@@ -24,7 +24,7 @@ private
       can :manage, AvisImposition
       can :manage, Occupant
       can :manage, Demande
-    elsif projet.demande.seul? and projet.users.include? user
+    elsif projet.demande and projet.demande.seul? and projet.users.include? user
       can :manage, Projet
       can :manage, :demandeur
       can :manage, AvisImposition
