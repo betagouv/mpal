@@ -38,7 +38,7 @@
       span.project-menu-icon.glyphicon.glyphicon-paperclip
       span.project-menu-text Pièces
 
-    - if !@projet_courant.demande.seul
+    - if !@projet_courant.demande or !@projet_courant.demande.seul
       = link_to new_projet_or_dossier_message_path(project), class: "project-menu-item"
         span.project-menu-icon.glyphicon.glyphicon-envelope
           - if current_agent
