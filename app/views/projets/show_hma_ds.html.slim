@@ -145,3 +145,27 @@ section.content-projet
 						- if (value = instructeur.send(field)).present?
 							li= value
 					p= t('projets.transmission.messages.info_demandeur')
+
+	- elsif @projet_courant.demande.seul && @projet_courant.statut == "en_cours_d_instruction"
+		article.block.recap-projet
+			h3.is-open Projet retenu par le demandeur
+			.content-block
+				.invoice
+					ul.demandeur-info
+						li
+							strong
+								span.firstname= @projet_courant.demandeur.prenom
+								span.lastname<= @projet_courant.demandeur.nom
+						- if @projet_courant.tel.present?
+							li= @projet_courant.tel
+						- if @projet_courant.description_adresse.present?
+							li= @projet_courant.description_adresse
+					- if @projet_courant.operateur
+						ul.operateur-info
+							li
+								strong= @projet_courant.operateur.raison_sociale
+							li= @projet_courant.operateur.description_adresse
+					/TODO p.delegataire Délégataire : ?
+					= render 'projets/projet_details'
+					h4 État de la demande
+					p= t('projets.transmissions.messages.info_demandeur', instructeur: @projet_courant.invited_instructeur.raison_sociale)
