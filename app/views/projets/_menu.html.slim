@@ -37,20 +37,22 @@
     = link_to projet_or_dossier_documents_path(project), class: "project-menu-item"
       span.project-menu-icon.glyphicon.glyphicon-paperclip
       span.project-menu-text Pièces
-    = link_to new_projet_or_dossier_message_path(project), class: "project-menu-item"
-      span.project-menu-icon.glyphicon.glyphicon-envelope
-        - if current_agent
-          - unread_messages_count = project.unread_messages(current_agent).count
-        - elsif demandeur
-          - unread_messages_count = project.unread_messages(demandeur).count
 
-        - if 0 < (unread_messages_count || 0)
-          span.project-menu-badge= unread_messages_count
+    - if !@projet_courant.demande.seul
+      = link_to new_projet_or_dossier_message_path(project), class: "project-menu-item"
+        span.project-menu-icon.glyphicon.glyphicon-envelope
+          - if current_agent
+            - unread_messages_count = project.unread_messages(current_agent).count
+          - elsif demandeur
+            - unread_messages_count = project.unread_messages(demandeur).count
 
-      span.project-menu-text Messages
-    = link_to projet_or_dossier_intervenants_path(project), class: "project-menu-item"
-      span.project-menu-icon.glyphicon.glyphicon-user
-      span.project-menu-text Contacts
+          - if 0 < (unread_messages_count || 0)
+            span.project-menu-badge= unread_messages_count
+
+        span.project-menu-text Messages
+      = link_to projet_or_dossier_intervenants_path(project), class: "project-menu-item"
+        span.project-menu-icon.glyphicon.glyphicon-user
+        span.project-menu-text Contacts
     /.project-menu-item
       span.project-menu-icon.glyphicon.glyphicon-question-sign
       span.project-menu-text Aide

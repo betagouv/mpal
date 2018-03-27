@@ -25,7 +25,8 @@ module ApplicationConcern
       return redirect_to projet_occupants_path(projet)        if projet.max_registration_step == Projet::STEP_OCCUPANTS
       return redirect_to projet_demande_path(projet)          if projet.max_registration_step == Projet::STEP_DEMANDE
       return redirect_to projet_eligibility_path(projet)      if projet.max_registration_step == Projet::STEP_ELIGIBILITY
-      return redirect_to projet_mise_en_relation_path(projet) if projet.max_registration_step == Projet::STEP_MISE_EN_RELATION && projet.invitations.blank?
+      return redirect_to projet_mise_en_relation_path(projet) if projet.max_registration_step == Projet::STEP_MISE_EN_RELATION && projet.invitations.blank? && !projet.demande.seul
+      return redirect_to projet_demandeur_seul_path(projet)   if projet.max_registration_step == Projet::STEP_MISE_EN_RELATION && projet.demande.seul
       redirect_to projet_path(projet)
     end
 

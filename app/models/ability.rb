@@ -24,7 +24,13 @@ private
       can :manage, AvisImposition
       can :manage, Occupant
       can :manage, Demande
-    elsif projet.users.include? user
+    elsif projet.demande.seul? and projet.users.include? user
+      can :manage, Projet
+      can :manage, :demandeur
+      can :manage, AvisImposition
+      can :manage, Occupant
+      can :manage, Demande
+    elsif projet.users.include? user and !projet.demande.seul?
       can :show,   Projet
       can :index,  Projet    if user == projet.mandataire_user
       can :read,   :intervenant
