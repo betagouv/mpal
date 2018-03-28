@@ -95,10 +95,6 @@ section.content-projet
 		article.block.projet-ope
 			h3 Projet proposé
 			.content-block
-				p
-					| Suite à votre visite chez le demandeur, veuillez remplir le projet que vous lui recommandez.
-				br
-					| Une fois les informations remplies, vous pourrez proposer effectivement ce projet au demandeur.
 				- if @projet_courant.eligibilite == 3
 					= btn name: t('projets.visualisation.remplir_le_projet'), href: proposition_projet_demandeur_seul_path(@projet_courant), icon: 'edit'
 
