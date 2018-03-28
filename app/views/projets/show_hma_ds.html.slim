@@ -104,7 +104,7 @@ section.content-projet
 
 	- elsif @projet_courant.demande.seul && @projet_courant.statut == "proposition_proposee"
 		article.block.projet-ope
-			h3.is-open = "Mon Dossier"
+			h3.is-open = "Projet enregistré"
 			.content-block
 				.invoice
 					= render 'projets/projet_details'

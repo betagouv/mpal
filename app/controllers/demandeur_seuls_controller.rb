@@ -91,7 +91,7 @@ class DemandeurSeulsController < ApplicationController
         @projet_courant.projet_aides.build(aide: aide)
       end
     end
-    @page_heading = "Projet proposé par l’opérateur"
+    @page_heading = "Mon Projet"
     render "projets/proposition_hma_ds" and return
   end
 
