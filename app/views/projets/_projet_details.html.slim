@@ -51,11 +51,6 @@
           td= sf_label :projet, :localized_cp_entreprise
           td.proposition-cell-price.test-cp-entreprise= @projet_courant.cp_entreprise
 
-        - if @projet_courant.hma.present? && @projet_courant.hma.ptz.present?
-          tr
-            td= sf_label :hma, :localized_ptz
-            td.proposition-cell-price.test-date-de-ptz= l(Date.parse(@projet_courant.hma.ptz), format: :long)
-
 - if @projet_courant.has_house_evaluation? && (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
   h3 Diagnostic opérateur
   .table-responsive
@@ -235,6 +230,15 @@
           tr
             td.bold-label.black-label.medium-size-label = sf_label :projet, :remaining_sum
             td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @remaining_sum
+
+- if @projet_courant.hma.present? && @projet_courant.hma.ptz.present?
+  h3
+  .table-responsive
+    table.table.table-striped.table-sm
+      thead
+          tr
+            th= sf_label :hma, :localized_ptz
+            th.proposition-cell-price.test-date-de-ptz= l(Date.parse(@projet_courant.hma.ptz), format: :long)
 
 ul.ctr-ope
   - if @projet_courant.precisions_travaux.present?

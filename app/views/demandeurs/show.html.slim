@@ -10,6 +10,13 @@ div#modalAdresseContainer.modal
     button.modal-adresse-cancel.btn.popin-close Modifier
     button.modal-adresse-confirm.btn.modal-confirm Confirmer
 
+div#modalAPIparticulier.modal
+  div.modal-content
+    span.glyphicon.glyphicon-warning-sign style="color:#e62623;font-size:4em;"
+    p.modal-text Veuillez sélectionner a nouveau un demandeur ainsi que sa civilité pour valider le rappel de l'API particulier, puis continuer sur la procédure normale.
+
+    button.modal-api-particulier-confirm.btn.modal-confirm onclick="location.reload()" Poursuivre
+
 - civ = ""
 
 - if !@projet_courant.demandeur.try(:id)
@@ -52,6 +59,29 @@ div#modalAdresseContainer.modal
         = ff.input :lien_avec_demandeur, label: t("helpers.label.personne.lien_avec_demandeur"), wrapper_html: { class: "size-m" }
   = btn name: t("demarrage_projet.action"), class: "btn-large btn-centered btn_submit_addr", icon: "arrow-right"
 
+- if current_agent && current_agent.admin?
+  = btn name: "Rappeller l'API Particulier", href: "#", icon: "", class: "btn-secondary api-particulier"
+javascript:
+  <% if current_agent && current_agent.admin? %>
+    $(".api-particulier").click(function(e) {
+      var element = $(this);
+      e.stopPropagation();
+      content = <%= @projet_courant.id.to_s %>;
+      $.get( "/api/particulier/refresh/" + content.toString()).done(function( data ) {
+        var infos_api_particulier = JSON.stringify(data);
+        var infos_api_particulier_old = data.old;
+        var infos_api_particulier_avis = data.avis;
+        console.log(data.status);
+        console.log(data.old);
+        console.log(data.avis);
+        // $('.btn_submit_addr').click();
+        
+        document.getElementById("modalAPIparticulier").style.display = "block";
+      });
+    });
+
+  <% end %>
+
 javascript:
   //setup before functions
   var typingTimer;
@@ -65,8 +95,10 @@ javascript:
   var $input = $('#projet_adresse_postale');
   var $input2 = $('#projet_adresse_a_renover');
   var modalAddr = document.getElementById("modalAdresseContainer");
+
   $input.attr("autocomplete", "off");
   $input2.attr("autocomplete", "off");
+
   function activate_confirm(){
     if (timerConfirm <= 0) {
       $('.modal-adresse-confirm').text(confirmButtonText);
@@ -78,6 +110,7 @@ javascript:
       setTimeout(activate_confirm, 1000);
     }
   }
+
   $('.btn_submit_addr').click(function(e){
     e.preventDefault();
     var addr = $("#projet_adresse_postale").val();
@@ -93,7 +126,9 @@ javascript:
       $('.modal-text2').text("Confirmez l'adresse du logement à rénover :");
       $('.modal-text-addr2').text(addr2);
     }
-    $('.modal-adresse-confirm').addClass('modal-unclickable');
+    <% if ENV["DOMAIN"] != "localhost:3000" %>
+      $('.modal-adresse-confirm').addClass('modal-unclickable');
+    <% end %>
     $('.modal-adresse-confirm').text(confirmButtonText + ' (' + timerConfirm + ')');
     setTimeout(activate_confirm, 1000);
   });

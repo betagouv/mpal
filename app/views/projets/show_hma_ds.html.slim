@@ -1,0 +1,167 @@
+section.content-projet
+	= render "shared/errors", resource: @projet_courant
+	- if @projet_courant.code_opal_op.present?
+		p = @projet_courant.name_op
+		p = "Code Opal : " + @projet_courant.code_opal_op
+	- elsif @projet_courant.code_opal_op != nil
+		p = ""
+	- else
+		p = "Information sur les Opérations Programmées non disponible"
+	article.block.occupants
+		h3 Récapitulatif de ma demande
+		- if can? :update, @projet_courant
+			= edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
+		.occupants-recap
+			ul
+				li
+					| Nombre total d’occupant(s) du logement :
+					span= " #{@projet_courant.nb_total_occupants} " + (@projet_courant.future_birth ? "+ enfant à naître" : "")
+				li
+					= t('demarrage_projet.demandeur.revenu_fiscal_reference')
+					span= " #{@projet_courant.annee_fiscale_reference} : "
+					- if @projet_courant.modified_revenu_fiscal_reference.blank?
+						span= number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)
+					- else
+						span.modified= number_to_currency(@projet_courant.modified_revenu_fiscal_reference, precision: 0)
+						span= " (initialement #{number_to_currency(@projet_courant.revenu_fiscal_reference_total, precision: 0)})"
+				- if @projet_courant.eligibility_commentaire.present?
+					li.dont-break-out = @projet_courant.eligibility_commentaire.html_safe()
+		.content-block
+			- if @projet_courant.demandeur.present?
+				h4 Demandeur :
+				p
+					strong
+						span.firstname= @projet_courant.demandeur.prenom
+						span.lastname<= @projet_courant.demandeur.nom
+					- if @projet_courant.adresse_postale.present?
+						br/
+						= @projet_courant.adresse_postale.description
+					- if @projet_courant.tel.present?
+						br/
+						= @projet_courant.tel
+					- if @projet_courant.email.present?
+						br/
+						= @projet_courant.email
+
+			div &nbsp;
+			h4 Avis Fiscal :
+			- i = 1
+			- @projet_courant.avis_impositions.each do |avis_fiscal|
+				p
+					= "Avis numero #{i}"
+					br/
+					= "Numéro Fiscal : #{avis_fiscal.numero_fiscal}"
+					br/
+					= "Référence de l'avis : #{avis_fiscal.reference_avis}"
+					- if current_agent
+						br/
+						= link_to "Vérification de l'avis fiscal", "https://cfsmsp.impots.gouv.fr/secavis/", target: :_blank
+				- i += 1
+				br/
+
+			h4 Occupants :
+			span= t('projets.visualisation.future_birth') if @projet_courant.future_birth
+			table.occ-table border="0" cellpadding="0" cellspacing="0" width="100%"
+				tbody
+					tr
+						th scope="col"  Occupants
+						th scope="col"  Année de naissance
+					- @projet_courant.occupants.each do |occupant|
+						tr
+							td
+								span.firstname= occupant.prenom
+								span.lastname<= occupant.nom
+							td
+								- if occupant.date_de_naissance
+									= occupant.date_de_naissance.year
+								- else
+									| -
+
+	article.block.projet
+		h3 Projet envisagé
+		- if can? :update, @projet_courant
+			= edit_projet_button(@projet_courant, dossier_demande_path(@projet_courant))
+		.content-block
+			- if @projet_courant.demande.blank?
+				p Le demandeur n’a pas encore rempli le projet.
+			- else
+				= affiche_demande_souhaitee(@projet_courant.demande)
+				- if can? :manage, :all
+					= btn name: t('admin.rod.rappel_rod'), href: "/ruby_rod/#{@projet_courant.id}", class: "btn btn-secondary"
+					= btn name: t('admin.rod.changer_d_intervenant.selection_intervenant'), href: dossier_list_department_intervenants_path(@projet_courant), class: "btn btn-secondary"
+
+
+	- if @projet_courant.demande.seul && @projet_courant.statut == "en_cours"
+		article.block.projet-ope
+			h3 Projet proposé
+			.content-block
+				- if @projet_courant.eligibilite == 3
+					= btn name: t('projets.visualisation.remplir_le_projet'), href: proposition_projet_demandeur_seul_path(@projet_courant), icon: 'edit'
+
+	- elsif @projet_courant.demande.seul && @projet_courant.statut == "proposition_proposee"
+		article.block.projet-ope
+			h3.is-open = "Projet enregistré"
+			.content-block
+				.invoice
+					= render 'projets/projet_details'
+					.button-group
+						= btn name: t("projets.transmission.modification_demande_2"), href: proposition_projet_demandeur_seul_path(@projet_courant), class: "btn-secondary transmission-button"
+						= btn name: t('projets.transmission.bouton_continuer'), href: proposer_projet_demandeur_seul_path(@projet_courant), class: 'proposal'
+
+						div &nbsp;
+						div
+							= "Les montants affichés sont prévisionnels, le montant des aides définitives sera communiqué ultérieurement, à la réception de la notification."
+
+	- elsif @projet_courant.demande.seul && @projet_courant.statut == "transmis_pour_instruction"
+		article.block.recap-projet
+			h3.is-open Projet retenu par le demandeur
+			.content-block
+				.invoice
+					ul.demandeur-info
+						li
+							strong
+								span.firstname= @projet_courant.demandeur.prenom
+								span.lastname<= @projet_courant.demandeur.nom
+						- if @projet_courant.tel.present?
+							li= @projet_courant.tel
+						- if @projet_courant.description_adresse.present?
+							li= @projet_courant.description_adresse
+					- if @projet_courant.operateur
+						ul.operateur-info
+							li
+								strong= @projet_courant.operateur.raison_sociale
+							li= @projet_courant.operateur.description_adresse
+					/TODO p.delegataire Délégataire : ?
+					= render 'projets/projet_details'
+					h4 État de la demande
+					p= t('projets.transmission.messages.success', instructeur: '')
+					- instructeur = @projet_courant.invited_instructeur
+					ul.list
+					- [:raison_sociale, :adresse_postale, :phone].each do |field|
+						- if (value = instructeur.send(field)).present?
+							li= value
+					p= t('projets.transmission.messages.info_demandeur')
+
+	- elsif @projet_courant.demande.seul && @projet_courant.statut == "en_cours_d_instruction"
+		article.block.recap-projet
+			h3.is-open Projet retenu par le demandeur
+			.content-block
+				.invoice
+					ul.demandeur-info
+						li
+							strong
+								span.firstname= @projet_courant.demandeur.prenom
+								span.lastname<= @projet_courant.demandeur.nom
+						- if @projet_courant.tel.present?
+							li= @projet_courant.tel
+						- if @projet_courant.description_adresse.present?
+							li= @projet_courant.description_adresse
+					- if @projet_courant.operateur
+						ul.operateur-info
+							li
+								strong= @projet_courant.operateur.raison_sociale
+							li= @projet_courant.operateur.description_adresse
+					/TODO p.delegataire Délégataire : ?
+					= render 'projets/projet_details'
+					h4 État de la demande
+					p= t('projets.transmissions.messages.info_demandeur', instructeur: @projet_courant.invited_instructeur.raison_sociale)

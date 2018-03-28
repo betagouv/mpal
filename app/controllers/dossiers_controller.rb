@@ -41,6 +41,7 @@ class DossiersController < ApplicationController
     # gérer l'envoi de mails
   end
 
+  #fonction super green pour le bouton rappel du rod
   def ruby_rod
     projet = Projet.find(params[:id])
     if projet.admin_rod_button
@@ -196,7 +197,7 @@ class DossiersController < ApplicationController
       rescue
         render :json => {:status => 2} and return
       end
-      render :json => {:status => 0, :old => old, :avis => project.avis_impositions} and return
+      render :json => {:status => 0, :old => old, :avis => project.reload.avis_impositions} and return
     end
 
     render :json => {:status => 1} and return

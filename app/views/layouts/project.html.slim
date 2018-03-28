@@ -1,7 +1,7 @@
 = nested_layout :application do
   #content
     - if @projet_courant
-      - if @projet_courant.invitations.any?
+      - if @projet_courant.invitations.any? or (@projet_courant.demande and @projet_courant.demande.seul)
         = render "projets/menu", project: @projet_courant
       - else
         = render "projets/registration_steps"
