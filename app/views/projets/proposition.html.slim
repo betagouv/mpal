@@ -128,7 +128,7 @@
             = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
               - classes = "input-price #{aid.public? ? "js-public-aid js-funding" : ""}"
               = ff.hidden_field :aide_id, value: aid.id
-              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
+              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
               span.input-group-addon €
           end
         end
@@ -144,7 +144,7 @@
             = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
               - classes = "input-price js-private-aid #{aid.public? ? "js-funding" : ""}"
               = ff.hidden_field :aide_id, value: aid.id
-              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
+              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
               span.input-group-addon €
           end
         end
@@ -189,7 +189,6 @@
   = f.input :precisions_financement, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_financement_count')"}
   <div class="char-count" id="precisions_financement_count">250 caractère(s) restant</div>
   <p class="alert alert-danger invalidDate" style="display: none;">Année de construction incohérente ou format INVALIDE (AAAA)</p>
-  <p class="alert alert-danger invalidRemain" style="display: none;">Le reste à charge doit être égale à 0</p>
 
   = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
 
@@ -208,26 +207,19 @@ javascript:
     e.preventDefault();
     var currYear = new Date().toString().match(/(\d{4})/)[1];
     var validDate = true;
-    var validRemain = false;
-
-    var remainSum = parseFloat($("#js-remaining-sum")[0].value);
-
-    if (undefined != remainSum && remainSum == 0)
-      validRemain = true;
 
     var annee = $('#projet_demande_attributes_annee_construction').val();
+
     if (undefined != annee && null != annee && "" != annee) {
       annee = parseInt(annee);
       if (annee < 1500 || annee > currYear)
         validDate = false;
     }
 
-    if (validDate && validRemain)
+    if (validDate)
       $('.simple_form').submit();
     else {
       if (!validDate)
         $('.invalidDate').css("display", "block");
-      if (!validRemain)
-        $('.invalidRemain').css("display", "block");
     }
   });

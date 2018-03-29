@@ -203,6 +203,7 @@ FactoryGirl.define do
       travaux_ttc_amount              1111.11
       travaux_ht_amount               2222.22
       assiette_subventionnable_amount 3333.33
+      loan_amount                     1111.11
       with_demandeur
       with_account
       with_demande
