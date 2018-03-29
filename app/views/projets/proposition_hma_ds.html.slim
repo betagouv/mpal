@@ -168,7 +168,8 @@ javascript:
       var validSiret,
         validRemain = false;
 
-      var numSiret = $('.siretNum').val().toString();
+      var numSiret = $('.siretNum').val().toString(),
+       remainSum = parseFloat($("#js-remaining-sum")[0].value);;
 
       if (undefined != remainSum && remainSum == 0)
         validRemain = true;
