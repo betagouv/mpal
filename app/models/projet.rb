@@ -106,9 +106,31 @@ class Projet < ApplicationRecord
 	validates *FUNDING_FIELDS, :big_number => true
 	validate  :validate_frozen_attributes
 	validate  :validate_theme_count, on: :proposition
+	validate  :validate_remain, on: [:proposition, :proposition_hma]
 
 	localized_numeric_setter :note_degradation
 	localized_numeric_setter :note_insalubrite
+
+	def validate_remain
+		aids = self.aids_with_amounts
+		public_aids_with_amounts = aids.try(:public_assistance)
+		private_aids_with_amounts = aids.try(:not_public_assistance)
+
+		public_aids_sum = public_aids_with_amounts.sum(:amount)
+		fundings_sum  = public_aids_sum
+		fundings_sum += self.personal_funding_amount || 0
+		fundings_sum += self.loan_amount || 0
+		fundings_sum += private_aids_with_amounts.sum(:amount)
+
+		remaining_sum = self.global_ttc_sum
+		remaining_sum -= fundings_sum || 0
+
+		if remaining_sum != 0
+			errors.add(:localized_remaining_sum, "doit être égal à 0")
+			return false
+		end
+		return true
+	end
 
 	attr_accessor :localized_numero_siret, :localized_nom_entreprise, :localized_cp_entreprise, :localized_devis_ht, :localized_devis_ttc, :localized_moa, :localized_ptz, :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
 

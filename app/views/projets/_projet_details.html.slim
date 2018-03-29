@@ -43,14 +43,6 @@
           td= sf_label :projet, :localized_numero_siret
           td.proposition-cell-price.test-numero-siret= @projet_courant.numero_siret
 
-        tr
-          td= sf_label :projet, :localized_nom_entreprise
-          td.proposition-cell-price.test-nom-entreprise= @projet_courant.nom_entreprise
-
-        tr
-          td= sf_label :projet, :localized_cp_entreprise
-          td.proposition-cell-price.test-cp-entreprise= @projet_courant.cp_entreprise
-
 - if @projet_courant.has_house_evaluation? && (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
   h3 Diagnostic opérateur
   .table-responsive

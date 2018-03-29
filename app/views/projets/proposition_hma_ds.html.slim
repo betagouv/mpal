@@ -11,6 +11,7 @@
     = f.input :cp_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
       = f.input_field :cp_entreprise, class: "input-number cpEntreprise", input_html: {value: @projet_courant.cp_entreprise.present? ? @projet_courant.cp_entreprise : ""}
 
+    = f.input :date_de_visite, as: :string, required: true, wrapper_html: { class: "size-s" }, input_html: { value: @projet_courant.date_de_visite? ? l(@projet_courant.date_de_visite) : "" }
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Plan de financement prévisionnel
     .form-inline2
@@ -50,7 +51,7 @@
             = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
               - classes = "input-price #{aid.public? ? "js-public-aid js-funding" : ""}"
               = ff.hidden_field :aide_id, value: aid.id
-              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
+              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
               span.input-group-addon €
           end
         end
@@ -66,7 +67,7 @@
             = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
               - classes = "input-price js-private-aid #{aid.public? ? "js-funding" : ""}"
               = ff.hidden_field :aide_id, value: aid.id
-              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
+              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
               span.input-group-addon €
           end
         end
@@ -118,7 +119,7 @@
   <div class="char-count" id="precisions_financement_count">250 caractère(s) restant</div>
 
   = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
-  <p class="alert alert-danger invalidSiret" style="display: none;">Valeur du numéro de siret incohérente ou format INVALIDE</p>
+  <p class="alert alert-danger invalidSiret" style="display: none;">Valeur du numéro de SIRET incohérente ou format INVALIDE</p>
   <p class="alert alert-danger invalidRemain" style="display: none;">Le reste à charge doit être égale à 0</p>
 
 javascript:
@@ -165,23 +166,17 @@ javascript:
 
   $('.btn-validate-submit').click(function(e) {
       e.preventDefault();
-      var validSiret,
-        validRemain = false;
+      var validSiret = false;
 
-      var numSiret = $('.siretNum').val().toString();
+      var numSiret = ($('.siretNum').val().toString()).replace(/\s+/g, '');
 
-      if (undefined != remainSum && remainSum == 0)
-        validRemain = true;
       if ("" == numSiret || (verif_siren_siret(numSiret, 9) && verif_siren_siret(numSiret, 14)))
           validSiret = true;
 
-      if (validSiret && validRemain)
+      if (validSiret)
           $('.simple_form').submit();
-      else
-      {
+      else {
           if (!validSiret)
             $('.invalidSiret').css("display", "block");
-          if (!validRemain)
-            $('.invalidRemain').css("display", "block");
       }
   });
