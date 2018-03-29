@@ -11,7 +11,7 @@
     = f.input :cp_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
       = f.input_field :cp_entreprise, class: "input-number cpEntreprise", input_html: {value: @projet_courant.cp_entreprise.present? ? @projet_courant.cp_entreprise : ""}
 
-    = f.input :date_de_visite, as: :string, required: true, wrapper_html: { class: "size-s" }, input_html: { value: @projet_courant.date_de_visite? ? l(@projet_courant.date_de_visite) : "" }
+    = f.input :date_de_visite, as: :string, wrapper_html: { class: "size-s" }, input_html: { value: @projet_courant.date_de_visite? ? l(@projet_courant.date_de_visite) : "" }
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Plan de financement prévisionnel
     .form-inline2
