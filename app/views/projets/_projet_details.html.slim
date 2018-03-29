@@ -48,7 +48,7 @@
             td= sf_label :projet, :localized_nom_entreprise
             td.proposition-cell-price.test-nom-entreprise= @projet_courant.nom_entreprise
 
-        - if @projet_courant.cp_entreprisegi.present?
+        - if @projet_courant.cp_entreprise.present?
           tr
             td= sf_label :projet, :localized_cp_entreprise
             td.proposition-cell-price.test-cp-entreprise= @projet_courant.cp_entreprise
