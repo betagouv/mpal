@@ -59,7 +59,7 @@ div#modalAPIparticulier.modal
         = ff.input :lien_avec_demandeur, label: t("helpers.label.personne.lien_avec_demandeur"), wrapper_html: { class: "size-m" }
   = btn name: t("demarrage_projet.action"), class: "btn-large btn-centered btn_submit_addr", icon: "arrow-right"
 
-- if current_agent && current_agent.admin?
+- if current_agent && current_agent.admin? && @projet_courant.demandeur == nil
   = btn name: "Rappeller l'API Particulier", href: "#", icon: "", class: "btn-secondary api-particulier"
 javascript:
   <% if current_agent && current_agent.admin? %>
