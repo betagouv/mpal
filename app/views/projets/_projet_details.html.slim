@@ -226,10 +226,9 @@
             td.bold-label.black-label.medium-size-label = sf_label :projet, :fundings_sum
             td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @fundings_sum
 
-        - if 0 == @remaining_sum
-          tr
-            td.bold-label.black-label.medium-size-label = sf_label :projet, :remaining_sum
-            td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @remaining_sum
+        tr
+          td.bold-label.black-label.medium-size-label = sf_label :projet, :remaining_sum
+          td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @remaining_sum
 
 - if @projet_courant.hma.present? && @projet_courant.hma.ptz.present?
   h3

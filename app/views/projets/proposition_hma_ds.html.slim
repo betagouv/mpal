@@ -32,10 +32,6 @@
           = hma_form.input_field :devis_ttc, class: "input-price js-global-ttc-part devisTTC"
           span.input-group-addon €
 
-        = hma_form.input :moa, wrapper: "append", wrapper_html: { class: "size-s" } do
-          = hma_form.input_field :moa, class: "input-price js-global-ttc-part amountMOA"
-          span.input-group-addon €
-
         = hma_form.input :localized_global_ttc_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
           = hma_form.input_field :localized_global_ttc_sum, class: "input-price", id: "js-global-ttc-sum", disabled: true
           span.input-group-addon €
@@ -167,26 +163,25 @@ javascript:
     return is_valid;
   }
 
-    $('.btn-validate-submit').click(function(e) {
-    e.preventDefault();
-    var validSiret,
-      validRemain = false;
+  $('.btn-validate-submit').click(function(e) {
+      e.preventDefault();
+      var validSiret,
+        validRemain = false;
 
-    var numSiret = $('.siretNum').val().toString(),
-      remainSum = parseFloat($("#js-remaining-sum")[0].value);
+      var numSiret = $('.siretNum').val().toString();
 
-    if (undefined != remainSum && remainSum == 0)
-      validRemain = true;
-    if ("" == numSiret || (verif_siren_siret(numSiret, 9) && verif_siren_siret(numSiret, 14)))
-        validSiret = true;
-    }
+      if (undefined != remainSum && remainSum == 0)
+        validRemain = true;
+      if ("" == numSiret || (verif_siren_siret(numSiret, 9) && verif_siren_siret(numSiret, 14)))
+          validSiret = true;
 
-    if (validSiret && validRemain)
-      $('.simple_form').submit();
-    else {
-      if (!validSiret)
-        $('.invalidSiret').css("display", "block");
-      if (!validRemain)
-        $('.invalidRemain').css("display", "block");
-    }
+      if (validSiret && validRemain)
+          $('.simple_form').submit();
+      else
+      {
+          if (!validSiret)
+            $('.invalidSiret').css("display", "block");
+          if (!validRemain)
+            $('.invalidRemain').css("display", "block");
+      }
   });

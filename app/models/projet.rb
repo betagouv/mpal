@@ -200,6 +200,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_folder, -> (search_param, int_param) {
+		int_param = -1 if int_param.to_i > (2**31 - 1)
 		where(["projets.opal_numero ILIKE ? or projets.id = ?", search_param, int_param])
 	}
 

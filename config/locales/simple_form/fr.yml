@@ -114,7 +114,7 @@ fr:
         nom_entreprise: "Nom de l'entreprise"
         localized_nom_entreprise: "Nom de l'entreprise"
         cp_entreprise: "Code postal de l'entreprise"
-        localized_cp_entreprise: "Code postale de l'entreprise"
+        localized_cp_entreprise: "Code postal de l'entreprise"
         theme_ids: "Types d’interventions"
         travaux_ht_amount: "Coût des travaux à réaliser HT"
         travaux_ttc_amount: "Coût des travaux à réaliser TTC"
