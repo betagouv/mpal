@@ -44,7 +44,7 @@
       br
       div.cat-flex-box-home
         span.line-home
-        span.subtitle-home MONTANT DES AIDES SOLICITEES
+        span.subtitle-home MONTANT DES AIDES SOLLICITEES
         span.line-home
       br
 
@@ -103,7 +103,7 @@
       br
       div.cat-flex-box-home
         span.line-home
-        span.subtitle-home Contrôle / Dépenses / Recettes
+        span.subtitle-home EQUILIBRE FINANCIER DU PROJET
         span.line-home
       br
 
@@ -173,10 +173,8 @@ javascript:
 
     var numSiret = ($('.siretNum').val().toString()).replace(/\s+/g, '');
 
-    if (undefined != numSiret && "" != numSiret) {
-      if (verif_siren_siret(numSiret, 9) && verif_siren_siret(numSiret, 14))
-        validSiret = true;
-    }
+    if ("" == numSiret || (verif_siren_siret(numSiret, 9) && verif_siren_siret(numSiret, 14)))
+          validSiret = true;
 
     if (validSiret)
       $('.simple_form').submit();
