@@ -331,7 +331,7 @@ class DossiersController < ApplicationController
 
   def projet_params_hma
     attributes = params.require(:projet).permit(
-        :numero_siret, :nom_entreprise, :cp_entreprise,
+        :numero_siret, :nom_entreprise, :cp_entreprise, :date_de_visite,
         :precisions_travaux, :precisions_financement,
         :localized_loan_amount, :localized_personal_funding_amount,
         :hma_attributes => [:id, :devis_ht, :devis_ttc, :moa, :ptz],

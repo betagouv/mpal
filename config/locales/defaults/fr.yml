@@ -41,15 +41,15 @@ fr:
         global_ht_sum: "Montant global HT"
         personal_funding_amount: "Apport de fonds personnels"
         loan_amount: "Prêt"
-        precisions_travaux: "Précisions travaux proposés"
-        precisions_financement: "Précisions financement"
+        precisions_travaux: "Précisions concernant les travaux"
+        precisions_financement: "Précisions concernant le financement"
         public_aids_sum: "Total prévisionnel des aides publiques"
         hma:
         # HMA
           devis_ht: "Montant du/des devis Hors Taxe (HT)"
           devis_ttc: "Montant du/des devis Toutes Taxes Comprises (TTC)"
           moa: "Coût Assistance à Maîtrise d'Ouvrage (AMO)"
-          ptz: "Si j'ai déjà bénéficié d'un PTZ, j'indique la date de signature de mon PTZ"
+          ptz: "Si un PTZ a déjà été accordé, j'indique la date de signature du PTZ :"
           localized_ptz: "Date de signature du PTZ"
           localized_global_ttc_sum: "Montant global TTC"
     units:
@@ -310,6 +310,7 @@ fr:
       s_engager_avec_operateur: "Continuer"
       engagement_action: "Continuer"
       remplir_le_projet: "Je remplis le projet"
+      remplir_le_projet_ds: "Je remplis mon projet"
       rendre_eligible_projet: "Mettre à jour l’éligibilité"
       modifier_liste_occupant: "Modifier le nombre d’occupant à charge"
       lien_ajout_occupant: "J’ajoute un occupant"

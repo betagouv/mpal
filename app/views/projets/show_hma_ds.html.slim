@@ -1,12 +1,5 @@
 section.content-projet
 	= render "shared/errors", resource: @projet_courant
-	- if @projet_courant.code_opal_op.present?
-		p = @projet_courant.name_op
-		p = "Code Opal : " + @projet_courant.code_opal_op
-	- elsif @projet_courant.code_opal_op != nil
-		p = ""
-	- else
-		p = "Information sur les Opérations Programmées non disponible"
 	article.block.occupants
 		h3 Récapitulatif de ma demande
 		- if can? :update, @projet_courant
@@ -93,10 +86,10 @@ section.content-projet
 
 	- if @projet_courant.demande.seul && @projet_courant.statut == "en_cours"
 		article.block.projet-ope
-			h3 Projet proposé
+			h3 &nbsp;
 			.content-block
 				- if @projet_courant.eligibilite == 3
-					= btn name: t('projets.visualisation.remplir_le_projet'), href: proposition_projet_demandeur_seul_path(@projet_courant), icon: 'edit'
+					= btn name: t('projets.visualisation.remplir_le_projet_ds'), href: proposition_projet_demandeur_seul_path(@projet_courant), icon: 'edit'
 
 	- elsif @projet_courant.demande.seul && @projet_courant.statut == "proposition_proposee"
 		article.block.projet-ope
