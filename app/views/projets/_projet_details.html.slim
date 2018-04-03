@@ -52,9 +52,10 @@
           tr
             td= sf_label :projet, :localized_cp_entreprise
             td.proposition-cell-price.test-cp-entreprise= @projet_courant.cp_entreprise
-        tr
-          td= sf_label :projet, :date_de_visite_du_logement
-          td.proposition-cell-price.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
+        - if !(@projet_courant.demande && @projet_courant.demande.seul)
+          tr
+            td= sf_label :projet, :date_de_visite_du_logement
+            td.proposition-cell-price.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
 
 - if @projet_courant.has_house_evaluation? && (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
   h3 Diagnostic opérateur
