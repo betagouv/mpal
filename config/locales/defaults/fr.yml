@@ -441,6 +441,8 @@ fr:
     projet:
       devis_projet: "Devis entreprises"
       estimation: "Estimation du maître d’œuvre"
+      justificatif_changement_situation: "justificatif de changement de situation"
+      signature_PTZ: "Signature du PTZ"
       mandat_projet: "Mandat signé"
       justificatif_autonomie: "Justificatif autonomie"
       diagnostic_autonomie: "Diagnostic autonomie"
