@@ -8,9 +8,8 @@ h3 Un problème, une question ? Contactez nous !
   = f.input :address, wrapper_html: { class: "contacts-address" }, required: true
   = f.input :subject, collection: @subjects, required: true, prompt: "Veuillez sélectionner un objet"
   = f.input :description, input_html: { cols: 40, rows: 6 }
+  = f.input :department, required: true
   - if current_user || current_agent
-    - if @contact.department.blank?
-      = f.input :department, required: true
     - if @contact.numero_plateforme.blank?
       = f.input :numero_plateforme
   = btn name: t("helpers.submit.defaults.send"), class: "btn-large", icon: "send"

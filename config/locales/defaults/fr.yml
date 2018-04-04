@@ -195,11 +195,13 @@ fr:
       technical: "Une question technique sur le site (accès, identifiant...)"
       general: "Une question générale sur les aides"
       project: "Une question concernant mon dossier"
+      rod: "Modification ROD"
       other: "Autre : Veuillez préciser dans le message"
     email_name:
       technical: "Question technique"
       general: "Question générale"
       project: "Question concernant mon dossier"
+      rod: "Modification ROD"
       other: "Autre"
   # ----------------------- Page de visualisation du projet ---------------------
   projets:

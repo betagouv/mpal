@@ -1,5 +1,5 @@
 class Contact < ApplicationRecord
-  SUBJECTS = [:technical, :general, :project, :other]
+  SUBJECTS = [:technical, :general, :project, :rod, :other]
 
   belongs_to :sender, polymorphic: true
 
