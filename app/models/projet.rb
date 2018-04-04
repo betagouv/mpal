@@ -725,6 +725,11 @@ class Projet < ApplicationRecord
 	end
 
 	def transmettre!(instructeur)
+		response = Rod.new(RodClient).query_for(self)
+		if instructeur != response.instructeur
+			self.invite_instructeur! response.instructeur
+			instructeur = response.instructeur
+		end
 		invitation = invitations.find_by(intervenant: instructeur)
 		return false unless invitation.update(intermediaire: operateur)
 		self.date_depot = Time.now
