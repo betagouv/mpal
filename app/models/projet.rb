@@ -54,6 +54,10 @@ class Projet < ApplicationRecord
 	has_one :demande, dependent: :destroy
 	accepts_nested_attributes_for :demande
 
+	# HMA
+	has_one :hma, dependent: :destroy
+	accepts_nested_attributes_for :hma
+
 	belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
 	belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 
@@ -95,16 +99,40 @@ class Projet < ApplicationRecord
 	validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 	validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
 	validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
+	validates :numero_siret, presence: true, on: :proposition_hma
+	validates_associated :hma, on: :proposition_hma
 	validates :consommation_avant_travaux, :consommation_apres_travaux, :gain_energetique, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 999999999 }, allow_nil: true
 	validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
 	validates *FUNDING_FIELDS, :big_number => true
 	validate  :validate_frozen_attributes
 	validate  :validate_theme_count, on: :proposition
+	validate  :validate_remain, on: [:proposition, :proposition_hma]
 
 	localized_numeric_setter :note_degradation
 	localized_numeric_setter :note_insalubrite
 
-	attr_accessor :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
+	def validate_remain
+		aids = self.aids_with_amounts
+		public_aids_with_amounts = aids.try(:public_assistance)
+		private_aids_with_amounts = aids.try(:not_public_assistance)
+
+		public_aids_sum = public_aids_with_amounts.sum(:amount)
+		fundings_sum  = public_aids_sum
+		fundings_sum += self.personal_funding_amount || 0
+		fundings_sum += self.loan_amount || 0
+		fundings_sum += private_aids_with_amounts.sum(:amount)
+
+		remaining_sum = self.global_ttc_sum
+		remaining_sum -= fundings_sum || 0
+
+		if remaining_sum != 0
+			errors.add(:localized_remaining_sum, "doit être égal à 0")
+			return false
+		end
+		return true
+	end
+
+	attr_accessor :localized_numero_siret, :localized_nom_entreprise, :localized_cp_entreprise, :localized_devis_ht, :localized_devis_ttc, :localized_moa, :localized_ptz, :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
 
 	before_create { self.plateforme_id = Time.now.to_i }
 	before_save :clean_numero_fiscal, :clean_reference_avis
@@ -194,6 +222,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_folder, -> (search_param, int_param) {
+		int_param = -1 if int_param.to_i > (2**31 - 1)
 		where(["projets.opal_numero ILIKE ? or projets.id = ?", search_param, int_param])
 	}
 
@@ -227,15 +256,15 @@ class Projet < ApplicationRecord
 		where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.nom ILIKE ? or ift_agent.prenom ILIKE ?", search_param, search_param, search_param])
 	}
 
-	scope :search_by_location, -> (search_param) {
-		where(["ift_adresse.ville ILIKE ? or ift_adresse.region ILIKE ? or ift_adresse.departement ILIKE ? or ift_adresse.code_postal ILIKE ?", search_param, search_param, search_param, search_param])
+	scope :search_by_location, -> (search_param, code_postal_param, dep_param) {
+		where(["ift_adresse.ville ILIKE ? or ift_adresse.region ILIKE ? or ift_adresse.departement = ? or ift_adresse.code_postal ILIKE ?", search_param, search_param, dep_param, code_postal_param])
 	}
 
 	scope :search_by_operation_programmee, -> (search_param) {
 		if search_param.downcase == "%diffus%"
 			where("projets.name_op = ''")
 		else
-			where(["projets.name_op ILIKE ?", search_param])
+			where(["projets.name_op ILIKE ? or projets.code_opal_op ILIKE ?", search_param, search_param])
 		end
 	}
 
@@ -249,6 +278,14 @@ class Projet < ApplicationRecord
 
 	scope :updated_upto, ->(search_param) {
 		where("projets.created_at <= ?", search_param)
+	}
+
+	scope :delivered_since, ->(search_param) {
+		where("projets.date_depot >= ?", search_param)
+	}
+
+	scope :delivered_upto, ->(search_param) {
+		where("projets.date_depot <= ?", search_param)
 	}
 
 	scope :count_by_week, -> {
@@ -266,15 +303,23 @@ class Projet < ApplicationRecord
 
 	def self.search_filter(dossiers, search_param)
 		if search_param.key?(:from) && search_param[:from].present?
-			dossiers = dossiers.updated_since(search_param[:from])
+			if search_param.key?(:sort_by) && search_param[:sort_by].present? && search_param[:sort_by].include?('depot')
+				dossiers = dossiers.delivered_since(search_param[:from])
+			else
+				dossiers = dossiers.updated_since(search_param[:from])
+			end
 		end
 		if search_param.key?(:to) && search_param[:to].present?
-			dossiers = dossiers.updated_upto(search_param[:to])
+			if search_param.key?(:sort_by) && search_param[:sort_by].present? && search_param[:sort_by].include?('depot')
+				dossiers = dossiers.delivered_upto(search_param[:to])
+			else
+				dossiers = dossiers.updated_upto(search_param[:to])
+			end
 		end
 		if search_param.key?(:folder) && search_param[:folder].present?
 			words = search_param[:folder].split(/[\s,;]/)
 			words.each do |word|
-				word_int = word
+				word_int = word.split(/[_]/)[0]
 				word = "%" + word + "%"
 				dossiers = dossiers.search_by_folder(word, word_int.to_i.to_s)
 			end
@@ -296,8 +341,9 @@ class Projet < ApplicationRecord
 		if search_param.key?(:location) && search_param[:location].present?
 			words = search_param[:location].split(/[\s,;]/)
 			words.each do |word|
-				word = "%" + word + "%"
-				dossiers = dossiers.search_by_location(word)
+				word1 = "%" + word + "%"
+				word2 = word + "%"
+				dossiers = dossiers.search_by_location(word1, word2, word)
 			end
 		end
 		if search_param.key?(:operation_programmee) && search_param[:operation_programmee].present?
@@ -362,7 +408,9 @@ class Projet < ApplicationRecord
 
 	def reset_fiscal_information
 		contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable_no_cache
-		ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable).save
+		a = ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable)
+		AvisImposition.where(:numero_fiscal => self.numero_fiscal, :reference_avis => self.reference_avis, :projet_id => self.id).first.try(:destroy)
+		a.save!
 	end
 
 	def demandeur_user
@@ -397,7 +445,12 @@ class Projet < ApplicationRecord
 	end
 
 	def mark_last_read_messages_at!(agent)
-		join = agents_projets.where(agent: agent).first
+
+		if defined?(agent.demandeur)
+			join = occupants.where(demandeur: agent.demandeur).first
+		else
+			join = agents_projets.where(agent: agent).first
+		end
 		join.update_attribute(:last_read_messages_at, Time.now) if join
 		join
 	end
@@ -413,7 +466,12 @@ class Projet < ApplicationRecord
 	end
 
 	def unread_messages(agent)
-		join = agents_projets.where(agent: agent).first
+		if defined?(agent.demandeur)
+			join = occupants.where(demandeur: agent.demandeur).first
+		else
+			join = agents_projets.where(agent: agent).first
+		end
+
 		if join && join.last_read_messages_at
 			messages.where(["messages.created_at > ?", join.last_read_messages_at])
 		else
@@ -436,8 +494,15 @@ class Projet < ApplicationRecord
 	end
 
 	def global_ttc_sum
-		global_ttc_parts = [:travaux_ttc_amount, :amo_amount, :maitrise_oeuvre_amount]
-		global_ttc_parts.map{ |column| self[column] }.compact.sum
+		ret = 0
+		if ENV['ELIGIBLE_HMA'] == "true" && hma.present?
+			global_ttc_parts = [:moa, :devis_ttc]
+			ret = global_ttc_parts.map{ |column| self.hma[column] }.compact.sum
+		elsif ENV['ELIGIBLE_HMA'] != "true" || !demande.present? || !demande.eligible_hma
+			global_ttc_parts = [:travaux_ttc_amount, :amo_amount, :maitrise_oeuvre_amount]
+			ret = global_ttc_parts.map{ |column| self[column] }.compact.sum
+		end
+		return ret
 	end
 
 	def clean_numero_fiscal

@@ -16,7 +16,7 @@ class DemandeursController < ApplicationController
       @projet_courant.adresse_a_renover = @projet_courant.adresse_postale
     end
     if save_demandeur
-      if @projet_courant.max_registration_step >= 6 and @current_agent.nil?
+      if @projet_courant.max_registration_step >= 6 and @current_agent.nil? and !(@projet_courant.demande and @projet_courant.demande.seul and current_user and @projet_courant.users.include? current_user)
         redirect_to root_path and return
       end
       return redirect_to_next_step
@@ -126,7 +126,7 @@ private
   end
 
   def redirect_to_next_step
-    if Tools.departement_enabled?(@projet_courant.departement)
+    if Tools.departement_enabled?(@projet_courant.departement, @projet_courant.adresse.code_postal)
       return redirect_to projet_or_dossier_avis_impositions_path(@projet_courant)
     else
       return redirect_to projet_demandeur_departement_non_eligible_path(@projet_courant)

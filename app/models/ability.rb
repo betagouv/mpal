@@ -24,7 +24,17 @@ private
       can :manage, AvisImposition
       can :manage, Occupant
       can :manage, Demande
-    elsif projet.users.include? user
+    elsif projet.demande and projet.demande.seul? and projet.users.include? user
+      can :manage, Projet
+      can :manage, :demandeur
+      can :manage, AvisImposition
+      can :manage, Occupant
+      can :manage, Demande
+      can :new,    Message
+      can :read,   Document, category_type: "Projet",  category_id: projet.id
+      can :read,   Document, category_type: "Payment", category_id: projet.payments.map(&:id)
+      can :read,   :intervenant
+    elsif projet.users.include? user and (!projet.demande or !projet.demande.seul?)
       can :show,   Projet
       can :index,  Projet    if user == projet.mandataire_user
       can :read,   :intervenant

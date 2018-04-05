@@ -117,7 +117,7 @@
       br
       div.cat-flex-box-home
         span.line-home
-        span.subtitle-home MONTANT DES AIDES
+        span.subtitle-home MONTANT DES AIDES SOLLICITEES
         span.line-home
       br
 
@@ -128,7 +128,7 @@
             = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
               - classes = "input-price #{aid.public? ? "js-public-aid js-funding" : ""}"
               = ff.hidden_field :aide_id, value: aid.id
-              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
+              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
               span.input-group-addon €
           end
         end
@@ -144,7 +144,7 @@
             = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
               - classes = "input-price js-private-aid #{aid.public? ? "js-funding" : ""}"
               = ff.hidden_field :aide_id, value: aid.id
-              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || "0,00"
+              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
               span.input-group-addon €
           end
         end
@@ -152,7 +152,7 @@
       br
       div.cat-flex-box-home
         span.line-home
-        span.subtitle-home MONTANT DES APPORTS PERSONNELS
+        span.subtitle-home RESTE A CHARGE PREVISIONNEL
         span.line-home
       br
 
@@ -165,7 +165,7 @@
       br
       div.cat-flex-box-home
         span.line-home
-        span.subtitle-home TOTAL DES FINANCEMENTS
+        span.subtitle-home TOTAL PREVISIONNEL DES FINANCEMENTS
         span.line-home
       br
 
@@ -176,7 +176,7 @@
       br
       div.cat-flex-box-home
         span.line-home
-        span.subtitle-home RESTE A CHARGE
+        span.subtitle-home EQUILIBRE FINANCIER DU PROJET
         span.line-home
       br
 
@@ -209,6 +209,7 @@ javascript:
     var validDate = true;
 
     var annee = $('#projet_demande_attributes_annee_construction').val();
+
     if (undefined != annee && null != annee && "" != annee) {
       annee = parseInt(annee);
       if (annee < 1500 || annee > currYear)
@@ -217,6 +218,8 @@ javascript:
 
     if (validDate)
       $('.simple_form').submit();
-    else
-      $('.invalidDate').css("display", "block");
+    else {
+      if (!validDate)
+        $('.invalidDate').css("display", "block");
+    }
   });

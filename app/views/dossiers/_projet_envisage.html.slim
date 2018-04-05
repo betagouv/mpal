@@ -7,34 +7,36 @@ article.block.projet
       p Le demandeur n’a pas encore rempli le projet.
     - else
       = affiche_demande_souhaitee(@projet_courant.demande)
-      - if can? :manage, :all
+      - if can? :manage, :all and !(ENV['ELIGIBLE_HMA'] == 'true' and @projet_courant.demande.seul)
         = btn name: t('admin.rod.rappel_rod'), href: "/ruby_rod/#{@projet_courant.id}", class: "btn btn-secondary"
         = btn name: t('admin.rod.changer_d_intervenant.selection_intervenant'), href: dossier_list_department_intervenants_path(@projet_courant), class: "btn btn-secondary"
-      hr/
-      .operateurs_choisis-test
-        h4 Organisme choisi pour accompagner le projet :
-        - operateur = @projet_courant.contacted_operateur
-        - if operateur.present?
-          .description-operateur
-            strong= operateur.raison_sociale
-            p= operateur.description_adresse
-          - if current_agent
-            p
-              | Vous pouvez à présent dialoguer avec le demandeur par la
-              =< link_to "messagerie", new_projet_or_dossier_message_path(@projet_courant)
-              | . Vous serez informé par email pour chaque réponse de sa part.
-        - else
-          p
-            = t('projets.envisage.operateur.aucun')
-          - suggested_operateurs = @projet_courant.pris_suggested_operateurs
-          - if suggested_operateurs.present?
-            h4 = t('projets.envisage.operateurs_recommandes')
-            ul
-            - suggested_operateurs.each do |operateur|
-              li = operateur.raison_sociale
-            = btn name: t('recommander_operateurs.modifier'), href: dossier_recommander_operateurs_path(@projet_courant)
+
+      - if !(ENV['ELIGIBLE_HMA'] == 'true' and @projet_courant.demande.seul)
+        hr/
+        .operateurs_choisis-test
+          h4 Organisme choisi pour accompagner le projet :
+          - operateur = @projet_courant.contacted_operateur
+          - if operateur.present?
+            .description-operateur
+              strong= operateur.raison_sociale
+              p= operateur.description_adresse
+            - if current_agent
+              p
+                | Vous pouvez à présent dialoguer avec le demandeur par la
+                =< link_to "messagerie", new_projet_or_dossier_message_path(@projet_courant)
+                | . Vous serez informé par email pour chaque réponse de sa part.
           - else
-            - if @projet_courant.eligibilite == 3
-              = btn name: t('recommander_operateurs.recommander'), href: dossier_recommander_operateurs_path(@projet_courant)
-            - if @projet_courant.eligibilite == 1
-              = btn name: t('projets.visualisation.rendre_eligible_projet'), href: dossier_manage_eligibility_path(@projet_courant)
+            p
+              = t('projets.envisage.operateur.aucun')
+            - suggested_operateurs = @projet_courant.pris_suggested_operateurs
+            - if suggested_operateurs.present?
+              h4 = t('projets.envisage.operateurs_recommandes')
+              ul
+              - suggested_operateurs.each do |operateur|
+                li = operateur.raison_sociale
+              = btn name: t('recommander_operateurs.modifier'), href: dossier_recommander_operateurs_path(@projet_courant)
+            - else
+              - if @projet_courant.eligibilite == 3
+                = btn name: t('recommander_operateurs.recommander'), href: dossier_recommander_operateurs_path(@projet_courant)
+              - if @projet_courant.eligibilite == 1
+                = btn name: t('projets.visualisation.rendre_eligible_projet'), href: dossier_manage_eligibility_path(@projet_courant)

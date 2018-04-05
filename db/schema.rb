@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180312154020) do
+ActiveRecord::Schema.define(version: 20180323145253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -149,6 +149,17 @@ ActiveRecord::Schema.define(version: 20180312154020) do
     t.index ["projet_id"], name: "index_evenements_on_projet_id"
   end
 
+  create_table "hmas", id: :serial, force: :cascade do |t|
+    t.integer "projet_id"
+    t.decimal "devis_ht", precision: 10, scale: 2
+    t.decimal "devis_ttc", precision: 10, scale: 2
+    t.decimal "moa", precision: 10, scale: 2
+    t.string "ptz"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.index ["projet_id"], name: "index_hmas_on_projet_id"
+  end
+
   create_table "intervenants", id: :serial, force: :cascade do |t|
     t.string "raison_sociale"
     t.string "adresse_postale"
@@ -209,6 +220,7 @@ ActiveRecord::Schema.define(version: 20180312154020) do
     t.integer "avis_imposition_id"
     t.boolean "declarant", default: false, null: false
     t.string "civility"
+    t.datetime "last_read_messages_at"
   end
 
   create_table "operations", id: :serial, force: :cascade do |t|
@@ -335,6 +347,9 @@ ActiveRecord::Schema.define(version: 20180312154020) do
     t.string "code_opal_op"
     t.integer "eligibilite", default: 0, null: false
     t.string "eligibility_commentaire"
+    t.string "numero_siret"
+    t.string "nom_entreprise"
+    t.string "cp_entreprise"
     t.index ["adresse_a_renover_id"], name: "index_projets_on_adresse_a_renover_id"
     t.index ["adresse_postale_id"], name: "index_projets_on_adresse_postale_id"
     t.index ["agent_instructeur_id"], name: "index_projets_on_agent_instructeur_id"
@@ -399,6 +414,7 @@ ActiveRecord::Schema.define(version: 20180312154020) do
   add_foreign_key "demandes", "projets"
   add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
+  add_foreign_key "hmas", "projets"
   add_foreign_key "intervenants_operations", "intervenants"
   add_foreign_key "intervenants_operations", "operations"
   add_foreign_key "invitations", "intervenants"

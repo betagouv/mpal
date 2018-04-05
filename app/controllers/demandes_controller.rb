@@ -79,12 +79,14 @@ class DemandesController < ApplicationController
 
     if @demande.eligible_hma_first_step? && @demande.devis_rge
       @demande.eligible_hma = true
+      @projet_courant.hma = @projet_courant.build_hma if @projet_courant.hma.nil?
     end
 
     unless @demande.save
       init_show
       return render :show
     end
+    @projet_courant.save
     redirect_to_next_step and return
   end
 
@@ -116,6 +118,9 @@ private
   end
 
   def demande_params
+    if params[:demande][:devis_rge] == "neutre"
+      params[:demande][:devis_rge] = false
+    end
     params.require(:demande).permit(
       :changement_chauffage,
       :froid,
@@ -146,7 +151,7 @@ private
   end
 
   def needs_next_step?
-    (@projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank?) || @projet_courant.eligibilite == 1
+    (@projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank? && !(ENV['ELIGIBLE_HMA'] == "true" && @projet_courant.demande && @projet_courant.demande.seul)) || @projet_courant.eligibilite == 1
   end
 
   def redirect_to_next_step

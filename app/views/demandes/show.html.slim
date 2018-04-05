@@ -37,7 +37,13 @@
   = f.input :ptz, as: :radio_buttons, label: t("helpers.label.demande.ptz")
   = f.input :prime_hma, as: :radio_buttons, label: t("helpers.label.demande.prime_hma")
   div.div_rge
-    = f.input :devis_rge, as: :radio_buttons, collection: [['Oui', true], ['Non', false], ['Je ne sais pas', false]], :checked => ['Je ne sais pas', false], label: t("helpers.label.demande.devis_rge"), label_html: { class: 'input_rge' }, input_html: { class: 'input_rge' }
+    - value_devis_rge = ['Je ne sais pas', "neutre"]
+    - if @projet_courant.demande.try(:devis_rge) == true
+      - value_devis_rge = ['Oui', true]
+    - elsif @projet_courant.demande.try(:devis_rge) == false
+      - value_devis_rge = ['Non', false]
+    - collection = [['Oui', true], ['Non', false], ['Je ne sais pas', "neutre"]]
+    = f.input :devis_rge, as: :radio_buttons, collection: collection, :checked => value_devis_rge , label: t("helpers.label.demande.devis_rge"), label_html: { class: 'input_rge' }, input_html: { class: 'input_rge' }
   .btn-centered
     = btn name: @action_label, class: "btn-large btn-validate-submit", icon: "arrow-right"
 
@@ -66,21 +72,20 @@ javascript:
     demande_travaux_amenagement_ext = $("#demande_travaux_amenagement_ext").is(":checked");
     demande_travaux_autres = $("#demande_travaux_autres").val();
 
-    checkbox_bol = demande_froid || demande_probleme_deplacement || demande_accessibilite || demande_hospitalisation || demande_adaptation_salle_de_bain || demande_arrete || demande_saturnisme || demande_autre != "" || demande_travaux_fenetres || demande_travaux_isolation || demande_travaux_adaptation_sdb || demande_travaux_monte_escalier || demande_travaux_amenagement_ext || demande_travaux_autres != "";
+    checkbox_bol =  (demande_changement_chauffage && !demande_travaux_chauffage) || demande_froid || demande_probleme_deplacement || demande_accessibilite || demande_hospitalisation || demande_adaptation_salle_de_bain || demande_arrete || demande_saturnisme || demande_autre != "" || demande_travaux_fenetres || demande_travaux_isolation || demande_travaux_adaptation_sdb || demande_travaux_monte_escalier || demande_travaux_amenagement_ext || demande_travaux_autres != "";
 
     hma_checkbox = 0;
     if (demande_travaux_isolation_murs == true)
       hma_checkbox = hma_checkbox + 1;
     if (demande_travaux_isolation_combles == true)
       hma_checkbox = hma_checkbox + 1;
-    if (demande_travaux_chauffage == true || demande_changement_chauffage == true)
+    if (demande_travaux_chauffage == true)
       hma_checkbox = hma_checkbox + 1;
 
     if (checkbox_bol == false && hma_checkbox == 1 && demande_type_logement == true && demande_date_achevement_15_ans == true)
       $(".div_rge").show();
     else
       $(".div_rge").hide();
-    
   }
 
   check_hma();
