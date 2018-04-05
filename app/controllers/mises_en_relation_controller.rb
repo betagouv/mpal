@@ -38,9 +38,10 @@ class MisesEnRelationController < ApplicationController
     # if @projet_courant.demande.seul
     #   render :show_eligible_hma_valid_operateur and return
     # end
-    response = Rod.new(RodClient).query_for(@projet_courant)
-    @ops = response.operateurs
-    @pris = response.pris_eie
+    response = Rod.new(RodClient).list_intervenants_rod(@projet_courant.adresse.departement)
+    response2 = Rod.new(RodClient).query_for(@projet_courant)
+    @ops = response["operateurs"]
+    @pris = response2.pris_eie
     return
   end
 
