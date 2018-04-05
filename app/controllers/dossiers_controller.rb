@@ -405,7 +405,7 @@ class DossiersController < ApplicationController
   def fill_tab_intervenant all
     flash.now[:notice_html] = ""
 
-    new_msg = "projets.actif = 1 and (ift_agents_projets.last_read_messages_at is NULL or ift_agents_projets.last_read_messages_at < ift_messages.created_at)"
+    new_msg = "projets.actif = 1 and ((ift_agents_projets.last_read_messages_at is NULL and ift_messages is not NULL) or ift_agents_projets.last_read_messages_at < ift_messages.created_at)"
     if current_agent.pris?
       @traited = all.where("projets.actif = 1 and projets.statut >= 2 and projets.operateur_id is not NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")
       @action = all.where("projets.actif = 1 and projets.operateur_id is NULL and (projets.eligibilite = 3 or projets.eligibilite = 0)")

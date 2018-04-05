@@ -280,6 +280,14 @@ class Projet < ApplicationRecord
 		where("projets.created_at <= ?", search_param)
 	}
 
+	scope :delivered_since, ->(search_param) {
+		where("projets.date_depot >= ?", search_param)
+	}
+
+	scope :delivered_upto, ->(search_param) {
+		where("projets.date_depot <= ?", search_param)
+	}
+
 	scope :count_by_week, -> {
 		fields = [
 			"DATE_PART('year', projets.created_at::date) AS year",
@@ -295,15 +303,23 @@ class Projet < ApplicationRecord
 
 	def self.search_filter(dossiers, search_param)
 		if search_param.key?(:from) && search_param[:from].present?
-			dossiers = dossiers.updated_since(search_param[:from])
+			if search_param.key?(:sort_by) && search_param[:sort_by].present? && search_param[:sort_by].include?('depot')
+				dossiers = dossiers.delivered_since(search_param[:from])
+			else
+				dossiers = dossiers.updated_since(search_param[:from])
+			end
 		end
 		if search_param.key?(:to) && search_param[:to].present?
-			dossiers = dossiers.updated_upto(search_param[:to])
+			if search_param.key?(:sort_by) && search_param[:sort_by].present? && search_param[:sort_by].include?('depot')
+				dossiers = dossiers.delivered_upto(search_param[:to])
+			else
+				dossiers = dossiers.updated_upto(search_param[:to])
+			end
 		end
 		if search_param.key?(:folder) && search_param[:folder].present?
 			words = search_param[:folder].split(/[\s,;]/)
 			words.each do |word|
-				word_int = word
+				word_int = word.split(/[_]/)[0]
 				word = "%" + word + "%"
 				dossiers = dossiers.search_by_folder(word, word_int.to_i.to_s)
 			end
