@@ -195,11 +195,13 @@ fr:
       technical: "Une question technique sur le site (accès, identifiant...)"
       general: "Une question générale sur les aides"
       project: "Une question concernant mon dossier"
+      rod: "Modification ROD"
       other: "Autre : Veuillez préciser dans le message"
     email_name:
       technical: "Question technique"
       general: "Question générale"
       project: "Question concernant mon dossier"
+      rod: "Modification ROD"
       other: "Autre"
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
@@ -621,6 +623,10 @@ fr:
         blank_masculine: "doit être renseigné"
       models:
         document:
+          attributes:
+            fichier:
+              virus_free_error: "Le document n’a pas été ajouté car un virus y a été détecté."
+              virus_free_unsafe: "Le document n’a pas été ajouté car un virus y a été détecté."
           virus_found: "Le document n’a pas été ajouté car un virus y a été détecté."
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"

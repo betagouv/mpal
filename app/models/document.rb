@@ -3,6 +3,7 @@ class Document < ApplicationRecord
   mount_uploader :fichier, DocumentUploader
 
   validates :label, :fichier, presence: true
+  validates :fichier, virus_free: true
 
   def self.for_payment(payment)
     hash = { required: [], none: [:autres_paiement] }
@@ -59,5 +60,6 @@ class Document < ApplicationRecord
   end
 
   private
+
 
 end
