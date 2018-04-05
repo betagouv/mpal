@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180323145253) do
+ActiveRecord::Schema.define(version: 20180327094044) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -257,6 +257,19 @@ ActiveRecord::Schema.define(version: 20180323145253) do
     t.string "civilite"
   end
 
+  create_table "pjnotes", force: :cascade do |t|
+    t.integer "document_id"
+    t.integer "projet_id"
+    t.integer "intervenant_id"
+    t.text "notecontent"
+    t.datetime "last_read_messages_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["document_id"], name: "index_pjnotes_on_document_id"
+    t.index ["intervenant_id"], name: "index_pjnotes_on_intervenant_id"
+    t.index ["projet_id"], name: "index_pjnotes_on_projet_id"
+  end
+
   create_table "prestation_choices", id: :serial, force: :cascade do |t|
     t.integer "projet_id"
     t.integer "prestation_id"
@@ -420,6 +433,9 @@ ActiveRecord::Schema.define(version: 20180323145253) do
   add_foreign_key "invitations", "intervenants"
   add_foreign_key "invitations", "projets"
   add_foreign_key "messages", "projets"
+  add_foreign_key "pjnotes", "documents"
+  add_foreign_key "pjnotes", "intervenants"
+  add_foreign_key "pjnotes", "projets"
   add_foreign_key "prestation_choices", "prestations"
   add_foreign_key "prestation_choices", "projets"
   add_foreign_key "projet_aides", "aides"

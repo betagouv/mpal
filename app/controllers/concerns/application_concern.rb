@@ -81,6 +81,8 @@ module ApplicationConcern
     #
     # The helper is available to both controllers and views.
     def self.expose_routing_helper(name)
+      # destroy_projet_or_dossier_pjnote_path
+      # destroy_dossier_pjnote_path
       define_method name do |*args|
         resolved_name = name.to_s.sub(/projet_or_dossier/, projet_or_dossier)
         send(resolved_name, *args)
@@ -107,6 +109,10 @@ module ApplicationConcern
     expose_routing_helper :projet_or_dossier_intervenants_path
     expose_routing_helper :projet_or_dossier_show_non_eligible_path
     expose_routing_helper :projet_or_dossier_show_a_reevaluer_path
+    expose_routing_helper :projet_or_dossier_pjnotes_path
+
+    expose_routing_helper :edit_projet_or_dossier_pjnote_path
+    expose_routing_helper :projet_or_dossier_pjnote_path
   end
 end
 

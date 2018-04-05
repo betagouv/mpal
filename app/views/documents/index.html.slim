@@ -16,22 +16,81 @@
               ul.document-panel-body
                 - element[:documents].each do |document|
                   li.document
-                    .document-icon
-                      i.glyphicon.glyphicon-file
-                    .document-name
-                      - if can? :show, document
-                        = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
-                      - else
-                        = document.label
-                    .document-upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
-                    - if can? :destroy, document
-                      .document-actions
-                        - if block[:payment_id].present?
-                          - delete_path = dossier_payment_document_path(@projet_courant, block[:payment_id], document)
+
+                    .document-name-container
+                      .document-icon
+                        i.glyphicon.glyphicon-file
+                      .document-name
+                        - if can? :show, document
+                          = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
                         - else
-                          - delete_path = projet_or_dossier_document_path(@projet_courant, document)
-                        = link_to delete_path, method: :delete, data: { confirm: t("document.messages.delete.confirmation") }
+                          = document.label
+                      
+                      - if can? :destroy, document
+                        .document-actions
+                          - if block[:payment_id].present?
+                            - delete_path = dossier_payment_document_path(@projet_courant, block[:payment_id], document)
+                          - else
+                            - delete_path = projet_or_dossier_document_path(@projet_courant, document)
+                          = link_to delete_path, method: :delete, data: { confirm: t("document.messages.delete.confirmation") }
                           i.glyphicon.glyphicon-trash
+
+                      .document-upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
+
+                    .document-comment-container
+                      - document.pjnotes.reverse.each_with_index do |aNote, i|
+                        - if i <= 0
+                          div.comment-container.main-comment-container.limit-comment-display
+                            div.comment-text #{aNote.notecontent}
+
+                            div.comment-action-container
+                              span.comment-updated-at #{aNote.updated_at.strftime("%d/%m/%Y %Hh%M")}
+
+                              - if can? :manage, aNote
+                                - if current_agent
+                                  = link_to edit_projet_or_dossier_pjnote_path(@projet_courant, aNote)
+                                    span.comment-edit
+                                      span.glyphicon.glyphicon-pencil
+                              
+                              - if can? :manage, aNote
+                                - if current_agent
+                                  = link_to projet_or_dossier_pjnote_path(@projet_courant, aNote), method: :delete
+                                    span.comment-delete
+                                      span.glyphicon.glyphicon-trash
+
+
+                        - else
+                          div.comment-container.comment-older
+                            div.comment-text #{aNote.notecontent}
+
+                            div.comment-action-container
+                              span.comment-updated-at #{aNote.updated_at.strftime("%d/%m/%Y %Hh%M")}
+
+                              - if can? :manage, aNote
+                                - if current_agent
+                                  = link_to edit_projet_or_dossier_pjnote_path(@projet_courant, aNote)
+                                    span.comment-edit
+                                      span.glyphicon.glyphicon-pencil
+                              
+                              - if can? :manage, aNote
+                                - if current_agent
+                                  = link_to projet_or_dossier_pjnote_path(@projet_courant, aNote), method: :delete
+                                    span.comment-delete
+                                      span.glyphicon.glyphicon-trash
+                            br
+
+
+                      .document-new-comment.comment-older
+                        - if current_agent
+                          - if can? :manage, Pjnote
+                            = simple_form_for Pjnote.new, url: projet_or_dossier_pjnotes_path, html: { class: "form form-inline pj-note-textarea" } do |f|
+                              = f.input :notecontent, label: 'Entrez votre commentaire :'
+                              = hidden_field_tag :projet_id, @projet_courant.id
+                              = hidden_field_tag :document_id, document.id
+                              = hidden_field_tag :intervenant_id, current_agent.id
+                              = f.button :submit, "Push ton com'", class: 'ripple push-ton-com'
+
+                      div.more-comment plus ... 
 
             - if can? :create, Document
               - if block[:payment_id].present?
@@ -45,3 +104,31 @@
                   = t("document.select")
                 = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
                 .document-file-added.js-document__file-added
+
+javascript:
+  $(document).ready(function() {
+    $('.document-comment-container').find('.comment-older').hide();
+
+    $('.more-comment').on('click', function(e) {
+      var parentContainer = $(this).parent('.document-comment-container');
+
+      if (undefined != parentContainer && null != parentContainer && parentContainer.length > 0) {
+        var olderComment = $(parentContainer).find('.comment-older');
+        var mainComment = $(parentContainer).find('.main-comment-container');
+
+        console.log(mainComment);
+
+        if (undefined != olderComment && null != olderComment && olderComment.length > 0) {
+          $(mainComment).toggleClass('limit-comment-display');
+          if ($(olderComment).css('display') == 'none') {
+            $(this).text('moins ...');
+            $(olderComment).show();
+          }
+          else {
+            $(this).text('plus ...');
+            $(olderComment).hide();
+          }
+        }
+      }
+    });
+  });

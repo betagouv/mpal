@@ -6,6 +6,9 @@ class Intervenant < ApplicationRecord
 
   has_and_belongs_to_many :operations, order: :id
 
+  has_many :pjnotes, dependent: :destroy
+  accepts_nested_attributes_for :pjnotes
+
   validates :raison_sociale, presence: true
   validates :email, presence: true, email: true
 

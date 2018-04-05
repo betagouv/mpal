@@ -21,6 +21,7 @@ Rails.application.routes.draw do
     post       :show_a_reevaluer, to: "demandes#show_a_reevaluer"
     get       :show_eligible_hma, to: "mises_en_relation#show_eligible_hma"
     post       :show_eligible_hma_valid_operateur, to: "mises_en_relation#show_eligible_hma_valid_operateur"
+    resources :pjnotes,           only: [:index, :new, :create, :edit, :update, :destroy]
   end
 
 
@@ -133,7 +134,13 @@ Rails.application.routes.draw do
   get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"
   get "/ruby_rod/:id" => "dossiers#ruby_rod"
 
+
+
+
+
+  #resources :pjnotes 
+
   mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  match '/*path', :to => 'application#error_not_found', :via => :all
+  # match '/*path', :to => 'application#error_not_found', :via => :all
 end
 
