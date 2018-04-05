@@ -26,7 +26,7 @@
 			p.p-question Je sélectionne le nom de mon opérateur-conseil :
 			select.op_s.form-control name="operateur"
 				- @ops.each do |op|
-					option value="#{op.raison_sociale}" #{op.raison_sociale}
+					option value="#{op['raison_sociale']}" #{op['raison_sociale']}
 
 	button.btn.btn-large.btn-centered.btn-icon class="btn btn-large btn-validate-submit btn-icon" type="submit" value="Continuer"
 		span Continuer
