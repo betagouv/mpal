@@ -207,6 +207,7 @@ describe ContactsController do
           phone:       "01 02 03 04 05",
           subject:     "other",
           description: "Qui a tué Kenny ?",
+          department: "42",
         }
       end
       before do

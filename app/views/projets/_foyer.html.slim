@@ -1,10 +1,10 @@
 - if @projet_courant.code_opal_op.present?
-  p = @projet_courant.name_op
-  p = "Code Opal : " + @projet_courant.code_opal_op
+  p.align-right = @projet_courant.name_op
+  p.align-right = "Code Opal : " + @projet_courant.code_opal_op
 - elsif @projet_courant.code_opal_op != nil
-  p = ""
+  p.align-right = ""
 - else
-  p = "Information sur les Opérations Programmées non disponible"
+  p.align-right = "Information sur les Opérations Programmées non disponible"
 article.block.occupants
   h3 Récapitulatif de ma demande
   - if can? :update, @projet_courant

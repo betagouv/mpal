@@ -43,18 +43,19 @@
           td= sf_label :projet, :localized_numero_siret
           td.proposition-cell-price.test-numero-siret= @projet_courant.numero_siret
 
-        tr
-          td= sf_label :projet, :localized_nom_entreprise
-          td.proposition-cell-price.test-nom-entreprise= @projet_courant.nom_entreprise
-
-        tr
-          td= sf_label :projet, :localized_cp_entreprise
-          td.proposition-cell-price.test-cp-entreprise= @projet_courant.cp_entreprise
-
-        - if @projet_courant.hma.present? && @projet_courant.hma.ptz.present?
+        - if @projet_courant.nom_entreprise.present?
           tr
-            td= sf_label :hma, :localized_ptz
-            td.proposition-cell-price.test-date-de-ptz= l(Date.parse(@projet_courant.hma.ptz), format: :long)
+            td= sf_label :projet, :localized_nom_entreprise
+            td.proposition-cell-price.test-nom-entreprise= @projet_courant.nom_entreprise
+
+        - if @projet_courant.cp_entreprise.present?
+          tr
+            td= sf_label :projet, :localized_cp_entreprise
+            td.proposition-cell-price.test-cp-entreprise= @projet_courant.cp_entreprise
+        - if !(@projet_courant.demande && @projet_courant.demande.seul)
+          tr
+            td= sf_label :projet, :date_de_visite_du_logement
+            td.proposition-cell-price.test-date-de-visite= @projet_courant.date_de_visite.present? ? l(@projet_courant.date_de_visite, format: :long) : "Non renseignée"
 
 - if @projet_courant.has_house_evaluation? && (ENV['ELIGIBLE_HMA'] != "true" || !@projet_courant.hma.present?)
   h3 Diagnostic opérateur
@@ -231,10 +232,18 @@
             td.bold-label.black-label.medium-size-label = sf_label :projet, :fundings_sum
             td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @fundings_sum
 
-        - if 0 == @remaining_sum
+        tr
+          td.bold-label.black-label.medium-size-label = sf_label :projet, :remaining_sum
+          td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @remaining_sum
+
+- if @projet_courant.hma.present? && @projet_courant.hma.ptz.present?
+  h3
+  .table-responsive
+    table.table.table-striped.table-sm
+      thead
           tr
-            td.bold-label.black-label.medium-size-label = sf_label :projet, :remaining_sum
-            td.proposition-cell-price.test-fundings-sum.bold-label.black-label.medium-size-label = number_to_currency @remaining_sum
+            th= sf_label :hma, :localized_ptz
+            th.proposition-cell-price.test-date-de-ptz= l(Date.parse(@projet_courant.hma.ptz), format: :long)
 
 ul.ctr-ope
   - if @projet_courant.precisions_travaux.present?

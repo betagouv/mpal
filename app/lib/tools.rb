@@ -15,9 +15,20 @@ module Tools
     ENV['DEPARTEMENTS_ENABLED'].delete(' ').split(',')
   end
 
-  def self.departement_enabled?(departement)
+  def self.city_exception
+    begin
+      return ENV['CITY_EXCEPTION'].delete(' ').split(',')
+    rescue
+      return []
+    end
+  end
+
+  def self.departement_enabled?(departement, code_postal)
     if departements_enabled.include? STATES_WILDCARD
       return true
+    end
+    if city_exception.include? code_postal
+      return false
     end
     departements_enabled.include?(departement)
   end

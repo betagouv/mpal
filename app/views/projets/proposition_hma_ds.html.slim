@@ -1,9 +1,9 @@
-= simple_form_for @projet_courant, url: projet_or_dossier_proposition_path(@projet_courant), html: { method: :put, class: "form form-proposition" } do |f|
+= simple_form_for @projet_courant, url: proposition_projet_demandeur_seul_path(@projet_courant), html: { method: :put, class: "form form-proposition" } do |f|
   = render "shared/errors", resource: @projet_courant
-  .occupants-recap Opérateur : #{@projet_courant.operateur.raison_sociale}
+  / .occupants-recap Opérateur : #{@projet_courant.operateur.raison_sociale}
 
   fieldset.form-proposition__fieldset
-    legend.form-proposition__legend Projet de travaux
+    legend.form-proposition__legend Informations sur mon Projet
     = f.input :numero_siret, wrapper: "append", wrapper_html: { class: "size-s" } do
       = f.input_field :numero_siret, class: "input-number siretNum", input_html: {value: @projet_courant.numero_siret.present? ? @projet_courant.numero_siret : ""}
     = f.input :nom_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
@@ -11,7 +11,6 @@
     = f.input :cp_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
       = f.input_field :cp_entreprise, class: "input-number cpEntreprise", input_html: {value: @projet_courant.cp_entreprise.present? ? @projet_courant.cp_entreprise : ""}
 
-    = f.input :date_de_visite, as: :string, wrapper_html: { class: "size-s" }, input_html: { value: @projet_courant.date_de_visite? ? l(@projet_courant.date_de_visite) : "" }
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Plan de financement prévisionnel
     .form-inline2
@@ -31,10 +30,6 @@
 
         = hma_form.input :devis_ttc, wrapper: "append", wrapper_html: { class: "size-s" } do
           = hma_form.input_field :devis_ttc, class: "input-price js-global-ttc-part devisTTC"
-          span.input-group-addon €
-
-        = hma_form.input :moa, wrapper: "append", wrapper_html: { class: "size-s" } do
-          = hma_form.input_field :moa, class: "input-price js-global-ttc-part amountMOA"
           span.input-group-addon €
 
         = hma_form.input :localized_global_ttc_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
@@ -168,18 +163,18 @@ javascript:
   }
 
   $('.btn-validate-submit').click(function(e) {
-    e.preventDefault();
-    var validSiret = false;
+      e.preventDefault();
+      var validSiret = false;
 
-    var numSiret = ($('.siretNum').val().toString()).replace(/\s+/g, '');
+      var numSiret = ($('.siretNum').val().toString()).replace(/\s+/g, '');
 
-    if ("" == numSiret || (verif_siren_siret(numSiret, 9) && verif_siren_siret(numSiret, 14)))
+      if ("" == numSiret || (verif_siren_siret(numSiret, 9) && verif_siren_siret(numSiret, 14)))
           validSiret = true;
 
-    if (validSiret)
-      $('.simple_form').submit();
-    else {
-      if (!validSiret)
-        $('.invalidSiret').css("display", "block");
-    }
+      if (validSiret)
+          $('.simple_form').submit();
+      else {
+          if (!validSiret)
+            $('.invalidSiret').css("display", "block");
+      }
   });

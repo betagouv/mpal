@@ -12,6 +12,12 @@ Rails.application.routes.draw do
     resource  :demandeur,          only: [:show, :update]
     resource  :demande,            only: [:show, :update]
     resources :messages,           only: [:new, :create]
+    resource  :demandeur_seul,     only: [] do
+      get :show
+      get :proposition
+      put :proposition
+      get :proposer
+    end
     resource  :mise_en_relation,   only: [:show, :update]
     resource  :eligibility,        only: :show
     get       :calcul_revenu_fiscal_reference

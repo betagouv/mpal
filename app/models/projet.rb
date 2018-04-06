@@ -110,9 +110,31 @@ class Projet < ApplicationRecord
 	validates *FUNDING_FIELDS, :big_number => true
 	validate  :validate_frozen_attributes
 	validate  :validate_theme_count, on: :proposition
+	validate  :validate_remain, on: [:proposition, :proposition_hma]
 
 	localized_numeric_setter :note_degradation
 	localized_numeric_setter :note_insalubrite
+
+	def validate_remain
+		aids = self.aids_with_amounts
+		public_aids_with_amounts = aids.try(:public_assistance)
+		private_aids_with_amounts = aids.try(:not_public_assistance)
+
+		public_aids_sum = public_aids_with_amounts.sum(:amount)
+		fundings_sum  = public_aids_sum
+		fundings_sum += self.personal_funding_amount || 0
+		fundings_sum += self.loan_amount || 0
+		fundings_sum += private_aids_with_amounts.sum(:amount)
+
+		remaining_sum = self.global_ttc_sum
+		remaining_sum -= fundings_sum || 0
+
+		if remaining_sum != 0
+			errors.add(:localized_remaining_sum, "doit être égal à 0")
+			return false
+		end
+		return true
+	end
 
 	attr_accessor :localized_numero_siret, :localized_nom_entreprise, :localized_cp_entreprise, :localized_devis_ht, :localized_devis_ttc, :localized_moa, :localized_ptz, :accepts, :localized_global_ttc_sum, :localized_public_aids_sum, :localized_fundings_sum, :localized_remaining_sum
 
@@ -204,6 +226,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_folder, -> (search_param, int_param) {
+		int_param = -1 if int_param.to_i > (2**31 - 1)
 		where(["projets.opal_numero ILIKE ? or projets.id = ?", search_param, int_param])
 	}
 
@@ -261,6 +284,14 @@ class Projet < ApplicationRecord
 		where("projets.created_at <= ?", search_param)
 	}
 
+	scope :delivered_since, ->(search_param) {
+		where("projets.date_depot >= ?", search_param)
+	}
+
+	scope :delivered_upto, ->(search_param) {
+		where("projets.date_depot <= ?", search_param)
+	}
+
 	scope :count_by_week, -> {
 		fields = [
 			"DATE_PART('year', projets.created_at::date) AS year",
@@ -276,15 +307,23 @@ class Projet < ApplicationRecord
 
 	def self.search_filter(dossiers, search_param)
 		if search_param.key?(:from) && search_param[:from].present?
-			dossiers = dossiers.updated_since(search_param[:from])
+			if search_param.key?(:sort_by) && search_param[:sort_by].present? && search_param[:sort_by].include?('depot')
+				dossiers = dossiers.delivered_since(search_param[:from])
+			else
+				dossiers = dossiers.updated_since(search_param[:from])
+			end
 		end
 		if search_param.key?(:to) && search_param[:to].present?
-			dossiers = dossiers.updated_upto(search_param[:to])
+			if search_param.key?(:sort_by) && search_param[:sort_by].present? && search_param[:sort_by].include?('depot')
+				dossiers = dossiers.delivered_upto(search_param[:to])
+			else
+				dossiers = dossiers.updated_upto(search_param[:to])
+			end
 		end
 		if search_param.key?(:folder) && search_param[:folder].present?
 			words = search_param[:folder].split(/[\s,;]/)
 			words.each do |word|
-				word_int = word
+				word_int = word.split(/[_]/)[0]
 				word = "%" + word + "%"
 				dossiers = dossiers.search_by_folder(word, word_int.to_i.to_s)
 			end
@@ -373,7 +412,9 @@ class Projet < ApplicationRecord
 
 	def reset_fiscal_information
 		contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable_no_cache
-		ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable).save
+		a = ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable)
+		AvisImposition.where(:numero_fiscal => self.numero_fiscal, :reference_avis => self.reference_avis, :projet_id => self.id).first.try(:destroy)
+		a.save!
 	end
 
 	def demandeur_user
@@ -704,6 +745,11 @@ class Projet < ApplicationRecord
 	end
 
 	def transmettre!(instructeur)
+		response = Rod.new(RodClient).query_for(self)
+		if instructeur != response.instructeur
+			self.invite_instructeur! response.instructeur
+			instructeur = response.instructeur
+		end
 		invitation = invitations.find_by(intervenant: instructeur)
 		return false unless invitation.update(intermediaire: operateur)
 		self.date_depot = Time.now

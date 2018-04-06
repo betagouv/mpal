@@ -118,6 +118,9 @@ private
   end
 
   def demande_params
+    if params[:demande][:devis_rge] == "neutre"
+      params[:demande][:devis_rge] = false
+    end
     params.require(:demande).permit(
       :changement_chauffage,
       :froid,
@@ -148,7 +151,7 @@ private
   end
 
   def needs_next_step?
-    (@projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank?) || @projet_courant.eligibilite == 1
+    (@projet_courant.contacted_operateur.blank? && @projet_courant.invited_pris.blank? && !(ENV['ELIGIBLE_HMA'] == "true" && @projet_courant.demande && @projet_courant.demande.seul)) || @projet_courant.eligibilite == 1
   end
 
   def redirect_to_next_step

@@ -9,5 +9,8 @@ class IntervenantsController < ApplicationController
     @instructeur  = @projet_courant.invited_instructeur
     @demandeur    = @projet_courant.demandeur
     @personne     = @projet_courant.personne
+    if @pris.nil?
+      @pris = Rod.new(RodClient).query_for(@projet_courant).pris
+    end
   end
 end
