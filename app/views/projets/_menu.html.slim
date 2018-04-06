@@ -12,7 +12,7 @@
         - if project.themes.any?
           - th = []
           - project.themes.each do |t|
-            - if t.name == "Énergie"
+            - if t.name == "Énergie" && ENV["ELIGIBLE_HMA"] == "true"
               - if project.try(:hma)
                 - if project.demande.present? && project.demande.seul
                   - th << "Énergie Habiter Mieux Agilité - Demandeur seul"
