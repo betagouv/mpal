@@ -61,13 +61,14 @@ private
   def parse_operateurs_hma(json)
     ret = []
     if json["operation_programmee"].present? && json["operation_programmee"][0].present? && json["operation_programmee"][0]["operateurs"].present?
-      ret << json["operation_programmee"].map { |op| op["operateurs"] }.flatten
+      ret = json["operation_programmee"].map { |op| op["operateurs"] }.flatten
     end
     if json["operateurs"].present?
-      ret << json["operateurs"]
+      json["operateurs"].each do |op|
+        ret << op
+      end
     end
-
-    (ret || []).map { |attributes| create_or_update_intervenant!("operateur", attributes) }
+    (ret.uniq || []).map { |attributes| create_or_update_intervenant!("operateur", attributes) }
   end
 
   def parse_operations(json)
