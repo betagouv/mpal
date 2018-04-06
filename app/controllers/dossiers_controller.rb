@@ -109,9 +109,13 @@ class DossiersController < ApplicationController
     @hma_status_with_count = Projet::INTERVENANT_STATUSES.zip(hma_status_count).to_h
 
 
-    opal_all_projets_status = projets.map(&:opal_position_label)
+    opal_all_projets_status = projets.where("ift_hma IS NULL").map(&:opal_position_label)
     opal_status_count = Projet::OPAL_POSITION_LABEL_STATUSES.map { |s| opal_all_projets_status.count(s) }
     @opal_status_with_count = Projet::OPAL_POSITION_LABEL_STATUSES.zip(opal_status_count).to_h
+    
+    opal_hma_all_projets_status = projets.where.not("ift_hma IS NULL").map(&:opal_position_label)
+    opal_hma_status_count = Projet::OPAL_POSITION_LABEL_STATUSES.map { |s| opal_hma_all_projets_status.count(s) }
+    @opal_hma_status_with_count = Projet::OPAL_POSITION_LABEL_STATUSES.zip(opal_hma_status_count).to_h
   end
 
   def proposer
