@@ -54,7 +54,7 @@ class Rod
       raise RodError, message
     end
 
-    rod_response = RodResponse.new(JSON.parse(response.body))
+    rod_response = RodResponse.new(JSON.parse(response.body), ENV['ELIGIBLE_HMA'] == 'true' && projet.demande.try(:eligible_hma))
     if ENV['ELIGIBLE_HMA'] == 'true' && projet.demande.try(:seul)
       projet.update(:name_op => "", :code_opal_op => "")
     else
