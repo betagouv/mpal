@@ -9,8 +9,8 @@ class TransmissionController < ApplicationController
   end
 
   def create
-    instructeur = @projet_courant.invited_instructeur
-    if @projet_courant.transmettre!(instructeur)
+    if @projet_courant.transmettre!(@projet_courant.invited_instructeur)
+      instructeur = @projet_courant.invited_instructeur
       infos = [instructeur.raison_sociale, instructeur.adresse_postale, instructeur.phone].reject(&:blank?)
       redirect_to projet_path(@projet_courant), notice: t('projets.transmission.messages.success', instructeur: infos.join(", "))
     else
