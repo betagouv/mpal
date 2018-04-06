@@ -14,6 +14,10 @@ br
         h3= t("projets.statut.#{statut}")
         p.nombre-projets= count
 
+  - @opal_status_with_count.each do |statut, count|
+      .indicateur-projet id="projet_#{statut}"
+        h3= t("projets.statut.#{statut}")
+        p.nombre-projets= count
 
   - if (ENV['ELIGIBLE_HMA'] == 'true')
     - @hma_status_with_count.each do |statut, count|
@@ -21,11 +25,10 @@ br
         h3= "HMA " + t("projets.statut.#{statut}")
         p.nombre-projets= count
 
-  - @opal_status_with_count.each do |statut, count|
-      .indicateur-projet id="projet_#{statut}"
+    - @opal_hma_status_with_count.each do |statut, count|
+      .indicateur-projet id="projet_hma_#{statut}"
         h3= t("projets.statut.#{statut}")
         p.nombre-projets= count
-
 
 
   .indicateur-projet id="projet_inactif"
