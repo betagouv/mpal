@@ -1,13 +1,17 @@
 class RodResponse
   attr_accessor :pris, :pris_eie, :instructeur, :operateurs, :operations, :name_operation, :code_opal
 
-  def initialize(json)
+  def initialize(json, hma)
     @name_operation = ""
     @code_opal      = ""
     @pris           = parse_pris(json)
     @pris_eie       = parse_pris_eie(json)
     @instructeur    = parse_instructeur(json)
-    @operateurs     = parse_operateurs(json)
+    if !hma
+      @operateurs     = parse_operateurs(json)
+    else
+      @operateurs     = parse_operateurs_hma(json)
+    end
     @operations     = parse_operations(json)
   end
 
@@ -52,6 +56,18 @@ private
                       json["operateurs"]
 
     (json_operateurs || []).map { |attributes| create_or_update_intervenant!("operateur", attributes) }
+  end
+
+  def parse_operateurs_hma(json)
+    ret = []
+    if json["operation_programmee"].present? && json["operation_programmee"][0].present? && json["operation_programmee"][0]["operateurs"].present?
+      ret << json["operation_programmee"].map { |op| op["operateurs"] }.flatten
+    end
+    if json["operateurs"].present?
+      ret << json["operateurs"]
+    end
+
+    (ret || []).map { |attributes| create_or_update_intervenant!("operateur", attributes) }
   end
 
   def parse_operations(json)

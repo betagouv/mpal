@@ -35,13 +35,9 @@ class MisesEnRelationController < ApplicationController
     if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
       redirect_to root_path and return
     end
-    # if @projet_courant.demande.seul
-    #   render :show_eligible_hma_valid_operateur and return
-    # end
-    response = Rod.new(RodClient).list_intervenants_rod(@projet_courant.adresse.departement)
-    response2 = Rod.new(RodClient).query_for(@projet_courant)
-    @ops = response["operateurs"]
-    @pris = response2.pris_eie
+    response = Rod.new(RodClient).query_for(@projet_courant)
+    @ops = response.operateurs
+    @pris = response.pris_eie
     return
   end
 
@@ -56,30 +52,20 @@ class MisesEnRelationController < ApplicationController
       if params.has_key?(:op_question) && params[:op_question] == "true" && params.has_key?(:operateur) && params[:operateur].present?
         #rod
         var_op = nil
-        response2 = Rod.new(RodClient).list_intervenants_rod(@projet_courant.adresse.departement)
-        response2['operateurs'].each do |op|
-          if op['raison_sociale'] == params[:operateur]
+        response.operateurs.each do |op|
+          if op.raison_sociale == params[:operateur]
             var_op = op
             break
           end
         end
         if var_op != nil
           begin
-            intervenant = Intervenant.find_by_clavis_service_id(var_op["clavis_service_id"])
-            if intervenant.blank?
-              Intervenant.create! clavis_service_id: var_op["clavis_service_id"], raison_sociale: var_op["raison_sociale"], adresse_postale: var_op["adresse_postale"], phone: var_op["phone"], email: var_op["email"], roles: [var_op["clavis_service_id"]]
-            else
-              intervenant.attributes = { raison_sociale: var_op["raison_sociale"], adresse_postale: var_op["adresse_postale"], phone: var_op["phone"], email: var_op["email"] }
-              intervenant.roles << var_op["role"] unless intervenant.roles.include? var_op["role"]
-              intervenant.save!
-            end
-            invitation = Invitation.create! projet: @projet_courant, intervenant: intervenant, contacted: true
-            @projet_courant.contact_operateur!(var_op)
+            invitation = Invitation.create! projet: @projet_courant, intervenant: var_op, contacted: true
+            @projet_courant.contact_operateur!(var_op.reload)
             @projet_courant.commit_with_operateur!(var_op)
             @projet_courant.invite_instructeur! response.instructeur
-            redirect_to root_path and return
+          redirect_to root_path and return
           rescue
-            redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez choisir un autre opérateur-conseil." } and return
           end
         else
           redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez choisir un autre opérateur-conseil." } and return
@@ -91,7 +77,6 @@ class MisesEnRelationController < ApplicationController
           @projet_courant.invite_instructeur! response.instructeur
           redirect_to root_path and return
         rescue
-          redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez indiquer si vous êtes déjà en contact avec un opérateur-conseil." } and return
         end
       else
         redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez indiquer si vous êtes déjà en contact avec un opérateur-conseil." } and return
