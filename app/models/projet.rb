@@ -42,6 +42,13 @@ class Projet < ApplicationRecord
 
 	SORT_BY_OPTIONS = [:created, :depot]
 
+	OPAL_POSITION_LABEL_STATUSES = [
+		"Subvention accordée", "Subvention rejetée", "Classé sans suite",
+		"Subvention retirée", "Subvention retiré avec reversement", "Demande d'acompte",
+		"Acompte payé", "Demande d'avance", "Avance payée", "Demande de solde", "Solde payé"
+	]
+
+
 	# Personne de confiance
 	belongs_to :personne, dependent: :destroy
 	accepts_nested_attributes_for :personne
