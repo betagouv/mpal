@@ -1,5 +1,13 @@
 h3 Il y a #{@projets_count} #{"projet".pluralize(@projets_count)}
 
+
+label.switch
+  span.switch-label H.M.A.
+  input type="checkbox" class="dashboardFilterAdvancedCheckbox" name="advanced"
+  span.slider.round
+
+br
+
 .flex-indicateurs-projet.clearfix
   - @status_with_count.each do |statut, count|
       .indicateur-projet id="projet_#{statut}"
@@ -17,6 +25,7 @@ h3 Il y a #{@projets_count} #{"projet".pluralize(@projets_count)}
       .indicateur-projet id="projet_#{statut}"
         h3= t("projets.statut.#{statut}")
         p.nombre-projets= count
+
 
 
   .indicateur-projet id="projet_inactif"

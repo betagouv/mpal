@@ -75,7 +75,7 @@ class DossiersController < ApplicationController
     end
 
     if current_agent.siege?
-      projets = Projet.all
+      projets = Projet.all.joins("LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id)")
     elsif (current_agent.dreal? || current_agent.instructeur?) && current_agent.intervenant.try(:departements).present?
       departements = current_agent.intervenant.try(:departements) || []
       if departements != []
