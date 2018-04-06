@@ -85,7 +85,7 @@ class DossiersController < ApplicationController
             str += " OR (ift_adresses2.departement = '" + d + "' OR (ift_adresses1.departement = '" + d + "' AND ift_adresses2 IS NULL))"
           end
         end
-        projets = Projet.joins("INNER JOIN adresses ift_adresses1 ON (projets.adresse_postale_id = ift_adresses1.id) LEFT OUTER JOIN adresses ift_adresses2 ON (projets.adresse_a_renover_id = ift_adresses2.id)").where(str)
+        projets = Projet.joins("INNER JOIN adresses ift_adresses1 ON (projets.adresse_postale_id = ift_adresses1.id) LEFT OUTER JOIN adresses ift_adresses2 ON (projets.adresse_a_renover_id = ift_adresses2.id) LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id)").where(str)
       else
         projets = []
       end
@@ -98,9 +98,19 @@ class DossiersController < ApplicationController
     @no_eligible_reevaluer = projets.where("eligibilite = 1")
     @no_eligible_confirmer = projets.where("eligibilite = 4")
     @projets_count = projets.count
-    all_projets_status = projets.map(&:status_for_intervenant)
+    all_projets_status = projets.where("ift_hma IS NULL").map(&:status_for_intervenant)
     status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
     @status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
+
+
+    hma_all_projets_status = projets.where.not("ift_hma IS NULL").map(&:status_for_intervenant)
+    hma_status_count = Projet::INTERVENANT_STATUSES.map { |s| hma_all_projets_status.count(s) }
+    @hma_status_with_count = Projet::INTERVENANT_STATUSES.zip(hma_status_count).to_h
+
+
+    opal_all_projets_status = projets.map(&:opal_position_label)
+    opal_status_count = Projet::OPAL_POSITION_LABEL_STATUSES.map { |s| opal_all_projets_status.count(s) }
+    @opal_status_with_count = Projet::OPAL_POSITION_LABEL_STATUSES.zip(opal_status_count).to_h
   end
 
   def proposer
