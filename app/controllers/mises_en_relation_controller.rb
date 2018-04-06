@@ -37,7 +37,7 @@ class MisesEnRelationController < ApplicationController
     end
     response = Rod.new(RodClient).query_for(@projet_courant)
     @ops = response.operateurs
-    @pris = response.pris_eie
+    @pris = response.pris
     return
   end
 
