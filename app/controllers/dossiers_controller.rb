@@ -90,7 +90,8 @@ class DossiersController < ApplicationController
         projets = []
       end
     else
-      projets = current_agent.intervenant.try(:projets) || []
+      projets = current_agent.intervenant.try(:projets) || Projet.none
+      projets = projets.joins("LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id)")
     end
 
     @inactif = projets.where("actif = 0")
