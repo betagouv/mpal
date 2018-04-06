@@ -4,6 +4,9 @@ class Document < ApplicationRecord
 
   validates :label, :fichier, presence: true
 
+  has_many :pjnotes, dependent: :destroy
+  accepts_nested_attributes_for :pjnotes
+
   def self.for_payment(payment)
     hash = { required: [], none: [:autres_paiement] }
 

@@ -58,6 +58,10 @@ class Projet < ApplicationRecord
 	has_one :hma, dependent: :destroy
 	accepts_nested_attributes_for :hma
 
+	# Notes sur pieces-jointes
+	has_many :pjnotes, dependent: :destroy
+  	accepts_nested_attributes_for :pjnotes
+
 	belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
 	belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
 

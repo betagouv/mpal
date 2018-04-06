@@ -1,0 +1,17 @@
+
+
+p Commentaire Edition Page
+
+.document-new-comment
+	- if current_agent
+
+	    = simple_form_for @aNote, url: projet_or_dossier_pjnote_path, html: { class: "form form-inline pj-note-textarea" } do |f|
+
+	    	= f.input :notecontent, input_html: {value: @aNote.notecontent}, label: 'Entrez votre commentaire :'
+	    	= hidden_field_tag :projet_id, @projet_courant.id
+	    	= hidden_field_tag :document_id, @document.id
+	    	= hidden_field_tag :intervenant_id, current_agent.id
+	    	= hidden_field_tag :note_id, @aNote.id
+	    	= f.button :submit, "Push ton com'", class: 'ripple push-ton-com'
+
+	= link_to image_tag @document.fichier
