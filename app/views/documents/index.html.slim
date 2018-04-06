@@ -33,7 +33,7 @@
                           - else
                             - delete_path = projet_or_dossier_document_path(@projet_courant, document)
                           = link_to delete_path, method: :delete, data: { confirm: t("document.messages.delete.confirmation") }
-                          i.glyphicon.glyphicon-trash
+                            i.glyphicon.glyphicon-trash
 
                       .document-upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
 
