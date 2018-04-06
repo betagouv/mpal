@@ -42,7 +42,7 @@ fr:
       signed_up: "Votre compte a été créé. Vous pourrez retrouver votre dossier en utilisant votre adresse e-mail et votre mot de passe."
       signed_up_but_inactive: "Vous êtes bien enregistré. Vous ne pouvez cependant pas vous connecter car votre compte n’est pas encore activé."
       signed_up_but_locked: "Vous êtes bien enregistré. Vous ne pouvez cependant pas vous connecter car votre compte est verrouillé."
-      signed_up_but_unconfirmed: "Un message contenant un lien de confirmation a été envoyé à votre adresse e-mail. Cliquez sur ce lien pour activer votre compte."
+      signed_up_but_unconfirmed: "UN MESSAGE CONTENANT UN LIEN DE CONFIRMATION A ÉTÉ ENVOYÉ À VOTRE ADRESSE E-MAIL. CLIQUEZ SUR CE LIEN POUR ACTIVER VOTRE COMPTE."
       update_needs_confirmation: "Votre compte a bien été mis à jour mais nous devons vérifier votre nouvelle adresse e-mail. Merci de vérifier vos e-mails et de cliquer sur le lien de confirmation pour finaliser la validation de votre nouvelle adresse."
       updated: "Votre compte a été modifié avec succès."
     sessions:
