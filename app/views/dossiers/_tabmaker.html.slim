@@ -29,6 +29,15 @@
 			- if projet.libelle_theme
 				p = anonymize anonymized, edit_url do
 					= projet.libelle_theme
+					- if ENV["ELIGIBLE_HMA"] == "true"
+						- if projet.libelle_theme == "Énergie"
+							- if projet.hma.present?
+								- if projet.demande.present? && projet.demande.seul
+									= "_HMA DS"
+								- else
+									= "_HMA DA"
+							- else
+								= "_HMS"
 			- else
 				p Type d'intervention inconnu
 			- if projet.name_op.present?
@@ -58,9 +67,9 @@
 					= projet.ift_intervenant + " - " + projet.ift_agent
 				- else
 					p &nbsp;
-		
+
 		td.table-row-icons-border
-		
+
 		- if isMessage == true
 			td.table-row-icons-border
 				= link_to new_projet_or_dossier_message_path(projet)
