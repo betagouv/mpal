@@ -20,6 +20,10 @@ br
       .indicateur-projet id="projet_#{statut}"
         h3= "HMA " + t("projets.statut.#{statut}")
         p.nombre-projets= count
+    .indicateur-projet id="projet_inactif"
+      h3= "HMA " + t("projets.statut.inactif")
+      p.nombre-projets= @hma_status_with_count_inactif
+
 
   - @opal_status_with_count.each do |statut, count|
       .indicateur-projet id="projet_#{statut}"
