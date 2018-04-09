@@ -14,7 +14,7 @@ class PjnotesController < ApplicationController
     begin
       if params[:pjnote]["notecontent"] != ""
 	      @pjnote = Pjnote.create! document_id: params[:document_id], projet_id: params[:projet_id], intervenant_id: params[:intervenant_id], notecontent: params[:pjnote]["notecontent"]
-	      flash[:notice] = "Okay Sir"
+	      flash[:notice] = t("document.pjnote.commentaire_enregistre")
 	  end
     rescue => e
       Rails.logger.error "[DocumentsController] create action failed : #{e.message}"

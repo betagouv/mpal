@@ -458,6 +458,9 @@ fr:
       notification_agence_eau: "Notification d’aide de l’agence de l’eau"
       pv_copropriete: "PV Assemblée générale de copropriété (avec clef de répartition)"
       autres_projet: "Autres"
+    pjnote:
+      commenter: "Commenter"
+      commentaire_enregistre: "Commentaire enregistré"
 
   # ----------------------- Recommander des opérateurs -----------------
   recommander_operateurs:

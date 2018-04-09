@@ -88,7 +88,7 @@
                               = hidden_field_tag :projet_id, @projet_courant.id
                               = hidden_field_tag :document_id, document.id
                               = hidden_field_tag :intervenant_id, current_agent.id
-                              = f.button :submit, "Commenter'", class: 'ripple push-ton-com'
+                              = f.button :submit, t("document.pjnote.commenter"), class: 'ripple push-ton-com'
 
                       div.more-comment plus ... 
 

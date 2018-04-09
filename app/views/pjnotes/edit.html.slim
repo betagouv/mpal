@@ -12,6 +12,6 @@ p Commentaire Edition Page
 	    	= hidden_field_tag :document_id, @document.id
 	    	= hidden_field_tag :intervenant_id, current_agent.id
 	    	= hidden_field_tag :note_id, @aNote.id
-	    	= f.button :submit, "Commenter'", class: 'ripple push-ton-com'
+	    	= f.button :submit, t("document.pjnote.commenter"), class: 'ripple push-ton-com'
 
 	= link_to image_tag @document.fichier
