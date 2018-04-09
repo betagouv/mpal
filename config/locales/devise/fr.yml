@@ -18,7 +18,7 @@ fr:
       unconfirmed: "Vous devez valider votre compte pour continuer."
     mailer:
       confirmation_instructions:
-        subject: "Confirmer votre adresse e-mail"
+        subject: "Créer votre compte sur monprojet.anah.gouv.fr"
       reset_password_instructions:
         subject: "Changer votre mot de passe"
       unlock_instructions:
