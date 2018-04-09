@@ -104,9 +104,12 @@ class DossiersController < ApplicationController
     @status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
 
 
-    hma_all_projets_status = projets.where.not("ift_hma IS NULL").map(&:status_for_intervenant)
+    hma_all_projets_status = projets.where.not("ift_hma IS NULL").where("actif = 1").map(&:status_for_intervenant)
     hma_status_count = Projet::INTERVENANT_STATUSES.map { |s| hma_all_projets_status.count(s) }
     @hma_status_with_count = Projet::INTERVENANT_STATUSES.zip(hma_status_count).to_h
+
+    hma_all_projets_status_inactif = projets.where.not("ift_hma IS NULL").where("actif = 0").map(&:status_for_intervenant)
+    @hma_status_with_count_inactif = hma_all_projets_status_inactif.count
 
 
     opal_all_projets_status = projets.where("ift_hma IS NULL").map(&:opal_position_label)

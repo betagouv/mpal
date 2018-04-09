@@ -214,6 +214,7 @@ fr:
       proposition_enregistree: "Proposition enregistrée"
       proposition_proposee: "Proposition proposée"
       transmis_pour_instruction: "Transmis aux services instructeurs"
+      inactif: "Inactif"
     operateur_construit_proposition: "%{operateur}, l’opérateur chargé de vous accompagner, est en train de construire une proposition de projet."
     edition_projet:
       messages:
