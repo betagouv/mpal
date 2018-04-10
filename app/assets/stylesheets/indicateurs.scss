@@ -1,0 +1,80 @@
+.display-menu-indicateurs {
+	margin-top: 20px;
+	display: inline-block;
+	width: 120px;
+	height: auto;
+	position: relative;
+	background-color: $color-steel;
+	padding: 5px;
+	border-radius: 5px;
+
+	.indic-menu-item {
+		border: 2px solid $color-steel;
+		border-radius: 5px;
+		height: 60px;
+		line-height: 60px;
+		text-align: center;
+		background-color: $color-steel;
+		color: $color-very-white;
+		font-size: 16px;
+		font-weight: bold;
+		&:not(:first-of-type) { margin-top: 10px; }
+		&:hover {
+			background-color: $color-very-white;
+			color: $color-steel;
+			cursor: pointer;
+			font-size: 18px;
+		}
+	}
+
+	.indic-menu-item-selected {
+		background-color: $color-very-white;
+		color: $color-steel;
+		cursor: pointer;
+		font-size: 18px;
+		border-radius: 0 0 5px 5px;
+
+		&::after {
+			position: absolute;
+			content: "";
+			right: -10px;
+			height: 55px;
+			margin-left: 40px;
+			width: 5px;
+			background-color: $color-very-dark-gray;
+		}
+	}
+}
+
+.display-indicateurs-container {
+	display: inline-block;
+	position: relative;
+	margin-top: 10px;
+	vertical-align: top;
+	width: calc(100% - 220px);
+	margin-left: 50px;
+
+	.indicateur-casse-burne {
+		text-align: center;
+		width: 28%;
+		margin-top: 10px;
+		padding: 5px;
+		height: 110px;
+		position: relative;
+		display: inline-block;
+		margin-left: 40px;
+		overflow: hidden;
+		border-radius: 5px;
+		background-color: $color-steel;
+		color: $color-very-white;
+
+		span:first-of-type {
+			font-weight: bold;
+			font-size: 18px;
+		}
+		span:not(:first-of-type) {
+			font-weight: bold;
+			font-size: 25px;
+		}
+	}
+}

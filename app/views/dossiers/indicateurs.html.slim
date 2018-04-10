@@ -1,48 +1,121 @@
 h3 Il y a #{@projets_count} #{"projet".pluralize(@projets_count)}
 
-
-label.switch
-  span.switch-label H.M.A.
-  input type="checkbox" class="dashboardFilterAdvancedCheckbox" name="advanced"
-  span.slider.round
-
-br
-
-.flex-indicateurs-projet.clearfix
-  - @status_with_count.each do |statut, count|
-      .indicateur-projet id="projet_#{statut}"
-        h3= t("projets.statut.#{statut}")
-        p.nombre-projets= count
-
-  - @opal_status_with_count.each do |statut, count|
-      .indicateur-projet id="projet_#{statut}"
-        h3= t("projets.statut.#{statut}")
-        p.nombre-projets= count
-
+.indicateur-container
   - if (ENV['ELIGIBLE_HMA'] == 'true')
-    - @hma_status_with_count.each do |statut, count|
-      .indicateur-projet id="projet_hma_#{statut}"
-        h3= "HMA " + t("projets.statut.#{statut}")
-        p.nombre-projets= count
+    .display-menu-indicateurs
+      .indic-menu-item.indic-menu-item-selected#status-indic Status
+      .indic-menu-item#opal-indic Opal
+      .indic-menu-item#hmaStatus-indic HMA Status
+      .indic-menu-item#hmaOpal-indic HMA Opal
+      .indic-menu-item#all-indic Tous
+  - else
+    .display-menu-indicateurs
+      .indic-menu-item.indic-menu-item-selected#status-indic Status
+      .indic-menu-item#opal-indic Opal
+      .indic-menu-item#all-indic Tous
 
-    - @opal_hma_status_with_count.each do |statut, count|
-      .indicateur-projet id="projet_hma_#{statut}"
-        h3= t("projets.statut.#{statut}")
-        p.nombre-projets= count
+  .display-indicateurs-container
+    .indicator-status-indic
+      - @status_with_count.each do |statut, count|
+        .indicateur-casse-burne id="projet_#{statut}"
+          span= t("projets.statut.#{statut}")
+          br
+          span.indicateur-count= count
 
+    .indicator-opal-indic
+      - @opal_status_with_count.each do |statut, count|
+          .indicateur-casse-burne id="projet_#{statut}"
+            span= t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
 
-  .indicateur-projet id="projet_inactif"
-    h3= "Inactif"
-    p.nombre-projets= "#{@inactif.count}"
+    - if (ENV['ELIGIBLE_HMA'] == 'true')
+      .indicator-hmaStatus-indic
+        - @hma_status_with_count.each do |statut, count|
+          .indicateur-casse-burne id="projet_hma_#{statut}"
+            span= "HMA " + t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
 
-  .indicateur-projet id="projet_non_eligible"
-    h3= "Non éligible"
-    p.nombre-projets= "#{@no_eligible.count}"
+      .indicator-hmaOpal-indic
+        - @opal_hma_status_with_count.each do |statut, count|
+          .indicateur-casse-burne id="projet_hma_#{statut}"
+            span= t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
 
-  .indicateur-projet id="projet_non_eligible_a-reevaluer"
-    h3= "Non éligible à réévaluer"
-    p.nombre-projets= "#{@no_eligible_reevaluer.count}"
+    .indicator-all-indic
+      - @status_with_count.each do |statut, count|
+        .indicateur-casse-burne id="projet_#{statut}"
+          span= t("projets.statut.#{statut}")
+          br
+          span.indicateur-count= count
 
-  .indicateur-projet id="projet_non_eligible_confirmé"
-    h3= "Non éligible confirmé"
-    p.nombre-projets= "#{@no_eligible_confirmer.count}"
+      - @opal_status_with_count.each do |statut, count|
+          .indicateur-casse-burne id="projet_#{statut}"
+            span= t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
+
+      - if (ENV['ELIGIBLE_HMA'] == 'true')
+        - @hma_status_with_count.each do |statut, count|
+          .indicateur-casse-burne id="projet_hma_#{statut}"
+            span= "HMA " + t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
+
+        - @opal_hma_status_with_count.each do |statut, count|
+          .indicateur-casse-burne id="projet_hma_#{statut}"
+            span= t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
+
+      .indicateur-casse-burne id="projet_inactif"
+        span= "Inactif"
+        br
+        span.indicateur-count= "#{@inactif.count}"
+
+      .indicateur-casse-burne id="projet_non_eligible"
+        span= "Non éligible"
+        br
+        span.indicateur-count= "#{@no_eligible.count}"
+
+      .indicateur-casse-burne id="projet_non_eligible_a-reevaluer"
+        span= "Non éligible à réévaluer"
+        br
+        span.indicateur-count= "#{@no_eligible_reevaluer.count}"
+
+      .indicateur-casse-burne id="projet_non_eligible_confirmé"
+        span= "Non éligible confirmé"
+        br
+        span.indicateur-count= "#{@no_eligible_confirmer.count}"
+
+javascript:
+  $(document).ready(function() {
+    var indicateurHS = function() {
+      var menuItem = $('[class^="indicator-"]');
+      var currentMenuSelected = $('.indic-menu-item-selected').get(0).id;
+
+      $(menuItem).each(function(index) {
+        var menuClass = $(menuItem)[index].className;
+
+        if(menuClass.indexOf(currentMenuSelected) <= -1) {
+          $('.' + menuClass).hide();
+        } else {
+          $('.' + menuClass).show();
+        }
+      });
+    }
+
+    $('.display-menu-indicateurs .indic-menu-item').on('click', function(e) {
+      if ($(this).hasClass('.indic-menu-item-selected')) {
+        return ;
+      } else {
+        $('.indic-menu-item-selected').toggleClass('indic-menu-item-selected');
+        $(this).toggleClass('indic-menu-item-selected');
+        indicateurHS();
+      }
+    });
+
+    indicateurHS();
+  });
