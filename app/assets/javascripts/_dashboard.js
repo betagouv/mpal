@@ -154,9 +154,11 @@ $(document).ready(function() {
 			currentTab = $('.sel.sel-tab select[name="select-active-tab"]').find(":selected").attr('class'),
 			searchParam = {};
 
-		console.log(currentTab);
-
 		searchParam["utf8"] = "✓";
+
+		// Catch HMA
+		var hmaActive = $('.dashboardFilterHMACheckbox').is(":checked");
+		searchParam["search[hma]"] = hmaActive;
 
 		if (advanced) {
 			// Catch Type d'intervention
