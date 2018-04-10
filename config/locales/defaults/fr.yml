@@ -184,6 +184,7 @@ fr:
       # to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Du lundi au vendredi (matin ou après-midi)"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+      success: "Votre dossier a été transmis à %{operateur}."
     # ----------------------- Compte utilisateur -------------------
     users:
       section_name: "Création de mon compte"
