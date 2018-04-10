@@ -24,7 +24,7 @@
 			p = anonymize anonymized, edit_url do
 				span.firstname= projet.demandeur_prenom
 				span.lastname<= projet.demandeur_nom
-			p = projet.addr_ville + " " + projet.addr_code
+			p = projet.addr_ville.to_s + " " + projet.addr_code.to_s
 		td
 			- if projet.libelle_theme
 				p = anonymize anonymized, edit_url do
