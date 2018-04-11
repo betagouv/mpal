@@ -264,7 +264,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_intervenant, -> (search_param) {
-		where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.nom ILIKE ? or ift_agent.prenom ILIKE ?", search_param, search_param, search_param])
+		where(["ift_intervenants1.raison_sociale ILIKE ? or ift_intervenants2.raison_sociale ILIKE ? or ift_intervenants3.raison_sociale ILIKE ? or ift_agent.nom ILIKE ? or ift_agent.prenom ILIKE ?", search_param, search_param, search_param, search_param, search_param])
 	}
 
 	scope :search_by_location, -> (search_param, code_postal_param, dep_param) {
@@ -366,6 +366,9 @@ class Projet < ApplicationRecord
 		end
 		if search_param.key?(:type) && search_param[:type].present?
 			dossiers = dossiers.search_by_type(search_param[:type])
+		end
+		if search_param.key?(:hma) && search_param[:hma].present? && search_param[:hma] == 'true'
+			dossiers = dossiers.where.not("ift_hma IS NULL")
 		end
 		if search_param.key?(:status) && search_param[:status].present?
 			status = search_param[:status].to_i
