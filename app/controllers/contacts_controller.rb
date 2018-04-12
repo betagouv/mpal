@@ -57,7 +57,7 @@ class ContactsController < ApplicationController
 
     if @contact.save context: (:agent if current_agent)
       ContactMailer.contact(@contact).deliver_later!
-      return redirect_to new_contact_path, flash: { notice: "Votre message a bien été envoyé" }
+      return redirect_to root_path, flash: { notice: "Votre message a bien été envoyé" }
     end
 
     render_new
