@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     get       :show_non_eligible, to: "demandes#show_non_eligible"
     post       :show_a_reevaluer, to: "demandes#show_a_reevaluer"
     get       :show_eligible_hma, to: "mises_en_relation#show_eligible_hma"
+    get       :show_contacts_hma, to: "mises_en_relation#show_contacts_hma"
     post       :show_eligible_hma_valid_operateur, to: "mises_en_relation#show_eligible_hma_valid_operateur"
     resources :pjnotes,           only: [:index, :new, :create, :edit, :update, :destroy]
   end
@@ -144,9 +145,7 @@ Rails.application.routes.draw do
 
 
 
-  #resources :pjnotes 
-
   mount LetterOpenerWeb::Engine, at: "/letter_opener"
-  # match '/*path', :to => 'application#error_not_found', :via => :all
+  match '/*path', :to => 'application#error_not_found', :via => :all
 end
 
