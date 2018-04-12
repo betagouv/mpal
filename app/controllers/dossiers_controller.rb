@@ -75,7 +75,7 @@ class DossiersController < ApplicationController
     end
 
     if current_agent.siege?
-      projets = Projet.all.joins("LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id)")
+      projets = Projet.all.joins("LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id) LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) ")
     elsif (current_agent.dreal? || current_agent.instructeur?) && current_agent.intervenant.try(:departements).present?
       departements = current_agent.intervenant.try(:departements) || []
       if departements != []
@@ -85,7 +85,7 @@ class DossiersController < ApplicationController
             str += " OR (ift_adresses2.departement = '" + d + "' OR (ift_adresses1.departement = '" + d + "' AND ift_adresses2 IS NULL))"
           end
         end
-        projets = Projet.joins("INNER JOIN adresses ift_adresses1 ON (projets.adresse_postale_id = ift_adresses1.id) LEFT OUTER JOIN adresses ift_adresses2 ON (projets.adresse_a_renover_id = ift_adresses2.id) LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id)").where(str)
+        projets = Projet.joins("LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) INNER JOIN adresses ift_adresses1 ON (projets.adresse_postale_id = ift_adresses1.id) LEFT OUTER JOIN adresses ift_adresses2 ON (projets.adresse_a_renover_id = ift_adresses2.id) LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id)").where(str)
       else
         projets = []
       end
@@ -93,29 +93,51 @@ class DossiersController < ApplicationController
       projets = current_agent.intervenant.try(:projets) || Projet.none
       projets = projets.joins("LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id)")
     end
+    projets = projets.group("projets.id")
+    @inactif = projets.where("projets.actif = 0").count
+    @no_eligible = projets.where("projets.eligibilite = 2").count
+    @no_eligible_reevaluer = projets.where("projets.eligibilite = 1").count
+    @no_eligible_confirmer = projets.where("projets.eligibilite = 4").count
+    @eligible = projets.where("projets.eligibilite = 3").count
+    @eligible_na = projets.where("projets.eligibilite = 0").count
 
-    @inactif = projets.where("actif = 0")
-    @no_eligible = projets.where("eligibilite = 2")
-    @no_eligible_reevaluer = projets.where("eligibilite = 1")
-    @no_eligible_confirmer = projets.where("eligibilite = 4")
-    @projets_count = projets.count
-    all_projets_status = projets.where("ift_hma IS NULL").map(&:status_for_intervenant)
+
+    #PO
+    @inscription_with_count = projets.where("opal_position IS NULL and statut = 0 and max_registration_step < 6").count
+
+    all_projets_status = projets.where("opal_position IS NULL and max_registration_step = 6").map(&:status_for_intervenant)
     status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
     @status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
 
+    opal_all_projets_status = projets.where.not("ift_hma IS NULL").map(&:opal_position_label)
+    opal_status_count = Projet::OPAL_POSITION_LABEL_STATUSES.map { |s| opal_all_projets_status.count(s) }
+    @opal_status_with_count = Projet::OPAL_POSITION_LABEL_STATUSES.zip(opal_status_count).to_h
+    #end PO
 
-    hma_all_projets_status = projets.where.not("ift_hma IS NULL").map(&:status_for_intervenant)
+    # ENERGIE (HM)
+    @inscription_energie_with_count = projets.where("ift_themes.libelle = 'Énergie' and opal_position IS NULL and statut = 0 and max_registration_step < 6").count
+    all_projets_status = projets.where("ift_themes.libelle = 'Énergie' and opal_position IS NULL and max_registration_step = 6").map(&:status_for_intervenant)
+    status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
+    @energie_status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
+
+    opal_all_projets_status = projets.where("ift_themes.libelle = 'Énergie'").map(&:opal_position_label)
+    opal_status_count = Projet::OPAL_POSITION_LABEL_STATUSES.map { |s| opal_all_projets_status.count(s) }
+    @opal_energie_status_with_count = Projet::OPAL_POSITION_LABEL_STATUSES.zip(opal_status_count).to_h
+    #end energie
+
+    #HMA
+    @inscription_hma_with_count = projets.where("opal_position IS NULL and statut = 0 and max_registration_step < 6").where.not("ift_hma IS NULL").count
+    hma_all_projets_status = projets.where("opal_position IS NULL and max_registration_step = 6").where.not("ift_hma IS NULL").map(&:status_for_intervenant)
     hma_status_count = Projet::INTERVENANT_STATUSES.map { |s| hma_all_projets_status.count(s) }
     @hma_status_with_count = Projet::INTERVENANT_STATUSES.zip(hma_status_count).to_h
 
-
-    opal_all_projets_status = projets.where("ift_hma IS NULL").map(&:opal_position_label)
-    opal_status_count = Projet::OPAL_POSITION_LABEL_STATUSES.map { |s| opal_all_projets_status.count(s) }
-    @opal_status_with_count = Projet::OPAL_POSITION_LABEL_STATUSES.zip(opal_status_count).to_h
-    
     opal_hma_all_projets_status = projets.where.not("ift_hma IS NULL").map(&:opal_position_label)
     opal_hma_status_count = Projet::OPAL_POSITION_LABEL_STATUSES.map { |s| opal_hma_all_projets_status.count(s) }
     @opal_hma_status_with_count = Projet::OPAL_POSITION_LABEL_STATUSES.zip(opal_hma_status_count).to_h
+    #end HMA
+
+    @projets_count = projets.count
+
   end
 
   def proposer
