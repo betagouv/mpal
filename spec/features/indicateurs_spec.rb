@@ -70,10 +70,6 @@ feature "Affichage de la page Indicateurs" do
     scenario "la page affiche le nombre total de projets par statut" do
       visit indicateurs_dossiers_path
       expect(page).to have_content("Il y a 11 projets")
-      within "#projet_prospect" do
-        expect(page).to have_content("En prospection")
-        expect(page).to have_content("3")
-      end
       within "#projet_en_cours_de_montage" do
         expect(page).to have_content("En cours de montage")
         expect(page).to have_content("6")

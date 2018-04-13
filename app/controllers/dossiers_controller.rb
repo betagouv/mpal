@@ -75,7 +75,7 @@ class DossiersController < ApplicationController
     end
 
     if current_agent.siege?
-      projets = Projet.all.joins("LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id)  LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id) LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) ")
+      projets = Projet.all.joins("LEFT OUTER JOIN hmas ift_hma on (ift_hma.projet_id = projets.id) LEFT OUTER JOIN projets_themes ift_ptheme ON (projets.id = ift_ptheme.projet_id) LEFT OUTER JOIN themes ift_themes ON (ift_ptheme.theme_id = ift_themes.id) ")
     elsif (current_agent.dreal? || current_agent.instructeur?) && current_agent.intervenant.try(:departements).present?
       departements = current_agent.intervenant.try(:departements) || []
       if departements != []
@@ -136,7 +136,7 @@ class DossiersController < ApplicationController
     @opal_hma_status_with_count = Projet::OPAL_POSITION_LABEL_STATUSES.zip(opal_hma_status_count).to_h
     #end HMA
 
-    @projets_count = projets.count
+    @projets_count = projets.count.count
 
   end
 
