@@ -311,7 +311,7 @@ javascript:
 			$(".notif-count").each(function( index ) {
 				number += parseInt($(this).text() || 0);
 			});
-			
+
 			$('.notif-pastille').text('+' + number);
 			$('.notif-pastille').show();
 			// $('.notif-dashboard-icon').css('color', '#d9184e');
@@ -360,6 +360,14 @@ javascript:
 									$(".dashboardFilterAdvancedCheckbox").trigger("change");
 								}
 							}
+							// Restore HMA
+							if ("hma" == newArrayTmp) {
+								if (jsonURL[index] == "true") {
+									$(".dashboardFilterHMACheckbox").prop('checked', true);
+									$(".dashboardFilterHMACheckbox").trigger("change");
+								}
+							}
+
 							// Restore active Tab
 							if ("activeTab" == newArrayTmp)
 								forceSelect($('span.' + jsonURL[index]));
