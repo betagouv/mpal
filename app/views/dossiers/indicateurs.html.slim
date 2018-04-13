@@ -61,7 +61,7 @@ h3 Il y a #{@projets_count} projets
             br
             span.indicateur-count= @inscription_energie_with_count.count
         - @energie_status_with_count.each do |statut, count|
-          .indicateur-cb id="projet_hma_#{statut}"
+          .indicateur-cb id="projet_energie_#{statut}"
             span= t("projets.statut.#{statut}")
             br
             span.indicateur-count= count
@@ -69,7 +69,7 @@ h3 Il y a #{@projets_count} projets
           .subtitle DÉCISIONS
           .line
         - @opal_energie_status_with_count.each do |statut, count|
-          .indicateur-cb id="projet_hma_#{statut}"
+          .indicateur-cb id="projet_energie_#{statut}"
             span= t("projets.statut.#{statut}")
             br
             span.indicateur-count= count
