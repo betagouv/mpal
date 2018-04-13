@@ -1003,3 +1003,9 @@ input:checked + .slider::before {
 		width: 80%;
 	}
 }
+
+.dashboard-filter-hma {
+	margin-top: 30px;
+
+	.switch { margin-left: 0; }
+}

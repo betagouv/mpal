@@ -64,6 +64,12 @@ div.filter-dash-container
 							div.md-radio
 								input id="descend" type="radio" name="advancedOrder" checked="checked"
 								label for="descend" Plus anciens
+					- if (ENV['ELIGIBLE_HMA'] == 'true')
+						div.dashboard-filter-hma
+							label.switch
+								span.switch-label HMA
+								input type="checkbox" class="dashboardFilterHMACheckbox" name="hma"
+								span.slider.round
 				div.filter-advanced-middle-top
 					div.dashboard-filter-date
 						div.group-date
@@ -118,11 +124,6 @@ div.filter-dash-container
 		label.switch
 			span.switch-label Avancé
 			input type="checkbox" class="dashboardFilterAdvancedCheckbox" name="advanced"
-			span.slider.round
-
-		label.switch
-			span.switch-label HMA
-			input type="checkbox" class="dashboardFilterHMACheckbox" name="hma"
 			span.slider.round
 
 		div.select-group
