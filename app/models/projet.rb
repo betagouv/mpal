@@ -43,8 +43,8 @@ class Projet < ApplicationRecord
 	SORT_BY_OPTIONS = [:created, :depot]
 
 	OPAL_POSITION_LABEL_STATUSES = [
-		"Subvention accordée", "Subvention rejetée", "Classé sans suite",
-		"Subvention retirée", "Subvention retiré avec reversement", "Demande d'acompte",
+		"Subvention accordée", "Subvention rejetée",
+		"Subvention retirée", "Subvention retiré avec reversement", "Classé sans suite", "Demande d'acompte",
 		"Acompte payé", "Demande d'avance", "Avance payée", "Demande de solde", "Solde payé"
 	]
 

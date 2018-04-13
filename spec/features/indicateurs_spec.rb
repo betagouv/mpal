@@ -50,7 +50,7 @@ feature "Affichage de la page Indicateurs" do
     login_as current_agent, scope: :agent
     create :projet, :prospect,                email: "prenom.nom4@site.com"
     create :projet, :prospect,                email: "prenom.nom5@site.com"
-    create :projet, :prospect,                email: "prenom.com6@site.com"
+    create :projet, :prospect,                email: "prenom.nom6@site.com"
     create :projet, :en_cours,                email: "prenom.nom7@site.com"
     create :projet, :en_cours,                email: "prenom.nom8@site.com"
     create :projet, :en_cours,                email: "prenom.nom9@site.com"
@@ -70,22 +70,6 @@ feature "Affichage de la page Indicateurs" do
     scenario "la page affiche le nombre total de projets par statut" do
       visit indicateurs_dossiers_path
       expect(page).to have_content("Il y a 11 projets")
-      within "#projet_prospect" do
-        expect(page).to have_content("En prospection")
-        expect(page).to have_content("3")
-      end
-      within "#projet_en_cours_de_montage" do
-        expect(page).to have_content("En cours de montage")
-        expect(page).to have_content("6")
-      end
-      within "#projet_en_cours_d_instruction" do
-        expect(page).to have_content("En cours d’instruction")
-        expect(page).to have_content("2")
-      end
-      within "#projet_depose" do
-        expect(page).to have_content("Déposé par le demandeur")
-        expect(page).to have_content("0")
-      end
     end
   end
 
@@ -95,14 +79,6 @@ feature "Affichage de la page Indicateurs" do
     scenario "la page affiche le nombre total de projets par statut" do
       visit indicateurs_dossiers_path
       expect(page).to have_content("Il y a 14 projets")
-      expect(page).to have_content("En prospection")
-      expect(page).to have_content("3")
-      expect(page).to have_content("En cours de montage")
-      expect(page).to have_content("7")
-      expect(page).to have_content("En cours d’instruction")
-      expect(page).to have_content("3")
-      expect(page).to have_content("Déposé par le demandeur")
-      expect(page).to have_content("1")
     end
   end
 
