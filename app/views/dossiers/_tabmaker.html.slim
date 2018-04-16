@@ -32,10 +32,13 @@
 					- if ENV["ELIGIBLE_HMA"] == "true"
 						- if projet.libelle_theme == "Énergie"
 							- if projet.hma.present?
-								- if projet.demande.present? && projet.demande.seul
-									= "_HMA DS"
+								- if projet.invited_instructeur.present?
+									- if projet.demande.present? && projet.demande.seul
+										= "_HMA DS"
+									- else
+										= "_HMA DA"
 								- else
-									= "_HMA DA"
+									= "_HMA"
 							- else
 								= "_HMS"
 			- else
