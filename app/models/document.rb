@@ -25,6 +25,9 @@ class Document < ApplicationRecord
 
     if ENV["ELIGIBLE_HMA"] == "true" && projet.hma.present?
       hash = { required: [:devis_projet], none: [:signature_PTZ] }
+      if !projet.demande.seul
+        hash[:required] << :moa
+      end
       hash[:none] << :justificatif_changement_situation
       hash[:none] << :autres_projet
     else
