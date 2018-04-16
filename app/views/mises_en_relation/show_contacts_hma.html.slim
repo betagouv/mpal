@@ -1,0 +1,29 @@
+
+h1.title-contact Mon Contact :
+br
+
+div.info-contact
+	- pris = false
+	- info_pris = ""
+	- @projet_courant.intervenants.each do |boy|
+		- if boy.roles.include? "pris"
+			- pris = true
+			- info_pris = boy
+
+	- if pris == true
+		p.italic-contact-infos.bold-contact-infos Votre contact est le Point Rénovation Infos Service : #{info_pris.raison_sociale}
+		p.italic-contact-infos.bold-contact-infos Il pourra vous indiquez un opérateur conseil chargé de vous accompagner tout au long de votre projet.
+		<br>
+		p.italic-contact-infos = "#{info_pris.adresse_postale}"
+		p.italic-contact-infos = "#{info_pris.email}"
+		p.italic-contact-infos = "#{info_pris.phone}"
+	- else
+		p.italic-contact-infos.bold-contact-infos Votre contact est #{@projet_courant.operateur.raison_sociale}
+		<br>
+		p.italic-contact-infos = "#{@projet_courant.operateur.adresse_postale}"
+		p.italic-contact-infos = "#{@projet_courant.operateur.phone}"
+		p.italic-contact-infos = "#{@projet_courant.operateur.email}"
+
+	button.btn.btn-large.btn-centered.btn-icon class="btn btn-large btn-icon" type="submit" value="Continuer" onclick="window.location.href='#{projet_or_dossier_path}'"
+		span Continuer
+		i class="glyphicon glyphicon-arrow-right"

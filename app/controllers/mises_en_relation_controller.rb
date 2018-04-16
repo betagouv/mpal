@@ -64,8 +64,10 @@ class MisesEnRelationController < ApplicationController
             @projet_courant.contact_operateur!(var_op.reload)
             @projet_courant.commit_with_operateur!(var_op)
             @projet_courant.invite_instructeur! response.instructeur
-          redirect_to root_path and return
+
+            redirect_to projet_show_contacts_hma_path, flash: { success: t("demarrage_projet.mise_en_relation.success", operateur: var_op.raison_sociale) } and return
           rescue
+            redirect_to root_path, flash: { error: t("demarrage_projet.mise_en_relation.error") } and return
           end
         else
           redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez choisir un autre opérateur-conseil." } and return
@@ -75,8 +77,10 @@ class MisesEnRelationController < ApplicationController
           invitation = @projet_courant.invite_pris!(response.pris)
           Projet.notify_intervenant_of(invitation)
           @projet_courant.invite_instructeur! response.instructeur
-          redirect_to root_path and return
+
+          redirect_to projet_show_contacts_hma_path, flash: { success: t("demarrage_projet.mise_en_relation.demande_envoyee", pris: response.pris.raison_sociale ) } and return
         rescue
+          redirect_to root_path, flash: { error: t("demarrage_projet.mise_en_relation.error") } and return
         end
       else
         redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez indiquer si vous êtes déjà en contact avec un opérateur-conseil." } and return
@@ -92,6 +96,15 @@ class MisesEnRelationController < ApplicationController
       redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez sélectionner le mode d'accompagnement choisi." } and return
     end
   end
+
+
+  def show_contacts_hma
+    @projet_courant = @projet_courant.reload
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
+      redirect_to root_path and return
+    end
+  end
+
 
   def update
     eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse#prendre @projet_courant.eligible?
