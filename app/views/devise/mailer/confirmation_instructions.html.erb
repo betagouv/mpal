@@ -151,10 +151,16 @@
 				</p>
 
 				<p>
+					Vous pouvez contacter l’assistance technique en cliquant sur <%= link_to t("menu.contact"), new_contact_url %> dans le service monprojet.anah.gouv.fr
+					<br />
+				</p>
+
+				<p>
 					<br />
 					Cordialement,
 					<br />
-					l'équipe ANAH.
+					<br />
+					L'ANAH.
 				</p>
 			</div>
 			<div class="img-container">
@@ -166,6 +172,6 @@
 	<footer class="footer">
 		<a target="_blank" href="https://monprojet.anah.gouv.fr">Accueil</a>
 		-
-		<a target="_blank" href="http://www.mpal.dev/contacts/new">Contact</a>
+		<%= link_to t("menu.contact"), new_contact_url %>
 	</footer>
 </html>
