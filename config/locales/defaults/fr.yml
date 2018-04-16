@@ -184,6 +184,8 @@ fr:
       # to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Du lundi au vendredi (matin ou après-midi)"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+      success: "Votre dossier a été transmis à %{operateur}."
+      demande_envoyee: "Votre demande a été envoyée à %{pris}."
     # ----------------------- Compte utilisateur -------------------
     users:
       section_name: "Création de mon compte"
@@ -427,8 +429,8 @@ fr:
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
     condition:
       one_of: "une des %{total} pièces est obligatoire"
-      required: "Pièce(s) obligatoire(s)"
-      none: "Pièce(s) facultative(s)"
+      required: ""
+      none: "pièces facultatives"
     payment:
       devis_paiement: "Devis avec demande d’acompte signé"
       factures: "Facture(s)"
@@ -443,7 +445,7 @@ fr:
     projet:
       devis_projet: "Devis entreprises"
       estimation: "Estimation du maître d’œuvre"
-      justificatif_changement_situation: "Justificatif de changement de situation"
+      justificatif_changement_situation: "justificatif de changement de situation"
       signature_PTZ: "Signature du PTZ"
       mandat_projet: "Mandat signé"
       justificatif_autonomie: "Justificatif autonomie"
@@ -458,9 +460,6 @@ fr:
       notification_agence_eau: "Notification d’aide de l’agence de l’eau"
       pv_copropriete: "PV Assemblée générale de copropriété (avec clef de répartition)"
       autres_projet: "Autres"
-    pjnote:
-      commenter: "Commenter"
-      commentaire_enregistre: "Commentaire enregistré"
 
   # ----------------------- Recommander des opérateurs -----------------
   recommander_operateurs:

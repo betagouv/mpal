@@ -65,6 +65,9 @@ class MisesEnRelationController < ApplicationController
             @projet_courant.commit_with_operateur!(var_op)
             @projet_courant.invite_instructeur! response.instructeur
 
+            Projet.notify_intervenant_of(invitation)
+            ProjetMailer.notification_engagement_operateur(@projet_courant).deliver_later!
+
             redirect_to projet_show_contacts_hma_path, flash: { success: t("demarrage_projet.mise_en_relation.success", operateur: var_op.raison_sociale) } and return
           rescue
             redirect_to root_path, flash: { error: t("demarrage_projet.mise_en_relation.error") } and return
@@ -72,7 +75,7 @@ class MisesEnRelationController < ApplicationController
         else
           redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez choisir un autre opérateur-conseil." } and return
         end
-      elsif params.has_key?(:op_question)  && params[:op_question] == "false"
+      elsif params.has_key?(:op_question) && params[:op_question] == "false"
         begin
           invitation = @projet_courant.invite_pris!(response.pris)
           Projet.notify_intervenant_of(invitation)
