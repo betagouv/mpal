@@ -29,10 +29,11 @@ h3 Il y a #{@projets_count} projets
       .cat-flex-box-indic
         .subtitle ETATS
         .line
-      .indicateur-cb id="projet_inscription"
-          span= "Inscription"
-          br
-          span.indicateur-count= @inscription_with_count.count
+      - if (ENV['PF_1334'] == 'DONE')
+        .indicateur-cb id="projet_inscription"
+            span= "Inscription"
+            br
+            span.indicateur-count= @inscription_with_count.count
       - @status_with_count.each do |statut, count|
         .indicateur-cb id="projet_#{statut}"
           span= t("projets.statut.#{statut}")
@@ -56,10 +57,11 @@ h3 Il y a #{@projets_count} projets
         .cat-flex-box-indic
           .subtitle ETATS
           .line
-        .indicateur-cb id="projet_energie_inscription"
-            span= "Inscription"
-            br
-            span.indicateur-count= @inscription_energie_with_count.count
+        - if (ENV['PF_1334'] == 'DONE')
+          .indicateur-cb id="projet_energie_inscription"
+              span= "Inscription"
+              br
+              span.indicateur-count= @inscription_energie_with_count.count
         - @energie_status_with_count.each do |statut, count|
           .indicateur-cb id="projet_energie_#{statut}"
             span= t("projets.statut.#{statut}")
@@ -84,10 +86,11 @@ h3 Il y a #{@projets_count} projets
         .cat-flex-box-indic
           .subtitle ETATS
           .line
-        .indicateur-cb id="projet_hma_inscription"
-            span= "Inscription"
-            br
-            span.indicateur-count= @inscription_hma_with_count.count
+        - if (ENV['PF_1334'] == 'DONE')
+          .indicateur-cb id="projet_hma_inscription"
+              span= "Inscription"
+              br
+              span.indicateur-count= @inscription_hma_with_count.count
         - @hma_status_with_count.each do |statut, count|
           .indicateur-cb id="projet_hma_#{statut}"
             span= t("projets.statut.#{statut}")

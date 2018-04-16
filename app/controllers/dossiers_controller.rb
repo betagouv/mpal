@@ -100,12 +100,15 @@ class DossiersController < ApplicationController
     @no_eligible_confirmer = projets.where("projets.eligibilite = 4").count
     @eligible = projets.where("projets.eligibilite = 3").count
     @eligible_na = projets.where("projets.eligibilite = 0").count
-
+    var_inscription = ""
+    if ENV['PF_1334'] == "DONE"
+      var_inscription = " and max_registration_step = 6"
+    end
 
     #PO
     @inscription_with_count = projets.where("opal_position IS NULL and statut = 0 and max_registration_step < 6").count
 
-    all_projets_status = projets.where("opal_position IS NULL and max_registration_step = 6").map(&:status_for_intervenant)
+    all_projets_status = projets.where("opal_position IS NULL" +var_inscription).map(&:status_for_intervenant)
     status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
     @status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
 
@@ -116,7 +119,7 @@ class DossiersController < ApplicationController
 
     # ENERGIE (HM)
     @inscription_energie_with_count = projets.where("ift_themes.libelle = 'Énergie' and opal_position IS NULL and statut = 0 and max_registration_step < 6").count
-    all_projets_status = projets.where("ift_themes.libelle = 'Énergie' and opal_position IS NULL and max_registration_step = 6").map(&:status_for_intervenant)
+    all_projets_status = projets.where("ift_themes.libelle = 'Énergie' and opal_position IS NULL" + var_inscription).map(&:status_for_intervenant)
     status_count = Projet::INTERVENANT_STATUSES.map { |s| all_projets_status.count(s) }
     @energie_status_with_count = Projet::INTERVENANT_STATUSES.zip(status_count).to_h
 
@@ -127,7 +130,7 @@ class DossiersController < ApplicationController
 
     #HMA
     @inscription_hma_with_count = projets.where("opal_position IS NULL and statut = 0 and max_registration_step < 6").where.not("ift_hma IS NULL").count
-    hma_all_projets_status = projets.where("opal_position IS NULL and max_registration_step = 6").where.not("ift_hma IS NULL").map(&:status_for_intervenant)
+    hma_all_projets_status = projets.where("opal_position IS NULL" + var_inscription).where.not("ift_hma IS NULL").map(&:status_for_intervenant)
     hma_status_count = Projet::INTERVENANT_STATUSES.map { |s| hma_all_projets_status.count(s) }
     @hma_status_with_count = Projet::INTERVENANT_STATUSES.zip(hma_status_count).to_h
 
