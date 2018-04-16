@@ -444,6 +444,7 @@ fr:
       autres_paiement: "Autres"
     projet:
       devis_projet: "Devis entreprises"
+      moa: "Contrat d'AMO avec devis"
       estimation: "Estimation du maître d’œuvre"
       justificatif_changement_situation: "Justificatif de changement de situation"
       signature_PTZ: "Signature du PTZ"
