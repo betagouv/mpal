@@ -428,7 +428,7 @@ fr:
         confirmation: "Êtes-vous sûr de vouloir supprimer ce document ?"
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
     condition:
-      one_of: "une des %{total} pièces est obligatoire"
+      one_of: "Une des %{total} pièces est obligatoire"
       required: "Pièce(s) obligatoire(s)"
       none: "Pièce(s) facultative(s)"
     payment:
@@ -443,7 +443,7 @@ fr:
         solde: "Demande de solde signée du demandeur"
       autres_paiement: "Autres"
     projet:
-      devis_projet: "Devis entreprises"
+      devis_projet: "Devis entreprise(s)"
       moa: "Contrat d'AMO avec devis"
       estimation: "Estimation du maître d’œuvre"
       justificatif_changement_situation: "Justificatif de changement de situation"
