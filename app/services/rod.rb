@@ -69,7 +69,11 @@ class Rod
     start = Time.now
     response = @client.get("/intpardpt/#{departement}")
     Rails.logger.info "Completed Api-ROD request (#{response.code}) in #{Time.now - start}s"
-    list_intervenants = JSON.parse(response.body)
+    if response.code == 200
+      list_intervenants = JSON.parse(response.body)
+    else
+      list_intervenants = {}
+    end
 
     return list_intervenants
   end
