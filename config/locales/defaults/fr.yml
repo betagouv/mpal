@@ -184,7 +184,7 @@ fr:
       # to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Du lundi au vendredi (matin ou après-midi)"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
-      success: "Votre dossier a été transmis à %{operateur}."
+      success: "Votre demande a été envoyée à %{operateur}."
       demande_envoyee: "Votre demande a été envoyée à %{pris}."
     # ----------------------- Compte utilisateur -------------------
     users:
@@ -464,6 +464,8 @@ fr:
     pjnote:
       commenter: "Commenter"
       commentaire_enregistre: "Commentaire enregistré"
+      commenaitre_supprime: "Votre commentaire a bien été detruit."
+      commenaitre_non_supprime: "Erreur, commentaire non supprimé."
 
   # ----------------------- Recommander des opérateurs -----------------
   recommander_operateurs:

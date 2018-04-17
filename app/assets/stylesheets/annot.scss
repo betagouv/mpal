@@ -95,6 +95,10 @@
 	}
 }
 
+.comment-text {
+	white-space: pre-wrap;
+}
+
 .document-comment-container {
 	display: block;
 	position: relative;
@@ -103,7 +107,6 @@
 	.limit-comment-display {
 		.comment-text {
 			width: 75%;
-			white-space: nowrap; 
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
