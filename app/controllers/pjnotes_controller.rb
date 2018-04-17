@@ -32,10 +32,10 @@ class PjnotesController < ApplicationController
       @pjnote = Pjnote.find params[:id]
       @projet_courant = Projet.find_by_locator(@pjnote.projet_id)
       @pjnote.destroy!
-      flash[:notice] = "Note bien détruite Sir"
+      flash[:notice] = t("document.pjnote.commenaitre_supprime")
     rescue => e
       Rails.logger.error "[PjnotesController] destroy action failed : #{e.message}"
-      flash[:alert] = "Error on destroy Sir"
+      flash[:alert] = t("document.pjnote.commenaitre_non_supprime")
     end
     redirect_to projet_or_dossier_documents_path(@projet_courant)
   end
