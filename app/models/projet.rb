@@ -820,42 +820,48 @@ class Projet < ApplicationRecord
 
 def self.find_project all, is_admin, droit1, droit2
 		all.each do |projet|
-			 if projet.code_opal_op.present?
-				 op = projet.code_opal_op + " " + projet.name_op
-			 elsif projet.code_opal_op != nil
-				 op = "Diffus"
-			 else
-				 op = "OP : N/A"
-			 end
-			 el = "Non défini"
-			 if projet.eligibilite == 1
+			if projet.code_opal_op.present?
+				op = projet.code_opal_op + " " + projet.name_op
+			elsif projet.code_opal_op != nil
+				op = "Diffus"
+			else
+				op = "OP : N/A"
+			end
+			el = "Non défini"
+			if projet.eligibilite == 1
 				el = "A réévaluer"
-			 elsif projet.eligibilite == 2
+			elsif projet.eligibilite == 2
 				el = "Non Éligible"
-			 elsif projet.eligibilite == 3
+			elsif projet.eligibilite == 3
 				el = "Éligible"
-			 elsif projet.eligibilite == 4
+			elsif projet.eligibilite == 4
 				el = "Non Éligible confirmé"
-			 end
-			 if projet.opal_position_label.present?
-			 	status = projet.opal_position_label
-			 else
-			 	status = I18n.t(projet.status_for_intervenant, scope: "projets.statut")
-			 end
-			 line = [
-				 projet.numero_plateforme,
-				 format_date(projet.created_at),
-				 projet.demandeur_fullname,
-				 projet.postale_ville || projet.renov_ville,
-				 projet.ift_instructeur,
-				 projet.libelle_theme,
-				 projet.ift_operateur,
-				 format_date(projet.date_de_visite),
-				 format_date(projet.date_depot),
-				 status,
-				 projet.actif? ? "Actif" : "Inactif",
-				 op,
-				 el
+			end
+			if projet.opal_position_label.present?
+				status = projet.opal_position_label
+			else
+				status = I18n.t(projet.status_for_intervenant, scope: "projets.statut")
+			end
+			ville = ""
+			if projet.postale_ville.present?
+				ville = projet.postale_ville
+			elsif projet.renov_ville.present?
+				ville = projet.renov_ville
+			end
+			line = [
+				projet.numero_plateforme,
+				format_date(projet.created_at),
+				projet.demandeur_fullname,
+				ville,
+				projet.ift_instructeur,
+				projet.libelle_theme,
+				projet.ift_operateur,
+				format_date(projet.date_de_visite),
+				format_date(projet.date_depot),
+				status,
+				projet.actif? ? "Actif" : "Inactif",
+				op,
+				el
 			 ]
 
 			 if is_admin == true
@@ -886,8 +892,20 @@ def self.find_project all, is_admin, droit1, droit2
 				 line.insert 1, projet.opal_numero
 			 end
 			 if droit2
-				 line.insert 2, (projet.postale_dep || projet.renov_dep)
-				 line.insert 2, (projet.postale_region || projet.renov_region)
+			 	departement = ""
+				if projet.postale_dep.present?
+					departement = projet.postale_dep
+				elsif projet.renov_dep.present?
+					departement = projet.renov_dep
+				end
+				region = ""
+				if projet.postale_region.present?
+					region = projet.postale_region
+				elsif projet.renov_region.present?
+					region = projet.renov_region
+				end
+				 line.insert 2, departement
+				 line.insert 2, region
 			 end
 			 yield line
 			end

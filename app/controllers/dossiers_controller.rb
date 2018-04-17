@@ -627,7 +627,7 @@ def render_index
 
   def fetch_departement_intervenants(projet)
     if ENV['ROD_ENABLED'] == 'true'
-      Rod.new(RodClient).list_intervenants_rod(projet.adresse.departement)
+      Rod.new(RodClient).list_intervenants_rod(projet.adresse.try(:departement))
     else
       Fakeweb::Rod::FakeResponseList
     end
