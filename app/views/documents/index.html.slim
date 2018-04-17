@@ -38,7 +38,7 @@
                       .document-upload-time= document.created_at.strftime("%d/%m/%Y %Hh%M")
 
                     .document-comment-container
-                      - document.pjnotes.reverse.each_with_index do |aNote, i|
+                      - document.pjnotes.each_with_index do |aNote, i|
                         - if i <= 0
                           div.comment-container.main-comment-container.limit-comment-display
                             div.comment-text #{aNote.notecontent}
