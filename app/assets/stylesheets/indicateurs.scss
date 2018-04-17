@@ -36,12 +36,12 @@
 			border-bottom: 3px solid $color-pomegrenate;
 		}
 		&:nth-of-type(2) {
-			background-color: $color-turquoise;
-			border-bottom: 3px solid $color-greensea;
-		}
-		&:nth-of-type(3) {
 			background-color: $color-emerland;
 			border-bottom: 3px solid $color-nephritis;
+		}
+		&:nth-of-type(3) {
+			background-color: $color-turquoise;
+			border-bottom: 3px solid $color-greensea;
 		}
 		&:nth-of-type(4) {
 			background-color: $color-peterriver;
