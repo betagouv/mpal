@@ -907,7 +907,24 @@ def self.find_project all, is_admin, droit1, droit2
 				 line.insert 2, departement
 				 line.insert 2, region
 			 end
-			 yield line
+
+			if ENV['ELIGIBLE_HMA'] == 'true'
+				type_dossier = ""
+				if projet.hma.present?
+					type_dossier = 'HMA'
+					if projet.invited_instructeur.present?
+						if projet.demande.try(:seul)
+							type_dossier += ' DS'
+						else
+							type_dossier += ' DA'
+						end
+					end
+				elsif projet.libelle_theme == "Énergie"
+					type_dossier = 'HMS'
+				end
+				line.append(type_dossier)
+			end
+			yield line
 			end
 end
 
@@ -919,45 +936,49 @@ def self.build_csv_enumerator titles, all, is_admin, droit1, droit2
 end
 
 def self.to_csv(agent, selected_projects, is_admin = false)
-	 # utf8 = CSV.generate(csv_options) do |csv|
-		 droit1 = agent.siege? || agent.instructeur? || agent.operateur?
-		 droit2 = agent.siege? || agent.operateur?
-		 titles = [
-			 'Numéro plateforme',
-			 'Date création',
-			 'Demandeur',
-			 'Ville',
-			 'Instructeur',
-			 'Types d’intervention',
-			 'Opérateur',
-			 'Date de visite',
-			 'Date dépôt',
-			 'État',
-			 'Actif/Inactif',
-			 'Operation Programmee',
-			 'Eligibilité'
-		 ]
+	# utf8 = CSV.generate(csv_options) do |csv|
+		droit1 = agent.siege? || agent.instructeur? || agent.operateur?
+		droit2 = agent.siege? || agent.operateur?
+		titles = [
+			'Numéro plateforme',
+			'Date création',
+			'Demandeur',
+			'Ville',
+			'Instructeur',
+			'Types d’intervention',
+			'Opérateur',
+			'Date de visite',
+			'Date dépôt',
+			'État',
+			'Actif/Inactif',
+			'Operation Programmee',
+			'Eligibilité'
+		]
 
-		 if is_admin == true
-			 titles.append('Etape avancement creation Dossier')
-			 titles.append('Nbre de messages dans la messagerie')
-			 titles.append('PRIS')
-			 titles.append('PRIS EIE')
-			 titles.append('project id')
-			 titles.append('Date de modification du Statut')
-		 end
+		if is_admin == true
+			titles.append('Etape avancement creation Dossier')
+			titles.append('Nbre de messages dans la messagerie')
+			titles.append('PRIS')
+			titles.append('PRIS EIE')
+			titles.append('project id')
+			titles.append('Date de modification du Statut')
+		end
 
-		 if droit1
-			 # titles.insert 9, 'État des paiements'
-			 titles.insert 6, 'Agent opérateur'
-			 titles.insert 4, 'Agent instructeur'
-			 titles.insert 1, 'Identifiant OPAL'
-		 end
+		if droit1
+			# titles.insert 9, 'État des paiements'
+			titles.insert 6, 'Agent opérateur'
+			titles.insert 4, 'Agent instructeur'
+			titles.insert 1, 'Identifiant OPAL'
+		end
 
-		 if droit2
-			 titles.insert 2, 'Département'
-			 titles.insert 2, 'Région'
-		 end
+		if droit2
+			titles.insert 2, 'Département'
+			titles.insert 2, 'Région'
+		end
+
+		if ENV['ELIGIBLE_HMA'] == 'true'
+			titles.append('Type de dossier')
+		end
 		 # csv << titles
 			Projet.build_csv_enumerator titles, selected_projects, is_admin, droit1, droit2
 
