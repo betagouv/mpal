@@ -118,7 +118,7 @@ div.filter-dash-container
 	div.filter-button
 		button class="ripple new-btn-search" data-ripple-color="#fff" Rechercher
 
-		- search = params.fetch(:search, {}).permit(:tenant, :location, :interv, :operation_programmee, :query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :operation_programmee, :from, :to, :advanced, :activeTab)
+		- search = params.fetch(:search, {}).permit(:tenant, :location, :interv, :operation_programmee, :query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :operation_programmee, :from, :to, :advanced, :hma, :activeTab)
 		button class="ripple new-btn-export" data-ripple-color="#fff" onclick="window.location.href='#{dossiers_path(format: :csv, search: search)}'" Export CSV
 
 		label.switch
