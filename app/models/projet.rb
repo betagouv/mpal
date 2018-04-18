@@ -106,7 +106,7 @@ class Projet < ApplicationRecord
 	validates :numero_fiscal, :reference_avis, presence: true
 	validates :tel, length: { :maximum => 20 }, allow_blank: true
 	validates :email, email: true, presence: true, uniqueness: { case_sensitive: false }, on: :update
-	validates :adresse_postale, presence: true, on: :update
+	validates :adresse_postale, presence: true, on: [:update, :update_api_particulier]
 	validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 	validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
 	validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
@@ -422,9 +422,22 @@ class Projet < ApplicationRecord
 
 	def reset_fiscal_information
 		contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable_no_cache
-		a = ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable)
+		projetInitializer = ProjetInitializer.new
+		a = projetInitializer.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable)
 		AvisImposition.where(:numero_fiscal => self.numero_fiscal, :reference_avis => self.reference_avis, :projet_id => self.id).first.try(:destroy)
 		a.save!
+
+		begin
+			old = self.adresse_postale
+			self.adresse_postale = projetInitializer.precise_adresse(contribuable.adresse)
+			self.adresse_postale.save
+			self.save(context: :update_api_particulier)
+			if old
+				old.delete
+			end
+		rescue => e
+			logger.info "ProjetInitializer: l'adresse n'a pas pu être localisée (#{e})"
+		end
 	end
 
 	def demandeur_user
