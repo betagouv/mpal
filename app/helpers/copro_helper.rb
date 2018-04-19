@@ -1,0 +1,2 @@
+module CoproHelper
+end

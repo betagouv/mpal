@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'copro/login'
+  post 'copro/next'
+
   #COMMUN ENTRE DOSSIER ET PROJETS
   concern :projectable do
     resources :occupants, only: [:index, :new, :create, :edit, :update, :destroy] do
