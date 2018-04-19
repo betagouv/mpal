@@ -412,10 +412,11 @@ class DossiersController < ApplicationController
       # @dossiers = @dossiers.select(to_select).joins(to_join).group("projets.id")
       @dossiers, _, _, _, _ = current_agent.intervenant.projets.search_dossier(search, to_select, to_join)
     else
+      intervenant_id = current_agent.intervenant.id
       if current_agent.operateur?
-        @dossiers = Projet.all.select(to_select).joins(to_join).where(["projets.operateur_id is NULL or projets.operateur_id = ?", current_agent.intervenant.id]).group("projets.id")
+        @dossiers = Projet.all.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).where(["projets.operateur_id is NULL or projets.operateur_id = ?", intervenant_id]).group("projets.id")
       else
-        @dossiers = Projet.all.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", current_agent.intervenant_id]).group("projets.id")
+        @dossiers = Projet.all.select(to_select).joins(to_join).where(["invitations.intervenant_id = ?", intervenant_id]).group("projets.id")
       end
       # @dossiers = search_for_intervenant_status(search, @dossiers.for_sort_by(search[:sort_by]))
       @dossiers, _, _, _, _ = @dossiers.search_dossier(search, to_select, to_join)
