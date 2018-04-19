@@ -7,7 +7,16 @@ div.info-contact
 			- pris = true
 			- info_pris = boy
 
-	- if pris == true
+	- if @rod_response.scheduled_operation?
+		h1.title-contact Mon opérateur-conseil :
+		br
+		p.italic-contact-infos.bold-contact-infos Votre contact est #{@projet_courant.operateur.raison_sociale}
+		<br>
+		p.italic-contact-infos = "#{@projet_courant.operateur.adresse_postale}"
+		p.italic-contact-infos = "#{@projet_courant.operateur.phone}"
+		p.italic-contact-infos = "#{@projet_courant.operateur.email}"
+
+	- elsif pris == true
 		h1.title-contact Mon Contact :
 		br
 		p.italic-contact-infos.bold-contact-infos Votre contact est le Point Rénovation Infos Service : #{info_pris.raison_sociale}
