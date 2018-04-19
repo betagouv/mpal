@@ -2,21 +2,13 @@
 div.info-contact
 	- pris = false
 	- info_pris = ""
+
 	- @projet_courant.intervenants.each do |boy|
 		- if boy.roles.include? "pris"
 			- pris = true
 			- info_pris = boy
 
-	- if @rod_response.scheduled_operation?
-		h1.title-contact Mon opérateur-conseil :
-		br
-		p.italic-contact-infos.bold-contact-infos Votre contact est #{@projet_courant.operateur.raison_sociale}
-		<br>
-		p.italic-contact-infos = "#{@projet_courant.operateur.adresse_postale}"
-		p.italic-contact-infos = "#{@projet_courant.operateur.phone}"
-		p.italic-contact-infos = "#{@projet_courant.operateur.email}"
-
-	- elsif pris == true
+	- if pris == true && !@rod_response.scheduled_operation?
 		h1.title-contact Mon Contact :
 		br
 		p.italic-contact-infos.bold-contact-infos Votre contact est le Point Rénovation Infos Service : #{info_pris.raison_sociale}
