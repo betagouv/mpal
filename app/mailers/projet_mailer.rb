@@ -55,17 +55,18 @@ class ProjetMailer < ApplicationMailer
 
   def mise_en_relation_intervenant(invitation)
     @invitation = invitation
+
+    subjectstr = ""
+
     if @invitation.intermediaire == nil
-      mail(
-        to: invitation.intervenant.email,
-        subject: t('mailers.projet_mailer.mise_en_relation_intervenant_seul.sujet')
-      )
+      subjectstr = t('mailers.projet_mailer.mise_en_relation_intervenant_seul.sujet')
     else
-      mail(
-        to: invitation.intervenant.email,
-        subject: t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: @invitation.intermediaire.try(:raison_sociale) || "")
-      )
+      subjectstr = t('mailers.projet_mailer.mise_en_relation_intervenant.sujet', intermediaire: @invitation.intermediaire.try(:raison_sociale) || "")
     end
+    mail(
+      to: invitation.intervenant.email,
+      subject: subjectstr
+    )
   end
 
   def accuse_reception(projet)
