@@ -561,6 +561,8 @@ fr:
         sujet: "[Anah] %{demandeur} a changé d’opérateur pour son projet"
       mise_en_relation_intervenant:
         sujet: "[Anah] Mise en relation par %{intermediaire}"
+      mise_en_relation_intervenant_seul:
+        sujet: "[Anah] Mise en relation dossier Habiter Mieux Agilité"
       notification_validation_dossier:
         sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
