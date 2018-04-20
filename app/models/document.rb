@@ -3,6 +3,7 @@ class Document < ApplicationRecord
   mount_uploader :fichier, DocumentUploader
 
   validates :label, :fichier, presence: true
+  validates :fichier, virus_free: true if ENV["EOLAS"] == "true"
 
   has_many :pjnotes, dependent: :destroy
   accepts_nested_attributes_for :pjnotes
@@ -71,5 +72,6 @@ class Document < ApplicationRecord
   end
 
   private
+
 
 end

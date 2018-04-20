@@ -635,6 +635,10 @@ fr:
         blank_masculine: "doit être renseigné"
       models:
         document:
+          attributes:
+            fichier:
+              virus_free_error: "Le document n’a pas été ajouté car un virus y a été détecté."
+              virus_free_unsafe: "Le document n’a pas été ajouté car un virus y a été détecté."
           virus_found: "Le document n’a pas été ajouté car un virus y a été détecté."
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"

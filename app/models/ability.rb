@@ -34,6 +34,19 @@ private
       can :read,   Document, category_type: "Projet",  category_id: projet.id
       can :read,   Document, category_type: "Payment", category_id: projet.payments.map(&:id)
       can :read,   :intervenant
+      can :create,  Document
+      can :read,    Document, category_type: "Projet",  category_id: projet.id
+      can :read,    Document, category_type: "Payment", category_id: projet.payments.map(&:id)
+
+      can :destroy, (projet.documents.select { |document|
+        projet.date_depot.blank? || document.created_at > projet.date_depot
+      })
+      can :destroy, (projet.payments.map(&:documents).flatten.select { |document|
+        upload_time      = document.created_at
+        submit_time      = document.category.submitted_at
+        correction_time  = document.category.corrected_at
+        submit_time.blank? || upload_time > (correction_time || submit_time)
+      })
     elsif projet.users.include? user and (!projet.demande or !projet.demande.seul?)
       can :show,   Projet
       can :index,  Projet    if user == projet.mandataire_user
