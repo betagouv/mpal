@@ -66,7 +66,7 @@
 	}
 
 	.headus-deus { margin-top: 2%; }
-	.corpus-deus { height: 450px; }
+	.corpus-deus { height: 640px; }
 
 	.headus-deus, .corpus-deus, .footer {
 		width: 1150px;
@@ -102,7 +102,7 @@
 		width: 45%;
 		height: 100%;
 		margin-left: 100px;
-		bottom: -25px;
+		bottom: 150px;
 	}
 	.titlus-imagus { width: 100%; }
 	.footer a { color: #222; }
@@ -136,30 +136,24 @@
 			<div class="my-little-corpus">
 				<p class="titlus-text">Bonjour,</p>
 
-				<p>
-					Afin de finaliser la création de votre compte, veuillez cliquer sur le lien suivant ou le copier dans votre navigateur :
-				</p>
+				<p> Vous avez créé votre compte personnel pour faire votre dossier de demande d'aides. </p>
+				<br />
 
-				<p>
-					<%= link_to confirmation_url(@resource, confirmation_token: @token), confirmation_url(@resource, confirmation_token: @token) %>
-				</p>
+				<p> Pour confirmer la création de votre compte personnel, cliquez sur le lien ci-dessous : </p>
+				<p> <%= link_to confirmation_url(@resource, confirmation_token: @token), confirmation_url(@resource, confirmation_token: @token) %> </p>
+				<br />
 
-				<p>
-					<br />
-					Vous avez un délai de 72 heures pour confirmer votre inscription. Passé ce délai votre compte sera inactivé. Vous pourrez le recréer en saisissant vos numéros fiscaux et références d’avis.
-					<br />
-				</p>
-
-				<p>
-					Vous pouvez contacter l’assistance technique en cliquant sur <%= link_to t("menu.contact"), new_contact_url %> dans le service monprojet.anah.gouv.fr
-					<br />
-				</p>
+				<p> Si ce lien ne fonctionne pas, vous pouvez le copier et le coller dans la barre d'adresse de votre navigateur. </p>
+				<p> Vous avez 72 heures pour faire cette confirmation. </p>
+				<p> Une fois ce délai passé, votre compte personnel sera automatiquement supprimé. </p>
+				<p> Vous pourrez le recréer en saisissant à nouveau vos numéros fiscaux et références d'avis. </p>
+				<br />
 
 				<p>
 					<br />
 					Cordialement,
 					<br />
-					L'ANAH.
+					L'équipe Anah
 				</p>
 			</div>
 			<div class="img-container">
