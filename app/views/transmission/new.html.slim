@@ -1,54 +1,54 @@
-- if ENV['ELIGIBLE_HMA'] == "true" && @projet_courant.hma.present?
-  section.popin-form
-      h2 Avant de déposer ma demande d'aide
-      .ins-form.transmission-form
-        h3.transmission-subtitle J’atteste :
-        ul.transmission-list
-          li que les informations renseignées dans la présente demande sont exactes,
-          li ne pas avoir commencé les travaux avant de valider la présente demande (article 5 du Règlement Général de l’Agence – RGA).
+br
+.eligibility
+  - if ENV['ELIGIBLE_HMA'] == "true" && @projet_courant.hma.present?
+  - else
+    div.col-md-12
+        h2 Avant de déposer ma demande d'aide
+        div.editorialsanstitre
+          h2.transmission-subtitle J’atteste :
+          ul.transmission-list
+            li ne pas avoir commencé les travaux avant de déposer la présente demande auprès de l’Anah,
+            li que je n’ai pas acheté mon logement à un organisme HLM depuis moins de cinq ans,
 
-        h3.transmission-subtitle Je m’engage à :
-        ul.transmission-list
-          li faire réaliser les travaux par des entreprises du bâtiment ayant une activité déclarée en rapport avec les travaux effectués (pose et fourniture à la charge de ces derniers) (article 13 du RGA),
-          li terminer les travaux dans le délai de trois ans suivant la date d’attribution de l’aide, et à présenter dans ce délai ma demande de paiement du solde de l’aide (articles 14 et 20 du RGA)
-          li occuper mon logement pendant au moins six ans (article 15 D du RGA),
-          li en cas d’attribution de la prime du programme Habiter Mieux (aide de solidarité écologique - ASE), à fournir exclusivement à l’Anah l’ensemble des documents lui permettant de valoriser les certificats d’économie d’énergie - CEE (factures et attestations d’exclusivité de chaque entreprise ou professionnel ayant réalisé les travaux) ; je reconnais le rôle actif et incitatif de l’Anah dans la réalisation du projet de travaux,
-          li informer l’Anah par écrit de toute modification du droit de propriété de mon logement (vente …) et de ses conditions d’occupation, pendant les six ans qui suivent l’attribution de l’aide.
+          h2.transmission-subtitle Je m’engage à :
+          ul.transmission-list
+            li <strong>commencer les travaux dans un délai de un an</strong> suivant la date d’attribution de l’aide,
+            li faire réaliser les travaux par des entreprises du bâtiment ayant une activité déclarée en rapport avec les travaux effectués (<strong>pose et fourniture des matériaux et équipements réalisés par ces dernières</strong>), sauf en cas d’auto-réhabilitation accompagnée par un opérateur spécialisé,
+            li <strong> terminer les travaux</strong> et présenter ma <strong>demande de paiement du solde </strong>de l’aide <strong>dans le délai de trois ans</strong> suivant la date d’attribution de l’aide, 
+            li <strong>occuper mon logement amélioré pendant au moins 6 ans à titre de résidence principale</strong> suivant la date de réception par l’Anah de la demande de paiement du solde de l’aide.
+              <div class="col-md-6">
+                <ul class="transmission-list">
+                  <li class="no-before"> • Si vous n’occupez pas encore le logement amélioré, vous avez jusqu’à un an suivant la demande de solde pour y entrer. </li>
+                  <li class="no-before"> • Si vous supportez la charge des travaux mais n’occupez pas le logement amélioré, l’obligation d’occuper au moins six ans le logement à compter de la demande de solde pèse sur les occupants propriétaires ou sur le ménage modeste que vous hébergez à titre gratuit. </li>
+                </ul>
+              </div>
+            li pendant cette période de  <strong>six ans</strong>, informer l’Anah par écrit et dans les deux mois de toute <strong>modification du droit de propriété</strong> du logement amélioré (vente, mutation etc.) ou de ses conditions d’occupation (transformation en bureau, résidence secondaire, mise en location etc…),
+            li lorsque le projet comporte des <strong>travaux d’amélioration de la performance énergétique </strong>:
+              <div class="col-md-6">
+                  <br>
+                  Pour la prime <strong class="green"> Habiter Mieux sérenité</strong> :
+                  <ul class="transmission-list">
+                    <li class="no-before">• exiger de chaque entreprise ou professionnel réalisant les travaux qu’il fournisse une <strong>attestation d’exclusivité</strong> (Cerfa n° 15 347) permettant la valorisation des <strong>CEE</strong> exclusivement par l’Anah, qui a eu un rôle actif et incitatif dans la réalisation du projet de travaux subventionné (ces attestations devront être obligatoirement fournies à l’Anah pour obtenir le paiement de l’aide), 
+                    <li class="no-before">• <strong>ne pas signer de document similaire</strong> permettant la valorisation des <strong>CEE</strong> par un autre acteur (entreprise de travaux, fournisseur de matériaux, établissements de crédit etc.), sous peine de retrait de l’aide et de reversement des sommes déjà perçues,
+                  </ul>
+                   Pour <strong class="green">Habiter Mieux agilité</strong>, recourir à des entreprises qualifiées « <strong>RGE</strong> » (Reconnues Garantes de l’Environnement) pour effectuer les travaux.
+              </div>
 
-        h3.transmission-subtitle Je reconnais être informé(e) que :
-        ul.transmission-list
-          li l’Anah peut effectuer des contrôles (visite du logement, demande d’informations complémentaires) pendant les six ans qui suivent l’attribution de l’aide,
-          li en cas de non-respect de ces engagements et de la règlementation en vigueur ou en cas de fraude, l’aide attribuée est annulée et les sommes déjà perçues devront être remboursées avec une majoration,
-          li toute fraude ou fausse déclaration expose également à des sanctions financières et administratives, et à des poursuites judiciaires.
 
-        = simple_form_for @projet_courant, url: { controller: "transmission", action: "create" }, html: { class: "form", method: "post" } do |f|
-          = f.input :accepts, as: :boolean, label: t("projets.proposition.confirmation"), input_html: { class: "js-engagement" }, required: true
-          .transmission-button-group
-            = btn name: t("projets.transmission.envoi_demande"), class: "js-engagement transmission-button"
-- else
-  section.popin-form
-      h2 Avant de déposer ma demande d'aide
-      .ins-form.transmission-form
-        h3.transmission-subtitle J’atteste :
-        ul.transmission-list
-          li que les informations renseignées dans la présente demande sont exactes,
-          li ne pas avoir commencé les travaux avant de valider la présente demande (article 5 du Règlement Général de l’Agence – RGA).
+          h2.transmission-subtitle Je reconnais être informé(e) que :
+          ul.transmission-list
+            li l’Anah peut effectuer des <strong>contrôles</strong> (visite du logement, notamment pour vérifier la nature des travaux et la réalisation effective de ceux-ci, demande d’informations complémentaires, vérification de l’occupation du logement …) pendant les six ans de période obligatoire d’occupation du logement,
+            li <strong>en cas de non-respect de ces engagements et de la règlementation en vigueur ou en cas de fraude</strong>, l’aide attribuée est annulée et les sommes déjà perçues devront être remboursées avec une majoration,
+            li <strong>toute fraude ou fausse déclaration</strong> expose également à des sanctions financières et administratives, ainsi qu’à des poursuites judiciaires
 
-        h3.transmission-subtitle Je m’engage à :
-        ul.transmission-list
-          li faire réaliser les travaux par des entreprises du bâtiment ayant une activité déclarée en rapport avec les travaux effectués (pose et fourniture à la charge de ces derniers) (article 13 du RGA),
-          li terminer les travaux dans le délai de trois ans suivant la date d’attribution de l’aide, et à présenter dans ce délai ma demande de paiement du solde de l’aide (articles 14 et 20 du RGA)
-          li occuper mon logement pendant au moins six ans (article 15 D du RGA),
-          li en cas d’attribution de la prime du programme Habiter Mieux (aide de solidarité écologique - ASE), à fournir exclusivement à l’Anah l’ensemble des documents lui permettant de valoriser les certificats d’économie d’énergie - CEE (factures et attestations d’exclusivité de chaque entreprise ou professionnel ayant réalisé les travaux) ; je reconnais le rôle actif et incitatif de l’Anah dans la réalisation du projet de travaux,
-          li informer l’Anah par écrit de toute modification du droit de propriété de mon logement (vente …) et de ses conditions d’occupation, pendant les six ans qui suivent l’attribution de l’aide.
+            br
 
-        h3.transmission-subtitle Je reconnais être informé(e) que :
-        ul.transmission-list
-          li l’Anah peut effectuer des contrôles (visite du logement, demande d’informations complémentaires) pendant les six ans qui suivent l’attribution de l’aide,
-          li en cas de non-respect de ces engagements et de la règlementation en vigueur ou en cas de fraude, l’aide attribuée est annulée et les sommes déjà perçues devront être remboursées avec une majoration,
-          li toute fraude ou fausse déclaration expose également à des sanctions financières et administratives, et à des poursuites judiciaires.
 
-        = simple_form_for @projet_courant, url: { controller: "transmission", action: "create" }, html: { class: "form", method: "post" } do |f|
-          = f.input :accepts, as: :boolean, label: t("projets.proposition.confirmation"), input_html: { class: "js-engagement" }, required: true
-          .transmission-button-group
-            = btn name: t("projets.transmission.envoi_demande"), class: "js-engagement transmission-button"
+          = simple_form_for @projet_courant, url: { controller: "transmission", action: "create" }, html: { class: "form", method: "post" } do |f|
+            .transmission-button-group
+              = f.input :accepts, as: :boolean, label: t("projets.proposition.confirmation"), input_html: { class: "js-engagement" }
+            .transmission-button-group
+              = btn name: t("projets.transmission.envoi_demande"), class: "js-engagement transmission-button"
+
+
+

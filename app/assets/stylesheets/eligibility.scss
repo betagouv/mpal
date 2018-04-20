@@ -12,3 +12,51 @@
 		margin-top: 1em;
 	}
 }
+
+.bloc { padding: 15px 20px; }
+
+.editorialsanstitre {
+	h1 {
+		margin: 0;
+		padding: 0;
+		font-weight: 600;
+		font-size: 1.8em;
+		text-transform: uppercase;
+		margin: 4px 0 0;
+		padding-bottom: 8px;
+	}
+
+	h2 {
+		color: $color-red-tomato;
+		font-size: 1.28em;
+		font-weight: normal;
+		margin: 20px 0 12px;
+		padding: 0;
+		text-transform: none;
+	}
+}
+
+.editorialsanstitre li {
+	margin-left: 50px;
+	text-align: justify;
+
+	strong {
+		color: $color-black-russian;
+		font-weight: 900;
+	}
+
+	&::before {
+		content: '';
+		left: -23px;
+		top: 1px;
+		position: relative;
+		width: 8px;
+		height: 8px;
+		margin-right: -8px;
+		background: $color-red-tomato;
+		display: inline-block;
+	}
+
+	.green { color: $color-greensea; }
+	.no-before::before { content: none; }
+}

@@ -57,6 +57,7 @@ $color-gray92:							#ebebeb;
 $color-very-white:						#fff;
 $color-pure-black:						#000;
 $color-pure-red:						#f00;
+$color-red-tomato:						#C23801;
 $color-steel-metal-blue:				#4e5066;
 $color-hawkes-blue:						#dadfea;
 $color-moderate-cyan:					#67a2bc;
@@ -143,7 +144,7 @@ $break-large-1199: 1199px;
 $break-large-1200: 1200px;
 
 // MIXIN DECLARATION FOR RESPONSIVE HANDLING
-// usage : @include respond-to(<name>) {
+// usage : @include respond-@(<name>) {
 @mixin respond-to($media) {
 	@if $media == large_screens_1200 { @media only screen and (min-width: $break-large-1200) { @content; } }
 	@else if $media == large_screens_1199 { @media only screen and (min-width: $break-large-1199) { @content; } }
