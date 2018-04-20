@@ -3,7 +3,7 @@ class Document < ApplicationRecord
   mount_uploader :fichier, DocumentUploader
 
   validates :label, :fichier, presence: true
-  validates :fichier, virus_free: true
+  validates :fichier, virus_free: true if ENV["EOLAS"] == "true"
 
   def self.for_payment(payment)
     hash = { required: [], none: [:autres_paiement] }

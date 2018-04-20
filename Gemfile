@@ -35,7 +35,9 @@ gem 'state_machines-activerecord'
 gem 'uglifier', '>= 1.3.0'
 gem 'will_paginate'
 gem 'puma'
-gem 'carrierwave-virus_free'
+group :eolas do
+  gem 'carrierwave-virus_free'
+end
 
 group :development, :test do
   gem 'byebug'
