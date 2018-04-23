@@ -4,5 +4,8 @@ class HomepageController < ApplicationController
   def index
     @homepage = true
   end
+  def confirm_mail
+  	@mail = params[:mail]
+  end
 end
 

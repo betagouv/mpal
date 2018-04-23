@@ -35,6 +35,9 @@ Rails.application.routes.draw do
   #ROOT & PAGES STATIQUES
   root "homepage#index"
 
+  get "/confirm_mail/:mail",               to: "homepage#confirm_mail"
+  get "/confirm_mail",               to: "homepage#confirm_mail"
+
   get "/maintenance",                to: "application#maintenance"
 
   get  "/informations/about",        to: "informations#about"

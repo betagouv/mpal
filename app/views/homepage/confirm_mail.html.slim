@@ -1,0 +1,29 @@
+div.confirm_message
+	p.sup-message-1= t("devise.registrations.signed_up_message_1")
+	p.sup-message-2= t("devise.registrations.signed_up_message_2")
+	div.cat-flex-box
+		span.line2
+
+	div.step-block-container
+		div.step-block
+			i.glyphicon.glyphicon-log-in
+			p= t("devise.registrations.step_msg_1")
+			p= t("devise.registrations.step_msg_1_1")
+			p= t("devise.registrations.step_msg_1_2") + "( #{@mail} )"
+
+		div.step-block
+			i.glyphicon.glyphicon-envelope
+			p= t("devise.registrations.step_msg_2")
+			p= t("devise.registrations.step_msg_2_1")
+			p= t("devise.registrations.step_msg_2_2")
+
+		div.step-block
+			i.glyphicon.glyphicon-log-out
+			p= t("devise.registrations.step_msg_3")
+			p= t("devise.registrations.step_msg_3_1")
+			p= t("devise.registrations.step_msg_3_2")
+
+	button.btn.btn-large.btn-centered.btn-icon class="btn btn-large btn-validate-submit btn-icon btn-homepage" value="Accueil"
+		= link_to t("menu.homepage"), root_path
+		span &nbsp;
+		i class="glyphicon glyphicon-arrow-right"
