@@ -245,10 +245,87 @@ td {
 }
 
 .align-right {
-	text-align: right;	
+	text-align: right;
 }
 
 @media print {
 	html,
 	body { overflow: visible !important; }
+}
+
+.confirm_message {
+	width: 100%;
+	height: 100%;
+	display: inline-block;
+	text-align: center;
+	margin-top: 50px;
+
+	.sup-message-1 {
+		font-size: 26px;
+		font-weight: bold;
+	}
+
+	.sup-message-2 {
+		font-size: 20px;
+		margin-top: 20px;
+		margin-bottom: 50px;
+	}
+
+	.step-block-container {
+		width: 100%;
+		display: inline-block;
+		position: relative;
+		margin-top: 80px;
+
+		.step-block {
+			vertical-align: top;
+			display: inline-block;
+			position: relative;
+			width: 25%;
+			min-height: 220px;
+			height: auto;
+			border: 1px solid $color-whisper;
+			background-color: $color-whisper;
+			padding: 10px;
+
+			p:nth-of-type(1) {
+				text-transform: uppercase;
+				font-size: 18px;
+				text-align: center;
+			}
+
+			p:nth-of-type(2) {
+				font-size: 16px;
+				font-weight: bold;
+				margin-top: 10px;
+				text-align: center;
+			}
+
+			p:nth-of-type(3) {
+				font-size: 14px;
+				margin-top: 10px;
+				text-align: left;
+			}
+
+			i {
+				width: 50px;
+				height: 50px;
+				border-radius: 50%;
+				border: 1px solid $color-red;
+				line-height: 45px;
+				font-size: 24px;
+				position: relative;
+				text-align: center;
+				top: -35px;
+				margin-bottom: -10px;
+				z-index: 100;
+				background-color: $color-red;
+				color: $color-very-white;
+			}
+
+			&:not(:first-of-type) { margin-left: 20px; }
+		}
+	}
+
+	.btn-homepage { margin-top: 40px; }
 }
