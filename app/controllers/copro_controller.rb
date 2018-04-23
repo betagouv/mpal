@@ -21,15 +21,10 @@ class CoproController < ApplicationController
 
     begin
       result = Net::HTTP.get(URI.parse(URI.escape(url_ban_check))) # URI.escape because of accent chars and cedillas
-    rescue => e
-      Rails.logger.error e.message
-    end
-
-    begin
       result_json = JSON.parse(result)
 
       result_json["features"].each do |elem|
-        if elem["properties"]["label"] == params[:projet_adresse_postale]
+        if elem["properties"]["label"] == params[:projet_adresse_postale] && params[:projet_adresse_postale].include?(elem["properties"]["postcode"])
           correct = true
           @adresse = params[:projet_adresse_postale]
         end
