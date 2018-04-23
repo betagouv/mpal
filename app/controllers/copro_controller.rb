@@ -40,7 +40,7 @@ class CoproController < ApplicationController
     end
 
     if correct == false
-      redirect_to copro_login_path, flash: { alert: "Erreur sur l'adresse, veuillez la completer" }
+      redirect_to copro_login_path, flash: { alert: "Erreur sur l'adresse '" + params[:projet_adresse_postale] + "', veuillez la completer" }
     end
   end
 end
