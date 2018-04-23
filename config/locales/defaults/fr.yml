@@ -262,7 +262,7 @@ fr:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
-      confirmation: "J’ai lu et j’accepte ces engagements"
+      confirmation: "J’ai lu et j’accepte ces engagements."
       state:
         desired: "Souhaité"
         recommended: "Préconisé"
