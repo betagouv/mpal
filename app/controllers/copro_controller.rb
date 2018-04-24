@@ -13,7 +13,7 @@ class CoproController < ApplicationController
       redirect_to root_path
     end
     if !params[:projet_adresse_postale].present?
-      redirect_to copro_login_path
+      redirect_to copro_login_path and return
     end
 
     @adresse = ""
@@ -27,6 +27,7 @@ class CoproController < ApplicationController
         if elem["properties"]["label"] == params[:projet_adresse_postale] && params[:projet_adresse_postale].include?(elem["properties"]["postcode"])
           correct = true
           @adresse = params[:projet_adresse_postale]
+          break
         end
       end
 
@@ -35,7 +36,7 @@ class CoproController < ApplicationController
     end
 
     if correct == false
-      redirect_to copro_login_path, flash: { alert: "Erreur sur l'adresse '" + params[:projet_adresse_postale] + "', veuillez la completer" }
+      redirect_to copro_login_path, flash: { alert: "Erreur sur l'adresse '" + params[:projet_adresse_postale] + "', veuillez la completer" } and return
     end
   end
 end
