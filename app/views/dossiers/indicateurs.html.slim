@@ -15,10 +15,14 @@ h3 Il y a #{@projets_count} projets
         span Autres
   - else
     .display-menu-indicateurs
-      .indic-menu-item.indic-menu-item-selected#status-indic Propriétaire occupant
-      .indic-menu-item#hmStatus-indic Habiter Mieux
-      .indic-menu-item#eligi-indic Éligibilité
-      .indic-menu-item#other-indic Autres
+      .indic-menu-item.indic-menu-item-selected#status-indic
+        span Propriétaire occupant
+      .indic-menu-item#hmStatus-indic
+        span Habiter Mieux
+      .indic-menu-item#eligi-indic
+        span Éligibilité
+      .indic-menu-item#other-indic
+        span Autres
   label.switch-indic
     span.switch-indic-label Masquer 0
     input type="checkbox" class="indicatorSwitch" name="hma"

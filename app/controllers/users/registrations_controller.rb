@@ -28,7 +28,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       @projet_courant.users << resource
       session.delete :project_id
     end
-    flash[:warning] = flash[:notice]
+    flash[:warning] = ""
     flash[:notice] = ""
   end
 
