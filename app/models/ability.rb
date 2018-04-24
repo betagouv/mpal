@@ -34,12 +34,26 @@ private
       can :read,   Document, category_type: "Projet",  category_id: projet.id
       can :read,   Document, category_type: "Payment", category_id: projet.payments.map(&:id)
       can :read,   :intervenant
+      can :create,  Document
+      can :read,    Document, category_type: "Projet",  category_id: projet.id
+      can :read,    Document, category_type: "Payment", category_id: projet.payments.map(&:id)
+
+      can :destroy, (projet.documents.select { |document|
+        projet.date_depot.blank? || document.created_at > projet.date_depot
+      })
+      can :destroy, (projet.payments.map(&:documents).flatten.select { |document|
+        upload_time      = document.created_at
+        submit_time      = document.category.submitted_at
+        correction_time  = document.category.corrected_at
+        submit_time.blank? || upload_time > (correction_time || submit_time)
+      })
     elsif projet.users.include? user and (!projet.demande or !projet.demande.seul?)
       can :show,   Projet
       can :index,  Projet    if user == projet.mandataire_user
       can :read,   :intervenant
       can [:new, :choose],   :choix_operateur unless projet.operateur.present?
       can :new,    Message
+      can :read,   Pjnote, category_type: "Projet", category_id: projet.id
       can :read,   Document, category_type: "Projet",  category_id: projet.id
       can :read,   Document, category_type: "Payment", category_id: projet.payments.map(&:id)
       can :show,   Payment,  projet_id: projet.id, statut: ["propose", "demande", "en_cours_d_instruction", "paye"]
@@ -98,6 +112,8 @@ private
       can :manage, AvisImposition
       can :manage, Occupant
       can :manage, Demande
+
+      can :manage, Pjnote
     end
 
     if projet.status_already :transmis_pour_instruction
@@ -121,13 +137,16 @@ private
       can :read, Projet
       can :read, :intervenant
 
-      can :read, Document, category_type: "Projet",  category_id: projet.id
+      can :create, Document, category_type: "Projet", category_id: projet.id if projet.date_depot != nil
+      can :read, Document, category_type: "Projet", category_id: projet.id
       can :read, Document, category_type: "Payment", category_id: projet.payments.map(&:id)
 
       can :index,                Payment
       can :show,                 Payment, projet_id: projet.id, statut: ["demande", "en_cours_d_instruction", "paye"]
       can :ask_for_modification, Payment, projet_id: projet.id, action: "a_instruire"
       can :send_in_opal,         Payment, projet_id: projet.id, action: "a_instruire"
+
+      can :manage, Pjnote
     end
   end
 

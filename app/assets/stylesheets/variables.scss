@@ -57,6 +57,7 @@ $color-gray92:							#ebebeb;
 $color-very-white:						#fff;
 $color-pure-black:						#000;
 $color-pure-red:						#f00;
+$color-red-tomato:						#C23801;
 $color-steel-metal-blue:				#4e5066;
 $color-hawkes-blue:						#dadfea;
 $color-moderate-cyan:					#67a2bc;
@@ -74,6 +75,49 @@ $color-transparent-black-1:				rgba(0, 0, 0, .1);
 $color-transparent-gray-5:				rgba(50, 50, 50, .5);
 $color-transparent-white-7:				rgba(255, 255, 255, .7);
 $color-transparent-white-5:				rgba(255, 255, 255, .5);
+
+
+$color-peterriver:						#3498db;
+$color-belizehole:						#2980b9;
+$color-turquoise:						#1abc9c;
+$color-greensea:						#16a085;
+$color-emerland:						#2ecc71;
+$color-nephritis:						#27ae60;
+$color-sunflower:						#f1c40f;
+$color-carrot:							#e67e22;
+$color-pumpkin:							#d35400;
+$color-alizarin:						#e74c3c;
+$color-pomegrenate:						#c0392b;
+$color-silver-indic:					#bdc3c7;
+$color-concrate-indic:					#95a5a6;
+
+// Orange Gradient
+$color-orange-1:						#E65100;
+$color-orange-2:						#F57C00;
+$color-orange-3:						#FF9800;
+$color-orange-4:						#FFB74D;
+$color-orange-5:						#FFE0B2;
+
+// Green Gradient
+$color-green-1:							#1B5E20;
+$color-green-2:							#388E3C;
+$color-green-3:							#4CAF50;
+$color-green-4:							#81C784;
+$color-green-5:							#C8E6C9;
+
+// Green2 Gradient
+$color-green2-1:						#33691E;
+$color-green2-2:						#689F38;
+$color-green2-3:						#8BC34A;
+$color-green2-4:						#AED581;
+$color-green2-5:						#DCEDC8;
+
+// Blue Gradient
+$color-blue-1:							#0D47A1;
+$color-blue-2:							#1976D2;
+$color-blue-3:							#2196F3;
+$color-blue-4:							#64B5F6;
+$color-blue-5:							#BBDEFB;
 
 $font-color: $color-primary;
 
@@ -100,7 +144,7 @@ $break-large-1199: 1199px;
 $break-large-1200: 1200px;
 
 // MIXIN DECLARATION FOR RESPONSIVE HANDLING
-// usage : @include respond-to(<name>) {
+// usage : @include respond-@(<name>) {
 @mixin respond-to($media) {
 	@if $media == large_screens_1200 { @media only screen and (min-width: $break-large-1200) { @content; } }
 	@else if $media == large_screens_1199 { @media only screen and (min-width: $break-large-1199) { @content; } }

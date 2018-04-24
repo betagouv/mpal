@@ -17,7 +17,7 @@ class Opal
       if response.code == 403
         message = "Accès interdit par Opal"
       else
-        message = parse_error_message(response)
+        message = parse_error_message(response).gsub(/[^[:print:]]/,'')
       end
       Rails.logger.error "[OPAL] request failed with code '#{response.code}': #{message || response.body}"
       raise OpalError, message
@@ -39,7 +39,7 @@ class Opal
       if response.code == 403
         message = "Accès interdit par Opal"
       else
-        message = parse_error_message(response)
+        message = parse_error_message(response).gsub(/[^[:print:]]/,'')
       end
       Rails.logger.error "[OPAL] request failed with code '#{response.code}': #{message || response.body}"
       raise OpalError, message

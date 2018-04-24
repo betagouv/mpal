@@ -1,12 +1,12 @@
 class Contact < ApplicationRecord
-  SUBJECTS = [:technical, :general, :project, :other]
+  SUBJECTS = [:technical, :general, :project, :rod, :other]
 
   belongs_to :sender, polymorphic: true
 
   strip_fields :name, :email, :phone, :subject, :description, :department, :numero_plateforme
 
   validates_presence_of :name, :description, :email, :subject
-  validates_presence_of :department, on: [:agent, :user]
+  validates_presence_of :department
   validates :email, email: true, allow_blank: false, length: { maximum: 80 }
   validates :phone, length: { minimum: 8, maximum: 20 }, allow_blank: true
   validates :name, length: { maximum: 128 }

@@ -1,23 +1,248 @@
-h3 Il y a #{@projets_count} #{"projet".pluralize(@projets_count)}
+h3 Il y a #{@projets_count} projets
 
-.flex-indicateurs-projet.clearfix
-  - @status_with_count.each do |statut, count|
-      .indicateur-projet id="projet_#{statut}"
-        h3= t("projets.statut.#{statut}")
-        p.nombre-projets= count
+.indicateur-container
+  - if (ENV['ELIGIBLE_HMA'] == 'true')
+    .display-menu-indicateurs
+      .indic-menu-item.indic-menu-item-selected#status-indic
+        span Propriétaire occupant
+      .indic-menu-item#hmStatus-indic
+        span Habiter Mieux
+      .indic-menu-item#hmaStatus-indic
+        span Habiter Mieux Agilité
+      .indic-menu-item#eligi-indic
+        span Éligibilité
+      .indic-menu-item#other-indic
+        span Autres
+  - else
+    .display-menu-indicateurs
+      .indic-menu-item.indic-menu-item-selected#status-indic Propriétaire occupant
+      .indic-menu-item#hmStatus-indic Habiter Mieux
+      .indic-menu-item#eligi-indic Éligibilité
+      .indic-menu-item#other-indic Autres
+  label.switch-indic
+    span.switch-indic-label Masquer 0
+    input type="checkbox" class="indicatorSwitch" name="hma"
+    span.slider-indic.round
 
-  .indicateur-projet id="projet_inactif"
-    h3= "Inactif"
-    p.nombre-projets= "#{@inactif.count}"
+  .display-indicateurs-container
+    .indicator-status-indic
+      .cat-flex-box-indic
+        .subtitle ETATS
+        .line
+      - if (ENV['PF_1334'] == 'DONE')
+        .indicateur-cb id="projet_inscription"
+            span= "Inscription"
+            br
+            span.indicateur-count= @inscription_with_count.count
+      - @status_with_count.each do |statut, count|
+        .indicateur-cb id="projet_#{statut}"
+          span= t("projets.statut.#{statut}")
+          br
+          span.indicateur-count= count
+      .cat-flex-box-indic
+        .subtitle DÉCISIONS
+        .line
+      - @opal_status_with_count.each do |statut, count|
+        .indicateur-cb id="projet_#{statut}"
+          span= t("projets.statut.#{statut}")
+          br
+          span.indicateur-count= count
+        - if statut == "Classé sans suite"
+          br
+          .cat-flex-box-indic
+            .subtitle PAIEMENTS
+            .line
 
-  .indicateur-projet id="projet_non_eligible"
-    h3= "Non éligible"
-    p.nombre-projets= "#{@no_eligible.count}"
+    .indicator-hmStatus-indic
+        .cat-flex-box-indic
+          .subtitle ETATS
+          .line
+        - if (ENV['PF_1334'] == 'DONE')
+          .indicateur-cb id="projet_energie_inscription"
+              span= "Inscription"
+              br
+              span.indicateur-count= @inscription_energie_with_count.count
+        - @energie_status_with_count.each do |statut, count|
+          .indicateur-cb id="projet_energie_#{statut}"
+            span= t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
+        .cat-flex-box-indic
+          .subtitle DÉCISIONS
+          .line
+        - @opal_energie_status_with_count.each do |statut, count|
+          .indicateur-cb id="projet_energie_#{statut}"
+            span= t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
+          - if statut == "Classé sans suite"
+            br
+            .cat-flex-box-indic
+              .subtitle PAIEMENTS
+              .line
 
-  .indicateur-projet id="projet_non_eligible_a-reevaluer"
-    h3= "Non éligible à réévaluer"
-    p.nombre-projets= "#{@no_eligible_reevaluer.count}"
+    - if (ENV['ELIGIBLE_HMA'] == 'true')
+      .indicator-hmaStatus-indic
+        .cat-flex-box-indic
+          .subtitle ETATS
+          .line
+        - if (ENV['PF_1334'] == 'DONE')
+          .indicateur-cb id="projet_hma_inscription"
+              span= "Inscription"
+              br
+              span.indicateur-count= @inscription_hma_with_count.count
+        - @hma_status_with_count.each do |statut, count|
+          .indicateur-cb id="projet_hma_#{statut}"
+            span= t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
+        .cat-flex-box-indic
+          .subtitle DÉCISIONS
+          .line
+        - @opal_hma_status_with_count.each do |statut, count|
+          .indicateur-cb id="projet_hma_#{statut}"
+            span= t("projets.statut.#{statut}")
+            br
+            span.indicateur-count= count
+          - if statut == "Classé sans suite"
+            br
+            .cat-flex-box-indic
+              .subtitle PAIEMENTS
+              .line
 
-  .indicateur-projet id="projet_non_eligible_confirmé"
-    h3= "Non éligible confirmé"
-    p.nombre-projets= "#{@no_eligible_confirmer.count}"
+    .indicator-eligi-indic
+      .indicateur-cb id="projet_non_eligible"
+        span= "Non éligible"
+        br
+        span.indicateur-count= "#{@no_eligible.count}"
+
+      .indicateur-cb id="projet_non_eligible_a-reevaluer"
+        span= "Non éligible à réévaluer"
+        br
+        span.indicateur-count= "#{@no_eligible_reevaluer.count}"
+
+      .indicateur-cb id="projet_non_eligible_confirmé"
+        span= "Non éligible confirmé"
+        br
+        span.indicateur-count= "#{@no_eligible_confirmer.count}"
+
+      .indicateur-cb id="projet_eligible"
+        span= "Éligible"
+        br
+        span.indicateur-count= "#{@eligible.count}"
+
+      .indicateur-cb id="projet_eligible"
+        span= "Éligibilité à calculer"
+        br
+        span.indicateur-count= "#{@eligible_na.count}"
+
+
+    .indicator-other-indic
+      .indicateur-cb id="projet_inactif"
+        span= "Inactif"
+        br
+        span.indicateur-count= "#{@inactif.count}"
+
+      / .indicator-hmaOpal-indic
+
+javascript:
+  $(document).ready(function() {
+
+    $('.switch-indic').on('change', function(e) {
+      var hideEmpty = $('.indicatorSwitch').is(":checked");
+      var indicAll = $('.indicateur-cb');
+
+      if (hideEmpty) {
+        $(indicAll).each(function(index) {
+          var uniElem = $(indicAll)[index];
+          var childCount = parseInt($(uniElem).find('.indicateur-count').text());
+
+          if (childCount == 0)
+            $(uniElem).hide(300);
+        });
+      }
+      else {
+        $(indicAll).each(function(index) {
+          var uniElem = $(indicAll)[index];
+          var childCount = parseInt($(uniElem).find('.indicateur-count').text());
+
+          if (childCount == 0)
+            $(uniElem).show(300);
+        });
+      }
+    });
+
+    var indicateurColorimetrie = function(indicTab, colorIndic) {
+      var indicCount = $('.' + indicTab + ' .indicateur-count');
+      var indicAll = $('.' + indicTab + ' .indicateur-cb');
+
+      var highestVal = 0;
+
+      if (indicAll.length == 1) {
+        var uniElem = $(indicAll)[0];
+
+        $(uniElem).toggleClass('indic-' + colorIndic + '-1');
+      } else {
+        $(indicCount).each(function(index) {
+          var value = parseInt($($(indicCount)[index]).text());
+
+          if (value > highestVal)
+            highestVal = value;
+        });
+
+
+        $(indicAll).each(function(index) {
+          var uniElem = $(indicAll)[index];
+          var childCount = parseInt($(uniElem).find('.indicateur-count').text());
+          var percent = (childCount * 100) / highestVal;
+
+          if (percent <= 0) $(uniElem).toggleClass('indic-color-0');
+          else $(uniElem).toggleClass('indic-' + colorIndic + '-1');
+          // if (percent > 0 && percent <= 20) $(uniElem).toggleClass('indic-' + colorIndic + '-5');
+          // if (percent > 20 && percent <= 40) $(uniElem).toggleClass('indic-' + colorIndic + '-4');
+          // if (percent > 40 && percent <= 60) $(uniElem).toggleClass('indic-' + colorIndic + '-3');
+          // if (percent > 60 && percent <= 80) $(uniElem).toggleClass('indic-' + colorIndic + '-2');
+          // if (percent > 80 && percent <= 100) $(uniElem).toggleClass('indic-' + colorIndic + '-1');
+
+        });
+      }
+
+    }
+
+    var indicateurHS = function(instant) {
+      var menuItem = $('[class^="indicator-"]');
+      var currentMenuSelected = $('.indic-menu-item-selected').get(0).id;
+      var timer = 0;
+
+      if (!instant)
+        timer = 500;
+
+      $(menuItem).each(function(index) {
+        var menuClass = $(menuItem)[index].className;
+
+        if(menuClass.indexOf(currentMenuSelected) <= -1) {
+          $('.' + menuClass).hide(timer);
+        } else {
+          $('.' + menuClass).show(timer);
+          $('#subtitle-indic-text').text($('.indic-menu-item-selected').text());
+        }
+      });
+    }
+
+    $('.display-menu-indicateurs .indic-menu-item').on('click', function(e) {
+      if ($(this).hasClass('.indic-menu-item-selected')) {
+        return ;
+      } else {
+        $('.indic-menu-item-selected').toggleClass('indic-menu-item-selected');
+        $(this).toggleClass('indic-menu-item-selected');
+        indicateurHS(false);
+      }
+    });
+
+    indicateurHS(true);
+    indicateurColorimetrie('indicator-status-indic', 'orange');
+    indicateurColorimetrie('indicator-hmStatus-indic', 'green');
+    indicateurColorimetrie('indicator-hmaStatus-indic', 'green2');
+    indicateurColorimetrie('indicator-eligi-indic', 'blue');
+    indicateurColorimetrie('indicator-other-indic', 'blue');
+  });

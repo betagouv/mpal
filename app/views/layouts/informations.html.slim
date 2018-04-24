@@ -1,6 +1,6 @@
 = nested_layout :project do
   .page-projet.page-projet-2-cols.clearfix
-    aside.col.col-aside
+    aside.col.col-aside.col-special
       .col-menu
         - if @projet.present?
           - if @projet.max_registration_step == 5
@@ -17,4 +17,3 @@
     .col.col-main
       = render "shared/flash"
       = yield
-

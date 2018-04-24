@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'copro/login'
+  post 'copro/next'
+
   #COMMUN ENTRE DOSSIER ET PROJETS
   concern :projectable do
     resources :occupants, only: [:index, :new, :create, :edit, :update, :destroy] do
@@ -26,12 +29,17 @@ Rails.application.routes.draw do
     get       :show_non_eligible, to: "demandes#show_non_eligible"
     post       :show_a_reevaluer, to: "demandes#show_a_reevaluer"
     get       :show_eligible_hma, to: "mises_en_relation#show_eligible_hma"
+    get       :show_contacts_hma, to: "mises_en_relation#show_contacts_hma"
     post       :show_eligible_hma_valid_operateur, to: "mises_en_relation#show_eligible_hma_valid_operateur"
+    resources :pjnotes,           only: [:index, :new, :create, :edit, :update, :destroy]
   end
 
 
   #ROOT & PAGES STATIQUES
   root "homepage#index"
+
+  get "/confirm_mail/:mail",               to: "homepage#confirm_mail"
+  get "/confirm_mail",               to: "homepage#confirm_mail"
 
   get "/maintenance",                to: "application#maintenance"
 
@@ -138,6 +146,10 @@ Rails.application.routes.draw do
   # gestion des fonctions administrateurs
   get '/api/particulier/refresh/:project_id' => "dossiers#update_api_particulier"
   get "/ruby_rod/:id" => "dossiers#ruby_rod"
+
+
+
+
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener"
   match '/*path', :to => 'application#error_not_found', :via => :all

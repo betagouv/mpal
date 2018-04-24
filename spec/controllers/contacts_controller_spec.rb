@@ -97,7 +97,7 @@ describe ContactsController do
             expect(contact.numero_plateforme).to eq projet.numero_plateforme
             expect(contact.sender).to       be_blank
             expect(flash[:notice]).to       be_present
-            expect(response).to             redirect_to new_contact_path
+            expect(response).to             redirect_to root_path
           end
         end
 
@@ -134,7 +134,7 @@ describe ContactsController do
             expect(contact.numero_plateforme).to eq projet.numero_plateforme
             expect(contact.sender).to       eq user
             expect(flash[:notice]).to       be_present
-            expect(response).to             redirect_to new_contact_path
+            expect(response).to             redirect_to root_path
           end
         end
 
@@ -183,7 +183,7 @@ describe ContactsController do
           expect(contact.numero_plateforme).to eq "123"
           expect(contact.sender).to       eq agent
           expect(flash[:notice]).to       be_present
-          expect(response).to             redirect_to new_contact_path
+          expect(response).to             redirect_to root_path
         end
       end
 
@@ -207,6 +207,7 @@ describe ContactsController do
           phone:       "01 02 03 04 05",
           subject:     "other",
           description: "Qui a tué Kenny ?",
+          department: "42",
         }
       end
       before do
@@ -225,7 +226,7 @@ describe ContactsController do
           expect(contact.description).to  eq "Qui a tué Kenny ?"
           expect(contact.sender).to       be_blank
           expect(flash[:notice]).to       be_present
-          expect(response).to             redirect_to new_contact_path
+          expect(response).to             redirect_to root_path
         end
       end
 

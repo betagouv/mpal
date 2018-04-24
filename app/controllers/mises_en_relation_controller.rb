@@ -35,12 +35,9 @@ class MisesEnRelationController < ApplicationController
     if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
       redirect_to root_path and return
     end
-    # if @projet_courant.demande.seul
-    #   render :show_eligible_hma_valid_operateur and return
-    # end
     response = Rod.new(RodClient).query_for(@projet_courant)
     @ops = response.operateurs
-    @pris = response.pris_eie
+    @pris = response.pris
     return
   end
 
@@ -67,19 +64,34 @@ class MisesEnRelationController < ApplicationController
             @projet_courant.contact_operateur!(var_op.reload)
             @projet_courant.commit_with_operateur!(var_op)
             @projet_courant.invite_instructeur! response.instructeur
-          redirect_to root_path and return
+
+            Projet.notify_intervenant_of(invitation)
+            ProjetMailer.notification_engagement_operateur(@projet_courant).deliver_later!
+
+            redirect_to projet_show_contacts_hma_path, flash: { success: t("demarrage_projet.mise_en_relation.success", operateur: var_op.raison_sociale) } and return
           rescue
+            redirect_to root_path, flash: { error: t("demarrage_projet.mise_en_relation.error") } and return
           end
         else
           redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez choisir un autre opérateur-conseil." } and return
         end
-      elsif params.has_key?(:op_question)  && params[:op_question] == "false"
+      elsif params.has_key?(:op_question) && params[:op_question] == "false"
         begin
-          invitation = @projet_courant.invite_pris!(response.pris)
-          Projet.notify_intervenant_of(invitation)
-          @projet_courant.invite_instructeur! response.instructeur
-          redirect_to root_path and return
+
+          if (response.scheduled_operation? && !@projet_courant.operateur)
+            operateur = response.operateurs.first
+            @projet_courant.contact_operateur!(operateur.reload)
+            @projet_courant.commit_with_operateur!(operateur.reload)
+            redirect_to projet_show_contacts_hma_path, flash: { success: t("demarrage_projet.mise_en_relation.demande_envoyee", pris: operateur.raison_sociale ) } and return
+          else
+            invitation = @projet_courant.invite_pris!(response.pris)
+            Projet.notify_intervenant_of(invitation)
+            @projet_courant.invite_instructeur! response.instructeur
+            redirect_to projet_show_contacts_hma_path, flash: { success: t("demarrage_projet.mise_en_relation.demande_envoyee", pris: response.pris.raison_sociale ) } and return
+          end
+
         rescue
+          redirect_to root_path, flash: { error: t("demarrage_projet.mise_en_relation.error") } and return
         end
       else
         redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez indiquer si vous êtes déjà en contact avec un opérateur-conseil." } and return
@@ -95,6 +107,16 @@ class MisesEnRelationController < ApplicationController
       redirect_to projet_show_eligible_hma_path, flash: { alert: "Veuillez sélectionner le mode d'accompagnement choisi." } and return
     end
   end
+
+
+  def show_contacts_hma
+    @projet_courant = @projet_courant.reload
+    if (ENV['ELIGIBLE_HMA'] != 'true') || !(@projet_courant.demande.eligible_hma)
+      redirect_to root_path and return
+    end
+    @rod_response = Rod.new(RodClient).query_for(@projet_courant)
+  end
+
 
   def update
     eligible = @projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse#prendre @projet_courant.eligible?

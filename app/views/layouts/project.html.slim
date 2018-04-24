@@ -7,7 +7,8 @@
         = render "projets/registration_steps"
     = render "shared/flash"
     - if @page_heading.present?
-      h1.page-heading= @page_heading
+      - if params[:action] != "show_contacts_hma"
+        h1.page-heading= @page_heading
     - if @projet_courant
       .project-layout
         .project-layout__content

@@ -80,7 +80,7 @@ fr:
     lire_les_emails: "Lire les emails"
     reinitialiser: "Réinitialiser les données"
     se_connecter_via_clavis: "Se connecter via Clavis"
-    version: "version: 1.0.5"
+    version: "version: 1.0.6"
 
   # ----------------------- Liste des liens du menu ---------------------
   menu:
@@ -184,6 +184,8 @@ fr:
       # to_operator: "Un contact va vous être proposé pour vous aider à compléter votre dossier. Dès que vous l’aurez sélectionné, il lui sera alors possible d’entrer en relation avec vous."
       disponibilite_placeholder: "Du lundi au vendredi (matin ou après-midi)"
       error: "Une erreur s’est produite lors de l’enregistrement de l’intervenant."
+      success: "Votre demande a été envoyée à %{operateur}."
+      demande_envoyee: "Votre demande a été envoyée à %{pris}."
     # ----------------------- Compte utilisateur -------------------
     users:
       section_name: "Création de mon compte"
@@ -195,11 +197,13 @@ fr:
       technical: "Une question technique sur le site (accès, identifiant...)"
       general: "Une question générale sur les aides"
       project: "Une question concernant mon dossier"
+      rod: "Modification ROD"
       other: "Autre : Veuillez préciser dans le message"
     email_name:
       technical: "Question technique"
       general: "Question générale"
       project: "Question concernant mon dossier"
+      rod: "Modification ROD"
       other: "Autre"
   # ----------------------- Page de visualisation du projet ---------------------
   projets:
@@ -258,7 +262,7 @@ fr:
       plan_financement: "Plan de financement prévisionnel"
       titre_affiche_adresse: "Adresse du logement à renover"
       action_depot_document: "Envoyer le document"
-      confirmation: "J’ai lu et j’accepte ces engagements"
+      confirmation: "J’ai lu et j’accepte ces engagements."
       state:
         desired: "Souhaité"
         recommended: "Préconisé"
@@ -424,9 +428,9 @@ fr:
         confirmation: "Êtes-vous sûr de vouloir supprimer ce document ?"
       missing: "Veuillez sélectionner un fichier pour ajouter un document."
     condition:
-      one_of: "une des %{total} pièces est obligatoire"
-      required: ""
-      none: "pièces facultatives"
+      one_of: "Une des %{total} pièces est obligatoire"
+      required: "Pièce(s) obligatoire(s)"
+      none: "Pièce(s) facultative(s)"
     payment:
       devis_paiement: "Devis avec demande d’acompte signé"
       factures: "Facture(s)"
@@ -439,8 +443,11 @@ fr:
         solde: "Demande de solde signée du demandeur"
       autres_paiement: "Autres"
     projet:
-      devis_projet: "Devis entreprises"
+      devis_projet: "Devis entreprise(s)"
+      moa: "Contrat d'AMO avec devis"
       estimation: "Estimation du maître d’œuvre"
+      justificatif_changement_situation: "Justificatif de changement de situation"
+      signature_PTZ: "Signature du PTZ"
       mandat_projet: "Mandat signé"
       justificatif_autonomie: "Justificatif autonomie"
       diagnostic_autonomie: "Diagnostic autonomie"
@@ -454,6 +461,11 @@ fr:
       notification_agence_eau: "Notification d’aide de l’agence de l’eau"
       pv_copropriete: "PV Assemblée générale de copropriété (avec clef de répartition)"
       autres_projet: "Autres"
+    pjnote:
+      commenter: "Commenter"
+      commentaire_enregistre: "Commentaire enregistré"
+      commenaitre_supprime: "Votre commentaire a bien été detruit."
+      commenaitre_non_supprime: "Erreur, commentaire non supprimé."
 
   # ----------------------- Recommander des opérateurs -----------------
   recommander_operateurs:
@@ -549,6 +561,8 @@ fr:
         sujet: "[Anah] %{demandeur} a changé d’opérateur pour son projet"
       mise_en_relation_intervenant:
         sujet: "[Anah] Mise en relation par %{intermediaire}"
+      mise_en_relation_intervenant_seul:
+        sujet: "[Anah] Mise en relation dossier Habiter Mieux Agilité"
       notification_validation_dossier:
         sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
       accuse_reception:
@@ -621,6 +635,10 @@ fr:
         blank_masculine: "doit être renseigné"
       models:
         document:
+          attributes:
+            fichier:
+              virus_free_error: "Le document n’a pas été ajouté car un virus y a été détecté."
+              virus_free_unsafe: "Le document n’a pas été ajouté car un virus y a été détecté."
           virus_found: "Le document n’a pas été ajouté car un virus y a été détecté."
         projet:
           frozen: "Le projet est figé : %{attribute} ne peut pas être modifié"

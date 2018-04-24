@@ -13,11 +13,13 @@
 	@include respond-to(large_screens_1200) { margin-left: 30px; }
 }
 
-.page-projet {
-	.col-main {
-		flex: 1;
-	}
+.col-special {
+	width: 300px;
+	position: relative;
+	float: right;
 }
+
+.page-projet { .col-main { flex: 1; } }
 
 .col-projet {
 	a { color: $color-very-white; }

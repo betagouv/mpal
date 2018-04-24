@@ -161,3 +161,15 @@
 	padding-left: 23px;
 	word-break: keep-all;
 }
+
+.btn-link-redirect {
+	color: $color-very-white;
+	text-decoration: none;
+}
+
+.btn-homepage {
+	a {
+		color: $color-very-white;
+		text-decoration: none;
+	}
+}

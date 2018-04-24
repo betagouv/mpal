@@ -64,6 +64,12 @@ div.filter-dash-container
 							div.md-radio
 								input id="descend" type="radio" name="advancedOrder" checked="checked"
 								label for="descend" Plus anciens
+					- if (ENV['ELIGIBLE_HMA'] == 'true')
+						div.dashboard-filter-hma
+							label.switch
+								span.switch-label HMA
+								input type="checkbox" class="dashboardFilterHMACheckbox" name="hma"
+								span.slider.round
 				div.filter-advanced-middle-top
 					div.dashboard-filter-date
 						div.group-date
@@ -112,7 +118,7 @@ div.filter-dash-container
 	div.filter-button
 		button class="ripple new-btn-search" data-ripple-color="#fff" Rechercher
 
-		- search = params.fetch(:search, {}).permit(:tenant, :location, :interv, :operation_programmee, :query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :operation_programmee, :from, :to, :advanced, :activeTab)
+		- search = params.fetch(:search, {}).permit(:tenant, :location, :interv, :operation_programmee, :query, :status, :sort_by, :type, :folder, :tenant, :location, :interv, :operation_programmee, :from, :to, :advanced, :hma, :activeTab)
 		button class="ripple new-btn-export" data-ripple-color="#fff" onclick="window.location.href='#{dossiers_path(format: :csv, search: search)}'" Export CSV
 
 		label.switch

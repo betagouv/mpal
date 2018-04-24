@@ -42,6 +42,13 @@ class Projet < ApplicationRecord
 
 	SORT_BY_OPTIONS = [:created, :depot]
 
+	OPAL_POSITION_LABEL_STATUSES = [
+		"Subvention accordée", "Subvention rejetée",
+		"Subvention retirée", "Subvention retiré avec reversement", "Classé sans suite", "Demande d'acompte",
+		"Acompte payé", "Demande d'avance", "Avance payée", "Demande de solde", "Solde payé"
+	]
+
+
 	# Personne de confiance
 	belongs_to :personne, dependent: :destroy
 	accepts_nested_attributes_for :personne
@@ -57,6 +64,10 @@ class Projet < ApplicationRecord
 	# HMA
 	has_one :hma, dependent: :destroy
 	accepts_nested_attributes_for :hma
+
+	# Notes sur pieces-jointes
+	has_many :pjnotes, dependent: :destroy
+  	accepts_nested_attributes_for :pjnotes
 
 	belongs_to :adresse_postale,   class_name: "Adresse", dependent: :destroy
 	belongs_to :adresse_a_renover, class_name: "Adresse", dependent: :destroy
@@ -95,7 +106,7 @@ class Projet < ApplicationRecord
 	validates :numero_fiscal, :reference_avis, presence: true
 	validates :tel, length: { :maximum => 20 }, allow_blank: true
 	validates :email, email: true, presence: true, uniqueness: { case_sensitive: false }, on: :update
-	validates :adresse_postale, presence: true, on: :update
+	validates :adresse_postale, presence: true, on: [:update, :update_api_particulier]
 	validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 	validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
 	validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
@@ -253,7 +264,7 @@ class Projet < ApplicationRecord
 	}
 
 	scope :search_by_intervenant, -> (search_param) {
-		where(["ift_intervenant.raison_sociale ILIKE ? or ift_agent.nom ILIKE ? or ift_agent.prenom ILIKE ?", search_param, search_param, search_param])
+		where(["ift_intervenants1.raison_sociale ILIKE ? or ift_intervenants2.raison_sociale ILIKE ? or ift_intervenants3.raison_sociale ILIKE ? or ift_agent.nom ILIKE ? or ift_agent.prenom ILIKE ?", search_param, search_param, search_param, search_param, search_param])
 	}
 
 	scope :search_by_location, -> (search_param, code_postal_param, dep_param) {
@@ -356,6 +367,9 @@ class Projet < ApplicationRecord
 		if search_param.key?(:type) && search_param[:type].present?
 			dossiers = dossiers.search_by_type(search_param[:type])
 		end
+		if search_param.key?(:hma) && search_param[:hma].present? && search_param[:hma] == 'true'
+			dossiers = dossiers.where.not("ift_hma IS NULL")
+		end
 		if search_param.key?(:status) && search_param[:status].present?
 			status = search_param[:status].to_i
 			if status <= 4
@@ -408,9 +422,22 @@ class Projet < ApplicationRecord
 
 	def reset_fiscal_information
 		contribuable = ApiParticulier.new(self.numero_fiscal, self.reference_avis).retrouve_contribuable_no_cache
-		a = ProjetInitializer.new.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable)
+		projetInitializer = ProjetInitializer.new
+		a = projetInitializer.initialize_avis_imposition(self, self.numero_fiscal, self.reference_avis, contribuable)
 		AvisImposition.where(:numero_fiscal => self.numero_fiscal, :reference_avis => self.reference_avis, :projet_id => self.id).first.try(:destroy)
 		a.save!
+
+		begin
+			old = self.adresse_postale
+			self.adresse_postale = projetInitializer.precise_adresse(contribuable.adresse)
+			self.adresse_postale.save
+			self.save(context: :update_api_particulier)
+			if old
+				old.delete
+			end
+		rescue => e
+			logger.info "ProjetInitializer: l'adresse n'a pas pu être localisée (#{e})"
+		end
 	end
 
 	def demandeur_user
@@ -741,6 +768,11 @@ class Projet < ApplicationRecord
 	end
 
 	def transmettre!(instructeur)
+		response = Rod.new(RodClient).query_for(self)
+		if instructeur != response.instructeur
+			self.invite_instructeur! response.instructeur
+			instructeur = response.instructeur
+		end
 		invitation = invitations.find_by(intervenant: instructeur)
 		return false unless invitation.update(intermediaire: operateur)
 		self.date_depot = Time.now
@@ -801,42 +833,48 @@ class Projet < ApplicationRecord
 
 def self.find_project all, is_admin, droit1, droit2
 		all.each do |projet|
-			 if projet.code_opal_op.present?
-				 op = projet.code_opal_op + " " + projet.name_op
-			 elsif projet.code_opal_op != nil
-				 op = "Diffus"
-			 else
-				 op = "OP : N/A"
-			 end
-			 el = "Non défini"
-			 if projet.eligibilite == 1
+			if projet.code_opal_op.present?
+				op = projet.code_opal_op + " " + projet.name_op
+			elsif projet.code_opal_op != nil
+				op = "Diffus"
+			else
+				op = "OP : N/A"
+			end
+			el = "Non défini"
+			if projet.eligibilite == 1
 				el = "A réévaluer"
-			 elsif projet.eligibilite == 2
+			elsif projet.eligibilite == 2
 				el = "Non Éligible"
-			 elsif projet.eligibilite == 3
+			elsif projet.eligibilite == 3
 				el = "Éligible"
-			 elsif projet.eligibilite == 4
+			elsif projet.eligibilite == 4
 				el = "Non Éligible confirmé"
-			 end
-			 if projet.opal_position_label.present?
-			 	status = projet.opal_position_label
-			 else
-			 	status = I18n.t(projet.status_for_intervenant, scope: "projets.statut")
-			 end
-			 line = [
-				 projet.numero_plateforme,
-				 format_date(projet.created_at),
-				 projet.demandeur_fullname,
-				 projet.postale_ville || projet.renov_ville,
-				 projet.ift_instructeur,
-				 projet.libelle_theme,
-				 projet.ift_operateur,
-				 format_date(projet.date_de_visite),
-				 format_date(projet.date_depot),
-				 status,
-				 projet.actif? ? "Actif" : "Inactif",
-				 op,
-				 el
+			end
+			if projet.opal_position_label.present?
+				status = projet.opal_position_label
+			else
+				status = I18n.t(projet.status_for_intervenant, scope: "projets.statut")
+			end
+			ville = ""
+			if projet.postale_ville.present?
+				ville = projet.postale_ville
+			elsif projet.renov_ville.present?
+				ville = projet.renov_ville
+			end
+			line = [
+				projet.numero_plateforme,
+				format_date(projet.created_at),
+				projet.demandeur_fullname,
+				ville,
+				projet.ift_instructeur,
+				projet.libelle_theme,
+				projet.ift_operateur,
+				format_date(projet.date_de_visite),
+				format_date(projet.date_depot),
+				status,
+				projet.actif? ? "Actif" : "Inactif",
+				op,
+				el
 			 ]
 
 			 if is_admin == true
@@ -867,10 +905,39 @@ def self.find_project all, is_admin, droit1, droit2
 				 line.insert 1, projet.opal_numero
 			 end
 			 if droit2
-				 line.insert 2, (projet.postale_dep || projet.renov_dep)
-				 line.insert 2, (projet.postale_region || projet.renov_region)
+			 	departement = ""
+				if projet.postale_dep.present?
+					departement = projet.postale_dep
+				elsif projet.renov_dep.present?
+					departement = projet.renov_dep
+				end
+				region = ""
+				if projet.postale_region.present?
+					region = projet.postale_region
+				elsif projet.renov_region.present?
+					region = projet.renov_region
+				end
+				 line.insert 2, departement
+				 line.insert 2, region
 			 end
-			 yield line
+
+			if ENV['ELIGIBLE_HMA'] == 'true'
+				type_dossier = ""
+				if projet.hma.present?
+					type_dossier = 'HMA'
+					if projet.invited_instructeur.present?
+						if projet.demande.try(:seul)
+							type_dossier += ' DS'
+						else
+							type_dossier += ' DA'
+						end
+					end
+				elsif projet.libelle_theme == "Énergie"
+					type_dossier = 'HMS'
+				end
+				line.append(type_dossier)
+			end
+			yield line
 			end
 end
 
@@ -882,45 +949,49 @@ def self.build_csv_enumerator titles, all, is_admin, droit1, droit2
 end
 
 def self.to_csv(agent, selected_projects, is_admin = false)
-	 # utf8 = CSV.generate(csv_options) do |csv|
-		 droit1 = agent.siege? || agent.instructeur? || agent.operateur?
-		 droit2 = agent.siege? || agent.operateur?
-		 titles = [
-			 'Numéro plateforme',
-			 'Date création',
-			 'Demandeur',
-			 'Ville',
-			 'Instructeur',
-			 'Types d’intervention',
-			 'Opérateur',
-			 'Date de visite',
-			 'Date dépôt',
-			 'État',
-			 'Actif/Inactif',
-			 'Operation Programmee',
-			 'Eligibilité'
-		 ]
+	# utf8 = CSV.generate(csv_options) do |csv|
+		droit1 = agent.siege? || agent.instructeur? || agent.operateur?
+		droit2 = agent.siege? || agent.operateur?
+		titles = [
+			'Numéro plateforme',
+			'Date création',
+			'Demandeur',
+			'Ville',
+			'Instructeur',
+			'Types d’intervention',
+			'Opérateur',
+			'Date de visite',
+			'Date dépôt',
+			'État',
+			'Actif/Inactif',
+			'Operation Programmee',
+			'Eligibilité'
+		]
 
-		 if is_admin == true
-			 titles.append('Etape avancement creation Dossier')
-			 titles.append('Nbre de messages dans la messagerie')
-			 titles.append('PRIS')
-			 titles.append('PRIS EIE')
-			 titles.append('project id')
-			 titles.append('Date de modification du Statut')
-		 end
+		if is_admin == true
+			titles.append('Etape avancement creation Dossier')
+			titles.append('Nbre de messages dans la messagerie')
+			titles.append('PRIS')
+			titles.append('PRIS EIE')
+			titles.append('project id')
+			titles.append('Date de modification du Statut')
+		end
 
-		 if droit1
-			 # titles.insert 9, 'État des paiements'
-			 titles.insert 6, 'Agent opérateur'
-			 titles.insert 4, 'Agent instructeur'
-			 titles.insert 1, 'Identifiant OPAL'
-		 end
+		if droit1
+			# titles.insert 9, 'État des paiements'
+			titles.insert 6, 'Agent opérateur'
+			titles.insert 4, 'Agent instructeur'
+			titles.insert 1, 'Identifiant OPAL'
+		end
 
-		 if droit2
-			 titles.insert 2, 'Département'
-			 titles.insert 2, 'Région'
-		 end
+		if droit2
+			titles.insert 2, 'Département'
+			titles.insert 2, 'Région'
+		end
+
+		if ENV['ELIGIBLE_HMA'] == 'true'
+			titles.append('Type de dossier')
+		end
 		 # csv << titles
 			Projet.build_csv_enumerator titles, selected_projects, is_admin, droit1, droit2
 

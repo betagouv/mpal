@@ -1,0 +1,152 @@
+section.new-project
+  p.new-project-links
+    = link_to "J’ai déjà un dossier", new_user_session_path, class: "new-project-link"
+  p.new-project-commentaire Tous les champs sont obligatoires
+  p.bold-label.black-label Je commence ma démarche ou je me renseigne sur mon éligibilité:
+
+  br
+
+  = form_tag("/copro/next", method: "post") do
+  	div.form-group.string.optional.projet_adresse_postale
+		label.string.optional.form-control-label for="projet_adresse_postale"
+			span.form-required-mark Adresse (principale ou secondaire) des travaux :
+  		div.form-field style="max-width: 480px;"
+    		input type="text" class="string optional form-control" name="projet_adresse_postale" id="projet_adresse_postale" required="required"
+
+    .new-project-mentions
+      = check_box_tag "autorisation", "1", params[:autorisation], class: "new-project-mentions-input js-engagement", id: "lab-rfr"
+      label.new-project-mentions-label-projet for="lab-rfr"
+        | J’accepte les conditions générales d’utilisation du service (CGU)
+    = btn name: t("sessions.commencer"), class: "new-project-btn js-login-btn js-engagement", icon: "arrow-right"
+
+
+javascript:
+  //setup before functions
+  var typingTimer;
+  var doneTypingInterval = 100;
+  var doneFocusInterval = 500;
+  var minCharToSearch = 4;
+
+  var $input = $('#projet_adresse_postale');
+
+  $input.attr("autocomplete", "off");
+
+  //on keyup, start the countdown
+  $input.on('keyup', function (e) {
+    if (e.which != 13 && e.which != 38 && e.which != 40 && e.which != 27 && e.which != 9) {
+      clearTimeout(typingTimer);
+      typingTimer = setTimeout(doneTyping, doneTypingInterval);
+    }
+  });
+  //on keydown, clear the countdown and do some other things
+  $input.on('keydown', function (e) {
+    if (e.which != 13 && e.which != 38 && e.which != 40 && e.which != 27 && e.which != 9) {
+      clearTimeout(typingTimer);
+      removeFiled();
+    }
+    // key arrow up
+    if (e.which == 38) {
+      e.preventDefault();
+      var listAddr = $(".suggested-addr-list").find("li");
+      var listAddrLen = listAddr.length;
+      var currentSelected;
+      if (listAddrLen > 1) {
+        listAddr.each(function(index) {
+          if ($(listAddr[index]).hasClass("li-addr-active")) { currentSelected = index; }
+        });
+        if (currentSelected == (0)) {
+          $(listAddr[listAddrLen - 1]).addClass("li-addr-active");
+          $(listAddr[currentSelected]).removeClass("li-addr-active");
+        } else {
+          $(listAddr[currentSelected]).removeClass("li-addr-active");
+          $(listAddr[currentSelected - 1]).addClass("li-addr-active");
+        }
+      }
+    }
+    // key arrow down
+    if (e.which == 40) {
+      e.preventDefault();
+      var listAddr = $(".suggested-addr-list").find("li");
+      var listAddrLen = listAddr.length;
+      var currentSelected;
+      if (listAddrLen > 1) {
+        listAddr.each(function(index) {
+          if ($(listAddr[index]).hasClass("li-addr-active")) { currentSelected = index; }
+        });
+        if (currentSelected == (listAddrLen - 1)) {
+          $(listAddr[0]).addClass("li-addr-active");
+          $(listAddr[currentSelected]).removeClass("li-addr-active");
+        } else {
+          $(listAddr[currentSelected]).removeClass("li-addr-active");
+          $(listAddr[currentSelected + 1]).addClass("li-addr-active");
+        }
+      }
+    }
+    // key enter
+    if (e.which == 13) {
+      e.preventDefault();
+      var addr = $('.suggested-addr-list li.li-addr-active').text();
+      if (undefined != addr && null != addr) {
+        $input.val(addr);
+        removeFiled();
+      }
+    }
+    // key tab
+    if (e.which == 9) {
+      var addr = $('.suggested-addr-list li.li-addr-active').text();
+      if (undefined != addr && null != addr && "" != addr) {
+        $input.val(addr);
+        removeFiled();
+      }
+    }
+    if (e.which == 27) { removeFiled(); }
+  });
+  //user is "finished typing," do something
+  function doneTyping () {
+    var addr = $input.val();
+    removeFiled();
+    if (addr.length > minCharToSearch) {
+      $.ajax({
+        type: 'GET',
+        url: "https://#{ENV['API_BAN_DOMAIN']}/search/?q=" + addr + "&autocomplete=0",
+        crossDomain: true,
+        success: function(response) {
+
+          var suggestedAddr = response.features;
+          if (suggestedAddr.length > 0) {
+            $('.projet_adresse_postale').append("<div class='suggested-addr'><ul class='suggested-addr-list'></ul></div>");
+            for (var indexValue in suggestedAddr) {
+              if (suggestedAddr.hasOwnProperty(indexValue)) {
+                var addrRaw = suggestedAddr[indexValue].properties;
+                var formatedAddr = addrRaw.label;
+                if (formatedAddr.length <= 0)
+                  $input.addClass("addr-error");
+                else
+                  $('.suggested-addr-list').append("<li>" + formatedAddr + "</li>");
+              }
+            }
+            $('.suggested-addr-list li:first-child').addClass("li-addr-active");
+          } else $input.addClass("addr-error");
+        },
+        error: function(msg) { console.log("ERROR : " + JSON.stringify(msg)); }
+      });
+    }
+  }
+
+  function removeFiled() {
+    $(".suggested-addr").remove();
+    $input.removeClass("addr-error");
+  }
+
+  $('#projet_adresse_postale').focusout(function() { focusTimer = setTimeout(removeFiled, doneFocusInterval); });
+  $('#projet_adresse_postale').focusin(function() {
+    if (typeof focusTimer !== "undefined")
+      clearTimeout(focusTimer);
+    doneTyping();
+  });
+
+  $(".projet_adresse_postale").on('click', ".suggested-addr-list li", function() {
+    var clickedAddr = $(this).text();
+    if (undefined != clickedAddr && null != clickedAddr)
+      $input.val(clickedAddr);
+  });

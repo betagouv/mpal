@@ -10,7 +10,7 @@ class IntervenantsController < ApplicationController
     @demandeur    = @projet_courant.demandeur
     @personne     = @projet_courant.personne
     if @pris.nil?
-      @pris = Rod.new(RodClient).query_for(@projet_courant).pris_eie
+      @pris = Rod.new(RodClient).query_for(@projet_courant).pris
     end
   end
 end

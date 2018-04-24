@@ -10,7 +10,19 @@
       p
         = project.adresse.ville
         - if project.themes.any?
-          = " / #{project.themes.map(&:name).join(", ")}"
+          - th = []
+          - project.themes.each do |t|
+            - if t.name == "Énergie" && ENV["ELIGIBLE_HMA"] == "true"
+              - if project.try(:hma)
+                - if project.demande.present? && project.demande.seul
+                  - th << "Énergie Habiter Mieux Agilité - Demandeur seul"
+                - else
+                  - th << "Énergie Habiter Mieux Agilité - Demandeur accompagné"
+              - else
+                - th << "Énergie Habiter Mieux Sérénité"
+            - else
+              - th << t.name
+          = " / " + th.join(", ")
       / TODO 2017-08-07: suppression à valider avec PO
       - if current_agent
         p

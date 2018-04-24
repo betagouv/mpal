@@ -66,9 +66,14 @@ GEM
       activemodel (>= 4.0.0)
       activesupport (>= 4.0.0)
       mime-types (>= 1.16)
+    carrierwave-virus_free (0.1.0)
+      activemodel
+      carrierwave
+      clam_scan
     case_transform (0.2)
       activesupport
     choice (0.2.0)
+    clam_scan (0.0.2)
     coderay (1.1.1)
     concurrent-ruby (1.0.5)
     database_cleaner (1.6.1)
@@ -370,6 +375,7 @@ DEPENDENCIES
   capybara
   capybara-screenshot
   carrierwave (~> 1.0)
+  carrierwave-virus_free
   database_cleaner
   devise
   devise_cas_authenticatable

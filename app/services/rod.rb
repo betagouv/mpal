@@ -54,8 +54,12 @@ class Rod
       raise RodError, message
     end
 
-    rod_response = RodResponse.new(JSON.parse(response.body))
-    projet.update(:name_op => rod_response.name_operation, :code_opal_op => rod_response.code_opal)
+    rod_response = RodResponse.new(JSON.parse(response.body), ENV['ELIGIBLE_HMA'] == 'true' && projet.demande.try(:eligible_hma))
+    if ENV['ELIGIBLE_HMA'] == 'true' && projet.demande.try(:seul)
+      projet.update(:name_op => "", :code_opal_op => "")
+    else
+      projet.update(:name_op => rod_response.name_operation, :code_opal_op => rod_response.code_opal)
+    end
     log_successful_query(projet, rod_response)
     rod_response
   end
@@ -65,7 +69,11 @@ class Rod
     start = Time.now
     response = @client.get("/intpardpt/#{departement}")
     Rails.logger.info "Completed Api-ROD request (#{response.code}) in #{Time.now - start}s"
-    list_intervenants = JSON.parse(response.body)
+    if response.code == 200
+      list_intervenants = JSON.parse(response.body)
+    else
+      list_intervenants = {}
+    end
 
     return list_intervenants
   end
