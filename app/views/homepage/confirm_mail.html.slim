@@ -9,7 +9,7 @@ div.confirm_message
 			i.glyphicon.glyphicon-log-in
 			p= t("devise.registrations.step_msg_1")
 			p= t("devise.registrations.step_msg_1_1")
-			p= t("devise.registrations.step_msg_1_2") + "( #{@mail} )"
+			p= t("devise.registrations.step_msg_1_2") + " (#{@mail})"
 
 		div.step-block
 			i.glyphicon.glyphicon-envelope
@@ -23,7 +23,7 @@ div.confirm_message
 			p= t("devise.registrations.step_msg_3_1")
 			p= t("devise.registrations.step_msg_3_2")
 
-	button.btn.btn-large.btn-centered.btn-icon class="btn btn-large btn-validate-submit btn-icon btn-homepage" value="Accueil"
+	div.btn.btn-large.btn-centered.btn-icon.btn-validate-submit.btn-homepage value="Accueil"
 		= link_to t("menu.homepage"), root_path
 		span &nbsp;
 		i class="glyphicon glyphicon-arrow-right"
