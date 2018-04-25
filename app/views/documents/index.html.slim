@@ -81,7 +81,7 @@
 
 
                       .document-new-comment.comment-older
-                        - if (current_agent and current_agent.intervenant) or @projet_courant.demande.seul?
+                        - if (current_agent and current_agent.intervenant) || @projet_courant.demande.seul
                           - if can? :manage, Pjnote
                             = simple_form_for Pjnote.new, url: projet_or_dossier_pjnotes_path, html: { class: "form form-inline pj-note-textarea" } do |f|
                               = f.input :notecontent, label: 'Entrez votre commentaire :'
