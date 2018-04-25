@@ -37,6 +37,7 @@ private
       can :create,  Document
       can :read,    Document, category_type: "Projet",  category_id: projet.id
       can :read,    Document, category_type: "Payment", category_id: projet.payments.map(&:id)
+      can :manage,  Pjnote
 
       can :destroy, (projet.documents.select { |document|
         projet.date_depot.blank? || document.created_at > projet.date_depot
