@@ -29,7 +29,7 @@ class ApisController < ApplicationController
 							elsif dossier["position"] == "ANNULE"
 								opalNewStatut = "Subvention retirée"
 							elsif dossier["position"] == "RVS_PRONONCE"
-								opalNewStatut = "Subvention retiré avec reversement"
+								opalNewStatut = "Subvention retirée avec reversement"
 							elsif dossier["position"] == "DEMAC"
 								opalNewStatut = "Demande d'acompte"
 							elsif dossier["position"] == "AC_PAYE"
