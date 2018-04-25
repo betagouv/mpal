@@ -65,10 +65,16 @@ private
     end
     if json["operateurs"].present?
       json["operateurs"].each do |op|
-        ret << op
+        bol = true
+        ret.each do |r|
+          if r['id_clavis'] == op['id_clavis']
+            bol = false
+          end
+        end
+        ret << op if bol
       end
     end
-    (ret.uniq || []).map { |attributes| create_or_update_intervenant!("operateur", attributes) }
+    (ret || []).map { |attributes| create_or_update_intervenant!("operateur", attributes) }
   end
 
   def parse_operations(json)
