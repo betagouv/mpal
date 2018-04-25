@@ -11,19 +11,20 @@ class PjnotesController < ApplicationController
 
   def create
   	@projet_courant = Projet.find_by_locator(params[:projet_id])
-    begin
+    # begin
       if params[:pjnote]["notecontent"] != ""
 	      @pjnote = Pjnote.create! document_id: params[:document_id], projet_id: params[:projet_id], intervenant_id: params[:intervenant_id], notecontent: params[:pjnote]["notecontent"]
 	      flash[:notice] = t("document.pjnote.commentaire_enregistre")
-      end
-    rescue => e
-      Rails.logger.error "[DocumentsController] create action failed : #{e.message}"
-      if e.class == ActiveRecord::RecordInvalid
-        flash[:alert] = e.record.errors[:base].first || e.record.errors[:fichier].first
-      else
-        flash[:alert] = t("document.messages.create.error")
-      end
-    end
+
+	    end
+    # rescue => e
+      # Rails.logger.error "[DocumentsController] create action failed : #{e.message}"
+      # if e.class == ActiveRecord::RecordInvalid
+        # flash[:alert] = e.record.errors[:base].first || e.record.errors[:fichier].first
+      # else
+        # flash[:alert] = t("document.messages.create.error")
+      # end
+    # end
     redirect_to projet_or_dossier_documents_path(@projet_courant)
   end
 
