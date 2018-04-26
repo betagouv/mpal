@@ -161,7 +161,8 @@
       thead
         tr
           th
-          th.proposition-cell-price Proposition
+          - if !@projet_courant.demande.seul
+            th.proposition-cell-price Proposition
       tbody
         - [:travaux_ht_amount, :assiette_subventionnable_amount].each do |field|
           - value = @projet_courant.send field
