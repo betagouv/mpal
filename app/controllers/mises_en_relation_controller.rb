@@ -149,11 +149,7 @@ class MisesEnRelationController < ApplicationController
   private
 
   def rod_response
-    @rod_response ||= if ENV['ROD_ENABLED'] == 'true'
-                        Rod.new(RodClient).query_for(@projet_courant)
-                      else
-                        FakeRodResponse.new(ENV['ROD_ENABLED'])
-                      end
+    @rod_response =  Rod.new(RodClient).query_for(@projet_courant)
   end
 
   def pris
