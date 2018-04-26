@@ -37,12 +37,12 @@ h3 Il y a #{@projets_count} projets
         .indicateur-cb id="projet_inscription"
             span= "Inscription"
             br
-            span.indicateur-count= @inscription_with_count.count
+            div.indicateur-count= @inscription_with_count.count
       - @status_with_count.each do |statut, count|
         .indicateur-cb id="projet_#{statut}"
           span= t("projets.statut.#{statut}")
           br
-          span.indicateur-count= count
+          div.indicateur-count= count
       .cat-flex-box-indic
         .subtitle DÉCISIONS
         .line
@@ -50,7 +50,7 @@ h3 Il y a #{@projets_count} projets
         .indicateur-cb id="projet_#{statut}"
           span= t("projets.statut.#{statut}")
           br
-          span.indicateur-count= count
+          div.indicateur-count= count
         - if statut == "Classé sans suite"
           br
           .cat-flex-box-indic
@@ -65,12 +65,12 @@ h3 Il y a #{@projets_count} projets
           .indicateur-cb id="projet_energie_inscription"
               span= "Inscription"
               br
-              span.indicateur-count= @inscription_energie_with_count.count
+              div.indicateur-count= @inscription_energie_with_count.count
         - @energie_status_with_count.each do |statut, count|
           .indicateur-cb id="projet_energie_#{statut}"
             span= t("projets.statut.#{statut}")
             br
-            span.indicateur-count= count
+            div.indicateur-count= count
         .cat-flex-box-indic
           .subtitle DÉCISIONS
           .line
@@ -78,7 +78,7 @@ h3 Il y a #{@projets_count} projets
           .indicateur-cb id="projet_energie_#{statut}"
             span= t("projets.statut.#{statut}")
             br
-            span.indicateur-count= count
+            div.indicateur-count= count
           - if statut == "Classé sans suite"
             br
             .cat-flex-box-indic
@@ -94,12 +94,12 @@ h3 Il y a #{@projets_count} projets
           .indicateur-cb id="projet_hma_inscription"
               span= "Inscription"
               br
-              span.indicateur-count= @inscription_hma_with_count.count
+              div.indicateur-count= @inscription_hma_with_count.count
         - @hma_status_with_count.each do |statut, count|
           .indicateur-cb id="projet_hma_#{statut}"
             span= t("projets.statut.#{statut}")
             br
-            span.indicateur-count= count
+            div.indicateur-count= count
         .cat-flex-box-indic
           .subtitle DÉCISIONS
           .line
@@ -107,7 +107,7 @@ h3 Il y a #{@projets_count} projets
           .indicateur-cb id="projet_hma_#{statut}"
             span= t("projets.statut.#{statut}")
             br
-            span.indicateur-count= count
+            div.indicateur-count= count
           - if statut == "Classé sans suite"
             br
             .cat-flex-box-indic
@@ -118,34 +118,34 @@ h3 Il y a #{@projets_count} projets
       .indicateur-cb id="projet_non_eligible"
         span= "Non éligible"
         br
-        span.indicateur-count= "#{@no_eligible.count}"
+        div.indicateur-count= "#{@no_eligible.count}"
 
       .indicateur-cb id="projet_non_eligible_a-reevaluer"
         span= "Non éligible à réévaluer"
         br
-        span.indicateur-count= "#{@no_eligible_reevaluer.count}"
+        div.indicateur-count= "#{@no_eligible_reevaluer.count}"
 
       .indicateur-cb id="projet_non_eligible_confirmé"
         span= "Non éligible confirmé"
         br
-        span.indicateur-count= "#{@no_eligible_confirmer.count}"
+        div.indicateur-count= "#{@no_eligible_confirmer.count}"
 
       .indicateur-cb id="projet_eligible"
         span= "Éligible"
         br
-        span.indicateur-count= "#{@eligible.count}"
+        div.indicateur-count= "#{@eligible.count}"
 
       .indicateur-cb id="projet_eligible"
         span= "Éligibilité à calculer"
         br
-        span.indicateur-count= "#{@eligible_na.count}"
+        div.indicateur-count= "#{@eligible_na.count}"
 
 
     .indicator-other-indic
       .indicateur-cb id="projet_inactif"
         span= "Inactif"
         br
-        span.indicateur-count= "#{@inactif.count}"
+        div.indicateur-count= "#{@inactif.count}"
 
       / .indicator-hmaOpal-indic
 
