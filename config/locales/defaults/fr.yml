@@ -267,6 +267,7 @@ fr:
         desired: "Souhaité"
         recommended: "Préconisé"
         selected: "Retenu"
+      enregistrer: "Enregistrer ce projet"
 
     transmission:
       bouton_accepter: "Suivant"

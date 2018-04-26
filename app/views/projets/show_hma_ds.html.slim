@@ -71,7 +71,7 @@ section.content-projet
 									| -
 
 	article.block.projet
-		h3 Projet envisagé
+		h3 Projet
 		- if can? :update, @projet_courant && !@projet_courant.demande.seul
 			= edit_projet_button(@projet_courant, dossier_demande_path(@projet_courant))
 		.content-block
