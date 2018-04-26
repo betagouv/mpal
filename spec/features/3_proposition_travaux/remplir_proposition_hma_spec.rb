@@ -57,7 +57,7 @@ feature "Remplir la proposition de travaux" do
       fill_in I18n.t('helpers.label.proposition.precisions_travaux'), with: 'Il faudra casser un mur.'
       fill_in I18n.t('helpers.label.proposition.precisions_financement'), with: 'Le prêt sera sans doute accordé.'
 
-      click_on 'Enregistrer cette proposition'
+      click_on 'Enregistrer ce projet'
       expect(page.current_path).to eq(dossier_path(projet))
 
     end
