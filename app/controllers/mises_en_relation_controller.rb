@@ -82,6 +82,7 @@ class MisesEnRelationController < ApplicationController
             operateur = response.operateurs.first
             @projet_courant.contact_operateur!(operateur.reload)
             @projet_courant.commit_with_operateur!(operateur.reload)
+            @projet_courant.invite_instructeur! response.instructeur
             redirect_to projet_show_contacts_hma_path, flash: { success: t("demarrage_projet.mise_en_relation.demande_envoyee", pris: operateur.raison_sociale ) } and return
           else
             invitation = @projet_courant.invite_pris!(response.pris)
