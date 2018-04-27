@@ -12,7 +12,6 @@ class MisesEnRelationController < ApplicationController
       # render :show_eligible_hma and return
       redirect_to projet_show_eligible_hma_path and return
     end
-    gr
     if rod_response.scheduled_operation? #prendre @projet_courant.eligible?
       if (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse) || @projet_courant.eligibilite == 1
         @operateur = rod_response.operateurs.first
