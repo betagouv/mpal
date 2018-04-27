@@ -80,7 +80,7 @@ feature "Remplir la proposition de travaux" do
       fill_in I18n.t('helpers.label.proposition.precisions_travaux'), with: 'Il faudra casser un mur.'
       fill_in I18n.t('helpers.label.proposition.precisions_financement'), with: 'Le prêt sera sans doute accordé.'
 
-      click_on 'Enregistrer cette proposition'
+      click_on I18n.t("projets.proposition.enregistrer")
       expect(page.current_path).to eq(dossier_path(projet))
 
       # Section "Logement"
@@ -151,7 +151,7 @@ feature "Remplir la proposition de travaux" do
       scenario "je vois un message d'erreur" do
         visit dossier_proposition_path(projet)
         fill_in 'projet_note_degradation', with: '9999'
-        click_on 'Enregistrer cette proposition'
+        click_on I18n.t("projets.proposition.enregistrer")
         expect(page).to have_current_path dossier_proposition_path(projet)
         expect(page).to have_content "La note de dégradation doit être comprise entre zéro et un"
       end
@@ -163,7 +163,7 @@ feature "Remplir la proposition de travaux" do
         fill_in 'projet_date_de_visite', with: '28/12/2016'
         fill_in_section_montant
         choose 'projet_ventilation_adaptee_false'
-        click_on 'Enregistrer cette proposition'
+        click_on I18n.t("projets.proposition.enregistrer")
         expect(page.current_path).to eq(dossier_path(projet))
         within('.block.projet-ope') { expect(page).not_to have_content 'Non' }
       end
@@ -205,7 +205,7 @@ feature "Remplir la proposition de travaux" do
         check   "prestation_#{prestation.id}_desired"
         fill_in aide_1.libelle, with: ''
 
-        click_on 'Enregistrer cette proposition'
+        click_on I18n.t("projets.proposition.enregistrer")
         expect(page.current_path).to eq(dossier_path(projet))
         expect(page).to have_content('42')
         expect(page).to have_content(prestation.libelle)
@@ -253,7 +253,7 @@ feature "Remplir la proposition de travaux" do
         visit dossier_proposition_path(projet)
         fill_in 'projet_note_degradation', with: '1'
 
-        click_on 'Enregistrer cette proposition'
+        click_on I18n.t("projets.proposition.enregistrer")
         expect(page).to have_current_path dossier_path(projet)
 
         click_link 'Je soumets le projet au demandeur pour dépôt'
@@ -261,7 +261,7 @@ feature "Remplir la proposition de travaux" do
 
         fill_in 'projet_date_de_visite', with: '28/12/2016'
         fill_in I18n.t('helpers.label.proposition.travaux_ht_amount'), with: '1 111'
-        click_on 'Enregistrer cette proposition'
+        click_on I18n.t("projets.proposition.enregistrer")
 
         click_link 'Je soumets le projet au demandeur pour dépôt'
         expect(page).to have_no_content('Coût des travaux à réaliser HT doit être rempli(e)')

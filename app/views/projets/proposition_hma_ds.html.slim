@@ -117,7 +117,7 @@
   = f.input :precisions_financement, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_financement_count')"}
   <div class="char-count" id="precisions_financement_count">250 caractère(s) restant</div>
 
-  = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
+  = btn name: t("projets.proposition.enregistrer"), icon: 'save', class: "btn-validate-submit"
   <p class="alert alert-danger invalidSiret" style="display: none;">Valeur du numéro de SIRET incohérente ou format INVALIDE</p>
 
 javascript:
