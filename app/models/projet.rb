@@ -383,9 +383,9 @@ class Projet < ApplicationRecord
 				elsif status == 7
 					status_label = "Classé sans suite"
 				elsif status == 8
-					status_label = "Subvention retiré"
+					status_label = "Subvention retirée"
 				elsif status == 9
-					status_label = "Subvention retiré avec reversement"
+					status_label = "Subvention retirée avec reversement"
 				elsif status == 10
 					status_label = "Demande d'acompte"
 				elsif status == 11
