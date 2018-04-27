@@ -12,6 +12,7 @@ class MisesEnRelationController < ApplicationController
       # render :show_eligible_hma and return
       redirect_to projet_show_eligible_hma_path and return
     end
+    gr
     if rod_response.scheduled_operation? #prendre @projet_courant.eligible?
       if (@projet_courant.preeligibilite(@projet_courant.annee_fiscale_reference) != :plafond_depasse) || @projet_courant.eligibilite == 1
         @operateur = rod_response.operateurs.first
@@ -82,6 +83,7 @@ class MisesEnRelationController < ApplicationController
             operateur = response.operateurs.first
             @projet_courant.contact_operateur!(operateur.reload)
             @projet_courant.commit_with_operateur!(operateur.reload)
+            @projet_courant.invite_instructeur! response.instructeur
             redirect_to projet_show_contacts_hma_path, flash: { success: t("demarrage_projet.mise_en_relation.demande_envoyee", pris: operateur.raison_sociale ) } and return
           else
             invitation = @projet_courant.invite_pris!(response.pris)
