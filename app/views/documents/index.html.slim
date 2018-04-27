@@ -25,7 +25,7 @@
                           = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
                         - else
                           = document.label
-                      
+
                       - if can? :destroy, document
                         .document-actions
                           - if block[:payment_id].present?
@@ -51,7 +51,7 @@
                                   = link_to edit_projet_or_dossier_pjnote_path(@projet_courant, aNote)
                                     span.comment-edit
                                       span.glyphicon.glyphicon-pencil
-                              
+
                               - if can? :manage, aNote
                                 - if current_agent
                                   = link_to projet_or_dossier_pjnote_path(@projet_courant, aNote), method: :delete
@@ -71,7 +71,7 @@
                                   = link_to edit_projet_or_dossier_pjnote_path(@projet_courant, aNote)
                                     span.comment-edit
                                       span.glyphicon.glyphicon-pencil
-                              
+
                               - if can? :manage, aNote
                                 - if current_agent
                                   = link_to projet_or_dossier_pjnote_path(@projet_courant, aNote), method: :delete
@@ -90,7 +90,7 @@
                               = hidden_field_tag :intervenant_id, current_agent.intervenant.id if current_agent
                               = f.button :submit, t("document.pjnote.commenter"), class: 'ripple push-ton-com'
 
-                      div.more-comment plus ... 
+                      div.more-comment plus ...
 
             - if can? :create, Document
               - if block[:payment_id].present?
@@ -104,6 +104,8 @@
                   = t("document.select")
                 = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
                 .document-file-added.js-document__file-added
+
+    = btn name: t('document.continuer'), href: projet_or_dossier_path(@projet_courant), class: 'proposal'
 
 javascript:
   $(document).ready(function() {
