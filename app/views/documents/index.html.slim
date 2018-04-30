@@ -97,13 +97,13 @@
                 - create_path = dossier_payment_documents_path(@projet_courant, block[:payment_id])
               - else
                 - create_path = projet_or_dossier_documents_path(@projet_courant)
-              = form_tag create_path, class: "document-panel-footer", multipart: true do
-                = file_field_tag :fichier, id: "document-file-upload-#{id}", class: "document-file-upload-invisible js-document__file"
+              = form_tag create_path, class: "document-panel-footer", multipart: true, id: "form-#{id}" do
+                = file_field_tag :fichier, id: "document-file-upload-#{id}", class: "document-file-upload-invisible js-document__file", onchange: "updateImageDisplay('#{id}');"
                 = hidden_field_tag :type_piece, element[:type]
                 = label_tag "document-file-upload-#{id}", class: "btn btn-secondary btn-small document-file-upload"
                   = t("document.select")
-                = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
-                .document-file-added.js-document__file-added
+                / = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
+                / .document-file-added.js-document__file-added
 
     = btn name: t('document.continuer'), href: projet_or_dossier_path(@projet_courant), class: 'proposal'
 
@@ -134,3 +134,18 @@ javascript:
       }
     });
   });
+
+  function updateImageDisplay(id) {
+    var input = document.getElementById('document-file-upload-' + id);
+    var curFiles = input.files;
+    if(curFiles.length === 0) {
+      return ;
+    }
+    if (curFiles.length > 1)
+    {
+      return;
+    }
+    var r = confirm("Êtes-vous sûr de vouloir ajouter le fichier: '" + curFiles[0].name + "'?");
+    if (r == true)
+      document.getElementById('form-' + id).submit();
+  }
