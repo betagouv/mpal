@@ -1,3 +1,14 @@
+- content_for :popins do
+  #info-devis-rge.popin.popin--info_devis_rge
+    .popin-container-large
+      p.popin-p Le label RGE (« Reconnu Garant de l'Environnement ») est un signe de qualité délivré à une entreprise qui remplit certains critères lors de la réalisation de travaux d'économie d'énergie dans les logements.
+      p.popin-p Si votre entreprise est labélisée RGE, vous trouverez cette information sur votre devis.
+      p.popin-p Sinon, vous trouverez la liste des entreprise RGE sur le site:
+      a.href="http://renovation-info-service.gouv.fr/trouvez-un-professionnel"
+      p.popin-p.popin-p-centered
+        = btn name: "Fermer", href: "#", class: "popin-close"
+
+
 = simple_form_for @demande, url: { controller: "demandes", action: "update" }, method: "patch", html: { class: "form"} do |f|
   = render "shared/errors", resource: @demande
   .vertical-booleans
@@ -36,14 +47,19 @@
   = f.input :annee_construction, label: t("helpers.label.demande.annee_construction"), wrapper_html: { class: "size-xs" }
   = f.input :ptz, as: :radio_buttons, label: t("helpers.label.demande.ptz")
   = f.input :prime_hma, as: :radio_buttons, label: t("helpers.label.demande.prime_hma")
+
   div.div_rge
+    .labeled-info-point
+      p.new-project-label-ib J'indique si je dispose du devis d'une entreprise labelisée RGE (Reconnu Garant de l'Environnement) pour la réalisation de mes travaux.
+      a.info-point.info-point-light.js-popin data-target="#info-devis-rge" title="Informations" ?
     - value_devis_rge = ['Je ne sais pas', "neutre"]
     - if @projet_courant.demande.try(:devis_rge) == true
       - value_devis_rge = ['Oui', true]
     - elsif @projet_courant.demande.try(:devis_rge) == false
       - value_devis_rge = ['Non', false]
     - collection = [['Oui', true], ['Non', false], ['Je ne sais pas', "neutre"]]
-    = f.input :devis_rge, as: :radio_buttons, collection: collection, :checked => value_devis_rge , label: t("helpers.label.demande.devis_rge"), label_html: { class: 'input_rge' }, input_html: { class: 'input_rge' }
+    = f.input :devis_rge, as: :radio_buttons, collection: collection, :checked => value_devis_rge , label: "", label_html: { class: 'input_rge' }, input_html: { class: 'input_rge' }
+
   .btn-centered
     = btn name: @action_label, class: "btn-large btn-validate-submit", icon: "arrow-right"
 
