@@ -174,6 +174,13 @@ feature "Remplir la proposition de travaux" do
       within ".test-document-panel-0-2-0" do
         attach_file :fichier, Rails.root + "spec/fixtures/Ma pièce jointe.txt"
         # click_button I18n.t("document.send")
+        form = find '#form-0-2-0'
+        class << form
+          def submit!
+            Capybara::RackTest::Form.new(driver, native).submit({})
+          end
+        end
+        form.submit!
       end
 
       document = projet.documents.first
