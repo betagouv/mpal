@@ -1,6 +1,9 @@
 - if form.present?
   = render "shared/errors", resource: @payment
   .payment-content
-    = form.input :type_paiement, as: :radio_buttons, collection: Payment::TYPES, required: true
+    - if (@projet_courant.hma != nil)
+        = form.input :type_paiement, as: :radio_buttons, collection: Payment::TYPES_HMA, required: true
+    - else
+        = form.input :type_paiement, as: :radio_buttons, collection: Payment::TYPES_PO, required: true
     = form.input :procuration,   as: :radio_buttons, label: t("payment.procuration_question"), collection: [[t("payment.procuration_answer.beneficiary"), false], [t("payment.procuration_answer.third_party"), true]], wrapper_html: { class: "js-procuration" }, required: true
     = form.input :beneficiaire,  as: :string,        label: t("payment.procuration"), wrapper_html: { class: "size-m js-beneficiary" }, required: true
