@@ -1,8 +1,8 @@
 class Payment < ApplicationRecord
   STATUSES = [ :en_cours_de_montage, :propose, :demande, :en_cours_d_instruction, :paye ]
   ACTIONS = [ :a_rediger, :a_modifier, :a_valider, :a_instruire, :aucune ]
+  TYPES = [:avance, :acompte, :solde]
   TYPES_HMA = [:acompte, :solde]
-  TYPES_PO = [:avance, :acompte, :solde]
 
   validates :beneficiaire, :type_paiement, presence: true
   validate  :validate_type_paiement
@@ -58,7 +58,7 @@ class Payment < ApplicationRecord
   private
 
   def validate_type_paiement
-    errors.add(:type_paiement, :invalid) if type_paiement.present? && (TYPES_HMA.exclude? type_paiement.to_sym)
+    errors.add(:type_paiement, :invalid) if type_paiement.present? && (TYPES.exclude? type_paiement.to_sym)
   end
 
   def validate_projet
