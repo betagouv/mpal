@@ -30,7 +30,7 @@
         text-align: center;
         line-height: 50px;
         border-radius: 50%;
-        background: $color-maintenance;
+        background: $color-blue-3;
         position: fixed;
         z-index: 102;
         top: calc(100% - 75px);
@@ -41,19 +41,19 @@
         backface-visibility: hidden;
     }
 
-    &:hover { background: $color-maintenance-hover; }
+    &:hover { background: $color-blue-2; }
     &:active { box-shadow: inset 0 0 .2em $color-transparent-black-3; }
     &:not(.opened) { visibility: hidden; }
 
     &.opened {
     	visibility: visible;
-        top: -230px;
-        left: -80px;
+        top: -10px;
+        left: 160px;
         transform: rotate(-45deg);
         transform-origin: 750%;
         & ~ .maintenance-modal .inner-maintenance-modal {
-            width: 200vw;
-            height: 200vw;
+            width: 60vw;
+            height: 40vw;
             .maintenance-content {
                 opacity: 1;
                 transition-delay: .5s;
@@ -72,25 +72,46 @@
     z-index: 101;
     top: 0;
     left: 0;
+    &::before {
+        content: '';
+        position: fixed;
+        display: block;
+        background-color: $color-transparent-black-3;
+        width: 200vw;
+        height: 200vw;
+        z-index: 99;
+    }
     .inner-maintenance-modal {
-        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         flex: none;
-        background: $color-maintenance-back;
+        background: $color-blue-4;
         width: 0;
         height: 0;
         transition: all .4s ease-in .4s;
         backface-visibility: hidden;
+        z-index: 100;
+        border: 5px solid $color-blue-5;
+        border-radius: 15px;
+        .site-title {
+            position: relative;
+            display: inline-block;
+            top: 0;
+            text-transform: uppercase;
+            margin-bottom: 50px;
+        }
         .maintenance-content {
             opacity: 0;
             transition: opacity .4s ease;
             backface-visibility: hidden;
             color: $color-white2;
             text-align: center;
-            max-width: 90vw;
-            max-height: 90vh;
+            max-width: 100vw;
+            max-height: 100vh;
+            // min-height: 50vh;
+
+            p { font-size: 20px; }
         }
     }
 }

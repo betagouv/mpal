@@ -17,16 +17,19 @@ html lang="fr"
       - wrapping_classes << "page-max-width" unless @page_full_width
       div class=wrapping_classes.join(" ")
         = render "shared/header"
-        div.flex-maintenance
-          a.maintenance-openner href="#" +
-          div.maintenance-modal
-            div.inner-maintenance-modal
-              div.maintenance-content
-                h1.maintenance-title = t("helpers.label.alert.avis_maintenance")
-                br
-                p = t("helpers.label.alert.maintenance_warn")
-                p = t("helpers.label.alert.maintenance_from")
-                p = t("helpers.label.alert.maintenance_to")
+        - if ENV["WEBSITE_MAINTENANCE"] == "true"
+          div.flex-maintenance
+            a.maintenance-openner href="#" +
+            div.maintenance-modal
+              div.inner-maintenance-modal
+                div.maintenance-content
+                  h1.maintenance-title.site-title = "monprojet.anah.gouv.fr"
+                  br
+                  h1.maintenance-title = t("helpers.label.alert.avis_maintenance")
+                  br
+                  p = t("helpers.label.alert.maintenance_warn")
+                  p = t("helpers.label.alert.maintenance_from")
+                  p = t("helpers.label.alert.maintenance_to")
         = render "shared/flash"
         = content_for?(:content) ? yield(:content) : yield
 
