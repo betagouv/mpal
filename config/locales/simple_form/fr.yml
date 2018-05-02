@@ -99,7 +99,7 @@ fr:
         nb_pieces: "Nombre de pièces"
         niveau_gir: "Niveau GIR"
         note_degradation: "Note de dégradation"
-        note_insalubrite: "Node d’insalubrité"
+        note_insalubrite: "Note d’insalubrité"
         numero_fiscal: "Numéro fiscal"
         personal_funding_amount: "Apport de fonds personnels"
         precisions_financement: "Précisions concernant le financement"
