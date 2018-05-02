@@ -56,21 +56,23 @@ html lang="fr"
 javascript:
 
   $( document ).ready(function() {
-    document.querySelector('.maintenance-openner').addEventListener('click', function(e) {
-      e.preventDefault();
-      this.classList.toggle('opened');
-      if ($('.maintenance-openner').hasClass('opened')) {
-        $('.maintenance-modal').css('display', 'flex');
+    if (undefined != document.querySelector('.maintenance-openner') && null != document.querySelector('.maintenance-openner')) {
+      document.querySelector('.maintenance-openner').addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.toggle('opened');
+        if ($('.maintenance-openner').hasClass('opened')) {
+          $('.maintenance-modal').css('display', 'flex');
+        } else {
+          $('.maintenance-modal').css('display', 'none');
+        }
+      });
+
+      if (!sessionStorage.getItem("maintenanceAlert")) {
+        $('.maintenance-openner').toggleClass('opened');
+        sessionStorage.setItem("maintenanceAlert", "true");
       } else {
         $('.maintenance-modal').css('display', 'none');
       }
-    });
-
-    if (!sessionStorage.getItem("maintenanceAlert")) {
-      $('.maintenance-openner').toggleClass('opened');
-      sessionStorage.setItem("maintenanceAlert", "true");
-    } else {
-      $('.maintenance-modal').css('display', 'none');
+      // $('.maintenance-openner').classList.toggle('opened');
     }
-    // $('.maintenance-openner').classList.toggle('opened');
   });
