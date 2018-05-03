@@ -1,5 +1,5 @@
 article.block.projet
-  h3 Projet
+  h3 Mon projet initial
   - if can? :update, @projet_courant
     = edit_projet_button(@projet_courant, dossier_demande_path(@projet_courant))
   .content-block
