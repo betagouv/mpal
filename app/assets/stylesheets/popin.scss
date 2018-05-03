@@ -1,4 +1,5 @@
 .popin-container,
+.popin-container-large,
 .popin {
 	position: fixed;
 }
@@ -16,7 +17,8 @@
 .popin-container {
 	background: $color-very-light-gray;
 	border: 3px solid $color-primary;
-	height: 286px;
+	min-height: 286px;
+	height: auto;
 	left: 50%;
 	margin-left: -300px;
 	margin-top: -143px;
@@ -28,7 +30,8 @@
 .popin-container-large {
 	background: $color-very-light-gray;
 	border: 3px solid $color-primary;
-	height: 286px;
+	height: auto;
+	mheight: 286px;
 	left: 50%;
 	margin-left: -300px;
 	margin-top: -143px;
