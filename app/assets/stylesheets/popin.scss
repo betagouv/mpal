@@ -16,7 +16,8 @@
 .popin-container {
 	background: $color-very-light-gray;
 	border: 3px solid $color-primary;
-	height: 286px;
+	min-height: 286px;
+	height: auto;
 	left: 50%;
 	margin-left: -300px;
 	margin-top: -143px;
@@ -103,4 +104,9 @@
 			th { text-align: left; }
 		}
 	}
+}
+
+.popinMark {
+	position: relative;
+	display: inline-block;
 }
