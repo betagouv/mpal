@@ -43,6 +43,16 @@
         span.line-home
       br
 
+      p Vous trouverez ci-dessous la liste des co-financeurs auxquels vous pouvez faire appel.
+      ul
+        li.li-style
+          | Pour estimer le montant prévisionnel de votre aide ANAH, vous pouvez contacter votre PRIS ou vous renseigner sur 
+          a href='http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/' target="_blank" http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/
+        li.li-style Pour les autres aides, la saisie d’un montant est facultatif. Vous pouvez contacter votre PRIS ou votre service instructeur afin d’obtenir plus d’informations.
+      p Vous trouverez les coordonnées de ces interlocuteurs en cliquant que l’icone « Contacts » (en haut à droite de votre écran).
+      br
+
+
       = f.simple_fields_for :projet_aides do |ff|
         - aid = ff.object.aide
         - if nil != aid
