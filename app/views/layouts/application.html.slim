@@ -17,8 +17,22 @@ html lang="fr"
       - wrapping_classes << "page-max-width" unless @page_full_width
       div class=wrapping_classes.join(" ")
         = render "shared/header"
+        - if ENV["WEBSITE_MAINTENANCE"] == "true"
+          div.flex-maintenance
+            a.maintenance-openner href="#" +
+            div.maintenance-modal
+              div.inner-maintenance-modal
+                div.maintenance-content
+                  h1.maintenance-title.site-title = "monprojet.anah.gouv.fr"
+                  br
+                  h1.maintenance-title = t("helpers.label.alert.avis_maintenance")
+                  br
+                  p = t("helpers.label.alert.maintenance_warn")
+                  p = t("helpers.label.alert.maintenance_from")
+                  p = t("helpers.label.alert.maintenance_to")
         = render "shared/flash"
         = content_for?(:content) ? yield(:content) : yield
+
         footer.footer
           = link_to t("menu.homepage"), root_path
           |  - 
@@ -32,9 +46,33 @@ html lang="fr"
           = link_to t("menu.legal"), informations_legal_path
           |  - 
           = link_to t("menu.contact"), new_contact_path
-          div#version-number 
+          div#version-number
             = t("accueil.version")
     = yield :popins
 
     - if false && @display_help
       = render "shared/help"
+
+javascript:
+
+  $( document ).ready(function() {
+    if (undefined != document.querySelector('.maintenance-openner') && null != document.querySelector('.maintenance-openner')) {
+      document.querySelector('.maintenance-openner').addEventListener('click', function(e) {
+        e.preventDefault();
+        this.classList.toggle('opened');
+        if ($('.maintenance-openner').hasClass('opened')) {
+          $('.maintenance-modal').css('display', 'flex');
+        } else {
+          $('.maintenance-modal').css('display', 'none');
+        }
+      });
+
+      if (!sessionStorage.getItem("maintenanceAlert")) {
+        $('.maintenance-openner').toggleClass('opened');
+        sessionStorage.setItem("maintenanceAlert", "true");
+      } else {
+        $('.maintenance-modal').css('display', 'none');
+      }
+      // $('.maintenance-openner').classList.toggle('opened');
+    }
+  });
