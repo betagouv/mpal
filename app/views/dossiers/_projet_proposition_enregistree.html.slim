@@ -1,5 +1,5 @@
 - content_for :cta do
   - if current_agent.operateur?
     = btn name: t('projets.transmission.ajouter_pieces'), href: projet_or_dossier_documents_path(@projet_courant), class: 'proposal'
-    = btn name: t('projets.transmission.soumission'), href: dossier_proposer_path(@projet_courant), class: 'proposal'
+    = btn name: t('projets.transmission.soumission'), href: dossier_proposer_path(@projet_courant), class: 'proposal proposal-right'
 = render 'projets/projet_proposition'
