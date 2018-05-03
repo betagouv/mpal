@@ -156,3 +156,29 @@
 	margin-top: 10px;
 	width: 100%;
 }
+
+.tabulated {
+	margin-left: 20px;
+	list-style-type:disc;
+    display:list-item;
+}
+
+.form-check-hacked > .rdioBlock ~ .rdioBlock {
+	margin-left: 0;
+}
+
+.rdioBlock {
+	display: inline-block;
+	position: relative;
+	margin-left: 0;
+	margin-top: 15px;
+	min-width: 40%;
+	max-width: 40%;
+
+	span {
+		overflow: hidden;
+		word-break: break-word;
+		position: absolute;
+		width: inherit;
+	}
+}

@@ -1,7 +1,7 @@
 section.content-projet
 	= render "shared/errors", resource: @projet_courant
 	article.block.occupants
-		h3 Récapitulatif de ma demande
+		h3 Ma situation
 		- if can? :update, @projet_courant
 			= edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
 		.occupants-recap
@@ -71,7 +71,7 @@ section.content-projet
 									| -
 
 	article.block.projet
-		h3 Projet
+		h3 Mon projet initial
 		- if can? :update, @projet_courant && !@projet_courant.demande.seul
 			= edit_projet_button(@projet_courant, dossier_demande_path(@projet_courant))
 		.content-block
@@ -93,13 +93,14 @@ section.content-projet
 
 	- elsif @projet_courant.demande.seul && @projet_courant.statut == "proposition_proposee"
 		article.block.projet-ope
-			h3.is-open = "Projet enregistré"
+			h3.is-open = "Mon projet Anah"
 			.content-block
 				.invoice
 					= render 'projets/projet_details'
 					.button-group
-						= btn name: t("projets.transmission.modification_demande_2"), href: proposition_projet_demandeur_seul_path(@projet_courant), class: "btn-secondary transmission-button"
-						= btn name: t('projets.transmission.bouton_continuer'), href: proposer_projet_demandeur_seul_path(@projet_courant), class: 'proposal'
+						= btn name: t('projets.transmission.ajouter_pieces'), href: projet_or_dossier_documents_path(@projet_courant), class: 'proposal'
+						= btn name: t("projets.transmission.modification_demande_2"), href: proposition_projet_demandeur_seul_path(@projet_courant), class: "btn-secondary  proposal-right"
+						= btn name: t('projets.transmission.bouton_continuer'), href: proposer_projet_demandeur_seul_path(@projet_courant), class: 'proposal proposal-right'
 
 						div &nbsp;
 						div
@@ -107,7 +108,7 @@ section.content-projet
 
 	- elsif @projet_courant.demande.seul && @projet_courant.statut == "transmis_pour_instruction"
 		article.block.recap-projet
-			h3.is-open Projet retenu par le demandeur
+			h3.is-open Mon projet Anah
 			.content-block
 				.invoice
 					ul.demandeur-info
@@ -137,7 +138,7 @@ section.content-projet
 
 	- elsif @projet_courant.demande.seul && @projet_courant.statut == "en_cours_d_instruction"
 		article.block.recap-projet
-			h3.is-open Projet retenu par le demandeur
+			h3.is-open Mon projet Anah
 			.content-block
 				.invoice
 					ul.demandeur-info

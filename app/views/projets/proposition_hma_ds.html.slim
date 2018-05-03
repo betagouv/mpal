@@ -1,9 +1,19 @@
+- content_for :popins do
+#info-siret.popin.popin--info_siret
+  .popin-container
+    p.popin-p Le numéro de SIRET de votre entreprise est un identifiant unique composé de 14 chiffres.
+    p.popin-p Vous le trouverez sur le devis de votre entreprise.
+    = image_tag "numero-fiscal.png", class: "popin-image popin__image--numero-fiscal"
+    p.popin-p.popin-p-centered
+      = btn name: "Fermer", href: "#", class: "popin-close"
+
 = simple_form_for @projet_courant, url: proposition_projet_demandeur_seul_path(@projet_courant), html: { method: :put, class: "form form-proposition" } do |f|
   = render "shared/errors", resource: @projet_courant
   / .occupants-recap Opérateur : #{@projet_courant.operateur.raison_sociale}
 
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Informations sur mon Projet
+
     = f.input :numero_siret, wrapper: "append", wrapper_html: { class: "size-s" } do
       = f.input_field :numero_siret, class: "input-number siretNum", input_html: {value: @projet_courant.numero_siret.present? ? @projet_courant.numero_siret : ""}
     = f.input :nom_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
@@ -117,7 +127,7 @@
   = f.input :precisions_financement, :input_html => {:maxlength => 250, :onkeyup => "countChar(this, 'precisions_financement_count')"}
   <div class="char-count" id="precisions_financement_count">250 caractère(s) restant</div>
 
-  = btn name: 'Enregistrer cette proposition', icon: 'save', class: "btn-validate-submit"
+  = btn name: t("projets.proposition.enregistrer"), icon: 'save', class: "btn-validate-submit"
   <p class="alert alert-danger invalidSiret" style="display: none;">Valeur du numéro de SIRET incohérente ou format INVALIDE</p>
 
 javascript:
@@ -177,4 +187,18 @@ javascript:
           if (!validSiret)
             $('.invalidSiret').css("display", "block");
       }
+  });
+
+  $(document).ready(function() {
+    $('.projet_numero_siret label').append('<span><a class="info-point info-point-light js-popin popinMark" data-target="#info-siret" title="Informations"> ?</a></span>');
+
+    $('.js-popin').click(function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var element = $(this);
+      var target = $(element.data('target'));
+      var content = $(element.data('content'))[0];
+
+      if (target.length) { target.show(); }
+    });
   });

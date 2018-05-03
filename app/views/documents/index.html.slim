@@ -25,7 +25,7 @@
                           = link_to document.label, document.fichier_url, target: :_blank, class: "document__link"
                         - else
                           = document.label
-                      
+
                       - if can? :destroy, document
                         .document-actions
                           - if block[:payment_id].present?
@@ -51,7 +51,7 @@
                                   = link_to edit_projet_or_dossier_pjnote_path(@projet_courant, aNote)
                                     span.comment-edit
                                       span.glyphicon.glyphicon-pencil
-                              
+
                               - if can? :manage, aNote
                                 - if current_agent
                                   = link_to projet_or_dossier_pjnote_path(@projet_courant, aNote), method: :delete
@@ -71,7 +71,7 @@
                                   = link_to edit_projet_or_dossier_pjnote_path(@projet_courant, aNote)
                                     span.comment-edit
                                       span.glyphicon.glyphicon-pencil
-                              
+
                               - if can? :manage, aNote
                                 - if current_agent
                                   = link_to projet_or_dossier_pjnote_path(@projet_courant, aNote), method: :delete
@@ -90,20 +90,22 @@
                               = hidden_field_tag :intervenant_id, current_agent.intervenant.id if current_agent
                               = f.button :submit, t("document.pjnote.commenter"), class: 'ripple push-ton-com'
 
-                      div.more-comment plus ... 
+                      div.more-comment plus ...
 
             - if can? :create, Document
               - if block[:payment_id].present?
                 - create_path = dossier_payment_documents_path(@projet_courant, block[:payment_id])
               - else
                 - create_path = projet_or_dossier_documents_path(@projet_courant)
-              = form_tag create_path, class: "document-panel-footer", multipart: true do
-                = file_field_tag :fichier, id: "document-file-upload-#{id}", class: "document-file-upload-invisible js-document__file"
+              = form_tag create_path, class: "document-panel-footer", multipart: true, id: "form-#{id}" do
+                = file_field_tag :fichier, id: "document-file-upload-#{id}", class: "document-file-upload-invisible js-document__file", onchange: "updateImageDisplay('#{id}');"
                 = hidden_field_tag :type_piece, element[:type]
                 = label_tag "document-file-upload-#{id}", class: "btn btn-secondary btn-small document-file-upload"
                   = t("document.select")
-                = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
-                .document-file-added.js-document__file-added
+                / = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
+                / .document-file-added.js-document__file-added
+
+    = btn name: t('document.continuer'), href: projet_or_dossier_path(@projet_courant), class: 'proposal proposal-btn'
 
 javascript:
   $(document).ready(function() {
@@ -132,3 +134,18 @@ javascript:
       }
     });
   });
+
+  function updateImageDisplay(id) {
+    var input = document.getElementById('document-file-upload-' + id);
+    var curFiles = input.files;
+    if(curFiles.length === 0) {
+      return ;
+    }
+    if (curFiles.length > 1)
+    {
+      return;
+    }
+    var r = confirm("Êtes-vous sûr de vouloir ajouter le fichier: '" + curFiles[0].name + "'?");
+    if (r == true)
+      document.getElementById('form-' + id).submit();
+  }

@@ -80,7 +80,7 @@ fr:
     lire_les_emails: "Lire les emails"
     reinitialiser: "Réinitialiser les données"
     se_connecter_via_clavis: "Se connecter via Clavis"
-    version: "version: 1.0.6"
+    version: "version: 1.0.7"
 
   # ----------------------- Liste des liens du menu ---------------------
   menu:
@@ -273,6 +273,8 @@ fr:
       bouton_accepter: "Suivant"
       bouton_continuer: "Continuer"
       envoi_demande: "Je dépose ma demande d’aide"
+      ajouter_pieces: "Ajouter des pièces jointes"
+      soumission: "Je soumets le projet au demandeur pour dépôt"
       modification_demande: "Je souhaite modifier ma demande"
       modification_demande_2: "Modifier"
       messages:
@@ -419,6 +421,7 @@ fr:
   document:
     select: "Choisir un fichier…"
     send: "Téléverser"
+    continuer: "Continuer"
     messages:
       create:
         success: "Votre document a été ajouté avec succès."

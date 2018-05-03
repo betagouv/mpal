@@ -77,7 +77,7 @@ class DemandesController < ApplicationController
       end
     end
 
-    if @demande.eligible_hma_first_step? && @demande.devis_rge
+    if @demande.eligible_hma_first_step? && @demande.devis_rge && (ENV['ELIGIBLE_HMA'] == 'true')
       @demande.eligible_hma = true
       @projet_courant.hma = @projet_courant.build_hma if @projet_courant.hma.nil?
     end
