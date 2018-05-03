@@ -99,8 +99,8 @@ section.content-projet
 					= render 'projets/projet_details'
 					.button-group
 						= btn name: t('projets.transmission.ajouter_pieces'), href: projet_or_dossier_documents_path(@projet_courant), class: 'proposal'
-						= btn name: t("projets.transmission.modification_demande_2"), href: proposition_projet_demandeur_seul_path(@projet_courant), class: "btn-secondary transmission-button"
-						= btn name: t('projets.transmission.bouton_continuer'), href: proposer_projet_demandeur_seul_path(@projet_courant), class: 'proposal'
+						= btn name: t("projets.transmission.modification_demande_2"), href: proposition_projet_demandeur_seul_path(@projet_courant), class: "btn-secondary  proposal-right"
+						= btn name: t('projets.transmission.bouton_continuer'), href: proposer_projet_demandeur_seul_path(@projet_courant), class: 'proposal proposal-right'
 
 						div &nbsp;
 						div
