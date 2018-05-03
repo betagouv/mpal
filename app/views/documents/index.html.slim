@@ -150,4 +150,6 @@ javascript:
     var r = confirm("Êtes-vous sûr de vouloir ajouter le fichier: '" + curFiles[0].name + "'?");
     if (r == true)
       document.getElementById('form-' + id).submit();
+    else
+      input.value = "";
   }
