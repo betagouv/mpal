@@ -52,26 +52,26 @@ html lang="fr"
     - if false && @display_help
       = render "shared/help"
 
-javascript:
+// javascript:
 
-  $( document ).ready(function() {
-    if (undefined != document.querySelector('.maintenance-openner') && null != document.querySelector('.maintenance-openner')) {
-      document.querySelector('.maintenance-openner').addEventListener('click', function(e) {
-        e.preventDefault();
-        this.classList.toggle('opened');
-        if ($('.maintenance-openner').hasClass('opened')) {
-          $('.maintenance-modal').css('display', 'flex');
-        } else {
-          $('.maintenance-modal').css('display', 'none');
-        }
-      });
+//   $( document ).ready(function() {
+//     if (undefined != document.querySelector('.maintenance-openner') && null != document.querySelector('.maintenance-openner')) {
+//       document.querySelector('.maintenance-openner').addEventListener('click', function(e) {
+//         e.preventDefault();
+//         this.classList.toggle('opened');
+//         if ($('.maintenance-openner').hasClass('opened')) {
+//           $('.maintenance-modal').css('display', 'flex');
+//         } else {
+//           $('.maintenance-modal').css('display', 'none');
+//         }
+//       });
 
-      if (!sessionStorage.getItem("maintenanceAlert")) {
-        $('.maintenance-openner').toggleClass('opened');
-        sessionStorage.setItem("maintenanceAlert", "true");
-      } else {
-        $('.maintenance-modal').css('display', 'none');
-      }
-      // $('.maintenance-openner').classList.toggle('opened');
-    }
-  });
+//       if (!sessionStorage.getItem("maintenanceAlert")) {
+//         $('.maintenance-openner').toggleClass('opened');
+//         sessionStorage.setItem("maintenanceAlert", "true");
+//       } else {
+//         $('.maintenance-modal').css('display', 'none');
+//       }
+//       // $('.maintenance-openner').classList.toggle('opened');
+//     }
+//   });
