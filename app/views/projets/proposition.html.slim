@@ -33,8 +33,6 @@
     <div class="char-count" id="remarques_diagnostic_count">250 caractère(s) restant</div>
 
   / TODO CSS pas jolie
-  p
-    = @projet_courant.to_json
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Types d’intervention
     = f.input :theme_ids, as: :check_boxes, collection: @themes, label: false
