@@ -139,10 +139,12 @@ javascript:
     var input = document.getElementById('document-file-upload-' + id);
     var curFiles = input.files;
     if(curFiles.length === 0) {
+      console.log("pas de document choisit");
       return ;
     }
     if (curFiles.length > 1)
     {
+      console.log("plus d'un document choisit");
       return;
     }
     var r = confirm("Êtes-vous sûr de vouloir ajouter le fichier: '" + curFiles[0].name + "'?");
