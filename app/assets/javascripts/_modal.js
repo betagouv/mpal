@@ -98,7 +98,7 @@ $(document).ready(function() {
 			if (undefined !== element1 && null !== element1 && undefined !== element2 && null !== element2) {
 				if (element1.contains(e.target) || element2.contains(e.target)) return ;
 			}
-			if ($(this).has("#api-particulier")) {
+			if ($(this).has("#api-particulier").length) {
 				// restaure of default popin value
 				$("#text__p").text("Les données d'avis d'impositions et d'occupants du projet vont être mis à jour.");
 				$('.popin-container').css({
