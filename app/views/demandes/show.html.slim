@@ -6,7 +6,7 @@
       p.popin-p Sinon, vous trouverez la liste des entreprise RGE sur le site:
       a.href="http://renovation-info-service.gouv.fr/trouvez-un-professionnel"
       p.popin-p.popin-p-centered
-        = btn name: "Fermer", href: "#", class: "popin-close"
+        = btn name: "Fermer", class: "popin-close"
 
 
 = simple_form_for @demande, url: { controller: "demandes", action: "update" }, method: "patch", html: { class: "form"} do |f|
