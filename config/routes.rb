@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   get 'copro/login'
-  post 'copro/next'
+  post 'copro/information'
+  get 'copro/copro_eligibility'
+  get 'copro/next'
 
   #COMMUN ENTRE DOSSIER ET PROJETS
   concern :projectable do
@@ -38,7 +40,7 @@ Rails.application.routes.draw do
   #ROOT & PAGES STATIQUES
   root "homepage#index"
 
-  get "/confirm_mail/:mail",               to: "homepage#confirm_mail"
+  get "/confirm_mail/:mail",         to: "homepage#confirm_mail"
   get "/confirm_mail",               to: "homepage#confirm_mail"
 
   get "/maintenance",                to: "application#maintenance"

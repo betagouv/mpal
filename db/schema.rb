@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180327094044) do
+ActiveRecord::Schema.define(version: 20180503081320) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,28 @@ ActiveRecord::Schema.define(version: 20180327094044) do
     t.bigint "sender_id"
     t.index ["name", "email"], name: "index_contacts_on_name_and_email"
     t.index ["sender_type", "sender_id"], name: "index_contacts_on_sender_type_and_sender_id"
+  end
+
+  create_table "copro_infos", force: :cascade do |t|
+    t.bigint "projet_copros_id"
+    t.boolean "travaux_partie_commune", default: false
+    t.boolean "batiment_anciennete", default: false
+    t.integer "date_construction"
+    t.boolean "pourcentage_habitation", default: false
+    t.boolean "administration_provisoire", default: false
+    t.boolean "arrete_insalubrite", default: false
+    t.boolean "arrete_peril", default: false
+    t.boolean "arrete_securite_equipement", default: false
+    t.boolean "risque_saturnisme_plomb", default: false
+    t.integer "travaux_copro"
+    t.boolean "reduction_conso_energie", default: false
+    t.boolean "classification_energetique", default: true
+    t.integer "taux_charges_impayees", default: 0
+    t.boolean "perimetre_operation_programmee", default: false
+    t.boolean "travaux_deja_commence", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["projet_copros_id"], name: "index_copro_infos_on_projet_copros_id"
   end
 
   create_table "demandes", id: :serial, force: :cascade do |t|
@@ -295,6 +317,17 @@ ActiveRecord::Schema.define(version: 20180327094044) do
     t.index ["projet_id"], name: "index_projet_aides_on_projet_id"
   end
 
+  create_table "projet_copros", force: :cascade do |t|
+    t.integer "registration_step"
+    t.boolean "eligible"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "adresses_id"
+    t.bigint "copro_infos_id"
+    t.index ["adresses_id"], name: "index_projet_copros_on_adresses_id"
+    t.index ["copro_infos_id"], name: "index_projet_copros_on_copro_infos_id"
+  end
+
   create_table "projets", id: :serial, force: :cascade do |t|
     t.string "numero_fiscal"
     t.string "reference_avis"
@@ -424,6 +457,7 @@ ActiveRecord::Schema.define(version: 20180327094044) do
   add_foreign_key "agents_projets", "agents"
   add_foreign_key "agents_projets", "projets"
   add_foreign_key "avis_impositions", "projets"
+  add_foreign_key "copro_infos", "projet_copros", column: "projet_copros_id"
   add_foreign_key "demandes", "projets"
   add_foreign_key "documents", "projets"
   add_foreign_key "evenements", "projets"
@@ -440,6 +474,8 @@ ActiveRecord::Schema.define(version: 20180327094044) do
   add_foreign_key "prestation_choices", "projets"
   add_foreign_key "projet_aides", "aides"
   add_foreign_key "projet_aides", "projets"
+  add_foreign_key "projet_copros", "adresses", column: "adresses_id"
+  add_foreign_key "projet_copros", "copro_infos", column: "copro_infos_id"
   add_foreign_key "projets", "adresses", column: "adresse_a_renover_id"
   add_foreign_key "projets", "adresses", column: "adresse_postale_id"
   add_foreign_key "projets", "agents", column: "agent_instructeur_id"
