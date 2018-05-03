@@ -13,10 +13,9 @@
 
   fieldset.form-proposition__fieldset
     legend.form-proposition__legend Informations sur mon Projet
-    .labeled-info-point
-      p.new-project-label-ib Le numéro de SIRET de l'entreprise qui réalise les travaux est :
-      a.info-point.info-point-light.js-popin data-target="#info-siret" title="Informations" ?
-    = f.input_field :numero_siret, class: "input-number siretNum", input_html: {value: @projet_courant.numero_siret.present? ? @projet_courant.numero_siret : ""}
+
+    = f.input :numero_siret, wrapper: "append", wrapper_html: { class: "size-s" } do
+      = f.input_field :numero_siret, class: "input-number siretNum", input_html: {value: @projet_courant.numero_siret.present? ? @projet_courant.numero_siret : ""}
     = f.input :nom_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
       = f.input_field :nom_entreprise, class: "input-number nomEntreprise", input_html: {value: @projet_courant.nom_entreprise.present? ? @projet_courant.nom_entreprise : ""}
     = f.input :cp_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
@@ -188,4 +187,18 @@ javascript:
           if (!validSiret)
             $('.invalidSiret').css("display", "block");
       }
+  });
+
+  $(document).ready(function() {
+    $('.projet_numero_siret label').append('<span><a class="info-point info-point-light js-popin popinMark" data-target="#info-siret" title="Informations"> ?</a></span>');
+
+    $('.js-popin').click(function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var element = $(this);
+      var target = $(element.data('target'));
+      var content = $(element.data('content'))[0];
+
+      if (target.length) { target.show(); }
+    });
   });
