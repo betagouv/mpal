@@ -568,7 +568,7 @@ fr:
       mise_en_relation_intervenant_seul:
         sujet: "[Anah] Mise en relation dossier Habiter Mieux Agilité"
       notification_validation_dossier:
-        sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
+        sujet: "[Anah] Vous pouvez valider votre dossier et le déposer en ligne"
       accuse_reception:
         sujet: "[Anah] Accusé de réception de votre demande d’aide"
 
