@@ -30,10 +30,8 @@ class CoproController < ApplicationController
 
   end
 
-  def information
+  def test_eligibility
     correct = false
-
-    cookies["Testy_Cooky"] = "The Dudest Way to GO"
 
     if ENV['COPRO'] != 'true'
       redirect_to root_path

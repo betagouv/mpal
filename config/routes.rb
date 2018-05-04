@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   get 'copro/login'
-  post 'copro/information'
+  post 'copro/test_eligibility'
   get 'copro/copro_eligibility'
   get 'copro/next'
 

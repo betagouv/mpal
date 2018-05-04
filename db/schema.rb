@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180503081320) do
+ActiveRecord::Schema.define(version: 20180503074449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -96,21 +96,21 @@ ActiveRecord::Schema.define(version: 20180503081320) do
 
   create_table "copro_infos", force: :cascade do |t|
     t.bigint "projet_copros_id"
-    t.boolean "travaux_partie_commune", default: false
-    t.boolean "batiment_anciennete", default: false
+    t.boolean "travaux_partie_commune", default: false, null: false
+    t.boolean "batiment_anciennete", default: false, null: false
     t.integer "date_construction"
-    t.boolean "pourcentage_habitation", default: false
-    t.boolean "administration_provisoire", default: false
-    t.boolean "arrete_insalubrite", default: false
-    t.boolean "arrete_peril", default: false
-    t.boolean "arrete_securite_equipement", default: false
-    t.boolean "risque_saturnisme_plomb", default: false
-    t.integer "travaux_copro"
-    t.boolean "reduction_conso_energie", default: false
-    t.boolean "classification_energetique", default: true
-    t.integer "taux_charges_impayees", default: 0
-    t.boolean "perimetre_operation_programmee", default: false
-    t.boolean "travaux_deja_commence", default: false
+    t.boolean "pourcentage_habitation", default: false, null: false
+    t.boolean "administration_provisoire", null: false
+    t.boolean "arrete_insalubrite"
+    t.boolean "arrete_peril"
+    t.boolean "arrete_securite_equipement"
+    t.boolean "risque_saturnisme_plomb"
+    t.integer "travaux_copro", null: false
+    t.boolean "reduction_conso_energie"
+    t.boolean "classification_energetique", default: false, null: false
+    t.integer "taux_charges_impayees"
+    t.boolean "perimetre_operation_programmee"
+    t.boolean "travaux_deja_commence"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["projet_copros_id"], name: "index_copro_infos_on_projet_copros_id"
@@ -323,9 +323,7 @@ ActiveRecord::Schema.define(version: 20180503081320) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "adresses_id"
-    t.bigint "copro_infos_id"
     t.index ["adresses_id"], name: "index_projet_copros_on_adresses_id"
-    t.index ["copro_infos_id"], name: "index_projet_copros_on_copro_infos_id"
   end
 
   create_table "projets", id: :serial, force: :cascade do |t|
@@ -475,7 +473,6 @@ ActiveRecord::Schema.define(version: 20180503081320) do
   add_foreign_key "projet_aides", "aides"
   add_foreign_key "projet_aides", "projets"
   add_foreign_key "projet_copros", "adresses", column: "adresses_id"
-  add_foreign_key "projet_copros", "copro_infos", column: "copro_infos_id"
   add_foreign_key "projets", "adresses", column: "adresse_a_renover_id"
   add_foreign_key "projets", "adresses", column: "adresse_postale_id"
   add_foreign_key "projets", "agents", column: "agent_instructeur_id"
