@@ -4,8 +4,3 @@ section.content-projet
   = render "projet_envisage"
   - if @projet_courant.statut != "prospect"
     = render "projet_#{@projet_courant.statut}"
-
-p
-	- @projet_courant.documents.each do |doc|
-		p
-			= doc.label
