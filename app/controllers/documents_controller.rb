@@ -18,7 +18,7 @@ class DocumentsController < ApplicationController
       else
         category = @projet_courant
       end
-      @document = Document.create! fichier: params[:fichier], type_piece: params[:type_piece], category: category
+      @document = Document.create! projet_id: @projet_courant.id, fichier: params[:fichier], type_piece: params[:type_piece], category: category
       flash[:notice] = t("document.messages.create.success")
     rescue => e
       Rails.logger.error "[DocumentsController] create action failed : #{e.message}"
