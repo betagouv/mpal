@@ -1,3 +1,8 @@
+css:
+  .form-hidden {
+  display: none;
+  }
+
 - content_for :popins do
 #info-siret.popin.popin--info_siret
   .popin-container
@@ -21,110 +26,111 @@
     = f.input :cp_entreprise, wrapper: "append", wrapper_html: { class: "size-s" } do
       = f.input_field :cp_entreprise, class: "input-number cpEntreprise", input_html: {value: @projet_courant.cp_entreprise.present? ? @projet_courant.cp_entreprise : ""}
 
-  fieldset.form-proposition__fieldset
-    legend.form-proposition__legend Plan de financement prévisionnel
-    .form-inline2
+  div.form-hidden
+    fieldset.form-proposition__fieldset
+      legend.form-proposition__legend Plan de financement prévisionnel
+      .form-inline2
 
-      br
-      div.cat-flex-box-home
-        span.line-home
-        span.subtitle-home COUT DES TRAVAUX
-        span.line-home
-      br
+        br
+        div.cat-flex-box-home
+          span.line-home
+          span.subtitle-home COUT DES TRAVAUX
+          span.line-home
+        br
 
-      = f.fields_for :hma do |hma_form|
+        = f.fields_for :hma do |hma_form|
 
-        = hma_form.input :devis_ht, wrapper: "append", wrapper_html: { class: "size-s" } do
-          = hma_form.input_field :devis_ht, class: "input-price js-global-ht-part devisHT", input_html: {value: @projet_courant.hma.devis_ht}
-          span.input-group-addon €
+          = hma_form.input :devis_ht, wrapper: "append", wrapper_html: { class: "size-s" } do
+            = hma_form.input_field :devis_ht, class: "input-price js-global-ht-part devisHT", input_html: {value: @projet_courant.hma.devis_ht}
+            span.input-group-addon €
 
-        = hma_form.input :devis_ttc, wrapper: "append", wrapper_html: { class: "size-s" } do
-          = hma_form.input_field :devis_ttc, class: "input-price js-global-ttc-part devisTTC"
-          span.input-group-addon €
+          = hma_form.input :devis_ttc, wrapper: "append", wrapper_html: { class: "size-s" } do
+            = hma_form.input_field :devis_ttc, class: "input-price js-global-ttc-part devisTTC"
+            span.input-group-addon €
 
-        = hma_form.input :localized_global_ttc_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
-          = hma_form.input_field :localized_global_ttc_sum, class: "input-price", id: "js-global-ttc-sum", disabled: true
-          span.input-group-addon €
+          = hma_form.input :localized_global_ttc_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+            = hma_form.input_field :localized_global_ttc_sum, class: "input-price", id: "js-global-ttc-sum", disabled: true
+            span.input-group-addon €
 
-      br
-      div.cat-flex-box-home
-        span.line-home
-        span.subtitle-home MONTANT DES AIDES SOLLICITEES
-        span.line-home
-      br
+        br
+        div.cat-flex-box-home
+          span.line-home
+          span.subtitle-home MONTANT DES AIDES SOLLICITEES
+          span.line-home
+        br
 
-      p Vous trouverez ci-dessous une liste des autres aides auxquelles vous pouvez faire appel.
-      ul
-        li.li-style
-          | Pour estimer le montant prévisionnel de votre aide ANAH, vous pouvez contacter votre PRIS ou vous renseigner sur 
-          a href='http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/' target="_blank" http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/
-        li.li-style Pour les autres aides, la saisie d’un montant est facultatif. Vous pouvez contacter votre PRIS ou votre service instructeur afin d’obtenir plus d’informations.
-      p Vous trouverez les coordonnées de ces interlocuteurs en cliquant que l’icone « Contacts » (en haut à droite de votre écran).
-      br
+        p Vous trouverez ci-dessous une liste des autres aides auxquelles vous pouvez faire appel.
+        ul
+          li.li-style
+            | Pour estimer le montant prévisionnel de votre aide ANAH, vous pouvez contacter votre PRIS ou vous renseigner sur 
+            a href='http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/' target="_blank" http://www.anah.fr/proprietaires/proprietaires-occupants/les-conditions-de-ressources/
+          li.li-style Pour les autres aides, la saisie d’un montant est facultatif. Vous pouvez contacter votre PRIS ou votre service instructeur afin d’obtenir plus d’informations.
+        p Vous trouverez les coordonnées de ces interlocuteurs en cliquant que l’icone « Contacts » (en haut à droite de votre écran).
+        br
 
 
-      = f.simple_fields_for :projet_aides do |ff|
-        - aid = ff.object.aide
-        - if nil != aid
-          - if aid.public
-            = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
-              - classes = "input-price #{aid.public? ? "js-public-aid js-funding" : ""}"
-              = ff.hidden_field :aide_id, value: aid.id
-              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
-              span.input-group-addon €
+        = f.simple_fields_for :projet_aides do |ff|
+          - aid = ff.object.aide
+          - if nil != aid
+            - if aid.public
+              = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
+                - classes = "input-price #{aid.public? ? "js-public-aid js-funding" : ""}"
+                = ff.hidden_field :aide_id, value: aid.id
+                = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
+                span.input-group-addon €
+            end
           end
-        end
 
-      = f.input :localized_public_aids_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
-        = f.input_field :localized_public_aids_sum, class: "input-price", id: "js-public-aids-sum", disabled: true
-        span.input-group-addon €
-
-      = f.simple_fields_for :projet_aides do |ff|
-        - aid = ff.object.aide
-        - if nil != aid
-          - if !aid.public
-            = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
-              - classes = "input-price js-private-aid #{aid.public? ? "js-funding" : ""}"
-              = ff.hidden_field :aide_id, value: aid.id
-              = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
-              span.input-group-addon €
-          end
-        end
-
-      br
-      div.cat-flex-box-home
-        span.line-home
-        span.subtitle-home RESTE A CHARGE PREVISIONNEL
-        span.line-home
-      br
-
-      - [:personal_funding_amount, :loan_amount].each do |field|
-        - localized_field = "localized_#{field}"
-        = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
-          = f.input_field localized_field, class: "input-price js-funding"
+        = f.input :localized_public_aids_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+          = f.input_field :localized_public_aids_sum, class: "input-price", id: "js-public-aids-sum", disabled: true
           span.input-group-addon €
 
-      br
-      div.cat-flex-box-home
-        span.line-home
-        span.subtitle-home TOTAL PREVISIONNEL DES FINANCEMENTS
-        span.line-home
-      br
+        = f.simple_fields_for :projet_aides do |ff|
+          - aid = ff.object.aide
+          - if nil != aid
+            - if !aid.public
+              = ff.input :localized_amount, label: aid.libelle, wrapper: "append", wrapper_html: { class: "size-s" } do
+                - classes = "input-price js-private-aid #{aid.public? ? "js-funding" : ""}"
+                = ff.hidden_field :aide_id, value: aid.id
+                = ff.input_field :localized_amount, class: classes, value: ff.object.localized_amount || ""
+                span.input-group-addon €
+            end
+          end
 
-      = f.input :localized_fundings_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
-        = f.input_field :localized_fundings_sum, class: "input-price", id: "js-fundings-sum", disabled: true
-        span.input-group-addon €
+        br
+        div.cat-flex-box-home
+          span.line-home
+          span.subtitle-home RESTE A CHARGE PREVISIONNEL
+          span.line-home
+        br
 
-      br
-      div.cat-flex-box-home
-        span.line-home
-        span.subtitle-home EQUILIBRE FINANCIER DU PROJET
-        span.line-home
-      br
+        - [:personal_funding_amount, :loan_amount].each do |field|
+          - localized_field = "localized_#{field}"
+          = f.input localized_field, wrapper: "append", wrapper_html: { class: "size-s" } do
+            = f.input_field localized_field, class: "input-price js-funding"
+            span.input-group-addon €
 
-      = f.input :localized_remaining_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
-        = f.input_field :localized_remaining_sum, class: "input-price", id: "js-remaining-sum", disabled: true
-        span.input-group-addon €
+        br
+        div.cat-flex-box-home
+          span.line-home
+          span.subtitle-home TOTAL PREVISIONNEL DES FINANCEMENTS
+          span.line-home
+        br
+
+        = f.input :localized_fundings_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+          = f.input_field :localized_fundings_sum, class: "input-price", id: "js-fundings-sum", disabled: true
+          span.input-group-addon €
+
+        br
+        div.cat-flex-box-home
+          span.line-home
+          span.subtitle-home EQUILIBRE FINANCIER DU PROJET
+          span.line-home
+        br
+
+        = f.input :localized_remaining_sum, wrapper: "append", wrapper_html: { class: "size-s" } do
+          = f.input_field :localized_remaining_sum, class: "input-price", id: "js-remaining-sum", disabled: true
+          span.input-group-addon €
 
   br
 
