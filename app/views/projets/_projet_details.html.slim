@@ -154,7 +154,7 @@
             td= sf_label :projet, :gain_energetique
             td class="test-gain-energetique"= @projet_courant.gain_energetique
 
-- if @projet_courant.has_fundings?
+- if @projet_courant.has_fundings? && !@projet_courant.demande.seul?
   h3 Plan de financement prévisionnel
   .table-responsive
     table.table.table-striped.table-sm
