@@ -6,7 +6,7 @@
 - else
   p.align-right = "Information sur les Opérations Programmées non disponible"
 article.block.occupants
-  h3 Récapitulatif de ma demande
+  h3 Ma situation
   - if can? :update, @projet_courant
     = edit_projet_button(@projet_courant, dossier_demandeur_path(@projet_courant))
   .occupants-recap

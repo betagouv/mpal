@@ -3,6 +3,10 @@ fr:
     label:
       alert:
         confirmation_mail: "Un message contenant un lien de confirmation a été envoyé à votre adresse e-mail. Cliquez sur ce lien pour activer votre compte"
+        avis_maintenance: "AVIS DE MAINTENANCE"
+        maintenance_warn: "Le service en ligne sera temporairement indisponible pour la période suivante"
+        maintenance_from: "du XX/XX/XXXX à XX:XX"
+        maintenance_to: "jusqu'au XX/XX/XXXX à XX:XX"
       projet:
         demandeur_nom: Nom
         demandeur_prenom: Prénom
@@ -139,7 +143,7 @@ fr:
     demande:
       erreurs:
         besoin_obligatoire: "Vous devez mentionner au moins un besoin ou des travaux à réaliser !"
-      section_projet_envisage: "Mon projet"
+      section_projet_envisage: "Mon projet initial"
       titre_besoins: "Les difficultés que je rencontre dans mon logement :"
       titre_travaux: "Les travaux que je souhaite effectuer :"
       # Difficultés
@@ -568,7 +572,7 @@ fr:
       mise_en_relation_intervenant_seul:
         sujet: "[Anah] Mise en relation dossier Habiter Mieux Agilité"
       notification_validation_dossier:
-        sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
+        sujet: "[Anah] Vous pouvez valider votre dossier et le déposer en ligne"
       accuse_reception:
         sujet: "[Anah] Accusé de réception de votre demande d’aide"
 

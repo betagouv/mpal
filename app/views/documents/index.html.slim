@@ -105,7 +105,7 @@
                 / = btn name: t("document.send"), class: "btn-secondary btn-small document__send-button js-document__send-button"
                 / .document-file-added.js-document__file-added
 
-    = btn name: t('document.continuer'), href: projet_or_dossier_path(@projet_courant), class: 'proposal'
+= btn name: t('document.continuer'), href: projet_or_dossier_path(@projet_courant), class: 'proposal proposal-btn'
 
 javascript:
   $(document).ready(function() {
@@ -139,13 +139,17 @@ javascript:
     var input = document.getElementById('document-file-upload-' + id);
     var curFiles = input.files;
     if(curFiles.length === 0) {
+      console.log("pas de document choisit");
       return ;
     }
     if (curFiles.length > 1)
     {
+      console.log("plus d'un document choisit");
       return;
     }
     var r = confirm("Êtes-vous sûr de vouloir ajouter le fichier: '" + curFiles[0].name + "'?");
     if (r == true)
       document.getElementById('form-' + id).submit();
+    else
+      input.value = "";
   }
