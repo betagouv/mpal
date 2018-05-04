@@ -110,7 +110,7 @@ class Projet < ApplicationRecord
 	validates :note_degradation, :note_insalubrite, :inclusion => 0..1, allow_nil: true
 	validates :date_de_visite, :assiette_subventionnable_amount, presence: { message: :blank_feminine }, on: :proposition
 	validates :travaux_ht_amount, :travaux_ttc_amount, presence: true, on: :proposition
-	validates :numero_siret, presence: true, on: :proposition_hma
+	validates :numero_siret, presence: true, on: [:proposition_hma, :proposition_hma_ds]
 	validates_associated :hma, on: :proposition_hma
 	validates :consommation_avant_travaux, :consommation_apres_travaux, :gain_energetique, numericality: { greater_than_or_equal_to: 0, less_than_or_equal_to: 999999999 }, allow_nil: true
 	validates :modified_revenu_fiscal_reference, numericality: { only_integer: true }, allow_nil: true
