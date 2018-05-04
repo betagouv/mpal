@@ -1,9 +1,10 @@
 class RodResponse
-  attr_accessor :pris, :pris_eie, :instructeur, :operateurs, :operations, :name_operation, :code_opal
+  attr_accessor :operation_programmee, :pris, :pris_eie, :instructeur, :operateurs, :operations, :name_operation, :code_opal
 
   def initialize(json, hma)
     @name_operation = ""
     @code_opal      = ""
+    @operation_programmee = parse_operateur_programmee(json)
     @pris           = parse_pris(json)
     @pris_eie       = parse_pris_eie(json)
     @instructeur    = parse_instructeur(json)
@@ -16,7 +17,7 @@ class RodResponse
   end
 
   def scheduled_operation?
-    operations.count == 1 && operateurs.count == 1
+    operations.count == 1 && operation_programmee
   end
 
 private
@@ -50,6 +51,16 @@ private
     create_or_update_intervenant!("instructeur", json["service_instructeur"].first) rescue nil
   end
 
+  def parse_operateur_programmee(json)
+    count = 0
+    if json["operation_programmee"].present?
+      json["operation_programmee"].each do |op|
+        count = count += 1
+      end
+    end
+    return (count == 1)
+  end
+
   def parse_operateurs(json)
     json_operateurs = json["operation_programmee"].present? ?
                       json["operation_programmee"].map { |op| op["operateurs"] }.flatten :
@@ -65,10 +76,16 @@ private
     end
     if json["operateurs"].present?
       json["operateurs"].each do |op|
-        ret << op
+        bol = true
+        ret.each do |r|
+          if r['id_clavis'] == op['id_clavis']
+            bol = false
+          end
+        end
+        ret << op if bol
       end
     end
-    (ret.uniq || []).map { |attributes| create_or_update_intervenant!("operateur", attributes) }
+    (ret || []).map { |attributes| create_or_update_intervenant!("operateur", attributes) }
   end
 
   def parse_operations(json)

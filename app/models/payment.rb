@@ -1,7 +1,8 @@
 class Payment < ApplicationRecord
   STATUSES = [ :en_cours_de_montage, :propose, :demande, :en_cours_d_instruction, :paye ]
   ACTIONS = [ :a_rediger, :a_modifier, :a_valider, :a_instruire, :aucune ]
-  TYPES = [ :avance, :acompte, :solde ]
+  TYPES = [:avance, :acompte, :solde]
+  TYPES_HMA = [:acompte, :solde]
 
   validates :beneficiaire, :type_paiement, presence: true
   validate  :validate_type_paiement

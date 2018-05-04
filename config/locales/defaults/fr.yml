@@ -3,6 +3,10 @@ fr:
     label:
       alert:
         confirmation_mail: "Un message contenant un lien de confirmation a été envoyé à votre adresse e-mail. Cliquez sur ce lien pour activer votre compte"
+        avis_maintenance: "AVIS DE MAINTENANCE"
+        maintenance_warn: "Le service en ligne sera temporairement indisponible pour la période suivante"
+        maintenance_from: "du XX/XX/XXXX à XX:XX"
+        maintenance_to: "jusqu'au XX/XX/XXXX à XX:XX"
       projet:
         demandeur_nom: Nom
         demandeur_prenom: Prénom
@@ -80,7 +84,7 @@ fr:
     lire_les_emails: "Lire les emails"
     reinitialiser: "Réinitialiser les données"
     se_connecter_via_clavis: "Se connecter via Clavis"
-    version: "version: 1.0.6"
+    version: "version: 1.0.7"
 
   # ----------------------- Liste des liens du menu ---------------------
   menu:
@@ -267,11 +271,14 @@ fr:
         desired: "Souhaité"
         recommended: "Préconisé"
         selected: "Retenu"
+      enregistrer: "Enregistrer ce projet"
 
     transmission:
       bouton_accepter: "Suivant"
       bouton_continuer: "Continuer"
       envoi_demande: "Je dépose ma demande d’aide"
+      ajouter_pieces: "Ajouter des pièces jointes"
+      soumission: "Je soumets le projet au demandeur pour dépôt"
       modification_demande: "Je souhaite modifier ma demande"
       modification_demande_2: "Modifier"
       messages:
@@ -418,6 +425,7 @@ fr:
   document:
     select: "Choisir un fichier…"
     send: "Téléverser"
+    continuer: "Continuer"
     messages:
       create:
         success: "Votre document a été ajouté avec succès."
@@ -564,7 +572,7 @@ fr:
       mise_en_relation_intervenant_seul:
         sujet: "[Anah] Mise en relation dossier Habiter Mieux Agilité"
       notification_validation_dossier:
-        sujet: "[Anah] Vous pouvez aller valider et envoyer votre dossier"
+        sujet: "[Anah] Vous pouvez valider votre dossier et le déposer en ligne"
       accuse_reception:
         sujet: "[Anah] Accusé de réception de votre demande d’aide"
 

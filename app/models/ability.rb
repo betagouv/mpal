@@ -31,6 +31,7 @@ private
       can :manage, Occupant
       can :manage, Demande
       can :new,    Message
+      can :create, Message
       can :read,   Document, category_type: "Projet",  category_id: projet.id
       can :read,   Document, category_type: "Payment", category_id: projet.payments.map(&:id)
       can :read,   :intervenant
