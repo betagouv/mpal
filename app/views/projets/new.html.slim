@@ -16,7 +16,7 @@
   #info-avis-fiscal.popin.popin--info_avis_fiscal
     .popin-container
       p.popin-p Pour bénéficier des aides de l’Anah, les ressources de toutes les personnes habitant le logement sont prises en compte.
-      p.popin-p Pour faire votre démarche en ligne, nous vous invitons à vous munir du ou des avis d’imposition des personnes vivant chez vous.
+      p.popin-p Pour faire votre démarche en ligne, nous vous invitons à vous munir du ou des avis d'imposition (ou avis de situation déclarative) des personnes vivant chez vous.
       p.popin-p.popin-p-centered
         = btn name: "Fermer", href: "#", class: "popin-close"
 
@@ -38,7 +38,7 @@ section.new-project
       | Non
 
     .labeled-info-point
-      p.new-project-label.new-project-label-second Mon avis d’imposition sur les revenus #{Time.current.year-2} :
+      p.new-project-label.new-project-label-second Mon dernier avis d'imposition sur les revenus (ou avis de situation déclarative) :
       a.info-point.info-point-light.js-popin data-target="#info-avis-fiscal" title="Informations" ?
 
     .labeled-info-point
