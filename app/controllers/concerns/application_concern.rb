@@ -108,7 +108,6 @@ module ApplicationConcern
     expose_routing_helper :projet_or_dossier_messages_path
     expose_routing_helper :projet_or_dossier_payments_path
     expose_routing_helper :ask_for_modification_projet_or_dossier_payment_path
-    expose_routing_helper :ask_for_instruction_projet_or_dossier_payment_path
     expose_routing_helper :projet_or_dossier_document_path
     expose_routing_helper :projet_or_dossier_documents_path
     expose_routing_helper :projet_or_dossier_intervenants_path
