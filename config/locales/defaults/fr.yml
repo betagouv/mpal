@@ -4,9 +4,9 @@ fr:
       alert:
         confirmation_mail: "Un message contenant un lien de confirmation a été envoyé à votre adresse e-mail. Cliquez sur ce lien pour activer votre compte"
         avis_maintenance: "AVIS DE MAINTENANCE"
-        maintenance_warn: "Le service en ligne sera temporairement indisponible pour la période suivante"
+        maintenance_warn: "Le service en ligne sera temporairement indisponible"
         maintenance_from: "du 22/05 à 12h"
-        maintenance_to: "jusqu'au 22/05 à 14h"
+        maintenance_to: "au 22/05 à 14h"
       projet:
         demandeur_nom: Nom
         demandeur_prenom: Prénom
