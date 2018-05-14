@@ -5,5 +5,5 @@ article.block.recap-projet
       = render 'projets/projet_invoice'
 
       h4 État de la demande
-      p= t('projets.transmissions.messages.info_demandeur', instructeur: @projet_courant.invited_instructeur.raison_sociale)
+      p= t('projets.transmission.messages.info_demandeur', instructeur: @projet_courant.invited_instructeur.raison_sociale)
       = yield (:cta)
