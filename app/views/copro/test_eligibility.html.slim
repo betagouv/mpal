@@ -2,541 +2,286 @@ p Vous êtes sur copro INFOS
 p Voici votre adresse #{@adresse}
 br
 
-
 div#modalAdresseContainer.modal
-
   div.modal-content
-
     p.modal-text Confirmez votre adresse :
-
     p.modal-text-addr
-
     <br />
-
     p.modal-text2
-
     p.modal-text-addr2
 
-
-
     button.modal-adresse-cancel.btn.popin-close Modifier
-
     button.modal-adresse-confirm.btn.modal-confirm Confirmer
 
-
-
 div#modalAPIparticulier.modal
-
   div.modal-content
-
     span.glyphicon.glyphicon-warning-sign style="color:#e62623;font-size:4em;"
-
     p.modal-text Pour valider le rappel de l'API particulier remplissez les champs et appuyez sur "Continuer".
-
-
 
     button.modal-api-particulier-confirm.btn.modal-confirm onclick="location.reload()" Poursuivre
 
-
-
 // form name : copro-<type>
-
 // field value : copro-<type>-<val>
-
 // <val> :
-
 //      -t : stand for "true"
-
 //      -f : stand for "false"
 
-
-
 form.simple_form.form action="#{'copro_eligibility'}"
-
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span * Les travaux sont-ils réalisés sur des parties communes ?
 
       span.radio
-
         label for="copro-commun-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-commun" id="copro-commun-t" value="true" required="required"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-commun-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-commun" id="copro-commun-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span * L’immeuble concerné par les travaux est-il achevé depuis plus de 15 ans ?
 
       span.radio
-
         label for="copro-construction-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-construction" id="copro-construction-t" value="true" required="required"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-construction-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-construction" id="copro-construction-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   div.form-group.integer.optional.demande_annee_construction.size-xs
-
     label.integer.optional.form-control-label for="copro-const-date"
-
       span.form-required-mark
-
       span Date de construction (facultatif) :
 
     div.form-field
-
       input.numeric.integer.optional.form-control type="number" step="1" name="copro-const-date" id="copro-const-date"
 
-
-
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span * Quel est le pourcentage de lots ou de tantièmes de la copropriété dédiés à l’habitation ?
 
       span.radio
-
         label for="copro-percent-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-percent" id="copro-percent-t" value="true" required="required"
-
-        span 75% ou plus
-
-
+          = "75% ou plus"
 
       span.radio
-
         label for="copro-percent-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-percent" id="copro-percent-f" value="false"
-
-        span Moins de 75%
-
-
+          = "Moins de 75%"
 
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span * L’immeuble (ou la copropriété) fait-il l’objet d’une administration provisoire ?
 
       span.radio
-
         label for="copro-adm-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-adm" id="copro-adm-t" value="true" required="required"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-adm-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-adm" id="copro-adm-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span L’immeuble (ou la copropriété) fait-il l’objet d’une procédure administrative ?
 
-
-
   div.form-group.radio_buttons.optional.tabulated
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span Un arrêté d’insalubrité :
 
       span.radio
-
         label for="copro-insalubrite-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-insalubrite" id="copro-insalubrite-t" value="true"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-insalubrite-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-insalubrite" id="copro-insalubrite-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   div.form-group.radio_buttons.optional.tabulated
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span Un arrêté de péril :
 
       span.radio
-
         label for="copro-peril-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-peril" id="copro-peril-t" value="true"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-peril-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-peril" id="copro-peril-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   div.form-group.radio_buttons.optional.tabulated
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span Un arrêté de mise en sécurité des équipements collectifs :
 
       span.radio
-
         label for="copro-securite-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-securite" id="copro-securite-t" value="true"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-securite-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-securite" id="copro-securite-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   // Keep going from here
 
-
-
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span L’immeuble (ou la copropriété) fait-il l’objet d’une injonction de travaux visant à supprimer le risque de saturnisme (ou constat de risque d’exposition au plomb – CREP) ?
 
       span.radio
-
         label for="copro-saturnisme-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-saturnisme" id="copro-saturnisme-t" value="true"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-saturnisme-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-saturnisme" id="copro-saturnisme-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span * La copropriété projette-t-elle de réaliser des travaux de :
 
-
-
       div.radio.rdioBlock
-
         label for="copro-travaux-1"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-travaux" id="copro-travaux-1" value="travaux-1" required="required"
-
-        span Rénovation énergétique
-
-
+          = "Rénovation énergétique"
 
       div.radio.rdioBlock
-
         label for="copro-travaux-2"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-travaux" id="copro-travaux-2" value="travaux-2"
-
-        span Rénovation complète
-
-
+          = "Rénovation complète"
 
       div.radio.rdioBlock
-
         label for="copro-travaux-3"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-travaux" id="copro-travaux-3" value="travaux-3"
-
-        span Accessibilité (pour personnes à mobilité réduite ou handicapées)
-
-
+          = "Accessibilité (pour personnes à mobilité réduite ou handicapées)"
 
       div.radio.rdioBlock
-
         label for="copro-travaux-4"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-travaux" id="copro-travaux-4" value="travaux-4"
-
-        span Travaux pour répondre à un arrêté ou à un risque pour la santé
-
-
+          = "Travaux pour répondre à un arrêté ou à un risque pour la santé"
 
   br
 
-
-
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span Le projet de travaux permet-il une réduction de la consommation énergétique de 35% ou plus ?
 
       span.radio
-
         label for="copro-consommation-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-consommation" id="copro-consommation-t" value="true"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-consommation-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-consommation" id="copro-consommation-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span Quelle est la classification énergétique du ou des bâtiments ?
 
       span.radio
-
         label for="copro-classif-energetique-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-classif-energetique" id="copro-classif-energetique-t" value="true"
-
-        span A, B, C
-
-
+          = "A, B, C"
 
       span.radio
-
         label for="copro-classif-energetique-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-classif-energetique" id="copro-classif-energetique-f" value="false"
-
-        span D, E, F, G
-
-
+          = "D, E, F, G"
 
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span Quel est le taux de charges impayées constaté à l’un des 3 derniers exercices N-1, N-2 ou N-3 ?
 
       span.radio
-
         label for="copro-charges-impayees-1"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-charges-impayees" id="copro-charges-impayees-1" value="charge-1"
-
-        span Inférieur à 8%
-
-
+          = "Inférieur à 8%"
 
       span.radio
-
         label for="copro-charges-impayees-2"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-charges-impayees" id="copro-charges-impayees-2" value="charge-2"
-
-        span Entre 8 et 25%
-
-
+          = "Entre 8 et 25%"
 
       span.radio
-
         label for="copro-charges-impayees-3"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-charges-impayees" id="copro-charges-impayees-3" value="charge-3"
-
-        span Supérieur à 25%
-
-
+          = "Supérieur à 25%"
 
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span Etes-vous dans le périmètre d’une Opération Programmé ou d’un Plan Local de Sauvegarde (PLS) ?
 
       span.radio
-
         label for="copro-opa-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-opa" id="copro-opa-t" value="true"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-opa-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-opa" id="copro-opa-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   div.form-group.radio_buttons.optional
-
     div.form-check-hacked
-
       label.form-check-input.radio_buttons.optional.form-control-label
-
         span.form-required-mark
-
         span Les travaux concernés ont-ils commencé ?
 
       span.radio
-
         label for="copro-travaux-commence-t"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-travaux-commence" id="copro-travaux-commence-t" value="true"
-
-        span Oui
-
-
+          = "Oui"
 
       span.radio
-
         label for="copro-travaux-commence-f"
-
           input.form-check-input.radio_buttons.optional type="radio" name="copro-travaux-commence" id="copro-travaux-commence-f" value="false"
-
-        span Non
-
-
+          = "Non"
 
   input.btn.btn-large.btn-icon.btn-centered type="submit" value="Valider le projet"
