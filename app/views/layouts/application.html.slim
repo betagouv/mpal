@@ -74,4 +74,15 @@ html lang="fr"
           }
           // $('.maintenance-openner').classList.toggle('opened');
         }
+
+        if (undefined != $('.maintenance-modal') && null != $('.maintenance-modal')) {
+          $('.maintenance-modal').on('click', function(e) {
+            if (e.target !== e.currentTarget) return;
+            e.preventDefault();
+              if (undefined != document.querySelector('.maintenance-openner') && null != document.querySelector('.maintenance-openner')) {
+                if ($('.maintenance-openner').hasClass('opened'))
+                  document.querySelector('.maintenance-openner').click();
+              }
+          });
+        }
       });

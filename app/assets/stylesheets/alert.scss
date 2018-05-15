@@ -94,6 +94,7 @@
         z-index: 100;
         border: 5px solid $color-blue-5;
         border-radius: 15px;
+        pointer-events: none;
         .site-title {
             position: relative;
             display: inline-block;
