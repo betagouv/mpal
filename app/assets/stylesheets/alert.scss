@@ -47,8 +47,8 @@
 
     &.opened {
     	visibility: visible;
-        top: -10px;
-        left: 160px;
+        top: -240px;
+        left: -100px;
         transform: rotate(-45deg);
         transform-origin: 750%;
         & ~ .maintenance-modal .inner-maintenance-modal {
