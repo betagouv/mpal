@@ -47,8 +47,8 @@
 
     &.opened {
     	visibility: visible;
-        top: -10px;
-        left: 160px;
+        top: -240px;
+        left: -100px;
         transform: rotate(-45deg);
         transform-origin: 750%;
         & ~ .maintenance-modal .inner-maintenance-modal {
@@ -94,6 +94,7 @@
         z-index: 100;
         border: 5px solid $color-blue-5;
         border-radius: 15px;
+        pointer-events: none;
         .site-title {
             position: relative;
             display: inline-block;

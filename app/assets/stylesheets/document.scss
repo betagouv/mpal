@@ -66,3 +66,8 @@
 	@include ellipsis();
 	margin-right: 2em;
 }
+
+.document-group {
+	margin-top: 20px;
+	.document-group__title { font-weight: bold; }
+}

@@ -1,9 +1,9 @@
 article.block.recap-projet
-  h3.is-open Projet retenu par le demandeur
+  h3.is-open Mon projet Anah
   .content-block
     .invoice
       = render 'projets/projet_invoice'
 
       h4 État de la demande
-      p= t('projets.transmissions.messages.info_demandeur', instructeur: @projet_courant.invited_instructeur.raison_sociale)
+      p= t('projets.transmission.messages.info_demandeur', instructeur: @projet_courant.invited_instructeur.raison_sociale)
       = yield (:cta)

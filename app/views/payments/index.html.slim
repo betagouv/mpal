@@ -40,7 +40,7 @@
                i.registry-action-icon.glyphicon.glyphicon-edit
 
             - if can? :ask_for_instruction, payment
-              = link_to ask_for_instruction_projet_or_dossier_payment_path(@projet_courant, payment), method: :put, class: "registry-action"
+              = link_to ask_for_instruction_projet_payment_path(@projet_courant, payment), method: :put, class: "registry-action"
                 span.registry__action_text= t("payment.actions.ask_for_instruction.label")
                 i.registry-action-icon.glyphicon.glyphicon-send
 

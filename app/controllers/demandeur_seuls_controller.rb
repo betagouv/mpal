@@ -31,7 +31,7 @@ class DemandeurSeulsController < ApplicationController
   end
 
   def proposer
-    if (ENV['ELIGIBLE_HMA'] == 'true' && @projet_courant.hma.present? && @projet_courant.save(context: :proposition_hma))
+    if (ENV['ELIGIBLE_HMA'] == 'true' && @projet_courant.hma.present? && @projet_courant.save(context: :proposition_hma_ds))
       redirect_to projet_transmission_path(@projet_courant)
     else
       render_proposition

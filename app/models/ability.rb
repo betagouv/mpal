@@ -32,8 +32,6 @@ private
       can :manage, Demande
       can :new,    Message
       can :create, Message
-      can :read,   Document, category_type: "Projet",  category_id: projet.id
-      can :read,   Document, category_type: "Payment", category_id: projet.payments.map(&:id)
       can :read,   :intervenant
       can :create,  Document
       can :read,    Document, category_type: "Projet",  category_id: projet.id
@@ -71,6 +69,7 @@ private
 
   def agent_abilities(agent, projet)
     return if agent.blank?
+    can :manage, :all if agent.admin?
 
     can :index,  Projet
     can :manage, Message
@@ -79,7 +78,6 @@ private
     return unless is_agent_of_projet?(agent, projet)
 
     #TODO voir si on laisse vraiment manage all
-    can :manage, :all if agent.admin?
     can :read,   :all if agent.siege?
     can :read,   Projet if agent.dreal?
 

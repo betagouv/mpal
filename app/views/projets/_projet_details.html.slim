@@ -154,7 +154,7 @@
             td= sf_label :projet, :gain_energetique
             td class="test-gain-energetique"= @projet_courant.gain_energetique
 
-- if @projet_courant.has_fundings?
+- if @projet_courant.has_fundings? && !@projet_courant.demande.seul?
   h3 Plan de financement prévisionnel
   .table-responsive
     table.table.table-striped.table-sm
@@ -263,10 +263,12 @@ ul.ctr-ope
     span#indent-date
       =l(@projet_courant.date_depot.to_date)
 
-- if @projet_courant.documents.present?
+- allProjetDocs = Document.where("projet_id = #{@projet_courant.id}")
+
+- if allProjetDocs.present?
   h4 Pièces jointes
   ul.ctr-ope.documents-list
-    - @projet_courant.documents.each do |document|
+    - allProjetDocs.each do |document|
       li
         i.glyphicon.glyphicon-file
         = link_to document.label, document.fichier_url, target: "_blank"
