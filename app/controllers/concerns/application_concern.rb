@@ -38,7 +38,7 @@ module ApplicationConcern
         @projet_courant = (current_user.projets.include? projet_requested) ? projet_requested : nil
         # NOTE: user should have one project (at least); if not, let the drama begin…
       elsif current_agent
-        @projet_courant = Projet.find_by_locator(params[:dossier_id])
+        @projet_courant = Projet.find_by_locator(params[:dossier_id]) || Projet.find_by_locator(params[:projet_id]) 
         if @projet_courant
           @projet_courant.mark_last_viewed_at!(current_agent)
         end
