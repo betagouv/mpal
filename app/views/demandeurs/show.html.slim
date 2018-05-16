@@ -86,7 +86,7 @@ javascript:
   var typingTimer;
   var doneTypingInterval = 100;
   var doneFocusInterval = 500;
-  var minCharToSearch = 4;
+  var minCharToSearch = 0;
   var confirmTimer = 5;
 
   var timerConfirm;
@@ -163,7 +163,10 @@ javascript:
   $input.on('keydown', function (e) {
     if (e.which != 13 && e.which != 38 && e.which != 40 && e.which != 27 && e.which != 9) {
       clearTimeout(typingTimer);
-      removeFiled();
+      if ($input.val().length > 0)
+        removeFieldSpe();
+      else
+        removeFiled();
     }
     // key arrow up
     if (e.which == 38) {
@@ -220,12 +223,15 @@ javascript:
         removeFiled();
       }
     }
-    if (e.which == 27) { removeFiled(); }
+    // if (e.which == 27) { removeFiled(); }
   });
   $input2.on('keydown', function (e) {
     if (e.which != 13 && e.which != 38 && e.which != 40 && e.which != 27 && e.which != 9) {
       clearTimeout(typingTimer);
-      removeFiled2();
+      if ($input2.val().length > 0)
+        removeField2Spe();
+      else
+        removeFiled2();
     }
     // key arrow up
     if (e.which == 38) {
@@ -282,12 +288,12 @@ javascript:
         removeFiled2();
       }
     }
-    if (e.which == 27) { removeFiled2(); }
+    // if (e.which == 27) { removeFiled2(); }
   });
   //user is "finished typing," do something
   function doneTyping () {
     var addr = $input.val();
-    removeFiled();
+    removeFieldSpe();
     if (addr.length > minCharToSearch) {
       $.ajax({
         type: 'GET',
@@ -296,6 +302,8 @@ javascript:
         success: function(response) {
 
           var suggestedAddr = response.features;
+          $input2.prop('disabled', true);
+          $('.btn_submit_addr').prop('disabled', true);
           if (suggestedAddr.length > 0) {
             $('.projet_adresse_postale').append("<div class='suggested-addr'><ul class='suggested-addr-list'></ul></div>");
             for (var indexValue in suggestedAddr) {
@@ -311,13 +319,16 @@ javascript:
             $('.suggested-addr-list li:first-child').addClass("li-addr-active");
           } else $input.addClass("addr-error");
         },
-        error: function(msg) { console.log("ERROR : " + JSON.stringify(msg)); }
+        error: function(msg) {
+          console.log("ERROR : " + JSON.stringify(msg));
+          $input.addClass("addr-error");
+        }
       });
-    }
+    } else removeFiled();
   }
   function doneTyping2 () {
     var addr = $input2.val();
-    removeFiled2();
+    removeField2Spe();
     if (addr.length > minCharToSearch) {
       $.ajax({
         type: 'GET',
@@ -326,6 +337,8 @@ javascript:
         success: function(response) {
 
           var suggestedAddr = response.features;
+          $input.prop('disabled', true);
+          $('.btn_submit_addr').prop('disabled', true);
           if (suggestedAddr.length > 0) {
             $('.projet_adresse_a_renover').append("<div class='suggested-addr'><ul class='suggested-addr-list'></ul></div>");
             for (var indexValue in suggestedAddr) {
@@ -341,37 +354,63 @@ javascript:
             $('.suggested-addr-list li:first-child').addClass("li-addr-active");
           } else $input2.addClass("addr-error");
         },
-        error: function(msg) { console.log("ERROR : " + JSON.stringify(msg)); }
+        error: function(msg) {
+          console.log("ERROR : " + JSON.stringify(msg));
+          $input2.addClass("addr-error");
+        }
       });
-    }
+    } else removeFiled2();
+  }
+
+  function removeFieldSpe() {
+    $(".suggested-addr").remove();
+    $input.removeClass("addr-error");
+  }
+  function removeField2Spe() {
+    $(".suggested-addr").remove();
+    $input2.removeClass("addr-error");
   }
   function removeFiled() {
     $(".suggested-addr").remove();
     $input.removeClass("addr-error");
+    $('.btn_submit_addr').prop('disabled', false);
+    $input2.prop('disabled', false);
   }
   function removeFiled2() {
     $(".suggested-addr").remove();
     $input2.removeClass("addr-error");
+    $('.btn_submit_addr').prop('disabled', false);
+    $input.prop('disabled', false);
   }
-  $('#projet_adresse_postale').focusout(function() { focusTimer = setTimeout(removeFiled, doneFocusInterval); });
+  // $('#projet_adresse_postale').focusout(function() { focusTimer = setTimeout(removeFiled, doneFocusInterval); });
   $('#projet_adresse_postale').focusin(function() {
     if (typeof focusTimer !== "undefined")
       clearTimeout(focusTimer);
-    doneTyping();
+    if ($input.val().length > 0)
+      doneTyping();
+    else
+      removeFiled();
   });
-  $('#projet_adresse_a_renover').focusout(function() { focusTimer = setTimeout(removeFiled2, doneFocusInterval); });
+  // $('#projet_adresse_a_renover').focusout(function() { focusTimer = setTimeout(removeFiled2, doneFocusInterval); });
   $('#projet_adresse_a_renover').focusin(function() {
     if (typeof focusTimer !== "undefined")
       clearTimeout(focusTimer);
-    doneTyping2();
+    if ($input2.val().length > 0)
+      doneTyping2();
+    else
+      removeFiled2();
   });
   $(".projet_adresse_postale").on('click', ".suggested-addr-list li", function() {
     var clickedAddr = $(this).text();
-    if (undefined != clickedAddr && null != clickedAddr)
+    if (undefined != clickedAddr && null != clickedAddr) {
       $input.val(clickedAddr);
+      removeFiled();
+    }
   });
   $(".projet_adresse_a_renover").on('click', ".suggested-addr-list li", function() {
     var clickedAddr = $(this).text();
-    if (undefined != clickedAddr && null != clickedAddr)
+    if (undefined != clickedAddr && null != clickedAddr) {
       $input2.val(clickedAddr);
+      removeFiled2();
+    }
   });
