@@ -80,7 +80,7 @@ fr:
     lire_les_emails: "Lire les emails"
     reinitialiser: "Réinitialiser les données"
     se_connecter_via_clavis: "Se connecter via Clavis"
-    version: "version: 1.0.7"
+    version: "version: 1.0.8"
 
   # ----------------------- Liste des liens du menu ---------------------
   menu:
