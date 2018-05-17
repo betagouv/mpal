@@ -43,7 +43,7 @@ deployment:
     branch: formation
     commands:
       - git fetch --unshallow
+      - git push -f git@scalingo.com:anah-formation3.git $CIRCLE_SHA1:master
       - git push -f git@scalingo.com:anah-formation1.git $CIRCLE_SHA1:master
       - git push -f git@scalingo.com:anah-formation2.git $CIRCLE_SHA1:master
-      - git push -f git@scalingo.com:anah-formation3.git $CIRCLE_SHA1:master
       - git push -f git@scalingo.com:anah-formation4.git $CIRCLE_SHA1:master
