@@ -99,7 +99,7 @@ class MisesEnRelationController < ApplicationController
       end
     elsif params.has_key?(:accomp_question) && params[:accomp_question] == "false"
       @projet_courant.demande.update(:seul => true)
-      @projet_courant.update(:statut => :en_cours)
+      @projet_courant.update(:statut => :en_cours, :statut_updated_date => Time.now)
       @projet_courant.invite_instructeur! response.instructeur
       #redirect mon dossier => montage => depot
       # render "projets/show_hma_ds" and return
