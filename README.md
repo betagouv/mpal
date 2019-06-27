@@ -1,3 +1,8 @@
+# NOTICE : DEPOT OBSOLETE
+
+La Startup d'Etat "Les aides de l'Anah" n'est plus incubée par beta.gouv.fr. Elle est désormais opérée par l'ANAH directement. Ce dépôt est obsolète
+
+
 [![Build status](https://circleci.com/gh/sgmap/mpal.svg?style=shield&circle-token=50a0754f6e164ff97a3f479374102a568b750847)](https://circleci.com/gh/sgmap/mpal/tree/dev)
 
 # Les aides de l’Anah
